@@ -8,3 +8,4 @@ export { default as AccountIcon } from 'components/svg/account';
 export { default as HelpIcon } from 'components/svg/help';
 export { default as SMLIcon } from 'components/svg/sml';
 export { default as FinanceIcon } from 'components/svg/finance';
+export { default as ArrowDownIcon } from 'components/svg/arrowdown';

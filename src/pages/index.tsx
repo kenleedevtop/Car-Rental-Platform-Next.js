@@ -1,6 +1,7 @@
 import React from 'react';
 import { Title } from 'components/core';
 import { Button } from 'components/ui';
+import Sidebar from 'components/custom/sidebar';
 
 const Home = () => (
   <>
@@ -14,6 +15,7 @@ const Home = () => (
     <Button color="secondary" variant="contained">
       Add Influencer
     </Button>
+    <Sidebar />
   </>
 );
 

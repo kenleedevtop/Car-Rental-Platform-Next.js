@@ -12,7 +12,7 @@ import {
   HelpIcon,
   AccountIcon,
 } from 'components/svg';
-import { TSidebarItem } from 'components/ui/sidebar/types';
+import { TSidebarItem } from 'components/custom/sidebar/types';
 
 export const DSidebarItems: Array<TSidebarItem> = [
   {

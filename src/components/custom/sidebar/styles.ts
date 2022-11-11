@@ -60,21 +60,23 @@ export const SidebarItemLabel = styled.span<{ theme?: Theme }>`
 `;
 
 export const SidebarItem = styled.div<{ theme?: Theme }>`
-    ${({ theme }) => `
+  ${({ theme }) => `
     display: flex;
     align-items: center;
     gap: ${theme.spacing(2.5)};
-    `}}
+    border-radius: 10px 0 0 10px;
+    cursor: pointer;
+`}
 `;
 
 export const SidebarItemOuter = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-    padding: ${theme.spacing(2.5)} 0 ${theme.spacing(2.5)} ${theme.spacing(5)};
     border-radius: 10px 0 0 10px;
     cursor: pointer;
+    padding: ${theme.spacing(2.5)} 0 ${theme.spacing(2.5)} ${theme.spacing(5)};
 
     &:hover{
-        background: ${(theme.palette.common as any).background};
+        background-color: ${(theme.palette.common as any).background};
 
         ${SidebarItemIcon}{
             color: ${theme.palette.secondary.main};
