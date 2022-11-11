@@ -1,8 +1,9 @@
 import React from 'react';
 import { Title } from 'components/core';
 import { Button } from 'components/ui';
+import { Sidebar } from 'components/custom';
 
-const Home = (props: any) => (
+const Home = () => (
   <>
     <Title>Home</Title>
     <Button color="primary" variant="contained">
@@ -14,6 +15,7 @@ const Home = (props: any) => (
     <Button color="secondary" variant="contained">
       Add Influencer
     </Button>
+    <Sidebar />
   </>
 );
 
