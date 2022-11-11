@@ -31,24 +31,22 @@ const MyApp = ({
   Component,
   pageProps,
   emotionCache = clientSideEmotionCache,
-}: AppType) => {
-  return (
-    <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </Head>
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={Theme}>
-          <CssBaseline />
-          <PageLoader />
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </CacheProvider>
-    </>
-  );
-};
+}: AppType) => (
+  <>
+    <Head>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
+    </Head>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={Theme}>
+        <CssBaseline />
+        <PageLoader />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </CacheProvider>
+  </>
+);
 
 export default MyApp;

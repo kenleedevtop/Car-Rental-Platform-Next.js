@@ -2,7 +2,7 @@ import React from 'react';
 import { Title } from 'components/core';
 import { Button } from 'components/ui';
 
-const Home = (props: any) => (
+const Home = () => (
   <>
     <Title>Home</Title>
     <Button color="primary" variant="contained">
