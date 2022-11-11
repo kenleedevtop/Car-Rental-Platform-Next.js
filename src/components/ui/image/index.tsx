@@ -6,8 +6,9 @@ const Image = ({ src, onLoad, ...props }: TImageProps) => {
   const [loaded, setLoaded] = useState(false);
   const imageRef = useRef<HTMLImageElement | null>(null);
 
-  const handleLoad = () => {
+  const handleLoad = (e: React.ChangeEvent<HTMLImageElement>) => {
     setLoaded(true);
+    if (e && onLoad) onLoad(e);
   };
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const Image = ({ src, onLoad, ...props }: TImageProps) => {
     <ImageMain
       ref={imageRef}
       src={src}
-      onLoadCapture={handleLoad}
+      onLoad={handleLoad}
       loaded={loaded}
       {...props}
     />
