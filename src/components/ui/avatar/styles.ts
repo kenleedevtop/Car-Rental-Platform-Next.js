@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Theme, Button } from '@mui/material';
+import { Theme } from '@mui/material';
 import { Image } from 'components/ui';
 
 export const AvatarMain = styled.div<{ theme?: Theme }>`
