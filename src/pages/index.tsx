@@ -1,7 +1,7 @@
 import React from 'react';
 import { Title } from 'components/core';
 import { Button } from 'components/ui';
-import Sidebar from 'components/custom/sidebar';
+import { Sidebar } from 'components/custom';
 
 const Home = () => (
   <>

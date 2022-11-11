@@ -12,7 +12,7 @@ import {
 } from 'components/custom/sidebar/styles';
 
 import { ArrowDownIcon } from 'components/svg';
-import { DSidebarItems } from './data';
+import { DSidebarItems } from 'components/custom/sidebar/data';
 
 const Sidebar = ({ role = 'admin', ...props }: any) => {
   const [_openDropdown, _setOpenDropdown] = useState(false);

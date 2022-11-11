@@ -3,18 +3,20 @@ import { Theme } from '@mui/material';
 
 export const SidebarMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-    height: 100vh;
     width: 173px;
     display: flex;
     flex-direction: column;
     gap: ${theme.spacing(10)};
     align-items: center;
     padding: ${theme.spacing(5)} 0;
-    background: white;
+    background-color: ${theme.palette.common.white};
     `}
 `;
 
-export const SidebarLogo = styled.img``;
+export const SidebarLogo = styled.img`
+  width: 100px;
+  height: 54px;
+`;
 
 export const SidebarItems = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
