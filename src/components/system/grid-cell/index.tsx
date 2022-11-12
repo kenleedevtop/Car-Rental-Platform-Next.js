@@ -6,6 +6,8 @@ const GridCell = ({
   rowSpan = 1,
   columnSpan = 1,
   ...props
-}: TGridCellProps) => <GridCellMain {...props} />;
+}: TGridCellProps) => (
+  <GridCellMain rowSpan={rowSpan} columnSpan={columnSpan} {...props} />
+);
 
 export default GridCell;
