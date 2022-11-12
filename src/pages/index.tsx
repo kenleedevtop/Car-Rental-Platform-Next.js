@@ -1,21 +1,14 @@
 import React from 'react';
 import { Title } from 'components/core';
-import { Button } from 'components/ui';
-import { Sidebar } from 'components/custom';
+import { Button, TextField } from 'components/ui';
+import { Navigation, Sidebar } from 'components/custom';
 
 const Home = () => (
   <>
     <Title>Home</Title>
-    <Button color="primary" variant="contained">
-      Filters
-    </Button>
-    <Button color="default" variant="contained">
-      Export
-    </Button>
-    <Button color="secondary" variant="contained">
-      Add Influencer
-    </Button>
+    <Navigation routeName="Home" />
     <Sidebar />
+    <TextField label="Full name" />
   </>
 );
 
