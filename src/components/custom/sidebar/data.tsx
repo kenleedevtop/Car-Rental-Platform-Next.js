@@ -11,6 +11,7 @@ import {
   SMLIcon,
   HelpIcon,
   AccountIcon,
+  SurveyIcon,
 } from 'components/svg';
 import { TSidebarItem } from 'components/custom/sidebar/types';
 
@@ -31,12 +32,12 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['admin'],
     items: [
       {
-        id: 13,
+        id: 14,
         label: 'Influencers',
         location: '/discover/influencers',
       },
       {
-        id: 14,
+        id: 15,
         label: 'Clients',
         location: '/discover/clients',
       },
@@ -77,29 +78,38 @@ export const DSidebarItems: Array<TSidebarItem> = [
   {
     id: 7,
     type: 'route',
-    icon: <FinanceIcon />,
-    label: 'Income',
-    location: '/income',
-    roles: ['influencer'],
-  },
-  {
-    id: 8,
-    type: 'route',
     icon: <SMLIcon />,
     label: 'SML',
     location: '/sml',
     roles: ['admin', 'client'],
   },
   {
+    id: 8,
+    type: 'route',
+    icon: <SurveyIcon />,
+    label: 'Surveys',
+    location: '/surveys',
+    roles: ['admin', 'client', 'influencer'],
+  },
+  {
     id: 9,
+    type: 'route',
+    icon: <FinanceIcon />,
+    label: 'Income',
+    location: '/income',
+    roles: ['influencer'],
+  },
+  {
+    id: 10,
     type: 'route',
     icon: <SMLIcon />,
     label: 'Benefits',
     location: '/benefits',
     roles: ['influencer'],
   },
+
   {
-    id: 10,
+    id: 11,
     type: 'route',
     icon: <FinanceIcon />,
     label: 'Finance',
@@ -107,7 +117,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['admin'],
   },
   {
-    id: 11,
+    id: 12,
     type: 'route',
     icon: <HelpIcon />,
     label: 'Help',
@@ -115,7 +125,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['influencer', 'client'],
   },
   {
-    id: 12,
+    id: 13,
     type: 'route',
     icon: <AccountIcon />,
     label: 'Account',
