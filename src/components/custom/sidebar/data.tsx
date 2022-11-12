@@ -33,12 +33,12 @@ export const DSidebarItems: Array<TSidebarItem> = [
       {
         id: 13,
         label: 'Influencers',
-        location: '/',
+        location: '/discover/influencers',
       },
       {
         id: 14,
         label: 'Clients',
-        location: '/',
+        location: '/discover/clients',
       },
     ],
   },
@@ -47,7 +47,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <InfluencersIcon />,
     label: 'Influencers',
-    location: '/',
+    location: '/influencers',
     roles: ['admin'],
   },
   {
@@ -55,7 +55,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <ClientsIcon />,
     label: 'Clients',
-    location: '/',
+    location: '/clients',
     roles: ['admin'],
   },
   {
@@ -63,7 +63,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <CampaignsIcon />,
     label: 'Campaigns',
-    location: '/',
+    location: '/campaigns',
     roles: ['admin', 'influencer', 'client'],
   },
   {
@@ -71,7 +71,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <ReportsIcon />,
     label: 'Reports',
-    location: '/',
+    location: '/reports',
     roles: ['admin', 'client'],
   },
   {
@@ -79,7 +79,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <FinanceIcon />,
     label: 'Income',
-    location: '/',
+    location: '/income',
     roles: ['influencer'],
   },
   {
@@ -87,7 +87,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <SMLIcon />,
     label: 'SML',
-    location: '/',
+    location: '/sml',
     roles: ['admin', 'client'],
   },
   {
@@ -95,7 +95,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <SMLIcon />,
     label: 'Benefits',
-    location: '/',
+    location: '/benefits',
     roles: ['influencer'],
   },
   {
@@ -103,7 +103,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <FinanceIcon />,
     label: 'Finance',
-    location: '/',
+    location: '/finance',
     roles: ['admin'],
   },
   {
@@ -111,7 +111,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <HelpIcon />,
     label: 'Help',
-    location: '/',
+    location: '/help',
     roles: ['influencer', 'client'],
   },
   {
@@ -119,7 +119,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'route',
     icon: <AccountIcon />,
     label: 'Account',
-    location: '/',
+    location: '/account',
     roles: ['influencer', 'client'],
   },
 ];

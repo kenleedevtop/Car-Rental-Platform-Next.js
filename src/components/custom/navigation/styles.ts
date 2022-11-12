@@ -18,7 +18,7 @@ export const NavigationRouteName = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
         color: ${theme.palette.common.white};
         font-size: 18px;
-        font-weight: 600;
+        font-weight: 500;
         line-height: 1;
     `}
 `;

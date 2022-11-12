@@ -2,19 +2,19 @@ import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { usePageContext } from 'context';
 
-const Home = () => {
+const Campaigns = () => {
   const { setRouteName } = usePageContext();
 
   useEffect(() => {
-    setRouteName('Home');
+    setRouteName('Campaigns');
   }, []);
 
   return (
     <>
-      <Title>Home</Title>
-      Home
+      <Title>Campaigns</Title>
+      Campaigns
     </>
   );
 };
 
-export default Home;
+export default Campaigns;
