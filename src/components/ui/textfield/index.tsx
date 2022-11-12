@@ -14,14 +14,13 @@ const TextField = ({
   onValue,
   onChange,
   label,
-  required,
   startIcon,
   endIcon,
   ...props
 }: TTextFieldProps) => {
   const handleValue = (e: React.FormEvent<HTMLInputElement>) => {
-    onValue && onValue((e.target as HTMLInputElement).value);
-    onChange && onChange(e);
+    if (onValue) onValue((e.target as HTMLInputElement).value);
+    if (onChange) onChange(e);
   };
 
   return (

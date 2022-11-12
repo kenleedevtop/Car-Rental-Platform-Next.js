@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { TSidebarSubItem } from 'components/custom/sidebar/types';
 
 export type TSidebarItemNestedProps = React.HTMLAttributes<HTMLDivElement> & {

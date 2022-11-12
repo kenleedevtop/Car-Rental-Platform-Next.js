@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useMemo, useContext, useState } from 'react';
 
 const PageContext = createContext({
   routeName: '',
@@ -15,8 +15,11 @@ const PageContextProvider = ({ ...props }) => {
   const setRouteName = (routeName: string) => {
     setState((x) => ({ ...x, routeName }));
   };
-
-  return <PageContext.Provider value={{ ...state, setRouteName }} {...props} />;
+  const providerValue = useMemo(
+    () => ({ ...state, setRouteName }),
+    [state, setRouteName]
+  );
+  return <PageContext.Provider value={providerValue} {...props} />;
 };
 
 export default PageContextProvider;

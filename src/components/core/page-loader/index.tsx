@@ -2,7 +2,6 @@ import React from 'react';
 import nProgress from 'nprogress';
 import Router from 'next/router';
 import { GlobalStyles } from '@mui/material';
-import { gradient } from 'utilities/style';
 
 nProgress.configure({ showSpinner: false });
 

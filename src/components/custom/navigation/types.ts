@@ -1,3 +1,3 @@
-export type TNavigationProps = {
-  routeName: string;
-};
+import React from 'react';
+
+export type TNavigationProps = React.HTMLAttributes<HTMLDivElement>;

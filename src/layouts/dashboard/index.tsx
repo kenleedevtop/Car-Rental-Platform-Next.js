@@ -10,7 +10,7 @@ import { TDashboardLayoutProps } from 'layouts/dashboard/types';
 
 const DashboardLayout = ({ children, ...props }: TDashboardLayoutProps) => (
   <DashboardLayoutMain {...props}>
-    <DashboardLayoutNavbar routeName={'Home'} />
+    <DashboardLayoutNavbar />
     <DashboardLayoutBox>
       <DashboardLayoutSidebar />
       <DashboardLayoutContent>{children}</DashboardLayoutContent>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   SidebarMain,
   SidebarLogo,
@@ -9,7 +9,6 @@ import {
   SidebarItem,
   SidebarItemNested,
 } from 'components/custom/sidebar/elements';
-import { ArrowDownIcon } from 'components/svg';
 import { DSidebarItems } from 'components/custom/sidebar/data';
 
 const Sidebar = ({ role = 'admin', ...props }: any) => {
