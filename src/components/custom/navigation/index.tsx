@@ -13,7 +13,7 @@ import { TNavigationProps } from 'components/custom/navigation/types';
 import { usePageContext } from 'context';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
-  let role = 'admin';
+  const role = 'admin';
 
   const { routeName } = usePageContext();
 

@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export type TSidebarItemProps = React.HTMLAttributes<HTMLDivElement> & {
   icon: ReactNode;
