@@ -16,16 +16,13 @@ const PageLoader = () => (
       #nprogress {
         pointer-events: none;
         .bar {
-          background: ${gradient(270, [
-            theme.palette.primary.light,
-            theme.palette.primary.dark,
-          ])};
+          background-color: ${theme.palette.common.white};
           position: fixed;
           z-index: ${theme.zIndex.pageLoader};
           top: 0px;
           left: 0px;
           width: 100%;
-          height: 4px;
+          height: 3px;
         }
         .peg {
           display: block;

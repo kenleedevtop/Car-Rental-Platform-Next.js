@@ -2,19 +2,19 @@ import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { usePageContext } from 'context';
 
-const Home = () => {
+const SML = () => {
   const { setRouteName } = usePageContext();
 
   useEffect(() => {
-    setRouteName('Home');
+    setRouteName('SML');
   }, []);
 
   return (
     <>
-      <Title>Home</Title>
-      Home
+      <Title>SML</Title>
+      SML
     </>
   );
 };
 
-export default Home;
+export default SML;

@@ -10,12 +10,15 @@ import {
   NavigationSearch,
 } from 'components/custom/navigation/styles';
 import { TNavigationProps } from 'components/custom/navigation/types';
+import { usePageContext } from 'context';
 
-const Navigation = ({ routeName = 'Home' }: TNavigationProps) => {
+const Navigation = ({ ...props }: TNavigationProps) => {
   let role = 'admin';
 
+  const { routeName } = usePageContext();
+
   return (
-    <NavigationMain>
+    <NavigationMain {...props}>
       <NavigationRouteName>{routeName}</NavigationRouteName>
       <NavigationItems>
         {['admin', 'influencer'].includes(role) && (
