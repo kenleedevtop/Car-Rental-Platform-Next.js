@@ -3,16 +3,10 @@
     "baseUrl": ".",
     "moduleResolution": "node",
     "paths": {
-      "*": [
-        "./src/*"
-      ]
+      "*": ["./src/*"]
     },
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -32,11 +26,6 @@
     "allowUnusedLabels": false,
     "incremental": true
   },
-  "include": [
-    "next-env.d.ts",
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "src"],
+  "exclude": ["node_modules"]
 }

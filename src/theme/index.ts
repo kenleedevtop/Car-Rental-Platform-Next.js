@@ -30,7 +30,7 @@ const Theme = createTheme({
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
           }
           #__next {
             min-height: 100vh;

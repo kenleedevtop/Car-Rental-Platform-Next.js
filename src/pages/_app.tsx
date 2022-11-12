@@ -2,11 +2,14 @@ import React from 'react';
 import { PageLoader } from 'components/core';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
+import { RegisteredCache, SerializedStyles, StyleSheet } from '@emotion/utils';
+import { DashboardLayout } from 'layouts';
+
 import createEmotionCache from 'ssr/create-emotion-cache';
 import CssBaseline from '@mui/material/CssBaseline';
 import Theme from 'theme';
-import { RegisteredCache, SerializedStyles, StyleSheet } from '@emotion/utils';
 import Head from 'next/head';
+import { PageContextProvider } from 'context';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -31,24 +34,26 @@ const MyApp = ({
   Component,
   pageProps,
   emotionCache = clientSideEmotionCache,
-}: AppType) => {
-  return (
-    <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </Head>
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider theme={Theme}>
-          <CssBaseline />
-          <PageLoader />
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </CacheProvider>
-    </>
-  );
-};
+}: AppType) => (
+  <>
+    <Head>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      />
+    </Head>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={Theme}>
+        <CssBaseline />
+        <PageLoader />
+        <PageContextProvider>
+          <DashboardLayout>
+            <Component {...pageProps} />
+          </DashboardLayout>
+        </PageContextProvider>
+      </ThemeProvider>
+    </CacheProvider>
+  </>
+);
 
 export default MyApp;

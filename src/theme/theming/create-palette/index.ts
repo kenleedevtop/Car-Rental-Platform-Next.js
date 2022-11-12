@@ -50,6 +50,7 @@ const createPalette = () => ({
   common: {
     white: '#ffffff',
     black: '#000000',
+    background: '#F8F9FD',
     gray: [
       '#efefef',
       '#dfdfdf',
