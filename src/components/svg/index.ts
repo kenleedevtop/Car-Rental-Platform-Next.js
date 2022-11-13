@@ -11,3 +11,4 @@ export { default as FinanceIcon } from 'components/svg/finance';
 export { default as ArrowDownIcon } from 'components/svg/arrow-down';
 export { default as SearchIcon } from 'components/svg/search';
 export { default as SurveyIcon } from 'components/svg/survey';
+export { default as CheckIcon } from 'components/svg/check';

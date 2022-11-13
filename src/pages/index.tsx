@@ -42,8 +42,7 @@ const Home = () => {
             </GridCell>
             <GridCell>
               <Card style={{ height: 300 }}>
-                ...
-                <Checkbox label="All" />
+                <Checkbox size="large" color="secondary" label="Selected" />
               </Card>
             </GridCell>
           </Grid>
