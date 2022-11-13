@@ -4,6 +4,7 @@ import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
 import { Card } from 'components/ui';
 import { NotificationsCard } from 'components/custom';
+import { Checkbox } from '@mui/material';
 
 const Home = () => {
   const { setRouteName } = usePageContext();
@@ -41,7 +42,10 @@ const Home = () => {
               <NotificationsCard />
             </GridCell>
             <GridCell>
-              <Card style={{ height: 300 }}>...</Card>
+              <Card style={{ height: 300 }}>
+                ...
+                <Checkbox />
+              </Card>
             </GridCell>
           </Grid>
         </GridCell>
