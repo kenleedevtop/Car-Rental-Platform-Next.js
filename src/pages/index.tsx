@@ -4,6 +4,7 @@ import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
 import { Card, Checkbox, TextField } from 'components/ui';
 import { NotificationsCard } from 'components/custom';
+import { SearchIcon } from 'components/svg';
 
 const Home = () => {
   const { setRouteName } = usePageContext();
@@ -39,6 +40,7 @@ const Home = () => {
                   onValue={setState}
                   label="Campaign"
                   placeholder="Please select"
+                  endIcon={<SearchIcon />}
                 />
               </Card>
             </GridCell>
