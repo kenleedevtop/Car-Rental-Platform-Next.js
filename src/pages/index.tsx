@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Card } from 'components/ui';
+import { Card, Checkbox } from 'components/ui';
 import { NotificationsCard } from 'components/custom';
-import { Checkbox } from '@mui/material';
 
 const Home = () => {
   const { setRouteName } = usePageContext();
@@ -44,7 +43,7 @@ const Home = () => {
             <GridCell>
               <Card style={{ height: 300 }}>
                 ...
-                <Checkbox />
+                <Checkbox label="All" />
               </Card>
             </GridCell>
           </Grid>
