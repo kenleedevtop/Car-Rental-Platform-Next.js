@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
 import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Card, Checkbox, TextField } from 'components/ui';
+import { Card, Checkbox, Switch, TextField } from 'components/ui';
 import { NotificationsCard } from 'components/custom';
 import { SearchIcon } from 'components/svg';
 
@@ -13,6 +13,7 @@ const Home = () => {
     setRouteName('Home');
   }, []);
 
+  const [switchState, setSwitchState] = useState(false);
   const [state, setState] = useState('');
 
   return (
@@ -35,6 +36,11 @@ const Home = () => {
             </GridCell>
             <GridCell columnSpan={4}>
               <Card style={{ height: 650 }}>
+                <Switch
+                  value={switchState}
+                  onValue={setSwitchState}
+                  label="Patients"
+                />
                 <TextField
                   value={state}
                   onValue={setState}
