@@ -3,6 +3,7 @@ import { Title } from 'components/core';
 import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
 import { Card } from 'components/ui';
+import { NotificationsCard } from 'components/custom';
 
 const Home = () => {
   const { setRouteName } = usePageContext();
@@ -37,7 +38,7 @@ const Home = () => {
         <GridCell>
           <Grid columns={1}>
             <GridCell>
-              <Card style={{ height: 300 }}>...</Card>
+              <NotificationsCard />
             </GridCell>
             <GridCell>
               <Card style={{ height: 300 }}>...</Card>
