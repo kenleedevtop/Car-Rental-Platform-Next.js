@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
 import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Card, Checkbox } from 'components/ui';
+import { Card, Checkbox, Switch } from 'components/ui';
 import { NotificationsCard } from 'components/custom';
 
 const Home = () => {
@@ -11,6 +11,8 @@ const Home = () => {
   useEffect(() => {
     setRouteName('Home');
   }, []);
+
+  const [state, setState] = useState(false);
 
   return (
     <>
@@ -31,7 +33,9 @@ const Home = () => {
               <Card style={{ height: 180 }}>...</Card>
             </GridCell>
             <GridCell columnSpan={4}>
-              <Card style={{ height: 650 }}>...</Card>
+              <Card style={{ height: 650 }}>
+                <Switch value={state} onValue={setState} label="Patients" />
+              </Card>
             </GridCell>
           </Grid>
         </GridCell>

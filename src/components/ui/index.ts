@@ -5,3 +5,4 @@ export { default as TextField } from 'components/ui/textfield';
 export { default as Card } from 'components/ui/card';
 export { default as Badge } from 'components/ui/badge';
 export { default as Checkbox } from 'components/ui/checkbox';
+export { default as Switch } from 'components/ui/switch';
