@@ -1,8 +1,6 @@
 import React, { ReactNode } from 'react';
 
-export type TTextFieldProps = React.HTMLAttributes<HTMLDivElement> & {
-  label?: string;
-  required?: boolean;
+export type TInputTypeSelectProps = React.HTMLAttributes<HTMLDivElement> & {
   value?: string;
   onValue?: (v: string) => void;
   startIcon?: ReactNode;

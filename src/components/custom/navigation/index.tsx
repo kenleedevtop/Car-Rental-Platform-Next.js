@@ -11,6 +11,7 @@ import {
 } from 'components/custom/navigation/styles';
 import { TNavigationProps } from 'components/custom/navigation/types';
 import { usePageContext } from 'context';
+import { SearchIcon } from 'components/svg';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
   const role = 'admin';
@@ -22,7 +23,10 @@ const Navigation = ({ ...props }: TNavigationProps) => {
       <NavigationRouteName>{routeName}</NavigationRouteName>
       <NavigationItems>
         {['admin', 'influencer'].includes(role) && (
-          <NavigationSearch placeholder="Looking for someone?" />
+          <NavigationSearch
+            placeholder="Looking for someone?"
+            startIcon={<SearchIcon />}
+          />
         )}
         {['client'].includes(role) && (
           <NavigationBalance>Balance: $499.00</NavigationBalance>
