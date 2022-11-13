@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Card } from 'components/ui';
+import { Card, Checkbox } from 'components/ui';
 import { NotificationsCard } from 'components/custom';
 
 const Home = () => {
@@ -41,7 +41,9 @@ const Home = () => {
               <NotificationsCard />
             </GridCell>
             <GridCell>
-              <Card style={{ height: 300 }}>...</Card>
+              <Card style={{ height: 300 }}>
+                <Checkbox size="large" color="secondary" label="Selected" />
+              </Card>
             </GridCell>
           </Grid>
         </GridCell>
