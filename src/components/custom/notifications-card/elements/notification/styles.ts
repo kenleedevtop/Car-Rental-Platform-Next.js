@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { Card } from 'components/ui';
 import { Theme } from '@mui/material';
 import { TNotificationStatus } from 'components/custom/notifications-card/types';
 
