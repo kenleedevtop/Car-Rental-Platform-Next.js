@@ -25,7 +25,6 @@ const Theme = createTheme({
           -webkit-font-smoothing: antialiased;
           text-rendering: optimizeLegibility;
           box-sizing: border-box;
-          background-color: #f8f9fd;
           *, *::before, *::after {
             box-sizing: border-box;
             margin: 0;
