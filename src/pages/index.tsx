@@ -42,6 +42,16 @@ const Home = () => {
                   label="Patients"
                 />
                 <TextField
+                  type="text"
+                  value={state}
+                  onValue={setState}
+                  label="Campaign"
+                  placeholder="Please select"
+                  endIcon={<SearchIcon />}
+                />
+                <TextField
+                  rows={5}
+                  type="area"
                   value={state}
                   onValue={setState}
                   label="Campaign"

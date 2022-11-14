@@ -35,8 +35,27 @@ const Theme = createTheme({
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-          },
-        },
+          }
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+          background: none; 
+        }
+        
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: #2D377940; 
+          border-radius: 5px;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+          background: #28316c40; 
+        }
       `,
     },
   },

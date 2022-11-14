@@ -1,7 +1,10 @@
 import React from 'react';
 import { TextFieldMain, TextFieldLabel } from 'components/ui/text-field/styles';
 import { TTextFieldProps } from 'components/ui/text-field/types';
-import InputTypeText from './elements/input-type-text';
+import {
+  InputTypeText,
+  InputTypeArea,
+} from 'components/ui/text-field/elements';
 
 const TextField = ({
   value,
@@ -12,6 +15,7 @@ const TextField = ({
   startIcon,
   endIcon,
   type = 'text',
+  rows = 5,
   ...props
 }: TTextFieldProps) => (
   <TextFieldMain {...props}>
@@ -24,6 +28,17 @@ const TextField = ({
         startIcon={startIcon}
         endIcon={endIcon}
         placeholder={placeholder}
+      />
+    )}
+    {type === 'area' && (
+      <InputTypeArea
+        value={value}
+        onValue={onValue}
+        onChange={onChange}
+        startIcon={startIcon}
+        endIcon={endIcon}
+        placeholder={placeholder}
+        rows={rows}
       />
     )}
   </TextFieldMain>

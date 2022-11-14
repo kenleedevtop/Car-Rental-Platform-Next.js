@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-export type TTextFieldType = 'text' | 'password';
+export type TTextFieldType = 'text' | 'area' | 'password';
 
 export type TTextFieldProps = React.HTMLAttributes<HTMLDivElement> & {
   label?: string;
@@ -10,4 +10,5 @@ export type TTextFieldProps = React.HTMLAttributes<HTMLDivElement> & {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   type?: TTextFieldType;
+  rows?: number;
 };
