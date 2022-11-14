@@ -15,7 +15,7 @@ const TextField = ({
   ...props
 }: TTextFieldProps) => (
   <TextFieldMain {...props}>
-    <TextFieldLabel>{label}</TextFieldLabel>
+    {!!label && <TextFieldLabel>{label}</TextFieldLabel>}
     {type === 'text' && (
       <InputTypeText
         value={value}

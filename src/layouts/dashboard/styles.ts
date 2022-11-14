@@ -29,5 +29,6 @@ export const DashboardLayoutContent = styled.div<{ theme?: Theme }>`
     width: 100%;
     height: 100%;
     padding: ${theme.spacing(5)};
+    background-color: ${theme.palette.common.background};
     `}
 `;
