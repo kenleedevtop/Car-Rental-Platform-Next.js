@@ -30,5 +30,6 @@ export const DashboardLayoutContent = styled.div<{ theme?: Theme }>`
     height: 100%;
     padding: ${theme.spacing(5)};
     background-color: ${theme.palette.common.background};
+    overflow: hidden;
     `}
 `;
