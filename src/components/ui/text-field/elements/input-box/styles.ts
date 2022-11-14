@@ -5,7 +5,7 @@ export const InputBoxMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: ${theme.spacing(2)};
     background-color: ${theme.palette.common.white};
     border-radius: 4px;
