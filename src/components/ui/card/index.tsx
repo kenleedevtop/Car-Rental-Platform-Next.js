@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { CardMain } from 'components/ui/card/styles';
-import { TCardProps } from 'components/ui/card/types';
+import { TCardProps, TCardRef } from 'components/ui/card/types';
 
-const Card = ({ ...props }: TCardProps) => <CardMain {...props} />;
+const Card = forwardRef<TCardRef, TCardProps>(({ ...props }, ref) => (
+  <CardMain ref={ref} {...props} />
+));
 
 export default Card;

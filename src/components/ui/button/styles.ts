@@ -6,4 +6,8 @@ export const ButtonMain = styled(Button)`
   font-weight: 400;
   text-transform: none;
   font-size: 14px;
+  box-shadow: none;
+  &:hover {
+    box-shadow: none;
+  }
 `;

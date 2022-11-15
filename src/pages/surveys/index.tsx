@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
-import { usePageContext } from 'context';
+import { useAppContext } from 'context';
 
 const Surveys = () => {
-  const { setRouteName } = usePageContext();
+  const { setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Surveys');
