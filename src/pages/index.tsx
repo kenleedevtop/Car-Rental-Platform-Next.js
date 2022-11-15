@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
-import { usePageContext } from 'context';
+import { useAppContext } from 'context';
 import { Grid, GridCell } from 'components/system';
 import { Button, Switch, TextField } from 'components/ui';
 import {
@@ -12,7 +12,7 @@ import {
 import { SearchIcon } from 'components/svg';
 
 const Home = () => {
-  const { setRouteName } = usePageContext();
+  const { setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Home');
@@ -57,13 +57,22 @@ const Home = () => {
                 title="Discover Influencers"
                 description="More than 290+ new Influencers"
                 actions={[
-                  <Button color="secondary" variant="contained">
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    startIcon={<SearchIcon style={{ width: 16, height: 16 }} />}
+                    key="filters"
+                  >
                     Filters
                   </Button>,
-                  <Button color="default" variant="contained">
+                  <Button color="default" variant="contained" key="export">
                     Export
                   </Button>,
-                  <Button color="primary" variant="contained">
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    key="add-influencer"
+                  >
                     Add Influencer
                   </Button>,
                 ]}

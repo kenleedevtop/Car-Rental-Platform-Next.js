@@ -9,7 +9,7 @@ import createEmotionCache from 'ssr/create-emotion-cache';
 import CssBaseline from '@mui/material/CssBaseline';
 import Theme from 'theme';
 import Head from 'next/head';
-import { PageContextProvider } from 'context';
+import { AppContextProvider } from 'context';
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -46,11 +46,11 @@ const MyApp = ({
       <ThemeProvider theme={Theme}>
         <CssBaseline />
         <PageLoader />
-        <PageContextProvider>
+        <AppContextProvider>
           <DashboardLayout>
             <Component {...pageProps} />
           </DashboardLayout>
-        </PageContextProvider>
+        </AppContextProvider>
       </ThemeProvider>
     </CacheProvider>
   </>
