@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
 import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Button, Card, Checkbox, Switch, TextField } from 'components/ui';
+import { Button, Switch, TextField } from 'components/ui';
 import {
   CardWithChart,
   CardWithText,
