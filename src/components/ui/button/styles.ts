@@ -3,9 +3,9 @@ import { Button } from '@mui/material';
 
 export const ButtonMain = styled(Button)`
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 400;
   text-transform: none;
-  font-size: 12px;
+  font-size: 14px;
   box-shadow: none;
   &:hover {
     box-shadow: none;
