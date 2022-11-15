@@ -7,6 +7,7 @@ import {
   CardWithChart,
   CardWithText,
   NotificationsCard,
+  Tabs,
 } from 'components/custom';
 import { SearchIcon } from 'components/svg';
 
@@ -152,6 +153,7 @@ const Home = () => {
           <Grid columns={1}>
             <CardWithText title="Calendar">Hello</CardWithText>
             <NotificationsCard />
+            <Tabs tabs={['Tab 1', 'Tab 2', 'Tab 3']} />
           </Grid>
         </GridCell>
       </Grid>
