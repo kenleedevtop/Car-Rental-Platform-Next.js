@@ -25,7 +25,7 @@ export const PercentIndicatorMain = styled.div<{
     `}
 `;
 
-export const PercentIndicatorValue = styled.div<{ theme?: Theme }>`
+export const PercentIndicatorValue = styled.div`
   font-size: 14px;
   font-weight: 500;
 `;
