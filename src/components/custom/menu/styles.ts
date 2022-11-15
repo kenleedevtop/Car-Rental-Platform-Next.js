@@ -5,11 +5,10 @@ import { Theme } from '@mui/material';
 export const MenuMain = styled(Card)<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: ${theme.spacing(4)}
-    `}
+    padding: ${theme.spacing(2.5)} 0;
+    overflow: hidden;
+    z-index: ${theme.zIndex.drawer};
+  `}
 `;
 
 export const MenuItem = styled.div<{ theme?: Theme }>`
@@ -17,8 +16,12 @@ export const MenuItem = styled.div<{ theme?: Theme }>`
     width: 100%;
     display: flex;
     align-items: center;
-    gap: ${theme.spacing(2)}
-    
+    gap: ${theme.spacing(2)};
+    cursor: pointer;
+    padding: ${theme.spacing(2.5)} ${theme.spacing(5)};
+    &:hover {
+      background-color: ${theme.palette.secondary.main}20;
+    }
     `}
 `;
 

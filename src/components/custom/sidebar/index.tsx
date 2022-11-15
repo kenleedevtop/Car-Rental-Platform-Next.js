@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   SidebarMain,
   SidebarLogo,
@@ -10,9 +10,11 @@ import {
   SidebarItemNested,
 } from 'components/custom/sidebar/elements';
 import { DSidebarItems } from 'components/custom/sidebar/data';
+import { TSidebarProps } from 'components/custom/sidebar/types';
+import { useAppContext } from 'context';
 
-const Sidebar = ({ role = 'admin', ...props }: any) => {
-  const [_openDropdown, _setOpenDropdown] = useState(false);
+const Sidebar = ({ ...props }: TSidebarProps) => {
+  const { role } = useAppContext();
 
   return (
     <SidebarMain {...props}>
@@ -22,9 +24,19 @@ const Sidebar = ({ role = 'admin', ...props }: any) => {
       <SidebarItems>
         {DSidebarItems.filter((x) => x.roles.includes(role)).map((x) =>
           x.type === 'nested' ? (
-            <SidebarItemNested label={x.label} icon={x.icon} items={x.items} />
+            <SidebarItemNested
+              label={x.label}
+              icon={x.icon}
+              items={x.items}
+              key={x.id}
+            />
           ) : (
-            <SidebarItem label={x.label} icon={x.icon} location={x.location} />
+            <SidebarItem
+              label={x.label}
+              icon={x.icon}
+              location={x.location}
+              key={x.id}
+            />
           )
         )}
       </SidebarItems>

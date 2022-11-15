@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Avatar, TextField } from 'components/ui';
+import { Menu } from 'components/custom';
 import { InputBoxMain } from 'components/ui/text-field/elements/input-box/styles';
 import { InputIconMain } from 'components/ui/text-field/elements/input-icon/styles';
 import { InputTypeTextMain } from 'components/ui/text-field/elements/input-type-text/styles';
@@ -46,14 +47,16 @@ export const NavigationBalance = styled.div<{ theme?: Theme }>`
     `}
 `;
 
+export const NavigationProfileOuter = styled.div<{ theme?: Theme }>`
+  position: relative;
+`;
+
 export const NavigationProfile = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
         display: flex;
         gap: ${theme.spacing(3)};
         align-items: center;
-        &::after {
-
-        }
+        cursor: pointer;
     `}
 `;
 
@@ -68,7 +71,6 @@ export const NavigationProfileName = styled.div<{ theme?: Theme }>`
 
 export const NavigationProfileImage = styled(Avatar)<{ theme?: Theme }>`
   ${({ theme }) => `
-        border-radius: 12px;
         background-color: ${theme.palette.common.white}20;
         color: ${theme.palette.common.white};
     `}
@@ -91,4 +93,30 @@ export const NavigationSearch = styled(TextField)<{ theme?: Theme }>`
         }
       }
   `}
+`;
+
+export const NavigationProfileDropdown = styled(Menu)`
+  position: absolute;
+  left: 0px;
+  top: 100%;
+  z-index: 200;
+  width: 100%;
+`;
+
+export const NavigationProvileIcon = styled.div<{
+  theme?: Theme;
+  expanded: boolean;
+}>`
+  ${({ theme, expanded }) => `
+    width: 14px;
+    height: 14px;
+    transform: scaleY(${expanded ? -1 : 1});
+    transition: transform 500ms ease-in-out;
+    color: ${theme.palette.common.white};
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    `}
 `;
