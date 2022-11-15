@@ -14,5 +14,6 @@ export const InputBoxMain = styled.div<{ theme?: Theme }>`
     border-style: solid;
     padding: 0 ${theme.spacing(2)};
     cursor: text;
+    position: relative;
   `}
 `;

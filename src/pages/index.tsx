@@ -18,7 +18,7 @@ const Home = () => {
   }, []);
 
   const [switchState, setSwitchState] = useState(false);
-  const [state, setState] = useState('');
+  const [state, setState] = useState(null);
 
   return (
     <>
@@ -91,13 +91,7 @@ const Home = () => {
                     placeholder="Please select"
                     endIcon={<SearchIcon />}
                   />
-                  <TextField
-                    value={state}
-                    onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
-                  />
+
                   <TextField
                     value={state}
                     onValue={setState}

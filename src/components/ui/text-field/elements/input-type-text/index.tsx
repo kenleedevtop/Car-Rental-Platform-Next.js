@@ -9,14 +9,12 @@ const InputTypeText = ({
   placeholder,
   startIcon,
   endIcon,
-  onChange,
   ...props
 }: TInputTypeTextProps) => {
   const inputRef = useRef<null | HTMLInputElement>(null);
 
   const handleValue = (e: React.FormEvent<HTMLInputElement>) => {
     if (onValue) onValue((e.target as HTMLInputElement).value);
-    if (onChange) onChange(e);
   };
 
   const handleClick = () => {

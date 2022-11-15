@@ -13,3 +13,4 @@ export { default as SearchIcon } from 'components/svg/search';
 export { default as SurveyIcon } from 'components/svg/survey';
 export { default as CheckIcon } from 'components/svg/check';
 export { default as LogoutIcon } from 'components/svg/log-out';
+export { default as CancelIcon } from 'components/svg/cancel';
