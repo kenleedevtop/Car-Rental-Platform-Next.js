@@ -82,7 +82,7 @@ export const SidebarItemNestedOuter = styled.div<{
     ${
       active &&
       `
-        background-color: ${(theme.palette.common as any).background};
+        background-color: ${theme.palette.common.background};
         ${SidebarItemNestedIcon}{
             color: ${theme.palette.secondary.main};
         }
