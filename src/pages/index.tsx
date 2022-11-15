@@ -20,6 +20,7 @@ const Home = () => {
 
   const [switchState, setSwitchState] = useState(false);
   const [state, setState] = useState('');
+  const [value, onValue] = useState(0);
 
   return (
     <>
@@ -153,7 +154,11 @@ const Home = () => {
           <Grid columns={1}>
             <CardWithText title="Calendar">Hello</CardWithText>
             <NotificationsCard />
-            <Tabs tabs={['Tab 1', 'Tab 2', 'Tab 3']} />
+            <Tabs
+              value={value}
+              onValue={onValue}
+              tabs={['Tab 1', 'Tab 2', 'Tab 3']}
+            />
           </Grid>
         </GridCell>
       </Grid>

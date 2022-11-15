@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { TabsMain, TabsLabel } from 'components/custom/tabs/style';
 
 import { TTabsProps } from 'components/custom/tabs/types';
 
-const Tabs = ({ tabs, ...props }: TTabsProps) => {
-  const [value, setValue] = useState(0);
-
+const Tabs = ({ value, onValue, tabs, ...props }: TTabsProps) => {
   const handleChange = (newValue: number) => {
-    setValue(newValue);
+    if (onValue) {
+      onValue(newValue);
+    }
   };
 
   return (
