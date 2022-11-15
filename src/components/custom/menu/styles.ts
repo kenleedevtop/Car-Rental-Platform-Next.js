@@ -29,11 +29,12 @@ export const MenuItemIcon = styled.div<{ theme?: Theme }>`
     height: 14px;   
     display: grid;
     place-items: center;
-
+    color: ${theme.palette.common.gray[8]}80;
+    
     svg{
         width: 100%;
         height: 100%;
-        color: ${theme.palette.common.gray[8]}80;
+        
     }
 `}
 `;
