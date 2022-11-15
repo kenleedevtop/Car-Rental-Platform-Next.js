@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import {
   MenuMain,
@@ -6,17 +6,17 @@ import {
   MenuItemIcon,
   MenuItemLabel,
 } from 'components/custom/menu/styles';
-import { TMenuItemsProps } from 'components/custom/menu/types';
+import { TMenuProps, TMenuRef } from 'components/custom/menu/types';
 
-const Menu = ({ items, ...props }: TMenuItemsProps) => (
-  <MenuMain {...props}>
+const Menu = forwardRef<TMenuRef, TMenuProps>(({ items, ...props }, ref) => (
+  <MenuMain ref={ref} {...props}>
     {items.map((x) => (
-      <MenuItem>
+      <MenuItem onClick={x.action}>
         <MenuItemIcon> {x.icon}</MenuItemIcon>
         <MenuItemLabel>{x.label}</MenuItemLabel>
       </MenuItem>
     ))}
   </MenuMain>
-);
+));
 
 export default Menu;

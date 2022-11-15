@@ -98,7 +98,7 @@ export const SidebarItemNestedExpandIcon = styled.div<{ expanded: boolean }>`
   ${({ expanded }) => `
     width: 14px;
     height: 14px;
-    transform: rotate(${expanded ? -180 : 0}deg);
+    transform: scaleY(${expanded ? -1 : 1});
     transition: transform 500ms ease-in-out;
     svg {
       display: block;

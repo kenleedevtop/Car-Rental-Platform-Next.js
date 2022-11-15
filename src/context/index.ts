@@ -1,1 +1,1 @@
-export { default as PageContextProvider, usePageContext } from 'context/page';
+export { default as AppContextProvider, useAppContext } from 'context/app';
