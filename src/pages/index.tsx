@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
 import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Card, Checkbox, Switch, TextField } from 'components/ui';
-import { NotificationsCard, Menu } from 'components/custom';
-import { AccountIcon, LogoutIcon, SearchIcon } from 'components/svg';
+import { Button, Switch, TextField } from 'components/ui';
+import {
+  CardWithChart,
+  CardWithText,
+  NotificationsCard,
+} from 'components/custom';
+import { SearchIcon } from 'components/svg';
 
 const Home = () => {
   const { setRouteName } = usePageContext();
@@ -22,52 +26,132 @@ const Home = () => {
       <Grid columns={4}>
         <GridCell columnSpan={3}>
           <Grid columns={4}>
-            <GridCell>
-              <Card style={{ height: 180 }}>...</Card>
-            </GridCell>
-            <GridCell>
-              <Card style={{ height: 180 }}>...</Card>
-            </GridCell>
-            <GridCell>
-              <Card style={{ height: 180 }}>...</Card>
-            </GridCell>
-            <GridCell>
-              <Card style={{ height: 180 }}>...</Card>
-            </GridCell>
+            <CardWithChart
+              title="To Be Created"
+              icon={<SearchIcon />}
+              percent={2}
+              count={75}
+            />
+            <CardWithChart
+              title="To Be Sent"
+              icon={<SearchIcon />}
+              percent={47}
+              count={15}
+            />
+            <CardWithChart
+              title="Waiting Feedback"
+              icon={<SearchIcon />}
+              percent={-15}
+              count={32}
+            />
+            <CardWithChart
+              title="Approved"
+              icon={<SearchIcon />}
+              percent={13}
+              count={213}
+            />
             <GridCell columnSpan={4}>
-              <Card style={{ height: 650 }}>
-                <Switch
-                  value={switchState}
-                  onValue={setSwitchState}
-                  label="Patients"
-                />
-                <TextField
-                  value={state}
-                  onValue={setState}
-                  label="Campaign"
-                  placeholder="Please select"
-                  endIcon={<SearchIcon />}
-                />
-                <Menu
-                  items={[
-                    { icon: <AccountIcon />, label: 'Account' },
-                    { icon: <LogoutIcon />, label: 'Log out' },
-                  ]}
-                />
-              </Card>
+              <CardWithText
+                title="Discover Influencers"
+                description="More than 290+ new Influencers"
+                actions={[
+                  <Button color="secondary" variant="contained">
+                    Filters
+                  </Button>,
+                  <Button color="default" variant="contained">
+                    Export
+                  </Button>,
+                  <Button color="primary" variant="contained">
+                    Add Influencer
+                  </Button>,
+                ]}
+                style={{ height: 650 }}
+              >
+                <Grid
+                  columns={3}
+                  style={{
+                    border: '1px solid #00000020',
+                    borderRadius: 8,
+                    padding: 20,
+                  }}
+                >
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <TextField
+                    value={state}
+                    onValue={setState}
+                    label="Campaign"
+                    placeholder="Please select"
+                    endIcon={<SearchIcon />}
+                  />
+                  <Switch
+                    value={switchState}
+                    onValue={setSwitchState}
+                    label="Patients"
+                  />
+                </Grid>
+              </CardWithText>
             </GridCell>
           </Grid>
         </GridCell>
         <GridCell>
           <Grid columns={1}>
-            <GridCell>
-              <NotificationsCard />
-            </GridCell>
-            <GridCell>
-              <Card style={{ height: 300 }}>
-                <Checkbox size="large" color="secondary" label="Selected" />
-              </Card>
-            </GridCell>
+            <CardWithText title="Calendar">Hello</CardWithText>
+            <NotificationsCard />
           </Grid>
         </GridCell>
       </Grid>

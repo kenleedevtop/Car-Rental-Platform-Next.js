@@ -46,7 +46,7 @@ export const SidebarItemOuter = styled(Link)<{
     ${
       active &&
       `
-        background-color: ${(theme.palette.common as any).background};
+        background-color: ${theme.palette.common.background};
         ${SidebarItemIcon}{
             color: ${theme.palette.secondary.main};
         }
