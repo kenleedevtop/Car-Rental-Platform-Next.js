@@ -41,7 +41,7 @@ const SidebarItemNested = ({
       </SidebarItemNestedMain>
       <SidebarItemNestedDropDown expanded={expanded}>
         {items.map((x: TSidebarSubItem) => (
-          <SidebarItemNestedDropDownSubItem href={x.location}>
+          <SidebarItemNestedDropDownSubItem href={x.location} key={x.id}>
             <SidebarItemNestedDropDownSubItemLabel
               active={x.location === router.pathname}
             >

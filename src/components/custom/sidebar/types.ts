@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 export type TSidebarSubItem = {
   id: number | string;
@@ -23,3 +23,5 @@ export type TSidebarItem =
       roles: Array<string>;
       items: Array<TSidebarSubItem>;
     };
+
+export type TSidebarProps = React.HTMLAttributes<HTMLDivElement>;
