@@ -3,8 +3,8 @@ import { Title } from 'components/core';
 import { usePageContext } from 'context';
 import { Grid, GridCell } from 'components/system';
 import { Card, Checkbox, Switch, TextField } from 'components/ui';
-import { NotificationsCard } from 'components/custom';
-import { SearchIcon } from 'components/svg';
+import { NotificationsCard, Menu } from 'components/custom';
+import { AccountIcon, LogoutIcon, SearchIcon } from 'components/svg';
 
 const Home = () => {
   const { setRouteName } = usePageContext();
@@ -47,6 +47,12 @@ const Home = () => {
                   label="Campaign"
                   placeholder="Please select"
                   endIcon={<SearchIcon />}
+                />
+                <Menu
+                  items={[
+                    { icon: <AccountIcon />, label: 'Account' },
+                    { icon: <LogoutIcon />, label: 'Log out' },
+                  ]}
                 />
               </Card>
             </GridCell>

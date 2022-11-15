@@ -11,7 +11,7 @@ import {
 } from 'components/custom/sidebar/elements';
 import { DSidebarItems } from 'components/custom/sidebar/data';
 
-const Sidebar = ({ role = 'client', ...props }: any) => {
+const Sidebar = ({ role = 'admin', ...props }: any) => {
   const [_openDropdown, _setOpenDropdown] = useState(false);
 
   return (
