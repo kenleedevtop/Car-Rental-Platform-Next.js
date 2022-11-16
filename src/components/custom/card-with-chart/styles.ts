@@ -8,6 +8,7 @@ export const CardWithChartMain = styled(Card)<{ theme?: Theme }>`
     display: flex;
     flex-direction: column;
     gap: ${theme.spacing(2)};
+    min-width: 0;
   `}
 `;
 
