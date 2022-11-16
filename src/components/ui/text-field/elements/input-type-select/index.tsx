@@ -27,7 +27,7 @@ const InputTypeSelect = ({
 }: TInputTypeSelectProps) => {
   const [search, setSearch] = useState<string>('');
 
-  const serachRef = useRef<null | HTMLInputElement>(null);
+  const searchRef = useRef<null | HTMLInputElement>(null);
   const [dropdownRef, open, setOpen] = useMenu(false);
 
   // const handleValue = (e: React.FormEvent<HTMLInputElement>) => {
@@ -36,8 +36,8 @@ const InputTypeSelect = ({
   // };
 
   const handleClick = (e: React.MouseEvent<any>) => {
-    if (serachRef.current && e.target !== serachRef.current)
-      serachRef.current.focus();
+    if (searchRef.current && e.target !== searchRef.current)
+      searchRef.current.focus();
     setOpen(true);
   };
 
@@ -73,7 +73,7 @@ const InputTypeSelect = ({
           value={search}
           onChange={handleSearch}
           placeholder={placeholder}
-          ref={serachRef}
+          ref={searchRef}
         />
       )}
       {!!endIcon && <InputIcon>{endIcon}</InputIcon>}

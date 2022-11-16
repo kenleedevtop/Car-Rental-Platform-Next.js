@@ -24,12 +24,12 @@ const InputTypeMultiSelect = ({
 }: TInputTypeMultiSelectProps) => {
   const [search, setSearch] = useState<string>('');
 
-  const serachRef = useRef<null | HTMLInputElement>(null);
+  const searchRef = useRef<null | HTMLInputElement>(null);
   const [dropdownRef, open, setOpen] = useMenu(false);
 
   const handleClick = (e: React.MouseEvent<any>) => {
-    if (serachRef.current && e.target !== serachRef.current)
-      serachRef.current.focus();
+    if (searchRef.current && e.target !== searchRef.current)
+      searchRef.current.focus();
     setOpen(true);
   };
 
@@ -59,7 +59,7 @@ const InputTypeMultiSelect = ({
           value={search}
           onChange={handleSearch}
           placeholder={placeholder}
-          ref={serachRef}
+          ref={searchRef}
         />
       </InputTypeMultiSelectValue>
       {!!endIcon && <InputIcon>{endIcon}</InputIcon>}
