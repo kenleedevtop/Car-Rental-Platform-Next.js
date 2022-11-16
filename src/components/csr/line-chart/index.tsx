@@ -14,7 +14,7 @@ const LineChart = ({ labels, data, negative, ...props }: TLineChartProps) => {
 
   return (
     <LineChartMain {...props}>
-      <Line height={80} data={generatedData} options={DChartOptions} />
+      <Line height={50} data={generatedData} options={DChartOptions} />
     </LineChartMain>
   );
 };
