@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Button, Switch, TextField } from 'components/ui';
+import { Button, Switch, Input } from 'components/ui';
 import {
   CardWithChart,
   CardWithText,
@@ -11,6 +11,7 @@ import {
 } from 'components/custom';
 import { SearchIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
+import dayjs, { Dayjs } from 'dayjs';
 
 const Home = () => {
   const { setRouteName } = useAppContext();
@@ -22,6 +23,10 @@ const Home = () => {
   const [switchState, setSwitchState] = useState(false);
   const [state, setState] = useState('');
   const [value, onValue] = useState(0);
+
+  const [select, onSelect] = useState(null);
+  const [mSelect, onMSelect] = useState([]);
+  const [date, setDate] = useState<Dayjs | null>(dayjs('2014-08-18T21:11:54'));
 
   return (
     <>
@@ -111,62 +116,45 @@ const Home = () => {
                     padding: 20,
                   }}
                 >
-                  <TextField
+                  <Input
+                    type="text"
                     value={state}
                     onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
+                    label="Test"
                   />
-
-                  <TextField
+                  <Input
+                    type="number"
                     value={state}
                     onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
+                    min={1}
+                    max={5}
+                    label="Test"
                   />
-                  <TextField
-                    value={state}
-                    onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
+                  <Input
+                    type="select"
+                    value={select}
+                    onValue={onSelect}
+                    label="Select"
+                    options={[
+                      { value: 1, label: 'Hello' },
+                      { value: 2, label: 'World' },
+                    ]}
                   />
-                  <TextField
-                    value={state}
-                    onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
+                  <Input
+                    type="multiselect"
+                    value={mSelect}
+                    onValue={onMSelect}
+                    label="Mutli Select"
+                    options={[
+                      { value: 1, label: 'Hello' },
+                      { value: 2, label: 'World' },
+                    ]}
                   />
-                  <TextField
-                    value={state}
-                    onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
-                  />
-                  <TextField
-                    value={state}
-                    onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
-                  />
-                  <TextField
-                    value={state}
-                    onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
-                  />
-                  <TextField
-                    value={state}
-                    onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
+                  <Input
+                    type="date"
+                    value={date}
+                    onValue={setDate}
+                    label="Date"
                   />
                   <Switch
                     value={switchState}

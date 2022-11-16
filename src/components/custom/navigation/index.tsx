@@ -31,10 +31,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
       <NavigationRouteName>{routeName}</NavigationRouteName>
       <NavigationItems>
         {['admin', 'influencer'].includes(role) && (
-          <NavigationSearch
-            placeholder="Looking for someone?"
-            startIcon={<SearchIcon />}
-          />
+          <NavigationSearch placeholder="Looking for someone?" />
         )}
         {['client'].includes(role) && (
           <NavigationBalance>Balance: $499.00</NavigationBalance>

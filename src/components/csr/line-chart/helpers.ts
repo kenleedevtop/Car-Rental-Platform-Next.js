@@ -18,7 +18,7 @@ export const HChartDataGenerate = ({
       backgroundColor: (context: ScriptableContext<'line'>) => {
         const { ctx } = context.chart;
         const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, negative ? '#E53B3BA0' : '#2FD1C6A0');
+        gradient.addColorStop(0, negative ? '#E53B3B40' : '#2FD1C640');
         gradient.addColorStop(0.2, negative ? '#E53B3B00' : '#2FD1C600');
         return gradient;
       },
