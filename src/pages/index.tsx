@@ -10,6 +10,7 @@ import {
   Tabs,
 } from 'components/custom';
 import { SearchIcon } from 'components/svg';
+import { faker } from '@faker-js/faker';
 
 const Home = () => {
   const { setRouteName } = useAppContext();
@@ -33,24 +34,48 @@ const Home = () => {
               icon={<SearchIcon />}
               percent={2}
               count={75}
+              chartData={{
+                values: Array.from(Array(20).keys()).map((_x) =>
+                  faker.datatype.number({ min: 10, max: 30 })
+                ),
+                labels: Array.from(Array(20).keys()).map((_x) => ''),
+              }}
             />
             <CardWithChart
               title="To Be Sent"
               icon={<SearchIcon />}
               percent={47}
               count={15}
+              chartData={{
+                values: Array.from(Array(20).keys()).map((_x) =>
+                  faker.datatype.number({ min: 10, max: 30 })
+                ),
+                labels: Array.from(Array(20).keys()).map((_x) => ''),
+              }}
             />
             <CardWithChart
               title="Waiting Feedback"
               icon={<SearchIcon />}
               percent={-15}
               count={32}
+              chartData={{
+                values: Array.from(Array(20).keys()).map((_x) =>
+                  faker.datatype.number({ min: 10, max: 30 })
+                ),
+                labels: Array.from(Array(20).keys()).map((_x) => ''),
+              }}
             />
             <CardWithChart
               title="Approved"
               icon={<SearchIcon />}
               percent={13}
               count={213}
+              chartData={{
+                values: Array.from(Array(20).keys()).map((_x) =>
+                  faker.datatype.number({ min: 10, max: 30 })
+                ),
+                labels: Array.from(Array(20).keys()).map((_x) => ''),
+              }}
             />
             <GridCell columnSpan={4}>
               <CardWithText

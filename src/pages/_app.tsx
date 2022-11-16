@@ -11,6 +11,25 @@ import Theme from 'theme';
 import Head from 'next/head';
 import { AppContextProvider } from 'context';
 
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Filler,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip
+);
+
 const clientSideEmotionCache = createEmotionCache();
 
 type AppType = {
