@@ -1,14 +1,27 @@
 import React, { ReactNode } from 'react';
 
-export type TTextFieldType = 'text' | 'area' | 'password';
+export type TTextFieldSelectOption = {
+  value: any;
+  label: string;
+  data: any;
+};
+
+export type TTextFieldType = 'text' | 'text-area' | 'select' | 'multi-select';
 
 export type TTextFieldProps = React.HTMLAttributes<HTMLDivElement> & {
+  type?: TTextFieldType;
   label?: string;
   required?: boolean;
-  value?: string;
-  onValue?: (v: string) => void;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
-  type?: TTextFieldType;
+  options?: Array<TTextFieldSelectOption>;
+  value?: any;
   rows?: number;
+  onValue?: (v: any) => void;
+  filter?: (a: TTextFieldSelectOption, b: string) => boolean;
+  renderValue?: (
+    o: TTextFieldSelectOption,
+    r?: () => void
+  ) => string | ReactNode;
+  renderOption?: (o: TTextFieldSelectOption) => string | ReactNode;
 };

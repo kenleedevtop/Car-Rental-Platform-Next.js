@@ -93,13 +93,7 @@ const Home = () => {
                     placeholder="Please select"
                     endIcon={<SearchIcon />}
                   />
-                  <TextField
-                    value={state}
-                    onValue={setState}
-                    label="Campaign"
-                    placeholder="Please select"
-                    endIcon={<SearchIcon />}
-                  />
+
                   <TextField
                     value={state}
                     onValue={setState}

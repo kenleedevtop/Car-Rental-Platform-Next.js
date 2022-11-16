@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-export type TInputTypeAreaProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TInputTypeTextAreaProps = React.HTMLAttributes<HTMLDivElement> & {
   value?: string;
   onValue?: (v: string) => void;
   startIcon?: ReactNode;

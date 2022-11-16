@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 
-export const InputTypeAreaMain = styled.textarea<{ theme?: Theme }>`
+export const InputTypeTextAreaMain = styled.textarea<{ theme?: Theme }>`
   ${({ theme }) => `
     background: none;
     border: none;

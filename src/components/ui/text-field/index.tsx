@@ -1,21 +1,29 @@
 import React from 'react';
 import { TextFieldMain, TextFieldLabel } from 'components/ui/text-field/styles';
-import { TTextFieldProps } from 'components/ui/text-field/types';
+import {
+  TTextFieldProps,
+  TTextFieldSelectOption,
+} from 'components/ui/text-field/types';
 import {
   InputTypeText,
-  InputTypeArea,
+  InputTypeTextArea,
+  InputTypeSelect,
+  InputTypeMultiSelect,
 } from 'components/ui/text-field/elements';
 
 const TextField = ({
   value,
   placeholder,
-  onValue,
-  onChange,
   label,
   startIcon,
   endIcon,
   type = 'text',
-  rows = 5,
+  onValue,
+  rows,
+  options = [],
+  renderValue = (o) => o.label,
+  renderOption = (o) => o.label,
+  filter = (_a: TTextFieldSelectOption, _b: string) => true,
   ...props
 }: TTextFieldProps) => (
   <TextFieldMain {...props}>
@@ -24,21 +32,45 @@ const TextField = ({
       <InputTypeText
         value={value}
         onValue={onValue}
-        onChange={onChange}
         startIcon={startIcon}
         endIcon={endIcon}
         placeholder={placeholder}
       />
     )}
-    {type === 'area' && (
-      <InputTypeArea
+    {type === 'text-area' && (
+      <InputTypeTextArea
         value={value}
         onValue={onValue}
-        onChange={onChange}
         startIcon={startIcon}
         endIcon={endIcon}
         placeholder={placeholder}
         rows={rows}
+      />
+    )}
+    {type === 'select' && (
+      <InputTypeSelect
+        value={value}
+        onValue={onValue}
+        startIcon={startIcon}
+        endIcon={endIcon}
+        placeholder={placeholder}
+        options={options}
+        renderValue={renderValue}
+        renderOption={renderOption}
+        filter={filter}
+      />
+    )}
+    {type === 'multi-select' && (
+      <InputTypeMultiSelect
+        value={value}
+        onValue={onValue}
+        startIcon={startIcon}
+        endIcon={endIcon}
+        placeholder={placeholder}
+        options={options}
+        renderValue={renderValue}
+        renderOption={renderOption}
+        filter={filter}
       />
     )}
   </TextFieldMain>
