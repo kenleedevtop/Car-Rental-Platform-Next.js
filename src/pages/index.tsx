@@ -13,7 +13,6 @@ import {
 import { SearchIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import dayjs, { Dayjs } from 'dayjs';
-import { Pagination } from '@mui/material';
 
 const Home = () => {
   const { setRouteName } = useAppContext();
