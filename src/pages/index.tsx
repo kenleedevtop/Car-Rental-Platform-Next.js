@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Button, Switch, Input } from 'components/ui';
+import { Button, Switch, Input, Pagination } from 'components/ui';
 import {
   CardWithChart,
   CardWithText,
@@ -175,6 +175,7 @@ const Home = () => {
               onValue={onValue}
               tabs={['Tab 1', 'Tab 2', 'Tab 3']}
             />
+            <Pagination count={10} />
           </Grid>
         </GridCell>
       </Grid>

@@ -7,3 +7,4 @@ export { default as Input } from 'components/ui/input';
 export { default as Badge } from 'components/ui/badge';
 export { default as Checkbox } from 'components/ui/checkbox';
 export { default as Switch } from 'components/ui/switch';
+export { default as Pagination } from 'components/ui/pagination';
