@@ -4,6 +4,7 @@ import { useAppContext } from 'context';
 import { Grid, GridCell } from 'components/system';
 import { Button, Switch, Input } from 'components/ui';
 import {
+  CalendarCard,
   CardWithChart,
   CardWithText,
   NotificationsCard,
@@ -12,6 +13,7 @@ import {
 import { SearchIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import dayjs, { Dayjs } from 'dayjs';
+import { Pagination } from '@mui/material';
 
 const Home = () => {
   const { setRouteName } = useAppContext();
@@ -168,13 +170,8 @@ const Home = () => {
         </GridCell>
         <GridCell>
           <Grid columns={1}>
-            <CardWithText title="Calendar">Hello</CardWithText>
+            <CalendarCard />
             <NotificationsCard />
-            <Tabs
-              value={value}
-              onValue={onValue}
-              tabs={['Tab 1', 'Tab 2', 'Tab 3']}
-            />
           </Grid>
         </GridCell>
       </Grid>
