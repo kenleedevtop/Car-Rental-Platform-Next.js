@@ -63,3 +63,10 @@ export const InputMultiSelect = styled(Autocomplete)<{ theme?: Theme }>`
 `;
 
 export const InputDatepicker = styled(DesktopDatePicker)<{ theme?: Theme }>``;
+
+export const InputRow = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    gap: ${theme.spacing(2)};
+  `}
+`;

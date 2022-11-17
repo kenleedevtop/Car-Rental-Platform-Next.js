@@ -7,7 +7,7 @@ export type TInputPropsOption = {
 
 export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   label: string;
-  type: 'select' | 'text' | 'number' | 'multiselect' | 'date';
+  type: 'select' | 'text' | 'number' | 'multiselect' | 'date' | 'min-max';
   value: any;
   onValue: (v: any) => void;
   min?: number;
