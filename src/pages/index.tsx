@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
 import { Grid, GridCell } from 'components/system';
-import { Button, Switch, Input } from 'components/ui';
+import { Button, Switch, Input, Progress } from 'components/ui';
 import {
   CalendarCard,
   CardWithChart,
@@ -151,6 +151,8 @@ const Home = () => {
                 onValue={setSwitchState}
                 label="Patients"
               />
+
+              <Progress color="primary" percent={80} />
             </Grid>
           </CardWithText>
         </GridCell>
