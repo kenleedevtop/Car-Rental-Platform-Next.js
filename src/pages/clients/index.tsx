@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
+import { ClientsPage } from 'features';
 
 const Clients = () => {
   const { setRouteName } = useAppContext();
@@ -12,7 +13,7 @@ const Clients = () => {
   return (
     <>
       <Title>Clients</Title>
-      Clients
+      <ClientsPage />
     </>
   );
 };

@@ -24,12 +24,28 @@ export const DashboardLayoutSidebar = styled(Sidebar)`
   height: 100%;
 `;
 
-export const DashboardLayoutContent = styled.div<{ theme?: Theme }>`
+export const DashboardLayoutContainer = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     height: 100%;
     padding: ${theme.spacing(5)};
     background-color: ${theme.palette.common.background};
     overflow: hidden;
+    display: flex;
+    gap: ${theme.spacing(5)};
     `}
+`;
+
+export const DashboardLayoutContent = styled.div`
+  width: 100%;
+`;
+
+export const DashboardLayoutWidgets = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 350px;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.spacing(5)};
+  `}
 `;

@@ -11,6 +11,8 @@ import {
 import { TCardWithChartProps } from 'components/custom/card-with-chart/types';
 import { PercentIndicator } from 'components/custom/card-with-chart/elements';
 import { LineChart } from 'components/csr';
+import { BusinessmanIcon } from 'components/svg';
+import { formatNumber } from 'utilities/extended-proto';
 
 const CardWithChart = ({
   title,
@@ -26,7 +28,10 @@ const CardWithChart = ({
       <CardWithChartTitle>{title}</CardWithChartTitle>
     </CardWithChartText>
     <CardWithChartValues>
-      <CardWithChartCount>{count}</CardWithChartCount>
+      <CardWithChartCount>
+        <BusinessmanIcon />
+        {formatNumber(count)}
+      </CardWithChartCount>
       <PercentIndicator percent={percent} />
     </CardWithChartValues>
     <CardWithChartGraph>

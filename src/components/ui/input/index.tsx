@@ -6,6 +6,7 @@ import {
   InputText,
   InputMultiSelect,
   InputDatepicker,
+  InputRow,
 } from 'components/ui/input/styles';
 import { TInputProps } from 'components/ui/input/types';
 import { Chip } from '@mui/material';
@@ -35,6 +36,10 @@ const Input = ({
     if (onValue) onValue(newValue);
   };
 
+  const handleMinMax = (key: 'min' | 'max') => (e: React.ChangeEvent<any>) => {
+    if (onValue) onValue({ ...value, [key]: e.target.value });
+  };
+
   const [search, setSearch] = useState('');
 
   return (
@@ -56,6 +61,24 @@ const Input = ({
           inputProps={{ min, max }}
           placeholder={placeholder}
         />
+      )}
+      {type === 'min-max' && (
+        <InputRow>
+          <InputText
+            type="number"
+            value={value.min}
+            onChange={handleMinMax('min')}
+            inputProps={{ max: value.max }}
+            placeholder="Min"
+          />
+          <InputText
+            type="number"
+            value={value.max}
+            onChange={handleMinMax('max')}
+            inputProps={{ min: value.min }}
+            placeholder="Max"
+          />
+        </InputRow>
       )}
       {type === 'select' && (
         <InputSelect
