@@ -8,3 +8,4 @@ export { default as Badge } from 'components/ui/badge';
 export { default as Checkbox } from 'components/ui/checkbox';
 export { default as Switch } from 'components/ui/switch';
 export { default as Pagination } from 'components/ui/pagination';
+export { default as Progress } from 'components/ui/progress';
