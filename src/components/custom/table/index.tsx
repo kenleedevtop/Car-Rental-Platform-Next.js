@@ -8,6 +8,7 @@ import {
   TableBodyCell,
   TableHeadRow,
   TableBodyRow,
+  TableEmpty,
 } from 'components/custom/table/styles';
 import { TTableProps, TTableHeadItem } from 'components/custom/table/types';
 import getObjectDynamicPath from 'utilities/extended-proto/index';
@@ -51,6 +52,7 @@ const Table = ({
         </TableBody>
       )}
     </TableMain>
+    {!items.length && <TableEmpty>No records</TableEmpty>}
   </TableWrapper>
 );
 

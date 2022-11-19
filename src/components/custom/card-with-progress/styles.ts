@@ -54,9 +54,8 @@ export const CardWithProgressTitle = styled.div<{ theme?: Theme }>`
 export const CardWithProgressValues = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
         width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: ${theme.spacing(5)};
+        & > *:not(:last-child) {
+          border-bottom: 1px solid ${theme.palette.common.black}20;
+        }
     `}
 `;

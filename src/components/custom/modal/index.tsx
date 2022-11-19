@@ -22,11 +22,7 @@ const Modal = ({
   const wrapperRef = useRef<null | HTMLDivElement>(null);
 
   const handleClose = (e: React.MouseEvent<HTMLDivElement>) => {
-    console.log('TARGET:::', e.target === wrapperRef.current);
-
     if (e.target === wrapperRef.current && onClose) {
-      console.log('ON CLOSE');
-
       onClose();
     }
   };

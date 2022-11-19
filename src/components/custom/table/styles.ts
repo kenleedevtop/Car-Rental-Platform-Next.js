@@ -26,8 +26,8 @@ export const TableBody = styled.tbody`
 export const TableHeadRow = styled.tr<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
-    background-color: ${theme.palette.primary.main}10;
-    border-bottom: 1px solid ${theme.palette.primary.main}20;
+    background-color: ${theme.palette.secondary.main}10;
+    border-bottom: 1px solid ${theme.palette.secondary.main}20;
   `}
 `;
 
@@ -45,7 +45,7 @@ export const TableHeadCell = styled.th<{ theme?: Theme }>`
   ${({ theme }) => `
         padding: ${theme.spacing(5)};
         text-align: left;
-        color: ${theme.palette.common.gray[6]};
+        color: ${theme.palette.primary.main};
         font-weight: 500;
         cursor: pointer;
     `}
@@ -57,4 +57,20 @@ export const TableBodyCell = styled.td<{ theme?: Theme }>`
         text-align: left;
         color: ${theme.palette.common.gray[4]};
     `}
+`;
+
+export const TableEmpty = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: ${theme.spacing(5)};
+    min-height: 200px;
+    color: ${theme.palette.common.gray[6]};
+    font-size: 18px;
+    font-weight: 300;
+  `}
 `;

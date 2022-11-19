@@ -51,7 +51,6 @@ export const ModalBody = styled.div<{ theme?: Theme }>`
     font-size: 14px;
     color: ${theme.palette.common.gray[6]};
     line-height: 21px;
-    padding: ${theme.spacing(5)} 0px;
   `}
 `;
 
