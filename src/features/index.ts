@@ -3,4 +3,5 @@ export { default as DiscoverClientsPage } from 'features/discover-clients';
 export { default as InfluencersPage } from 'features/influencers';
 export { default as ClientsPage } from 'features/clients';
 export { default as SearchPage } from 'features/search';
+export { default as CampaignsPage } from 'features/campaigns';
 export { default as HomePage } from 'features/home';
