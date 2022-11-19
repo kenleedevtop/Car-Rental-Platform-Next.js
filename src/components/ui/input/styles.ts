@@ -13,6 +13,9 @@ import { DesktopDatePicker } from '@mui/x-date-pickers';
 export const InputMain = styled(FormControl)<{ theme?: Theme }>`
   ${({ theme }) => `
     .MuiInputBase-root {
+      &.MuiInputBase-multiline {
+        padding: 0;
+      }
       .MuiInputBase-input {
         padding: ${theme.spacing(2)};
       }
