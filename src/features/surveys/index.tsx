@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
-  ReportsPageMain,
-  ReportsPageCharts,
-  ReportsPageFilter,
-  ReportsPageFilterActions,
-} from 'features/reports/styles';
+  SurveysPageMain,
+  SurveysPageCharts,
+  SurveysPageFilter,
+  SurveysPageFilterActions,
+} from 'features/surveys/styles';
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
   ContactedIcon,
@@ -17,39 +17,39 @@ import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateReportsFilter } from 'features/reports/data';
+import { DGenerateSurveyFilter } from 'features/surveys/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
-  ExportReportsModal,
-  CreateReportsModal,
-} from 'features/reports/elements';
+  ExportSurveysModal,
+  CreateSurveysModal,
+} from 'features/surveys/elements';
 import { useModal } from 'hooks';
 
-const ReportsPage = () => {
-  const [filter, setFilter] = useState<any>(DGenerateReportsFilter());
+const SurveyPage = () => {
+  const [filter, setFilter] = useState<any>(DGenerateSurveyFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
 
   const [tabsValue, setTabsValue] = useState(0);
 
-  const [erModal, openErModal, closeErModal] = useModal(false);
-  const [crModal, openCrModal, closeCrModal] = useModal(false);
+  const [esModal, openEsModal, closeEsModal] = useModal(false);
+  const [csModal, openCsModal, closeCsModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
   };
 
   const clearFilters = () => {
-    setFilter(DGenerateReportsFilter());
+    setFilter(DGenerateSurveyFilter());
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   return (
-    <ReportsPageMain>
-      <ReportsPageCharts columns={4}>
+    <SurveysPageMain>
+      <SurveysPageCharts columns={4}>
         <CardWithChart
-          title="To Be Created"
+          title="In Preparation"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -61,7 +61,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="To Be Sent"
+          title="Ongoing"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -73,7 +73,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Waiting Feedback"
+          title="Finished"
           icon={<RegisteredIcon />}
           percent={-6}
           count={75}
@@ -85,7 +85,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Approved"
+          title="Revenue"
           icon={<TotalIcon />}
           percent={-6}
           count={75}
@@ -96,9 +96,9 @@ const ReportsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-      </ReportsPageCharts>
+      </SurveysPageCharts>
       <CardWithText
-        title="Reports"
+        title="Surveys"
         description="More than 290+ new Reports"
         actions={[
           <Button
@@ -109,17 +109,17 @@ const ReportsPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained" onClick={openErModal}>
+          <Button color="default" variant="contained" onClick={openEsModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained" onClick={openCrModal}>
-            Create Report
+          <Button color="primary" variant="contained" onClick={openCsModal}>
+            Create Survey
           </Button>,
         ]}
       >
         <Stack>
           <Collapse in={filterOpen}>
-            <ReportsPageFilter>
+            <SurveysPageFilter>
               <Grid columns={4}>
                 <Input
                   type="select"
@@ -137,22 +137,15 @@ const ReportsPage = () => {
                 />
                 <Input
                   type="select"
-                  label="Report"
-                  placeholder="Select Type"
-                  value={filter.report}
-                  onValue={(report) => setFilter({ ...filter, report })}
-                />
-                <Input
-                  type="select"
                   label="Location"
-                  placeholder="Select Location"
+                  placeholder="Select Type"
                   value={filter.location}
                   onValue={(location) => setFilter({ ...filter, location })}
                 />
                 <Input
                   type="select"
                   label="Disease Area"
-                  placeholder="Select Disease Area"
+                  placeholder="Select Language"
                   value={filter.diseaseArea}
                   onValue={(diseaseArea) =>
                     setFilter({ ...filter, diseaseArea })
@@ -160,58 +153,51 @@ const ReportsPage = () => {
                 />
                 <Input
                   type="text"
-                  label="Platform"
-                  placeholder="Select Platform"
-                  value={filter.platform}
-                  onValue={(platform) => setFilter({ ...filter, platform })}
+                  label="Industry"
+                  placeholder="Select Disease Area"
+                  value={filter.industry}
+                  onValue={(industry) => setFilter({ ...filter, industry })}
                 />
                 <Input
-                  type="select"
-                  label="Promotion Type"
-                  placeholder="Select Promotion Team"
-                  value={filter.promotionType}
-                  onValue={(promotionType) =>
-                    setFilter({ ...filter, promotionType })
+                  type="min-max"
+                  label="Participants"
+                  value={filter.participants}
+                  onValue={(participants) =>
+                    setFilter({ ...filter, participants })
                   }
                 />
                 <Input
                   type="min-max"
-                  label="Numbers of Ifluencer"
-                  value={filter.numberOfIfluencers}
-                  onValue={(numberOfIfluencers) =>
-                    setFilter({ ...filter, numberOfIfluencers })
-                  }
-                />
-                <Input
-                  type="date"
-                  label="Start"
-                  placeholder="Select Start Date"
-                  value={filter.startDate}
-                  onValue={(startDate) => setFilter({ ...filter, startDate })}
-                />
-                <Input
-                  type="date"
-                  label="End"
-                  placeholder="Select End Date"
-                  value={filter.endDate}
-                  onValue={(endDate) => setFilter({ ...filter, endDate })}
+                  label="Questions"
+                  value={filter.questions}
+                  onValue={(questions) => setFilter({ ...filter, questions })}
                 />
                 <Input
                   type="min-max"
                   label="Budget"
-                  placeholder="Please Select"
                   value={filter.budget}
                   onValue={(budget) => setFilter({ ...filter, budget })}
                 />
                 <Input
+                  type="text"
+                  label="Language"
+                  value={filter.language}
+                  onValue={(language) => setFilter({ ...filter, language })}
+                />
+                <Input
+                  type="text"
+                  label="Date Range"
+                  value={filter.dateRange}
+                  onValue={(dateRange) => setFilter({ ...filter, dateRange })}
+                />
+                <Input
                   type="multiselect"
                   label="Lable"
-                  placeholder="Choose several state"
                   value={filter.lable}
                   onValue={(lable) => setFilter({ ...filter, lable })}
                 />
               </Grid>
-              <ReportsPageFilterActions direction="horizontal">
+              <SurveysPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
                 </Button>
@@ -222,40 +208,43 @@ const ReportsPage = () => {
                 >
                   Clear filter
                 </Button>
-              </ReportsPageFilterActions>
-            </ReportsPageFilter>
+              </SurveysPageFilterActions>
+            </SurveysPageFilter>
           </Collapse>
           <Tabs
-            tabs={[
-              'To Be Created',
-              'To Be Sent',
-              'Awaiting Feedback',
-              'Approved',
-            ]}
+            tabs={['In Preparation', 'Ongoing', 'Finished', 'Delivered']}
             value={tabsValue}
             onValue={setTabsValue}
           />
           <Table
             head={[
               {
-                reference: 'campaign',
-                label: 'Campaign',
+                reference: 'survey',
+                label: 'Survey',
               },
               {
-                reference: 'type',
-                label: 'Type',
+                reference: 'diseaseArea',
+                label: 'Disease Area',
+              },
+              {
+                reference: 'language',
+                label: 'Language',
               },
               {
                 reference: 'date',
                 label: 'Date',
               },
               {
-                reference: 'influencers',
-                label: 'Influencers',
+                reference: 'participants',
+                label: 'Participants',
               },
               {
-                reference: 'price',
-                label: 'Price',
+                reference: 'questions',
+                label: 'Questions',
+              },
+              {
+                reference: 'budget',
+                label: 'Budget',
               },
               {
                 reference: 'actions',
@@ -269,10 +258,10 @@ const ReportsPage = () => {
           <Pagination count={32} />
         </Stack>
       </CardWithText>
-      {erModal && <ExportReportsModal onClose={closeErModal} />}
-      {crModal && <CreateReportsModal onClose={closeCrModal} />}
-    </ReportsPageMain>
+      {esModal && <ExportSurveysModal onClose={closeEsModal} />}
+      {csModal && <CreateSurveysModal onClose={closeCsModal} />}
+    </SurveysPageMain>
   );
 };
 
-export default ReportsPage;
+export default SurveyPage;
