@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Card } from 'components/ui';
+import { gradient } from 'utilities/style';
 
 export const CardWithChartMain = styled(Card)<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -8,6 +9,7 @@ export const CardWithChartMain = styled(Card)<{ theme?: Theme }>`
     display: flex;
     flex-direction: column;
     gap: ${theme.spacing(2)};
+    min-width: 0;
   `}
 `;
 
@@ -25,7 +27,10 @@ export const CardWithChartIcon = styled.div<{ theme?: Theme }>`
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background-color: ${theme.palette.primary.main};
+        background: ${gradient(45, [
+          theme.palette.primary.dark,
+          theme.palette.secondary.light,
+        ])};
         display: flex;
         align-items: center;
         justify-content: center;
@@ -61,6 +66,14 @@ export const CardWithChartCount = styled.div<{ theme?: Theme }>`
         font-size: 18px;
         font-weight: 700;
         color: ${theme.palette.primary.main};
+        display: flex;
+        align-items: center;
+        gap: ${theme.spacing(2)};
+        svg {
+          display: block;
+          width: 16px;
+          height: 16px;
+        }
     `}
 `;
 

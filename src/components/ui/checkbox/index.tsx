@@ -13,6 +13,8 @@ const Checkbox = ({
   label,
   color = 'primary',
   size = 'medium',
+  value,
+  onValue,
   ...props
 }: TCheckboxProps) => {
   const checkboxRef = useRef<null | HTMLInputElement>(null);
@@ -23,9 +25,22 @@ const Checkbox = ({
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (onValue) {
+      onValue(e.target.checked);
+    }
+  };
+
   return (
     <CheckboxMain {...props}>
-      <CheckboxInput hidden color={color} ref={checkboxRef} type="checkbox" />
+      <CheckboxInput
+        hidden
+        color={color}
+        ref={checkboxRef}
+        type="checkbox"
+        checked={value}
+        onChange={handleChange}
+      />
       <CheckboxDisplay onClick={handleClick} size={size} color={color}>
         <CheckboxDisplayIcon />
       </CheckboxDisplay>

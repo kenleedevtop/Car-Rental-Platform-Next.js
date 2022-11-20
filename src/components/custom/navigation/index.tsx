@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   NavigationMain,
   NavigationRouteName,
@@ -16,9 +16,23 @@ import { TNavigationProps } from 'components/custom/navigation/types';
 import { useAppContext } from 'context';
 import { ArrowDownIcon, SearchIcon } from 'components/svg';
 import { useMenu } from 'hooks';
+import { useRouter } from 'next/router';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen] = useMenu(false);
+  const [search, setSearch] = useState('');
+
+  const router = useRouter();
+
+  const handleEnter = () => {
+    const q = search.trim();
+    if (q) {
+      router.push({
+        pathname: `/search`,
+        query: { q },
+      });
+    }
+  };
 
   const { role, routeName } = useAppContext();
 
@@ -33,7 +47,9 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         {['admin', 'influencer'].includes(role) && (
           <NavigationSearch
             placeholder="Looking for someone?"
-            startIcon={<SearchIcon />}
+            value={search}
+            onValue={setSearch}
+            onEnter={handleEnter}
           />
         )}
         {['client'].includes(role) && (

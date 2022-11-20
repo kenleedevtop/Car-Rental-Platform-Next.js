@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
+import { CampaignsPage } from 'features';
 
 const Campaigns = () => {
   const { setRouteName } = useAppContext();
@@ -12,7 +13,7 @@ const Campaigns = () => {
   return (
     <>
       <Title>Campaigns</Title>
-      Campaigns
+      <CampaignsPage />
     </>
   );
 };

@@ -1,10 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
-import { Avatar, TextField } from 'components/ui';
+import { Avatar, Search } from 'components/ui';
 import { Menu } from 'components/custom';
-import { InputBoxMain } from 'components/ui/text-field/elements/input-box/styles';
-import { InputIconMain } from 'components/ui/text-field/elements/input-icon/styles';
-import { InputTypeTextMain } from 'components/ui/text-field/elements/input-type-text/styles';
 
 export const NavigationMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -76,24 +73,7 @@ export const NavigationProfileImage = styled(Avatar)<{ theme?: Theme }>`
     `}
 `;
 
-export const NavigationSearch = styled(TextField)<{ theme?: Theme }>`
-  ${({ theme }) => `
-      width: 300px;
-      ${InputBoxMain} {
-        background-color: ${theme.palette.common.white}20;
-        border-radius: 8px;
-        ${InputTypeTextMain} {
-          color: ${theme.palette.common.white};
-          &::placeholder {
-            color: ${theme.palette.common.white}80;
-          }
-        }
-        ${InputIconMain} {
-          color: ${theme.palette.common.white}80;
-        }
-      }
-  `}
-`;
+export const NavigationSearch = styled(Search)<{ theme?: Theme }>``;
 
 export const NavigationProfileDropdown = styled(Menu)`
   position: absolute;
