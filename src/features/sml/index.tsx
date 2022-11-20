@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
-  ReportsPageMain,
-  ReportsPageCharts,
-  ReportsPageFilter,
-  ReportsPageFilterActions,
-} from 'features/reports/styles';
+  SmlPageMain,
+  SmlPageCharts,
+  SmlPageFilter,
+  SmlPageFilterActions,
+} from 'features/sml/styles';
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
   ContactedIcon,
@@ -17,37 +17,43 @@ import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateReportsFilter } from 'features/reports/data';
+import { DGenerateSmlFilter } from 'features/sml/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
-  ExportReportsModal,
-  CreateReportsModal,
-} from 'features/reports/elements';
+  ExportSmlModal,
+  CreateSmlModal,
+  OrderSmlModal,
+  CreateSmlTabsModal,
+  CreateSmlFinal,
+} from 'features/sml/elements';
 import { useModal } from 'hooks';
 
-const ReportsPage = () => {
-  const [filter, setFilter] = useState<any>(DGenerateReportsFilter());
+const SmlPage = () => {
+  const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
 
   const [tabsValue, setTabsValue] = useState(0);
 
-  const [erModal, openErModal, closeErModal] = useModal(false);
-  const [crModal, openCrModal, closeCrModal] = useModal(false);
+  const [esModal, openEsModal, closeEsModal] = useModal(false);
+  const [csModal, openCsModal, closeCsModal] = useModal(false);
+  const [osModal, openOsModal, closeOsModal] = useModal(false);
+  const [cstModal, openCstModal, closeCstModal] = useModal(false);
+  const [csfModal, openCsfModal, closeCsfModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
   };
 
   const clearFilters = () => {
-    setFilter(DGenerateReportsFilter());
+    setFilter(DGenerateSmlFilter());
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   return (
-    <ReportsPageMain>
-      <ReportsPageCharts columns={4}>
+    <SmlPageMain>
+      <SmlPageCharts columns={4}>
         <CardWithChart
           title="To Be Created"
           icon={<IdentifiedIcon />}
@@ -61,7 +67,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="To Be Sent"
+          title="Finished"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -73,7 +79,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Waiting Feedback"
+          title="Delivered"
           icon={<RegisteredIcon />}
           percent={-6}
           count={75}
@@ -85,7 +91,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Approved"
+          title="Revenue"
           icon={<TotalIcon />}
           percent={-6}
           count={75}
@@ -96,9 +102,9 @@ const ReportsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-      </ReportsPageCharts>
+      </SmlPageCharts>
       <CardWithText
-        title="Reports"
+        title="Social Media Listening"
         description="More than 290+ new Reports"
         actions={[
           <Button
@@ -109,17 +115,17 @@ const ReportsPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained" onClick={openErModal}>
+          <Button color="default" variant="contained" onClick={openEsModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained" onClick={openCrModal}>
-            Create Report
+          <Button color="primary" variant="contained" onClick={openCsModal}>
+            Create SML
           </Button>,
         ]}
       >
         <Stack>
           <Collapse in={filterOpen}>
-            <ReportsPageFilter>
+            <SmlPageFilter>
               <Grid columns={4}>
                 <Input
                   type="select"
@@ -137,17 +143,19 @@ const ReportsPage = () => {
                 />
                 <Input
                   type="select"
-                  label="Report"
+                  label="Stakeholder"
                   placeholder="Select Type"
-                  value={filter.report}
-                  onValue={(report) => setFilter({ ...filter, report })}
+                  value={filter.stakeholder}
+                  onValue={(stakeholder) =>
+                    setFilter({ ...filter, stakeholder })
+                  }
                 />
                 <Input
                   type="select"
-                  label="Location"
-                  placeholder="Select Location"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
+                  label="Language"
+                  placeholder="Select Language"
+                  value={filter.language}
+                  onValue={(language) => setFilter({ ...filter, language })}
                 />
                 <Input
                   type="select"
@@ -166,33 +174,16 @@ const ReportsPage = () => {
                   onValue={(platform) => setFilter({ ...filter, platform })}
                 />
                 <Input
-                  type="select"
-                  label="Promotion Type"
-                  placeholder="Select Promotion Team"
-                  value={filter.promotionType}
-                  onValue={(promotionType) =>
-                    setFilter({ ...filter, promotionType })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Numbers of Ifluencer"
-                  value={filter.numberOfIfluencers}
-                  onValue={(numberOfIfluencers) =>
-                    setFilter({ ...filter, numberOfIfluencers })
-                  }
-                />
-                <Input
                   type="date"
-                  label="Start"
-                  placeholder="Select Start Date"
+                  label="Start Date"
+                  placeholder="Start"
                   value={filter.startDate}
                   onValue={(startDate) => setFilter({ ...filter, startDate })}
                 />
                 <Input
                   type="date"
-                  label="End"
-                  placeholder="Select End Date"
+                  label="End Date"
+                  placeholder="Start"
                   value={filter.endDate}
                   onValue={(endDate) => setFilter({ ...filter, endDate })}
                 />
@@ -211,7 +202,7 @@ const ReportsPage = () => {
                   onValue={(lable) => setFilter({ ...filter, lable })}
                 />
               </Grid>
-              <ReportsPageFilterActions direction="horizontal">
+              <SmlPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
                 </Button>
@@ -222,40 +213,43 @@ const ReportsPage = () => {
                 >
                   Clear filter
                 </Button>
-              </ReportsPageFilterActions>
-            </ReportsPageFilter>
+              </SmlPageFilterActions>
+            </SmlPageFilter>
           </Collapse>
           <Tabs
-            tabs={[
-              'To Be Created',
-              'To Be Sent',
-              'Awaiting Feedback',
-              'Approved',
-            ]}
+            tabs={['To Be Created', 'Finished', 'Delivered', 'Canceled']}
             value={tabsValue}
             onValue={setTabsValue}
           />
           <Table
             head={[
               {
-                reference: 'campaign',
-                label: 'Campaign',
+                reference: 'client',
+                label: 'Client',
               },
               {
-                reference: 'type',
-                label: 'Type',
+                reference: 'diseaseArea',
+                label: 'Disease Area',
               },
               {
-                reference: 'date',
-                label: 'Date',
+                reference: 'platform',
+                label: 'Platform',
               },
               {
-                reference: 'influencers',
-                label: 'Influencers',
+                reference: 'stakeholder',
+                label: 'Stakeholder',
               },
               {
-                reference: 'price',
-                label: 'Price',
+                reference: 'period',
+                label: 'Period',
+              },
+              {
+                reference: 'subscription',
+                label: 'Subscription',
+              },
+              {
+                reference: 'status',
+                label: 'Status',
               },
               {
                 reference: 'actions',
@@ -269,10 +263,13 @@ const ReportsPage = () => {
           <Pagination count={32} />
         </Stack>
       </CardWithText>
-      {erModal && <ExportReportsModal onClose={closeErModal} />}
-      {crModal && <CreateReportsModal onClose={closeCrModal} />}
-    </ReportsPageMain>
+      {esModal && <ExportSmlModal onClose={closeEsModal} />}
+      {csModal && <CreateSmlModal onClose={closeCsModal} />}
+      {osModal && <OrderSmlModal onClose={closeOsModal} />}
+      {cstModal && <CreateSmlTabsModal onClose={closeCstModal} />}
+      {csfModal && <CreateSmlFinal onClose={closeCsfModal} />}
+    </SmlPageMain>
   );
 };
 
-export default ReportsPage;
+export default SmlPage;
