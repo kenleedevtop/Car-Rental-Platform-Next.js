@@ -6,3 +6,6 @@ export { default as SearchPage } from 'features/search';
 export { default as CampaignsPage } from 'features/campaigns';
 export { default as HomePage } from 'features/home';
 export { default as ReportsPage } from 'features/reports';
+export { default as SmlPage } from 'features/sml';
+export { default as SurveysPage } from 'features/surveys';
+export { default as FinancePage } from 'features/finance';

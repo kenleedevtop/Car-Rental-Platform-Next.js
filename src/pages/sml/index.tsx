@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
+import { SmlPage } from 'features';
 
 const SML = () => {
   const { setRouteName } = useAppContext();
@@ -12,7 +13,7 @@ const SML = () => {
   return (
     <>
       <Title>SML</Title>
-      SML
+      <SmlPage />
     </>
   );
 };
