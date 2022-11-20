@@ -108,7 +108,12 @@ const Input = ({
             inputFormat="MM/DD/YYYY"
             value={value}
             onChange={handleDate}
-            renderInput={(params) => <InputText {...params} />}
+            renderInput={({ inputProps, ...params }) => (
+              <InputText
+                {...params}
+                inputProps={{ ...inputProps, placeholder }}
+              />
+            )}
           />
         </LocalizationProvider>
       )}

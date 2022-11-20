@@ -5,3 +5,4 @@ export { default as ClientsPage } from 'features/clients';
 export { default as SearchPage } from 'features/search';
 export { default as CampaignsPage } from 'features/campaigns';
 export { default as HomePage } from 'features/home';
+export { default as ReportsPage } from 'features/reports';
