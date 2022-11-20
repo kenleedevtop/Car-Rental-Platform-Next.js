@@ -13,7 +13,8 @@
     "check-format": "prettier --check .",
     "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "format": "prettier --write .",
-    "test-all": "npm run check-format && npm run check-lint && npm run check-types && npm run build"
+    "test-all": "npm run check-format && npm run check-lint && npm run check-types && npm run build",
+    "cloc": "cloc --exclude-dir=node_modules,.next ."
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",
@@ -47,6 +48,7 @@
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "babel-plugin-module-resolver": "^4.1.0",
+    "cloc": "^2.10.0",
     "eslint": "^8.27.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "^13.0.2",
