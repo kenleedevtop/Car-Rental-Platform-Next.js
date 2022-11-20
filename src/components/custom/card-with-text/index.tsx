@@ -17,7 +17,7 @@ const Card = ({
   children,
   ...props
 }: TCardWithTextProps) => (
-  <CardMain {...props}>
+  <CardMain animation="zoom-in" {...props}>
     <CardHead>
       <CardText>
         <CardTitle>{title}</CardTitle>

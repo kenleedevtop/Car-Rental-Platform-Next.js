@@ -8,6 +8,7 @@ import {
   TableBodyCell,
   TableHeadRow,
   TableBodyRow,
+  TableEmpty,
 } from 'components/custom/table/styles';
 import { TTableProps, TTableHeadItem } from 'components/custom/table/types';
 import getObjectDynamicPath from 'utilities/extended-proto/index';
@@ -15,7 +16,7 @@ import getObjectDynamicPath from 'utilities/extended-proto/index';
 const Table = ({
   head = [],
   items = [],
-  renderItem = (_a, b, _c, _d) => b,
+  renderItem = (_b) => {},
 }: TTableProps) => (
   <TableWrapper>
     <TableMain>
@@ -32,18 +33,18 @@ const Table = ({
             <TableBodyRow>
               {head.map((a: TTableHeadItem, b: number) => (
                 <TableBodyCell>
-                  {renderItem(
-                    a,
-                    {
+                  {renderItem({
+                    headItem: a,
+                    cell: {
                       index: b,
                       data: getObjectDynamicPath(x, a.reference),
                     },
-                    {
+                    row: {
                       index: y,
                       data: x,
                     },
-                    items
-                  )}
+                    table: items,
+                  })}
                 </TableBodyCell>
               ))}
             </TableBodyRow>
@@ -51,6 +52,7 @@ const Table = ({
         </TableBody>
       )}
     </TableMain>
+    {!items.length && <TableEmpty>No records</TableEmpty>}
   </TableWrapper>
 );
 

@@ -22,7 +22,7 @@ const CardWithChart = ({
   chartData,
   ...props
 }: TCardWithChartProps) => (
-  <CardWithChartMain {...props}>
+  <CardWithChartMain animation="zoom-in" {...props}>
     <CardWithChartText>
       <CardWithChartIcon>{icon}</CardWithChartIcon>
       <CardWithChartTitle>{title}</CardWithChartTitle>

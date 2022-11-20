@@ -5,6 +5,7 @@ import {
   DashboardLayoutBox,
   DashboardLayoutSidebar,
   DashboardLayoutContainer,
+  DashboardLayoutContainerOuter,
   DashboardLayoutContent,
   DashboardLayoutWidgets,
 } from 'layouts/dashboard/styles';
@@ -16,13 +17,15 @@ const DashboardLayout = ({ children, ...props }: TDashboardLayoutProps) => (
     <DashboardLayoutNavbar />
     <DashboardLayoutBox>
       <DashboardLayoutSidebar />
-      <DashboardLayoutContainer>
-        <DashboardLayoutContent>{children}</DashboardLayoutContent>
-        <DashboardLayoutWidgets>
-          <CalendarCard />
-          <NotificationsCard />
-        </DashboardLayoutWidgets>
-      </DashboardLayoutContainer>
+      <DashboardLayoutContainerOuter>
+        <DashboardLayoutContainer>
+          <DashboardLayoutContent>{children}</DashboardLayoutContent>
+          <DashboardLayoutWidgets>
+            <CalendarCard />
+            <NotificationsCard />
+          </DashboardLayoutWidgets>
+        </DashboardLayoutContainer>
+      </DashboardLayoutContainerOuter>
     </DashboardLayoutBox>
   </DashboardLayoutMain>
 );

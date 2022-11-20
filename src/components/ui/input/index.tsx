@@ -23,6 +23,8 @@ const Input = ({
   max,
   options = [],
   placeholder,
+  multiline,
+  rows = 4,
 }: TInputProps) => {
   const handleValue = (e: React.ChangeEvent<any>) => {
     if (onValue) onValue(e.target.value);
@@ -51,6 +53,8 @@ const Input = ({
           value={value}
           onChange={handleValue}
           placeholder={placeholder}
+          multiline={multiline}
+          rows={rows}
         />
       )}
       {type === 'number' && (
@@ -60,6 +64,8 @@ const Input = ({
           onChange={handleValue}
           inputProps={{ min, max }}
           placeholder={placeholder}
+          multiline={multiline}
+          rows={rows}
         />
       )}
       {type === 'min-max' && (
@@ -70,6 +76,8 @@ const Input = ({
             onChange={handleMinMax('min')}
             inputProps={{ max: value.max }}
             placeholder="Min"
+            multiline={multiline}
+            rows={rows}
           />
           <InputText
             type="number"
@@ -77,6 +85,8 @@ const Input = ({
             onChange={handleMinMax('max')}
             inputProps={{ min: value.min }}
             placeholder="Max"
+            multiline={multiline}
+            rows={rows}
           />
         </InputRow>
       )}

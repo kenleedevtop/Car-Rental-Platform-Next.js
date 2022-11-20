@@ -17,8 +17,25 @@ import { Button, Input } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import { DGenerateDiscoverInfluencersFilter } from 'features/discover-influencers/data';
+import {
+  AddInfluencerModal,
+  ContactInfluencerModal,
+  DeleteInfluencerModal,
+  ExportInfluencersModal,
+  NotificationsSettingsModal,
+  ScheduleInfluencerModal,
+} from 'features/discover-influencers/elements';
+import { useModal } from 'hooks';
 
 const DiscoverInfluencersPage = () => {
+  // Modals
+  const [aiModal, openAiModal, closeAiModal] = useModal(false);
+  const [eModal, openEModal, closeEModal] = useModal(false);
+  const [diModal, openDiModal, closeDiModal] = useModal(false);
+  const [ciModal, openCiModal, closeCiModal] = useModal(false);
+  const [siModal, openSiModal, closeSiModal] = useModal(false);
+  const [nsModal, openNsModal, closeNsModal] = useModal(false);
+
   const [filter, setFilter] = useState<any>(
     DGenerateDiscoverInfluencersFilter()
   );
@@ -85,10 +102,10 @@ const DiscoverInfluencersPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained">
+          <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={openAiModal}>
             Add Influencer
           </Button>,
         ]}
@@ -167,9 +184,29 @@ const DiscoverInfluencersPage = () => {
               </DiscoverInfluencersPageFilterActions>
             </DiscoverInfluencersPageFilter>
           </Collapse>
-          <div>Test</div>
+          <Stack direction="horizontal">
+            <Button color="primary" variant="contained" onClick={openDiModal}>
+              Delete Influencer
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCiModal}>
+              Contact Influencer
+            </Button>
+            <Button color="primary" variant="contained" onClick={openSiModal}>
+              Schedule Influencer
+            </Button>
+            <Button color="primary" variant="contained" onClick={openNsModal}>
+              Notifications Settings
+            </Button>
+          </Stack>
         </Stack>
       </CardWithText>
+
+      {aiModal && <AddInfluencerModal onClose={closeAiModal} />}
+      {eModal && <ExportInfluencersModal onClose={closeEModal} />}
+      {diModal && <DeleteInfluencerModal onClose={closeDiModal} />}
+      {ciModal && <ContactInfluencerModal onClose={closeCiModal} />}
+      {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
+      {nsModal && <NotificationsSettingsModal onClose={closeNsModal} />}
     </DiscoverInfluencersPageMain>
   );
 };

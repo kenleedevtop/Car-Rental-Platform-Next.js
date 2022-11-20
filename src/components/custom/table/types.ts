@@ -18,14 +18,16 @@ export type TTableRowData = {
   data: any;
 };
 
+export type TTableRenderItemObject = {
+  headItem: TTableHeadItem;
+  cell: TTableColumnData;
+  row: TTableRowData;
+  table: Array<any>;
+};
+
 export type TTableProps = React.HTMLAttributes<HTMLDivElement> & {
   head: Array<TTableHeadItem>;
   items: Array<any>;
-  renderItem: (
-    a: TTableHeadItem,
-    b: TTableColumnData,
-    c: TTableRowData,
-    d: Array<any>
-  ) => void;
+  renderItem: (x: TTableRenderItemObject) => any;
   emptyActions?: Array<ReactNode>;
 };

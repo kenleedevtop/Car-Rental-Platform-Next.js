@@ -7,13 +7,18 @@ import {
 import { TSearchProps } from 'components/ui/search/types';
 import { SearchIcon as SearchSvg } from 'components/svg';
 
-const Search = ({ placeholder, onClick, ...props }: TSearchProps) => {
+const Search = ({
+  placeholder,
+  onClick,
+  value,
+  onValue,
+  onEnter,
+  ...props
+}: TSearchProps) => {
   const searchRef = useRef<null | HTMLInputElement>(null);
 
-  const [state, setState] = useState<any>(null);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState(e.target.value);
+    if (onValue) onValue(e.target.value);
   };
 
   const handleFocus = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -23,6 +28,12 @@ const Search = ({ placeholder, onClick, ...props }: TSearchProps) => {
     if (onClick) onClick(e);
   };
 
+  const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && onEnter) {
+      onEnter();
+    }
+  };
+
   return (
     <SearchMain onClick={handleFocus} {...props}>
       <SearchIcon>
@@ -30,10 +41,11 @@ const Search = ({ placeholder, onClick, ...props }: TSearchProps) => {
       </SearchIcon>
       <SearchInput
         placeholder={placeholder}
-        value={state}
+        value={value}
         onChange={handleChange}
         ref={searchRef}
         onClick={(e) => e.stopPropagation()}
+        onKeyDown={handleKey}
       />
     </SearchMain>
   );

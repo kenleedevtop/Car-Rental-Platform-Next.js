@@ -1,6 +1,6 @@
-import React from 'react';
+import { TabProps } from '@mui/material';
 
-export type TTabsProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TTabsProps = TabProps & {
   tabs: Array<string>;
   value: number;
   onValue: (v: number) => void;

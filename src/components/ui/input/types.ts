@@ -13,4 +13,6 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   min?: number;
   max?: number;
   options?: Array<TInputPropsOption>;
+  multiline?: boolean;
+  rows?: number;
 };

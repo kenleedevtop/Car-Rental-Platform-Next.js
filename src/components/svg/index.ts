@@ -23,3 +23,4 @@ export { default as IdentifiedIcon } from 'components/svg/identified';
 export { default as ContactedIcon } from 'components/svg/contacted';
 export { default as RegisteredIcon } from 'components/svg/registered';
 export { default as TotalIcon } from 'components/svg/total';
+export { default as RedCrossIcon } from 'components/svg/red-cross';
