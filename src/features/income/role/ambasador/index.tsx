@@ -11,7 +11,13 @@ import {
 
 import { DGenerateIncomeFilter } from 'features/income/role/ambasador/data';
 
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  IconWithText,
+  Table,
+  Tabs,
+} from 'components/custom';
 import {
   ContactedIcon,
   IdentifiedIcon,
@@ -22,9 +28,10 @@ import {
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Card, Input, Pagination } from 'components/ui';
-import { Collapse, Grid, Stack } from 'components/system';
+import { Collapse, Grid, GridCell, Stack } from 'components/system';
 import { useModal } from 'hooks';
 import { ExportIncomeModal } from 'features/income/role/ambasador/elements';
+import Note from 'components/custom/note';
 
 const IncomePage = () => {
   const [tab, setTab] = useState(0);
@@ -205,95 +212,101 @@ const IncomePage = () => {
           </CardWithText>
         ) : (
           <Card>
-            <Stack direction="horizontal">
+            <Grid columns={1}>
               <Stack>
-                <Stack direction="horizontal">
-                  <Input
-                    type="text"
-                    label="First Name"
-                    placeholder="John"
-                    value={filter.firstName}
-                    onValue={(firstName) => setFilter({ ...filter, firstName })}
-                  />
-                  <Input
-                    type="text"
-                    label="Last Name"
-                    placeholder="Doe"
-                    value={filter.lastName}
-                    onValue={(lastName) => setFilter({ ...filter, lastName })}
-                  />
-                </Stack>
-                <Input
-                  type="text"
-                  label="Bank Name"
-                  placeholder="Bank of America"
-                  value={filter.bankName}
-                  onValue={(bankName) => setFilter({ ...filter, bankName })}
-                />
-                <Input
-                  type="text"
-                  label="Bank Address"
-                  placeholder="St 6 Ft. Honey Park, NYC 1000001"
-                  value={filter.bankAddress}
-                  onValue={(bankAddress) =>
-                    setFilter({ ...filter, bankAddress })
-                  }
-                />
-                <Input
-                  type="text"
-                  label="IBAN"
-                  placeholder="7895516485489487"
-                  value={filter.iban}
-                  onValue={(iban) => setFilter({ ...filter, iban })}
+                <Grid columns={4}>
+                  <GridCell columnSpan={2} style={{ paddingRight: '100px' }}>
+                    <Stack>
+                      <Stack direction="horizontal">
+                        <Input
+                          type="text"
+                          label="First Name"
+                          placeholder="John"
+                          value={filter.firstName}
+                          onValue={(firstName) =>
+                            setFilter({ ...filter, firstName })
+                          }
+                        />
+                        <Input
+                          type="text"
+                          label="Last Name"
+                          placeholder="Doe"
+                          value={filter.lastName}
+                          onValue={(lastName) =>
+                            setFilter({ ...filter, lastName })
+                          }
+                        />
+                      </Stack>
+                      <Input
+                        type="text"
+                        label="Bank Name"
+                        placeholder="Bank of America"
+                        value={filter.bankName}
+                        onValue={(bankName) =>
+                          setFilter({ ...filter, bankName })
+                        }
+                      />
+                      <Input
+                        type="text"
+                        label="Bank Address"
+                        placeholder="St 6 Ft. Honey Park, NYC 1000001"
+                        value={filter.bankAddress}
+                        onValue={(bankAddress) =>
+                          setFilter({ ...filter, bankAddress })
+                        }
+                      />
+                      <Input
+                        type="text"
+                        label="IBAN"
+                        placeholder="7895516485489487"
+                        value={filter.iban}
+                        onValue={(iban) => setFilter({ ...filter, iban })}
+                      />
+                    </Stack>
+                  </GridCell>
+                  <GridCell
+                    columnSpan={2}
+                    style={{
+                      borderLeft: '1px solid #E9F0FC',
+                      paddingLeft: '40px',
+                    }}
+                  >
+                    <Stack>
+                      <Input
+                        type="text"
+                        label="Enter Amount (Available amount is $499.00)"
+                        placeholder="420"
+                        value={filter.amountW}
+                        onValue={(amountW) => setFilter({ ...filter, amountW })}
+                      />
+                      <Note text="Currency conversion fee is 1.00%" />
+                      <Input
+                        type="text"
+                        label="Confirm Password"
+                        placeholder="Password"
+                        value={filter.password}
+                        onValue={(password) =>
+                          setFilter({ ...filter, password })
+                        }
+                      />
+                      <Note text="Enter your password to make sure it is really you." />
+                      <Button color="primary" variant="contained">
+                        Withdraw
+                      </Button>
+                    </Stack>
+                  </GridCell>
+                </Grid>
+                <IconWithText
+                  style={{ marginTop: '50px' }}
+                  icon={<HouseIcon />}
+                  title="Withdraw money with ease!"
+                  text={[
+                    "Withdraw money from your Patients Influence account to your nominated personal bank account with ease. Please bear in mind that depending on your location, local bank's working hours and speed, the deposit may take up to a few days to reflected in your bank account.",
+                    'For any additional questions, please feel free to contact us at any time.',
+                  ]}
                 />
               </Stack>
-              <Stack>
-                <Input
-                  type="text"
-                  label="Enter Amount (Available amount is $499.00)"
-                  placeholder="420"
-                  value={filter.amountW}
-                  onValue={(amountW) => setFilter({ ...filter, amountW })}
-                />
-                <Input
-                  type="text"
-                  label="Confirm Password"
-                  placeholder="Password"
-                  value={filter.password}
-                  onValue={(password) => setFilter({ ...filter, password })}
-                />
-                <Button color="primary" variant="contained">
-                  Withdraw
-                </Button>
-              </Stack>
-            </Stack>
-            <Stack
-              direction="horizontal"
-              style={{
-                margin: '100px 0',
-                display: 'flex',
-                alignItems: 'center',
-                color: '#7E839F',
-              }}
-            >
-              <IconBackground>
-                <HouseIcon />
-              </IconBackground>
-              <Stack>
-                <h2>Withdraw money with ease!</h2>
-                <p>
-                  Withdraw money from your Patients Influence account to your
-                  nominated personal bank account with ease. Please bear in mind
-                  that depending on your location, local bank&apos;s working
-                  hours and speed, the deposit may take up to a few days to
-                  reflected in your bank account.
-                </p>
-                <p>
-                  For any additional questions, please feel free to contact us
-                  at any time.
-                </p>
-              </Stack>
-            </Stack>
+            </Grid>
           </Card>
         )}
       </Card>

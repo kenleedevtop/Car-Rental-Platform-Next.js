@@ -28,3 +28,4 @@ export { default as HouseIcon } from 'components/svg/house';
 export { default as LocationIcon } from 'components/svg/location';
 export { default as EnvelopeIcon } from 'components/svg/envelope';
 export { default as PhoneCallIcon } from 'components/svg/phone-call';
+export { default as InfoIcon } from 'components/svg/info';
