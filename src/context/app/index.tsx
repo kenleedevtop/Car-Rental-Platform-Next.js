@@ -2,9 +2,9 @@ import React, { createContext, useMemo, useContext, useState } from 'react';
 
 const AppContext = createContext({
   routeName: '',
-  role: 'admin',
+  role: 'ambasador',
   setRouteName: (_n: string) => {},
-  setRole: (_r: 'admin' | 'influencer' | 'client') => {},
+  setRole: (_r: 'admin' | 'influencer' | 'client' | 'ambasador') => {},
 });
 
 export const useAppContext = () => useContext(AppContext);
@@ -12,7 +12,7 @@ export const useAppContext = () => useContext(AppContext);
 const AppContextProvider = ({ ...props }) => {
   const [state, setState] = useState({
     routeName: '',
-    role: 'admin',
+    role: 'ambasador',
   });
 
   const setRouteName = (routeName: string) => {
