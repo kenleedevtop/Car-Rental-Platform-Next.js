@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
+import { HelpPage } from 'features';
 
 const Help = () => {
   const { setRouteName } = useAppContext();
@@ -12,7 +13,7 @@ const Help = () => {
   return (
     <>
       <Title>Help</Title>
-      Help
+      <HelpPage />
     </>
   );
 };
