@@ -11,4 +11,6 @@ export { default as SurveysPage } from 'features/surveys';
 export { default as FinancePage } from 'features/finance';
 
 export { default as IncomePage } from 'features/income/role/ambasador';
-export { default as HelpPage } from 'features/help/role/ambasador';
+export { default as HelpPage } from 'features/help';
+export { default as AccountPage } from 'features/account/role/ambasador';
+export { default as AmbasadorHomePage } from 'features/home/role/ambasador';

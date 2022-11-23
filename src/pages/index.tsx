@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { HomePage } from 'features';
+import { AmbasadorHomePage, HomePage } from 'features';
 
 const Home = () => {
-  const { setRouteName } = useAppContext();
+  const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Home');
@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <>
       <Title>Home</Title>
-      <HomePage />
+      {role === 'Admin' ? <HomePage /> : <AmbasadorHomePage />}
     </>
   );
 };

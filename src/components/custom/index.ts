@@ -10,3 +10,4 @@ export { default as NotificationsCard } from 'components/custom/notifications-ca
 export { default as CalendarCard } from 'components/custom/calendar-card';
 export { default as Tabs } from 'components/custom/tabs';
 export { default as Table } from 'components/custom/table';
+export { default as IconWithText } from 'components/custom/icon-with-text';
