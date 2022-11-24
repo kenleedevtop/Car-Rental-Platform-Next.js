@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
+import { InfluencerBenefitsPage } from 'features';
 
 const Benefits = () => {
-  const { setRouteName } = useAppContext();
+  const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Benefits');
@@ -12,7 +13,7 @@ const Benefits = () => {
   return (
     <>
       <Title>Benefits</Title>
-      Benefits
+      {role === 'influencer' && <InfluencerBenefitsPage />}
     </>
   );
 };

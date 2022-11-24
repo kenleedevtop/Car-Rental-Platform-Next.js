@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { CampaignsPage } from 'features';
+import {
+  AdminCampaignsPage,
+  ClientCampaignsPage,
+  InfluencerCampaignsPage,
+} from 'features';
 
 const Campaigns = () => {
-  const { setRouteName } = useAppContext();
+  const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Campaigns');
@@ -13,7 +17,9 @@ const Campaigns = () => {
   return (
     <>
       <Title>Campaigns</Title>
-      <CampaignsPage />
+      {role === 'admin' && <AdminCampaignsPage />}
+      {role === 'client' && <ClientCampaignsPage />}
+      {role === 'influencer' && <InfluencerCampaignsPage />}
     </>
   );
 };

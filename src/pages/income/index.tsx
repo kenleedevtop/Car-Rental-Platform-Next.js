@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { IncomePage } from 'features';
+import { InfluencerIncomePage, AmbasadorIncomePage } from 'features';
 
 const Income = () => {
-  const { setRouteName } = useAppContext();
+  const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Income');
@@ -13,7 +13,8 @@ const Income = () => {
   return (
     <>
       <Title>Income</Title>
-      <IncomePage />
+      {role === 'influencer' && <InfluencerIncomePage />}
+      {role === 'ambasador' && <AmbasadorIncomePage />}
     </>
   );
 };

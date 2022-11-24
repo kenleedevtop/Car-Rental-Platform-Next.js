@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { AmbasadorHomePage, HomePage } from 'features';
+import {
+  AdminHomePage,
+  ClientHomePage,
+  AmbasadorHomePage,
+  InfluencerHomePage,
+} from 'features';
 
 const Home = () => {
   const { role, setRouteName } = useAppContext();
@@ -13,7 +18,10 @@ const Home = () => {
   return (
     <>
       <Title>Home</Title>
-      {role === 'Admin' ? <HomePage /> : <AmbasadorHomePage />}
+      {role === 'admin' && <AdminHomePage />}
+      {role === 'client' && <ClientHomePage />}
+      {role === 'influencer' && <InfluencerHomePage />}
+      {role === 'ambasador' && <AmbasadorHomePage />}
     </>
   );
 };

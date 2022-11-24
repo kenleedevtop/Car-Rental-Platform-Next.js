@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { HelpPage } from 'features';
+import {
+  ClientHelpPage,
+  AmbasadorHelpPage,
+  InfluencerHelpPage,
+} from 'features';
 
 const Help = () => {
-  const { setRouteName } = useAppContext();
+  const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Help');
@@ -13,7 +17,9 @@ const Help = () => {
   return (
     <>
       <Title>Help</Title>
-      <HelpPage />
+      {role === 'client' && <ClientHelpPage />}
+      {role === 'ambasador' && <AmbasadorHelpPage />}
+      {role === 'influencer' && <InfluencerHelpPage />}
     </>
   );
 };
