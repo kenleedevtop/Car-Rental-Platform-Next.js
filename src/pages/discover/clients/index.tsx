@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { DiscoverClientsPage } from 'features';
+import { AdminDiscoverClientsPage } from 'features';
 
 const DiscoverClients = () => {
-  const { setRouteName } = useAppContext();
+  const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Discover Clients');
@@ -13,7 +13,7 @@ const DiscoverClients = () => {
   return (
     <>
       <Title>Discover Clients</Title>
-      <DiscoverClientsPage />
+      {role === 'admin' && <AdminDiscoverClientsPage />}
     </>
   );
 };

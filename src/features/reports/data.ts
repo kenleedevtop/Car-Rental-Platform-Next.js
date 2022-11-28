@@ -1,4 +1,6 @@
 export const DGenerateReportsFilter = () => ({
+  search: '',
+  product: null,
   company: null,
   client: null,
   report: null,
@@ -6,6 +8,7 @@ export const DGenerateReportsFilter = () => ({
   diseaseArea: null,
   platform: null,
   promotionType: null,
+  influencerSize: null,
   startDate: null,
   endDate: null,
   numberOfIfluencers: {

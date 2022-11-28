@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { SmlPage } from 'features';
+import { AdminSmlPage, ClientSmlPage } from 'features';
 
 const SML = () => {
-  const { setRouteName } = useAppContext();
+  const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('SML');
@@ -13,7 +13,8 @@ const SML = () => {
   return (
     <>
       <Title>SML</Title>
-      <SmlPage />
+      {role === 'admin' && <AdminSmlPage />}
+      {role === 'client' && <ClientSmlPage />}
     </>
   );
 };
