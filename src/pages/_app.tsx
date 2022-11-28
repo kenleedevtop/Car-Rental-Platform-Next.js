@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageLoader } from 'components/core';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
@@ -10,6 +10,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Theme from 'theme';
 import Head from 'next/head';
 import { AppContextProvider } from 'context';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 import {
   Chart as ChartJS,
@@ -53,26 +54,32 @@ const MyApp = ({
   Component,
   pageProps,
   emotionCache = clientSideEmotionCache,
-}: AppType) => (
-  <>
-    <Head>
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-      />
-    </Head>
-    <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={Theme}>
-        <CssBaseline />
-        <PageLoader />
-        <AppContextProvider>
-          <DashboardLayout>
-            <Component {...pageProps} />
-          </DashboardLayout>
-        </AppContextProvider>
-      </ThemeProvider>
-    </CacheProvider>
-  </>
-);
+}: AppType) => {
+  const [queryClient] = useState(() => new QueryClient());
+
+  return (
+    <>
+      <Head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+      </Head>
+      <QueryClientProvider client={queryClient}>
+        <CacheProvider value={emotionCache}>
+          <ThemeProvider theme={Theme}>
+            <CssBaseline />
+            <PageLoader />
+            <AppContextProvider>
+              <DashboardLayout>
+                <Component {...pageProps} />
+              </DashboardLayout>
+            </AppContextProvider>
+          </ThemeProvider>
+        </CacheProvider>
+      </QueryClientProvider>
+    </>
+  );
+};
 
 export default MyApp;

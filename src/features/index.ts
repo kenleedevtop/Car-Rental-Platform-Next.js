@@ -1,11 +1,65 @@
-export { default as DiscoverInfluencersPage } from 'features/discover-influencers';
-export { default as DiscoverClientsPage } from 'features/discover-clients';
-export { default as InfluencersPage } from 'features/influencers';
-export { default as ClientsPage } from 'features/clients';
+// Account
+export {
+  ClientAccountPage,
+  InfluencerAccountPage,
+  AmbasadorAccountPage,
+} from 'features/account';
+
+// Benefits
+export { InfluencerBenefitsPage } from 'features/benefits';
+
+// Campaigns
+export {
+  AdminCampaignsPage,
+  InfluencerCampaignsPage,
+  ClientCampaignsPage,
+} from 'features/campaigns';
+
+// Clients
+export { AdminClientsPage } from 'features/clients';
+
+// Discover Clients
+export { AdminDiscoverClientsPage } from 'features/discover-clients';
+
+// Discover Influencers
+export { AdminDiscoverInfluencersPage } from 'features/discover-influencers';
+
+// Finance
+export { AdminFinancePage } from 'features/finance';
+
+// Finance
+export {
+  ClientHelpPage,
+  InfluencerHelpPage,
+  AmbasadorHelpPage,
+} from 'features/help';
+
+// Home
+export {
+  AdminHomePage,
+  ClientHomePage,
+  InfluencerHomePage,
+  AmbasadorHomePage,
+} from 'features/home';
+
+// Income
+export { InfluencerIncomePage, AmbasadorIncomePage } from 'features/income';
+
+// Influencers
+export { AdminInfluencersPage } from 'features/influencers';
+
+// Reports
+export { AdminReportsPage, ClientReportsPage } from 'features/reports';
+
+// SML
+export { AdminSmlPage, ClientSmlPage } from 'features/sml';
+
+// Surveys
+export {
+  AdminSurveysPage,
+  ClientSurveysPage,
+  InfluencerSurveysPage,
+} from 'features/surveys';
+
+// Search
 export { default as SearchPage } from 'features/search';
-export { default as CampaignsPage } from 'features/campaigns';
-export { default as HomePage } from 'features/home';
-export { default as ReportsPage } from 'features/reports';
-export { default as SmlPage } from 'features/sml';
-export { default as SurveysPage } from 'features/surveys';
-export { default as FinancePage } from 'features/finance';

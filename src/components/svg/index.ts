@@ -24,3 +24,8 @@ export { default as ContactedIcon } from 'components/svg/contacted';
 export { default as RegisteredIcon } from 'components/svg/registered';
 export { default as TotalIcon } from 'components/svg/total';
 export { default as RedCrossIcon } from 'components/svg/red-cross';
+export { default as HouseIcon } from 'components/svg/house';
+export { default as LocationIcon } from 'components/svg/location';
+export { default as EnvelopeIcon } from 'components/svg/envelope';
+export { default as PhoneCallIcon } from 'components/svg/phone-call';
+export { default as InfoIcon } from 'components/svg/info';

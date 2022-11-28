@@ -22,7 +22,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <HomeIcon />,
     label: 'Home',
     location: '/',
-    roles: ['admin', 'influencer', 'client'],
+    roles: ['admin', 'influencer', 'client', 'ambasador'],
   },
   {
     id: 2,
@@ -89,7 +89,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <SurveyIcon />,
     label: 'Surveys',
     location: '/surveys',
-    roles: ['admin', 'client', 'influencer'],
+    roles: ['admin', 'influencer'],
   },
   {
     id: 9,
@@ -97,7 +97,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <FinanceIcon />,
     label: 'Income',
     location: '/income',
-    roles: ['influencer'],
+    roles: ['influencer', 'ambasador'],
   },
   {
     id: 10,
@@ -122,7 +122,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <HelpIcon />,
     label: 'Help',
     location: '/help',
-    roles: ['influencer', 'client'],
+    roles: ['influencer', 'client', 'ambasador'],
   },
   {
     id: 13,
@@ -130,6 +130,6 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <AccountIcon />,
     label: 'Account',
     location: '/account',
-    roles: ['influencer', 'client'],
+    roles: ['influencer', 'client', 'ambasador'],
   },
 ];

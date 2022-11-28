@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
+import {
+  ClientAccountPage,
+  AmbasadorAccountPage,
+  InfluencerAccountPage,
+} from 'features';
 
 const Account = () => {
-  const { setRouteName } = useAppContext();
+  const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Account');
@@ -12,7 +17,9 @@ const Account = () => {
   return (
     <>
       <Title>Account</Title>
-      Account
+      {role === 'client' && <ClientAccountPage />}
+      {role === 'ambasador' && <AmbasadorAccountPage />}
+      {role === 'influencer' && <InfluencerAccountPage />}
     </>
   );
 };
