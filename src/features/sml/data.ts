@@ -12,4 +12,6 @@ export const DGenerateSmlFilter = () => ({
     max: '',
   },
   lable: [],
+
+  report: '',
 });

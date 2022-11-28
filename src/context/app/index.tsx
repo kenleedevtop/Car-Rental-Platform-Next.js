@@ -12,7 +12,7 @@ export const useAppContext = () => useContext(AppContext);
 const AppContextProvider = ({ ...props }) => {
   const [state, setState] = useState({
     routeName: '',
-    role: 'admin',
+    role: 'client',
   });
 
   const setRouteName = (routeName: string) => {

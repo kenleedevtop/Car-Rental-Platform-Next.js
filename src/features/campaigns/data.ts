@@ -7,7 +7,14 @@ export const DGenerateCampaignsFilter = () => ({
   platform: null,
   promotionType: null,
   dataRange: null,
+  startDate: null,
+  endDate: null,
+  product: null,
   influencerSize: '',
+  numberOfIfluencers: {
+    min: '',
+    max: '',
+  },
   influencers: {
     min: '',
     max: '',
@@ -21,20 +28,16 @@ export const DGenerateCampaignsFilter = () => ({
 
 export const DCampaignsHead = [
   {
-    reference: 'campaign',
-    label: 'Campaign',
+    reference: 'campaignName',
+    label: 'Campaign name',
   },
   {
-    reference: 'client',
-    label: 'Client',
+    reference: 'product',
+    label: 'Product',
   },
   {
-    reference: 'diseaseArea',
-    label: 'Disease Area',
-  },
-  {
-    reference: 'market',
-    label: 'Market',
+    reference: 'platform',
+    label: 'Platform',
   },
   {
     reference: 'startAndFinish',
@@ -43,6 +46,10 @@ export const DCampaignsHead = [
   {
     reference: 'influencers',
     label: 'Influencers',
+  },
+  {
+    reference: 'report',
+    label: 'Report',
   },
   {
     reference: 'budget',

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Tab, Tabs, Theme } from '@mui/material';
+import { Tab, Tabs } from '@mui/material';
 
 export const TabsMain = styled(Tabs)``;
 
