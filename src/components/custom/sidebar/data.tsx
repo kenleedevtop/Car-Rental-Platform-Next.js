@@ -89,7 +89,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <SurveyIcon />,
     label: 'Surveys',
     location: '/surveys',
-    roles: ['admin', 'influencer'],
+    roles: ['admin'],
   },
   {
     id: 9,
