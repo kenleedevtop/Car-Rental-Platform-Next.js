@@ -29,3 +29,5 @@ export { default as LocationIcon } from 'components/svg/location';
 export { default as EnvelopeIcon } from 'components/svg/envelope';
 export { default as PhoneCallIcon } from 'components/svg/phone-call';
 export { default as InfoIcon } from 'components/svg/info';
+export { default as GramophoneIcon } from 'components/svg/gramophone';
+export { default as UserFocusIcon } from 'components/svg/userFocus';

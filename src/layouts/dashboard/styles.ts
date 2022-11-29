@@ -43,8 +43,10 @@ export const DashboardLayoutContainer = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const DashboardLayoutContent = styled.div`
-  width: 100%;
+export const DashboardLayoutContent = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+  width: calc(100% - 350px - ${theme.spacing(5)});
+  `}
 `;
 
 export const DashboardLayoutWidgets = styled.div<{ theme?: Theme }>`
