@@ -52,7 +52,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
             onEnter={handleEnter}
           />
         )}
-        {['client', 'ambasador', 'influencer'].includes(role) && (
+        {['ambasador', 'influencer'].includes(role) && (
           <NavigationBalance>Balance: $499.00</NavigationBalance>
         )}
         <NavigationProfileOuter>
