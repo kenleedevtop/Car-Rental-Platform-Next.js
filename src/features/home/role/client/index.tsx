@@ -22,7 +22,7 @@ import { faker } from '@faker-js/faker';
 const HomePage = () => (
   <HomePageMain>
     <HomePageCharts>
-      <HomePageChartsLabel>Campaign Overview</HomePageChartsLabel>
+      <HomePageChartsLabel>Campaigns Overview</HomePageChartsLabel>
       <HomePageChartsGrid columns={4}>
         <CardWithChart
           title="In preparation"
@@ -317,7 +317,7 @@ const HomePage = () => (
       </HomePageChartsGrid>
     </HomePageCharts>
     <HomePageCharts>
-      <HomePageChartsLabel>Social Media Listening Overview</HomePageChartsLabel>
+      <HomePageChartsLabel>Surveys Overview</HomePageChartsLabel>
       <HomePageChartsGrid columns={4}>
         <CardWithChart
           title="To Be Created"

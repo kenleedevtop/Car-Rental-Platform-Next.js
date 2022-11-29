@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 
-import { AccountMain, AccountSpan } from 'features/account/style';
+import {
+  AccountChange,
+  AccountMain,
+  AccountSpan,
+} from 'features/account/style';
 import { Grid, GridCell, Stack } from 'components/system';
 import { Input } from 'components/ui';
+import {
+  ChangeEmailModal,
+  ChangePasswordModal,
+} from 'features/account/role/client/elements';
+import { useModal } from 'hooks';
 
 const AccountPage = ({ ...props }) => {
   const [filter, setFilter] = useState({
@@ -16,6 +25,9 @@ const AccountPage = ({ ...props }) => {
     password: '',
     colleagues: [],
   });
+
+  const [ceModal, openCeModal, closeCeModal] = useModal(false);
+  const [cpModal, openCpModal, closeCpModal] = useModal(false);
 
   return (
     <AccountMain {...props}>
@@ -70,22 +82,26 @@ const AccountPage = ({ ...props }) => {
                 onValue={(markets) => setFilter({ ...filter, markets })}
               />
             </Grid>
-            <Input
-              type="text"
-              label="Email"
-              placeholder="johndoe@gmail.com"
-              value={filter.email}
-              onValue={(email) => setFilter({ ...filter, email })}
-            />
-            <AccountSpan>Change Email</AccountSpan>
-            <Input
-              type="text"
-              label="Password"
-              placeholder="**********"
-              value={filter.password}
-              onValue={(password) => setFilter({ ...filter, password })}
-            />
-            <AccountSpan>Change Password</AccountSpan>
+            <AccountChange>
+              <Input
+                type="text"
+                label="Email"
+                placeholder="johndoe@gmail.com"
+                value={filter.email}
+                onValue={(email) => setFilter({ ...filter, email })}
+              />
+              <AccountSpan onClick={openCeModal}>Change Email</AccountSpan>
+            </AccountChange>
+            <AccountChange>
+              <Input
+                type="text"
+                label="Password"
+                placeholder="**********"
+                value={filter.password}
+                onValue={(password) => setFilter({ ...filter, password })}
+              />
+              <AccountSpan onClick={openCpModal}>Change Password</AccountSpan>
+            </AccountChange>
             <Input
               type="multiselect"
               label="Add Colleagues"
@@ -96,6 +112,8 @@ const AccountPage = ({ ...props }) => {
           </Stack>
         </GridCell>
       </Grid>
+      {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
+      {cpModal && <ChangePasswordModal onClose={closeCpModal} />}
     </AccountMain>
   );
 };
