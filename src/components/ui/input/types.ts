@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 export type TInputPropsOption = {
   value: string | number | boolean;
@@ -15,4 +15,6 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   options?: Array<TInputPropsOption>;
   multiline?: boolean;
   rows?: number;
+  required?: boolean;
+  helper?: string | ReactNode;
 };

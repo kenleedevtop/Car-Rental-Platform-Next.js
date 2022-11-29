@@ -23,6 +23,8 @@ const Input = ({
   options = [],
   placeholder,
   multiline,
+  required,
+  helper,
   rows = 4,
 }: TInputProps) => {
   const handleValue = (e: React.ChangeEvent<any>) => {
@@ -45,7 +47,9 @@ const Input = ({
 
   return (
     <InputMain variant="outlined" fullWidth>
-      <InputLabel>{label}</InputLabel>
+      <InputLabel required={required} helper={helper}>
+        {label}
+      </InputLabel>
       {type === 'text' && (
         <InputText
           type="text"

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { TCheckboxColor, TCheckboxSize } from 'components/ui/checkbox/types';
 import { CheckIcon } from 'components/svg';
+import { Label } from 'components/ui';
 
 const sizes = {
   small: 14,
@@ -62,7 +63,7 @@ export const CheckboxInput = styled.input<{
   `}
 `;
 
-export const CheckboxLabel = styled.div<{ theme?: Theme }>`
+export const CheckboxLabel = styled(Label)<{ theme?: Theme }>`
   ${({ theme }) => `
       font-size: 14px;
       color: ${theme.palette.common.gray[8]};
