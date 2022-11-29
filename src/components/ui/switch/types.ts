@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 export type TSwitchColor =
   | 'primary'
@@ -14,4 +14,6 @@ export type TSwitchProps = React.HTMLAttributes<HTMLDivElement> & {
   onValue?: (v: boolean) => void;
   label?: string;
   color?: TSwitchColor;
+  required?: boolean;
+  helper?: string | ReactNode;
 };

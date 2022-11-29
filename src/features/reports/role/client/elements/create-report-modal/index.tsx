@@ -37,18 +37,18 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
           onValue={(reportType) => setState({ ...state, reportType })}
         />
         <br />
-        <Switch label="Reach" />
-        <Switch label="Cost per Target" />
-        <Switch label="Number of Likes" />
-        <Switch label="Cost per Click" />
-        <Switch label="Number of Comments" />
-        <Switch label="Overlap" />
-        <Switch label="Website Clicks" />
-        <Switch label="Brand Mentions" />
-        <Switch label="Engagement" />
-        <Switch label="New Followers" />
-        <Switch label="Comments" />
-        <Switch label="Social Media Listening" />
+        <Switch label="Reach" helper="?" />
+        <Switch label="Cost per Target" helper="?" />
+        <Switch label="Number of Likes" helper="?" />
+        <Switch label="Cost per Click" helper="?" />
+        <Switch label="Number of Comments" helper="?" />
+        <Switch label="Overlap" helper="?" />
+        <Switch label="Website Clicks" helper="?" />
+        <Switch label="Brand Mentions" helper="?" />
+        <Switch label="Engagement" helper="?" />
+        <Switch label="New Followers" helper="?" />
+        <Switch label="Comments" helper="?" />
+        <Switch label="Social Media Listening" helper="?" />
         <GridCell columnSpan={2}>
           <Input
             type="text"

@@ -7,6 +7,7 @@ import {
   Autocomplete,
 } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { Label } from 'components/ui';
 
 export const InputMain = styled(FormControl)<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -34,11 +35,8 @@ export const InputMain = styled(FormControl)<{ theme?: Theme }>`
   `}
 `;
 
-export const InputLabel = styled.div<{ theme?: Theme }>`
+export const InputLabel = styled(Label)<{ theme?: Theme }>`
   ${({ theme }) => `
-    color: ${theme.palette.common.gray[8]};
-    font-weight: 500;
-    font-size: 14px;
     margin-bottom: ${theme.spacing(0.5)};
   `}
 `;

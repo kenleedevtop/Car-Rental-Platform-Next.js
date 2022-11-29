@@ -12,6 +12,8 @@ const Switch = ({
   label,
   value,
   onValue,
+  required,
+  helper,
   ...props
 }: TSwitchProps) => {
   const switchRef = useRef<null | HTMLInputElement>(null);
@@ -37,7 +39,11 @@ const Switch = ({
         color={color}
       />
       <SwitchDisplay color={color} onClick={handleClick} />
-      {!!label && <SwitchLabel onClick={handleClick}>{label}</SwitchLabel>}
+      {!!label && (
+        <SwitchLabel onClick={handleClick} required={required} helper={helper}>
+          {label}
+        </SwitchLabel>
+      )}
     </SwitchMain>
   );
 };

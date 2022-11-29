@@ -1,3 +1,4 @@
+export { default as Label } from 'components/ui/label';
 export { default as Button } from 'components/ui/button';
 export { default as Search } from 'components/ui/search';
 export { default as Image } from 'components/ui/image';

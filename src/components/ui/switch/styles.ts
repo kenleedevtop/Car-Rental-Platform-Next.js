@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { TSwitchColor } from 'components/ui/switch/types';
+import { Label } from 'components/ui';
 
 export const SwitchMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -10,7 +11,7 @@ export const SwitchMain = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const SwitchLabel = styled.div<{ theme?: Theme }>`
+export const SwitchLabel = styled(Label)<{ theme?: Theme }>`
   ${({ theme }) => `
       font-size: 14px;
       color: ${theme.palette.common.gray[8]};
