@@ -17,7 +17,6 @@ const BarChart = ({
   const generatedData = HChartDataGenerate({
     labels,
     data,
-    negative: false,
   });
 
   const generatedOptions: any = HChartOptionsGenerate({
