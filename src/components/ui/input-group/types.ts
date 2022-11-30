@@ -1,20 +1,22 @@
 import React, { ReactNode } from 'react';
+import { TInputPropsOption } from 'components/ui/input/types';
 
-export type TInputPropsOption = {
-  value: string | number | boolean;
-  label: string;
-};
-
-export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TInputGroupElement = {
   type: 'select' | 'text' | 'number' | 'multiselect' | 'date' | 'min-max';
   value: any;
   onValue: (v: any) => void;
-  label?: string;
   min?: number;
   max?: number;
   options?: Array<TInputPropsOption>;
   multiline?: boolean;
   rows?: number;
+  placeholder?: string;
+};
+
+export type TInputGroupProps = React.HTMLAttributes<HTMLInputElement> & {
+  label: string;
   required?: boolean;
   helper?: string | ReactNode;
+  inputRatio: string;
+  elements: Array<TInputGroupElement>;
 };

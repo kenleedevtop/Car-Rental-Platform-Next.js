@@ -26,6 +26,7 @@ const Input = ({
   required,
   helper,
   rows = 4,
+  ...props
 }: TInputProps) => {
   const handleValue = (e: React.ChangeEvent<any>) => {
     if (onValue) onValue(e.target.value);
@@ -46,10 +47,12 @@ const Input = ({
   const [search, setSearch] = useState('');
 
   return (
-    <InputMain variant="outlined" fullWidth>
-      <InputLabel required={required} helper={helper}>
-        {label}
-      </InputLabel>
+    <InputMain {...props}>
+      {!!label && (
+        <InputLabel required={required} helper={helper}>
+          {label}
+        </InputLabel>
+      )}
       {type === 'text' && (
         <InputText
           type="text"
@@ -58,6 +61,7 @@ const Input = ({
           placeholder={placeholder}
           multiline={multiline}
           rows={rows}
+          variant="outlined"
         />
       )}
       {type === 'number' && (
@@ -69,6 +73,7 @@ const Input = ({
           placeholder={placeholder}
           multiline={multiline}
           rows={rows}
+          variant="outlined"
         />
       )}
       {type === 'min-max' && (
@@ -81,6 +86,7 @@ const Input = ({
             placeholder="Min"
             multiline={multiline}
             rows={rows}
+            variant="outlined"
           />
           <InputText
             type="number"
@@ -90,6 +96,7 @@ const Input = ({
             placeholder="Max"
             multiline={multiline}
             rows={rows}
+            variant="outlined"
           />
         </InputRow>
       )}
@@ -114,6 +121,7 @@ const Input = ({
             renderInput={({ inputProps, ...params }) => (
               <InputText
                 {...params}
+                variant="outlined"
                 inputProps={{ ...inputProps, placeholder }}
               />
             )}
