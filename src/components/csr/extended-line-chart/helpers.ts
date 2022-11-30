@@ -29,6 +29,11 @@ export const HChartOptionsGenerate = ({
   resizeDelay: 0,
   responsive: true,
   maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      display: false,
+    },
+  },
   layout: {
     padding: {
       left: verticalLabel ? 0 : -10,
