@@ -13,10 +13,8 @@ export const HChartDataGenerate = ({
       label: 'Value',
       data,
       fill: 'start',
-      backgroundColor: `${Theme.palette.secondary.main}40`,
-      hoverBackgroundColor: `${Theme.palette.primary.main}c0`,
-      borderRadius: 4,
-      borderSkipped: false,
+      backgroundColor: `${Theme.palette.secondary.main}20`,
+      borderColor: Theme.palette.primary.main,
     },
   ],
 });
@@ -37,9 +35,21 @@ export const HChartOptionsGenerate = ({
       bottom: horizontalLabel ? 0 : 'auto',
     },
   },
+  elements: {
+    line: {
+      tension: 0.25,
+      borderWidth: 1,
+    },
+    point: {
+      radius: 0,
+    },
+  },
   scales: {
     x: {
       grid: {
+        display: false,
+      },
+      ticks: {
         display: false,
       },
       title: {
