@@ -1,3 +1,5 @@
+export { default as ProgressDisplay } from 'components/custom/progress-display';
+export { default as Note } from 'components/custom/note';
 export { default as HighlightedText } from 'components/custom/highlighted-text';
 export { default as Menu } from 'components/custom/menu';
 export { default as Modal } from 'components/custom/modal';
