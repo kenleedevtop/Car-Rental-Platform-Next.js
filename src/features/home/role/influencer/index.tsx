@@ -1,5 +1,5 @@
 import { BarChart, ExtendedLineChart, MatrixChart } from 'components/csr';
-import { CardWithText } from 'components/custom';
+import { CardWithText, Note, ProgressDisplay } from 'components/custom';
 import { InputGroup } from 'components/ui';
 import React, { useState } from 'react';
 
@@ -112,6 +112,13 @@ const HomePage = () => {
           verticalLabel="Number of Followers"
           horizontalLabel="Time"
         />
+      </div>
+      <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
+        <ProgressDisplay label="Patient community" percent={80} />
+        <Note>
+          Influencers with an audience your size, asks for{' '}
+          <span>21-25 USD</span> per <span>Post</span> on average.
+        </Note>
       </div>
     </CardWithText>
   );
