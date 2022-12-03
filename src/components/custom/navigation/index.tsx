@@ -14,7 +14,12 @@ import {
 } from 'components/custom/navigation/styles';
 import { TNavigationProps } from 'components/custom/navigation/types';
 import { useAppContext } from 'context';
-import { ArrowDownIcon, SearchIcon } from 'components/svg';
+import {
+  AccountIcon,
+  ArrowDownIcon,
+  LogoutIcon,
+  SearchIcon,
+} from 'components/svg';
 import { useMenu } from 'hooks';
 import { useRouter } from 'next/router';
 
@@ -69,14 +74,14 @@ const Navigation = ({ ...props }: TNavigationProps) => {
             <NavigationProfileDropdown
               items={[
                 {
-                  icon: <SearchIcon />,
+                  icon: <AccountIcon />,
                   label: 'Account',
                   action: () => {
                     handleMenu();
                   },
                 },
                 {
-                  icon: <SearchIcon />,
+                  icon: <LogoutIcon />,
                   label: 'Logout',
                   action: () => {
                     handleMenu();

@@ -15,3 +15,4 @@ export { default as Table } from 'components/custom/table';
 export { default as IconWithText } from 'components/custom/icon-with-text';
 export { default as Title } from 'components/custom/title';
 export { default as Stepper } from 'components/custom/stepper';
+export { default as Status } from 'components/custom/status';

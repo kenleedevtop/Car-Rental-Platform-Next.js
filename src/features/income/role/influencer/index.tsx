@@ -8,7 +8,7 @@ import {
   IncomePageFilterActions,
 } from 'features/income/styles';
 
-import { DGenerateIncomeFilter } from 'features/income/role/ambasador/data';
+import { DGenerateIncomeFilter } from 'features/income/role/influencer/data';
 
 import {
   CardWithChart,
@@ -23,7 +23,7 @@ import {
   UserFocusIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Card, Input, Pagination } from 'components/ui';
+import { Button, Card, Input, InputGroup, Pagination } from 'components/ui';
 import { Collapse, Grid, GridCell, Stack } from 'components/system';
 import { useModal } from 'hooks';
 import {
@@ -131,13 +131,23 @@ const IncomePage = () => {
                       value={filter.search}
                       onValue={(search) => setFilter({ ...filter, search })}
                     />
-                    <Input
-                      type="min-max"
+                    <InputGroup
                       label="Start & Finish"
-                      value={filter.startNFinishA}
-                      onValue={(startNFinishA) =>
-                        setFilter({ ...filter, startNFinishA })
-                      }
+                      inputRatio="200px 200px"
+                      elements={[
+                        {
+                          value: filter.start,
+                          onValue: (start) => setFilter({ ...filter, start }),
+                          type: 'date',
+                          placeholder: 'Start date',
+                        },
+                        {
+                          value: filter.end,
+                          onValue: (end) => setFilter({ ...filter, end }),
+                          type: 'date',
+                          placeholder: 'End date',
+                        },
+                      ]}
                     />
                     <Input
                       type="select"
@@ -231,13 +241,23 @@ const IncomePage = () => {
                         setFilter({ ...filter, searchForUser })
                       }
                     />
-                    <Input
-                      type="min-max"
+                    <InputGroup
                       label="Start & Finish"
-                      value={filter.startNFinishP}
-                      onValue={(startNFinishP) =>
-                        setFilter({ ...filter, startNFinishP })
-                      }
+                      inputRatio="200px 200px"
+                      elements={[
+                        {
+                          value: filter.startP,
+                          onValue: (startP) => setFilter({ ...filter, startP }),
+                          type: 'date',
+                          placeholder: 'Start date',
+                        },
+                        {
+                          value: filter.endP,
+                          onValue: (endP) => setFilter({ ...filter, endP }),
+                          type: 'date',
+                          placeholder: 'End date',
+                        },
+                      ]}
                     />
                     <Input
                       type="select"
@@ -353,16 +373,41 @@ const IncomePage = () => {
                     style={{
                       borderLeft: '1px solid #E9F0FC',
                       paddingLeft: '40px',
+                      paddingRight: '200px',
                     }}
                   >
                     <Stack>
-                      <Input
-                        type="text"
+                      <InputGroup
                         label="Enter Amount (Available amount is $499.00)"
-                        placeholder="420"
-                        value={filter.amountW}
-                        onValue={(amountW) => setFilter({ ...filter, amountW })}
+                        inputRatio="100px 1fr"
+                        elements={[
+                          {
+                            value: filter.currency,
+                            onValue: (currency) =>
+                              setFilter({ ...filter, currency }),
+                            type: 'select',
+                            placeholder: 'USD',
+                            options: [
+                              {
+                                value: 'eur',
+                                label: 'EUR',
+                              },
+                              {
+                                value: 'usd',
+                                label: 'USD',
+                              },
+                            ],
+                          },
+                          {
+                            value: filter.amountW,
+                            onValue: (amountW) =>
+                              setFilter({ ...filter, amountW }),
+                            type: 'text',
+                            placeholder: '420',
+                          },
+                        ]}
                       />
+
                       <Note>Currency conversion fee is 1.00%</Note>
                       <Input
                         type="text"

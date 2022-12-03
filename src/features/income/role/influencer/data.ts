@@ -9,10 +9,8 @@ export const DGenerateIncomeFilter = () => ({
   },
 
   searchForUser: '',
-  startNFinishP: {
-    min: '',
-    max: '',
-  },
+  startP: null,
+  endP: null,
   platform: null,
   amountP: {
     min: '',
