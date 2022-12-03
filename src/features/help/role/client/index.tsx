@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 
-import {
-  HelpPageMain,
-  HelpPageCard,
-  HelpPageCardHeader,
-} from 'features/help/styles';
-import { Button, Card, Input } from 'components/ui';
+import { HelpPageMain } from 'features/help/styles';
+import { Button, Input } from 'components/ui';
 import { IconWithText, Tabs } from 'components/custom';
-import { Collapse, Grid, GridCell, Stack } from 'components/system';
+import { Grid, GridCell, Stack } from 'components/system';
 import { ArrowDownIcon, EnvelopeIcon, PhoneCallIcon } from 'components/svg';
+import { HelpCollapse } from 'features/help/elements';
 
 const HelpPage = () => {
   const [tab, setTab] = useState(0);
@@ -19,112 +16,41 @@ const HelpPage = () => {
     message: '',
   });
 
-  const [help, setHelp] = useState(false);
-
-  const openHelp = () => {
-    setHelp(!help);
-  };
-
   return (
     <HelpPageMain>
       <Stack>
         <Tabs
           value={tab}
           onValue={setTab}
-          tabs={['Frequently Asked Questions', 'Contact us']}
+          tabs={['Contact us', 'Frequently Asked Questions']}
         />
-        {tab === 0 ? (
+        {tab === 1 ? (
           <Stack>
-            <HelpPageCard>
-              <Stack>
-                <HelpPageCardHeader onClick={openHelp}>
-                  <h2>How do I get paid?</h2>
-                  <ArrowDownIcon />
-                </HelpPageCardHeader>
-                <Collapse style={{ paddingRight: '150px' }} in={help}>
-                  When an unknown printer took a galley of type and scrambled it
-                  to make a type specimen book. It has survived not only five
-                  centuries, but also the leap into electronic typesetting,
-                  remaining essentially unchanged. It was popularised in the
-                  1960s with the release of Letraset sheets containing Lorem
-                  Ipsum passages, and more recently with desktop publishing
-                  software like Aldus PageMaker including versions of Lorem
-                  Ipsum.
-                </Collapse>
-              </Stack>
-            </HelpPageCard>
-            <HelpPageCard>
-              <Stack>
-                <HelpPageCardHeader onClick={openHelp}>
-                  <h2>How do I get paid?</h2>
-                  <ArrowDownIcon />
-                </HelpPageCardHeader>
-                <Collapse style={{ paddingRight: '150px' }} in={help}>
-                  When an unknown printer took a galley of type and scrambled it
-                  to make a type specimen book. It has survived not only five
-                  centuries, but also the leap into electronic typesetting,
-                  remaining essentially unchanged. It was popularised in the
-                  1960s with the release of Letraset sheets containing Lorem
-                  Ipsum passages, and more recently with desktop publishing
-                  software like Aldus PageMaker including versions of Lorem
-                  Ipsum.
-                </Collapse>
-              </Stack>
-            </HelpPageCard>
-            <HelpPageCard>
-              <Stack>
-                <HelpPageCardHeader onClick={openHelp}>
-                  <h2>How do I get paid?</h2>
-                  <ArrowDownIcon />
-                </HelpPageCardHeader>
-                <Collapse style={{ paddingRight: '150px' }} in={help}>
-                  When an unknown printer took a galley of type and scrambled it
-                  to make a type specimen book. It has survived not only five
-                  centuries, but also the leap into electronic typesetting,
-                  remaining essentially unchanged. It was popularised in the
-                  1960s with the release of Letraset sheets containing Lorem
-                  Ipsum passages, and more recently with desktop publishing
-                  software like Aldus PageMaker including versions of Lorem
-                  Ipsum.
-                </Collapse>
-              </Stack>
-            </HelpPageCard>
-            <HelpPageCard>
-              <Stack>
-                <HelpPageCardHeader onClick={openHelp}>
-                  <h2>How do I get paid?</h2>
-                  <ArrowDownIcon />
-                </HelpPageCardHeader>
-                <Collapse style={{ paddingRight: '150px' }} in={help}>
-                  When an unknown printer took a galley of type and scrambled it
-                  to make a type specimen book. It has survived not only five
-                  centuries, but also the leap into electronic typesetting,
-                  remaining essentially unchanged. It was popularised in the
-                  1960s with the release of Letraset sheets containing Lorem
-                  Ipsum passages, and more recently with desktop publishing
-                  software like Aldus PageMaker including versions of Lorem
-                  Ipsum.
-                </Collapse>
-              </Stack>
-            </HelpPageCard>
-            <HelpPageCard>
-              <Stack>
-                <HelpPageCardHeader onClick={openHelp}>
-                  <h2>How do I get paid?</h2>
-                  <ArrowDownIcon />
-                </HelpPageCardHeader>
-                <Collapse style={{ paddingRight: '150px' }} in={help}>
-                  When an unknown printer took a galley of type and scrambled it
-                  to make a type specimen book. It has survived not only five
-                  centuries, but also the leap into electronic typesetting,
-                  remaining essentially unchanged. It was popularised in the
-                  1960s with the release of Letraset sheets containing Lorem
-                  Ipsum passages, and more recently with desktop publishing
-                  software like Aldus PageMaker including versions of Lorem
-                  Ipsum.
-                </Collapse>
-              </Stack>
-            </HelpPageCard>
+            <HelpCollapse
+              title="How do I get paid?"
+              icon={<ArrowDownIcon />}
+              text="When an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            />
+            <HelpCollapse
+              title="How do I get paid?"
+              icon={<ArrowDownIcon />}
+              text="When an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            />
+            <HelpCollapse
+              title="How do I get paid?"
+              icon={<ArrowDownIcon />}
+              text="When an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            />
+            <HelpCollapse
+              title="How do I get paid?"
+              icon={<ArrowDownIcon />}
+              text="When an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            />
+            <HelpCollapse
+              title="How do I get paid?"
+              icon={<ArrowDownIcon />}
+              text="When an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            />
           </Stack>
         ) : (
           <Grid columns={4}>

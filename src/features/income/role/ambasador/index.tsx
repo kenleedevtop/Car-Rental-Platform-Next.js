@@ -27,7 +27,7 @@ import {
   HouseIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Card, Input, Pagination } from 'components/ui';
+import { Button, Card, Input, InputGroup, Pagination } from 'components/ui';
 import { Collapse, Grid, GridCell, Stack } from 'components/system';
 import { useModal } from 'hooks';
 import { ExportIncomeModal } from 'features/income/role/ambasador/elements';
@@ -55,7 +55,7 @@ const IncomePage = () => {
       <IncomePageCharts>
         <IncomePageChartsGrid columns={4}>
           <CardWithChart
-            title="Clients"
+            title="Campaigns"
             icon={<IdentifiedIcon />}
             percent={2}
             count={75}
@@ -67,7 +67,7 @@ const IncomePage = () => {
             }}
           />
           <CardWithChart
-            title="Ongoing"
+            title="SML"
             icon={<ContactedIcon />}
             percent={2}
             count={75}
@@ -79,7 +79,7 @@ const IncomePage = () => {
             }}
           />
           <CardWithChart
-            title="Completed"
+            title="Surveys"
             icon={<RegisteredIcon />}
             percent={2}
             count={75}
@@ -91,7 +91,7 @@ const IncomePage = () => {
             }}
           />
           <CardWithChart
-            title="Revenue"
+            title="Total"
             icon={<TotalIcon />}
             percent={2}
             count={75}
@@ -139,20 +139,23 @@ const IncomePage = () => {
                       value={filter.search}
                       onValue={(search) => setFilter({ ...filter, search })}
                     />
-                    <Input
-                      type="date"
-                      label="Start Date"
-                      value={filter.startDate}
-                      onValue={(startDate) =>
-                        setFilter({ ...filter, startDate })
-                      }
-                    />
-                    <Input
-                      type="date"
-                      label="End Date"
-                      placeholder="Please Select"
-                      value={filter.endDate}
-                      onValue={(endDate) => setFilter({ ...filter, endDate })}
+                    <InputGroup
+                      label="Start & Finish"
+                      inputRatio="200px 200px"
+                      elements={[
+                        {
+                          value: filter.start,
+                          onValue: (start) => setFilter({ ...filter, start }),
+                          type: 'date',
+                          placeholder: 'Start date',
+                        },
+                        {
+                          value: filter.end,
+                          onValue: (end) => setFilter({ ...filter, end }),
+                          type: 'date',
+                          placeholder: 'End date',
+                        },
+                      ]}
                     />
                     <Input
                       type="select"
@@ -271,15 +274,38 @@ const IncomePage = () => {
                       paddingLeft: '40px',
                     }}
                   >
-                    <Stack>
-                      <Input
-                        type="text"
+                    <Stack style={{ paddingRight: '150px' }}>
+                      <InputGroup
                         label="Enter Amount (Available amount is $499.00)"
-                        placeholder="420"
-                        value={filter.amountW}
-                        onValue={(amountW) => setFilter({ ...filter, amountW })}
+                        inputRatio="100px 1fr"
+                        elements={[
+                          {
+                            value: filter.currency,
+                            onValue: (currency) =>
+                              setFilter({ ...filter, currency }),
+                            type: 'select',
+                            placeholder: 'USD',
+                            options: [
+                              {
+                                value: 'eur',
+                                label: 'EUR',
+                              },
+                              {
+                                value: 'usd',
+                                label: 'USD',
+                              },
+                            ],
+                          },
+                          {
+                            value: filter.amountW,
+                            onValue: (amountW) =>
+                              setFilter({ ...filter, amountW }),
+                            type: 'text',
+                            placeholder: '420',
+                          },
+                        ]}
                       />
-                      <Note text="Currency conversion fee is 1.00%" />
+                      <Note>Currency conversion fee is 1.00%</Note>
                       <Input
                         type="text"
                         label="Confirm Password"
@@ -289,8 +315,10 @@ const IncomePage = () => {
                           setFilter({ ...filter, password })
                         }
                       />
-                      <Note text="Enter your password to make sure it is really you." />
-                      <Button color="primary" variant="contained">
+                      <Note>
+                        Enter your password to make sure it is really you.
+                      </Note>
+                      <Button color="primary" variant="contained" size="large">
                         Withdraw
                       </Button>
                     </Stack>

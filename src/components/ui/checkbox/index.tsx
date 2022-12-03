@@ -15,6 +15,8 @@ const Checkbox = ({
   size = 'medium',
   value,
   onValue,
+  helper,
+  required,
   ...props
 }: TCheckboxProps) => {
   const checkboxRef = useRef<null | HTMLInputElement>(null);
@@ -44,7 +46,15 @@ const Checkbox = ({
       <CheckboxDisplay onClick={handleClick} size={size} color={color}>
         <CheckboxDisplayIcon />
       </CheckboxDisplay>
-      {label && <CheckboxLabel onClick={handleClick}>{label}</CheckboxLabel>}
+      {label && (
+        <CheckboxLabel
+          onClick={handleClick}
+          helper={helper}
+          required={required}
+        >
+          {label}
+        </CheckboxLabel>
+      )}
     </CheckboxMain>
   );
 };

@@ -1,29 +1,27 @@
 export const DGenerateCampaignsFilter = () => ({
   company: null,
-  client: null,
+  platform: null,
+  postType: null,
+  startNFinish: {
+    min: '',
+    max: '',
+  },
+
+  product: null,
   location: null,
   diseaseArea: null,
-  industry: null,
-  platform: null,
   promotionType: null,
-  dataRange: null,
-  startDate: null,
-  endDate: null,
-  product: null,
-  influencerSize: '',
+  influencerSize: null,
   numberOfIfluencers: {
     min: '',
     max: '',
   },
-  influencers: {
-    min: '',
-    max: '',
-  },
+  startDate: null,
+  endDate: null,
   budget: {
     min: '',
     max: '',
   },
-  label: [],
 });
 
 export const DCampaignsHead = [
@@ -32,31 +30,42 @@ export const DCampaignsHead = [
     label: 'Campaign name',
   },
   {
-    reference: 'product',
-    label: 'Product',
-  },
-  {
     reference: 'platform',
     label: 'Platform',
+  },
+  {
+    reference: 'postType',
+    label: 'Post Type',
   },
   {
     reference: 'startAndFinish',
     label: 'Start & Finish',
   },
   {
-    reference: 'influencers',
-    label: 'Influencers',
-  },
-  {
-    reference: 'report',
-    label: 'Report',
-  },
-  {
-    reference: 'budget',
-    label: 'Budget',
+    reference: 'amount',
+    label: 'Amount',
   },
   {
     reference: 'actions',
     label: 'Actions',
+  },
+];
+
+export const DCampaignsHead2 = [
+  {
+    reference: 'accepted',
+    label: 'Accepted',
+  },
+  {
+    reference: 'infoReceived',
+    label: 'Info Received',
+  },
+  {
+    reference: 'toBePosted',
+    label: 'To Be Posted',
+  },
+  {
+    reference: 'approved',
+    label: 'Approved',
   },
 ];

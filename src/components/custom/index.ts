@@ -1,3 +1,5 @@
+export { default as ProgressDisplay } from 'components/custom/progress-display';
+export { default as Note } from 'components/custom/note';
 export { default as HighlightedText } from 'components/custom/highlighted-text';
 export { default as Menu } from 'components/custom/menu';
 export { default as Modal } from 'components/custom/modal';
@@ -12,3 +14,5 @@ export { default as Tabs } from 'components/custom/tabs';
 export { default as Table } from 'components/custom/table';
 export { default as IconWithText } from 'components/custom/icon-with-text';
 export { default as Title } from 'components/custom/title';
+export { default as Stepper } from 'components/custom/stepper';
+export { default as Status } from 'components/custom/status';

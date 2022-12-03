@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 export type TCheckboxSize = 'small' | 'medium' | 'large';
 
@@ -17,4 +17,6 @@ export type TCheckboxProps = React.HTMLAttributes<HTMLInputElement> & {
   color?: TCheckboxColor;
   value?: boolean;
   onValue?: (v: boolean) => void;
+  helper?: string | ReactNode;
+  required?: boolean;
 };

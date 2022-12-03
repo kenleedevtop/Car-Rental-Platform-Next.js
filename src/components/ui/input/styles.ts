@@ -1,21 +1,26 @@
 import styled from '@emotion/styled';
-import {
-  Theme,
-  FormControl,
-  MenuItem,
-  TextField,
-  Autocomplete,
-} from '@mui/material';
+import { Theme, MenuItem, TextField, Autocomplete } from '@mui/material';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { Label } from 'components/ui';
 
-export const InputMain = styled(FormControl)<{ theme?: Theme }>`
+export const InputMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
+
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    min-width: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    vertical-align: top;
+    width: 100%;
     .MuiInputBase-root {
       &.MuiInputBase-multiline {
         padding: 0;
       }
       .MuiInputBase-input {
-        padding: ${theme.spacing(2)};
+        padding: ${theme.spacing(2)} !important;
       }
       .MuiOutlinedInput-notchedOutline {
         border: 1px solid ${theme.palette.primary.main}20;
@@ -34,11 +39,8 @@ export const InputMain = styled(FormControl)<{ theme?: Theme }>`
   `}
 `;
 
-export const InputLabel = styled.div<{ theme?: Theme }>`
+export const InputLabel = styled(Label)<{ theme?: Theme }>`
   ${({ theme }) => `
-    color: ${theme.palette.common.gray[8]};
-    font-weight: 500;
-    font-size: 14px;
     margin-bottom: ${theme.spacing(0.5)};
   `}
 `;
