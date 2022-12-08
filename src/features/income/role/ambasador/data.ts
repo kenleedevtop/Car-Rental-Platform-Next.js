@@ -1,9 +1,7 @@
 export const DGenerateIncomeFilter = () => ({
   search: '',
-  startNFinishA: {
-    min: '',
-    max: '',
-  },
+  start: null,
+  end: null,
   statement: null,
   amount: {
     min: '',
@@ -27,6 +25,7 @@ export const DGenerateIncomeFilter = () => ({
   bankAddress: '',
   iban: '',
 
+  currency: '',
   amountW: '',
   password: '',
 });

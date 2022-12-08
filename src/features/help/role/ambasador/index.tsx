@@ -28,9 +28,9 @@ const HelpPage = () => {
         <Tabs
           value={tab}
           onValue={setTab}
-          tabs={['Frequently Asked Questions', 'Contact us']}
+          tabs={['Contact us', 'Frequently Asked Questions']}
         />
-        {tab === 0 ? (
+        {tab === 1 ? (
           <Stack>
             <HelpCollapse
               title="How do I get paid?"

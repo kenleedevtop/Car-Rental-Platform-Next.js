@@ -50,41 +50,6 @@ const ExportBenefitsModal = ({
           value={state.selected}
           onValue={(selected) => setState({ ...state, selected })}
         />
-        <Checkbox
-          color="secondary"
-          label="Company"
-          size="large"
-          value={state.company}
-          onValue={(company) => setState({ ...state, company })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Category"
-          size="large"
-          value={state.category}
-          onValue={(category) => setState({ ...state, category })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Location"
-          size="large"
-          value={state.location}
-          onValue={(location) => setState({ ...state, location })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Link"
-          size="large"
-          value={state.link}
-          onValue={(link) => setState({ ...state, link })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Benefit"
-          size="large"
-          value={state.benefit}
-          onValue={(benefit) => setState({ ...state, benefit })}
-        />
       </ExportBenefitsModalMain>
     </Modal>
   );

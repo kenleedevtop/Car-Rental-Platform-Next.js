@@ -14,7 +14,9 @@ import {
   Step2,
   Step3,
   Step4,
+  StepV,
 } from 'components/custom/stepper/stepper-steps';
+import { VerifiedIcon } from 'components/svg';
 
 const steps = [
   'Login Info',
@@ -39,8 +41,12 @@ const Stepper = () => {
     <StepperMain>
       <StepHelper>
         <StepContainer>
-          <StepperContainer activeStep={activeStep} alternativeLabel>
-            {steps.map((label) => (
+          <StepperContainer
+            activeStep={activeStep}
+            alternativeLabel
+            style={{ marginBottom: '50px' }}
+          >
+            {steps.map((label, index) => (
               <Step key={label}>
                 <StepLabel> {label} </StepLabel>
               </Step>
@@ -50,6 +56,7 @@ const Stepper = () => {
           {activeStep === 1 && <Step2 />}
           {activeStep === 2 && <Step3 />}
           {activeStep === 3 && <Step4 />}
+          {activeStep === 4 && <StepV />}
         </StepContainer>
         <ButtonsMain>
           <Button
@@ -59,17 +66,16 @@ const Stepper = () => {
             color="secondary"
             onClick={decreaseStep}
           >
-            {' '}
-            Previous{' '}
+            Previous
           </Button>
           <Button
+            disabled={activeStep === 4}
             variant="contained"
             size="large"
             color="primary"
             onClick={addStep}
           >
-            {' '}
-            Next{' '}
+            Next
           </Button>
         </ButtonsMain>
       </StepHelper>

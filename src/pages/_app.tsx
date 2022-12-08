@@ -59,6 +59,8 @@ const MyApp = ({
 }: AppType) => {
   const [queryClient] = useState(() => new QueryClient());
 
+  const isLogged = false;
+
   return (
     <>
       <Head>
@@ -73,9 +75,15 @@ const MyApp = ({
             <CssBaseline />
             <PageLoader />
             <AppContextProvider>
-              <DashboardLayout>
-                <Component {...pageProps} />
-              </DashboardLayout>
+              {isLogged ? (
+                <DashboardLayout>
+                  <Component {...pageProps} />
+                </DashboardLayout>
+              ) : (
+                <div style={{ width: '100%', height: '100vh' }}>
+                  <Component {...pageProps} />
+                </div>
+              )}
             </AppContextProvider>
           </ThemeProvider>
         </CacheProvider>

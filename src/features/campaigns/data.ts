@@ -6,6 +6,22 @@ export const DGenerateCampaignsFilter = () => ({
     min: '',
     max: '',
   },
+
+  product: null,
+  location: null,
+  diseaseArea: null,
+  promotionType: null,
+  influencerSize: null,
+  numberOfIfluencers: {
+    min: '',
+    max: '',
+  },
+  startDate: null,
+  endDate: null,
+  budget: {
+    min: '',
+    max: '',
+  },
 });
 
 export const DCampaignsHead = [

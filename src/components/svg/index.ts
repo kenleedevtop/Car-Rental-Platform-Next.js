@@ -31,3 +31,5 @@ export { default as PhoneCallIcon } from 'components/svg/phone-call';
 export { default as InfoIcon } from 'components/svg/info';
 export { default as GramophoneIcon } from 'components/svg/gramophone';
 export { default as UserFocusIcon } from 'components/svg/userFocus';
+export { default as DotsIcon } from 'components/svg/dots';
+export { default as VerifiedIcon } from 'components/svg/verified';
