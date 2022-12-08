@@ -2,7 +2,7 @@ import React, { createContext, useMemo, useContext, useState } from 'react';
 
 const AppContext = createContext({
   routeName: '',
-  role: 'ambasador',
+  role: 'influencer',
   setRouteName: (_n: string) => {},
   setRole: (_r: 'admin' | 'influencer' | 'client' | 'ambasador') => {},
 });

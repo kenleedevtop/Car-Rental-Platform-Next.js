@@ -4,7 +4,12 @@ import { HelpPageMain } from 'features/help/styles';
 import { Button, Input } from 'components/ui';
 import { IconWithText, Tabs } from 'components/custom';
 import { Grid, GridCell, Stack } from 'components/system';
-import { ArrowDownIcon, EnvelopeIcon, PhoneCallIcon } from 'components/svg';
+import {
+  ArrowDownIcon,
+  EnvelopeIcon,
+  LocationIcon,
+  PhoneCallIcon,
+} from 'components/svg';
 import { HelpCollapse } from 'features/help/elements';
 
 const HelpPage = () => {
@@ -108,7 +113,7 @@ const HelpPage = () => {
                   text={['Send an email!']}
                 />
                 <IconWithText
-                  icon={<PhoneCallIcon />}
+                  icon={<LocationIcon />}
                   title="Visit Us"
                   text={['Riehenring 65, 4058 Basel Switzerland']}
                 />

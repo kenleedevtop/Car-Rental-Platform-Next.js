@@ -117,10 +117,10 @@ const HomePage = () => {
               <Card>
                 <Stack>
                   <p style={{ color: '#7E839F' }}>Campaigns in Progress</p>
-                  <Note>
+                  {/* <Note>
                     Here you can see all of your campaigns that are currently in
                     progress.
-                  </Note>
+                  </Note> */}
                   <CampaignsCard
                     company="Roche"
                     app="Depression Management App"
@@ -147,10 +147,10 @@ const HomePage = () => {
               <Card>
                 <Stack>
                   <p style={{ color: '#7E839F' }}>Available Campaigns</p>
-                  <Note>
+                  {/* <Note>
                     Here you can see all of the campaigns you have been invited
                     to.
-                  </Note>
+                  </Note> */}
                   <CampaignsCard
                     company="Roche"
                     app="Depression Management App"
@@ -187,9 +187,9 @@ const HomePage = () => {
                     <p style={{ color: '#7E839F' }}>Followers Growth</p>
                     <p style={{ color: '#7E839F' }}>12.5k</p>
                   </Stack>
-                  <Note>
+                  {/* <Note>
                     Here you can see how your community has grown over time.
-                  </Note>
+                  </Note> */}
                   <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
                     <ExtendedLineChart
                       labels={[
@@ -220,9 +220,9 @@ const HomePage = () => {
                     <p style={{ color: '#7E839F' }}>Engagement</p>
                     <p style={{ color: '#7E839F' }}>5.32%</p>
                   </Stack>
-                  <Note>
+                  {/* <Note>
                     Here you can see how your engagement has changed over time.
-                  </Note>
+                  </Note> */}
                   <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
                     <ExtendedLineChart
                       labels={[
@@ -247,11 +247,11 @@ const HomePage = () => {
               <Card>
                 <Stack>
                   <p style={{ color: '#7E839F' }}>Best time to post</p>
-                  <Note>
+                  {/* <Note>
                     Here you can see how your posts have performed based on the
                     time.
-                  </Note>
-                  <div style={{ width: 600, height: 360, margin: '50px 0px' }}>
+                  </Note> */}
+                  <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
                     <MatrixChart
                       horizontalLabels={[
                         '0-2',
@@ -293,7 +293,7 @@ const HomePage = () => {
               <Card>
                 <Stack>
                   <p style={{ color: '#7E839F' }}>Audience</p>
-                  <Note>Here you can see Audience score.</Note>
+                  {/* <Note>Here you can see Audience score.</Note> */}
                   <Stack style={{ padding: '0 100px' }}>
                     <ProgressDisplay label="Patient community" percent={100} />
                     <ProgressDisplay label="Reach" percent={70} />
