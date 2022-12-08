@@ -46,34 +46,6 @@ const ExportIncomeModal = ({ onClose, ...props }: TExportIncomeModalProps) => {
           value={state.selected}
           onValue={(selected) => setState({ ...state, selected })}
         />
-        <Checkbox
-          color="secondary"
-          label="User Name"
-          size="large"
-          value={state.userName}
-          onValue={(userName) => setState({ ...state, userName })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Platform"
-          size="large"
-          value={state.platform}
-          onValue={(platform) => setState({ ...state, platform })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Registration Date"
-          size="large"
-          value={state.regDate}
-          onValue={(regDate) => setState({ ...state, regDate })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Lifetime Value"
-          size="large"
-          value={state.lifetimeValue}
-          onValue={(lifetimeValue) => setState({ ...state, lifetimeValue })}
-        />
       </ExportIncomeModalMain>
     </Modal>
   );

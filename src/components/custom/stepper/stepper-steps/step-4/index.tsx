@@ -29,8 +29,8 @@ const Step = () => {
           />
         </GridCell>
       </Grid>
-      <Grid columns={8}>
-        <GridCell columnSpan={2}>
+      <Grid columns={12}>
+        <GridCell columnSpan={4} style={{ borderRight: '1px solid #E9F0FC' }}>
           <Stack>
             <p style={{ color: '#6f6f6f' }}>Instagram</p>
             <InputGroup
@@ -119,7 +119,10 @@ const Step = () => {
             />
           </Stack>
         </GridCell>
-        <GridCell columnSpan={2}>
+        <GridCell
+          columnSpan={4}
+          style={{ padding: '0 50px', borderRight: '1px solid #E9F0FC' }}
+        >
           <Stack>
             <p style={{ color: '#6f6f6f' }}>Youtube</p>
             <InputGroup
@@ -208,7 +211,7 @@ const Step = () => {
             />
           </Stack>
         </GridCell>
-        <GridCell columnSpan={2}>
+        <GridCell columnSpan={4} style={{ padding: '0 50px' }}>
           <Stack>
             <p style={{ color: '#6f6f6f' }}>TikTok</p>
             <InputGroup

@@ -53,9 +53,9 @@ const IncomePage = () => {
   return (
     <IncomePageMain>
       <IncomePageCharts>
-        <IncomePageChartsGrid columns={3}>
+        <IncomePageChartsGrid columns={4}>
           <CardWithChart
-            title="Clients"
+            title="Campaigns"
             icon={<UserFocusIcon />}
             percent={5}
             count={90.56}
@@ -67,7 +67,7 @@ const IncomePage = () => {
             }}
           />
           <CardWithChart
-            title="Ongoing"
+            title="Surveys"
             icon={<UserFocusIcon />}
             percent={5}
             count={90.56}
@@ -79,7 +79,19 @@ const IncomePage = () => {
             }}
           />
           <CardWithChart
-            title="Completed"
+            title="Affiliate program"
+            icon={<UserFocusIcon />}
+            percent={5}
+            count={90.56}
+            chartData={{
+              values: Array.from(Array(20).keys()).map((_x) =>
+                faker.datatype.number({ min: 10, max: 30 })
+              ),
+              labels: Array.from(Array(20).keys()).map((_x) => ''),
+            }}
+          />
+          <CardWithChart
+            title="Donations"
             icon={<UserFocusIcon />}
             percent={5}
             count={90.56}
@@ -133,7 +145,7 @@ const IncomePage = () => {
                     />
                     <InputGroup
                       label="Start & Finish"
-                      inputRatio="200px 200px"
+                      inputRatio="1fr 1fr"
                       elements={[
                         {
                           value: filter.start,
@@ -407,8 +419,6 @@ const IncomePage = () => {
                           },
                         ]}
                       />
-
-                      <Note>Currency conversion fee is 1.00%</Note>
                       <Input
                         type="text"
                         label="Confirm Password"

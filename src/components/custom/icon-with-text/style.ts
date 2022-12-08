@@ -4,7 +4,7 @@ import { Theme } from '@mui/material';
 export const IconWithTextMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: grid;
-    grid-template-columns: 40px auto;
+    grid-template-columns: 60px auto;
     align-items: center;
     gap: ${theme.spacing(4)}
     `}
@@ -12,15 +12,18 @@ export const IconWithTextMain = styled.div<{ theme?: Theme }>`
 
 export const IconWithTextIcon = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     border-radius: 40px;
     background-color: ${theme.palette.primary.main};
     display: grid;
     place-items: center;
+    margin-right: ${theme.spacing(4)};
     
     & svg{
         color: #fff;
+        width: 40px;
+        height: 40px;
     }
 
     `}
@@ -36,12 +39,13 @@ export const IconWithTextText = styled.div<{ theme?: Theme }>`
 
 export const IconWithTextTitle = styled.div`
   color: #7e839f;
+  font-size: 22px;
 `;
 
 export const IconWithTextP = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     color: ${theme.palette.primary.main};
     font-weight: 400;
-    font-size: 10px
+    font-size: 14px;
     `}
 `;

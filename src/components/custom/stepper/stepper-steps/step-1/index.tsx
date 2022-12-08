@@ -71,7 +71,7 @@ const Step = () => {
           </StepChange>
           <Input
             type="multiselect"
-            label="Add Colleagues"
+            label="Add Affiliate"
             placeholder="name@company.com;"
             value={filter.colleagues}
             onValue={(colleagues) => setFilter({ ...filter, colleagues })}

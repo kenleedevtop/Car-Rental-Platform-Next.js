@@ -63,3 +63,12 @@ export {
 
 // Search
 export { default as SearchPage } from 'features/search';
+
+// Login
+export { default as LoginPage } from 'features/login';
+
+// Registration
+export {
+  RegisterCompanyPage,
+  RegistrationInfluencerPage,
+} from 'features/registration';
