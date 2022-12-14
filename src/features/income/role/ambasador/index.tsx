@@ -305,7 +305,7 @@ const IncomePage = () => {
                           },
                         ]}
                       />
-                      <Note>Currency conversion fee is 1.00%</Note>
+                      <Note showIcon>Currency conversion fee is 1.00%</Note>
                       <Input
                         type="text"
                         label="Confirm Password"
@@ -315,7 +315,7 @@ const IncomePage = () => {
                           setFilter({ ...filter, password })
                         }
                       />
-                      <Note>
+                      <Note showIcon>
                         Enter your password to make sure it is really you.
                       </Note>
                       <Button color="primary" variant="contained" size="large">

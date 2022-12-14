@@ -95,12 +95,42 @@ const HomePage = () => (
               percent: 75,
               title: 'Test',
             },
+            {
+              icon: <InstagramIcon />,
+              percent: 100,
+              title: 'Test',
+            },
+            {
+              icon: <YoutubeIcon />,
+              percent: 38,
+              title: 'Test',
+            },
+            {
+              icon: <TiktokIcon />,
+              percent: 75,
+              title: 'Test',
+            },
           ]}
         />
         <CardWithProgress
           title="Platform"
           icon={<RedCrossIcon />}
           progressData={[
+            {
+              icon: <InstagramIcon />,
+              percent: 100,
+              title: 'Test',
+            },
+            {
+              icon: <YoutubeIcon />,
+              percent: 38,
+              title: 'Test',
+            },
+            {
+              icon: <TiktokIcon />,
+              percent: 75,
+              title: 'Test',
+            },
             {
               icon: <InstagramIcon />,
               percent: 100,
@@ -137,12 +167,42 @@ const HomePage = () => (
               percent: 75,
               title: 'Test',
             },
+            {
+              icon: <InstagramIcon />,
+              percent: 100,
+              title: 'Test',
+            },
+            {
+              icon: <YoutubeIcon />,
+              percent: 38,
+              title: 'Test',
+            },
+            {
+              icon: <TiktokIcon />,
+              percent: 75,
+              title: 'Test',
+            },
           ]}
         />
         <CardWithProgress
           title="Disease area"
           icon={<RedCrossIcon />}
           progressData={[
+            {
+              icon: <InstagramIcon />,
+              percent: 100,
+              title: 'Test',
+            },
+            {
+              icon: <YoutubeIcon />,
+              percent: 38,
+              title: 'Test',
+            },
+            {
+              icon: <TiktokIcon />,
+              percent: 75,
+              title: 'Test',
+            },
             {
               icon: <InstagramIcon />,
               percent: 100,

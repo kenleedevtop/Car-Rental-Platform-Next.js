@@ -88,6 +88,7 @@ const Input = ({
             rows={rows}
             variant="outlined"
           />
+          <span style={{ alignSelf: 'center' }}>-</span>
           <InputText
             type="number"
             value={value.max}
