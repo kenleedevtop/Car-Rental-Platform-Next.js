@@ -45,7 +45,7 @@ export const CardWithChartIcon = styled.div<{ theme?: Theme }>`
 
 export const CardWithChartTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
         color: ${theme.palette.primary.main};
     `}

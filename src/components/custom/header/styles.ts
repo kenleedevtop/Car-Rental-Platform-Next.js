@@ -23,7 +23,7 @@ export const HeaderActions = styled.div`
 
   button {
     border-radius: 20rem;
-    font-weight: 800px;
+    font-weight: 700;
     font-size: 18px;
   }
 `;

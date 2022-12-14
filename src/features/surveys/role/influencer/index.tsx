@@ -10,7 +10,7 @@ import {
   DSurveysHead2,
   DGenerateSurveyFilter,
 } from 'features/surveys/data';
-import { CardWithChart, CardWithText, Table } from 'components/custom';
+import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import { GramophoneIcon, SlidersHorizontalIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
@@ -138,7 +138,11 @@ const SurveysPage = () => {
       </CardWithText>
       <CardWithText title="Campaings in Progress">
         <Stack>
-          <Table head={DSurveysHead2} items={[]} renderItem={renderItem} />
+          <Tabs
+            value={0}
+            onValue={() => {}}
+            tabs={['Accepted', 'Info Received', 'To Be Posted', 'Approved']}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>

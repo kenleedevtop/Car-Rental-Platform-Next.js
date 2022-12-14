@@ -5,6 +5,7 @@ import { Theme } from '@mui/material';
 export const ProgressDisplayMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
         width: 100%;
+        height: 30px;
         display: flex;
         align-items: center;
         gap: ${theme.spacing(2)};

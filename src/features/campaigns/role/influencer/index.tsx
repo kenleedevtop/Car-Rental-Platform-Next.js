@@ -147,7 +147,11 @@ const CampaignsPage = () => {
       </CardWithText>
       <CardWithText title="Campaings in Progress">
         <Stack>
-          <Table head={DCampaignsHead2} items={[]} renderItem={renderItem} />
+          <Tabs
+            value={0}
+            onValue={() => {}}
+            tabs={['Accepted', 'Info Received', 'To Be Posted', 'Approved']}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>
