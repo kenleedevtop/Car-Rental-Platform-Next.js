@@ -428,7 +428,7 @@ const IncomePage = () => {
                           setFilter({ ...filter, password })
                         }
                       />
-                      <Note>
+                      <Note showIcon>
                         Enter your password to make sure it is really you.
                       </Note>
                       <Button color="primary" variant="contained">

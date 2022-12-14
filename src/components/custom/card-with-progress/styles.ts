@@ -45,7 +45,7 @@ export const CardWithProgressIcon = styled.div<{ theme?: Theme }>`
 
 export const CardWithProgressTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 500;
         color: ${theme.palette.primary.main};
     `}
@@ -54,6 +54,9 @@ export const CardWithProgressTitle = styled.div<{ theme?: Theme }>`
 export const CardWithProgressValues = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
         width: 100%;
+        height: 90px;
+        padding-right: 10px;
+        overflow-y: scroll;
         & > *:not(:last-child) {
           border-bottom: 1px solid ${theme.palette.common.black}20;
         }

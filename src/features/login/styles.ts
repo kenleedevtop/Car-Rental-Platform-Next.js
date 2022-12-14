@@ -25,7 +25,8 @@ color: ${theme.palette.primary.main}
 
 export const LoginSpan = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-color: ${theme.palette.primary.main}
+  color: ${theme.palette.primary.main};
+  cursor: pointer;
 `}
 `;
 

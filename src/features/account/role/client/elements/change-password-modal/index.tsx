@@ -36,21 +36,21 @@ const ChangePasswordModal = ({
         <ChangePasswordModalMain columns={1}>
           <Input
             type="text"
-            label="Enter old email"
+            label="Enter old password"
             placeholder="Please Enter"
             value={state.oldPassword}
             onValue={(oldPassword) => setState({ ...state, oldPassword })}
           />
           <Input
             type="text"
-            label="Enter new email"
+            label="Enter new password"
             placeholder="Please Enter"
             value={state.newPassword}
             onValue={(newPassword) => setState({ ...state, newPassword })}
           />
           <Input
             type="text"
-            label="Repeat new email"
+            label="Repeat new password"
             placeholder="Please Enter"
             value={state.repeatNewPassword}
             onValue={(repeatNewPassword) =>
