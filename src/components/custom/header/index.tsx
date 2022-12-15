@@ -4,6 +4,7 @@ import {
   HeaderMain,
   HeaderLogo,
   HeaderActions,
+  HeaderAction,
 } from 'components/custom/header/styles';
 
 import { SignUpModal } from 'components/custom/header/elements';
@@ -19,9 +20,11 @@ const Header = ({ ...props }) => {
       <HeaderMain {...props}>
         <HeaderLogo src="/assets/images/logo.png" />
         <HeaderActions>
-          <Button variant="text" size="large">
-            Login
-          </Button>
+          <HeaderAction href="/login">
+            <Button variant="text" size="large">
+              Login
+            </Button>
+          </HeaderAction>
           <Button
             variant="contained"
             color="secondary"

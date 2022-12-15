@@ -6,6 +6,7 @@ import {
   SignUpTitle,
   SignUpText,
   SignUpActions,
+  SignUpAction,
 } from 'components/custom/header/elements/sign-up-modal/styles';
 import { Button } from 'components/ui';
 
@@ -19,12 +20,26 @@ const SignUpModal = ({ onClose, ...props }: TSignUpProps) => (
         pre-established trust with their audiences.
       </SignUpText>
       <SignUpActions direction="horizontal">
-        <Button variant="outlined" size="large" color="secondary">
-          I am company
-        </Button>
-        <Button variant="outlined" size="large" color="secondary">
-          I am influencer
-        </Button>
+        <SignUpAction href="/register?as=company">
+          <Button
+            variant="outlined"
+            size="large"
+            color="secondary"
+            onClick={onClose}
+          >
+            I am company
+          </Button>
+        </SignUpAction>
+        <SignUpAction href="/register?as=influencer">
+          <Button
+            variant="outlined"
+            size="large"
+            color="secondary"
+            onClick={onClose}
+          >
+            I am influencer
+          </Button>
+        </SignUpAction>
       </SignUpActions>
     </SignUpMain>
   </Modal>

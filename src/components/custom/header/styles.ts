@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
+import Link from 'next/link';
 
 export const HeaderMain = styled.header<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -26,4 +27,8 @@ export const HeaderActions = styled.div`
     font-weight: 700;
     font-size: 18px;
   }
+`;
+
+export const HeaderAction = styled(Link)`
+  text-decoration: none;
 `;
