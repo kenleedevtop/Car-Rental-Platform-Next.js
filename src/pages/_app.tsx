@@ -3,7 +3,7 @@ import { PageLoader } from 'components/core';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import { RegisteredCache, SerializedStyles, StyleSheet } from '@emotion/utils';
-import { DashboardLayout } from 'layouts';
+import { DashboardLayout, PageLayout } from 'layouts';
 
 import createEmotionCache from 'ssr/create-emotion-cache';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,6 +22,8 @@ import {
   Tooltip,
   Filler,
 } from 'chart.js';
+import { useRouter } from 'next/router';
+import { CProtectedRoutes, CUnprotectedRoutes } from 'constants/routes';
 
 ChartJS.register(
   CategoryScale,
@@ -58,8 +60,7 @@ const MyApp = ({
   emotionCache = clientSideEmotionCache,
 }: AppType) => {
   const [queryClient] = useState(() => new QueryClient());
-
-  const isLogged = false;
+  const { pathname } = useRouter();
 
   return (
     <>
@@ -75,14 +76,15 @@ const MyApp = ({
             <CssBaseline />
             <PageLoader />
             <AppContextProvider>
-              {isLogged ? (
+              {CProtectedRoutes.includes(pathname) && (
                 <DashboardLayout>
                   <Component {...pageProps} />
                 </DashboardLayout>
-              ) : (
-                <div style={{ width: '100%', height: '100vh' }}>
+              )}
+              {CUnprotectedRoutes.includes(pathname) && (
+                <PageLayout>
                   <Component {...pageProps} />
-                </div>
+                </PageLayout>
               )}
             </AppContextProvider>
           </ThemeProvider>

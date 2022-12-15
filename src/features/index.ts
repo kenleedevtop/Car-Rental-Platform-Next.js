@@ -68,7 +68,4 @@ export { default as SearchPage } from 'features/search';
 export { default as LoginPage } from 'features/login';
 
 // Registration
-export {
-  RegisterCompanyPage,
-  RegistrationInfluencerPage,
-} from 'features/registration';
+export { RegisterCompanyPage, RegisterInfluencerPage } from 'features/register';

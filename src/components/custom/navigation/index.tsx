@@ -14,14 +14,10 @@ import {
 } from 'components/custom/navigation/styles';
 import { TNavigationProps } from 'components/custom/navigation/types';
 import { useAppContext } from 'context';
-import {
-  AccountIcon,
-  ArrowDownIcon,
-  LogoutIcon,
-  SearchIcon,
-} from 'components/svg';
+import { AccountIcon, ArrowDownIcon, LogoutIcon } from 'components/svg';
 import { useMenu } from 'hooks';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen] = useMenu(false);
@@ -42,6 +38,12 @@ const Navigation = ({ ...props }: TNavigationProps) => {
   const { role, routeName } = useAppContext();
 
   const handleMenu = () => {
+    setOpen(!open);
+  };
+
+  const handleLogout = () => {
+    Cookies.remove('x-auth-token');
+    router.push('/login');
     setOpen(!open);
   };
 
@@ -83,9 +85,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
                 {
                   icon: <LogoutIcon />,
                   label: 'Logout',
-                  action: () => {
-                    handleMenu();
-                  },
+                  action: handleLogout,
                 },
               ]}
               ref={menuRef}

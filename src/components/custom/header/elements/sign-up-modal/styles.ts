@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Grid, Stack } from 'components/system';
+import Link from 'next/link';
 
 export const SignUpMain = styled(Grid)<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -21,11 +22,11 @@ export const SignUpTitle = styled.div<{ theme?: Theme }>`
 
 export const SignUpText = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-  font-size: 20px;
-  text-align: center;
-  color: #6D728E;
-  margin-bottom: ${theme.spacing(10)};
-  line-height: 30px;
+    font-size: 20px;
+    text-align: center;
+    color: ${theme.palette.common.gray[6]};
+    margin-bottom: ${theme.spacing(10)};
+    line-height: 30px;
   `}
 `;
 
@@ -33,7 +34,6 @@ export const SignUpActions = styled(Stack)<{ theme?: Theme }>`
   ${({ theme }) => `
   display: flex;
   justify-content: center;
-
   button {
     padding: ${theme.spacing(5)} ${theme.spacing(16)};
     text-transform: uppercase;
@@ -42,4 +42,8 @@ export const SignUpActions = styled(Stack)<{ theme?: Theme }>`
   }
 
   `}
+`;
+
+export const SignUpAction = styled(Link)`
+  text-decoration: none;
 `;
