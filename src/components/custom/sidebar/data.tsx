@@ -32,12 +32,12 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['admin'],
     items: [
       {
-        id: 14,
+        id: 15,
         label: 'Influencers',
         location: '/discover/influencers',
       },
       {
-        id: 15,
+        id: 16,
         label: 'Clients',
         location: '/discover/clients',
       },
@@ -62,13 +62,21 @@ export const DSidebarItems: Array<TSidebarItem> = [
   {
     id: 5,
     type: 'route',
+    icon: <AccountIcon />,
+    label: 'Ambasadors',
+    location: 'ambasadors',
+    roles: ['admin'],
+  },
+  {
+    id: 6,
+    type: 'route',
     icon: <CampaignsIcon />,
     label: 'Campaigns',
     location: '/campaigns',
     roles: ['admin', 'influencer', 'client'],
   },
   {
-    id: 6,
+    id: 7,
     type: 'route',
     icon: <ReportsIcon />,
     label: 'Reports',
@@ -76,7 +84,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['admin', 'client'],
   },
   {
-    id: 7,
+    id: 8,
     type: 'route',
     icon: <SMLIcon />,
     label: 'SML',
@@ -84,7 +92,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['admin', 'client'],
   },
   {
-    id: 8,
+    id: 9,
     type: 'route',
     icon: <SurveyIcon />,
     label: 'Surveys',
@@ -92,7 +100,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['admin', 'influencer'],
   },
   {
-    id: 9,
+    id: 10,
     type: 'route',
     icon: <FinanceIcon />,
     label: 'Income',
@@ -100,7 +108,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['influencer', 'ambasador'],
   },
   {
-    id: 10,
+    id: 11,
     type: 'route',
     icon: <SMLIcon />,
     label: 'Benefits',
@@ -109,7 +117,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
   },
 
   {
-    id: 11,
+    id: 12,
     type: 'route',
     icon: <FinanceIcon />,
     label: 'Finance',
@@ -117,7 +125,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['admin'],
   },
   {
-    id: 12,
+    id: 13,
     type: 'route',
     icon: <HelpIcon />,
     label: 'Help',
@@ -125,7 +133,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['influencer', 'client', 'ambasador'],
   },
   {
-    id: 13,
+    id: 14,
     type: 'route',
     icon: <AccountIcon />,
     label: 'Account',
