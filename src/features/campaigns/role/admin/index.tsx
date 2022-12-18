@@ -298,9 +298,9 @@ const CampaignsPage = () => {
                 <Input
                   type="min-max"
                   label="Influencers"
-                  value={filter.influencers}
-                  onValue={(influencers) =>
-                    setFilter({ ...filter, influencers })
+                  value={filter.numberOfIfluencers}
+                  onValue={(numberOfIfluencers) =>
+                    setFilter({ ...filter, numberOfIfluencers })
                   }
                 />
                 <Input

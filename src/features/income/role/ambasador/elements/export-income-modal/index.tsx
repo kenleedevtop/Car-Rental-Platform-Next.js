@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TExportIncomeModalProps } from 'features/income/role/ambasador/elements/export-income-modal/types';
 import { ExportIncomeModalMain } from 'features/income/role/ambasador/elements/export-income-modal/styles';
-import { Button, Checkbox } from 'components/ui';
+import { Button, Checkbox, RadioButton } from 'components/ui';
 
 const ExportIncomeModal = ({ onClose, ...props }: TExportIncomeModalProps) => {
   const [state, setState] = useState({
-    all: false,
-    selected: false,
     statement: false,
     type: false,
     date: false,
     amount: false,
   });
+
+  const [radioState, setRadioState] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioState(e.target.value);
+  };
 
   return (
     <Modal
@@ -32,19 +36,18 @@ const ExportIncomeModal = ({ onClose, ...props }: TExportIncomeModalProps) => {
       {...props}
     >
       <ExportIncomeModalMain columns={2}>
-        <Checkbox
+        <RadioButton
           color="secondary"
+          checked={radioState === 'all'}
+          onChange={handleChange}
+          value="all"
           label="All"
-          size="large"
-          value={state.all}
-          onValue={(all) => setState({ ...state, all })}
         />
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={radioState === 'selected'}
+          onChange={handleChange}
+          value="selected"
           label="Selected"
-          size="large"
-          value={state.selected}
-          onValue={(selected) => setState({ ...state, selected })}
         />
         <Checkbox
           color="secondary"

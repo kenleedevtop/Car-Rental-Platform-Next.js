@@ -4,14 +4,21 @@ import {
   CardWithText,
   Note,
   ProgressDisplay,
+  Status,
+  Table,
   Tabs,
-  Title,
+  CampaignsCard,
 } from 'components/custom';
-import CampaignsCard from 'components/custom/campaigns-card';
+import { TColor } from 'components/custom/status/types';
+import { TTableRenderItemObject } from 'components/custom/table/types';
 import { DotsIcon, InfoIcon } from 'components/svg';
 import { Grid, GridCell, Stack } from 'components/system';
 import { Button, Card, InputGroup, Pagination } from 'components/ui';
 import React, { useState } from 'react';
+import {
+  DCampaignItems,
+  DCampaignItems2,
+} from 'features/home/role/influencer/data';
 
 const HomePage = () => {
   const [state, setState] = useState({
@@ -23,6 +30,49 @@ const HomePage = () => {
   });
 
   const [tab, setTab] = useState(0);
+
+  const renderItem = ({ headItem, cell }: TTableRenderItemObject) => {
+    if (headItem.reference === 'campaign') {
+      return (
+        <CampaignsCard
+          image={cell.data.image}
+          company={cell.data.company}
+          app={cell.data.app}
+        />
+      );
+    }
+    if (headItem.reference === 'status') {
+      const statuses = [
+        {
+          id: 0,
+          text: 'Posted',
+          color: 'success',
+        },
+        {
+          id: 1,
+          text: 'To be Posted',
+          color: 'warning',
+        },
+        {
+          id: 2,
+          text: 'Reel',
+          color: 'primary',
+        },
+        {
+          id: 3,
+          text: 'Post',
+          color: 'primary',
+        },
+      ];
+      const statusData = statuses[cell.data as number];
+
+      return (
+        <Status color={statusData.color as TColor} text={statusData.text} />
+      );
+    }
+
+    return '';
+  };
 
   return (
     <Card>
@@ -137,25 +187,19 @@ const HomePage = () => {
                         </span>
                       </Tooltip>
                     </Stack>
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'success', text: 'Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
+                    <Table
+                      head={[
+                        {
+                          reference: 'campaign',
+                          label: 'Campaign',
+                        },
+                        {
+                          reference: 'status',
+                          label: 'Status',
+                        },
+                      ]}
+                      items={DCampaignItems}
+                      renderItem={renderItem}
                     />
                     <Pagination count={32} />
                   </Stack>
@@ -173,25 +217,19 @@ const HomePage = () => {
                         </span>
                       </Tooltip>
                     </Stack>
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Reel' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
+                    <Table
+                      head={[
+                        {
+                          reference: 'campaign',
+                          label: 'Campaign',
+                        },
+                        {
+                          reference: 'status',
+                          label: 'Status',
+                        },
+                      ]}
+                      items={DCampaignItems2}
+                      renderItem={renderItem}
                     />
                     <Pagination count={32} />
                   </Stack>
@@ -476,25 +514,19 @@ const HomePage = () => {
                         </span>
                       </Tooltip>
                     </Stack>
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'success', text: 'Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
+                    <Table
+                      head={[
+                        {
+                          reference: 'campaign',
+                          label: 'Campaign',
+                        },
+                        {
+                          reference: 'status',
+                          label: 'Status',
+                        },
+                      ]}
+                      items={DCampaignItems}
+                      renderItem={renderItem}
                     />
                     <Pagination count={32} />
                   </Stack>
@@ -512,25 +544,19 @@ const HomePage = () => {
                         </span>
                       </Tooltip>
                     </Stack>
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Reel' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
+                    <Table
+                      head={[
+                        {
+                          reference: 'campaign',
+                          label: 'Campaign',
+                        },
+                        {
+                          reference: 'status',
+                          label: 'Status',
+                        },
+                      ]}
+                      items={DCampaignItems2}
+                      renderItem={renderItem}
                     />
                     <Pagination count={32} />
                   </Stack>
@@ -811,25 +837,19 @@ const HomePage = () => {
                         </span>
                       </Tooltip>
                     </Stack>
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'success', text: 'Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'warning', text: 'To Be Posted' }}
+                    <Table
+                      head={[
+                        {
+                          reference: 'campaign',
+                          label: 'Campaign',
+                        },
+                        {
+                          reference: 'status',
+                          label: 'Status',
+                        },
+                      ]}
+                      items={DCampaignItems}
+                      renderItem={renderItem}
                     />
                     <Pagination count={32} />
                   </Stack>
@@ -847,25 +867,19 @@ const HomePage = () => {
                         </span>
                       </Tooltip>
                     </Stack>
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Reel' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
-                    />
-                    <CampaignsCard
-                      company="Roche"
-                      app="Depression Management App"
-                      status={{ color: 'primary', text: 'Post' }}
+                    <Table
+                      head={[
+                        {
+                          reference: 'campaign',
+                          label: 'Campaign',
+                        },
+                        {
+                          reference: 'status',
+                          label: 'Status',
+                        },
+                      ]}
+                      items={DCampaignItems2}
+                      renderItem={renderItem}
                     />
                     <Pagination count={32} />
                   </Stack>

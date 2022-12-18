@@ -6,10 +6,8 @@ export const SmlPageMain = styled(Stack)`
   width: 100%;
 `;
 
-export const SmlPageCharts = styled(Grid)<{ theme?: Theme }>`
-  ${({ theme }) => `
-        width: 100%;
-    `}
+export const SmlPageCharts = styled(Grid)`
+  width: 100%;
 `;
 
 export const SmlPageFilter = styled(Stack)<{ theme?: Theme }>`

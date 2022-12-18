@@ -45,24 +45,20 @@ export const InputLabel = styled(Label)<{ theme?: Theme }>`
   `}
 `;
 
-export const InputSelect = styled(Autocomplete)<{ theme?: Theme }>`
-  ${({ theme }) => `
-    .MuiOutlinedInput-root {
-      padding: 0 !important;
-    }
-  `}
+export const InputSelect = styled(Autocomplete)`
+  .MuiOutlinedInput-root {
+    padding: 0 !important;
+  }
 `;
 
 export const InputSelectItem = styled(MenuItem)``;
 
 export const InputText = styled(TextField)``;
 
-export const InputMultiSelect = styled(Autocomplete)<{ theme?: Theme }>`
-  ${({ theme }) => `
-    .MuiOutlinedInput-root {
-      padding: 0 !important;
-    }
-  `}
+export const InputMultiSelect = styled(Autocomplete)`
+  .MuiOutlinedInput-root {
+    padding: 0 !important;
+  }
 `;
 
 export const InputDatepicker = styled(DesktopDatePicker)<{ theme?: Theme }>``;

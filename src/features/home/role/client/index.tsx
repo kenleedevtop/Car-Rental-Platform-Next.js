@@ -7,7 +7,6 @@ import {
 } from 'features/home/styles';
 import { CardWithChart, CardWithProgress } from 'components/custom';
 import {
-  BusinessmanIcon,
   ContactedIcon,
   IdentifiedIcon,
   InstagramIcon,

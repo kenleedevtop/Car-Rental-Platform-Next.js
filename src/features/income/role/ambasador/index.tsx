@@ -6,7 +6,6 @@ import {
   IncomePageChartsGrid,
   IncomePageFilter,
   IncomePageFilterActions,
-  IconBackground,
 } from 'features/income/styles';
 
 import { DGenerateIncomeFilter } from 'features/income/role/ambasador/data';

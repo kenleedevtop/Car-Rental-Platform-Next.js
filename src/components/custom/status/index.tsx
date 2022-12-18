@@ -4,8 +4,7 @@ import { TStatusProps } from 'components/custom/status/types';
 
 const Status = ({ color = 'primary', text, ...props }: TStatusProps) => (
   <StatusMain color={color} {...props}>
-    {' '}
-    {text}{' '}
+    {text}
   </StatusMain>
 );
 

@@ -56,7 +56,7 @@ const AddInfluencerModal = ({
       onClose={onClose}
       {...props}
     >
-      <Stack>
+      <Stack style={{ height: '650px' }}>
         <Tabs
           tabs={['Info', 'Target', 'Instructions']}
           value={tab}

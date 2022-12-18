@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TCreateSurveysModalProps } from 'features/surveys/role/admin/elements/create-surveys-modal/types';
 import { CreateSurveysModalMain } from 'features/surveys/role/admin/elements/create-surveys-modal/styles';
-import { Button, Input, Switch } from 'components/ui';
+import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 
@@ -56,7 +56,7 @@ const CreateSurveysModal = ({
       onClose={onClose}
       {...props}
     >
-      <Stack>
+      <Stack style={{ height: '550px' }}>
         <Tabs
           tabs={['Info', 'Target', 'Instructions']}
           value={tab}

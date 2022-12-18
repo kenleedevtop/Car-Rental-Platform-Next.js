@@ -1,5 +1,8 @@
 export const DGenerateCampaignsFilter = () => ({
   company: null,
+  client: null,
+  industry: null,
+  dataRange: null,
   platform: null,
   postType: null,
   startNFinish: {
