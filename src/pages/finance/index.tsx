@@ -13,7 +13,7 @@ const Finance = () => {
   return (
     <>
       <Title>Finance</Title>
-      {role === 'admin' && <AdminFinancePage />}
+      {role === 'ADMIN' && <AdminFinancePage />}
     </>
   );
 };

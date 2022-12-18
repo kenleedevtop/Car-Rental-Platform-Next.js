@@ -13,8 +13,8 @@ const SML = () => {
   return (
     <>
       <Title>SML</Title>
-      {role === 'admin' && <AdminSmlPage />}
-      {role === 'client' && <ClientSmlPage />}
+      {role === 'ADMIN' && <AdminSmlPage />}
+      {role === 'CLIENT' && <ClientSmlPage />}
     </>
   );
 };

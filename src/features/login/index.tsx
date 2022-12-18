@@ -9,11 +9,12 @@ import { Button, Checkbox, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { useModal } from 'hooks';
 import { LostPasswordModal } from 'features/login/elements';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { useAppContext } from 'context';
+import { TLoginParams } from 'api/authorization/types';
 
 const Login = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<TLoginParams>({
     email: '',
     password: '',
   });
@@ -22,10 +23,10 @@ const Login = () => {
 
   const router = useRouter();
 
-  const handleLogin = () => {
-    Cookies.set('x-auth-token', `${state.email}_${state.password}`, {
-      expires: 1,
-    });
+  const { login } = useAppContext();
+
+  const handleLogin = async () => {
+    await login(state);
     router.push('/');
   };
 
@@ -38,7 +39,7 @@ const Login = () => {
       </LoginSubtitle>
       <Input
         type="text"
-        label="Email"
+        label="Username or email"
         value={state.email}
         onValue={(email) => setState({ ...state, email })}
       />

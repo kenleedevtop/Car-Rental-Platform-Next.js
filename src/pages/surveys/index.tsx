@@ -17,9 +17,9 @@ const Surveys = () => {
   return (
     <>
       <Title>Surveys</Title>
-      {role === 'admin' && <AdminSurveysPage />}
-      {role === 'client' && <ClientSurveysPage />}
-      {role === 'influencer' && <InfluencerSurveysPage />}
+      {role === 'ADMIN' && <AdminSurveysPage />}
+      {role === 'CLIENT' && <ClientSurveysPage />}
+      {role === 'INFLUENCER' && <InfluencerSurveysPage />}
     </>
   );
 };
