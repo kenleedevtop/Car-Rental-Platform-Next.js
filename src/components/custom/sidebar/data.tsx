@@ -12,6 +12,7 @@ import {
   HelpIcon,
   AccountIcon,
   SurveyIcon,
+  AmbasadorIcon,
 } from 'components/svg';
 import { TSidebarItem } from 'components/custom/sidebar/types';
 
@@ -62,9 +63,9 @@ export const DSidebarItems: Array<TSidebarItem> = [
   {
     id: 5,
     type: 'route',
-    icon: <AccountIcon />,
+    icon: <AmbasadorIcon />,
     label: 'Ambasadors',
-    location: 'ambasadors',
+    location: '/ambasadors',
     roles: ['admin'],
   },
   {

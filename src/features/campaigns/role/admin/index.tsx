@@ -37,9 +37,9 @@ import { useQuery } from 'react-query';
 import { CampaignAPI } from 'api';
 
 const CampaignsPage = () => {
-  const { isLoading, error, data } = useQuery('campaigns/all', () =>
-    CampaignAPI.getAll()
-  );
+  // const { isLoading, error, data } = useQuery('campaigns/all', () =>
+  //   CampaignAPI.getAll()
+  // );
 
   const [acModal, openAcModal, closeAcModal] = useModal(false);
   const [ecModal, openEcModal, closeEcModal] = useModal(false);
@@ -60,11 +60,11 @@ const CampaignsPage = () => {
 
   return (
     <CampaignsPageMain>
-      <div>
+      {/* <div>
         <div>{isLoading ? 'LOADING' : 'NOT LOADING'}</div>
         <div>{error ? 'ERROR' : 'NOT ERROR'}</div>
         <div>{data ? JSON.stringify(data) : 'NOT DATA'}</div>
-      </div>
+      </div> */}
       <CampaignsPageCharts columns={4}>
         <CardWithChart
           title="In Preparation"

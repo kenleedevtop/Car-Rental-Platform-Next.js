@@ -34,3 +34,4 @@ export { default as UserFocusIcon } from 'components/svg/userFocus';
 export { default as DotsIcon } from 'components/svg/dots';
 export { default as VerifiedIcon } from 'components/svg/verified';
 export { default as SettingsIcon } from 'components/svg/settings';
+export { default as AmbasadorIcon } from 'components/svg/ambasador';

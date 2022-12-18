@@ -5,7 +5,7 @@ import {
   DiscoverClientsPageFilter,
   DiscoverClientsPageFilterActions,
 } from 'features/discover-clients/styles';
-import { CardWithChart, CardWithText } from 'components/custom';
+import { CardWithChart, CardWithText, Tabs } from 'components/custom';
 import {
   ContactedIcon,
   IdentifiedIcon,
@@ -18,11 +18,15 @@ import { Button, Input } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import { DGenerateDiscoverClientsFilter } from 'features/discover-clients/data';
+import { ExportClientsModal } from 'features/discover-clients/role/admin/elements';
+import { useModal } from 'hooks';
 
 const DiscoverClientsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateDiscoverClientsFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [eModal, openEModal, closeEModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -96,7 +100,7 @@ const DiscoverClientsPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained">
+          <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
           <Button color="primary" variant="contained">
@@ -174,9 +178,20 @@ const DiscoverClientsPage = () => {
               </DiscoverClientsPageFilterActions>
             </DiscoverClientsPageFilter>
           </Collapse>
-          <div>Test</div>
+          <Tabs
+            value={0}
+            onValue={() => {}}
+            tabs={[
+              'Identified',
+              'Contacted',
+              'Registered',
+              'Scheduled',
+              'Approved',
+            ]}
+          />
         </Stack>
       </CardWithText>
+      {eModal && <ExportClientsModal onClose={closeEModal} />}
     </DiscoverClientsPageMain>
   );
 };
