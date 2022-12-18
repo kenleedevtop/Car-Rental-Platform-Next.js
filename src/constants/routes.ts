@@ -6,6 +6,7 @@ export const CProtectedRoutes = [
   '/clients',
   '/discover/clients',
   '/discover/influencers',
+  '/ambasadors',
   '/finance',
   '/help',
   '/income',
