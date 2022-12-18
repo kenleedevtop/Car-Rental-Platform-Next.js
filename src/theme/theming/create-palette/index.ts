@@ -68,6 +68,7 @@ const createPalette = () => ({
       '#2f2f2f',
       '#1f1f1f',
     ],
+    stepper: '#C3DBEE',
   },
 });
 

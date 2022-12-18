@@ -13,6 +13,7 @@ declare module '@mui/material/styles/createPalette' {
   interface CommonColors {
     gray: Array<string>;
     background: string;
+    stepper: string;
   }
 }
 

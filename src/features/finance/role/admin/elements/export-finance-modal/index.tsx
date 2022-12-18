@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TExportFinanceModalProps } from 'features/finance/role/admin/elements/export-finance-modal/types';
 import { ExportFinanceModalMain } from 'features/finance/role/admin/elements/export-finance-modal/styles';
-import { Button, Checkbox } from 'components/ui';
+import { Button, Checkbox, RadioButton } from 'components/ui';
 import { Stack } from 'components/system';
 
 const ExportFinanceModal = ({
@@ -10,8 +10,6 @@ const ExportFinanceModal = ({
   ...props
 }: TExportFinanceModalProps) => {
   const [state, setState] = useState({
-    costAll: false,
-    costSelected: false,
     payments: false,
     withdrawals: false,
     revenueAll: false,
@@ -21,6 +19,12 @@ const ExportFinanceModal = ({
   });
 
   const [tab, setTab] = useState(0);
+
+  const [radioState, setRadioState] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioState(e.target.value);
+  };
 
   return (
     <Modal
@@ -43,19 +47,17 @@ const ExportFinanceModal = ({
         <Tabs tabs={['Cost', 'Revenue']} value={tab} onValue={setTab} />
         {tab === 0 && (
           <ExportFinanceModalMain columns={2}>
-            <Checkbox
-              color="secondary"
+            <RadioButton
+              checked={radioState === 'all'}
+              onChange={handleChange}
+              value="all"
               label="All"
-              size="large"
-              value={state.costAll}
-              onValue={(costAll) => setState({ ...state, costAll })}
             />
-            <Checkbox
-              color="secondary"
+            <RadioButton
+              checked={radioState === 'selected'}
+              onChange={handleChange}
+              value="selected"
               label="Selected"
-              size="large"
-              value={state.costSelected}
-              onValue={(costSelected) => setState({ ...state, costSelected })}
             />
             <Checkbox
               color="secondary"

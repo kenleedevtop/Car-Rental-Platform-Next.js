@@ -7,18 +7,10 @@ import {
 } from 'features/campaigns/styles';
 import {
   DCampaignsHead,
-  DCampaignsHead2,
   DGenerateCampaignsFilter,
 } from 'features/campaigns/data';
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
-import {
-  ContactedIcon,
-  GramophoneIcon,
-  IdentifiedIcon,
-  RegisteredIcon,
-  SlidersHorizontalIcon,
-  TotalIcon,
-} from 'components/svg';
+import { GramophoneIcon, SlidersHorizontalIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';

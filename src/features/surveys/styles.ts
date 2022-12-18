@@ -6,10 +6,8 @@ export const SurveysPageMain = styled(Stack)`
   width: 100%;
 `;
 
-export const SurveysPageCharts = styled(Grid)<{ theme?: Theme }>`
-  ${({ theme }) => `
-        width: 100%;
-    `}
+export const SurveysPageCharts = styled(Grid)`
+  width: 100%;
 `;
 
 export const SurveysPageFilter = styled(Stack)<{ theme?: Theme }>`

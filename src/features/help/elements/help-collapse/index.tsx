@@ -17,7 +17,7 @@ const HelpCollapse = ({ title, icon, text, ...props }: THelpCollapseProps) => {
   };
 
   return (
-    <HelpCollapseMain>
+    <HelpCollapseMain {...props}>
       <Stack>
         <HelpCollapseHeader onClick={openHelp}>
           <h2>{title}</h2>

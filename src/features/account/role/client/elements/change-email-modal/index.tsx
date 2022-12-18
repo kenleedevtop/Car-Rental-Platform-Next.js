@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TChangeEmailModalProps } from 'features/account/role/ambasador/elements/change-email-modal/types';
 import { ChangeEmailModalMain } from 'features/account/role/ambasador/elements/change-email-modal/styles';
-import { Button, Checkbox, Input } from 'components/ui';
+import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 
 const ChangeEmailModal = ({ onClose, ...props }: TChangeEmailModalProps) => {

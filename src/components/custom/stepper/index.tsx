@@ -7,6 +7,8 @@ import {
   StepHelper,
   StepContainer,
   ButtonsMain,
+  StepperConnector,
+  StepFinal,
 } from 'components/custom/stepper/styles';
 import { Step, StepLabel } from 'components/custom/stepper/elements';
 import {
@@ -45,12 +47,27 @@ const Stepper = () => {
             activeStep={activeStep}
             alternativeLabel
             style={{ marginBottom: '50px' }}
+            connector={<StepperConnector />}
           >
-            {steps.map((label, index) => (
-              <Step key={label}>
-                <StepLabel> {label} </StepLabel>
-              </Step>
-            ))}
+            {steps.map((label, index) =>
+              index !== 4 ? (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ) : (
+                <Step key={label}>
+                  <StepLabel
+                    StepIconComponent={
+                      <StepFinal>
+                        <VerifiedIcon />
+                      </StepFinal>
+                    }
+                  >
+                    {label}
+                  </StepLabel>
+                </Step>
+              )
+            )}
           </StepperContainer>
           {activeStep === 0 && <Step1 />}
           {activeStep === 1 && <Step2 />}
@@ -75,7 +92,7 @@ const Stepper = () => {
             color="primary"
             onClick={addStep}
           >
-            Next
+            {activeStep === 3 ? 'Submit' : 'Next'}
           </Button>
         </ButtonsMain>
       </StepHelper>

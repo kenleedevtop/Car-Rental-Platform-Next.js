@@ -32,9 +32,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
     instructions: '',
   });
 
-  const handleFile = async () => {
-    console.log('Test');
-  };
+  const handleFile = async () => {};
 
   const [tab, setTab] = useState(0);
 
@@ -55,7 +53,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
       onClose={onClose}
       {...props}
     >
-      <Stack>
+      <Stack style={{ height: '550px' }}>
         <Tabs
           tabs={['Info', 'Target', 'Instructions']}
           value={tab}

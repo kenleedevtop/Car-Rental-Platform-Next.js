@@ -2,21 +2,17 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TExportBenefitsModalProps } from 'features/benefits/role/influencer/elements/export-benefits-modal/types';
 import { ExportBenefitsModalMain } from 'features/benefits/role/influencer/elements/export-benefits-modal/styles';
-import { Button, Checkbox } from 'components/ui';
+import { Button, RadioButton } from 'components/ui';
 
 const ExportBenefitsModal = ({
   onClose,
   ...props
 }: TExportBenefitsModalProps) => {
-  const [state, setState] = useState({
-    all: false,
-    selected: false,
-    company: false,
-    category: false,
-    location: false,
-    link: false,
-    benefit: false,
-  });
+  const [state, setState] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState(e.target.value);
+  };
 
   return (
     <Modal
@@ -36,19 +32,17 @@ const ExportBenefitsModal = ({
       {...props}
     >
       <ExportBenefitsModalMain columns={2}>
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={state === 'all'}
+          onChange={handleChange}
+          value="all"
           label="All"
-          size="large"
-          value={state.all}
-          onValue={(all) => setState({ ...state, all })}
         />
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={state === 'selected'}
+          onChange={handleChange}
+          value="selected"
           label="Selected"
-          size="large"
-          value={state.selected}
-          onValue={(selected) => setState({ ...state, selected })}
         />
       </ExportBenefitsModalMain>
     </Modal>
