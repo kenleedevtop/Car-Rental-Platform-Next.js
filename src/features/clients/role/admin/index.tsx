@@ -5,7 +5,7 @@ import {
   ClientsPageFilter,
   ClientsPageFilterActions,
 } from 'features/clients/styles';
-import { CardWithChart, CardWithText } from 'components/custom';
+import { CardWithChart, CardWithText, Table, Title } from 'components/custom';
 import {
   ContactedIcon,
   IdentifiedIcon,
@@ -14,15 +14,20 @@ import {
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input } from 'components/ui';
+import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateClientsFilter } from 'features/clients/data';
+import { DClientsHead, DGenerateClientsFilter } from 'features/clients/data';
+import { TTableRenderItemObject } from 'components/custom/table/types';
+import { useModal } from 'hooks';
+import { ExportClientsModal } from 'features/clients/role/admin/elements';
 
 const ClientsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateClientsFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [eModal, openEModal, closeEModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -31,6 +36,8 @@ const ClientsPage = () => {
   const clearFilters = () => {
     setFilter(DGenerateClientsFilter());
   };
+
+  const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   return (
     <ClientsPageMain>
@@ -96,7 +103,7 @@ const ClientsPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained">
+          <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
           <Button color="primary" variant="contained">
@@ -209,9 +216,12 @@ const ClientsPage = () => {
               </ClientsPageFilterActions>
             </ClientsPageFilter>
           </Collapse>
-          <div>Test</div>
+          <Title title="Clients" />
+          <Table head={DClientsHead} items={[]} renderItem={renderItem} />
+          <Pagination count={32} />
         </Stack>
       </CardWithText>
+      {eModal && <ExportClientsModal onClose={closeEModal} />}
     </ClientsPageMain>
   );
 };

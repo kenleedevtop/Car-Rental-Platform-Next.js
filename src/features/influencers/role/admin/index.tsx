@@ -5,7 +5,7 @@ import {
   InfluencersPageFilter,
   InfluencersPageFilterActions,
 } from 'features/influencers/styles';
-import { CardWithChart, CardWithText } from 'components/custom';
+import { CardWithChart, CardWithText, Table, Title } from 'components/custom';
 import {
   InstagramIcon,
   SlidersHorizontalIcon,
@@ -13,15 +13,23 @@ import {
   YoutubeIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input } from 'components/ui';
+import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateInfluencersFilter } from 'features/influencers/data';
+import {
+  DClientsHead,
+  DGenerateInfluencersFilter,
+} from 'features/influencers/data';
+import { TTableRenderItemObject } from 'components/custom/table/types';
+import { useModal } from 'hooks';
+import { ExportInfluencersModal } from 'features/influencers/role/admin/elements';
 
 const InfluencersPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateInfluencersFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [eModal, openEModal, closeEModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -30,6 +38,8 @@ const InfluencersPage = () => {
   const clearFilters = () => {
     setFilter(DGenerateInfluencersFilter());
   };
+
+  const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   return (
     <InfluencersPageMain>
@@ -83,7 +93,7 @@ const InfluencersPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained">
+          <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
           <Button color="primary" variant="contained">
@@ -225,9 +235,12 @@ const InfluencersPage = () => {
               </InfluencersPageFilterActions>
             </InfluencersPageFilter>
           </Collapse>
-          <div>Test</div>
+          <Title title="Clients" />
+          <Table head={DClientsHead} items={[]} renderItem={renderItem} />
+          <Pagination count={32} />
         </Stack>
       </CardWithText>
+      {eModal && <ExportInfluencersModal onClose={closeEModal} />}
     </InfluencersPageMain>
   );
 };

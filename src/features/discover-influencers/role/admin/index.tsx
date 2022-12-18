@@ -5,7 +5,7 @@ import {
   DiscoverInfluencersPageFilter,
   DiscoverInfluencersPageFilterActions,
 } from 'features/discover-influencers/styles';
-import { CardWithChart, CardWithText } from 'components/custom';
+import { CardWithChart, CardWithText, Tabs } from 'components/custom';
 import {
   InstagramIcon,
   SlidersHorizontalIcon,
@@ -184,6 +184,17 @@ const DiscoverInfluencersPage = () => {
               </DiscoverInfluencersPageFilterActions>
             </DiscoverInfluencersPageFilter>
           </Collapse>
+          <Tabs
+            value={0}
+            onValue={() => {}}
+            tabs={[
+              'Identified',
+              'Contacted',
+              'Registered',
+              'To Be Approved',
+              'Approved',
+            ]}
+          />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
               Delete Influencer
