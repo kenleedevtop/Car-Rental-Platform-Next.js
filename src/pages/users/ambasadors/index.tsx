@@ -7,7 +7,7 @@ const DiscoverAmbasadors = () => {
   const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
-    setRouteName('Discover Ambasadors');
+    setRouteName('Discover Ambassadors');
   }, []);
 
   return (

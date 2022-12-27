@@ -22,14 +22,33 @@ import {
 } from 'features/influencers/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { useModal } from 'hooks';
-import { ExportInfluencersModal } from 'features/influencers/role/admin/elements';
+import {
+  AddToInfluencerModal,
+  DonateInfluencerModal,
+  ContactInfluencerModal,
+  DeleteInfluencerModal,
+  ExportInfluencersModal,
+  InfluencerProfile,
+  NoteInfluencer,
+  NotificationsSettingsModal,
+  ScheduleInfluencerModal,
+} from 'features/influencers/role/admin/elements';
 
 const InfluencersPage = () => {
+  // Modals
+  const [aiModal, openAiModal, closeAiModal] = useModal(false);
+  const [donateiModal, openDonateiModal, closeDonateiModal] = useModal(false);
+  const [eModal, openEModal, closeEModal] = useModal(false);
+  const [diModal, openDiModal, closeDiModal] = useModal(false);
+  const [ciModal, openCiModal, closeCiModal] = useModal(false);
+  const [siModal, openSiModal, closeSiModal] = useModal(false);
+  const [nsModal, openNsModal, closeNsModal] = useModal(false);
+  const [ipModal, openIpModal, closeIpModal] = useModal(false);
+  const [niModal, openNiModal, closeNiModal] = useModal(false);
+
   const [filter, setFilter] = useState<any>(DGenerateInfluencersFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
-
-  const [eModal, openEModal, closeEModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -96,7 +115,7 @@ const InfluencersPage = () => {
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={openAiModal}>
             Add To
           </Button>,
         ]}
@@ -238,9 +257,44 @@ const InfluencersPage = () => {
           <Title title="Clients" />
           <Table head={DClientsHead} items={[]} renderItem={renderItem} />
           <Pagination count={32} />
+          <Stack direction="horizontal">
+            <Button color="primary" variant="contained" onClick={openDiModal}>
+              Delete Influencer
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={openDonateiModal}
+            >
+              Donate Influencer
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCiModal}>
+              Contact Influencer
+            </Button>
+            <Button color="primary" variant="contained" onClick={openSiModal}>
+              Schedule Influencer
+            </Button>
+            <Button color="primary" variant="contained" onClick={openNsModal}>
+              Notifications Settings
+            </Button>
+            <Button color="primary" variant="contained" onClick={openIpModal}>
+              Influencer Profile
+            </Button>
+            <Button color="primary" variant="contained" onClick={openNiModal}>
+              Note Influencer
+            </Button>
+          </Stack>
         </Stack>
       </CardWithText>
+      {aiModal && <AddToInfluencerModal onClose={closeAiModal} />}
+      {donateiModal && <DonateInfluencerModal onClose={closeDonateiModal} />}
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}
+      {diModal && <DeleteInfluencerModal onClose={closeDiModal} />}
+      {ciModal && <ContactInfluencerModal onClose={closeCiModal} />}
+      {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
+      {nsModal && <NotificationsSettingsModal onClose={closeNsModal} />}
+      {ipModal && <InfluencerProfile onClose={closeIpModal} />}
+      {niModal && <NoteInfluencer onClose={closeNiModal} />}{' '}
     </InfluencersPageMain>
   );
 };

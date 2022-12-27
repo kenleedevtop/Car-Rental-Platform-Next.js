@@ -22,6 +22,8 @@ import {
   ContactInfluencerModal,
   DeleteInfluencerModal,
   ExportInfluencersModal,
+  InfluencerProfile,
+  NoteInfluencer,
   NotificationsSettingsModal,
   ScheduleInfluencerModal,
 } from 'features/discover-influencers/role/admin/elements';
@@ -35,6 +37,8 @@ const DiscoverInfluencersPage = () => {
   const [ciModal, openCiModal, closeCiModal] = useModal(false);
   const [siModal, openSiModal, closeSiModal] = useModal(false);
   const [nsModal, openNsModal, closeNsModal] = useModal(false);
+  const [ipModal, openIpModal, closeIpModal] = useModal(false);
+  const [niModal, openNiModal, closeNiModal] = useModal(false);
 
   const [filter, setFilter] = useState<any>(
     DGenerateDiscoverInfluencersFilter()
@@ -208,6 +212,12 @@ const DiscoverInfluencersPage = () => {
             <Button color="primary" variant="contained" onClick={openNsModal}>
               Notifications Settings
             </Button>
+            <Button color="primary" variant="contained" onClick={openIpModal}>
+              Influencer Profile
+            </Button>
+            <Button color="primary" variant="contained" onClick={openNiModal}>
+              Note Influencer
+            </Button>
           </Stack>
         </Stack>
       </CardWithText>
@@ -218,6 +228,8 @@ const DiscoverInfluencersPage = () => {
       {ciModal && <ContactInfluencerModal onClose={closeCiModal} />}
       {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
       {nsModal && <NotificationsSettingsModal onClose={closeNsModal} />}
+      {ipModal && <InfluencerProfile onClose={closeIpModal} />}
+      {niModal && <NoteInfluencer onClose={closeNiModal} />}
     </DiscoverInfluencersPageMain>
   );
 };
