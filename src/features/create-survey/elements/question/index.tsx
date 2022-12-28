@@ -32,7 +32,7 @@ const Question = ({ counter, type = 'short', ...props }: TQuestionProps) => {
   });
 
   return (
-    <QuestionMain>
+    <QuestionMain {...props}>
       <QuestionHeader>
         <QuestionCounter>Question {counter}</QuestionCounter>
         <QuestionHeaderActions>
@@ -46,10 +46,9 @@ const Question = ({ counter, type = 'short', ...props }: TQuestionProps) => {
             type="select"
             placeholder="Short Answer"
             value={questionData.answerType}
-            onValue={(answerType) => {
-              console.log(answerType);
-              setQuestionData({ ...questionData, answerType });
-            }}
+            onValue={(answerType) =>
+              setQuestionData({ ...questionData, answerType })
+            }
             options={[
               {
                 value: 'short',
