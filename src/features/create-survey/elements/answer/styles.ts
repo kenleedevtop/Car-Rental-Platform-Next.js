@@ -10,9 +10,6 @@ export const AnswerMain = styled.div<{ theme?: Theme }>`
         align-items: flex-start;
         gap: ${theme.spacing(5)};
 
-        input {
-            width: 250px;
-        }
     `}
 `;
 
@@ -26,8 +23,13 @@ export const AnswerHeader = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const AnswerArea = styled.div`
-  width: 500px;
+export const AnswerArea = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 500px;
+    display: flex;
+    align-items: center;
+    gap: ${theme.spacing(2.5)};  
+  `}
 `;
 
 export const AnswerFooter = styled.div`
@@ -35,4 +37,19 @@ export const AnswerFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
+`;
+
+export const AddAnswerArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+export const AreaHighlight = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    color: ${theme.palette.primary.main};
+    font-weight: 600;
+    margin: ${theme.spacing(1)};
+    cursor: pointer;
+  `}
 `;

@@ -33,7 +33,7 @@ const Input = ({
   };
 
   const handleSelect = (_e: React.ChangeEvent<any>, v: any) => {
-    if (onValue) onValue(v.value);
+    if (onValue) onValue(v?.value);
   };
 
   const handleDate = (newValue: any) => {

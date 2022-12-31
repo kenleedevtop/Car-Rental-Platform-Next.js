@@ -31,7 +31,21 @@ export const QuestionHeaderActions = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const QuestionCounter = styled.div``;
+export const QuestionCounter = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  span {
+    flex-basis: 15%;
+  }
+
+  input {
+    background: white;
+  }
+
+  margin-right: 50px;
+`;
 
 export const QuestionActions = styled.div`
   display: grid;
@@ -55,26 +69,11 @@ export const QuestionFooter = styled.div<{ theme?: Theme }>`
     align-items: center;
     justify-content: flex-end;
     padding: ${theme.spacing(5)} 0;
+    gap: ${theme.spacing(5)};
 
     svg {
         cursor: pointer;
     }
-    `}
-`;
-
-export const QuestionFooterLeft = styled.div`
-  width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-`;
-export const QuestionFooterRight = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: ${theme.spacing(5)};
     `}
 `;
 

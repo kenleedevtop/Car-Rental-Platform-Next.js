@@ -12,16 +12,19 @@ import {
   NavigationProfileDropdown,
   NavigationProvileIcon,
 } from 'components/custom/navigation/styles';
+import { ProfilePicture } from 'components/custom/navigation/elements';
 import { TNavigationProps } from 'components/custom/navigation/types';
 import { useAppContext } from 'context';
 import { AccountIcon, ArrowDownIcon, LogoutIcon } from 'components/svg';
-import { useMenu } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen] = useMenu(false);
   const [search, setSearch] = useState('');
+
+  const [ppModal, openPpModal, closePpModal] = useModal(false);
 
   const router = useRouter();
 
@@ -80,6 +83,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
                   label: 'Account',
                   action: () => {
                     handleMenu();
+                    openPpModal();
                   },
                 },
                 {
@@ -93,6 +97,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           )}
         </NavigationProfileOuter>
       </NavigationItems>
+      {ppModal && <ProfilePicture onClose={closePpModal} />}
     </NavigationMain>
   );
 };
