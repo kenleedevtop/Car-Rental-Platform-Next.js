@@ -7,9 +7,22 @@ import {
   LostPasswordText,
 } from 'features/login/elements/lost-password-modal/styles';
 import { Button, Input } from 'components/ui';
+import { AuthorizationAPI } from 'api';
+import { useSnackbar } from 'hooks';
 
 const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
   const [email, setEmail] = useState('');
+  const { push } = useSnackbar();
+
+  const handleReset = async () => {
+    try {
+      const { message } = await AuthorizationAPI.resetPassword({ email });
+      push(message, { variant: 'success' });
+      onClose();
+    } catch {
+      push('Invalid email format!', { variant: 'error' });
+    }
+  };
 
   return (
     <Modal size="medium" onClose={onClose} {...props}>
@@ -25,7 +38,12 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
           onValue={(input) => setEmail(input)}
           style={{ width: '50%' }}
         />
-        <Button variant="contained" color="secondary" size="large">
+        <Button
+          variant="contained"
+          color="secondary"
+          size="large"
+          onClick={handleReset}
+        >
           Send
         </Button>
       </LostPasswordModalMain>
