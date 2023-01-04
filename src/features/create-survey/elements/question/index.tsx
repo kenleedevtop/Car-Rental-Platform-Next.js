@@ -5,27 +5,72 @@ import {
   QuestionHeader,
   QuestionHeaderActions,
   QuestionCounter,
-  QuestionActions,
   QuestionBody,
   QuestionFooter,
 } from 'features/create-survey/elements/question/styles';
-import { Input, Switch } from 'components/ui';
-import { CopyIcon, DeleteIcon, VerticalDotsIcon } from 'components/svg';
+import { Button, Checkbox, Input, RadioButton, Switch } from 'components/ui';
+import { CopyIcon, DeleteIcon } from 'components/svg';
 import { Answer } from 'features/create-survey/elements';
+import {
+  TSurveyQuestionMultichoiceType,
+  TSurveyQuestionMultiselectType,
+  TSurveyQuestionType,
+} from 'features/create-survey/types';
+import { Stack } from 'components/system';
+import { v4 } from 'uuid';
 
 const Question = ({
   question,
   questionId,
+  updateQuestion,
   remove,
-  copy,
-  changeOptional,
-  changeCredit,
   changeType,
-  addAnswer,
-  addOther,
+  copy,
   ...props
 }: TQuestionProps) => {
-  const [value, setValue] = useState('');
+  const changeQuestion = (v: string) => {
+    updateQuestion({ question: v });
+  };
+
+  const changeCredit = (v: string) => {
+    updateQuestion({ credit: v });
+  };
+
+  const changeOptional = (v: boolean) => {
+    updateQuestion({ optional: v });
+  };
+
+  const updateAnswer = (id: number) => (v: string) => {
+    if (['multichoice', 'multiselect'].includes(question.type)) {
+      const questionWithAnswers = question as
+        | TSurveyQuestionMultichoiceType
+        | TSurveyQuestionMultiselectType;
+      updateQuestion({
+        answers: questionWithAnswers.answers.map((x, y) =>
+          y === id ? { ...x, value: v } : x
+        ),
+      });
+    }
+  };
+
+  const addOption = () => {
+    const questionWithAnswers = question as
+      | TSurveyQuestionMultichoiceType
+      | TSurveyQuestionMultiselectType;
+
+    const newAnswer = {
+      id: v4(),
+      value: '',
+    };
+    updateQuestion({ answers: [...questionWithAnswers.answers, newAnswer] });
+  };
+
+  const toggleHasOther = () => {
+    const questionWithAnswers = question as
+      | TSurveyQuestionMultichoiceType
+      | TSurveyQuestionMultiselectType;
+    updateQuestion({ hasOther: !questionWithAnswers.hasOther });
+  };
 
   return (
     <QuestionMain {...props}>
@@ -35,28 +80,22 @@ const Question = ({
           <Input
             type="text"
             placeholder="Enter question"
-            value={value}
-            onValue={(v) => {
-              setValue(v);
-            }}
-          />{' '}
+            value={question.question}
+            onValue={changeQuestion}
+          />
         </QuestionCounter>
         <QuestionHeaderActions>
           <Input
             type="number"
             placeholder="Question credit"
             value={question.credit}
-            onValue={(v) => {
-              changeCredit(question.id, v);
-            }}
+            onValue={changeCredit}
           />
           <Input
             type="select"
             placeholder="Short Answer"
             value={question.type}
-            onValue={(v) => {
-              changeType(question.id, v);
-            }}
+            onValue={changeType}
             options={[
               {
                 value: 'short',
@@ -79,48 +118,53 @@ const Question = ({
         </QuestionHeaderActions>
       </QuestionHeader>
       <QuestionBody>
-        {question.type === 'short' && (
-          <Answer
-            addOther={addOther}
-            hasOther={false}
-            isLast
-            questionId={question.id}
-            add={addAnswer}
-            answerType={question.type}
-          />
-        )}
-        {question.type === 'paragraph' && (
-          <Answer
-            addOther={addOther}
-            hasOther={false}
-            isLast
-            questionId={question.id}
-            add={addAnswer}
-            answerType={question.type}
-          />
-        )}
+        {question.type === 'short' && <h1>SHORT</h1>}
+        {question.type === 'paragraph' && <h1>PARAGRAPH</h1>}
         {question.type === 'multichoice' &&
           question.answers.map((el, index) => (
-            <Answer
-              addOther={addOther}
-              hasOther={el.hasOther}
-              isLast={index === question.answers.length - 1}
-              questionId={question.id}
-              add={addAnswer}
-              answerType={question.type}
-            />
+            <Stack direction="horizontal">
+              <RadioButton label="" value={false} />
+              <Input
+                type="text"
+                placeholder={`Question answer ${index + 1}`}
+                value={el.value}
+                onValue={updateAnswer(index)}
+              />
+            </Stack>
           ))}
         {question.type === 'multiselect' &&
           question.answers.map((el, index) => (
-            <Answer
-              addOther={addOther}
-              hasOther={el.hasOther}
-              isLast={index === question.answers.length - 1}
-              questionId={question.id}
-              add={addAnswer}
-              answerType={question.type}
-            />
+            <Stack direction="horizontal">
+              <Checkbox value={false} />
+              <Input
+                type="text"
+                placeholder={`Question answer ${index + 1}`}
+                value={el.value}
+                onValue={updateAnswer(index)}
+              />
+            </Stack>
           ))}
+        {(question as any).hasOther && (
+          <Stack direction="horizontal">
+            <Checkbox value={false} />
+            <Input
+              type="text"
+              placeholder="Other answer"
+              value=""
+              onValue={() => {}}
+            />
+          </Stack>
+        )}
+        {['multichoice', 'multiselect'].includes(question.type) && (
+          <>
+            <Switch
+              label="Has other"
+              value={(question as any).hasOther}
+              onValue={toggleHasOther}
+            />
+            <Button onClick={addOption}>Add more options</Button>
+          </>
+        )}
       </QuestionBody>
       <QuestionFooter>
         <CopyIcon
@@ -135,9 +179,7 @@ const Question = ({
         />
         <Switch
           value={question.optional}
-          onValue={() => {
-            changeOptional(question.id);
-          }}
+          onValue={changeOptional}
           label="Optional"
         />
       </QuestionFooter>

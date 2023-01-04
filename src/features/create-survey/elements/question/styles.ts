@@ -58,7 +58,14 @@ export const QuestionActions = styled.div`
   }
 `;
 
-export const QuestionBody = styled.div``;
+export const QuestionBody = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    padding: ${theme.spacing(5)} 0;
+    display: flex;
+    flex-direction: column;
+    gap: ${theme.spacing(2)};
+  `}
+`;
 
 export const QuestionFooter = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `

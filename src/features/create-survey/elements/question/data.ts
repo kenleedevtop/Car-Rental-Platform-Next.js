@@ -1,54 +1,53 @@
 import { v4 } from 'uuid';
 import {
-  TQuestionMultichoiceType,
-  TQuestionMultiselectType,
-  TQuestionParagraphType,
-  TQuestionShortType,
-} from 'features/create-survey/elements/question/types';
+  TSurveyQuestionMultichoiceType,
+  TSurveyQuestionMultiselectType,
+  TSurveyQuestionParagraphType,
+  TSurveyQuestionShortType,
+} from 'features/create-survey/types';
 
-export const DQuestionShortConstructor = (): TQuestionShortType => ({
+export const DQuestionShortConstructor = (): TSurveyQuestionShortType => ({
   id: v4(),
-  credit: 0,
+  credit: '',
   optional: false,
   type: 'short',
-  answer: '',
+  question: '',
 });
-export const DQuestionParagraphConstructor = (): TQuestionParagraphType => ({
-  id: v4(),
-  credit: 0,
-  optional: false,
-  type: 'paragraph',
-  answer: '',
-});
-export const DQuestionMultichoiceConstructor =
-  (): TQuestionMultichoiceType => ({
+export const DQuestionParagraphConstructor =
+  (): TSurveyQuestionParagraphType => ({
     id: v4(),
-    credit: 0,
+    credit: '',
+    optional: false,
+    type: 'paragraph',
+    question: '',
+  });
+export const DQuestionMultichoiceConstructor =
+  (): TSurveyQuestionMultichoiceType => ({
+    id: v4(),
+    credit: '',
     optional: false,
     type: 'multichoice',
     answers: [
       {
         id: v4(),
         value: '',
-        isLast: false,
-        hasOther: false,
       },
     ],
-    answer: '',
+    question: '',
+    hasOther: false,
   });
 export const DQuestionMultiselectConstructor =
-  (): TQuestionMultiselectType => ({
+  (): TSurveyQuestionMultiselectType => ({
     id: v4(),
-    credit: 0,
+    credit: '',
     optional: false,
     type: 'multiselect',
     answers: [
       {
         id: v4(),
         value: '',
-        isLast: false,
-        hasOther: false,
       },
     ],
-    answer: '',
+    question: '',
+    hasOther: false,
   });

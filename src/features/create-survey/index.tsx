@@ -1,5 +1,5 @@
 import { CardWithText } from 'components/custom';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Question } from 'features/create-survey/elements';
 import {
   CreateSurveyPageMain,
@@ -8,10 +8,6 @@ import {
 } from 'features/create-survey/styles';
 import { Card } from 'components/ui';
 import { AddIcon } from 'components/svg';
-import {
-  TQuestionData,
-  TQuestionType,
-} from 'features/create-survey/elements/question/types';
 import { v4 } from 'uuid';
 import {
   DQuestionMultichoiceConstructor,
@@ -19,15 +15,20 @@ import {
   DQuestionParagraphConstructor,
   DQuestionShortConstructor,
 } from 'features/create-survey/elements/question/data';
+import {
+  TSurveyQuestionData,
+  TSurveyQuestionType,
+  TSurveyQuestionUpdateData,
+} from 'features/create-survey/types';
 
 const CreateSurveyPage = () => {
-  const [questions, setQuestions] = useState<Array<TQuestionData>>([
+  const [questions, setQuestions] = useState<Array<TSurveyQuestionData>>([
     {
       id: v4(),
-      credit: 0,
+      credit: '',
       type: 'short',
       optional: false,
-      answer: '',
+      question: '',
     },
   ]);
 
@@ -36,10 +37,10 @@ const CreateSurveyPage = () => {
       ...prev,
       {
         id: v4(),
-        credit: 0,
+        credit: '',
         type: 'short',
         optional: false,
-        answer: '',
+        question: '',
       },
     ]);
   };
@@ -59,19 +60,28 @@ const CreateSurveyPage = () => {
     }
   };
 
-  const changeOptional = (id: string) => {
-    setQuestions((prev) =>
-      prev.map((el) => (el.id === id ? { ...el, optional: !el.optional } : el))
-    );
+  // type fix
+  const updateQuestion = (id: string) => (a: any) => {
+    setQuestions(questions.map((x) => (x.id === id ? { ...x, ...a } : x)));
   };
 
-  const changeCredit = (id: string, value: number) => {
-    setQuestions((prev) =>
-      prev.map((el) => (el.id === id ? { ...el, credit: value } : el))
-    );
-  };
+  useEffect(() => {
+    console.log(questions);
+  }, [questions]);
 
-  const changeType = (id: string, value: TQuestionType) => {
+  // const changeOptional = (id: string) => {
+  //   setQuestions((prev) =>
+  //     prev.map((el) => (el.id === id ? { ...el, optional: !el.optional } : el))
+  //   );
+  // };
+
+  // const changeCredit = (id: string, value: number) => {
+  //   setQuestions((prev) =>
+  //     prev.map((el) => (el.id === id ? { ...el, credit: value } : el))
+  //   );
+  // };
+
+  const changeType = (id: string) => (value: TSurveyQuestionType) => {
     const questionTypes = {
       short: DQuestionShortConstructor,
       paragraph: DQuestionParagraphConstructor,
@@ -82,41 +92,41 @@ const CreateSurveyPage = () => {
     setQuestions((prev) => prev.map((el) => (el.id === id ? newQuestion : el)));
   };
 
-  const addOther = (id: string) => {
-    const helper = questions.find((el) => el.id === id);
-    if (
-      helper &&
-      (helper.type === 'multichoice' || helper.type === 'multiselect')
-    ) {
-      // helper.answers.map((el) => ({ ...el, hasOther: false }));
+  // const addOther = (id: string) => {
+  //   const helper = questions.find((el) => el.id === id);
+  //   if (
+  //     helper &&
+  //     (helper.type === 'multichoice' || helper.type === 'multiselect')
+  //   ) {
+  //     // helper.answers.map((el) => ({ ...el, hasOther: false }));
 
-      const secondHelper = helper.answers.map((el, index) =>
-        index === helper.answers.length - 1 ? { ...el, hasOther: true } : el
-      );
-      setQuestions((prev) =>
-        prev.map((el) => (el.id === id ? { ...el, answers: secondHelper } : el))
-      );
-    }
-  };
+  //     const secondHelper = helper.answers.map((el, index) =>
+  //       index === helper.answers.length - 1 ? { ...el, hasOther: true } : el
+  //     );
+  //     setQuestions((prev) =>
+  //       prev.map((el) => (el.id === id ? { ...el, answers: secondHelper } : el))
+  //     );
+  //   }
+  // };
 
-  const addAnswer = (id: string) => {
-    const helper = questions.find((el) => el.id === id);
-    if (
-      helper &&
-      (helper.type === 'multichoice' || helper.type === 'multiselect')
-    ) {
-      helper.answers = [
-        ...helper.answers,
-        { id: v4(), value: '', isLast: false, hasOther: false },
-      ];
-      const secondHelper = helper.answers;
-      setQuestions((prev) =>
-        prev.map((el) => (el.id === id ? { ...el, answers: secondHelper } : el))
-      );
+  // const addAnswer = (id: string) => {
+  //   const helper = questions.find((el) => el.id === id);
+  //   if (
+  //     helper &&
+  //     (helper.type === 'multichoice' || helper.type === 'multiselect')
+  //   ) {
+  //     helper.answers = [
+  //       ...helper.answers,
+  //       { id: v4(), value: '', isLast: false, hasOther: false },
+  //     ];
+  //     const secondHelper = helper.answers;
+  //     setQuestions((prev) =>
+  //       prev.map((el) => (el.id === id ? { ...el, answers: secondHelper } : el))
+  //     );
 
-      helper.answers.map((el) => (el.hasOther ? addOther(id) : null));
-    }
-  };
+  //     helper.answers.map((el) => (el.hasOther ? addOther(id) : null));
+  //   }
+  // };
 
   return (
     <CreateSurveyPageMain>
@@ -126,13 +136,10 @@ const CreateSurveyPage = () => {
           {questions.map((el, index) => (
             <Question
               questionId={index + 1}
-              changeOptional={changeOptional}
-              changeCredit={changeCredit}
-              changeType={changeType}
               copy={copyQuestion}
               remove={deleteQuestion}
-              addAnswer={addAnswer}
-              addOther={addOther}
+              updateQuestion={updateQuestion(el.id)}
+              changeType={changeType(el.id)}
               question={el}
             />
           ))}
