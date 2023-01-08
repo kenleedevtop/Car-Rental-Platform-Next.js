@@ -13,7 +13,7 @@ const Benefits = () => {
   return (
     <>
       <Title>Benefits</Title>
-      {role === 'influencer' && <InfluencerBenefitsPage />}
+      {role === 'INFLUENCER' && <InfluencerBenefitsPage />}
     </>
   );
 };

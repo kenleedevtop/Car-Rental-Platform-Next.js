@@ -71,3 +71,6 @@ export { default as LoginPage } from 'features/login';
 
 // Registration
 export { RegisterCompanyPage, RegisterInfluencerPage } from 'features/register';
+
+// Registration
+export { default as LoadingPage } from 'features/loading';

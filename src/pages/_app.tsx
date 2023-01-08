@@ -23,6 +23,7 @@ import {
   Filler,
 } from 'chart.js';
 import { useRouter } from 'next/router';
+import { SnackbarProvider } from 'notistack';
 import { CProtectedRoutes, CUnprotectedRoutes } from 'constants/routes';
 
 ChartJS.register(
@@ -73,20 +74,25 @@ const MyApp = ({
       <QueryClientProvider client={queryClient}>
         <CacheProvider value={emotionCache}>
           <ThemeProvider theme={Theme}>
-            <CssBaseline />
-            <PageLoader />
-            <AppContextProvider>
-              {CProtectedRoutes.includes(pathname) && (
-                <DashboardLayout>
-                  <Component {...pageProps} />
-                </DashboardLayout>
-              )}
-              {CUnprotectedRoutes.includes(pathname) && (
-                <PageLayout>
-                  <Component {...pageProps} />
-                </PageLayout>
-              )}
-            </AppContextProvider>
+            <SnackbarProvider
+              maxSnack={3}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <CssBaseline />
+              <PageLoader />
+              <AppContextProvider>
+                {CProtectedRoutes.includes(pathname) && (
+                  <DashboardLayout>
+                    <Component {...pageProps} />
+                  </DashboardLayout>
+                )}
+                {CUnprotectedRoutes.includes(pathname) && (
+                  <PageLayout>
+                    <Component {...pageProps} />
+                  </PageLayout>
+                )}
+              </AppContextProvider>
+            </SnackbarProvider>
           </ThemeProvider>
         </CacheProvider>
       </QueryClientProvider>

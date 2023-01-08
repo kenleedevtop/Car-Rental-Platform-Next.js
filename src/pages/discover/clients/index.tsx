@@ -13,7 +13,7 @@ const DiscoverClients = () => {
   return (
     <>
       <Title>Discover Clients</Title>
-      {role === 'admin' && <AdminDiscoverClientsPage />}
+      {role === 'ADMIN' && <AdminDiscoverClientsPage />}
     </>
   );
 };

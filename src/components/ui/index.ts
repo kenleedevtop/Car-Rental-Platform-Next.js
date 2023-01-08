@@ -11,4 +11,5 @@ export { default as Switch } from 'components/ui/switch';
 export { default as Pagination } from 'components/ui/pagination';
 export { default as Progress } from 'components/ui/progress';
 export { default as InputGroup } from 'components/ui/input-group';
+export { default as Snackbar } from 'components/ui/snackbar';
 export { default as RadioButton } from 'components/ui/radio';

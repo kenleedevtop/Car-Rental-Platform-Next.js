@@ -69,3 +69,11 @@ export const InputRow = styled.div<{ theme?: Theme }>`
     gap: ${theme.spacing(2)};
   `}
 `;
+
+export const InputError = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    color: ${theme.palette.error.main};
+    font-size: 12px;
+    font-weight: 500;
+  `}
+`;

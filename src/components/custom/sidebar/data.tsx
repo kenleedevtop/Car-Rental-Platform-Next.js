@@ -23,14 +23,14 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <HomeIcon />,
     label: 'Home',
     location: '/',
-    roles: ['admin', 'influencer', 'client', 'ambasador'],
+    roles: ['ADMIN', 'INFLUENCER', 'CLIENT', 'AMBASADOR'],
   },
   {
     id: 2,
     type: 'nested',
     icon: <DiscoverIcon />,
     label: 'Discover',
-    roles: ['admin'],
+    roles: ['ADMIN'],
     items: [
       {
         id: 15,
@@ -50,7 +50,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <InfluencersIcon />,
     label: 'Influencers',
     location: '/influencers',
-    roles: ['admin'],
+    roles: ['ADMIN'],
   },
   {
     id: 4,
@@ -58,7 +58,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <ClientsIcon />,
     label: 'Clients',
     location: '/clients',
-    roles: ['admin'],
+    roles: ['ADMIN'],
   },
   {
     id: 5,
@@ -74,7 +74,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <CampaignsIcon />,
     label: 'Campaigns',
     location: '/campaigns',
-    roles: ['admin', 'influencer', 'client'],
+    roles: ['ADMIN', 'INFLUENCER', 'CLIENT'],
   },
   {
     id: 7,
@@ -82,7 +82,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <ReportsIcon />,
     label: 'Reports',
     location: '/reports',
-    roles: ['admin', 'client'],
+    roles: ['ADMIN', 'CLIENT'],
   },
   {
     id: 8,
@@ -90,7 +90,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <SMLIcon />,
     label: 'SML',
     location: '/sml',
-    roles: ['admin', 'client'],
+    roles: ['ADMIN', 'CLIENT'],
   },
   {
     id: 9,
@@ -98,7 +98,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <SurveyIcon />,
     label: 'Surveys',
     location: '/surveys',
-    roles: ['admin', 'influencer'],
+    roles: ['ADMIN', 'INFLUENCER'],
   },
   {
     id: 10,
@@ -106,7 +106,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <FinanceIcon />,
     label: 'Income',
     location: '/income',
-    roles: ['influencer', 'ambasador'],
+    roles: ['INFLUENCER', 'AMBASADOR'],
   },
   {
     id: 11,
@@ -114,7 +114,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <SMLIcon />,
     label: 'Benefits',
     location: '/benefits',
-    roles: ['influencer'],
+    roles: ['INFLUENCER'],
   },
 
   {
@@ -123,7 +123,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <FinanceIcon />,
     label: 'Finance',
     location: '/finance',
-    roles: ['admin'],
+    roles: ['ADMIN'],
   },
   {
     id: 13,
@@ -131,7 +131,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <HelpIcon />,
     label: 'Help',
     location: '/help',
-    roles: ['influencer', 'client', 'ambasador'],
+    roles: ['INFLUENCER', 'CLIENT', 'AMBASADOR'],
   },
   {
     id: 14,
@@ -139,6 +139,6 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <AccountIcon />,
     label: 'Account',
     location: '/account',
-    roles: ['influencer', 'client', 'ambasador'],
+    roles: ['INFLUENCER', 'CLIENT', 'AMBASADOR'],
   },
 ];

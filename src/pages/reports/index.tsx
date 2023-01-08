@@ -13,8 +13,8 @@ const Reports = () => {
   return (
     <>
       <Title>Reports</Title>
-      {role === 'admin' && <AdminReportsPage />}
-      {role === 'client' && <ClientReportsPage />}
+      {role === 'ADMIN' && <AdminReportsPage />}
+      {role === 'CLIENT' && <ClientReportsPage />}
     </>
   );
 };

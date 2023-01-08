@@ -7,6 +7,7 @@ import {
   InputMultiSelect,
   InputDatepicker,
   InputRow,
+  InputError,
 } from 'components/ui/input/styles';
 import { TInputProps } from 'components/ui/input/types';
 import { Chip } from '@mui/material';
@@ -26,8 +27,17 @@ const Input = ({
   required,
   helper,
   rows = 4,
+  validators = [],
+  shouldValidate = true,
+  errorCallback,
+  onBlur,
+  onFocus,
   ...props
 }: TInputProps) => {
+  const [search, setSearch] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleValue = (e: React.ChangeEvent<any>) => {
     if (onValue) onValue(e.target.value);
   };
@@ -44,7 +54,26 @@ const Input = ({
     if (onValue) onValue({ ...value, [key]: e.target.value });
   };
 
-  const [search, setSearch] = useState('');
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    for (let i = 0; i < validators.length; i += 1) {
+      const v = validators[i];
+      if (!v.validator(value)) {
+        setErrorMessage(v.message);
+        setError(true);
+        if (errorCallback) errorCallback(true);
+        if (onBlur) onBlur(e);
+        return;
+      }
+    }
+    if (errorCallback) errorCallback(false);
+    if (onBlur) onBlur(e);
+  };
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setError(false);
+    setErrorMessage('');
+    if (onFocus) onFocus(e);
+  };
 
   return (
     <InputMain {...props}>
@@ -62,6 +91,23 @@ const Input = ({
           multiline={multiline}
           rows={rows}
           variant="outlined"
+          error={error}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
+        />
+      )}
+      {type === 'password' && (
+        <InputText
+          type="password"
+          value={value}
+          onChange={handleValue}
+          placeholder={placeholder}
+          multiline={multiline}
+          rows={rows}
+          variant="outlined"
+          error={error}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
         />
       )}
       {type === 'number' && (
@@ -74,6 +120,7 @@ const Input = ({
           multiline={multiline}
           rows={rows}
           variant="outlined"
+          error={error}
         />
       )}
       {type === 'min-max' && (
@@ -87,6 +134,9 @@ const Input = ({
             multiline={multiline}
             rows={rows}
             variant="outlined"
+            error={error}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
           />
           <span style={{ alignSelf: 'center' }}>-</span>
           <InputText
@@ -98,6 +148,9 @@ const Input = ({
             multiline={multiline}
             rows={rows}
             variant="outlined"
+            error={error}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
           />
         </InputRow>
       )}
@@ -109,7 +162,14 @@ const Input = ({
           inputValue={search}
           onInputChange={(_a, b) => setSearch(b)}
           renderInput={(x) => (
-            <InputText {...x} variant="outlined" placeholder={placeholder} />
+            <InputText
+              {...x}
+              variant="outlined"
+              placeholder={placeholder}
+              error={error}
+              onBlur={handleBlur}
+              onFocus={handleFocus}
+            />
           )}
         />
       )}
@@ -124,6 +184,9 @@ const Input = ({
                 {...params}
                 variant="outlined"
                 inputProps={{ ...inputProps, placeholder }}
+                error={error}
+                onBlur={handleBlur}
+                onFocus={handleFocus}
               />
             )}
           />
@@ -148,10 +211,18 @@ const Input = ({
             ))
           }
           renderInput={(x) => (
-            <InputText {...x} variant="outlined" placeholder={placeholder} />
+            <InputText
+              {...x}
+              variant="outlined"
+              placeholder={placeholder}
+              error={error}
+              onBlur={handleBlur}
+              onFocus={handleFocus}
+            />
           )}
         />
       )}
+      {error && <InputError>{errorMessage}</InputError>}
     </InputMain>
   );
 };

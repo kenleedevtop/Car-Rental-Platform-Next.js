@@ -17,7 +17,6 @@ import { useAppContext } from 'context';
 import { AccountIcon, ArrowDownIcon, LogoutIcon } from 'components/svg';
 import { useMenu } from 'hooks';
 import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen] = useMenu(false);
@@ -35,14 +34,14 @@ const Navigation = ({ ...props }: TNavigationProps) => {
     }
   };
 
-  const { role, routeName } = useAppContext();
+  const { logout, routeName, role, user } = useAppContext();
 
   const handleMenu = () => {
     setOpen(!open);
   };
 
   const handleLogout = () => {
-    Cookies.remove('x-auth-token');
+    logout();
     router.push('/login');
     setOpen(!open);
   };
@@ -64,7 +63,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         )}
         <NavigationProfileOuter>
           <NavigationProfile onClick={handleMenu}>
-            <NavigationProfileName>Ivan Jurisic</NavigationProfileName>
+            <NavigationProfileName>{`${user?.firstName} ${user?.lastName}`}</NavigationProfileName>
             <NavigationProfileImage image="https://static.intercomassets.com/avatars/5017590/square_128/NIX-1623671396.jpg">
               IJ
             </NavigationProfileImage>
