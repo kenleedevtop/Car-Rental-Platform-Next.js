@@ -82,7 +82,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'First name needs to be at least 3 characters long',
+              message: 'First name needs to be at least 2 characters long',
               validator: (firstName) => {
                 try {
                   firstNameSchema.validateSync({ firstName });
@@ -112,7 +112,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'Last name needs to be at least 3 characters long',
+              message: 'Last name needs to be at least 2 characters long',
               validator: (lastName) => {
                 try {
                   lastNameSchema.validateSync({ lastName });
