@@ -16,12 +16,6 @@ const HelpPage = () => {
     message: '',
   });
 
-  const [help, setHelp] = useState(false);
-
-  const openHelp = () => {
-    setHelp(!help);
-  };
-
   return (
     <HelpPageMain>
       <Stack>

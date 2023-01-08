@@ -6,10 +6,8 @@ export const ReportsPageMain = styled(Stack)`
   width: 100%;
 `;
 
-export const ReportsPageCharts = styled(Grid)<{ theme?: Theme }>`
-  ${({ theme }) => `
-        width: 100%;
-    `}
+export const ReportsPageCharts = styled(Grid)`
+  width: 100%;
 `;
 
 export const ReportsPageFilter = styled(Stack)<{ theme?: Theme }>`

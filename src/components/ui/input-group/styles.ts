@@ -11,10 +11,9 @@ export const InputGroupLabel = styled(Label)<{ theme?: Theme }>`
 `;
 
 export const InputGroupElements = styled.div<{
-  theme?: Theme;
   inputRatio: string;
 }>`
-  ${({ theme, inputRatio }) => `
+  ${({ inputRatio }) => `
         display: grid;
         grid-template-columns: ${inputRatio};
     `}

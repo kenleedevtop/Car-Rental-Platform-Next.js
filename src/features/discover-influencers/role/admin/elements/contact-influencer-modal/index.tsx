@@ -33,7 +33,7 @@ const ContactInfluencerModal = ({
       onClose={onClose}
       {...props}
     >
-      <ContactInfluencerModalMain>
+      <ContactInfluencerModalMain style={{ height: '500px' }}>
         <Tabs
           tabs={DTabs}
           value={state.type}

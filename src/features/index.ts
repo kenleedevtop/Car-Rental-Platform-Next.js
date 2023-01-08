@@ -24,6 +24,8 @@ export { AdminDiscoverClientsPage } from 'features/discover-clients';
 // Discover Influencers
 export { AdminDiscoverInfluencersPage } from 'features/discover-influencers';
 
+export { AmbasadorsPage } from 'features/ambasadors';
+
 // Finance
 export { AdminFinancePage } from 'features/finance';
 

@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TExportSmlModalProps } from 'features/sml/role/admin/elements/export-sml-modal/types';
 import { ExportSmlModalMain } from 'features/sml/role/admin/elements/export-sml-modal/styles';
-import { Button, Checkbox } from 'components/ui';
+import { Button, Checkbox, RadioButton } from 'components/ui';
 
 const ExportSmlModal = ({ onClose, ...props }: TExportSmlModalProps) => {
   const [state, setState] = useState({
-    all: false,
-    selected: false,
     ofInterest: false,
     newAll: false,
     archive: false,
     subscriptions: false,
   });
+
+  const [radioState, setRadioState] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioState(e.target.value);
+  };
 
   return (
     <Modal
@@ -32,19 +36,17 @@ const ExportSmlModal = ({ onClose, ...props }: TExportSmlModalProps) => {
       {...props}
     >
       <ExportSmlModalMain columns={2}>
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={radioState === 'all'}
+          onChange={handleChange}
+          value="all"
           label="All"
-          size="large"
-          value={state.all}
-          onValue={(all) => setState({ ...state, all })}
         />
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={radioState === 'selected'}
+          onChange={handleChange}
+          value="selected"
           label="Selected"
-          size="large"
-          value={state.selected}
-          onValue={(selected) => setState({ ...state, selected })}
         />
         <Checkbox
           color="secondary"

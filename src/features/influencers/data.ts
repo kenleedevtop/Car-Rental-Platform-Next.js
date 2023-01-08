@@ -43,3 +43,34 @@ export const DGenerateInfluencersFilter = () => ({
     max: '',
   },
 });
+
+export const DClientsHead = [
+  {
+    reference: 'username',
+    label: 'Username',
+  },
+  {
+    reference: 'campaigns',
+    label: 'Campaigns',
+  },
+  {
+    reference: 'cpc',
+    label: 'CPC',
+  },
+  {
+    reference: 'cpt',
+    label: 'CPT',
+  },
+  {
+    reference: 'price',
+    label: 'Price',
+  },
+  {
+    reference: 'overlap',
+    label: 'Overlap',
+  },
+  {
+    reference: 'actions',
+    label: 'Actions',
+  },
+];

@@ -2,20 +2,24 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TExportCampaignsModalProps } from 'features/campaigns/role/admin/elements/export-campaigns-modal/types';
 import { ExportCampaignsModalMain } from 'features/campaigns/role/admin/elements/export-campaigns-modal/styles';
-import { Button, Checkbox } from 'components/ui';
+import { Button, Checkbox, RadioButton } from 'components/ui';
 
 const ExportCampaignsModal = ({
   onClose,
   ...props
 }: TExportCampaignsModalProps) => {
   const [state, setState] = useState({
-    all: false,
-    selected: false,
     inPreparation: false,
     finished: false,
     ongoing: false,
     archieved: false,
   });
+
+  const [radioState, setRadioState] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioState(e.target.value);
+  };
 
   return (
     <Modal
@@ -35,19 +39,17 @@ const ExportCampaignsModal = ({
       {...props}
     >
       <ExportCampaignsModalMain columns={2}>
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={radioState === 'all'}
+          onChange={handleChange}
+          value="all"
           label="All"
-          size="large"
-          value={state.all}
-          onValue={(all) => setState({ ...state, all })}
         />
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={radioState === 'selected'}
+          onChange={handleChange}
+          value="selected"
           label="Selected"
-          size="large"
-          value={state.selected}
-          onValue={(selected) => setState({ ...state, selected })}
         />
         <Checkbox
           color="secondary"

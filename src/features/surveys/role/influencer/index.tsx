@@ -5,11 +5,7 @@ import {
   SurveysPageFilter,
   SurveysPageFilterActions,
 } from 'features/surveys/styles';
-import {
-  DSurveysHead,
-  DSurveysHead2,
-  DGenerateSurveyFilter,
-} from 'features/surveys/data';
+import { DSurveysHead, DGenerateSurveyFilter } from 'features/surveys/data';
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import { GramophoneIcon, SlidersHorizontalIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';

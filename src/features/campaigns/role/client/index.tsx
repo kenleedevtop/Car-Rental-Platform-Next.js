@@ -36,8 +36,8 @@ import {
   AddCampaignModal,
   ExportCampaignsModal,
 } from 'features/campaigns/role/client/elements';
-import { useQuery } from 'react-query';
-import { CampaignAPI } from 'api';
+// import { useQuery } from 'react-query';
+// import { CampaignAPI } from 'api';
 
 const CampaignsPage = () => {
   // const { isLoading, error, data } = useQuery('campaigns/all', () =>

@@ -1,5 +1,7 @@
+import { Tooltip } from '@mui/material';
+import { InfoIcon } from 'components/svg';
 import { Grid, GridCell, Stack } from 'components/system';
-import { Input, InputGroup } from 'components/ui';
+import { Input } from 'components/ui';
 import React, { useState } from 'react';
 
 const Step = () => {
@@ -15,232 +17,203 @@ const Step = () => {
     yVideoL: null,
 
     ttPost: null,
+
+    questionCredit: '',
+    averageQuestionSurvey: '',
+    interviewShort: '',
+    interviewLong: '',
   });
   return (
     <Stack>
       <Grid columns={8}>
-        <GridCell columnSpan={1}>
+        <GridCell columnSpan={2}>
           <Input
             type="select"
             label="Currency"
-            placeholder="USD"
+            placeholder="Currency"
             value={filter.currency}
             onValue={(currency) => setFilter({ ...filter, currency })}
+            options={[
+              {
+                value: 'eur',
+                label: 'EUR',
+              },
+              {
+                value: 'usd',
+                label: 'USD',
+              },
+              {
+                value: 'chf',
+                label: 'CHF',
+              },
+            ]}
           />
         </GridCell>
       </Grid>
       <Grid columns={12}>
-        <GridCell columnSpan={4} style={{ borderRight: '1px solid #E9F0FC' }}>
+        <GridCell columnSpan={3}>
           <Stack>
             <p style={{ color: '#6f6f6f' }}>Instagram</p>
-            <InputGroup
+            <Input
+              type="text"
               label="Post"
-              inputRatio="125px 125px"
-              elements={[
-                {
-                  value: filter.instaP,
-                  onValue: (instaP) => setFilter({ ...filter, instaP }),
-                  type: 'text',
-                  placeholder: '18',
-                },
-                {
-                  value: filter.currency,
-                  onValue: (currency) => setFilter({ ...filter, currency }),
-                  type: 'select',
-                  placeholder: 'USD',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                  ],
-                },
-              ]}
+              placeholder="Please Enter Amount"
+              value={filter.instaP}
+              onValue={(instaP) => setFilter({ ...filter, instaP })}
             />
-            <InputGroup
+            <Input
+              type="text"
               label="Story"
-              inputRatio="125px 125px"
-              elements={[
-                {
-                  value: filter.instaS,
-                  onValue: (instaS) => setFilter({ ...filter, instaS }),
-                  type: 'text',
-                  placeholder: '18',
-                },
-                {
-                  value: filter.currency,
-                  onValue: (currency) => setFilter({ ...filter, currency }),
-                  type: 'select',
-                  placeholder: 'USD',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                  ],
-                },
-              ]}
+              placeholder="Please Enter Amount"
+              value={filter.instaP}
+              onValue={(instaP) => setFilter({ ...filter, instaP })}
             />
-            <InputGroup
+            <Input
+              type="text"
               label="Reel"
-              inputRatio="125px 125px"
-              elements={[
-                {
-                  value: filter.instaR,
-                  onValue: (instaR) => setFilter({ ...filter, instaR }),
-                  type: 'text',
-                  placeholder: '18',
-                },
-                {
-                  value: filter.currency,
-                  onValue: (currency) => setFilter({ ...filter, currency }),
-                  type: 'select',
-                  placeholder: 'USD',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                  ],
-                },
-              ]}
+              placeholder="Please Enter Amount"
+              value={filter.instaP}
+              onValue={(instaP) => setFilter({ ...filter, instaP })}
             />
           </Stack>
         </GridCell>
         <GridCell
-          columnSpan={4}
-          style={{ padding: '0 50px', borderRight: '1px solid #E9F0FC' }}
+          columnSpan={3}
+          style={{ paddingLeft: '20px', borderLeft: '1px solid #E9F0FC' }}
         >
           <Stack>
             <p style={{ color: '#6f6f6f' }}>Youtube</p>
-            <InputGroup
+            <Input
+              type="text"
               label="Video - 10sec"
-              inputRatio="125px 125px"
-              elements={[
-                {
-                  value: filter.yVideoS,
-                  onValue: (yVideoS) => setFilter({ ...filter, yVideoS }),
-                  type: 'text',
-                  placeholder: '18',
-                },
-                {
-                  value: filter.currency,
-                  onValue: (currency) => setFilter({ ...filter, currency }),
-                  type: 'select',
-                  placeholder: 'USD',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                  ],
-                },
-              ]}
+              placeholder="Please Enter Amount"
+              value={filter.yVideoS}
+              onValue={(yVideoS) => setFilter({ ...filter, yVideoS })}
             />
-            <InputGroup
+            <Input
+              type="text"
               label="Video - 30sec"
-              inputRatio="125px 125px"
-              elements={[
-                {
-                  value: filter.yVideoM,
-                  onValue: (yVideoM) => setFilter({ ...filter, yVideoM }),
-                  type: 'text',
-                  placeholder: '18',
-                },
-                {
-                  value: filter.currency,
-                  onValue: (currency) => setFilter({ ...filter, currency }),
-                  type: 'select',
-                  placeholder: 'USD',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                  ],
-                },
-              ]}
+              placeholder="Please Enter Amount"
+              value={filter.yVideoM}
+              onValue={(yVideoM) => setFilter({ ...filter, yVideoM })}
             />
-            <InputGroup
+            <Input
+              type="text"
               label="Video - 60sec"
-              inputRatio="125px 125px"
-              elements={[
-                {
-                  value: filter.yVideoL,
-                  onValue: (yVideoL) => setFilter({ ...filter, yVideoL }),
-                  type: 'text',
-                  placeholder: '18',
-                },
-                {
-                  value: filter.currency,
-                  onValue: (currency) => setFilter({ ...filter, currency }),
-                  type: 'select',
-                  placeholder: 'USD',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                  ],
-                },
-              ]}
+              placeholder="Please Enter Amount"
+              value={filter.yVideoL}
+              onValue={(yVideoL) => setFilter({ ...filter, yVideoL })}
             />
           </Stack>
         </GridCell>
-        <GridCell columnSpan={4} style={{ padding: '0 50px' }}>
+        <GridCell
+          columnSpan={3}
+          style={{ paddingLeft: '20px', borderLeft: '1px solid #E9F0FC' }}
+        >
           <Stack>
             <p style={{ color: '#6f6f6f' }}>TikTok</p>
-            <InputGroup
+            <Input
+              type="text"
               label="Post"
-              inputRatio="125px 125px"
-              elements={[
-                {
-                  value: filter.ttPost,
-                  onValue: (ttPost) => setFilter({ ...filter, ttPost }),
-                  type: 'text',
-                  placeholder: '18',
-                },
-                {
-                  value: filter.currency,
-                  onValue: (currency) => setFilter({ ...filter, currency }),
-                  type: 'select',
-                  placeholder: 'USD',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                  ],
-                },
-              ]}
+              placeholder="Please Enter Amount"
+              value={filter.yVideoL}
+              onValue={(yVideoL) => setFilter({ ...filter, yVideoL })}
+            />
+          </Stack>
+        </GridCell>
+        <GridCell
+          columnSpan={3}
+          style={{ paddingLeft: '20px', borderLeft: '1px solid #E9F0FC' }}
+        >
+          <Stack>
+            <p style={{ color: '#6f6f6f' }}>Questionnaire</p>
+            <p
+              style={{
+                color: '#6f6f6f',
+                display: 'flex',
+                alignItems: 'center',
+                fontSize: '14px',
+              }}
+            >
+              Question Credit
+              <Tooltip
+                title={
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '10px',
+                      padding: '10px 2.5px',
+                    }}
+                  >
+                    <p>Question Credit</p>
+                    <p>
+                      Question Credit is determined by the complexity of the
+                      question. If the question is taking more time for
+                      participant to answer it will be worth more credits.
+                    </p>
+                    <p>
+                      <p>Example:</p>
+                      <p>Yes or No = 1 credit</p>
+                      <p>Multiple Choice = 1 credit</p>
+                      <p>Open-ended Question = 2 credits</p>
+                    </p>
+                    <p>
+                      Additional credits will be assigned to the questions that
+                      require more time e.g. watching a short video.
+                    </p>
+                  </div>
+                }
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  marginLeft: '10px',
+                  whiteSpace: 'pre-wrap',
+                }}
+              >
+                <span>
+                  <InfoIcon />
+                </span>
+              </Tooltip>
+            </p>
+
+            <Input
+              type="text"
+              placeholder="Please Enter Amount"
+              value={filter.questionCredit}
+              onValue={(questionCredit) =>
+                setFilter({ ...filter, questionCredit })
+              }
+              style={{ marginTop: '-15px' }}
+            />
+
+            <Input
+              type="text"
+              label="Average 20 Question Survey"
+              placeholder="Calculation"
+              value={filter.questionCredit}
+              onValue={(questionCredit) =>
+                setFilter({ ...filter, questionCredit })
+              }
+            />
+            <p style={{ color: '#6f6f6f' }}>Interview</p>
+            <Input
+              type="text"
+              label="Interview: 30min"
+              placeholder="Please Enter Amount"
+              value={filter.interviewShort}
+              onValue={(interviewShort) =>
+                setFilter({ ...filter, interviewShort })
+              }
+            />
+            <Input
+              type="text"
+              label="Interview: 60min"
+              placeholder="Please Enter Amount"
+              value={filter.interviewLong}
+              onValue={(interviewLong) =>
+                setFilter({ ...filter, interviewLong })
+              }
             />
           </Stack>
         </GridCell>

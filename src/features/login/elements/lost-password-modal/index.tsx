@@ -21,12 +21,12 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
       const { message } = await AuthorizationAPI.resetPassword({ email });
       push(message, { variant: 'success' });
       onClose();
-    } catch {
-      push('Invalid email format!', { variant: 'error' });
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
     }
   };
 
-  const isDisabled = !email.trim();
+  const isDisabled = !email.trim() || error;
 
   return (
     <Modal size="medium" onClose={onClose} {...props}>

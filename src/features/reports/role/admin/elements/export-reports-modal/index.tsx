@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TExportReportsModalProps } from 'features/reports/role/admin/elements/export-reports-modal/types';
 import { ExportReportsModalMain } from 'features/reports/role/admin/elements/export-reports-modal/styles';
-import { Button, Checkbox } from 'components/ui';
+import { Button, RadioButton } from 'components/ui';
 
 const ExportReportsModal = ({
   onClose,
   ...props
 }: TExportReportsModalProps) => {
-  const [state, setState] = useState({
-    all: false,
-    selected: false,
-  });
+  const [radioState, setRadioState] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRadioState(e.target.value);
+  };
 
   return (
     <Modal
@@ -31,19 +32,17 @@ const ExportReportsModal = ({
       {...props}
     >
       <ExportReportsModalMain columns={2}>
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={radioState === 'all'}
+          onChange={handleChange}
+          value="all"
           label="All"
-          size="large"
-          value={state.all}
-          onValue={(all) => setState({ ...state, all })}
         />
-        <Checkbox
-          color="secondary"
+        <RadioButton
+          checked={radioState === 'selected'}
+          onChange={handleChange}
+          value="selected"
           label="Selected"
-          size="large"
-          value={state.selected}
-          onValue={(selected) => setState({ ...state, selected })}
         />
       </ExportReportsModalMain>
     </Modal>

@@ -35,7 +35,7 @@ const CreateFinanceModal = ({
 
   const [tab, setTab] = useState(0);
 
-  const handleFile = async () => {};
+  // const handleFile = async () => {};
 
   return (
     <Modal

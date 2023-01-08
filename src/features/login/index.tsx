@@ -7,7 +7,7 @@ import {
 } from 'features/login/styles';
 import { Button, Checkbox, Input } from 'components/ui';
 import { Stack } from 'components/system';
-import { useModal } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
 import { LostPasswordModal } from 'features/login/elements';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
@@ -29,12 +29,19 @@ const Login = () => {
   const [lpModal, openLpModal, closeLpModal] = useModal(false);
 
   const router = useRouter();
+  const { push } = useSnackbar();
 
   const { login } = useAppContext();
 
   const handleLogin = async () => {
-    await login(state);
-    router.push('/');
+    try {
+      await login(state);
+      router.push('/');
+    } catch (e: any) {
+      push(`${e.response.data.message} 🤡`, {
+        variant: 'error',
+      });
+    }
   };
 
   const isDisabled = !state.email || !state.password || !!errors.find((x) => x);
