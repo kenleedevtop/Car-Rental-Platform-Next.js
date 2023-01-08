@@ -9,9 +9,11 @@ import {
 import { Button, Input } from 'components/ui';
 import { AuthorizationAPI } from 'api';
 import { useSnackbar } from 'hooks';
+import { emailSchema } from 'utilities/validators';
 
 const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
   const [email, setEmail] = useState('');
+  const [error, setError] = useState(false);
   const { push } = useSnackbar();
 
   const handleReset = async () => {
@@ -23,6 +25,8 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
       push('Invalid email format!', { variant: 'error' });
     }
   };
+
+  const isDisabled = !email.trim();
 
   return (
     <Modal size="medium" onClose={onClose} {...props}>
@@ -37,12 +41,27 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
           value={email}
           onValue={(input) => setEmail(input)}
           style={{ width: '50%' }}
+          errorCallback={setError}
+          validators={[
+            {
+              message: 'Not a valid email format',
+              validator: (v) => {
+                try {
+                  emailSchema.validateSync({ email: v });
+                  return true;
+                } catch {
+                  return false;
+                }
+              },
+            },
+          ]}
         />
         <Button
           variant="contained"
           color="secondary"
           size="large"
           onClick={handleReset}
+          disabled={isDisabled}
         >
           Send
         </Button>

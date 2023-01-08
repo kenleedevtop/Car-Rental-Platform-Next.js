@@ -46,18 +46,18 @@ export type TRegisterAsInfluencerParams = {
   email: string;
   username: string;
   password: string;
-  socialMediaAccount: {
+  socialMediaAccount?: {
     socialMedia: 'INSTAGRAM' | 'TWITTER' | 'FACEBOOK' | 'YOUTUBE' | 'TIKTOK';
     username: string;
     followers: number;
-  };
+  } | null;
+  affiliation?: string;
 };
 
 export type TRegisterAsCompanyParams = {
   firstName: string;
   lastName: string;
   email: string;
-  username: string;
   password: string;
   company: {
     name: string;

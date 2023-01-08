@@ -8,7 +8,7 @@ const sizes = {
 };
 
 export const ButtonMain = styled(Button)<{ theme?: Theme }>`
-  ${({ theme, size }) => `
+  ${({ theme, size, color }) => `
     border-radius: 6px;
     font-weight: 400;
     text-transform: none;
@@ -19,6 +19,15 @@ export const ButtonMain = styled(Button)<{ theme?: Theme }>`
     )} ${theme.spacing(sizes[size as keyof typeof sizes] * 2)};
     &:hover {
       box-shadow: none;
+    }
+    &:disabled {
+      color: ${
+        (theme.palette[color as keyof typeof theme.palette] as any).contrastText
+      };
+      background-color: ${
+        (theme.palette[color as keyof typeof theme.palette] as any).main
+      };
+      opacity: 0.5;
     }
   `}
 `;
