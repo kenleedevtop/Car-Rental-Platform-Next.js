@@ -1,12 +1,14 @@
-import { CardWithText } from 'components/custom';
+import { CardWithText, Tabs } from 'components/custom';
 import React, { useEffect, useState } from 'react';
 import { Question } from 'features/create-survey/elements';
 import {
   CreateSurveyPageMain,
   AddQuestion,
   QuestionContainer,
+  CreateSurveyActions,
+  CreditContainer,
 } from 'features/create-survey/styles';
-import { Card } from 'components/ui';
+import { Button, Card, Label } from 'components/ui';
 import { AddIcon } from 'components/svg';
 import { v4 } from 'uuid';
 import {
@@ -18,10 +20,11 @@ import {
 import {
   TSurveyQuestionData,
   TSurveyQuestionType,
-  TSurveyQuestionUpdateData,
 } from 'features/create-survey/types';
 
 const CreateSurveyPage = () => {
+  const [tab, setTab] = useState(0);
+
   const [questions, setQuestions] = useState<Array<TSurveyQuestionData>>([
     {
       id: v4(),
@@ -31,6 +34,10 @@ const CreateSurveyPage = () => {
       question: '',
     },
   ]);
+
+  const [credit, setCredit] = useState(0);
+
+  // const handleTab = e => {}
 
   const addQuestion = () => {
     setQuestions((prev) => [
@@ -65,21 +72,18 @@ const CreateSurveyPage = () => {
     setQuestions(questions.map((x) => (x.id === id ? { ...x, ...a } : x)));
   };
 
+  const updateCredit = () => {
+    let sum: number = 0;
+    questions.forEach((x) => {
+      sum += Number(x.credit);
+    });
+    setCredit(sum);
+  };
+
   useEffect(() => {
     console.log(questions);
+    updateCredit();
   }, [questions]);
-
-  // const changeOptional = (id: string) => {
-  //   setQuestions((prev) =>
-  //     prev.map((el) => (el.id === id ? { ...el, optional: !el.optional } : el))
-  //   );
-  // };
-
-  // const changeCredit = (id: string, value: number) => {
-  //   setQuestions((prev) =>
-  //     prev.map((el) => (el.id === id ? { ...el, credit: value } : el))
-  //   );
-  // };
 
   const changeType = (id: string) => (value: TSurveyQuestionType) => {
     const questionTypes = {
@@ -92,63 +96,53 @@ const CreateSurveyPage = () => {
     setQuestions((prev) => prev.map((el) => (el.id === id ? newQuestion : el)));
   };
 
-  // const addOther = (id: string) => {
-  //   const helper = questions.find((el) => el.id === id);
-  //   if (
-  //     helper &&
-  //     (helper.type === 'multichoice' || helper.type === 'multiselect')
-  //   ) {
-  //     // helper.answers.map((el) => ({ ...el, hasOther: false }));
-
-  //     const secondHelper = helper.answers.map((el, index) =>
-  //       index === helper.answers.length - 1 ? { ...el, hasOther: true } : el
-  //     );
-  //     setQuestions((prev) =>
-  //       prev.map((el) => (el.id === id ? { ...el, answers: secondHelper } : el))
-  //     );
-  //   }
-  // };
-
-  // const addAnswer = (id: string) => {
-  //   const helper = questions.find((el) => el.id === id);
-  //   if (
-  //     helper &&
-  //     (helper.type === 'multichoice' || helper.type === 'multiselect')
-  //   ) {
-  //     helper.answers = [
-  //       ...helper.answers,
-  //       { id: v4(), value: '', isLast: false, hasOther: false },
-  //     ];
-  //     const secondHelper = helper.answers;
-  //     setQuestions((prev) =>
-  //       prev.map((el) => (el.id === id ? { ...el, answers: secondHelper } : el))
-  //     );
-
-  //     helper.answers.map((el) => (el.hasOther ? addOther(id) : null));
-  //   }
-  // };
+  const submitSurvey = () => {};
 
   return (
     <CreateSurveyPageMain>
-      <CardWithText title="Survey Name" description="Question credit 10" />
-      <Card>
-        <QuestionContainer>
-          {questions.map((el, index) => (
-            <Question
-              questionId={index + 1}
-              copy={copyQuestion}
-              remove={deleteQuestion}
-              updateQuestion={updateQuestion(el.id)}
-              changeType={changeType(el.id)}
-              question={el}
-            />
-          ))}
-        </QuestionContainer>
-        <AddQuestion onClick={addQuestion}>
-          <AddIcon />
-          Add new question
-        </AddQuestion>
-      </Card>
+      <Tabs
+        value={tab}
+        onValue={setTab}
+        tabs={['Questions', 'Responses', 'Participants']}
+      />
+
+      {tab === 0 && (
+        <>
+          <CardWithText title="Survey Name">
+            <Label>
+              Question credits <CreditContainer>{credit}</CreditContainer>
+            </Label>
+          </CardWithText>
+          <Card>
+            <QuestionContainer>
+              {questions.map((el, index) => (
+                <Question
+                  questionId={index + 1}
+                  copy={copyQuestion}
+                  remove={deleteQuestion}
+                  updateQuestion={updateQuestion(el.id)}
+                  changeType={changeType(el.id)}
+                  question={el}
+                />
+              ))}
+            </QuestionContainer>
+            <CreateSurveyActions>
+              <AddQuestion onClick={addQuestion}>
+                <AddIcon />
+                Add new question
+              </AddQuestion>
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                onClick={submitSurvey}
+              >
+                Submit Survey
+              </Button>
+            </CreateSurveyActions>
+          </Card>
+        </>
+      )}
     </CreateSurveyPageMain>
   );
 };

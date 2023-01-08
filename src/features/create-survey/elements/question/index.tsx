@@ -6,15 +6,15 @@ import {
   QuestionHeaderActions,
   QuestionCounter,
   QuestionBody,
+  QuestionOptions,
+  QuestionHighlight,
   QuestionFooter,
 } from 'features/create-survey/elements/question/styles';
-import { Button, Checkbox, Input, RadioButton, Switch } from 'components/ui';
+import { Checkbox, Input, RadioButton, Switch } from 'components/ui';
 import { CopyIcon, DeleteIcon } from 'components/svg';
-import { Answer } from 'features/create-survey/elements';
 import {
   TSurveyQuestionMultichoiceType,
   TSurveyQuestionMultiselectType,
-  TSurveyQuestionType,
 } from 'features/create-survey/types';
 import { Stack } from 'components/system';
 import { v4 } from 'uuid';
@@ -118,8 +118,24 @@ const Question = ({
         </QuestionHeaderActions>
       </QuestionHeader>
       <QuestionBody>
-        {question.type === 'short' && <h1>SHORT</h1>}
-        {question.type === 'paragraph' && <h1>PARAGRAPH</h1>}
+        {question.type === 'short' && (
+          <Input
+            type="text"
+            placeholder="Short text answer"
+            value=""
+            onValue={() => {}}
+          />
+        )}
+        {question.type === 'paragraph' && (
+          <Input
+            type="text"
+            placeholder="Paragraph answer"
+            multiline
+            rows={3}
+            value=""
+            onValue={() => {}}
+          />
+        )}
         {question.type === 'multichoice' &&
           question.answers.map((el, index) => (
             <Stack direction="horizontal">
@@ -146,7 +162,11 @@ const Question = ({
           ))}
         {(question as any).hasOther && (
           <Stack direction="horizontal">
-            <Checkbox value={false} />
+            {question.type === 'multiselect' ? (
+              <Checkbox value={false} />
+            ) : (
+              <RadioButton label="" />
+            )}
             <Input
               type="text"
               placeholder="Other answer"
@@ -156,14 +176,15 @@ const Question = ({
           </Stack>
         )}
         {['multichoice', 'multiselect'].includes(question.type) && (
-          <>
-            <Switch
-              label="Has other"
-              value={(question as any).hasOther}
-              onValue={toggleHasOther}
-            />
-            <Button onClick={addOption}>Add more options</Button>
-          </>
+          <QuestionOptions>
+            <QuestionHighlight onClick={addOption}>
+              Add new answer
+            </QuestionHighlight>
+            or
+            <QuestionHighlight onClick={toggleHasOther}>
+              add other.
+            </QuestionHighlight>
+          </QuestionOptions>
         )}
       </QuestionBody>
       <QuestionFooter>

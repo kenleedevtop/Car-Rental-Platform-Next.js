@@ -84,6 +84,14 @@ export const QuestionFooter = styled.div<{ theme?: Theme }>`
     `}
 `;
 
+export const QuestionOptions = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    align-items:center;
+    justify-content: flex-start;
+  `}
+`;
+
 export const QuestionHighlight = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
         color: ${theme.palette.primary.main};
