@@ -24,7 +24,8 @@
     "declaration": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "incremental": true
+    "incremental": true,
+    "typeRoots": ["node_modules/yup"]
   },
   "include": ["next-env.d.ts", "src"],
   "exclude": ["node_modules"]

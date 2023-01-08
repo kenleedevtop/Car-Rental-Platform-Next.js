@@ -17,9 +17,9 @@ const Campaigns = () => {
   return (
     <>
       <Title>Campaigns</Title>
-      {role === 'admin' && <AdminCampaignsPage />}
-      {role === 'client' && <ClientCampaignsPage />}
-      {role === 'influencer' && <InfluencerCampaignsPage />}
+      {role === 'ADMIN' && <AdminCampaignsPage />}
+      {role === 'CLIENT' && <ClientCampaignsPage />}
+      {role === 'INFLUENCER' && <InfluencerCampaignsPage />}
     </>
   );
 };

@@ -18,10 +18,10 @@ const Home = () => {
   return (
     <>
       <Title>Home</Title>
-      {role === 'admin' && <AdminHomePage />}
-      {role === 'client' && <ClientHomePage />}
-      {role === 'influencer' && <InfluencerHomePage />}
-      {role === 'ambasador' && <AmbasadorHomePage />}
+      {role === 'ADMIN' && <AdminHomePage />}
+      {role === 'CLIENT' && <ClientHomePage />}
+      {role === 'INFLUENCER' && <InfluencerHomePage />}
+      {role === 'AMBASADOR' && <AmbasadorHomePage />}
     </>
   );
 };

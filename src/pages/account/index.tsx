@@ -17,9 +17,9 @@ const Account = () => {
   return (
     <>
       <Title>Account</Title>
-      {role === 'client' && <ClientAccountPage />}
-      {role === 'ambasador' && <AmbasadorAccountPage />}
-      {role === 'influencer' && <InfluencerAccountPage />}
+      {role === 'CLIENT' && <ClientAccountPage />}
+      {role === 'AMBASADOR' && <AmbasadorAccountPage />}
+      {role === 'INFLUENCER' && <InfluencerAccountPage />}
     </>
   );
 };

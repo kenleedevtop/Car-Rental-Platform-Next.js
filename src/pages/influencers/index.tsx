@@ -13,7 +13,7 @@ const Influencers = () => {
   return (
     <>
       <Title>Influencers</Title>
-      {role === 'admin' && <AdminInfluencersPage />}
+      {role === 'ADMIN' && <AdminInfluencersPage />}
     </>
   );
 };

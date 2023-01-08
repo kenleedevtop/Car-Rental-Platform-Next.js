@@ -5,8 +5,20 @@ export type TInputPropsOption = {
   label: string;
 };
 
+export type TInputValidator = {
+  message: string;
+  validator: (v: any) => boolean;
+};
+
 export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
-  type: 'select' | 'text' | 'number' | 'multiselect' | 'date' | 'min-max';
+  type:
+    | 'select'
+    | 'text'
+    | 'password'
+    | 'number'
+    | 'multiselect'
+    | 'date'
+    | 'min-max';
   value: any;
   onValue: (v: any) => void;
   label?: string;
@@ -17,4 +29,7 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   rows?: number;
   required?: boolean;
   helper?: string | ReactNode;
+  shouldValidate?: boolean;
+  validators?: Array<TInputValidator>;
+  errorCallback?: (e: boolean) => void;
 };
