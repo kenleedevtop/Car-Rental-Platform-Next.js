@@ -5,19 +5,20 @@ export const emailSchema = object().shape({
 });
 
 export const passwordSchema = object().shape({
-  password: string().min(8),
-  // .matches(/[0-9]/)
-  // .matches(/[a-z]/)
-  // .matches(/[A-Z]/)
-  // .matches(/[^\w]/),
+  password: string()
+    .min(8)
+    .matches(/[0-9]/)
+    .matches(/[a-z]/)
+    .matches(/[A-Z]/)
+    .matches(/[^\w]/),
 });
 
 export const firstNameSchema = object().shape({
-  firstName: string().min(3),
+  firstName: string().min(2),
 });
 
 export const lastNameSchema = object().shape({
-  lastName: string().min(3),
+  lastName: string().min(2),
 });
 
 export const usernameSchema = object().shape({

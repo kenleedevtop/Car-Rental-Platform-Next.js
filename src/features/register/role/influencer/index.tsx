@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { RegisterTitle, RegisterSubtitle } from 'features/register/styles';
-import { Button, Input, InputGroup } from 'components/ui';
+import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import {
   emailSchema,
   firstNameSchema,
   lastNameSchema,
   passwordSchema,
-  usernameSchema,
 } from 'utilities/validators';
 import { AuthorizationAPI } from 'api';
 import { useSnackbar } from 'hooks';
@@ -16,11 +15,8 @@ const RegisterPage = () => {
   const [state, setState] = useState({
     firstName: '',
     lastName: '',
-    username: '',
     email: '',
     password: '',
-    socialMediaAccount: null,
-    affiliation: '',
   });
 
   const { push } = useSnackbar();
@@ -34,7 +30,6 @@ const RegisterPage = () => {
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
-    !state.username ||
     !state.email ||
     !state.password ||
     !!errors.find((x) => x);
@@ -74,7 +69,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'First name needs to be at least 3 characters long',
+              message: 'First name needs to be at least 2 characters long',
               validator: (firstName) => {
                 try {
                   firstNameSchema.validateSync({ firstName });
@@ -104,7 +99,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'Last name needs to be at least 3 characters long',
+              message: 'Last name needs to be at least 2 characters long',
               validator: (lastName) => {
                 try {
                   lastNameSchema.validateSync({ lastName });
@@ -118,38 +113,6 @@ const RegisterPage = () => {
         />
       </Stack>
       <Stack direction="horizontal">
-        <Input
-          type="text"
-          label="Username"
-          required
-          placeholder="Please enter your username"
-          value={state.username}
-          onValue={(username) => setState({ ...state, username })}
-          errorCallback={handleErrors(2)}
-          validators={[
-            {
-              message: 'Username is required',
-              validator: (username) => {
-                const v = username as string;
-                if (v.trim()) return true;
-                return false;
-              },
-            },
-            {
-              message: 'Bad username format! Allowed: a-z 0-9 .',
-              validator: (username) => {
-                try {
-                  usernameSchema.validateSync({ username });
-                  return true;
-                } catch (e) {
-                  console.log(e);
-
-                  return false;
-                }
-              },
-            },
-          ]}
-        />
         <Input
           type="text"
           label="Email"
@@ -210,42 +173,6 @@ const RegisterPage = () => {
                   return false;
                 }
               },
-            },
-          ]}
-        />
-      </Stack>
-      <Stack direction="horizontal">
-        <InputGroup
-          style={{ width: '100%' }}
-          label="Affiliate Username"
-          inputRatio="1fr 1fr"
-          elements={[
-            {
-              value: state.socialMediaAccount,
-              onValue: (socialMediaAccount) =>
-                setState({ ...state, socialMediaAccount }),
-              type: 'select',
-              placeholder: 'Instagram',
-              options: [
-                {
-                  value: 'instagram',
-                  label: 'Instagram',
-                },
-                {
-                  value: 'youtube',
-                  label: 'Youtube',
-                },
-                {
-                  value: 'tikTok',
-                  label: 'TikTok',
-                },
-              ],
-            },
-            {
-              value: state.affiliation,
-              onValue: (affiliation) => setState({ ...state, affiliation }),
-              placeholder: 'Please enter affiliate username',
-              type: 'text',
             },
           ]}
         />
