@@ -5,7 +5,13 @@ import {
   InfluencersPageFilter,
   InfluencersPageFilterActions,
 } from 'features/influencers/styles';
-import { CardWithChart, CardWithText, Table, Title } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  Table,
+  Tabs,
+  Title,
+} from 'components/custom';
 import {
   InstagramIcon,
   SlidersHorizontalIcon,
@@ -49,6 +55,8 @@ const InfluencersPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateInfluencersFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [tabs, setTabs] = useState(0);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -123,123 +131,132 @@ const InfluencersPage = () => {
         <Stack>
           <Collapse in={filterOpen}>
             <InfluencersPageFilter>
-              <Grid columns={4}>
-                <Input
-                  type="select"
-                  label="Select Platform"
-                  placeholder="Please Select"
-                  value={filter.platform}
-                  onValue={(platform) => setFilter({ ...filter, platform })}
-                />
-                <Input
-                  type="select"
-                  label="Select Disease Area"
-                  placeholder="Please Select"
-                  value={filter.diseaseArea}
-                  onValue={(diseaseArea) =>
-                    setFilter({ ...filter, diseaseArea })
-                  }
-                />
-                <Input
-                  type="select"
-                  label="Select Location"
-                  placeholder="Please Select"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
-                />
-                <Input
-                  type="min-max"
-                  label="Age"
-                  value={filter.age}
-                  onValue={(age) => setFilter({ ...filter, age })}
-                />
-                <Input
-                  type="min-max"
-                  label="Followers"
-                  value={filter.followers}
-                  onValue={(followers) => setFilter({ ...filter, followers })}
-                />
-                <Input
-                  type="min-max"
-                  label="Engagement"
-                  value={filter.engagement}
-                  onValue={(engagement) => setFilter({ ...filter, engagement })}
-                />
-                <Input
-                  type="min-max"
-                  label="Average Likes"
-                  value={filter.averageLikes}
-                  onValue={(averageLikes) =>
-                    setFilter({ ...filter, averageLikes })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Average Comments"
-                  value={filter.averageComments}
-                  onValue={(averageComments) =>
-                    setFilter({ ...filter, averageComments })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Reach Multipler"
-                  value={filter.reachMultipler}
-                  onValue={(reachMultipler) =>
-                    setFilter({ ...filter, reachMultipler })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Real Followers"
-                  value={filter.realFollowers}
-                  onValue={(realFollowers) =>
-                    setFilter({ ...filter, realFollowers })
-                  }
-                />
-                <Input
-                  type="select"
-                  label="Interests"
-                  placeholder="Please Select"
-                  value={filter.interests}
-                  onValue={(interests) => setFilter({ ...filter, interests })}
-                />
-                <Input
-                  type="multiselect"
-                  label="Mentions"
-                  placeholder="Choose several state"
-                  value={filter.mentions}
-                  onValue={(mentions) => setFilter({ ...filter, mentions })}
-                />
-                <Input
-                  type="multiselect"
-                  label="Hashtags"
-                  placeholder="Choose several state"
-                  value={filter.hashtags}
-                  onValue={(hashtags) => setFilter({ ...filter, hashtags })}
-                />
-                <Input
-                  type="multiselect"
-                  label="Brands"
-                  placeholder="Choose several state"
-                  value={filter.brands}
-                  onValue={(brands) => setFilter({ ...filter, brands })}
-                />
-                <Input
-                  type="min-max"
-                  label="Campaigns"
-                  value={filter.campaigns}
-                  onValue={(campaigns) => setFilter({ ...filter, campaigns })}
-                />
-                <Input
-                  type="min-max"
-                  label="Total Campaigns"
-                  value={filter.totalCampaigns}
-                  onValue={(totalCampaigns) =>
-                    setFilter({ ...filter, totalCampaigns })
-                  }
-                />
-              </Grid>
+              <Tabs
+                value={tabs}
+                onValue={setTabs}
+                tabs={['Influencers', 'Audience', 'Performance', 'Campaign']}
+              />
+              {tabs === 0 && (
+                <Grid columns={4}>
+                  <Input
+                    type="select"
+                    label="Platform"
+                    placeholder="Please Select"
+                    value={filter.platform}
+                    onValue={(platform) => setFilter({ ...filter, platform })}
+                  />
+                  <Input
+                    type="select"
+                    label="Disease Area"
+                    placeholder="Please Select"
+                    value={filter.diseaseArea}
+                    onValue={(diseaseArea) =>
+                      setFilter({ ...filter, diseaseArea })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Location"
+                    placeholder="Please Select"
+                    value={filter.location}
+                    onValue={(location) => setFilter({ ...filter, location })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Age"
+                    value={filter.age}
+                    onValue={(age) => setFilter({ ...filter, age })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Followers"
+                    value={filter.followers}
+                    onValue={(followers) => setFilter({ ...filter, followers })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Engagement"
+                    value={filter.engagement}
+                    onValue={(engagement) =>
+                      setFilter({ ...filter, engagement })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Average Likes"
+                    value={filter.averageLikes}
+                    onValue={(averageLikes) =>
+                      setFilter({ ...filter, averageLikes })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Average Comments"
+                    value={filter.averageComments}
+                    onValue={(averageComments) =>
+                      setFilter({ ...filter, averageComments })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Reach Multipler"
+                    value={filter.reachMultipler}
+                    onValue={(reachMultipler) =>
+                      setFilter({ ...filter, reachMultipler })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Real Followers"
+                    value={filter.realFollowers}
+                    onValue={(realFollowers) =>
+                      setFilter({ ...filter, realFollowers })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Interests"
+                    placeholder="Please Select"
+                    value={filter.interests}
+                    onValue={(interests) => setFilter({ ...filter, interests })}
+                  />
+                  <Input
+                    type="multiselect"
+                    label="Mentions"
+                    placeholder="Choose several state"
+                    value={filter.mentions}
+                    onValue={(mentions) => setFilter({ ...filter, mentions })}
+                  />
+                  <Input
+                    type="multiselect"
+                    label="Hashtags"
+                    placeholder="Choose several state"
+                    value={filter.hashtags}
+                    onValue={(hashtags) => setFilter({ ...filter, hashtags })}
+                  />
+                  <Input
+                    type="multiselect"
+                    label="Brands"
+                    placeholder="Choose several state"
+                    value={filter.brands}
+                    onValue={(brands) => setFilter({ ...filter, brands })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Campaigns"
+                    value={filter.campaigns}
+                    onValue={(campaigns) => setFilter({ ...filter, campaigns })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Total Campaigns"
+                    value={filter.totalCampaigns}
+                    onValue={(totalCampaigns) =>
+                      setFilter({ ...filter, totalCampaigns })
+                    }
+                  />
+                </Grid>
+              )}
               <InfluencersPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -254,7 +271,7 @@ const InfluencersPage = () => {
               </InfluencersPageFilterActions>
             </InfluencersPageFilter>
           </Collapse>
-          <Title title="Clients" />
+          <Title title="Influencers" />
           <Table head={DClientsHead} items={[]} renderItem={renderItem} />
           <Pagination count={32} />
           <Stack direction="horizontal">

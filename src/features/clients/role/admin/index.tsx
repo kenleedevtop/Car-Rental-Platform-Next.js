@@ -14,7 +14,7 @@ import {
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import { DClientsHead, DGenerateClientsFilter } from 'features/clients/data';
@@ -168,19 +168,24 @@ const ClientsPage = () => {
                   value={filter.location}
                   onValue={(location) => setFilter({ ...filter, location })}
                 />
-                <Input
-                  type="date"
+                <InputGroup
                   label="Date Joined"
-                  placeholder="Start"
-                  value={filter.startDate}
-                  onValue={(startDate) => setFilter({ ...filter, startDate })}
-                />
-                <Input
-                  type="date"
-                  label="Date Left"
-                  placeholder="End"
-                  value={filter.endDate}
-                  onValue={(endDate) => setFilter({ ...filter, endDate })}
+                  inputRatio="1fr 1fr"
+                  elements={[
+                    {
+                      value: filter.startDate,
+                      onValue: (startDate) =>
+                        setFilter({ ...filter, startDate }),
+                      type: 'date',
+                      placeholder: 'From',
+                    },
+                    {
+                      value: filter.endDate,
+                      onValue: (endDate) => setFilter({ ...filter, endDate }),
+                      type: 'date',
+                      placeholder: 'To',
+                    },
+                  ]}
                 />
                 <Input
                   type="min-max"
