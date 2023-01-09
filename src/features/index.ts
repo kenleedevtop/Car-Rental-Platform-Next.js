@@ -74,3 +74,6 @@ export { RegisterCompanyPage, RegisterInfluencerPage } from 'features/register';
 
 // Create Surveys
 export { default as CreateSurveyPage } from 'features/create-survey';
+
+// Registration
+export { default as LoadingPage } from 'features/loading';

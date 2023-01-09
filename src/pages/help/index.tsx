@@ -17,9 +17,9 @@ const Help = () => {
   return (
     <>
       <Title>Help</Title>
-      {role === 'client' && <ClientHelpPage />}
-      {role === 'ambasador' && <AmbasadorHelpPage />}
-      {role === 'influencer' && <InfluencerHelpPage />}
+      {role === 'CLIENT' && <ClientHelpPage />}
+      {role === 'AMBASADOR' && <AmbasadorHelpPage />}
+      {role === 'INFLUENCER' && <InfluencerHelpPage />}
     </>
   );
 };

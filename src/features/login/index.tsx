@@ -7,13 +7,14 @@ import {
 } from 'features/login/styles';
 import { Button, Checkbox, Input } from 'components/ui';
 import { Stack } from 'components/system';
-import { useModal } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
 import { LostPasswordModal } from 'features/login/elements';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import { useAppContext } from 'context';
+import { TLoginParams } from 'api/authorization/types';
 
 const Login = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<TLoginParams>({
     email: '',
     password: '',
   });
@@ -21,13 +22,22 @@ const Login = () => {
   const [lpModal, openLpModal, closeLpModal] = useModal(false);
 
   const router = useRouter();
+  const { push } = useSnackbar();
 
-  const handleLogin = () => {
-    Cookies.set('x-auth-token', `${state.email}_${state.password}`, {
-      expires: 1,
-    });
-    router.push('/');
+  const { login } = useAppContext();
+
+  const handleLogin = async () => {
+    try {
+      await login(state);
+      router.push('/');
+    } catch (e: any) {
+      push(`${e.response.data.message} 🤡`, {
+        variant: 'error',
+      });
+    }
   };
+
+  const isDisabled = !state.email.trim() || !state.password.trim();
 
   return (
     <Stack>
@@ -43,7 +53,7 @@ const Login = () => {
         onValue={(email) => setState({ ...state, email })}
       />
       <Input
-        type="text"
+        type="password"
         label="Password"
         value={state.password}
         onValue={(password) => setState({ ...state, password })}
@@ -57,6 +67,7 @@ const Login = () => {
         size="large"
         color="secondary"
         onClick={handleLogin}
+        disabled={isDisabled}
       >
         LOGIN NOW
       </Button>

@@ -17,4 +17,5 @@ export { default as Title } from 'components/custom/title';
 export { default as Stepper } from 'components/custom/stepper';
 export { default as Status } from 'components/custom/status';
 export { default as Header } from 'components/custom/header';
+export { default as Loader } from 'components/custom/loader';
 export { default as CampaignsCard } from 'components/custom/campaigns-card';

@@ -13,7 +13,7 @@ const CreateSurvey = () => {
   return (
     <>
       <Title>Create Survey</Title>
-      {role === 'admin' && <CreateSurveyPage />}
+      {role === 'ADMIN' && <CreateSurveyPage />}
     </>
   );
 };
