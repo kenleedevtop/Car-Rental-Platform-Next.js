@@ -1,7 +1,7 @@
 import { RadioProps } from '@mui/material';
 
 export type TRadioProps = RadioProps & {
-  label: string;
+  label?: string;
   color?: TRadioColor;
 };
 

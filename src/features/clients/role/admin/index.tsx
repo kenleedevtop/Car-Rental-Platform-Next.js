@@ -14,20 +14,27 @@ import {
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import { DClientsHead, DGenerateClientsFilter } from 'features/clients/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { useModal } from 'hooks';
-import { ExportClientsModal } from 'features/clients/role/admin/elements';
+import {
+  AddClientsModal,
+  ContactClientsModal,
+  DeleteClientsModal,
+  ExportClientsModal,
+  ClientsProfile,
+  NoteClients,
+  NotificationsSettingsModal,
+  ScheduleClientsModal,
+} from 'features/clients/role/admin/elements';
 
 const ClientsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateClientsFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
-
-  const [eModal, openEModal, closeEModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -38,6 +45,15 @@ const ClientsPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const [aiModal, openAiModal, closeAiModal] = useModal(false);
+  const [eModal, openEModal, closeEModal] = useModal(false);
+  const [diModal, openDiModal, closeDiModal] = useModal(false);
+  const [ciModal, openCiModal, closeCiModal] = useModal(false);
+  const [siModal, openSiModal, closeSiModal] = useModal(false);
+  const [nsModal, openNsModal, closeNsModal] = useModal(false);
+  const [ipModal, openIpModal, closeIpModal] = useModal(false);
+  const [niModal, openNiModal, closeNiModal] = useModal(false);
 
   return (
     <ClientsPageMain>
@@ -106,7 +122,7 @@ const ClientsPage = () => {
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={openAiModal}>
             Add Client
           </Button>,
         ]}
@@ -152,19 +168,24 @@ const ClientsPage = () => {
                   value={filter.location}
                   onValue={(location) => setFilter({ ...filter, location })}
                 />
-                <Input
-                  type="date"
+                <InputGroup
                   label="Date Joined"
-                  placeholder="Start"
-                  value={filter.startDate}
-                  onValue={(startDate) => setFilter({ ...filter, startDate })}
-                />
-                <Input
-                  type="date"
-                  label="Date Left"
-                  placeholder="End"
-                  value={filter.endDate}
-                  onValue={(endDate) => setFilter({ ...filter, endDate })}
+                  inputRatio="1fr 1fr"
+                  elements={[
+                    {
+                      value: filter.startDate,
+                      onValue: (startDate) =>
+                        setFilter({ ...filter, startDate }),
+                      type: 'date',
+                      placeholder: 'From',
+                    },
+                    {
+                      value: filter.endDate,
+                      onValue: (endDate) => setFilter({ ...filter, endDate }),
+                      type: 'date',
+                      placeholder: 'To',
+                    },
+                  ]}
                 />
                 <Input
                   type="min-max"
@@ -219,9 +240,36 @@ const ClientsPage = () => {
           <Title title="Clients" />
           <Table head={DClientsHead} items={[]} renderItem={renderItem} />
           <Pagination count={32} />
+          <Stack direction="horizontal">
+            <Button color="primary" variant="contained" onClick={openDiModal}>
+              Delete Client
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCiModal}>
+              Contact Client
+            </Button>
+            <Button color="primary" variant="contained" onClick={openSiModal}>
+              Schedule Client
+            </Button>
+            <Button color="primary" variant="contained" onClick={openNsModal}>
+              Notifications Settings
+            </Button>
+            <Button color="primary" variant="contained" onClick={openIpModal}>
+              Client Profile
+            </Button>
+            <Button color="primary" variant="contained" onClick={openNiModal}>
+              Note Client
+            </Button>
+          </Stack>
         </Stack>
       </CardWithText>
+      {aiModal && <AddClientsModal onClose={closeAiModal} />}
       {eModal && <ExportClientsModal onClose={closeEModal} />}
+      {diModal && <DeleteClientsModal onClose={closeDiModal} />}
+      {ciModal && <ContactClientsModal onClose={closeCiModal} />}
+      {siModal && <ScheduleClientsModal onClose={closeSiModal} />}
+      {nsModal && <NotificationsSettingsModal onClose={closeNsModal} />}
+      {ipModal && <ClientsProfile onClose={closeIpModal} />}
+      {niModal && <NoteClients onClose={closeNiModal} />}
     </ClientsPageMain>
   );
 };

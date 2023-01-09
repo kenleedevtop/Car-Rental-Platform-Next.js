@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TExportInfluencersModalProps } from 'features/influencers/role/admin/elements/export-influencers-modal/types';
 import { ExportInfluencersModalMain } from 'features/influencers/role/admin/elements/export-influencers-modal/styles';
-import { Button, Checkbox, RadioButton } from 'components/ui';
+import { Button, RadioButton } from 'components/ui';
 
 const ExportInfluencersModal = ({
   onClose,

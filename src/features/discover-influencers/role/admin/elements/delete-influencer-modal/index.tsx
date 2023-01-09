@@ -33,8 +33,8 @@ const DeleteInfluencerModal = ({
     {...props}
   >
     <DeleteInfluencerModalMain>
-      Are you sure that you want to remove influencer? Operation cannot be
-      undone.
+      Are you sure that you want to remove influencer? <br /> Operation cannot
+      be undone.
     </DeleteInfluencerModalMain>
   </Modal>
 );

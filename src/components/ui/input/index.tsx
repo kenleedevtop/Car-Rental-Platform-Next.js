@@ -10,7 +10,7 @@ import {
   InputError,
 } from 'components/ui/input/styles';
 import { TInputProps } from 'components/ui/input/types';
-import { Chip } from '@mui/material';
+import { Chip, MenuItem } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
@@ -43,7 +43,7 @@ const Input = ({
   };
 
   const handleSelect = (_e: React.ChangeEvent<any>, v: any) => {
-    if (onValue) onValue(v);
+    if (onValue) onValue(v?.value);
   };
 
   const handleDate = (newValue: any) => {
@@ -156,7 +156,16 @@ const Input = ({
       )}
       {type === 'select' && (
         <InputSelect
-          options={options.map((option) => option.label)}
+          options={options}
+          getOptionLabel={(option: any) => {
+            const opt = options.find((x) => x.value === option);
+            if (!opt) return '';
+
+            return opt.label;
+          }}
+          renderOption={(optionProps, option: any) => (
+            <MenuItem {...optionProps}>{option.label}</MenuItem>
+          )}
           value={value}
           onChange={handleSelect}
           inputValue={search}

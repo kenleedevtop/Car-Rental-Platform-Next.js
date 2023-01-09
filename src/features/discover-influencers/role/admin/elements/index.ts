@@ -4,3 +4,5 @@ export { default as ContactInfluencerModal } from 'features/discover-influencers
 export { default as ScheduleInfluencerModal } from 'features/discover-influencers/role/admin/elements/schedule-influencer-modal';
 export { default as ExportInfluencersModal } from 'features/discover-influencers/role/admin/elements/export-influencers-modal';
 export { default as NotificationsSettingsModal } from 'features/discover-influencers/role/admin/elements/notifications-settings-modal';
+export { default as InfluencerProfile } from 'features/discover-influencers/role/admin/elements/influencer-profile';
+export { default as NoteInfluencer } from 'features/discover-influencers/role/admin/elements/note-influencers-modal';
