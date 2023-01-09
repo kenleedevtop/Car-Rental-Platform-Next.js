@@ -18,15 +18,22 @@ import { Button, Input } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import { DGenerateDiscoverClientsFilter } from 'features/discover-clients/data';
-import { ExportClientsModal } from 'features/discover-clients/role/admin/elements';
+import {
+  AddClientsModal,
+  ContactClientsModal,
+  DeleteClientsModal,
+  ExportClientsModal,
+  ClientsProfile,
+  NoteClients,
+  NotificationsSettingsModal,
+  ScheduleClientsModal,
+} from 'features/discover-clients/role/admin/elements';
 import { useModal } from 'hooks';
 
 const DiscoverClientsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateDiscoverClientsFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
-
-  const [eModal, openEModal, closeEModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -35,6 +42,15 @@ const DiscoverClientsPage = () => {
   const clearFilters = () => {
     setFilter(DGenerateDiscoverClientsFilter());
   };
+
+  const [aiModal, openAiModal, closeAiModal] = useModal(false);
+  const [eModal, openEModal, closeEModal] = useModal(false);
+  const [diModal, openDiModal, closeDiModal] = useModal(false);
+  const [ciModal, openCiModal, closeCiModal] = useModal(false);
+  const [siModal, openSiModal, closeSiModal] = useModal(false);
+  const [nsModal, openNsModal, closeNsModal] = useModal(false);
+  const [ipModal, openIpModal, closeIpModal] = useModal(false);
+  const [niModal, openNiModal, closeNiModal] = useModal(false);
 
   return (
     <DiscoverClientsPageMain>
@@ -103,7 +119,7 @@ const DiscoverClientsPage = () => {
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={openAiModal}>
             Add Client
           </Button>,
         ]}
@@ -189,9 +205,36 @@ const DiscoverClientsPage = () => {
               'Approved',
             ]}
           />
+          <Stack direction="horizontal">
+            <Button color="primary" variant="contained" onClick={openDiModal}>
+              Delete Client
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCiModal}>
+              Contact Client
+            </Button>
+            <Button color="primary" variant="contained" onClick={openSiModal}>
+              Schedule Client
+            </Button>
+            <Button color="primary" variant="contained" onClick={openNsModal}>
+              Notifications Settings
+            </Button>
+            <Button color="primary" variant="contained" onClick={openIpModal}>
+              Client Profile
+            </Button>
+            <Button color="primary" variant="contained" onClick={openNiModal}>
+              Note Client
+            </Button>
+          </Stack>
         </Stack>
       </CardWithText>
+      {aiModal && <AddClientsModal onClose={closeAiModal} />}
       {eModal && <ExportClientsModal onClose={closeEModal} />}
+      {diModal && <DeleteClientsModal onClose={closeDiModal} />}
+      {ciModal && <ContactClientsModal onClose={closeCiModal} />}
+      {siModal && <ScheduleClientsModal onClose={closeSiModal} />}
+      {nsModal && <NotificationsSettingsModal onClose={closeNsModal} />}
+      {ipModal && <ClientsProfile onClose={closeIpModal} />}
+      {niModal && <NoteClients onClose={closeNiModal} />}
     </DiscoverClientsPageMain>
   );
 };

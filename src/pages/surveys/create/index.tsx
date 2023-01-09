@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { AmbasadorsPage } from 'features';
+import { CreateSurveyPage } from 'features';
 
-const DiscoverAmbasadors = () => {
+const CreateSurvey = () => {
   const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
-    setRouteName('Discover Ambasadors');
+    setRouteName('Create Survey');
   }, []);
 
   return (
     <>
-      <Title>Discover Ambasadors</Title>
-      {role === 'ADMIN' && <AmbasadorsPage />}
+      <Title>Create Survey</Title>
+      {role === 'ADMIN' && <CreateSurveyPage />}
     </>
   );
 };
 
-export default DiscoverAmbasadors;
+export default CreateSurvey;

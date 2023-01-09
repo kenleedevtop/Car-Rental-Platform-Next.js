@@ -35,3 +35,8 @@ export { default as DotsIcon } from 'components/svg/dots';
 export { default as VerifiedIcon } from 'components/svg/verified';
 export { default as SettingsIcon } from 'components/svg/settings';
 export { default as AmbasadorIcon } from 'components/svg/ambasador';
+export { default as AddIcon } from 'components/svg/add';
+export { default as CopyIcon } from 'components/svg/copy';
+export { default as DeleteIcon } from 'components/svg/delete';
+export { default as VerticalDotsIcon } from 'components/svg/vertical-dots';
+export { default as UploadIcon } from 'components/svg/upload';

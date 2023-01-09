@@ -6,15 +6,17 @@ export const CProtectedRoutes = [
   '/clients',
   '/discover/clients',
   '/discover/influencers',
-  '/ambasadors',
+  '/users/clients',
+  '/users/ambasadors',
+  '/users/influencers',
   '/finance',
   '/help',
   '/income',
-  '/influencers',
   '/reports',
   '/search',
   '/sml',
   '/surveys',
+  '/surveys/create',
 ];
 
 export const CUnprotectedRoutes = ['/login', '/register'];
