@@ -10,7 +10,7 @@ import {
   InstagramIcon,
   SlidersHorizontalIcon,
   TiktokIcon,
-  YoutubeIcon,
+  TwitterIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input } from 'components/ui';
@@ -70,8 +70,8 @@ const DiscoverInfluencersPage = () => {
           }}
         />
         <CardWithChart
-          title="Youtube"
-          icon={<YoutubeIcon />}
+          title="Twitter"
+          icon={<TwitterIcon />}
           percent={2}
           count={7552.8}
           chartData={{

@@ -216,7 +216,6 @@ const Input = ({
               <InputText
                 {...params}
                 variant="outlined"
-                inputProps={{}}
                 error={error}
                 onBlur={handleBlur}
                 onFocus={handleFocus}

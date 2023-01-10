@@ -17,7 +17,7 @@ export { default as CancelIcon } from 'components/svg/cancel';
 export { default as BusinessmanIcon } from 'components/svg/businessman';
 export { default as SlidersHorizontalIcon } from 'components/svg/sliders-horizontal';
 export { default as InstagramIcon } from 'components/svg/instagram';
-export { default as YoutubeIcon } from 'components/svg/youtube';
+export { default as TwitterIcon } from 'components/svg/twitter';
 export { default as TiktokIcon } from 'components/svg/tiktok';
 export { default as IdentifiedIcon } from 'components/svg/identified';
 export { default as ContactedIcon } from 'components/svg/contacted';
