@@ -25,7 +25,7 @@ import {
   SlidersHorizontalIcon,
   TiktokIcon,
   TotalIcon,
-  YoutubeIcon,
+  TwitterIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
@@ -130,7 +130,7 @@ const CampaignsPage = () => {
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -145,7 +145,7 @@ const CampaignsPage = () => {
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -166,7 +166,7 @@ const CampaignsPage = () => {
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -181,7 +181,7 @@ const CampaignsPage = () => {
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -202,7 +202,7 @@ const CampaignsPage = () => {
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -217,7 +217,7 @@ const CampaignsPage = () => {
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -238,7 +238,7 @@ const CampaignsPage = () => {
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -253,7 +253,7 @@ const CampaignsPage = () => {
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },

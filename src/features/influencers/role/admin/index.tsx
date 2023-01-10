@@ -16,10 +16,10 @@ import {
   InstagramIcon,
   SlidersHorizontalIcon,
   TiktokIcon,
-  YoutubeIcon,
+  TwitterIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import {
@@ -84,8 +84,8 @@ const InfluencersPage = () => {
           }}
         />
         <CardWithChart
-          title="Youtube"
-          icon={<YoutubeIcon />}
+          title="Twitter"
+          icon={<TwitterIcon />}
           percent={2}
           count={7552.8}
           chartData={{
@@ -136,6 +136,8 @@ const InfluencersPage = () => {
                 onValue={setTabs}
                 tabs={['Influencers', 'Audience', 'Performance', 'Campaign']}
               />
+
+              {/* //Tab 0 */}
               {tabs === 0 && (
                 <Grid columns={4}>
                   <Input
@@ -257,6 +259,228 @@ const InfluencersPage = () => {
                   />
                 </Grid>
               )}
+
+              {/* //Tab 1 */}
+              {tabs === 1 && (
+                <Grid columns={4}>
+                  <Input
+                    type="min-max"
+                    label="Age"
+                    value={filter.audienceAge}
+                    onValue={(audienceAge) =>
+                      setFilter({ ...filter, audienceAge })
+                    }
+                  />
+                  <InputGroup
+                    label="Gender"
+                    inputRatio="1fr 100px"
+                    elements={[
+                      {
+                        value: filter.gender,
+                        onValue: (gender) => setFilter({ ...filter, gender }),
+                        type: 'select',
+                      },
+                      {
+                        value: filter.genderPercent,
+                        onValue: (genderPercent) =>
+                          setFilter({ ...filter, genderPercent }),
+                        type: 'number',
+                        endAdornment: '%',
+                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="Country"
+                    inputRatio="1fr 100px"
+                    elements={[
+                      {
+                        value: filter.country,
+                        onValue: (country) => setFilter({ ...filter, country }),
+                        type: 'select',
+                      },
+                      {
+                        value: filter.countryPercent,
+                        onValue: (countryPercent) =>
+                          setFilter({ ...filter, countryPercent }),
+                        type: 'number',
+                        endAdornment: '%',
+                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="City"
+                    inputRatio="1fr 100px"
+                    elements={[
+                      {
+                        value: filter.city,
+                        onValue: (city) => setFilter({ ...filter, city }),
+                        type: 'select',
+                      },
+                      {
+                        value: filter.cityPercent,
+                        onValue: (cityPercent) =>
+                          setFilter({ ...filter, cityPercent }),
+                        type: 'number',
+                        endAdornment: '%',
+                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="Language"
+                    inputRatio="1fr 100px"
+                    elements={[
+                      {
+                        value: filter.language,
+                        onValue: (language) =>
+                          setFilter({ ...filter, language }),
+                        type: 'select',
+                      },
+                      {
+                        value: filter.languagePercent,
+                        onValue: (languagePercent) =>
+                          setFilter({ ...filter, languagePercent }),
+                        type: 'number',
+                        endAdornment: '%',
+                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="Ethnicity"
+                    inputRatio="1fr 100px"
+                    elements={[
+                      {
+                        value: filter.ethnicity,
+                        onValue: (ethnicity) =>
+                          setFilter({ ...filter, ethnicity }),
+                        type: 'select',
+                      },
+                      {
+                        value: filter.ethnicityPercent,
+                        onValue: (ethnicityPercent) =>
+                          setFilter({ ...filter, ethnicityPercent }),
+                        type: 'number',
+                        endAdornment: '%',
+                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="Patients"
+                    inputRatio="1fr 100px"
+                    elements={[
+                      {
+                        value: filter.patients,
+                        onValue: (patients) =>
+                          setFilter({ ...filter, patients }),
+                        type: 'select',
+                      },
+                      {
+                        value: filter.patientsPercent,
+                        onValue: (patientsPercent) =>
+                          setFilter({ ...filter, patientsPercent }),
+                        type: 'number',
+                        endAdornment: '%',
+                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="Brand Affinity"
+                    inputRatio="1fr 100px"
+                    elements={[
+                      {
+                        value: filter.brandAffinity,
+                        onValue: (brandAffinity) =>
+                          setFilter({ ...filter, brandAffinity }),
+                        type: 'select',
+                      },
+                      {
+                        value: filter.brandAffinityPercent,
+                        onValue: (brandAffinityPercent) =>
+                          setFilter({ ...filter, brandAffinityPercent }),
+                        type: 'number',
+                        endAdornment: '%',
+                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="Symptoms"
+                    inputRatio="1fr 100px"
+                    elements={[
+                      {
+                        value: filter.symptoms,
+                        onValue: (symptoms) =>
+                          setFilter({ ...filter, symptoms }),
+                        type: 'select',
+                      },
+                      {
+                        value: filter.symptomsPercent,
+                        onValue: (symptomsPercent) =>
+                          setFilter({ ...filter, symptomsPercent }),
+                        type: 'number',
+                        endAdornment: '%',
+                      },
+                    ]}
+                  />
+                </Grid>
+              )}
+
+              {/* //Tab 2 */}
+              {tabs === 2 && (
+                <Grid columns={4}>
+                  <Input
+                    type="min-max"
+                    label="Cost per click"
+                    value={filter.costPerClick}
+                    onValue={(costPerClick) =>
+                      setFilter({ ...filter, costPerClick })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Cost per target"
+                    value={filter.costPerTarget}
+                    onValue={(costPerTarget) =>
+                      setFilter({ ...filter, costPerTarget })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Post type"
+                    placeholder="Please Select"
+                    value={filter.postType}
+                    onValue={(postType) => setFilter({ ...filter, postType })}
+                  />
+                </Grid>
+              )}
+
+              {/* Tab 3 */}
+              {tabs === 3 && (
+                <Grid columns={4}>
+                  <Input
+                    type="min-max"
+                    label="Influencers needed"
+                    value={filter.influencersNeeded}
+                    onValue={(influencersNeeded) =>
+                      setFilter({ ...filter, influencersNeeded })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Audience overlap"
+                    value={filter.audienceOverlap}
+                    onValue={(audienceOverlap) =>
+                      setFilter({ ...filter, audienceOverlap })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Prioritize by"
+                    placeholder="Please Select"
+                    value={filter.priority}
+                    onValue={(priority) => setFilter({ ...filter, priority })}
+                  />
+                </Grid>
+              )}
+
               <InfluencersPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

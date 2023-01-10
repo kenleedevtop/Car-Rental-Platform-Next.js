@@ -32,6 +32,8 @@ const Input = ({
   errorCallback,
   onBlur,
   onFocus,
+  startAdornment,
+  endAdornment,
   ...props
 }: TInputProps) => {
   const [search, setSearch] = useState('');
@@ -94,6 +96,7 @@ const Input = ({
           error={error}
           onBlur={handleBlur}
           onFocus={handleFocus}
+          InputProps={{ startAdornment, endAdornment }}
         />
       )}
       {type === 'password' && (
@@ -108,6 +111,7 @@ const Input = ({
           error={error}
           onBlur={handleBlur}
           onFocus={handleFocus}
+          InputProps={{ startAdornment, endAdornment }}
         />
       )}
       {type === 'number' && (
@@ -115,12 +119,16 @@ const Input = ({
           type="number"
           value={value}
           onChange={handleValue}
-          inputProps={{ min, max }}
           placeholder={placeholder}
           multiline={multiline}
           rows={rows}
           variant="outlined"
           error={error}
+          InputProps={{
+            startAdornment,
+            endAdornment,
+            inputProps: { min, max },
+          }}
         />
       )}
       {type === 'min-max' && (
@@ -129,7 +137,6 @@ const Input = ({
             type="number"
             value={value.min}
             onChange={handleMinMax('min')}
-            inputProps={{ max: value.max }}
             placeholder="Min"
             multiline={multiline}
             rows={rows}
@@ -137,13 +144,17 @@ const Input = ({
             error={error}
             onBlur={handleBlur}
             onFocus={handleFocus}
+            InputProps={{
+              startAdornment,
+              endAdornment,
+              inputProps: { max: value.max },
+            }}
           />
           <span style={{ alignSelf: 'center' }}>-</span>
           <InputText
             type="number"
             value={value.max}
             onChange={handleMinMax('max')}
-            inputProps={{ min: value.min }}
             placeholder="Max"
             multiline={multiline}
             rows={rows}
@@ -151,6 +162,11 @@ const Input = ({
             error={error}
             onBlur={handleBlur}
             onFocus={handleFocus}
+            InputProps={{
+              startAdornment,
+              endAdornment,
+              inputProps: { min: value.min },
+            }}
           />
         </InputRow>
       )}
@@ -170,7 +186,10 @@ const Input = ({
           onChange={handleSelect}
           inputValue={search}
           onInputChange={(_a, b) => setSearch(b)}
-          renderInput={(x) => (
+          renderInput={({
+            InputProps: { endAdornment: _endAdornment, ...InputProps },
+            ...x
+          }) => (
             <InputText
               {...x}
               variant="outlined"
@@ -178,6 +197,11 @@ const Input = ({
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
+              InputProps={{
+                ...InputProps,
+                startAdornment,
+                endAdornment: [endAdornment, _endAdornment],
+              }}
             />
           )}
         />
@@ -192,10 +216,14 @@ const Input = ({
               <InputText
                 {...params}
                 variant="outlined"
-                inputProps={{ ...inputProps, placeholder }}
                 error={error}
                 onBlur={handleBlur}
                 onFocus={handleFocus}
+                InputProps={{
+                  startAdornment,
+                  endAdornment,
+                  inputProps: { ...inputProps, placeholder },
+                }}
               />
             )}
           />
@@ -227,6 +255,7 @@ const Input = ({
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
+              InputProps={{ startAdornment, endAdornment }}
             />
           )}
         />

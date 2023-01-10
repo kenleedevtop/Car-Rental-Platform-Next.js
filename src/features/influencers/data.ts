@@ -42,6 +42,47 @@ export const DGenerateInfluencersFilter = () => ({
     min: '',
     max: '',
   },
+
+  audienceAge: {
+    min: '',
+    max: '',
+  },
+  gender: null,
+  genderPercent: null,
+  country: null,
+  countryPercent: null,
+  city: null,
+  cityPercent: null,
+  language: null,
+  languagePercent: null,
+  ethnicity: null,
+  ethnicityPercent: null,
+  patients: null,
+  patientsPercent: null,
+  brandAffinity: null,
+  brandAffinityPercent: null,
+  symptoms: null,
+  symptomsPercent: null,
+
+  costPerClick: {
+    min: '',
+    max: '',
+  },
+  costPerTarget: {
+    min: '',
+    max: '',
+  },
+  postType: null,
+
+  influencersNeeded: {
+    min: '',
+    max: '',
+  },
+  audienceOverlap: {
+    min: '',
+    max: '',
+  },
+  priority: null,
 });
 
 export const DClientsHead = [

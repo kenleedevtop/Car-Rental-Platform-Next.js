@@ -101,7 +101,7 @@ const HomePage = () => {
                 <Pagination count={32} />
                 <Title title="Competitive Analysis" />
                 <Tabs
-                  tabs={['Instagram', 'Youtube', 'Tiktok']}
+                  tabs={['Instagram', 'Twitter', 'Tiktok']}
                   value={0}
                   onValue={() => {}}
                 />

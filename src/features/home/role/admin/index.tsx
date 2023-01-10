@@ -56,7 +56,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Total"
+          title="To Be Approved"
           icon={<TotalIcon />}
           percent={2}
           count={75}
@@ -109,7 +109,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Call Scheduled"
+          title="Scheduled"
           icon={<TotalIcon />}
           percent={2}
           count={75}
@@ -138,7 +138,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Youtube"
+          title="Twitter"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -191,7 +191,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="In Preparation"
+          title="Healthtech"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -285,7 +285,7 @@ const HomePage = () => (
       <HomePageChartsLabel>Reports</HomePageChartsLabel>
       <HomePageChartsGrid columns={4}>
         <CardWithChart
-          title="To Be Created"
+          title="Ordered"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -297,7 +297,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="To Be Sent"
+          title="Ready"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -309,7 +309,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Approved"
+          title="Delivered"
           icon={<RegisteredIcon />}
           percent={2}
           count={75}
@@ -338,7 +338,7 @@ const HomePage = () => (
       <HomePageChartsLabel>Social Media Listening</HomePageChartsLabel>
       <HomePageChartsGrid columns={4}>
         <CardWithChart
-          title="Created"
+          title="Ordered"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -350,7 +350,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Ordered"
+          title="Ready"
           icon={<ContactedIcon />}
           percent={2}
           count={75}

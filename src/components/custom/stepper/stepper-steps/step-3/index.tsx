@@ -1,4 +1,4 @@
-import { InstagramIcon, TiktokIcon, YoutubeIcon } from 'components/svg';
+import { InstagramIcon, TiktokIcon, TwitterIcon } from 'components/svg';
 import { Grid, GridCell } from 'components/system';
 import { Button } from 'components/ui';
 import React from 'react';
@@ -16,7 +16,7 @@ const Step = () => (
         Link
       </Button>
       <Button
-        endIcon={<YoutubeIcon width="18" height="18" />}
+        endIcon={<TwitterIcon width="18" height="18" />}
         size="large"
         variant="contained"
         color="primary"
