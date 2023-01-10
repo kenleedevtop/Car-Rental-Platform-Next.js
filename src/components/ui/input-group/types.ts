@@ -11,6 +11,8 @@ export type TInputGroupElement = {
   multiline?: boolean;
   rows?: number;
   placeholder?: string;
+  startAdornment?: string | ReactNode;
+  endAdornment?: string | ReactNode;
 };
 
 export type TInputGroupProps = React.HTMLAttributes<HTMLInputElement> & {
