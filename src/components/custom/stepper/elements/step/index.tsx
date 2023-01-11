@@ -1,7 +1,12 @@
-import React from 'react';
-import { TStepProps } from 'components/custom/stepper/elements/step/type';
+import React, { forwardRef } from 'react';
+import {
+  TStepProps,
+  TStepRef,
+} from 'components/custom/stepper/elements/step/type';
 import { StepMain } from 'components/custom/stepper/elements/step/styles';
 
-const Step = ({ ...props }: TStepProps) => <StepMain {...props} />;
+const Step = forwardRef<TStepRef, TStepProps>((props, ref) => (
+  <StepMain ref={ref} {...props} />
+));
 
 export default Step;
