@@ -19,6 +19,7 @@ import {
   PointElement,
   LineElement,
   BarElement,
+  ArcElement,
   Tooltip,
   Filler,
 } from 'chart.js';
@@ -32,6 +33,7 @@ ChartJS.register(
   PointElement,
   LineElement,
   BarElement,
+  ArcElement,
   Filler,
   Tooltip
 );

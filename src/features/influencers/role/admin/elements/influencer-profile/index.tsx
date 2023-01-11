@@ -7,6 +7,7 @@ import {
 } from 'features/influencers/role/admin/elements/influencer-profile/style';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
+import { PieChart } from 'components/csr';
 
 const InfluencerProfile = ({
   onClose,
@@ -154,7 +155,14 @@ const InfluencerProfile = ({
           </InfluencerProfileModalMain>
         )}
 
-        {tab === 1 && <InfluencerProfileModalMain columns={1} />}
+        {tab === 1 && (
+          <InfluencerProfileModalMain columns={1}>
+            <PieChart
+              labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
+              data={[21, 52, 23, 14]}
+            />
+          </InfluencerProfileModalMain>
+        )}
         {tab === 2 && (
           <InfluencerProfileModalMain columns={1}>
             <Stack
