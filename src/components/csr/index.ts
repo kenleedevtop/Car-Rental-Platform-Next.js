@@ -21,3 +21,7 @@ export const ExtendedLineChart = dynamic(
     ssr: false,
   }
 );
+
+export const PieChart = dynamic(() => import('components/csr/pie-chart'), {
+  ssr: false,
+});
