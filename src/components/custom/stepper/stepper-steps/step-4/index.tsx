@@ -82,7 +82,7 @@ const Step = () => {
           style={{ paddingLeft: '20px', borderLeft: '1px solid #E9F0FC' }}
         >
           <Stack>
-            <p style={{ color: '#6f6f6f' }}>Youtube</p>
+            <p style={{ color: '#6f6f6f' }}>Twitter</p>
             <Input
               type="text"
               label="Video - 10sec"

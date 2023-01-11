@@ -14,7 +14,7 @@ import {
   RegisteredIcon,
   TiktokIcon,
   TotalIcon,
-  YoutubeIcon,
+  TwitterIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 
@@ -85,7 +85,7 @@ const HomePage = () => (
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -100,7 +100,7 @@ const HomePage = () => (
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -121,7 +121,7 @@ const HomePage = () => (
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -136,7 +136,7 @@ const HomePage = () => (
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -157,7 +157,7 @@ const HomePage = () => (
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -172,7 +172,7 @@ const HomePage = () => (
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -193,7 +193,7 @@ const HomePage = () => (
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -208,7 +208,7 @@ const HomePage = () => (
               title: 'Test',
             },
             {
-              icon: <YoutubeIcon />,
+              icon: <TwitterIcon />,
               percent: 38,
               title: 'Test',
             },
@@ -237,7 +237,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Youtube"
+          title="Twitter"
           icon={<ContactedIcon />}
           percent={2}
           count={75}

@@ -88,7 +88,7 @@ const OrderSmlModal = ({ onClose, ...props }: TOrderSmlModalProps) => {
             <Stack>
               <p>Platform</p>
               <Switch label="Instagram" />
-              <Switch label="Youtube" />
+              <Switch label="Twitter" />
               <Switch label="Tiktok" />
             </Stack>
           </Grid>
