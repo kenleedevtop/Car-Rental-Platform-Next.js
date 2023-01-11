@@ -35,6 +35,8 @@ const DiscoverClientsPage = () => {
 
   const [filterOpen, setFilterOpen] = useState(false);
 
+  const [tabs, setTabs] = useState(0);
+
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
   };
@@ -92,7 +94,7 @@ const DiscoverClientsPage = () => {
           }}
         />
         <CardWithChart
-          title="Total"
+          title="Call Scheduled"
           icon={<TotalIcon />}
           percent={2}
           count={75}
@@ -195,15 +197,9 @@ const DiscoverClientsPage = () => {
             </DiscoverClientsPageFilter>
           </Collapse>
           <Tabs
-            value={0}
-            onValue={() => {}}
-            tabs={[
-              'Identified',
-              'Contacted',
-              'Registered',
-              'Scheduled',
-              'Approved',
-            ]}
+            value={tabs}
+            onValue={setTabs}
+            tabs={['Identified', 'Contacted', 'Registered', 'Scheduled']}
           />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
