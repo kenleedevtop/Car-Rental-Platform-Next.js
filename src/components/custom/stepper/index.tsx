@@ -28,6 +28,12 @@ const steps = [
   'Verified',
 ];
 
+const StepIconComponent = () => (
+  <StepFinal>
+    <VerifiedIcon />
+  </StepFinal>
+);
+
 const Stepper = () => {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -56,13 +62,7 @@ const Stepper = () => {
                 </Step>
               ) : (
                 <Step key={label}>
-                  <StepLabel
-                    StepIconComponent={
-                      <StepFinal>
-                        <VerifiedIcon />
-                      </StepFinal>
-                    }
-                  >
+                  <StepLabel StepIconComponent={StepIconComponent}>
                     {label}
                   </StepLabel>
                 </Step>
