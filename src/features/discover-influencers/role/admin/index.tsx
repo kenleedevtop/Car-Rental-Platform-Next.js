@@ -40,6 +40,8 @@ const DiscoverInfluencersPage = () => {
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
   const [niModal, openNiModal, closeNiModal] = useModal(false);
 
+  const [tabs, setTabs] = useState(0);
+
   const [filter, setFilter] = useState<any>(
     DGenerateDiscoverInfluencersFilter()
   );
@@ -189,15 +191,9 @@ const DiscoverInfluencersPage = () => {
             </DiscoverInfluencersPageFilter>
           </Collapse>
           <Tabs
-            value={0}
-            onValue={() => {}}
-            tabs={[
-              'Identified',
-              'Contacted',
-              'Registered',
-              'To Be Approved',
-              'Approved',
-            ]}
+            value={tabs}
+            onValue={setTabs}
+            tabs={['Identified', 'Contacted', 'Registered', 'To Be Approved']}
           />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
