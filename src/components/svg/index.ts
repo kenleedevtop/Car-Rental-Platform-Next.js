@@ -40,3 +40,4 @@ export { default as CopyIcon } from 'components/svg/copy';
 export { default as DeleteIcon } from 'components/svg/delete';
 export { default as VerticalDotsIcon } from 'components/svg/vertical-dots';
 export { default as UploadIcon } from 'components/svg/upload';
+export { default as EditIcon } from 'components/svg/edit';

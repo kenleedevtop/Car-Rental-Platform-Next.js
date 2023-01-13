@@ -33,5 +33,8 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   validators?: Array<TInputValidator>;
   startAdornment?: string | ReactNode;
   endAdornment?: string | ReactNode;
+  disabled?: boolean;
+  minRows?: number;
+  maxRows?: number;
   errorCallback?: (e: boolean) => void;
 };

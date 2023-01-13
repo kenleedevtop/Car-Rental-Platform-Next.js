@@ -1,21 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TNoteAmbasadorsModalProps } from 'features/ambasadors/role/admin/elements/note-ambasadors-modal/types';
-import { NoteAmbasadorsModalMain } from 'features/ambasadors/role/admin/elements/note-ambasadors-modal/styles';
-import { DTabs } from 'features/ambasadors/role/admin/elements/note-ambasadors-modal/data';
+import {
+  NoteAmbasadorsModalMain,
+  CommentSection,
+} from 'features/ambasadors/role/admin/elements/note-ambasadors-modal/styles';
 import { Button, Input } from 'components/ui';
 import { InputLabel } from 'components/ui/input/styles';
+import { SingleComment } from 'features/ambasadors/role/admin/elements/note-ambasadors-modal/elements';
 
 const NoteAmbasadorsModal = ({
   onClose,
   ...props
 }: TNoteAmbasadorsModalProps) => {
-  const [state, setState] = useState({
-    subject: '',
-    recipient: [],
-    message: '',
-    type: 0,
-  });
+  const [label, setLabel] = useState<any>([]);
+  const [comments, setComments] = useState<string[]>([]);
+  const [input, setInput] = useState('');
+  const [tabs, setTabs] = useState(0);
+
+  const handleLabel = (v: any) => {
+    setLabel(v);
+  };
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setComments((prev) => [...prev, input]);
+      setInput('');
+    }
+  };
+
+  const edit = (index: number, value: string) => {
+    setComments((prev) => prev.map((x, id) => (id === index ? value : x)));
+  };
+
+  const remove = (index: number) => {
+    setComments((prev) => prev.filter((x, id) => id !== index));
+  };
+
+  useEffect(() => {
+    console.log(comments);
+  }, [comments]);
 
   return (
     <Modal
@@ -28,19 +53,15 @@ const NoteAmbasadorsModal = ({
           size="large"
           onClick={onClose}
         >
-          Send
+          Close
         </Button>,
       ]}
       onClose={onClose}
       {...props}
     >
       <NoteAmbasadorsModalMain style={{ height: '450px' }}>
-        <Tabs
-          tabs={DTabs}
-          value={state.type}
-          onValue={(type) => setState({ ...state, type })}
-        />
-        {!state.type && (
+        <Tabs tabs={['Comment', 'Label']} value={tabs} onValue={setTabs} />
+        {tabs === 0 && (
           <>
             <Input
               type="text"
@@ -48,22 +69,39 @@ const NoteAmbasadorsModal = ({
               multiline
               rows={3}
               placeholder="Write Comment"
-              value={state.subject}
-              onValue={(subject) => setState({ ...state, subject })}
+              value={input}
+              onValue={setInput}
+              onKeyDown={handleKeyDown}
             />
             <InputLabel>Previous Comments</InputLabel>
+            <CommentSection>
+              {comments.map((x, index) => (
+                <SingleComment
+                  index={index}
+                  onEdit={edit}
+                  onDelete={remove}
+                  value={x}
+                />
+              ))}
+            </CommentSection>
           </>
         )}
 
-        {state.type && (
+        {tabs === 1 && (
           <Input
             type="multiselect"
             label="Label"
             multiline
             rows={3}
             placeholder="Please Select"
-            value={state.subject}
-            onValue={(subject) => setState({ ...state, subject })}
+            value={label}
+            onValue={handleLabel}
+            options={[
+              {
+                label: 'Label',
+                value: 'label',
+              },
+            ]}
           />
         )}
       </NoteAmbasadorsModalMain>
