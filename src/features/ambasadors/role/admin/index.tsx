@@ -15,6 +15,7 @@ import {
   AmbasadorsProfile,
   ContactAmbasadorsModal,
   DeleteAmbasadorsModal,
+  InviteAmbasadors,
   NoteAmbasadors,
   ScheduleAmbasadorsModal,
 } from 'features/ambasadors/role/admin/elements';
@@ -29,6 +30,7 @@ const AdminAmbasadorsPage = () => {
   const [saModal, openSaModal, closeSaModal] = useModal(false);
   const [apModal, openApModal, closeApModal] = useModal(false);
   const [naModal, openNaModal, closeNaModal] = useModal(false);
+  const [iaModal, openIaModal, closeIaModal] = useModal(false);
 
   return (
     <AmbasadorsPageMain>
@@ -70,7 +72,20 @@ const AdminAmbasadorsPage = () => {
           }}
         />
       </AmbasadorsPageCharts>
-      <CardWithText title="Ambassadors" description="3 new Ambassadors">
+      <CardWithText
+        title="Ambassadors"
+        description="3 new Ambassadors"
+        actions={[
+          <Button
+            size="large"
+            color="primary"
+            variant="contained"
+            onClick={openIaModal}
+          >
+            Invite
+          </Button>,
+        ]}
+      >
         <Stack>
           <Tabs
             value={tabs}
@@ -103,6 +118,7 @@ const AdminAmbasadorsPage = () => {
       {saModal && <ScheduleAmbasadorsModal onClose={closeSaModal} />}
       {apModal && <AmbasadorsProfile onClose={closeApModal} />}
       {naModal && <NoteAmbasadors onClose={closeNaModal} />}
+      {iaModal && <InviteAmbasadors onClose={closeIaModal} />}
     </AmbasadorsPageMain>
   );
 };
