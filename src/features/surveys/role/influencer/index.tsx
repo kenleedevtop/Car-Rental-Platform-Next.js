@@ -18,6 +18,8 @@ const SurveysPage = () => {
 
   const [filterOpen, setFilterOpen] = useState(false);
 
+  const [tabs, setTabs] = useState(0);
+
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
   };
@@ -135,8 +137,8 @@ const SurveysPage = () => {
       <CardWithText title="Campaings in Progress">
         <Stack>
           <Tabs
-            value={0}
-            onValue={() => {}}
+            value={tabs}
+            onValue={setTabs}
             tabs={['Accepted', 'Info Received', 'To Be Posted', 'Approved']}
           />
           <Pagination count={32} />
