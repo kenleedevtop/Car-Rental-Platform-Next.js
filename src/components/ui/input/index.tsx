@@ -34,6 +34,7 @@ const Input = ({
   onFocus,
   startAdornment,
   endAdornment,
+  disabled,
   ...props
 }: TInputProps) => {
   const [search, setSearch] = useState('');
@@ -96,6 +97,7 @@ const Input = ({
           error={error}
           onBlur={handleBlur}
           onFocus={handleFocus}
+          disabled={disabled}
           InputProps={{ startAdornment, endAdornment }}
         />
       )}
@@ -111,6 +113,7 @@ const Input = ({
           error={error}
           onBlur={handleBlur}
           onFocus={handleFocus}
+          disabled={disabled}
           InputProps={{ startAdornment, endAdornment }}
         />
       )}
@@ -124,6 +127,7 @@ const Input = ({
           rows={rows}
           variant="outlined"
           error={error}
+          disabled={disabled}
           InputProps={{
             startAdornment,
             endAdornment,
@@ -144,6 +148,7 @@ const Input = ({
             error={error}
             onBlur={handleBlur}
             onFocus={handleFocus}
+            disabled={disabled}
             InputProps={{
               startAdornment,
               endAdornment,
@@ -197,6 +202,7 @@ const Input = ({
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
+              disabled={disabled}
               InputProps={{
                 ...InputProps,
                 startAdornment,
@@ -219,6 +225,7 @@ const Input = ({
                 error={error}
                 onBlur={handleBlur}
                 onFocus={handleFocus}
+                disabled={disabled}
                 InputProps={{
                   startAdornment,
                   endAdornment,
@@ -255,6 +262,7 @@ const Input = ({
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
+              disabled={disabled}
               InputProps={{ startAdornment, endAdornment }}
             />
           )}
