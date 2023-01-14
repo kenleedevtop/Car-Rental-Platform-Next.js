@@ -58,13 +58,13 @@ const ScheduleAmbasadorsModal = ({
           elements={[
             {
               type: 'date',
-              placeholder: 'Please Select',
+              placeholder: 'From',
               value: state.startDate,
               onValue: (startDate) => setState({ ...state, startDate }),
             },
             {
               type: 'date',
-              placeholder: 'Please Select',
+              placeholder: 'To',
               value: state.endDate,
               onValue: (endDate) => setState({ ...state, endDate }),
             },
@@ -77,13 +77,13 @@ const ScheduleAmbasadorsModal = ({
             elements={[
               {
                 type: 'time',
-                placeholder: 'Please Select',
+                placeholder: 'From',
                 value: state.startTime,
                 onValue: (startTime) => setState({ ...state, startTime }),
               },
               {
                 type: 'time',
-                placeholder: 'Please Select',
+                placeholder: 'To',
                 value: state.endTime,
                 onValue: (endTime) => setState({ ...state, endTime }),
               },
