@@ -7,3 +7,4 @@ export { default as ExportInfluencersModal } from 'features/influencers/role/adm
 export { default as NotificationsSettingsModal } from 'features/influencers/role/admin/elements/notifications-settings-modal';
 export { default as InfluencerProfile } from 'features/influencers/role/admin/elements/influencer-profile';
 export { default as NoteInfluencer } from 'features/influencers/role/admin/elements/note-influencers-modal';
+export { default as ConfirmInfluencerModal } from 'features/influencers/role/admin/elements/confirm-influencer-modal';
