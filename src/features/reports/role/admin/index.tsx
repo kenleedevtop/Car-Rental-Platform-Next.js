@@ -49,7 +49,7 @@ const ReportsPage = () => {
     <ReportsPageMain>
       <ReportsPageCharts columns={4}>
         <CardWithChart
-          title="To Be Created"
+          title="Ordered"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -61,7 +61,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="To Be Sent"
+          title="Ready"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -73,7 +73,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Waiting Feedback"
+          title="Delivered"
           icon={<RegisteredIcon />}
           percent={-6}
           count={75}
@@ -85,7 +85,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Approved"
+          title="Revenue"
           icon={<TotalIcon />}
           percent={-6}
           count={75}
@@ -226,12 +226,7 @@ const ReportsPage = () => {
             </ReportsPageFilter>
           </Collapse>
           <Tabs
-            tabs={[
-              'To Be Created',
-              'To Be Sent',
-              'Awaiting Feedback',
-              'Approved',
-            ]}
+            tabs={['Ordered', 'Ready', 'Delivered']}
             value={tabsValue}
             onValue={setTabsValue}
           />

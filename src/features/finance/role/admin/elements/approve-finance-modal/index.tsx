@@ -44,7 +44,7 @@ const ApproveFinanceModal = ({
       <Stack>
         <ApproveFinanceModalMain columns={1}>
           <ApproveFinanceText>
-            Are you sure you want to approve &apos;Cost&apos;? <br />
+            Are you sure you want to approve &lt;Cost&gt; <br />
             Operation cannot be undone.
           </ApproveFinanceText>
           <Input

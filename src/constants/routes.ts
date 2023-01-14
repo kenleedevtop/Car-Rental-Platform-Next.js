@@ -13,6 +13,7 @@ export const CProtectedRoutes = [
   '/help',
   '/income',
   '/reports',
+  '/reports/finished',
   '/search',
   '/sml',
   '/surveys',
