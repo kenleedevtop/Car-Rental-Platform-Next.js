@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { Modal } from 'components/custom';
-import { TScheduleInfluencerModalProps } from 'features/discover-influencers/role/admin/elements/schedule-influencer-modal/types';
-import { ScheduleInfluencerModalMain } from 'features/discover-influencers/role/admin/elements/schedule-influencer-modal/styles';
-import { Button, Input } from 'components/ui';
+import { TScheduleCampaignModalProps } from 'features/campaigns/role/admin/elements/schedule-campaign-modal/types';
+import { ScheduleCampaignModalMain } from 'features/campaigns/role/admin/elements/schedule-campaign-modal/styles';
+import { Button, Input, InputGroup, Switch } from 'components/ui';
 
-const ScheduleInfluencerModal = ({
+const ScheduleCampaignModal = ({
   onClose,
   ...props
-}: TScheduleInfluencerModalProps) => {
+}: TScheduleCampaignModalProps) => {
   const [state, setState] = useState({
     title: '',
     type: null,
-    date: null,
+    startDate: null,
+    endDate: null,
+    startTime: null,
+    endTime: null,
+    allDay: false,
     influencer: null,
     description: '',
   });
@@ -33,7 +37,7 @@ const ScheduleInfluencerModal = ({
       onClose={onClose}
       {...props}
     >
-      <ScheduleInfluencerModalMain>
+      <ScheduleCampaignModalMain>
         <Input
           type="text"
           label="Title"
@@ -48,12 +52,48 @@ const ScheduleInfluencerModal = ({
           value={state.type}
           onValue={(type) => setState({ ...state, type })}
         />
-        <Input
-          type="date"
-          label="Date & Time"
-          placeholder="Please Select"
-          value={state.date}
-          onValue={(date) => setState({ ...state, date })}
+        <InputGroup
+          label="Date"
+          inputRatio="1fr 1fr"
+          elements={[
+            {
+              type: 'date',
+              placeholder: 'From',
+              value: state.startDate,
+              onValue: (startDate) => setState({ ...state, startDate }),
+            },
+            {
+              type: 'date',
+              placeholder: 'To',
+              value: state.endDate,
+              onValue: (endDate) => setState({ ...state, endDate }),
+            },
+          ]}
+        />
+        {!state.allDay && (
+          <InputGroup
+            label="Time"
+            inputRatio="1fr 1fr"
+            elements={[
+              {
+                type: 'time',
+                placeholder: 'From',
+                value: state.startTime,
+                onValue: (startTime) => setState({ ...state, startTime }),
+              },
+              {
+                type: 'time',
+                placeholder: 'To',
+                value: state.endTime,
+                onValue: (endTime) => setState({ ...state, endTime }),
+              },
+            ]}
+          />
+        )}
+        <Switch
+          label="All day"
+          value={state.allDay}
+          onValue={(allDay) => setState({ ...state, allDay })}
         />
         <Input
           type="select"
@@ -71,9 +111,9 @@ const ScheduleInfluencerModal = ({
           value={state.description}
           onValue={(description) => setState({ ...state, description })}
         />
-      </ScheduleInfluencerModalMain>
+      </ScheduleCampaignModalMain>
     </Modal>
   );
 };
 
-export default ScheduleInfluencerModal;
+export default ScheduleCampaignModal;

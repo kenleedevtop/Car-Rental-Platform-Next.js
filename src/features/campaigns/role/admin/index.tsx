@@ -14,6 +14,7 @@ import {
   CardWithProgress,
   CardWithText,
   Table,
+  Tabs,
 } from 'components/custom';
 import {
   BusinessmanIcon,
@@ -32,6 +33,8 @@ import { useModal } from 'hooks';
 import {
   AddCampaignModal,
   ExportCampaignsModal,
+  NoteCampaignsModal,
+  ScheduleCampaignModal,
 } from 'features/campaigns/role/admin/elements';
 import { useQuery } from 'react-query';
 import { CampaignAPI } from 'api';
@@ -43,10 +46,14 @@ const CampaignsPage = () => {
 
   const [acModal, openAcModal, closeAcModal] = useModal(false);
   const [ecModal, openEcModal, closeEcModal] = useModal(false);
+  const [scModal, openScModal, closeScModal] = useModal(false);
+  const [ncModal, openNcModal, closeNcModal] = useModal(false);
 
   const [filter, setFilter] = useState<any>(DGenerateCampaignsFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [tabs, setTabs] = useState(0);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -67,7 +74,7 @@ const CampaignsPage = () => {
       </div> */}
       <CampaignsPageCharts columns={4}>
         <CardWithChart
-          title="In Preparation"
+          title="Revenue"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -218,7 +225,7 @@ const CampaignsPage = () => {
             Export
           </Button>,
           <Button color="primary" variant="contained" onClick={openAcModal}>
-            Add Campaign
+            Create Campaign
           </Button>,
         ]}
       >
@@ -331,12 +338,27 @@ const CampaignsPage = () => {
               </CampaignsPageFilterActions>
             </CampaignsPageFilter>
           </Collapse>
+          <Tabs
+            value={tabs}
+            onValue={setTabs}
+            tabs={['In Preparation', 'Ongoing', 'Finished']}
+          />
           <Table head={DCampaignsHead} items={[]} renderItem={renderItem} />
           <Pagination count={10} />
+        </Stack>
+        <Stack direction="horizontal">
+          <Button variant="contained" color="primary" onClick={openNcModal}>
+            Note Campaign
+          </Button>
+          <Button variant="contained" color="primary" onClick={openScModal}>
+            Schedule Campaign
+          </Button>
         </Stack>
       </CardWithText>
       {acModal && <AddCampaignModal onClose={closeAcModal} />}
       {ecModal && <ExportCampaignsModal onClose={closeEcModal} />}
+      {scModal && <ScheduleCampaignModal onClose={closeScModal} />}
+      {ncModal && <NoteCampaignsModal onClose={closeNcModal} />}
     </CampaignsPageMain>
   );
 };
