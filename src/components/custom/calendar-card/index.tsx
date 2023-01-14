@@ -6,6 +6,8 @@ import {
   CalendarCardCellDate,
   CalendarCardDay,
   CalendarCardDays,
+  CalendarExpand,
+  CalendarTitle,
 } from 'components/custom/calendar-card/styles';
 import {
   TCalendarCardProps,
@@ -13,8 +15,12 @@ import {
 } from 'components/custom/calendar-card/types';
 import { getCalendarDates } from 'utilities/calendar';
 import { format } from 'date-fns';
+import { useModal } from 'hooks';
+import { Scheduler } from 'components/custom/calendar-card/elements';
+import { OpenInNew } from '@mui/icons-material';
 
 const CalendarCard = ({ ...props }: TCalendarCardProps) => {
+  const [scModal, scModalOpen, scModalClose] = useModal(false);
   const [date, setDate] = useState(new Date());
 
   const days: TCalendarDate[] = getCalendarDates(date);
@@ -25,7 +31,14 @@ const CalendarCard = ({ ...props }: TCalendarCardProps) => {
 
   return (
     <CalendarCardMain
-      title="Calendar"
+      title={
+        <CalendarTitle>
+          Calendar
+          <CalendarExpand onClick={scModalOpen}>
+            <OpenInNew />
+          </CalendarExpand>
+        </CalendarTitle>
+      }
       actions={[<div>{format(date, 'MMM, yyyy')}</div>]}
       {...props}
     >
@@ -47,6 +60,7 @@ const CalendarCard = ({ ...props }: TCalendarCardProps) => {
           </CalendarCardCell>
         ))}
       </CalendarCardGrid>
+      {scModal && <Scheduler onClose={scModalClose} />}
     </CalendarCardMain>
   );
 };

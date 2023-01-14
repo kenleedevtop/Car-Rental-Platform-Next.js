@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { CardWithText } from 'components/custom';
-import { Theme } from '@mui/material';
+import { IconButton, Theme } from '@mui/material';
 import { Grid } from 'components/system';
 
 export const CalendarCardMain = styled(CardWithText)<{ theme?: Theme }>``;
@@ -98,4 +98,26 @@ export const CalendarCardDay = styled.div<{
 export const CalendarCardDays = styled(Grid)`
   width: 100%;
   gap: 0;
+`;
+
+export const CalendarTitle = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    align-items: center;
+    gap: ${theme.spacing(1)};
+  `}
+`;
+
+export const CalendarExpand = styled(IconButton)<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    padding: ${theme.spacing(0.5)};
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  `}
 `;
