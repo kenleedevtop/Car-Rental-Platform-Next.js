@@ -21,7 +21,7 @@ const AddClientsModal = ({ onClose, ...props }: TAddClientsModalProps) => {
   return (
     <Modal
       size="medium"
-      title="Add Influencer"
+      title="Add Client"
       actions={[
         <Button
           color="primary"
