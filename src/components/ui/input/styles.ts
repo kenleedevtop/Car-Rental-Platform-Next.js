@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Theme, MenuItem, TextField, Autocomplete } from '@mui/material';
-import { DesktopDatePicker } from '@mui/x-date-pickers';
+import { DesktopDatePicker, DesktopTimePicker } from '@mui/x-date-pickers';
 import { Label } from 'components/ui';
 
 export const InputMain = styled.div<{ theme?: Theme }>`
@@ -62,6 +62,8 @@ export const InputMultiSelect = styled(Autocomplete)`
 `;
 
 export const InputDatepicker = styled(DesktopDatePicker)<{ theme?: Theme }>``;
+
+export const InputTimepicker = styled(DesktopTimePicker)<{ theme?: Theme }>``;
 
 export const InputRow = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `

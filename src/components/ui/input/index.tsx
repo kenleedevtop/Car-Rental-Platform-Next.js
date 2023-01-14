@@ -6,6 +6,7 @@ import {
   InputText,
   InputMultiSelect,
   InputDatepicker,
+  InputTimepicker,
   InputRow,
   InputError,
 } from 'components/ui/input/styles';
@@ -220,18 +221,34 @@ const Input = ({
             value={value}
             onChange={handleDate}
             disabled={disabled}
-            renderInput={({ inputProps, ...params }) => (
+            renderInput={({ inputProps, ...x }) => (
               <InputText
-                {...params}
+                {...x}
                 variant="outlined"
                 error={error}
                 onBlur={handleBlur}
                 onFocus={handleFocus}
-                InputProps={{
-                  startAdornment,
-                  endAdornment,
-                  inputProps: { ...inputProps, placeholder },
-                }}
+                inputProps={{ ...inputProps, placeholder }}
+              />
+            )}
+          />
+        </LocalizationProvider>
+      )}
+      {type === 'time' && (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <InputTimepicker
+            inputFormat="HH:MM"
+            value={value}
+            onChange={handleDate}
+            disabled={disabled}
+            renderInput={({ inputProps, ...x }) => (
+              <InputText
+                {...x}
+                variant="outlined"
+                error={error}
+                onBlur={handleBlur}
+                onFocus={handleFocus}
+                inputProps={{ ...inputProps, placeholder }}
               />
             )}
           />
