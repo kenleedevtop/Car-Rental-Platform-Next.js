@@ -34,15 +34,19 @@ import { useModal } from 'hooks';
 import {
   CreateFinanceModal,
   ExportFinanceModal,
+  ApproveFinanceModal,
 } from 'features/finance/role/admin/elements';
 
 const FinancePage = () => {
   const [cfModal, openCfModal, closeCfModal] = useModal(false);
   const [efModal, openEfModal, closeEfModal] = useModal(false);
+  const [afModal, openAfModal, closeAfModal] = useModal(false);
 
   const [filter, setFilter] = useState<any>(DGenerateFinanceFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [tabs, setTabs] = useState(0);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -209,7 +213,7 @@ const FinancePage = () => {
             Export
           </Button>,
           <Button color="primary" variant="contained" onClick={openCfModal}>
-            Add Campaign
+            Add Statement
           </Button>,
         ]}
       >
@@ -327,15 +331,15 @@ const FinancePage = () => {
       <CardWithText
         title="Cost"
         actions={[
-          <Button color="default" variant="contained">
+          <Button color="default" variant="contained" onClick={openAfModal}>
             Approve
           </Button>,
         ]}
       >
         <Stack>
           <Tabs
-            value={0}
-            onValue={() => {}}
+            value={tabs}
+            onValue={setTabs}
             tabs={['Payments', 'Withdrawals']}
           />
           <Table head={DFinanceHead} items={[]} renderItem={renderItem} />
@@ -358,6 +362,7 @@ const FinancePage = () => {
       </CardWithText>
       {cfModal && <CreateFinanceModal onClose={closeCfModal} />}
       {efModal && <ExportFinanceModal onClose={closeEfModal} />}
+      {afModal && <ApproveFinanceModal onClose={closeAfModal} />}
     </FinancePageMain>
   );
 };
