@@ -53,6 +53,9 @@ export { AdminInfluencersPage } from 'features/influencers';
 // Reports
 export { AdminReportsPage, ClientReportsPage } from 'features/reports';
 
+// Finished Reports
+export { default as FinishedReportPage } from 'features/finished-report';
+
 // SML
 export { AdminSmlPage, ClientSmlPage } from 'features/sml';
 
