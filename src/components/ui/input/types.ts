@@ -37,4 +37,5 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   minRows?: number;
   maxRows?: number;
   errorCallback?: (e: boolean) => void;
+  onNewTag?: (v: any) => void;
 };

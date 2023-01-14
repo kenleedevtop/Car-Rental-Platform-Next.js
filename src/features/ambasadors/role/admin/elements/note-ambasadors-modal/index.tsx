@@ -18,6 +18,13 @@ const NoteAmbasadorsModal = ({
   const [input, setInput] = useState('');
   const [tabs, setTabs] = useState(0);
 
+  const [options, setOptions] = useState([
+    {
+      label: 'Label',
+      value: 'label',
+    },
+  ]);
+
   const handleLabel = (v: any) => {
     setLabel(v);
   };
@@ -38,9 +45,10 @@ const NoteAmbasadorsModal = ({
     setComments((prev) => prev.filter((x, id) => id !== index));
   };
 
-  useEffect(() => {
-    console.log(comments);
-  }, [comments]);
+  const handleNewTag = (v: any) => {
+    setOptions((x) => [...x, v]);
+    setLabel((x: any) => [...x, v]);
+  };
 
   return (
     <Modal
@@ -96,12 +104,8 @@ const NoteAmbasadorsModal = ({
             placeholder="Please Select"
             value={label}
             onValue={handleLabel}
-            options={[
-              {
-                label: 'Label',
-                value: 'label',
-              },
-            ]}
+            onNewTag={handleNewTag}
+            options={options}
           />
         )}
       </NoteAmbasadorsModalMain>
