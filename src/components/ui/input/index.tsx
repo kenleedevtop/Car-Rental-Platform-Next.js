@@ -167,6 +167,7 @@ const Input = ({
             error={error}
             onBlur={handleBlur}
             onFocus={handleFocus}
+            disabled={disabled}
             InputProps={{
               startAdornment,
               endAdornment,
@@ -191,6 +192,7 @@ const Input = ({
           onChange={handleSelect}
           inputValue={search}
           onInputChange={(_a, b) => setSearch(b)}
+          disabled={disabled}
           renderInput={({
             InputProps: { endAdornment: _endAdornment, ...InputProps },
             ...x
@@ -202,7 +204,6 @@ const Input = ({
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
-              disabled={disabled}
               InputProps={{
                 ...InputProps,
                 startAdornment,
@@ -218,6 +219,7 @@ const Input = ({
             inputFormat="MM/DD/YYYY"
             value={value}
             onChange={handleDate}
+            disabled={disabled}
             renderInput={({ inputProps, ...params }) => (
               <InputText
                 {...params}
@@ -225,7 +227,6 @@ const Input = ({
                 error={error}
                 onBlur={handleBlur}
                 onFocus={handleFocus}
-                disabled={disabled}
                 InputProps={{
                   startAdornment,
                   endAdornment,
@@ -244,6 +245,7 @@ const Input = ({
           value={value}
           onChange={handleSelect}
           inputValue={search}
+          disabled={disabled}
           onInputChange={(_a, b) => setSearch(b)}
           renderTags={(v: any[], getTagProps) =>
             v.map((option: string, index: number) => (
@@ -262,7 +264,6 @@ const Input = ({
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
-              disabled={disabled}
               InputProps={{ startAdornment, endAdornment }}
             />
           )}
