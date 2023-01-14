@@ -4,6 +4,8 @@ import {
   InfluencersPageCharts,
   InfluencersPageFilter,
   InfluencersPageFilterActions,
+  InfluencersPageActions,
+  InfluencersPageButtons,
 } from 'features/influencers/styles';
 import {
   CardWithChart,
@@ -38,6 +40,7 @@ import {
   NoteInfluencer,
   NotificationsSettingsModal,
   ScheduleInfluencerModal,
+  ConfirmInfluencerModal,
 } from 'features/influencers/role/admin/elements';
 
 const InfluencersPage = () => {
@@ -51,6 +54,7 @@ const InfluencersPage = () => {
   const [nsModal, openNsModal, closeNsModal] = useModal(false);
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
   const [niModal, openNiModal, closeNiModal] = useModal(false);
+  const [cfrmModal, openCfrmModal, closeCfrmModal] = useModal(false);
 
   const [filter, setFilter] = useState<any>(DGenerateInfluencersFilter());
 
@@ -137,7 +141,6 @@ const InfluencersPage = () => {
                 tabs={['Influencers', 'Audience', 'Performance', 'Campaign']}
               />
 
-              {/* //Tab 0 */}
               {tabs === 0 && (
                 <Grid columns={4}>
                   <Input
@@ -260,7 +263,6 @@ const InfluencersPage = () => {
                 </Grid>
               )}
 
-              {/* //Tab 1 */}
               {tabs === 1 && (
                 <Grid columns={4}>
                   <Input
@@ -423,7 +425,6 @@ const InfluencersPage = () => {
                 </Grid>
               )}
 
-              {/* //Tab 2 */}
               {tabs === 2 && (
                 <Grid columns={4}>
                   <Input
@@ -452,7 +453,6 @@ const InfluencersPage = () => {
                 </Grid>
               )}
 
-              {/* Tab 3 */}
               {tabs === 3 && (
                 <Grid columns={4}>
                   <Input
@@ -495,19 +495,32 @@ const InfluencersPage = () => {
               </InfluencersPageFilterActions>
             </InfluencersPageFilter>
           </Collapse>
-          <Title title="Influencers" />
+          <InfluencersPageActions>
+            <Title title="Influencers" />
+            <InfluencersPageButtons>
+              <Button
+                variant="contained"
+                size="medium"
+                color="default"
+                onClick={openCfrmModal}
+              >
+                Update
+              </Button>
+              <Button
+                variant="contained"
+                size="medium"
+                color="primary"
+                onClick={openDonateiModal}
+              >
+                Donate
+              </Button>
+            </InfluencersPageButtons>
+          </InfluencersPageActions>
           <Table head={DClientsHead} items={[]} renderItem={renderItem} />
           <Pagination count={32} />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
               Delete Influencer
-            </Button>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={openDonateiModal}
-            >
-              Donate Influencer
             </Button>
             <Button color="primary" variant="contained" onClick={openCiModal}>
               Contact Influencer
@@ -535,7 +548,8 @@ const InfluencersPage = () => {
       {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
       {nsModal && <NotificationsSettingsModal onClose={closeNsModal} />}
       {ipModal && <InfluencerProfile onClose={closeIpModal} />}
-      {niModal && <NoteInfluencer onClose={closeNiModal} />}{' '}
+      {niModal && <NoteInfluencer onClose={closeNiModal} />}
+      {cfrmModal && <ConfirmInfluencerModal onClose={closeCfrmModal} />}
     </InfluencersPageMain>
   );
 };
