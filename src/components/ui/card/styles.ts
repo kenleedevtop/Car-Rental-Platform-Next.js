@@ -46,6 +46,6 @@ export const CardMain = styled.div<{
         border-radius: 8px;
         padding: ${theme.spacing(5)}; 
         box-shadow: 0px 2px 5px ${theme.palette.common.black}10;
-        animation: ${animations[animation as keyof typeof animations]};
+        // animation: ${animations[animation as keyof typeof animations]};
     `}
 `;

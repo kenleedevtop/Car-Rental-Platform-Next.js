@@ -1,6 +1,9 @@
 import React, { ReactNode } from 'react';
 
-export type TCardWithTextProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TCardWithTextProps = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'title'
+> & {
   title: ReactNode;
   description?: string;
   actions?: Array<React.ReactNode>;
