@@ -47,6 +47,7 @@ const FinancePage = () => {
   const [filterOpen, setFilterOpen] = useState(false);
 
   const [tabs, setTabs] = useState(0);
+  const [tab, setTab] = useState(0);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -338,8 +339,8 @@ const FinancePage = () => {
       >
         <Stack>
           <Tabs
-            value={tabs}
-            onValue={setTabs}
+            value={tab}
+            onValue={setTab}
             tabs={['Payments', 'Withdrawals']}
           />
           <Table head={DFinanceHead} items={[]} renderItem={renderItem} />
@@ -355,7 +356,7 @@ const FinancePage = () => {
         ]}
       >
         <Stack>
-          <Tabs value={0} onValue={() => {}} tabs={['Pending', 'Received']} />
+          <Tabs value={tabs} onValue={setTabs} tabs={['Pending', 'Received']} />
           <Table head={DFinanceHead2} items={[]} renderItem={renderItem} />
           <Pagination count={32} />
         </Stack>

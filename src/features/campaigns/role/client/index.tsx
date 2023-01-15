@@ -51,6 +51,8 @@ const CampaignsPage = () => {
 
   const [filterOpen, setFilterOpen] = useState(false);
 
+  const [tabs, setTabs] = useState(0);
+
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
   };
@@ -388,8 +390,8 @@ const CampaignsPage = () => {
             </CampaignsPageFilter>
           </Collapse>
           <Tabs
-            value={0}
-            onValue={() => {}}
+            value={tabs}
+            onValue={setTabs}
             tabs={['In Preparation', 'Ongoing', 'Finished', 'Report Received']}
           />
           <Table head={DCampaignsHead} items={[]} renderItem={renderItem} />
