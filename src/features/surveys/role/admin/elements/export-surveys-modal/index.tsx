@@ -12,7 +12,6 @@ const ExportSurveysModal = ({
     inPreparation: false,
     ongoing: false,
     finished: false,
-    delivered: false,
   });
 
   const [radioState, setRadioState] = useState('');
@@ -71,13 +70,6 @@ const ExportSurveysModal = ({
           size="large"
           value={state.finished}
           onValue={(finished) => setState({ ...state, finished })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Delivered"
-          size="large"
-          value={state.delivered}
-          onValue={(delivered) => setState({ ...state, delivered })}
         />
       </ExportSurveysModalMain>
     </Modal>
