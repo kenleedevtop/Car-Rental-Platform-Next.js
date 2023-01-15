@@ -21,7 +21,7 @@ import {
 } from 'components/custom/calendar-card/elements';
 import { DTodayAppointments } from 'components/custom/calendar-card/elements/scheduler/data';
 
-export default ({ onClose, ...props }: TSchedulerProps) => (
+const Scheduler = ({ date, onClose, ...props }: TSchedulerProps) => (
   <Modal
     title="Scheduler"
     actions={[
@@ -39,7 +39,7 @@ export default ({ onClose, ...props }: TSchedulerProps) => (
     {...props}
   >
     <SSchedulerMain data={DTodayAppointments} height={600}>
-      <ViewState />
+      <ViewState currentDate={date} />
       <SSchedulerWeekView
         startDayHour={5}
         endDayHour={22}
@@ -55,3 +55,5 @@ export default ({ onClose, ...props }: TSchedulerProps) => (
     </SSchedulerMain>
   </Modal>
 );
+
+export default Scheduler;

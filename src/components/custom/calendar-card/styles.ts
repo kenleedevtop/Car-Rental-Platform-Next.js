@@ -18,19 +18,26 @@ export const CalendarCardGrid = styled(Grid)<{ theme?: Theme }>`
 
 export const CalendarCardCell = styled.div<{
   theme?: Theme;
+  isHighlighted: boolean;
 }>`
-  ${({ theme }) => `
+  ${({ theme, isHighlighted }) => `
     width: 100%;
     padding: ${theme.spacing(1.5)};
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${theme.palette.common.white};
+    background-color: ${
+      isHighlighted ? theme.palette.common.gray[1] : theme.palette.common.white
+    };
     cursor: pointer;
     user-select: none;
     transition: background-color 150ms ease-in-out;
     &:hover {
-      background-color: ${theme.palette.common.gray[0]};
+      background-color: ${
+        isHighlighted
+          ? theme.palette.common.gray[2]
+          : theme.palette.common.gray[0]
+      };
     }
   `}
 `;
@@ -108,10 +115,10 @@ export const CalendarTitle = styled.div<{ theme?: Theme }>`
   `}
 `;
 
-export const CalendarExpand = styled(IconButton)<{ theme?: Theme }>`
+export const CalendarReset = styled(IconButton)<{ theme?: Theme }>`
   ${({ theme }) => `
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     padding: 0;
     padding: ${theme.spacing(0.5)};
     svg {
