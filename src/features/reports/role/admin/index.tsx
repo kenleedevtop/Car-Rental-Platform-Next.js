@@ -5,11 +5,25 @@ import {
   ReportsPageFilter,
   ReportsPageFilterActions,
 } from 'features/reports/styles';
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
+  CardWithChart,
+  CardWithText,
+  Menu,
+  Table,
+  Tabs,
+} from 'components/custom';
+import {
+  ApproveIcon,
   ContactedIcon,
+  ContactIcon,
+  CreateIcon,
+  DeleteIcon,
+  DeliverIcon,
+  DownloadIcon,
+  EditIcon,
   IdentifiedIcon,
   RegisteredIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
 } from 'components/svg';
@@ -23,7 +37,7 @@ import {
   ExportReportsModal,
   CreateReportsModal,
 } from 'features/reports/role/admin/elements';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 
 const ReportsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateReportsFilter());
@@ -34,6 +48,24 @@ const ReportsPage = () => {
 
   const [erModal, openErModal, closeErModal] = useModal(false);
   const [crModal, openCrModal, closeCrModal] = useModal(false);
+
+  const [menuTBC, openTBC, setOpenTBC] = useMenu(false);
+  const [menuTBS, openTBS, setOpenTBS] = useMenu(false);
+  const [menuAF, openAF, setOpenAF] = useMenu(false);
+  const [menuA, openA, setOpenA] = useMenu(false);
+
+  const handleMenuTBC = () => {
+    setOpenTBC(!openTBC);
+  };
+  const handleMenuTBS = () => {
+    setOpenTBS(!openTBS);
+  };
+  const handleMenuAF = () => {
+    setOpenAF(!openAF);
+  };
+  const handleMenuA = () => {
+    setOpenA(!openA);
+  };
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -262,6 +294,159 @@ const ReportsPage = () => {
           />
 
           <Pagination count={32} />
+
+          <Stack direction="horizontal">
+            <Button color="primary" variant="contained" onClick={handleMenuTBC}>
+              TBC Actions
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleMenuTBS}>
+              TBS Actions
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleMenuAF}>
+              AF Actions
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleMenuA}>
+              A Actions
+            </Button>
+          </Stack>
+          {openTBC && (
+            <Menu
+              items={[
+                {
+                  icon: <CreateIcon />,
+                  label: 'Create',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menuTBC}
+            />
+          )}
+          {openTBS && (
+            <Menu
+              items={[
+                {
+                  icon: <DeliverIcon />,
+                  label: 'Deliver',
+                  action: () => {},
+                },
+                {
+                  icon: <DownloadIcon />,
+                  label: 'Download',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menuTBS}
+            />
+          )}
+          {openAF && (
+            <Menu
+              items={[
+                {
+                  icon: <ApproveIcon />,
+                  label: 'Approved',
+                  action: () => {},
+                },
+                {
+                  icon: <DownloadIcon />,
+                  label: 'Download',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menuAF}
+            />
+          )}
+          {openA && (
+            <Menu
+              items={[
+                {
+                  icon: <DownloadIcon />,
+                  label: 'Download',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menuA}
+            />
+          )}
         </Stack>
       </CardWithText>
       {erModal && <ExportReportsModal onClose={closeErModal} />}
