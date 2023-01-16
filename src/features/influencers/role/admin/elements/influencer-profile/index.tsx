@@ -7,7 +7,7 @@ import {
 } from 'features/influencers/role/admin/elements/influencer-profile/style';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
-import { BarChart, PieChart } from 'components/csr';
+import { BarChart, BubbleChart, PieChart } from 'components/csr';
 import Theme from 'theme';
 
 const InfluencerProfile = ({
@@ -163,7 +163,7 @@ const InfluencerProfile = ({
               data={[21, 52, 23, 14]}
             />
             <div style={{ width: '100%', height: 400 }}>
-              <BarChart
+              <BubbleChart
                 labels={[
                   '0-5',
                   '6-10',
@@ -179,11 +179,19 @@ const InfluencerProfile = ({
                 data={[
                   {
                     color: `${Theme.palette.primary.main}`,
-                    values: [2, 6, 2, 13, 22, 5, 18, 5, 2, 7],
+                    values: [
+                      { x: 1, y: 1, r: 20 },
+                      { x: 2, y: 2, r: 5 },
+                      { x: 3, y: 3, r: 50 },
+                    ],
                   },
                   {
                     color: `${Theme.palette.secondary.main}`,
-                    values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                    values: [
+                      { x: 3, y: 1, r: 1 },
+                      { x: 4, y: 2, r: 2 },
+                      { x: 5, y: 3, r: 8 },
+                    ],
                   },
                 ]}
                 verticalLabel="Number of Influencers"
