@@ -198,6 +198,34 @@ const InfluencerProfile = ({
                 horizontalLabel="Amount Per Post"
               />
             </div>
+            <div style={{ width: '100%', height: 400 }}>
+              <BarChart
+                labels={[
+                  '0-5',
+                  '6-10',
+                  '11-15',
+                  '16-20',
+                  '21-25',
+                  '26-30',
+                  '31-35',
+                  '36-40',
+                  '41-45',
+                  '46-50',
+                ]}
+                data={[
+                  {
+                    color: `${Theme.palette.primary.main}`,
+                    values: [2, 6, 2, 13, 22, 5, 18, 5, 2, 7],
+                  },
+                  {
+                    color: `${Theme.palette.secondary.main}`,
+                    values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                  },
+                ]}
+                verticalLabel="Number of Influencers"
+                horizontalLabel="Amount Per Post"
+              />
+            </div>
           </InfluencerProfileModalMain>
         )}
         {tab === 2 && (
