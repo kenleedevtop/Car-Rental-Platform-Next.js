@@ -10,12 +10,17 @@ import {
 import {
   CardWithChart,
   CardWithText,
+  Menu,
   Table,
   Tabs,
   Title,
 } from 'components/custom';
 import {
+  ContactIcon,
+  DeleteIcon,
+  EditIcon,
   InstagramIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TiktokIcon,
   TwitterIcon,
@@ -29,7 +34,7 @@ import {
   DGenerateInfluencersFilter,
 } from 'features/influencers/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 import {
   AddToInfluencerModal,
   DonateInfluencerModal,
@@ -71,6 +76,12 @@ const InfluencersPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const [menu, open, setOpen] = useMenu(false);
+
+  const handleMenu = () => {
+    setOpen(!open);
+  };
 
   return (
     <InfluencersPageMain>
@@ -537,7 +548,37 @@ const InfluencersPage = () => {
             <Button color="primary" variant="contained" onClick={openNiModal}>
               Note Influencer
             </Button>
+            <Button color="primary" variant="contained" onClick={handleMenu}>
+              Actions
+            </Button>
           </Stack>
+          {open && (
+            <Menu
+              items={[
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menu}
+            />
+          )}
         </Stack>
       </CardWithText>
       {aiModal && <AddToInfluencerModal onClose={closeAiModal} />}

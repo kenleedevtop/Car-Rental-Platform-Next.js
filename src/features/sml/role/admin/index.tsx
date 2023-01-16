@@ -5,11 +5,22 @@ import {
   SmlPageFilter,
   SmlPageFilterActions,
 } from 'features/sml/styles';
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  Menu,
+  Table,
+  Tabs,
+} from 'components/custom';
 import {
   ContactedIcon,
+  ContactIcon,
+  CreateIcon,
+  DeleteIcon,
+  EditIcon,
   IdentifiedIcon,
   RegisteredIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
 } from 'components/svg';
@@ -26,7 +37,7 @@ import {
   CreateSmlTabsModal,
   CreateSmlFinal,
 } from 'features/sml/role/admin/elements';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
@@ -50,6 +61,16 @@ const SmlPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const [menuTBC, openTBC, setOpenTBC] = useMenu(false);
+  const [menuTBS, openTBS, setOpenTBS] = useMenu(false);
+
+  const handleMenuTBC = () => {
+    setOpenTBC(!openTBC);
+  };
+  const handleMenuTBS = () => {
+    setOpenTBS(!openTBS);
+  };
 
   return (
     <SmlPageMain>
@@ -261,7 +282,70 @@ const SmlPage = () => {
           />
 
           <Pagination count={32} />
+
+          <Stack direction="horizontal">
+            <Button variant="contained" onClick={handleMenuTBS}>
+              TBS actions
+            </Button>
+            <Button variant="contained" onClick={handleMenuTBC}>
+              TBC actions
+            </Button>
+          </Stack>
         </Stack>
+        {openTBS && (
+          <Menu
+            items={[
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuTBS}
+          />
+        )}
+        {openTBC && (
+          <Menu
+            items={[
+              {
+                icon: <CreateIcon />,
+                label: 'Create',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuTBC}
+          />
+        )}
       </CardWithText>
       {esModal && <ExportSmlModal onClose={closeEsModal} />}
       {csModal && <CreateSmlModal onClose={closeCsModal} />}

@@ -5,12 +5,25 @@ import {
   SurveysPageFilter,
   SurveysPageFilterActions,
 } from 'features/surveys/styles';
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  Menu,
+  Table,
+  Tabs,
+} from 'components/custom';
 import {
   ContactedIcon,
+  ContactIcon,
+  DeleteIcon,
+  EditIcon,
   IdentifiedIcon,
+  InfoIcon,
+  ManageIcon,
   RegisteredIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
+  StartIcon,
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
@@ -23,7 +36,7 @@ import {
   ExportSurveysModal,
   CreateSurveysModal,
 } from 'features/surveys/role/admin/elements';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 
 const SurveyPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSurveyFilter());
@@ -44,6 +57,12 @@ const SurveyPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const [menu, open, setOpen] = useMenu(false);
+
+  const handleMenu = () => {
+    setOpen(!open);
+  };
 
   return (
     <SurveysPageMain>
@@ -256,7 +275,52 @@ const SurveyPage = () => {
           />
 
           <Pagination count={32} />
+          <Button variant="contained" onClick={handleMenu}>
+            Survey actions
+          </Button>
         </Stack>
+        {open && (
+          <Menu
+            items={[
+              {
+                icon: <StartIcon />,
+                label: 'Start',
+                action: () => {},
+              },
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ManageIcon />,
+                label: 'Manage',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menu}
+          />
+        )}
       </CardWithText>
       {esModal && <ExportSurveysModal onClose={closeEsModal} />}
       {csModal && <CreateSurveysModal onClose={closeCsModal} />}
