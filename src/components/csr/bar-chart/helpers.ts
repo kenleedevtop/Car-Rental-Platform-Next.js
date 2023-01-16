@@ -1,24 +1,23 @@
 import Theme from 'theme';
+import { TBarChartData } from 'components/csr/bar-chart/types';
 
 export const HChartDataGenerate = ({
   labels,
   data,
 }: {
   labels: Array<string>;
-  data: Array<number>;
+  data: Array<TBarChartData>;
 }) => ({
   labels,
-  datasets: [
-    {
-      label: 'Value',
-      data,
-      fill: 'start',
-      backgroundColor: `${Theme.palette.secondary.main}40`,
-      hoverBackgroundColor: `${Theme.palette.primary.main}c0`,
-      borderRadius: 4,
-      borderSkipped: false,
-    },
-  ],
+  datasets: data.map((x) => ({
+    label: 'Value',
+    data: x.values,
+    fill: 'start',
+    backgroundColor: x.color,
+    // hoverBackgroundColor: `${Theme.palette.primary.main}c0`,
+    borderRadius: 4,
+    borderSkipped: false,
+  })),
 });
 
 export const HChartOptionsGenerate = ({
