@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { Theme } from '@mui/material';
+import { IconButton, Theme } from '@mui/material';
+import { DragControls } from 'framer-motion';
 
 export const TableWrapper = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -41,13 +42,25 @@ export const TableBodyRow = styled.tr<{ theme?: Theme }>`
   `}
 `;
 
-export const TableHeadCell = styled.th<{ theme?: Theme }>`
-  ${({ theme }) => `
+export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
+  ${({ theme, action }) => `
         padding: ${theme.spacing(5)};
         text-align: left;
         color: ${theme.palette.primary.main};
         font-weight: 500;
         cursor: pointer;
+        ${
+          action
+            ? `
+          min-width: 50px;
+          width: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+        `
+            : ''
+        }
     `}
 `;
 
@@ -74,3 +87,5 @@ export const TableEmpty = styled.div<{ theme?: Theme }>`
     font-weight: 300;
   `}
 `;
+
+export const TableHeadCellAction = styled(IconButton)``;

@@ -267,26 +267,32 @@ const ReportsPage = () => {
               {
                 reference: 'campaign',
                 label: 'Campaign',
+                visible: true,
               },
               {
                 reference: 'type',
                 label: 'Type',
+                visible: true,
               },
               {
                 reference: 'date',
                 label: 'Date',
+                visible: true,
               },
               {
                 reference: 'influencers',
                 label: 'Influencers',
+                visible: true,
               },
               {
                 reference: 'price',
                 label: 'Price',
+                visible: true,
               },
               {
                 reference: 'actions',
                 label: 'Actions',
+                visible: true,
               },
             ]}
             items={[]}

@@ -3,9 +3,7 @@ import React, { ReactNode } from 'react';
 export type TTableHeadItem = {
   reference: string;
   label: string;
-  data?: {
-    [key: string]: any;
-  };
+  visible: boolean;
 };
 
 export type TTableColumnData = {

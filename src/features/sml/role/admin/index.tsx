@@ -247,34 +247,42 @@ const SmlPage = () => {
               {
                 reference: 'client',
                 label: 'Client',
+                visible: true,
               },
               {
                 reference: 'diseaseArea',
                 label: 'Disease Area',
+                visible: true,
               },
               {
                 reference: 'platform',
                 label: 'Platform',
+                visible: true,
               },
               {
                 reference: 'stakeholder',
                 label: 'Stakeholder',
+                visible: true,
               },
               {
                 reference: 'period',
                 label: 'Period',
+                visible: true,
               },
               {
                 reference: 'subscription',
                 label: 'Subscription',
+                visible: true,
               },
               {
                 reference: 'status',
                 label: 'Status',
+                visible: true,
               },
               {
                 reference: 'actions',
                 label: 'Actions',
+                visible: true,
               },
             ]}
             items={[]}
