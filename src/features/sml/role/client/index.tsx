@@ -212,30 +212,37 @@ const SmlPage = () => {
               {
                 reference: 'report',
                 label: 'Report',
+                visible: true,
               },
               {
                 reference: 'diseaseArea',
                 label: 'Disease Area',
+                visible: true,
               },
               {
                 reference: 'stakeholder',
                 label: 'Stakeholder',
+                visible: true,
               },
               {
                 reference: 'platform',
                 label: 'Platform',
+                visible: true,
               },
               {
                 reference: 'language',
                 label: 'Language',
+                visible: true,
               },
               {
                 reference: 'date',
                 label: 'Date',
+                visible: true,
               },
               {
                 reference: 'actions',
                 label: 'Actions',
+                visible: true,
               },
             ]}
             items={[]}

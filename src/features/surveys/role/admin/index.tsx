@@ -221,34 +221,42 @@ const SurveyPage = () => {
               {
                 reference: 'survey',
                 label: 'Survey',
+                visible: true,
               },
               {
                 reference: 'diseaseArea',
                 label: 'Disease Area',
+                visible: true,
               },
               {
                 reference: 'language',
                 label: 'Language',
+                visible: true,
               },
               {
                 reference: 'date',
                 label: 'Date',
+                visible: true,
               },
               {
                 reference: 'participants',
                 label: 'Participants',
+                visible: true,
               },
               {
                 reference: 'questions',
                 label: 'Questions',
+                visible: true,
               },
               {
                 reference: 'budget',
                 label: 'Budget',
+                visible: true,
               },
               {
                 reference: 'actions',
                 label: 'Actions',
+                visible: true,
               },
             ]}
             items={[]}

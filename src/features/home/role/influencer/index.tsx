@@ -93,10 +93,12 @@ const HomePage = () => {
                     {
                       reference: 'campaign',
                       label: 'Campaign',
+                      visible: true,
                     },
                     {
                       reference: 'status',
                       label: 'Status',
+                      visible: true,
                     },
                   ]}
                   items={DCampaignItems}
@@ -203,10 +205,12 @@ const HomePage = () => {
                     {
                       reference: 'campaign',
                       label: 'Campaign',
+                      visible: true,
                     },
                     {
                       reference: 'status',
                       label: 'Status',
+                      visible: true,
                     },
                   ]}
                   items={DCampaignItems}
