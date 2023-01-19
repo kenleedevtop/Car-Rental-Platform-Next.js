@@ -1,4 +1,4 @@
-import { CardWithText, Tabs } from 'components/custom';
+import { CardWithText, Table, Tabs } from 'components/custom';
 import React, { useEffect, useState } from 'react';
 import { Question } from 'features/create-survey/elements';
 import {
@@ -7,6 +7,7 @@ import {
   QuestionContainer,
   CreateSurveyActions,
   CreditContainer,
+  CreateSurveyButtons,
 } from 'features/create-survey/styles';
 import { Button, Card, Label } from 'components/ui';
 import { AddIcon } from 'components/svg';
@@ -142,6 +143,63 @@ const CreateSurveyPage = () => {
             </CreateSurveyActions>
           </Card>
         </>
+      )}
+      {tab === 1 && (
+        <>
+          {questions.map((el, index) => (
+            <Question
+              questionId={index + 1}
+              copy={copyQuestion}
+              remove={deleteQuestion}
+              updateQuestion={updateQuestion(el.id)}
+              changeType={changeType(el.id)}
+              question={el}
+            />
+          ))}
+        </>
+      )}
+
+      {tab === 2 && (
+        <CardWithText title="Survey" description="Influencers">
+          <Table
+            head={[
+              {
+                reference: 'username',
+                label: 'Username',
+              },
+              {
+                reference: 'status',
+                label: 'Status',
+              },
+              {
+                reference: 'statusChange',
+                label: 'Status change',
+              },
+              {
+                reference: 'hyperlink',
+                label: '',
+              },
+              {
+                reference: 'empty',
+                label: '',
+              },
+              {
+                reference: 'actions',
+                label: 'Actions',
+              },
+            ]}
+            items={[]}
+            renderItem={() => {}}
+          />
+          <CreateSurveyButtons>
+            <Button variant="contained" color="default">
+              Back
+            </Button>
+            <Button variant="contained" color="primary">
+              Save
+            </Button>
+          </CreateSurveyButtons>
+        </CardWithText>
       )}
     </CreateSurveyPageMain>
   );

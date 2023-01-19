@@ -18,6 +18,7 @@ import {
 } from 'features/create-survey/types';
 import { Stack } from 'components/system';
 import { v4 } from 'uuid';
+import { IconButton } from '@mui/material';
 
 const Question = ({
   question,
@@ -49,6 +50,17 @@ const Question = ({
         answers: questionWithAnswers.answers.map((x, y) =>
           y === id ? { ...x, value: v } : x
         ),
+      });
+    }
+  };
+
+  const removeAnswer = (id: number) => {
+    if (['multichoice', 'multiselect'].includes(question.type)) {
+      const questionWithAnswers = question as
+        | TSurveyQuestionMultichoiceType
+        | TSurveyQuestionMultiselectType;
+      updateQuestion({
+        answers: questionWithAnswers.answers.filter((x, y) => y !== id),
       });
     }
   };
@@ -145,6 +157,15 @@ const Question = ({
                 placeholder={`Question answer ${index + 1}`}
                 value={el.value}
                 onValue={updateAnswer(index)}
+                endAdornment={
+                  <IconButton
+                    onClick={() => {
+                      removeAnswer(index);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                }
               />
             </Stack>
           ))}
@@ -157,6 +178,15 @@ const Question = ({
                 placeholder={`Question answer ${index + 1}`}
                 value={el.value}
                 onValue={updateAnswer(index)}
+                endAdornment={
+                  <IconButton
+                    onClick={() => {
+                      removeAnswer(index);
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                }
               />
             </Stack>
           ))}
