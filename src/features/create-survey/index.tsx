@@ -166,26 +166,32 @@ const CreateSurveyPage = () => {
               {
                 reference: 'username',
                 label: 'Username',
+                visible: true,
               },
               {
                 reference: 'status',
                 label: 'Status',
+                visible: true,
               },
               {
                 reference: 'statusChange',
                 label: 'Status change',
+                visible: true,
               },
               {
                 reference: 'hyperlink',
                 label: '',
+                visible: true,
               },
               {
                 reference: 'empty',
                 label: '',
+                visible: true,
               },
               {
                 reference: 'actions',
                 label: 'Actions',
+                visible: true,
               },
             ]}
             items={[]}
