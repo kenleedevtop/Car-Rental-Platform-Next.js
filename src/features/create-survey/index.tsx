@@ -1,4 +1,4 @@
-import { CardWithText, Table, Tabs } from 'components/custom';
+import { CardWithText, Table, Tabs, Title } from 'components/custom';
 import React, { useEffect, useState } from 'react';
 import { Question } from 'features/create-survey/elements';
 import {
@@ -9,7 +9,7 @@ import {
   CreditContainer,
   CreateSurveyButtons,
 } from 'features/create-survey/styles';
-import { Button, Card, Label } from 'components/ui';
+import { Button, Card, Input, Label } from 'components/ui';
 import { AddIcon } from 'components/svg';
 import { v4 } from 'uuid';
 import {
@@ -22,6 +22,10 @@ import {
   TSurveyQuestionData,
   TSurveyQuestionType,
 } from 'features/create-survey/types';
+import { BubbleChart, PieChart } from 'components/csr';
+import { Stack } from 'components/system';
+import { InputLabel } from 'components/ui/input/styles';
+import Theme from 'theme';
 
 const CreateSurveyPage = () => {
   const [tab, setTab] = useState(0);
@@ -35,6 +39,8 @@ const CreateSurveyPage = () => {
       question: '',
     },
   ]);
+
+  const [variables, setVariables] = useState('');
 
   const [credit, setCredit] = useState(0);
 
@@ -145,18 +151,81 @@ const CreateSurveyPage = () => {
         </>
       )}
       {tab === 1 && (
-        <>
-          {questions.map((el, index) => (
-            <Question
-              questionId={index + 1}
-              copy={copyQuestion}
-              remove={deleteQuestion}
-              updateQuestion={updateQuestion(el.id)}
-              changeType={changeType(el.id)}
-              question={el}
-            />
-          ))}
-        </>
+        <Card>
+          <Stack>
+            {questions.map((el, index) => (
+              <Question
+                questionId={index + 1}
+                copy={copyQuestion}
+                remove={deleteQuestion}
+                updateQuestion={updateQuestion(el.id)}
+                changeType={changeType(el.id)}
+                question={el}
+              />
+            ))}
+            <Stack direction="horizontal">
+              <Stack
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <InputLabel> Results </InputLabel>
+                <PieChart
+                  style={{ width: '50%' }}
+                  labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
+                  data={[21, 52, 23, 14]}
+                />
+              </Stack>
+              <Stack>
+                <Input
+                  type="select"
+                  label="Variable"
+                  placeholder="Please Select"
+                  value={variables}
+                  onValue={(updated) => setVariables(updated)}
+                />
+                <div style={{ width: '100%', height: 400 }}>
+                  <BubbleChart
+                    labels={[
+                      '0-5',
+                      '6-10',
+                      '11-15',
+                      '16-20',
+                      '21-25',
+                      '26-30',
+                      '31-35',
+                      '36-40',
+                      '41-45',
+                      '46-50',
+                    ]}
+                    data={[
+                      {
+                        color: `${Theme.palette.primary.main}`,
+                        values: [
+                          { x: 1, y: 1, r: 20 },
+                          { x: 2, y: 2, r: 5 },
+                          { x: 3, y: 3, r: 50 },
+                        ],
+                      },
+                      {
+                        color: `${Theme.palette.secondary.main}`,
+                        values: [
+                          { x: 3, y: 1, r: 1 },
+                          { x: 4, y: 2, r: 2 },
+                          { x: 5, y: 3, r: 8 },
+                        ],
+                      },
+                    ]}
+                    verticalLabel="Number of Influencers"
+                    horizontalLabel="Amount Per Post"
+                  />
+                </div>
+              </Stack>
+            </Stack>
+          </Stack>
+        </Card>
       )}
 
       {tab === 2 && (
@@ -180,12 +249,7 @@ const CreateSurveyPage = () => {
               },
               {
                 reference: 'hyperlink',
-                label: '',
-                visible: true,
-              },
-              {
-                reference: 'empty',
-                label: '',
+                label: 'Hyperlinks',
                 visible: true,
               },
               {
