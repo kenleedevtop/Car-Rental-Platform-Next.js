@@ -40,7 +40,6 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
           placeholder="Enter your email"
           value={email}
           onValue={(input) => setEmail(input)}
-          style={{ width: '50%' }}
           errorCallback={setError}
           validators={[
             {

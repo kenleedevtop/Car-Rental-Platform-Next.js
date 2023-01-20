@@ -8,6 +8,10 @@ export const SignUpMain = styled(Grid)<{ theme?: Theme }>`
   width: 100%;
   place-items: center;
   padding: 0 ${theme.spacing(10)} ${theme.spacing(10)};
+
+  ${theme.breakpoints.down('md')} {
+    padding: 0;
+  }
   `}
 `;
 
@@ -17,6 +21,17 @@ export const SignUpTitle = styled.div<{ theme?: Theme }>`
     font-weight: 700;
     color: ${theme.palette.primary.main};
     margin-bottom: ${theme.spacing(2.5)};
+
+    ${theme.breakpoints.down('sm')} {
+      text-align: center;
+      line-height: 120%;
+    }
+    ${theme.breakpoints.down('md')} {
+      font-size: 32px;
+    }
+    ${theme.breakpoints.up('md')} {
+      font-size: 48px !important;
+    }
     `}
 `;
 
@@ -27,6 +42,11 @@ export const SignUpText = styled.div<{ theme?: Theme }>`
     color: ${theme.palette.common.gray[6]};
     margin-bottom: ${theme.spacing(10)};
     line-height: 30px;
+
+    ${theme.breakpoints.down('md')} {
+      font-size: 16px;
+      margin-bottom: 0;
+    }
   `}
 `;
 
@@ -39,6 +59,20 @@ export const SignUpActions = styled(Stack)<{ theme?: Theme }>`
     text-transform: uppercase;
     font-weight: 700;
     font-size: 20px;
+  }
+
+  ${theme.breakpoints.down('sm')} {
+    flex-direction: column;
+    button {
+      width: 100%;
+    }
+  }
+
+  ${theme.breakpoints.down('md')} {
+    button {
+      font-size: 16px;
+      padding: ${theme.spacing(5)} ${theme.spacing(12)};
+    }
   }
 
   `}
