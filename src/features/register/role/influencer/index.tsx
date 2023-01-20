@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { RegisterTitle, RegisterSubtitle } from 'features/register/styles';
+import {
+  RegisterTitle,
+  RegisterSubtitle,
+  RegisterInfluencerMain,
+} from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import {
@@ -44,7 +48,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <Stack>
+    <RegisterInfluencerMain>
       <RegisterTitle>Sign Up as Influencer</RegisterTitle>
       <RegisterSubtitle>
         Turn your voice into a force for positive change by signing up as a
@@ -186,7 +190,7 @@ const RegisterPage = () => {
       >
         SIGN UP NOW
       </Button>
-    </Stack>
+    </RegisterInfluencerMain>
   );
 };
 

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { RegisterTitle, RegisterSubtitle } from 'features/register/styles';
+import {
+  RegisterTitle,
+  RegisterSubtitle,
+  RegisterCompanyMain,
+} from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import {
@@ -57,7 +61,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <Stack>
+    <RegisterCompanyMain>
       <RegisterTitle>Sign Up as Company</RegisterTitle>
       <RegisterSubtitle>
         Reach the most relevant market possible by connecting with influencers
@@ -239,7 +243,7 @@ const RegisterPage = () => {
       >
         SIGN UP NOW
       </Button>
-    </Stack>
+    </RegisterCompanyMain>
   );
 };
 
