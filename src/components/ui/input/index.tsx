@@ -14,6 +14,7 @@ import { TInputProps } from 'components/ui/input/types';
 import { Chip, MenuItem } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import kebabCase from 'utilities/kebab-case';
 
 const Input = ({
   label,
@@ -27,7 +28,7 @@ const Input = ({
   multiline,
   required,
   helper,
-  rows = 4,
+  rows,
   validators = [],
   shouldValidate = true,
   errorCallback,
@@ -36,18 +37,26 @@ const Input = ({
   startAdornment,
   endAdornment,
   disabled,
+  minRows,
+  maxRows,
+  onNewTag,
   ...props
 }: TInputProps) => {
   const [search, setSearch] = useState('');
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [disabledNewTag, setDisabledNewTag] = useState(false);
 
   const handleValue = (e: React.ChangeEvent<any>) => {
     if (onValue) onValue(e.target.value);
   };
 
   const handleSelect = (_e: React.ChangeEvent<any>, v: any) => {
-    if (onValue) onValue(v?.value);
+    if (onValue) onValue(v);
+  };
+
+  const handleMultiselect = (_e: React.ChangeEvent<any>, v: any) => {
+    if (onValue) onValue(v);
   };
 
   const handleDate = (newValue: any) => {
@@ -79,6 +88,29 @@ const Input = ({
     if (onFocus) onFocus(e);
   };
 
+  const handleKeyDown = (e: any) => {
+    if (
+      e.key === 'Enter' &&
+      onNewTag &&
+      e.target.value.trim() &&
+      !disabledNewTag
+    ) {
+      const newValue = kebabCase(e.target.value);
+      if (options.find((x) => x.value === newValue)) {
+        return;
+      }
+      onNewTag({
+        label: e.target.value,
+        value: newValue,
+      });
+      setSearch('');
+    } else if (['ArrowDown', 'ArrowUp'].includes(e.key) && !disabledNewTag) {
+      setDisabledNewTag(true);
+    } else {
+      setDisabledNewTag(false);
+    }
+  };
+
   return (
     <InputMain {...props}>
       {!!label && (
@@ -94,6 +126,8 @@ const Input = ({
           placeholder={placeholder}
           multiline={multiline}
           rows={rows}
+          minRows={minRows}
+          maxRows={maxRows}
           variant="outlined"
           error={error}
           onBlur={handleBlur}
@@ -110,6 +144,8 @@ const Input = ({
           placeholder={placeholder}
           multiline={multiline}
           rows={rows}
+          minRows={minRows}
+          maxRows={maxRows}
           variant="outlined"
           error={error}
           onBlur={handleBlur}
@@ -126,6 +162,8 @@ const Input = ({
           placeholder={placeholder}
           multiline={multiline}
           rows={rows}
+          minRows={minRows}
+          maxRows={maxRows}
           variant="outlined"
           error={error}
           disabled={disabled}
@@ -145,6 +183,8 @@ const Input = ({
             placeholder="Min"
             multiline={multiline}
             rows={rows}
+            minRows={minRows}
+            maxRows={maxRows}
             variant="outlined"
             error={error}
             onBlur={handleBlur}
@@ -164,6 +204,8 @@ const Input = ({
             placeholder="Max"
             multiline={multiline}
             rows={rows}
+            minRows={minRows}
+            maxRows={maxRows}
             variant="outlined"
             error={error}
             onBlur={handleBlur}
@@ -205,6 +247,7 @@ const Input = ({
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
+              disabled={disabled}
               InputProps={{
                 ...InputProps,
                 startAdornment,
@@ -228,6 +271,7 @@ const Input = ({
                 error={error}
                 onBlur={handleBlur}
                 onFocus={handleFocus}
+                disabled={disabled}
                 inputProps={{ ...inputProps, placeholder }}
               />
             )}
@@ -258,22 +302,41 @@ const Input = ({
         <InputMultiSelect
           multiple
           filterSelectedOptions
-          options={options.map((option) => option.label)}
+          options={options}
+          getOptionLabel={(option: any) => {
+            const opt = options.find((x) => x.value === option.value);
+            if (!opt) {
+              return '';
+            }
+            return opt.label;
+          }}
           value={value}
-          onChange={handleSelect}
+          onChange={handleMultiselect}
           inputValue={search}
           disabled={disabled}
           onInputChange={(_a, b) => setSearch(b)}
+          isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
+          onKeyDown={handleKeyDown}
           renderTags={(v: any[], getTagProps) =>
-            v.map((option: string, index: number) => (
+            v.map((option: any, index: number) => (
               <Chip
                 variant="outlined"
-                label={option}
+                label={option.label}
                 {...getTagProps({ index })}
               />
             ))
           }
-          renderInput={(x) => (
+          renderOption={(optionProps, option: any) => (
+            <MenuItem {...optionProps}>{option.label}</MenuItem>
+          )}
+          renderInput={({
+            InputProps: {
+              endAdornment: _endAdornment,
+              startAdornment: _startAdornment,
+              ...InputProps
+            },
+            ...x
+          }) => (
             <InputText
               {...x}
               variant="outlined"
@@ -281,7 +344,12 @@ const Input = ({
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
-              InputProps={{ startAdornment, endAdornment }}
+              disabled={disabled}
+              InputProps={{
+                ...InputProps,
+                endAdornment: [endAdornment, _endAdornment],
+                startAdornment: [startAdornment, _startAdornment],
+              }}
             />
           )}
         />

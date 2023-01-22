@@ -35,5 +35,8 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   startAdornment?: string | ReactNode;
   endAdornment?: string | ReactNode;
   disabled?: boolean;
+  minRows?: number;
+  maxRows?: number;
   errorCallback?: (e: boolean) => void;
+  onNewTag?: (v: any) => void;
 };

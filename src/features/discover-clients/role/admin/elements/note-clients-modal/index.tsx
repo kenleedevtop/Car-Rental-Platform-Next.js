@@ -1,18 +1,51 @@
 import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TNoteClientsModalProps } from 'features/discover-clients/role/admin/elements/note-clients-modal/types';
-import { NoteClientsModalMain } from 'features/discover-clients/role/admin/elements/note-clients-modal/styles';
-import { DTabs } from 'features/discover-clients/role/admin/elements/note-clients-modal/data';
+import {
+  NoteClientsModalMain,
+  CommentSection,
+} from 'features/discover-clients/role/admin/elements/note-clients-modal/styles';
 import { Button, Input } from 'components/ui';
 import { InputLabel } from 'components/ui/input/styles';
+import { SingleComment } from 'features/discover-clients/role/admin/elements/note-clients-modal/elements';
 
 const NoteClientsModal = ({ onClose, ...props }: TNoteClientsModalProps) => {
-  const [state, setState] = useState({
-    subject: '',
-    recipient: [],
-    message: '',
-    type: 0,
-  });
+  const [label, setLabel] = useState<any>([]);
+  const [comments, setComments] = useState<string[]>([]);
+  const [input, setInput] = useState('');
+  const [tabs, setTabs] = useState(0);
+
+  const [options, setOptions] = useState([
+    {
+      label: 'Label',
+      value: 'label',
+    },
+  ]);
+
+  const handleLabel = (v: any) => {
+    setLabel(v);
+  };
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setComments((prev) => [...prev, input]);
+      setInput('');
+    }
+  };
+
+  const edit = (index: number, value: string) => {
+    setComments((prev) => prev.map((x, id) => (id === index ? value : x)));
+  };
+
+  const remove = (index: number) => {
+    setComments((prev) => prev.filter((x, id) => id !== index));
+  };
+
+  const handleNewTag = (v: any) => {
+    setOptions((x) => [...x, v]);
+    setLabel((x: any) => [...x, v]);
+  };
 
   return (
     <Modal
@@ -25,19 +58,15 @@ const NoteClientsModal = ({ onClose, ...props }: TNoteClientsModalProps) => {
           size="large"
           onClick={onClose}
         >
-          Send
+          Close
         </Button>,
       ]}
       onClose={onClose}
       {...props}
     >
       <NoteClientsModalMain style={{ height: '450px' }}>
-        <Tabs
-          tabs={DTabs}
-          value={state.type}
-          onValue={(type) => setState({ ...state, type })}
-        />
-        {!state.type && (
+        <Tabs tabs={['Comment', 'Label']} value={tabs} onValue={setTabs} />
+        {tabs === 0 && (
           <>
             <Input
               type="text"
@@ -45,22 +74,35 @@ const NoteClientsModal = ({ onClose, ...props }: TNoteClientsModalProps) => {
               multiline
               rows={3}
               placeholder="Write Comment"
-              value={state.subject}
-              onValue={(subject) => setState({ ...state, subject })}
+              value={input}
+              onValue={setInput}
+              onKeyDown={handleKeyDown}
             />
             <InputLabel>Previous Comments</InputLabel>
+            <CommentSection>
+              {comments.map((x, index) => (
+                <SingleComment
+                  index={index}
+                  onEdit={edit}
+                  onDelete={remove}
+                  value={x}
+                />
+              ))}
+            </CommentSection>
           </>
         )}
 
-        {state.type && (
+        {tabs === 1 && (
           <Input
             type="multiselect"
             label="Label"
             multiline
             rows={3}
             placeholder="Please Select"
-            value={state.subject}
-            onValue={(subject) => setState({ ...state, subject })}
+            value={label}
+            onValue={handleLabel}
+            onNewTag={handleNewTag}
+            options={options}
           />
         )}
       </NoteClientsModalMain>
