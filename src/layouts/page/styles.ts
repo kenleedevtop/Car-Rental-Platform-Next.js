@@ -15,14 +15,11 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
     display: flex;
     align-items: center;
     
-    ${theme.breakpoints.down('sm')} {
-      margin-top: 100px !important;
-      flex-direction: column-reverse;
-    }  
     ${theme.breakpoints.down('md')} {
-      margin-top: 500px;
-      flex-direction: column-reverse;
-    }  
+      display: grid;
+      grid-template-columns: auto;
+      grid-template-rows: 1fr 1fr;
+    }   
   `}
 `;
 
@@ -61,6 +58,8 @@ export const PageLayoutRight = styled.img<{ theme?: Theme }>`
       object-position: center;
       ${theme.breakpoints.down('md')} {
         width: 100%;
+        height: 100%;
+        order: -1;
       }
     `}
 `;

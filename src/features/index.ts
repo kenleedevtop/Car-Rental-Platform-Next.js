@@ -80,3 +80,6 @@ export { default as CreateSurveyPage } from 'features/create-survey';
 
 // Registration
 export { default as LoadingPage } from 'features/loading';
+
+// Change Password
+export { default as ChangePasswordPage } from 'features/change-password';

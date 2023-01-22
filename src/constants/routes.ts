@@ -20,4 +20,4 @@ export const CProtectedRoutes = [
   '/surveys/create',
 ];
 
-export const CUnprotectedRoutes = ['/login', '/register'];
+export const CUnprotectedRoutes = ['/login', '/register', '/change-password'];
