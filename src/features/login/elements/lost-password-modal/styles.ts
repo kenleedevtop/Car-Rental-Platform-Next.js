@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Grid } from 'components/system';
+import { Input } from 'components/ui';
 
 export const LostPasswordModalMain = styled(Grid)<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -17,16 +18,12 @@ export const LostPasswordModalMain = styled(Grid)<{ theme?: Theme }>`
     margin: ${theme.spacing(5)} 0;
   }
 
-  .css-1xqz3x8-InputMain {
-    width: 50%;
-  }
-
   ${theme.breakpoints.down('sm')} {
     padding: 0;
   }
 
   ${theme.breakpoints.down('md')} {
-    button, .css-1xqz3x8-InputMain {
+    button {
       width: 100%;
     }
   }
@@ -66,4 +63,13 @@ ${theme.breakpoints.up('md')} {
 }
 
 `}
+`;
+
+export const LostPasswordInput = styled(Input)<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 50%;
+    ${theme.breakpoints.down('md')} {
+        width: 100%;
+    }
+  `}
 `;

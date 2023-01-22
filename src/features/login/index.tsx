@@ -8,7 +8,7 @@ import {
 import { Button, Checkbox, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { useModal, useSnackbar } from 'hooks';
-import { LostPasswordModal } from 'features/login/elements';
+import { LostPasswordModal, MaintenanceModal } from 'features/login/elements';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
 import { TLoginParams } from 'api/authorization/types';
@@ -20,6 +20,7 @@ const Login = () => {
   });
 
   const [lpModal, openLpModal, closeLpModal] = useModal(false);
+  const [mtModal, openMtModal, closeMtModal] = useModal(false);
 
   const router = useRouter();
   const { push } = useSnackbar();
@@ -28,8 +29,9 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      await login(state);
-      router.push('/');
+      openMtModal();
+      // await login(state);
+      // router.push('/');
     } catch (e: any) {
       push(`${e.response.data.message} 🤡`, {
         variant: 'error',
@@ -72,6 +74,7 @@ const Login = () => {
         LOGIN NOW
       </Button>
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
+      {mtModal && <MaintenanceModal onClose={closeMtModal} />}
     </Stack>
   );
 };

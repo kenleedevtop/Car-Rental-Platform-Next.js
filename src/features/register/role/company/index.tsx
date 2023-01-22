@@ -3,9 +3,14 @@ import {
   RegisterTitle,
   RegisterSubtitle,
   RegisterCompanyMain,
+  RegisterCompanyTopStack,
+  RegisterCompanyBottomStack,
+  RegisterCompanyFName,
+  RegisterCompanyLName,
+  RegisterCompanyCompany,
+  RegisterCompanyRole,
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
-import { Stack } from 'components/system';
 import {
   emailSchema,
   firstNameSchema,
@@ -13,7 +18,8 @@ import {
   passwordSchema,
 } from 'utilities/validators';
 import { AuthorizationAPI } from 'api';
-import { useSnackbar } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
+import { ConfirmRegistrationModal } from 'features/register/elements';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -42,6 +48,8 @@ const RegisterPage = () => {
     setErrors((x) => x.map((a, b) => (b === index ? value : a)));
   };
 
+  const [crModal, openCrModal, closeCrModal] = useModal(false);
+
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
@@ -55,6 +63,7 @@ const RegisterPage = () => {
     try {
       const { message } = await AuthorizationAPI.registerAsCompany(state);
       push(message, { variant: 'success' });
+      openCrModal();
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
     }
@@ -67,8 +76,8 @@ const RegisterPage = () => {
         Reach the most relevant market possible by connecting with influencers
         who have pre-established trust with your target audience.
       </RegisterSubtitle>
-      <Stack direction="horizontal">
-        <Input
+      <RegisterCompanyTopStack direction="horizontal">
+        <RegisterCompanyFName
           type="text"
           label="First Name"
           required
@@ -98,7 +107,7 @@ const RegisterPage = () => {
             },
           ]}
         />
-        <Input
+        <RegisterCompanyLName
           type="text"
           label="Last Name"
           required
@@ -128,9 +137,9 @@ const RegisterPage = () => {
             },
           ]}
         />
-      </Stack>
-      <Stack direction="horizontal">
-        <Input
+      </RegisterCompanyTopStack>
+      <RegisterCompanyBottomStack direction="horizontal">
+        <RegisterCompanyCompany
           type="text"
           label="Company"
           required
@@ -151,7 +160,7 @@ const RegisterPage = () => {
             },
           ]}
         />
-        <Input
+        <RegisterCompanyRole
           type="text"
           label="Role"
           required
@@ -172,7 +181,7 @@ const RegisterPage = () => {
             },
           ]}
         />
-      </Stack>
+      </RegisterCompanyBottomStack>
       <Input
         type="text"
         label="Email"
@@ -243,6 +252,7 @@ const RegisterPage = () => {
       >
         SIGN UP NOW
       </Button>
+      {crModal && <ConfirmRegistrationModal onClose={closeCrModal} />}
     </RegisterCompanyMain>
   );
 };
