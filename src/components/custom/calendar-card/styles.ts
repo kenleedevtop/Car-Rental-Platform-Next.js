@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { CardWithText } from 'components/custom';
-import { Theme } from '@mui/material';
+import { IconButton, Theme } from '@mui/material';
 import { Grid } from 'components/system';
 
 export const CalendarCardMain = styled(CardWithText)<{ theme?: Theme }>``;
@@ -18,19 +18,26 @@ export const CalendarCardGrid = styled(Grid)<{ theme?: Theme }>`
 
 export const CalendarCardCell = styled.div<{
   theme?: Theme;
+  isHighlighted: boolean;
 }>`
-  ${({ theme }) => `
+  ${({ theme, isHighlighted }) => `
     width: 100%;
     padding: ${theme.spacing(1.5)};
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: ${theme.palette.common.white};
+    background-color: ${
+      isHighlighted ? theme.palette.common.gray[1] : theme.palette.common.white
+    };
     cursor: pointer;
     user-select: none;
     transition: background-color 150ms ease-in-out;
     &:hover {
-      background-color: ${theme.palette.common.gray[0]};
+      background-color: ${
+        isHighlighted
+          ? theme.palette.common.gray[2]
+          : theme.palette.common.gray[0]
+      };
     }
   `}
 `;
@@ -98,4 +105,26 @@ export const CalendarCardDay = styled.div<{
 export const CalendarCardDays = styled(Grid)`
   width: 100%;
   gap: 0;
+`;
+
+export const CalendarTitle = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    align-items: center;
+    gap: ${theme.spacing(1)};
+  `}
+`;
+
+export const CalendarReset = styled(IconButton)<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    padding: ${theme.spacing(0.5)};
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  `}
 `;

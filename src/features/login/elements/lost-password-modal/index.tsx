@@ -5,6 +5,7 @@ import {
   LostPasswordModalMain,
   LostPasswordTitle,
   LostPasswordText,
+  LostPasswordInput,
 } from 'features/login/elements/lost-password-modal/styles';
 import { Button, Input } from 'components/ui';
 import { AuthorizationAPI } from 'api';
@@ -35,12 +36,11 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
         <LostPasswordText>
           Enter email to get password for recovery.
         </LostPasswordText>
-        <Input
+        <LostPasswordInput
           type="text"
           placeholder="Enter your email"
           value={email}
           onValue={(input) => setEmail(input)}
-          style={{ width: '50%' }}
           errorCallback={setError}
           validators={[
             {

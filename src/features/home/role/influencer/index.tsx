@@ -17,6 +17,7 @@ import { Grid, GridCell, Stack } from 'components/system';
 import { Button, InputGroup, Pagination } from 'components/ui';
 import React, { useState } from 'react';
 import { DCampaignItems } from 'features/home/role/influencer/data';
+import Theme from 'theme';
 
 const HomePage = () => {
   const [state, setState] = useState({
@@ -27,7 +28,10 @@ const HomePage = () => {
     save: null,
   });
 
-  const [tab, setTab] = useState(0);
+  const [tabsC, setTabsC] = useState(0);
+  const [tabsSM, setTabsSM] = useState(0);
+  const [tabsS, setTabsS] = useState(0);
+  const [tabsCA, setTabsCA] = useState(0);
 
   const renderItem = ({ headItem, cell }: TTableRenderItemObject) => {
     if (headItem.reference === 'campaign') {
@@ -81,18 +85,20 @@ const HomePage = () => {
               <Stack>
                 <Tabs
                   tabs={['Available', 'In Progress']}
-                  value={0}
-                  onValue={() => {}}
+                  value={tabsC}
+                  onValue={setTabsC}
                 />
                 <Table
                   head={[
                     {
                       reference: 'campaign',
                       label: 'Campaign',
+                      visible: true,
                     },
                     {
                       reference: 'status',
                       label: 'Status',
+                      visible: true,
                     },
                   ]}
                   items={DCampaignItems}
@@ -102,8 +108,8 @@ const HomePage = () => {
                 <Title title="Competitive Analysis" />
                 <Tabs
                   tabs={['Instagram', 'Twitter', 'Tiktok']}
-                  value={0}
-                  onValue={() => {}}
+                  value={tabsSM}
+                  onValue={setTabsSM}
                 />
                 <Note showIcon={false}>
                   Influencers with an audience your size, asks for 21-25 USD per
@@ -123,7 +129,12 @@ const HomePage = () => {
                       '41-45',
                       '46-50',
                     ]}
-                    data={[5, 10, 15, 20, 25, 18, 13, 8, 3, 1]}
+                    data={[
+                      {
+                        color: `${Theme.palette.secondary.main}40`,
+                        values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                      },
+                    ]}
                     verticalLabel="Number of Influencers"
                     horizontalLabel="Amount Per Post"
                   />
@@ -186,18 +197,20 @@ const HomePage = () => {
               <Stack>
                 <Tabs
                   tabs={['Available', 'In Progress']}
-                  value={0}
-                  onValue={() => {}}
+                  value={tabsS}
+                  onValue={setTabsS}
                 />
                 <Table
                   head={[
                     {
                       reference: 'campaign',
                       label: 'Campaign',
+                      visible: true,
                     },
                     {
                       reference: 'status',
                       label: 'Status',
+                      visible: true,
                     },
                   ]}
                   items={DCampaignItems}
@@ -207,8 +220,8 @@ const HomePage = () => {
                 <Title title="Competitive Analysis" />
                 <Tabs
                   tabs={['Questionnaire', 'Interview']}
-                  value={0}
-                  onValue={() => {}}
+                  value={tabsCA}
+                  onValue={setTabsCA}
                 />
                 <Note showIcon={false}>
                   Patients asks for 1-2.5 USD per Question Credit on average.
@@ -227,7 +240,12 @@ const HomePage = () => {
                       '41-45',
                       '46-50',
                     ]}
-                    data={[5, 10, 15, 20, 25, 18, 13, 8, 3, 1]}
+                    data={[
+                      {
+                        color: `${Theme.palette.secondary.main}40`,
+                        values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                      },
+                    ]}
                     verticalLabel="Number of Influencers"
                     horizontalLabel="Amount Per Post"
                   />

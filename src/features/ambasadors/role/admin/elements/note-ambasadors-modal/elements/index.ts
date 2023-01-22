@@ -1,1 +1,1 @@
-export { default as SingleComment } from 'features/ambasadors/role/admin/elements/note-ambasadors-modal/elements/single-comment';
+export { default as SingleComment } from 'features/influencers/role/admin/elements/note-influencers-modal/elements/single-comment';

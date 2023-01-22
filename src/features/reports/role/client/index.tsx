@@ -286,34 +286,42 @@ const ReportsPage = () => {
               {
                 reference: 'campaignName',
                 label: 'Campaign name',
+                visible: true,
               },
               {
                 reference: 'product',
                 label: 'Product',
+                visible: true,
               },
               {
                 reference: 'platform',
                 label: 'Platform',
+                visible: true,
               },
               {
                 reference: 'startAndFinishDate',
                 label: 'Start & Finish Date',
+                visible: true,
               },
               {
                 reference: 'influencers',
                 label: 'Influencers',
+                visible: true,
               },
               {
                 reference: 'report',
                 label: 'Report',
+                visible: true,
               },
               {
                 reference: 'budget',
                 label: 'Budget',
+                visible: true,
               },
               {
                 reference: 'actions',
                 label: 'Actions',
+                visible: true,
               },
             ]}
             items={[]}

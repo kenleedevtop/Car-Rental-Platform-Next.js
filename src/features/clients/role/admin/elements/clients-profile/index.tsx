@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TClientsProfileModalProps } from 'features/clients/role/admin/elements/clients-profile/types';
-import { ClientsProfileModalMain } from 'features/clients/role/admin/elements/clients-profile/style';
+import {
+  ClientsProfileModalMain,
+  ClientTitle,
+} from 'features/clients/role/admin/elements/clients-profile/style';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
+import { EditIcon } from 'components/svg';
 
 const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
   const [state, setState] = useState({
@@ -11,8 +15,8 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
     email: '',
     role: '',
     phone: '',
-    company: '',
-    product: '',
+    company: null,
+    product: null,
     industry: null,
     diseaseArea: null,
     location: null,
@@ -26,6 +30,8 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
     smlLastMonth: '',
     totalSurveys: '',
     surveysLastMonth: '',
+    totalRevenue: '',
+    revenueLastMonth: '',
 
     comments: [],
     labels: [],
@@ -39,10 +45,20 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
 
   const [tab, setTab] = useState(0);
 
+  const [editActive, setEditActive] = useState(true);
+
+  const handleEdit = () => {
+    setEditActive((prev) => !prev);
+  };
+
   return (
     <Modal
       size="medium"
-      title="First Name Last Name"
+      title={
+        <ClientTitle>
+          First Name Last Name <EditIcon onClick={handleEdit} />
+        </ClientTitle>
+      }
       actions={[
         <Button
           color="primary"
@@ -50,7 +66,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
           size="large"
           onClick={onClose}
         >
-          Create
+          Close
         </Button>,
       ]}
       onClose={onClose}
@@ -58,7 +74,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
     >
       <Stack style={{ height: '500px' }}>
         <Tabs
-          tabs={['Info', 'Campaigns', 'Management']}
+          tabs={['Info', 'Projects', 'Management']}
           value={tab}
           onValue={setTab}
         />
@@ -66,6 +82,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
           <ClientsProfileModalMain columns={1}>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Client Name"
                 placeholder="Please Enter"
@@ -73,6 +90,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 onValue={(clientName) => setState({ ...state, clientName })}
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="Email"
                 placeholder="Please Enter"
@@ -82,6 +100,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Role"
                 placeholder="Please Enter"
@@ -89,6 +108,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 onValue={(role) => setState({ ...state, role })}
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="Phone Number"
                 placeholder="Please Enter"
@@ -98,48 +118,54 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
             </Stack>
             <Stack direction="horizontal">
               <Input
-                type="text"
+                disabled={editActive}
+                type="select"
                 label="Company"
-                placeholder="Please Enter"
+                placeholder="Please Select"
                 value={state.company}
                 onValue={(company) => setState({ ...state, company })}
               />
               <Input
-                type="text"
+                disabled={editActive}
+                type="select"
                 label="Product"
-                placeholder="Please Enter"
+                placeholder="Please Select"
                 value={state.product}
                 onValue={(product) => setState({ ...state, product })}
               />
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="select"
                 label="Industry"
-                placeholder="Please Enter"
+                placeholder="Please Select"
                 value={state.industry}
                 onValue={(industry) => setState({ ...state, industry })}
               />
               <Input
+                disabled={editActive}
                 type="select"
                 label="Disease Area"
-                placeholder="Please Enter"
+                placeholder="Please Select"
                 value={state.diseaseArea}
                 onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
               />
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="select"
                 label="Location"
-                placeholder="Please Enter"
+                placeholder="Please Select"
                 value={state.location}
                 onValue={(location) => setState({ ...state, location })}
               />
               <Input
+                disabled={editActive}
                 type="select"
                 label="Market"
-                placeholder="Please Enter"
+                placeholder="Please Select"
                 value={state.market}
                 onValue={(market) => setState({ ...state, market })}
               />
@@ -150,6 +176,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
           <ClientsProfileModalMain columns={1}>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Total Campaigns"
                 placeholder="Please Enter"
@@ -159,6 +186,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 }
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="Campaigns in Last 30 Days"
                 placeholder="Please Enter"
@@ -170,6 +198,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Total Reports"
                 placeholder="Please Enter"
@@ -177,6 +206,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 onValue={(totalReports) => setState({ ...state, totalReports })}
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="Reports in Last 30 Days"
                 placeholder="Please Enter"
@@ -188,6 +218,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Total SML Reports"
                 placeholder="Please Enter"
@@ -197,6 +228,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 }
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="SML Reports in Last 30 Days"
                 placeholder="Please Enter"
@@ -206,6 +238,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Total Surveys"
                 placeholder="Please Enter"
@@ -213,6 +246,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 onValue={(totalSurveys) => setState({ ...state, totalSurveys })}
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="Surveys in Last 30 Days"
                 placeholder="Please Enter"
@@ -222,12 +256,33 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 }
               />
             </Stack>
+            <Stack direction="horizontal">
+              <Input
+                disabled={editActive}
+                type="text"
+                label="Total Revenue"
+                placeholder="Please Enter"
+                value={state.totalRevenue}
+                onValue={(totalRevenue) => setState({ ...state, totalRevenue })}
+              />
+              <Input
+                disabled={editActive}
+                type="text"
+                label="Revenue in Last 30 Days"
+                placeholder="Please Enter"
+                value={state.revenueLastMonth}
+                onValue={(revenueLastMonth) =>
+                  setState({ ...state, revenueLastMonth })
+                }
+              />
+            </Stack>
           </ClientsProfileModalMain>
         )}
         {tab === 2 && (
           <ClientsProfileModalMain columns={1}>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Comments"
                 placeholder="Please Enter"
@@ -235,6 +290,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 onValue={(comments) => setState({ ...state, comments })}
               />
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Labels"
                 placeholder="Please Enter"
@@ -244,6 +300,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Meetings"
                 placeholder="Please Enter"
@@ -251,6 +308,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 onValue={(meetings) => setState({ ...state, meetings })}
               />
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Reminders"
                 placeholder="Please Enter"
@@ -260,6 +318,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Tasks"
                 placeholder="Please Enter"
@@ -267,6 +326,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 onValue={(tasks) => setState({ ...state, tasks })}
               />
               <Input
+                disabled={editActive}
                 type="date"
                 label="On Platform Since"
                 placeholder="Please Enter"
@@ -278,6 +338,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Status"
                 placeholder="Please Enter"
@@ -285,6 +346,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
                 onValue={(status) => setState({ ...state, status })}
               />
               <Input
+                disabled={editActive}
                 type="date"
                 label="Status Change"
                 placeholder="Please Enter"

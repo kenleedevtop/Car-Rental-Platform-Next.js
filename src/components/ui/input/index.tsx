@@ -6,6 +6,7 @@ import {
   InputText,
   InputMultiSelect,
   InputDatepicker,
+  InputTimepicker,
   InputRow,
   InputError,
 } from 'components/ui/input/styles';
@@ -234,6 +235,7 @@ const Input = ({
           onChange={handleSelect}
           inputValue={search}
           onInputChange={(_a, b) => setSearch(b)}
+          disabled={disabled}
           renderInput={({
             InputProps: { endAdornment: _endAdornment, ...InputProps },
             ...x
@@ -261,19 +263,36 @@ const Input = ({
             inputFormat="MM/DD/YYYY"
             value={value}
             onChange={handleDate}
-            renderInput={({ inputProps, ...params }) => (
+            disabled={disabled}
+            renderInput={({ inputProps, ...x }) => (
               <InputText
-                {...params}
+                {...x}
                 variant="outlined"
                 error={error}
                 onBlur={handleBlur}
                 onFocus={handleFocus}
                 disabled={disabled}
-                InputProps={{
-                  startAdornment,
-                  endAdornment,
-                  inputProps: { ...inputProps, placeholder },
-                }}
+                inputProps={{ ...inputProps, placeholder }}
+              />
+            )}
+          />
+        </LocalizationProvider>
+      )}
+      {type === 'time' && (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <InputTimepicker
+            inputFormat="HH:MM"
+            value={value}
+            onChange={handleDate}
+            disabled={disabled}
+            renderInput={({ inputProps, ...x }) => (
+              <InputText
+                {...x}
+                variant="outlined"
+                error={error}
+                onBlur={handleBlur}
+                onFocus={handleFocus}
+                inputProps={{ ...inputProps, placeholder }}
               />
             )}
           />
@@ -294,6 +313,7 @@ const Input = ({
           value={value}
           onChange={handleMultiselect}
           inputValue={search}
+          disabled={disabled}
           onInputChange={(_a, b) => setSearch(b)}
           isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
           onKeyDown={handleKeyDown}

@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { RegisterTitle, RegisterSubtitle } from 'features/register/styles';
+import {
+  RegisterTitle,
+  RegisterSubtitle,
+  RegisterInfluencerMain,
+  RegisterInfluencerStack,
+  RegisterInfluencerFName,
+  RegisterInfluencerLName,
+} from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import {
@@ -9,7 +16,8 @@ import {
   passwordSchema,
 } from 'utilities/validators';
 import { AuthorizationAPI } from 'api';
-import { useSnackbar } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
+import { ConfirmRegistrationModal } from 'features/register/elements';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -27,6 +35,8 @@ const RegisterPage = () => {
     setErrors((x) => x.map((a, b) => (b === index ? value : a)));
   };
 
+  const [crModal, openCrModal, closeCrModal] = useModal(false);
+
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
@@ -38,20 +48,21 @@ const RegisterPage = () => {
     try {
       const { message } = await AuthorizationAPI.registerAsInfluencer(state);
       push(message, { variant: 'success' });
+      openCrModal();
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
     }
   };
 
   return (
-    <Stack>
+    <RegisterInfluencerMain>
       <RegisterTitle>Sign Up as Influencer</RegisterTitle>
       <RegisterSubtitle>
         Turn your voice into a force for positive change by signing up as a
         patient influencer below.
       </RegisterSubtitle>
-      <Stack direction="horizontal">
-        <Input
+      <RegisterInfluencerStack direction="horizontal">
+        <RegisterInfluencerFName
           type="text"
           label="First Name"
           required
@@ -81,7 +92,7 @@ const RegisterPage = () => {
             },
           ]}
         />
-        <Input
+        <RegisterInfluencerLName
           type="text"
           label="Last Name"
           required
@@ -111,7 +122,7 @@ const RegisterPage = () => {
             },
           ]}
         />
-      </Stack>
+      </RegisterInfluencerStack>
       <Stack direction="horizontal">
         <Input
           type="text"
@@ -186,7 +197,8 @@ const RegisterPage = () => {
       >
         SIGN UP NOW
       </Button>
-    </Stack>
+      {crModal && <ConfirmRegistrationModal onClose={closeCrModal} />}
+    </RegisterInfluencerMain>
   );
 };
 

@@ -30,30 +30,37 @@ export const DSurveysHead = [
   {
     reference: 'survey',
     label: 'Survey',
+    visible: true,
   },
   {
     reference: 'language',
     label: 'Language',
+    visible: true,
   },
   {
     reference: 'type',
     label: 'Type',
+    visible: true,
   },
   {
     reference: 'startAndFinish',
     label: 'Start & Finish',
+    visible: true,
   },
   {
     reference: 'questions',
     label: 'Questions',
+    visible: true,
   },
   {
     reference: 'amount',
     label: 'Amount',
+    visible: true,
   },
   {
     reference: 'actions',
     label: 'Actions',
+    visible: true,
   },
 ];
 

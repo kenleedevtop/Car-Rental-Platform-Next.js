@@ -53,6 +53,9 @@ export { AdminInfluencersPage } from 'features/influencers';
 // Reports
 export { AdminReportsPage, ClientReportsPage } from 'features/reports';
 
+// Finished Reports
+export { default as FinishedReportPage } from 'features/finished-report';
+
 // SML
 export { AdminSmlPage, ClientSmlPage } from 'features/sml';
 
@@ -77,3 +80,6 @@ export { default as CreateSurveyPage } from 'features/create-survey';
 
 // Registration
 export { default as LoadingPage } from 'features/loading';
+
+// Change Password
+export { default as ChangePasswordPage } from 'features/change-password';

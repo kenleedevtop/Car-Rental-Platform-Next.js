@@ -14,15 +14,23 @@ import {
   CardWithChart,
   CardWithProgress,
   CardWithText,
+  Menu,
   Table,
   Tabs,
 } from 'components/custom';
 import {
+  ApproveIcon,
   BusinessmanIcon,
   ContactedIcon,
+  ContactIcon,
+  DeclineIcon,
+  DeleteIcon,
+  EditIcon,
   IdentifiedIcon,
+  ReceivedIcon,
   RedCrossIcon,
   RegisteredIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
 } from 'components/svg';
@@ -30,19 +38,24 @@ import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 import {
   CreateFinanceModal,
   ExportFinanceModal,
+  ApproveFinanceModal,
 } from 'features/finance/role/admin/elements';
 
 const FinancePage = () => {
   const [cfModal, openCfModal, closeCfModal] = useModal(false);
   const [efModal, openEfModal, closeEfModal] = useModal(false);
+  const [afModal, openAfModal, closeAfModal] = useModal(false);
 
   const [filter, setFilter] = useState<any>(DGenerateFinanceFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [tabs, setTabs] = useState(0);
+  const [tab, setTab] = useState(0);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -53,6 +66,28 @@ const FinancePage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const [menuRP, openRP, setOpenRP] = useMenu(false);
+  const [menuRPa, openRPa, setOpenRPa] = useMenu(false);
+  const [menuCP, openCP, setOpenCP] = useMenu(false);
+  const [menuCW, openCW, setOpenCW] = useMenu(false);
+  const [menuCPa, openCPa, setOpenCPa] = useMenu(false);
+
+  const handleMenuRP = () => {
+    setOpenRP(!openRP);
+  };
+  const handleMenuRPa = () => {
+    setOpenRPa(!openRPa);
+  };
+  const handleMenuCP = () => {
+    setOpenCP(!openCP);
+  };
+  const handleMenuCW = () => {
+    setOpenCW(!openCW);
+  };
+  const handleMenuCPa = () => {
+    setOpenCPa(!openCPa);
+  };
 
   return (
     <FinancePageMain>
@@ -209,7 +244,7 @@ const FinancePage = () => {
             Export
           </Button>,
           <Button color="primary" variant="contained" onClick={openCfModal}>
-            Add Campaign
+            Add Statement
           </Button>,
         ]}
       >
@@ -327,15 +362,15 @@ const FinancePage = () => {
       <CardWithText
         title="Cost"
         actions={[
-          <Button color="default" variant="contained">
+          <Button color="default" variant="contained" onClick={openAfModal}>
             Approve
           </Button>,
         ]}
       >
         <Stack>
           <Tabs
-            value={0}
-            onValue={() => {}}
+            value={tab}
+            onValue={setTab}
             tabs={['Payments', 'Withdrawals']}
           />
           <Table head={DFinanceHead} items={[]} renderItem={renderItem} />
@@ -351,13 +386,191 @@ const FinancePage = () => {
         ]}
       >
         <Stack>
-          <Tabs value={0} onValue={() => {}} tabs={['Pending', 'Received']} />
+          <Tabs value={tabs} onValue={setTabs} tabs={['Pending', 'Received']} />
           <Table head={DFinanceHead2} items={[]} renderItem={renderItem} />
           <Pagination count={32} />
+          <Stack direction="horizontal">
+            <Button color="default" variant="contained" onClick={handleMenuRP}>
+              RP action
+            </Button>
+            <Button color="default" variant="contained" onClick={handleMenuRPa}>
+              RPa action
+            </Button>
+            <Button color="default" variant="contained" onClick={handleMenuCP}>
+              CP action
+            </Button>
+            <Button color="default" variant="contained" onClick={handleMenuCW}>
+              CW action
+            </Button>
+            <Button color="default" variant="contained" onClick={handleMenuCPa}>
+              CPa action
+            </Button>
+          </Stack>
         </Stack>
+        {openRP && (
+          <Menu
+            items={[
+              {
+                icon: <ReceivedIcon />,
+                label: 'Received',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuRP}
+          />
+        )}
+        {openRPa && (
+          <Menu
+            items={[
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuRPa}
+          />
+        )}
+        {openCP && (
+          <Menu
+            items={[
+              {
+                icon: <ApproveIcon />,
+                label: 'Approve',
+                action: () => {},
+              },
+              {
+                icon: <DeclineIcon />,
+                label: 'Decline',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuCP}
+          />
+        )}
+        {openCW && (
+          <Menu
+            items={[
+              {
+                icon: <ApproveIcon />,
+                label: 'Approve',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuCW}
+          />
+        )}
+        {openCPa && (
+          <Menu
+            items={[
+              {
+                icon: <ApproveIcon />,
+                label: 'Approve',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuCPa}
+          />
+        )}
       </CardWithText>
       {cfModal && <CreateFinanceModal onClose={closeCfModal} />}
       {efModal && <ExportFinanceModal onClose={closeEfModal} />}
+      {afModal && <ApproveFinanceModal onClose={closeAfModal} />}
     </FinancePageMain>
   );
 };

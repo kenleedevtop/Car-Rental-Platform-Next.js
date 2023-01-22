@@ -13,10 +13,11 @@ export const CProtectedRoutes = [
   '/help',
   '/income',
   '/reports',
+  '/reports/finished',
   '/search',
   '/sml',
   '/surveys',
   '/surveys/create',
 ];
 
-export const CUnprotectedRoutes = ['/login', '/register'];
+export const CUnprotectedRoutes = ['/login', '/register', '/change-password'];

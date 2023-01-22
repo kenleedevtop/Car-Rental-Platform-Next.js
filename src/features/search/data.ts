@@ -2,10 +2,12 @@ export const DSearchTableHead = [
   {
     reference: 'result',
     label: 'Search Result',
+    visible: true,
   },
   {
     reference: 'category',
     label: 'Category',
+    visible: true,
   },
 ];
 

@@ -5,9 +5,14 @@ import {
   DiscoverInfluencersPageFilter,
   DiscoverInfluencersPageFilterActions,
 } from 'features/discover-influencers/styles';
-import { CardWithChart, CardWithText, Tabs } from 'components/custom';
+import { CardWithChart, CardWithText, Menu, Tabs } from 'components/custom';
 import {
+  ApproveIcon,
+  ContactIcon,
+  DeleteIcon,
+  EditIcon,
   InstagramIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TiktokIcon,
   TwitterIcon,
@@ -27,7 +32,7 @@ import {
   NotificationsSettingsModal,
   ScheduleInfluencerModal,
 } from 'features/discover-influencers/role/admin/elements';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 
 const DiscoverInfluencersPage = () => {
   // Modals
@@ -54,6 +59,17 @@ const DiscoverInfluencersPage = () => {
 
   const clearFilters = () => {
     setFilter(DGenerateDiscoverInfluencersFilter());
+  };
+
+  const [tbaMenu, openTBA, setOpenTBA] = useMenu(false);
+  const [DIMenu, openDI, setOpenDI] = useMenu(false);
+
+  const handleTBAMenu = () => {
+    setOpenTBA(!openTBA);
+  };
+
+  const handleDIMenu = () => {
+    setOpenDI(!openDI);
   };
 
   return (
@@ -214,10 +230,74 @@ const DiscoverInfluencersPage = () => {
             <Button color="primary" variant="contained" onClick={openNiModal}>
               Note Influencer
             </Button>
+            <Button color="primary" variant="contained" onClick={handleTBAMenu}>
+              TBA actions
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleDIMenu}>
+              Discover Actions
+            </Button>
           </Stack>
+          {openTBA && (
+            <Menu
+              items={[
+                {
+                  icon: <ApproveIcon />,
+                  label: 'Approve',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={tbaMenu}
+            />
+          )}
+          {openDI && (
+            <Menu
+              items={[
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={DIMenu}
+            />
+          )}
         </Stack>
       </CardWithText>
-
       {aiModal && <AddInfluencerModal onClose={closeAiModal} />}
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}
       {diModal && <DeleteInfluencerModal onClose={closeDiModal} />}

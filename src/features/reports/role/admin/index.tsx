@@ -5,11 +5,25 @@ import {
   ReportsPageFilter,
   ReportsPageFilterActions,
 } from 'features/reports/styles';
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
+  CardWithChart,
+  CardWithText,
+  Menu,
+  Table,
+  Tabs,
+} from 'components/custom';
+import {
+  ApproveIcon,
   ContactedIcon,
+  ContactIcon,
+  CreateIcon,
+  DeleteIcon,
+  DeliverIcon,
+  DownloadIcon,
+  EditIcon,
   IdentifiedIcon,
   RegisteredIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
 } from 'components/svg';
@@ -23,7 +37,7 @@ import {
   ExportReportsModal,
   CreateReportsModal,
 } from 'features/reports/role/admin/elements';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 
 const ReportsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateReportsFilter());
@@ -34,6 +48,24 @@ const ReportsPage = () => {
 
   const [erModal, openErModal, closeErModal] = useModal(false);
   const [crModal, openCrModal, closeCrModal] = useModal(false);
+
+  const [menuTBC, openTBC, setOpenTBC] = useMenu(false);
+  const [menuTBS, openTBS, setOpenTBS] = useMenu(false);
+  const [menuAF, openAF, setOpenAF] = useMenu(false);
+  const [menuA, openA, setOpenA] = useMenu(false);
+
+  const handleMenuTBC = () => {
+    setOpenTBC(!openTBC);
+  };
+  const handleMenuTBS = () => {
+    setOpenTBS(!openTBS);
+  };
+  const handleMenuAF = () => {
+    setOpenAF(!openAF);
+  };
+  const handleMenuA = () => {
+    setOpenA(!openA);
+  };
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -49,7 +81,7 @@ const ReportsPage = () => {
     <ReportsPageMain>
       <ReportsPageCharts columns={4}>
         <CardWithChart
-          title="To Be Created"
+          title="Ordered"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -61,7 +93,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="To Be Sent"
+          title="Ready"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -73,7 +105,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Waiting Feedback"
+          title="Delivered"
           icon={<RegisteredIcon />}
           percent={-6}
           count={75}
@@ -85,7 +117,7 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Approved"
+          title="Revenue"
           icon={<TotalIcon />}
           percent={-6}
           count={75}
@@ -226,12 +258,7 @@ const ReportsPage = () => {
             </ReportsPageFilter>
           </Collapse>
           <Tabs
-            tabs={[
-              'To Be Created',
-              'To Be Sent',
-              'Awaiting Feedback',
-              'Approved',
-            ]}
+            tabs={['Ordered', 'Ready', 'Delivered']}
             value={tabsValue}
             onValue={setTabsValue}
           />
@@ -240,26 +267,32 @@ const ReportsPage = () => {
               {
                 reference: 'campaign',
                 label: 'Campaign',
+                visible: true,
               },
               {
                 reference: 'type',
                 label: 'Type',
+                visible: true,
               },
               {
                 reference: 'date',
                 label: 'Date',
+                visible: true,
               },
               {
                 reference: 'influencers',
                 label: 'Influencers',
+                visible: true,
               },
               {
                 reference: 'price',
                 label: 'Price',
+                visible: true,
               },
               {
                 reference: 'actions',
                 label: 'Actions',
+                visible: true,
               },
             ]}
             items={[]}
@@ -267,6 +300,159 @@ const ReportsPage = () => {
           />
 
           <Pagination count={32} />
+
+          <Stack direction="horizontal">
+            <Button color="primary" variant="contained" onClick={handleMenuTBC}>
+              TBC Actions
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleMenuTBS}>
+              TBS Actions
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleMenuAF}>
+              AF Actions
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleMenuA}>
+              A Actions
+            </Button>
+          </Stack>
+          {openTBC && (
+            <Menu
+              items={[
+                {
+                  icon: <CreateIcon />,
+                  label: 'Create',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menuTBC}
+            />
+          )}
+          {openTBS && (
+            <Menu
+              items={[
+                {
+                  icon: <DeliverIcon />,
+                  label: 'Deliver',
+                  action: () => {},
+                },
+                {
+                  icon: <DownloadIcon />,
+                  label: 'Download',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menuTBS}
+            />
+          )}
+          {openAF && (
+            <Menu
+              items={[
+                {
+                  icon: <ApproveIcon />,
+                  label: 'Approved',
+                  action: () => {},
+                },
+                {
+                  icon: <DownloadIcon />,
+                  label: 'Download',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menuAF}
+            />
+          )}
+          {openA && (
+            <Menu
+              items={[
+                {
+                  icon: <DownloadIcon />,
+                  label: 'Download',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menuA}
+            />
+          )}
         </Stack>
       </CardWithText>
       {erModal && <ExportReportsModal onClose={closeErModal} />}

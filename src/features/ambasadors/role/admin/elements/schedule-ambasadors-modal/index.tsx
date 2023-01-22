@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TScheduleAmbasadorsModalProps } from 'features/ambasadors/role/admin/elements/schedule-ambasadors-modal/types';
 import { ScheduleAmbasadorsModalMain } from 'features/ambasadors/role/admin/elements/schedule-ambasadors-modal/styles';
-import { Button, Input } from 'components/ui';
+import { Button, Input, InputGroup, Switch } from 'components/ui';
 
 const ScheduleAmbasadorsModal = ({
   onClose,
@@ -11,7 +11,11 @@ const ScheduleAmbasadorsModal = ({
   const [state, setState] = useState({
     title: '',
     type: null,
-    date: null,
+    startDate: null,
+    endDate: null,
+    startTime: null,
+    endTime: null,
+    allDay: false,
     client: null,
     description: '',
   });
@@ -48,12 +52,48 @@ const ScheduleAmbasadorsModal = ({
           value={state.type}
           onValue={(type) => setState({ ...state, type })}
         />
-        <Input
-          type="date"
-          label="Date & Time"
-          placeholder="Please Select"
-          value={state.date}
-          onValue={(date) => setState({ ...state, date })}
+        <InputGroup
+          label="Date"
+          inputRatio="1fr 1fr"
+          elements={[
+            {
+              type: 'date',
+              placeholder: 'From',
+              value: state.startDate,
+              onValue: (startDate) => setState({ ...state, startDate }),
+            },
+            {
+              type: 'date',
+              placeholder: 'To',
+              value: state.endDate,
+              onValue: (endDate) => setState({ ...state, endDate }),
+            },
+          ]}
+        />
+        {!state.allDay && (
+          <InputGroup
+            label="Time"
+            inputRatio="1fr 1fr"
+            elements={[
+              {
+                type: 'time',
+                placeholder: 'From',
+                value: state.startTime,
+                onValue: (startTime) => setState({ ...state, startTime }),
+              },
+              {
+                type: 'time',
+                placeholder: 'To',
+                value: state.endTime,
+                onValue: (endTime) => setState({ ...state, endTime }),
+              },
+            ]}
+          />
+        )}
+        <Switch
+          label="All day"
+          value={state.allDay}
+          onValue={(allDay) => setState({ ...state, allDay })}
         />
         <Input
           type="select"
