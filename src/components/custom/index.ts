@@ -1,3 +1,4 @@
+export { default as LocalizationSelect } from 'components/custom/localization-select';
 export { default as ProgressDisplay } from 'components/custom/progress-display';
 export { default as Note } from 'components/custom/note';
 export { default as HighlightedText } from 'components/custom/highlighted-text';

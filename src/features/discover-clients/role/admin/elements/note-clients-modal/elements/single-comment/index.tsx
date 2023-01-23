@@ -4,10 +4,10 @@ import {
   SingleCommentMain,
   NoteDropdown,
   CommentText,
-} from 'features/ambasadors/role/admin/elements/note-ambasadors-modal/elements/single-comment/styles';
+} from 'features/ambassadors/role/admin/elements/note-ambassadors-modal/elements/single-comment/styles';
 import { useMenu } from 'hooks';
 import { DeleteIcon, EditIcon, VerticalDotsIcon } from 'components/svg';
-import { TSingleCommentProps } from 'features/ambasadors/role/admin/elements/note-ambasadors-modal/elements/single-comment/types';
+import { TSingleCommentProps } from 'features/ambassadors/role/admin/elements/note-ambassadors-modal/elements/single-comment/types';
 import { Input } from 'components/ui';
 import { IconButton } from '@mui/material';
 

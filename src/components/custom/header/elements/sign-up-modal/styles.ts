@@ -21,6 +21,7 @@ export const SignUpTitle = styled.div<{ theme?: Theme }>`
     font-weight: 700;
     color: ${theme.palette.primary.main};
     margin-bottom: ${theme.spacing(2.5)};
+    text-align: center;
 
     ${theme.breakpoints.down('sm')} {
       text-align: center;
@@ -28,9 +29,6 @@ export const SignUpTitle = styled.div<{ theme?: Theme }>`
     }
     ${theme.breakpoints.down('md')} {
       font-size: 32px;
-    }
-    ${theme.breakpoints.up('md')} {
-      font-size: 48px !important;
     }
     `}
 `;

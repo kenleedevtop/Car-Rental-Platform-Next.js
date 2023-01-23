@@ -6,6 +6,7 @@ import {
   ClientSurveysPage,
   InfluencerSurveysPage,
 } from 'features';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Surveys = () => {
   const { role, setRouteName } = useAppContext();
@@ -23,5 +24,13 @@ const Surveys = () => {
     </>
   );
 };
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['surveys', 'common'])),
+    },
+  };
+}
 
 export default Surveys;

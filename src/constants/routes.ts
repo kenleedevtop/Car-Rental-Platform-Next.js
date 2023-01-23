@@ -7,7 +7,7 @@ export const CProtectedRoutes = [
   '/discover/clients',
   '/discover/influencers',
   '/users/clients',
-  '/users/ambasadors',
+  '/users/ambassadors',
   '/users/influencers',
   '/finance',
   '/help',
@@ -21,3 +21,5 @@ export const CProtectedRoutes = [
 ];
 
 export const CUnprotectedRoutes = ['/login', '/register', '/change-password'];
+
+export const CAllRoutes = [...CProtectedRoutes, ...CUnprotectedRoutes];

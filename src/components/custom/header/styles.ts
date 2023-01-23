@@ -40,8 +40,6 @@ export const HeaderActions = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
   display: flex;
   align-items: center;
-  width: 225px;
-
   button {
     border-radius: 20rem;
     font-weight: 700;

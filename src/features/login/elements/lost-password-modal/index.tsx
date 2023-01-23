@@ -7,14 +7,18 @@ import {
   LostPasswordText,
   LostPasswordInput,
 } from 'features/login/elements/lost-password-modal/styles';
-import { Button, Input } from 'components/ui';
+import { Button } from 'components/ui';
 import { AuthorizationAPI } from 'api';
 import { useSnackbar } from 'hooks';
 import { emailSchema } from 'utilities/validators';
+import { useTranslation } from 'react-i18next';
 
 const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
+
+  const { t } = useTranslation('common');
+
   const { push } = useSnackbar();
 
   const handleReset = async () => {
@@ -32,13 +36,13 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
   return (
     <Modal size="medium" onClose={onClose} {...props}>
       <LostPasswordModalMain columns={1}>
-        <LostPasswordTitle>Lost your password?</LostPasswordTitle>
+        <LostPasswordTitle>{t('Lost your password?')}</LostPasswordTitle>
         <LostPasswordText>
-          Enter email to get password for recovery.
+          {t('Enter email to get password for recovery.')}
         </LostPasswordText>
         <LostPasswordInput
           type="text"
-          placeholder="Enter your email"
+          placeholder={t('Please Enter your Email') as string}
           value={email}
           onValue={(input) => setEmail(input)}
           errorCallback={setError}
@@ -63,7 +67,7 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
           onClick={handleReset}
           disabled={isDisabled}
         >
-          Send
+          {t('SEND')}
         </Button>
       </LostPasswordModalMain>
     </Modal>
