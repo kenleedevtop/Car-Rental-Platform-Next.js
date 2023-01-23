@@ -25,7 +25,7 @@ const Login = () => {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['login'])),
+      ...(await serverSideTranslations(locale, ['login', 'common'])),
     },
   };
 }

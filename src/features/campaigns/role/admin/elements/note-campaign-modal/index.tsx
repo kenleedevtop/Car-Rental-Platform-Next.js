@@ -9,7 +9,7 @@ import { Button, Input } from 'components/ui';
 import { InputLabel } from 'components/ui/input/styles';
 import { SingleComment } from 'features/campaigns/role/admin/elements/note-campaign-modal/elements';
 
-const NoteAmbasadorsModal = ({
+const NoteAmbassadorsModal = ({
   onClose,
   ...props
 }: TNoteCampaignModalProps) => {
@@ -113,4 +113,4 @@ const NoteAmbasadorsModal = ({
   );
 };
 
-export default NoteAmbasadorsModal;
+export default NoteAmbassadorsModal;

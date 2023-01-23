@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
+import { LocalizationSelect } from 'components/custom';
 import { Stack } from 'components/system';
 
 export const LoginMain = styled.div`
@@ -42,4 +43,8 @@ export const LoginAction = styled(Stack)<{ theme?: Theme }>`
       flex-direction: column;
     }
   `}
+`;
+
+export const LoginLocalization = styled(LocalizationSelect)`
+  margin: 0 auto;
 `;

@@ -11,18 +11,24 @@ import { SignUpModal } from 'components/custom/header/elements';
 
 import { Button } from 'components/ui';
 import { useModal } from 'hooks';
+import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
 const Header = ({ ...props }) => {
   const [spModal, openSpModal, closeSpModal] = useModal(false);
 
+  const { t } = useTranslation('common');
+
   return (
     <>
       <HeaderMain {...props}>
-        <HeaderLogo src="/static/assets/images/logo.png" />
+        <Link href="/login">
+          <HeaderLogo src="/static/assets/images/logo.png" />
+        </Link>
         <HeaderActions>
           <HeaderAction href="/login">
             <Button variant="text" size="large">
-              LOGIN
+              {t('LOGIN')}
             </Button>
           </HeaderAction>
           <Button
@@ -31,7 +37,7 @@ const Header = ({ ...props }) => {
             size="large"
             onClick={openSpModal}
           >
-            SIGN UP
+            {t('SIGN UP')}
           </Button>
         </HeaderActions>
       </HeaderMain>

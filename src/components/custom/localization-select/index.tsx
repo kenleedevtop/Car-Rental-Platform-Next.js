@@ -1,30 +1,39 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { SLocalizationSelectMain } from 'components/custom/localization-select/styles';
 import {
-  TLocalizationOption,
-  TLocalizationSelectProps,
-} from 'components/custom/localization-select/types';
+  SLocalizationSelectMain,
+  SLocalizationSelectOption,
+} from 'components/custom/localization-select/styles';
+import { TLocalizationSelectProps } from 'components/custom/localization-select/types';
 import { DLocalizationOptions } from 'components/custom/localization-select/data';
+import { SelectChangeEvent } from '@mui/material';
 
-const LocalizationSelect = ({ ...props }: TLocalizationSelectProps) => {
-  const [value, setValue] = useState(DLocalizationOptions[0]);
+const LocalizationSelect = ({
+  color = 'secondary',
+  ...props
+}: TLocalizationSelectProps) => {
+  const { push, locale, asPath } = useRouter();
+  const [value, setValue] = useState(locale);
 
-  const { push } = useRouter();
-
-  const handleValue = (v: TLocalizationOption) => {
+  const handleValue = (e: SelectChangeEvent<any>) => {
+    const v = e.target.value;
     setValue(v);
-    push('.', undefined, { locale: v.value });
+    push(asPath, undefined, { locale: v });
   };
 
   return (
     <SLocalizationSelectMain
-      type="select"
       value={value}
-      onValue={handleValue}
+      onChange={handleValue}
+      color={color}
       {...props}
-      options={DLocalizationOptions}
-    />
+    >
+      {DLocalizationOptions.map((x) => (
+        <SLocalizationSelectOption value={x.value} key={x.value}>
+          {x.label}
+        </SLocalizationSelectOption>
+      ))}
+    </SLocalizationSelectMain>
   );
 };
 

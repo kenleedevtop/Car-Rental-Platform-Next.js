@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
+import { LocalizationSelect } from 'components/custom';
 import { Stack } from 'components/system';
 import { Input } from 'components/ui';
 
@@ -105,4 +106,8 @@ export const RegisterInfluencerLName = styled(Input)<{ theme?: Theme }>`
         width: 100%;
     }
 `}
+`;
+
+export const RegisterLocalization = styled(LocalizationSelect)`
+  margin: 0 auto;
 `;

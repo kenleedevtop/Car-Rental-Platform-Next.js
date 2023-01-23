@@ -9,6 +9,7 @@ import {
   RegisterCompanyLName,
   RegisterCompanyCompany,
   RegisterCompanyRole,
+  RegisterLocalization,
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import {
@@ -20,6 +21,8 @@ import {
 import { AuthorizationAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
+import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -33,7 +36,11 @@ const RegisterPage = () => {
     password: '',
   });
 
+  const router = useRouter();
+
   const { push } = useSnackbar();
+
+  const { t } = useTranslation('register');
 
   const [errors, setErrors] = useState([
     false,
@@ -61,33 +68,38 @@ const RegisterPage = () => {
 
   const handleRegister = async () => {
     try {
-      const { message } = await AuthorizationAPI.registerAsCompany(state);
-      push(message, { variant: 'success' });
+      await AuthorizationAPI.registerAsCompany(state);
       openCrModal();
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
     }
   };
 
+  const handleClose = () => {
+    router.push('/login');
+    closeCrModal();
+  };
+
   return (
     <RegisterCompanyMain>
-      <RegisterTitle>Sign Up as Company</RegisterTitle>
+      <RegisterTitle>{t('Sign Up as Company')}</RegisterTitle>
       <RegisterSubtitle>
-        Reach the most relevant market possible by connecting with influencers
-        who have pre-established trust with your target audience.
+        {t(
+          'Reach the most relevant market possible by connecting with influencers who have pre-established trust with your target audience.'
+        )}
       </RegisterSubtitle>
       <RegisterCompanyTopStack direction="horizontal">
         <RegisterCompanyFName
           type="text"
-          label="First Name"
+          label={t('First Name') as string}
           required
-          placeholder="Please enter first name"
+          placeholder={t('Please Enter your First Name') as string}
           value={state.firstName}
           onValue={(firstName) => setState({ ...state, firstName })}
           errorCallback={handleErrors(0)}
           validators={[
             {
-              message: 'First name is required',
+              message: 'First Name is required',
               validator: (firstName) => {
                 const v = firstName as string;
                 if (v.trim()) return true;
@@ -95,7 +107,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'First name needs to be at least 2 characters long',
+              message: 'First Name needs to be at least 2 characters long',
               validator: (firstName) => {
                 try {
                   firstNameSchema.validateSync({ firstName });
@@ -109,9 +121,9 @@ const RegisterPage = () => {
         />
         <RegisterCompanyLName
           type="text"
-          label="Last Name"
+          label={t('Last Name') as string}
           required
-          placeholder="Please enter last name"
+          placeholder={t('Please Enter your Last Name') as string}
           value={state.lastName}
           onValue={(lastName) => setState({ ...state, lastName })}
           errorCallback={handleErrors(1)}
@@ -141,9 +153,9 @@ const RegisterPage = () => {
       <RegisterCompanyBottomStack direction="horizontal">
         <RegisterCompanyCompany
           type="text"
-          label="Company"
+          label={t('Company') as string}
           required
-          placeholder="Please enter your company"
+          placeholder={t('Please Enter your Company') as string}
           value={state.company.name}
           onValue={(name) =>
             setState({ ...state, company: { ...state.company, name } })
@@ -162,9 +174,9 @@ const RegisterPage = () => {
         />
         <RegisterCompanyRole
           type="text"
-          label="Role"
+          label={t('Role') as string}
           required
-          placeholder="Please enter your role"
+          placeholder={t('Please Enter your Role') as string}
           value={state.company.role}
           onValue={(role) =>
             setState({ ...state, company: { ...state.company, role } })
@@ -184,9 +196,9 @@ const RegisterPage = () => {
       </RegisterCompanyBottomStack>
       <Input
         type="text"
-        label="Email"
+        label={t('Email') as string}
         required
-        placeholder="Please enter your email"
+        placeholder={t('Please Enter your Email') as string}
         value={state.email}
         onValue={(email) => setState({ ...state, email })}
         errorCallback={handleErrors(4)}
@@ -214,9 +226,9 @@ const RegisterPage = () => {
       />
       <Input
         type="password"
-        label="Password"
+        label={t('Password') as string}
         required
-        placeholder="Please enter your password"
+        placeholder={t('Please Enter your Password') as string}
         value={state.password}
         onValue={(password) => setState({ ...state, password })}
         errorCallback={handleErrors(5)}
@@ -250,9 +262,10 @@ const RegisterPage = () => {
         disabled={isDisabled}
         onClick={handleRegister}
       >
-        SIGN UP NOW
+        {t('SIGN UP NOW')}
       </Button>
-      {crModal && <ConfirmRegistrationModal onClose={closeCrModal} />}
+      <RegisterLocalization />
+      {crModal && <ConfirmRegistrationModal onClose={handleClose} />}
     </RegisterCompanyMain>
   );
 };
