@@ -21,3 +21,5 @@ export const CProtectedRoutes = [
 ];
 
 export const CUnprotectedRoutes = ['/login', '/register', '/change-password'];
+
+export const CAllRoutes = [...CProtectedRoutes, ...CUnprotectedRoutes];

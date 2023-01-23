@@ -11,7 +11,10 @@ import { useModal, useSnackbar } from 'hooks';
 import { LostPasswordModal, MaintenanceModal } from 'features/login/elements';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
+import { useTranslation } from 'next-i18next';
 import { TLoginParams } from 'api/authorization/types';
+import Link from 'next/link';
+import { LocalizationSelect } from 'components/custom';
 
 const Login = () => {
   const [state, setState] = useState<TLoginParams>({
@@ -19,21 +22,23 @@ const Login = () => {
     password: '',
   });
 
+  const { t } = useTranslation('login');
+
   const [lpModal, openLpModal, closeLpModal] = useModal(false);
   const [mtModal, openMtModal, closeMtModal] = useModal(false);
 
-  const router = useRouter();
-  const { push } = useSnackbar();
+  const { push } = useRouter();
+  const { push: pushSnackbar } = useSnackbar();
 
   const { login } = useAppContext();
 
   const handleLogin = async () => {
     try {
-      openMtModal();
-      // await login(state);
-      // router.push('/');
+      // openMtModal();
+      await login(state);
+      push('/');
     } catch (e: any) {
-      push(`${e.response.data.message} 🤡`, {
+      pushSnackbar(`${e.response.data.message} 🤡`, {
         variant: 'error',
       });
     }
@@ -43,26 +48,29 @@ const Login = () => {
 
   return (
     <Stack>
-      <LoginTitle>Login Now</LoginTitle>
+      <LoginTitle>{t('Login Now')}</LoginTitle>
       <LoginSubtitle>
-        Access updates, new opportunities, and messages all in one place by
-        logging in below.
+        {t(
+          'Access updates, new opportunities, and messages all in one place by logging in below.'
+        )}
       </LoginSubtitle>
       <Input
         type="text"
-        label="Email"
+        label={t('Email') as string}
+        placeholder={t('Please Enter your Email') as string}
         value={state.email}
         onValue={(email) => setState({ ...state, email })}
       />
       <Input
         type="password"
-        label="Password"
+        label={t('Password') as string}
+        placeholder={t('Please Enter your Password') as string}
         value={state.password}
         onValue={(password) => setState({ ...state, password })}
       />
       <LoginAction direction="horizontal">
-        <Checkbox label="Remember Me" />
-        <LoginSpan onClick={openLpModal}>Lost your password?</LoginSpan>
+        <Checkbox label={t('Remember Me') as string} />
+        <LoginSpan onClick={openLpModal}>{t('Lost your password?')}</LoginSpan>
       </LoginAction>
       <Button
         variant="contained"
@@ -71,8 +79,9 @@ const Login = () => {
         onClick={handleLogin}
         disabled={isDisabled}
       >
-        LOGIN NOW
+        {t('LOGIN NOW')}
       </Button>
+      <LocalizationSelect />
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
       {mtModal && <MaintenanceModal onClose={closeMtModal} />}
     </Stack>

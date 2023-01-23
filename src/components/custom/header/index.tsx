@@ -18,11 +18,11 @@ const Header = ({ ...props }) => {
   return (
     <>
       <HeaderMain {...props}>
-        <HeaderLogo src="/assets/images/logo.png" />
+        <HeaderLogo src="/static/assets/images/logo.png" />
         <HeaderActions>
           <HeaderAction href="/login">
             <Button variant="text" size="large">
-              Login
+              LOGIN
             </Button>
           </HeaderAction>
           <Button
