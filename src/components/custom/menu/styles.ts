@@ -14,7 +14,8 @@ export const MenuMain = styled(Card)<{ theme?: Theme }>`
 export const MenuItem = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto auto;
     align-items: center;
     gap: ${theme.spacing(2)};
     cursor: pointer;
