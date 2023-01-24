@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TAddSmlModalProps } from 'features/sml/role/admin/elements/create-sml-modal/types';
 import { AddSmlModalMain } from 'features/sml/role/admin/elements/create-sml-modal/styles';
-import { Button, Input, Switch } from 'components/ui';
-import { GridCell } from 'components/system';
+import { Button, Input } from 'components/ui';
+import { useModal } from 'hooks';
+import { CreateSmlFinal } from 'features/sml/role/admin/elements';
 
 const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
   const [state, setState] = useState({
-    client: null,
+    diseaseArea: null,
     language: null,
     platform: null,
-    diseaseArea: null,
-    dateRange: null,
-    symptom: null,
-    additional: '',
+    timeframe: null,
   });
+
+  const [csfModal, openCsfModal, closeCsfModal] = useModal(false);
 
   return (
     <Modal
@@ -25,7 +25,9 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={() => {
+            openCsfModal();
+          }}
         >
           Create
         </Button>,
@@ -36,10 +38,10 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
       <AddSmlModalMain columns={2}>
         <Input
           type="select"
-          label="Client"
+          label="Disease Area"
           placeholder="Please Select"
-          value={state.client}
-          onValue={(client) => setState({ ...state, client })}
+          value={state.diseaseArea}
+          onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
         />
         <Input
           type="select"
@@ -57,40 +59,13 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
         />
         <Input
           type="select"
-          label="Disease Area"
+          label="Timeframe"
           placeholder="Please Select"
-          value={state.diseaseArea}
-          onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+          value={state.timeframe}
+          onValue={(timeframe) => setState({ ...state, timeframe })}
         />
-        <Input
-          type="select"
-          label="Date Range"
-          placeholder="Please Select"
-          value={state.dateRange}
-          onValue={(dateRange) => setState({ ...state, dateRange })}
-        />
-        <Input
-          type="select"
-          label="Symptom"
-          placeholder="Please Select"
-          value={state.symptom}
-          onValue={(symptom) => setState({ ...state, symptom })}
-        />
-        <Switch label="Patients" />
-        <Switch label="Caregivers" />
-        <Switch label="Doctors" />
-        <Switch label="Nurses" />
-        <GridCell columnSpan={2}>
-          <Input
-            type="text"
-            label="Additional Information"
-            value={state.additional}
-            onValue={(additional) => setState({ ...state, additional })}
-            multiline
-            rows={5}
-          />
-        </GridCell>
       </AddSmlModalMain>
+      {csfModal && <CreateSmlFinal onClose={closeCsfModal} />}
     </Modal>
   );
 };

@@ -50,7 +50,6 @@ const SmlPage = () => {
   const [csModal, openCsModal, closeCsModal] = useModal(false);
   const [osModal, openOsModal, closeOsModal] = useModal(false);
   const [cstModal, openCstModal, closeCstModal] = useModal(false);
-  const [csfModal, openCsfModal, closeCsfModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -76,7 +75,7 @@ const SmlPage = () => {
     <SmlPageMain>
       <SmlPageCharts columns={4}>
         <CardWithChart
-          title="To Be Created"
+          title="Ordered"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -88,7 +87,7 @@ const SmlPage = () => {
           }}
         />
         <CardWithChart
-          title="Finished"
+          title="Ready"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -238,7 +237,7 @@ const SmlPage = () => {
             </SmlPageFilter>
           </Collapse>
           <Tabs
-            tabs={['To Be Created', 'Finished', 'Delivered', 'Canceled']}
+            tabs={['Ordered', 'Ready', 'Delivered']}
             value={tabsValue}
             onValue={setTabsValue}
           />
@@ -354,12 +353,19 @@ const SmlPage = () => {
             ref={menuTBC}
           />
         )}
+        <Stack direction="horizontal" style={{ marginTop: '50px' }}>
+          <Button variant="contained" onClick={openOsModal}>
+            Os modal
+          </Button>
+          <Button variant="contained" onClick={openCstModal}>
+            Cst modal
+          </Button>
+        </Stack>
       </CardWithText>
       {esModal && <ExportSmlModal onClose={closeEsModal} />}
       {csModal && <CreateSmlModal onClose={closeCsModal} />}
       {osModal && <OrderSmlModal onClose={closeOsModal} />}
       {cstModal && <CreateSmlTabsModal onClose={closeCstModal} />}
-      {csfModal && <CreateSmlFinal onClose={closeCsfModal} />}
     </SmlPageMain>
   );
 };

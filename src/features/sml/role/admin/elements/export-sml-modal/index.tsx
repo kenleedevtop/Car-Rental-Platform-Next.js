@@ -50,14 +50,14 @@ const ExportSmlModal = ({ onClose, ...props }: TExportSmlModalProps) => {
         />
         <Checkbox
           color="secondary"
-          label="To Be Created"
+          label="Ordered"
           size="large"
           value={state.tbc}
           onValue={(tbc) => setState({ ...state, tbc })}
         />
         <Checkbox
           color="secondary"
-          label="Finished"
+          label="Ready"
           size="large"
           value={state.finished}
           onValue={(finished) => setState({ ...state, finished })}
@@ -68,13 +68,6 @@ const ExportSmlModal = ({ onClose, ...props }: TExportSmlModalProps) => {
           size="large"
           value={state.delivered}
           onValue={(delivered) => setState({ ...state, delivered })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Canceled"
-          size="large"
-          value={state.canceled}
-          onValue={(canceled) => setState({ ...state, canceled })}
         />
       </ExportSmlModalMain>
     </Modal>
