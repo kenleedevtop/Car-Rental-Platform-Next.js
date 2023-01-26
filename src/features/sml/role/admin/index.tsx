@@ -19,7 +19,9 @@ import {
   DeleteIcon,
   EditIcon,
   IdentifiedIcon,
+  InfoIcon,
   RegisteredIcon,
+  ReportSMLIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
@@ -38,6 +40,7 @@ import {
   CreateSmlFinal,
 } from 'features/sml/role/admin/elements';
 import { useMenu, useModal } from 'hooks';
+import { useRouter } from 'next/router';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
@@ -63,12 +66,22 @@ const SmlPage = () => {
 
   const [menuTBC, openTBC, setOpenTBC] = useMenu(false);
   const [menuTBS, openTBS, setOpenTBS] = useMenu(false);
+  const [menuSML, openSML, setOpenSML] = useMenu(false);
 
   const handleMenuTBC = () => {
     setOpenTBC(!openTBC);
   };
   const handleMenuTBS = () => {
     setOpenTBS(!openTBS);
+  };
+  const handleMenuSML = () => {
+    setOpenSML(!openSML);
+  };
+
+  const router = useRouter();
+
+  const handleRoute = (route: string) => {
+    router.push(route);
   };
 
   return (
@@ -297,6 +310,9 @@ const SmlPage = () => {
             <Button variant="contained" onClick={handleMenuTBC}>
               TBC actions
             </Button>
+            <Button variant="contained" onClick={handleMenuSML}>
+              SML actions
+            </Button>
           </Stack>
         </Stack>
         {openTBS && (
@@ -351,6 +367,45 @@ const SmlPage = () => {
               },
             ]}
             ref={menuTBC}
+          />
+        )}
+        {openSML && (
+          <Menu
+            items={[
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ReportSMLIcon />,
+                label: 'Report',
+                action: () => {
+                  handleRoute('/sml/reports');
+                },
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuSML}
           />
         )}
         <Stack direction="horizontal" style={{ marginTop: '50px' }}>

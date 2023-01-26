@@ -59,6 +59,9 @@ export { default as FinishedReportPage } from 'features/finished-report';
 // SML
 export { AdminSmlPage, ClientSmlPage } from 'features/sml';
 
+// SML reports
+export { SMLReportPage } from 'features/sml-reports';
+
 // Surveys
 export {
   AdminSurveysPage,

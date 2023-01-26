@@ -47,9 +47,9 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      openMtModal();
-      // await login(state);
-      // push('/');
+      // openMtModal();
+      await login(state);
+      push('/');
     } catch (e: any) {
       pushSnackbar(`${e.response.data.message} 🤡`, {
         variant: 'error',
