@@ -13,6 +13,7 @@ export const DGenerateSmlFilter = () => ({
   sentiment: null,
   symptom: null,
   mention: null,
+  suggestion: null,
   age: {
     min: '',
     max: '',
