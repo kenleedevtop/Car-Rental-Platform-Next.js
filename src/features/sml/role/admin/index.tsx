@@ -19,7 +19,9 @@ import {
   DeleteIcon,
   EditIcon,
   IdentifiedIcon,
+  InfoIcon,
   RegisteredIcon,
+  ReportSMLIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
@@ -38,6 +40,7 @@ import {
   CreateSmlFinal,
 } from 'features/sml/role/admin/elements';
 import { useMenu, useModal } from 'hooks';
+import { useRouter } from 'next/router';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
@@ -50,7 +53,6 @@ const SmlPage = () => {
   const [csModal, openCsModal, closeCsModal] = useModal(false);
   const [osModal, openOsModal, closeOsModal] = useModal(false);
   const [cstModal, openCstModal, closeCstModal] = useModal(false);
-  const [csfModal, openCsfModal, closeCsfModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -64,6 +66,7 @@ const SmlPage = () => {
 
   const [menuTBC, openTBC, setOpenTBC] = useMenu(false);
   const [menuTBS, openTBS, setOpenTBS] = useMenu(false);
+  const [menuSML, openSML, setOpenSML] = useMenu(false);
 
   const handleMenuTBC = () => {
     setOpenTBC(!openTBC);
@@ -71,12 +74,21 @@ const SmlPage = () => {
   const handleMenuTBS = () => {
     setOpenTBS(!openTBS);
   };
+  const handleMenuSML = () => {
+    setOpenSML(!openSML);
+  };
+
+  const router = useRouter();
+
+  const handleRoute = (route: string) => {
+    router.push(route);
+  };
 
   return (
     <SmlPageMain>
       <SmlPageCharts columns={4}>
         <CardWithChart
-          title="To Be Created"
+          title="Ordered"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -88,7 +100,7 @@ const SmlPage = () => {
           }}
         />
         <CardWithChart
-          title="Finished"
+          title="Ready"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -238,7 +250,7 @@ const SmlPage = () => {
             </SmlPageFilter>
           </Collapse>
           <Tabs
-            tabs={['To Be Created', 'Finished', 'Delivered', 'Canceled']}
+            tabs={['Ordered', 'Ready', 'Delivered']}
             value={tabsValue}
             onValue={setTabsValue}
           />
@@ -298,6 +310,9 @@ const SmlPage = () => {
             <Button variant="contained" onClick={handleMenuTBC}>
               TBC actions
             </Button>
+            <Button variant="contained" onClick={handleMenuSML}>
+              SML actions
+            </Button>
           </Stack>
         </Stack>
         {openTBS && (
@@ -354,12 +369,58 @@ const SmlPage = () => {
             ref={menuTBC}
           />
         )}
+        {openSML && (
+          <Menu
+            items={[
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ReportSMLIcon />,
+                label: 'Report',
+                action: () => {
+                  handleRoute('/sml/reports');
+                },
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuSML}
+          />
+        )}
+        <Stack direction="horizontal" style={{ marginTop: '50px' }}>
+          <Button variant="contained" onClick={openOsModal}>
+            Os modal
+          </Button>
+          <Button variant="contained" onClick={openCstModal}>
+            Cst modal
+          </Button>
+        </Stack>
       </CardWithText>
       {esModal && <ExportSmlModal onClose={closeEsModal} />}
       {csModal && <CreateSmlModal onClose={closeCsModal} />}
       {osModal && <OrderSmlModal onClose={closeOsModal} />}
       {cstModal && <CreateSmlTabsModal onClose={closeCstModal} />}
-      {csfModal && <CreateSmlFinal onClose={closeCsfModal} />}
     </SmlPageMain>
   );
 };

@@ -54,3 +54,5 @@ export { default as DownloadIcon } from 'components/svg/download';
 export { default as DeclineIcon } from 'components/svg/decline';
 export { default as ReceivedIcon } from 'components/svg/received';
 export { default as ManageIcon } from 'components/svg/manage';
+export { default as ReportSMLIcon } from 'components/svg/report-sml';
+export { default as ServicesIcon } from 'components/svg/services';
