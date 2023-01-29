@@ -19,6 +19,7 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
       display: grid;
       grid-template-columns: auto;
       grid-template-rows: 1fr 1fr;
+      gap: 100px;
     }   
   `}
 `;
@@ -60,6 +61,7 @@ export const PageLayoutRight = styled.img<{ theme?: Theme }>`
         width: 100%;
         height: 100%;
         order: -1;
+        margin-top: 150px;
       }
     `}
 `;
