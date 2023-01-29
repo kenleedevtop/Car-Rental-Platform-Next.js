@@ -5,17 +5,14 @@ export const ChangePasswordMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: ${theme.spacing(5)};
-    button {
-      border-radius: 20rem;
-    }
   `}
 `;
 
-export const ChangePasswordSubtitle = styled.div<{ theme?: Theme }>`
+export const ChangePasswordTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-    font-size: 20px;
-    color: ${theme.palette.primary.main}
+    font-size: 48px;
+    font-weight: 700;
+    color: ${theme.palette.primary.main};
 `}
 `;

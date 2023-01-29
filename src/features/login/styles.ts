@@ -3,15 +3,7 @@ import { Theme } from '@mui/material';
 import { LocalizationSelect } from 'components/custom';
 import { Stack } from 'components/system';
 
-export const LoginMain = styled.div`
-  button {
-    border-radius: 20rem;
-  }
-
-  .css-1xqz3x8-InputMain {
-    width: 100%;
-  }
-`;
+export const LoginMain = styled.div``;
 
 export const LoginTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `

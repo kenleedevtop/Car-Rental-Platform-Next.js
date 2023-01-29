@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { ChangePasswordPage } from 'features';
+import { ResetPasswordPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const ChangePassword = () => {
+const ResetPassword = () => {
   const { setRouteName } = useAppContext();
 
   useEffect(() => {
-    setRouteName('Change Password');
+    setRouteName('Reset Password');
   }, []);
 
   return (
     <>
-      <Title>Change Password</Title>
-      <ChangePasswordPage />
+      <Title>Reset Password</Title>
+      <ResetPasswordPage />
     </>
   );
 };
@@ -22,9 +22,9 @@ const ChangePassword = () => {
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ['change-password', 'common'])),
+      ...(await serverSideTranslations(locale, ['reset-password', 'common'])),
     },
   };
 }
 
-export default ChangePassword;
+export default ResetPassword;

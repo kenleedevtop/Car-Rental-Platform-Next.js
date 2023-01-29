@@ -49,17 +49,33 @@ const AuthorizationAPI = {
     );
     return data;
   },
-  registerAsInfluencer: async (body: TRegisterAsInfluencerParams) => {
+  registerAsInfluencer: async (
+    body: TRegisterAsInfluencerParams,
+    language: string
+  ) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/register/influencer`,
-      body
+      body,
+      {
+        headers: {
+          'Accept-Language': language,
+        },
+      }
     );
     return data;
   },
-  registerAsCompany: async (body: TRegisterAsCompanyParams) => {
+  registerAsCompany: async (
+    body: TRegisterAsCompanyParams,
+    language: string
+  ) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/register/company`,
-      body
+      body,
+      {
+        headers: {
+          'Accept-Language': language,
+        },
+      }
     );
     return data;
   },

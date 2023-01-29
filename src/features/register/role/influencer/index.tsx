@@ -58,7 +58,10 @@ const RegisterPage = () => {
 
   const handleRegister = async () => {
     try {
-      await AuthorizationAPI.registerAsInfluencer(state);
+      await AuthorizationAPI.registerAsInfluencer(
+        state,
+        router.locale as string
+      );
       openCrModal();
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });

@@ -68,7 +68,7 @@ const RegisterPage = () => {
 
   const handleRegister = async () => {
     try {
-      await AuthorizationAPI.registerAsCompany(state);
+      await AuthorizationAPI.registerAsCompany(state, router.locale as string);
       openCrModal();
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
@@ -82,16 +82,14 @@ const RegisterPage = () => {
 
   return (
     <RegisterCompanyMain>
-      <RegisterTitle>{t('Sign Up as Company')}</RegisterTitle>
+      <RegisterTitle>{t('Lost your password?')}</RegisterTitle>
       <RegisterSubtitle>
-        {t(
-          'Reach the most relevant market possible by connecting with influencers who have pre-established trust with your target audience.'
-        )}
+        {t('Enter email to get password for recovery.')}
       </RegisterSubtitle>
       <RegisterCompanyTopStack direction="horizontal">
         <RegisterCompanyFName
           type="text"
-          label={t('First Name') as string}
+          label={t('Email') as string}
           required
           placeholder={t('Please Enter your First Name') as string}
           value={state.firstName}
