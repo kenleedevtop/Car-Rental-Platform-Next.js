@@ -5,6 +5,7 @@ import {
   HeaderLogo,
   HeaderActions,
   HeaderAction,
+  HeaderLogoLink,
 } from 'components/custom/header/styles';
 
 import { SignUpModal } from 'components/custom/header/elements';
@@ -12,7 +13,6 @@ import { SignUpModal } from 'components/custom/header/elements';
 import { Button } from 'components/ui';
 import { useModal } from 'hooks';
 import { useTranslation } from 'react-i18next';
-import Link from 'next/link';
 
 const Header = ({ ...props }) => {
   const [spModal, openSpModal, closeSpModal] = useModal(false);
@@ -22,9 +22,9 @@ const Header = ({ ...props }) => {
   return (
     <>
       <HeaderMain {...props}>
-        <Link href="/login">
+        <HeaderLogoLink href="https://patientsinfluence.com">
           <HeaderLogo src="/static/assets/images/logo.png" />
-        </Link>
+        </HeaderLogoLink>
         <HeaderActions>
           <HeaderAction href="/login">
             <Button variant="text" size="large">

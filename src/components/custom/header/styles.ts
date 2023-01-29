@@ -62,3 +62,7 @@ export const HeaderActions = styled.div<{ theme?: Theme }>`
 export const HeaderAction = styled(Link)`
   text-decoration: none;
 `;
+
+export const HeaderLogoLink = styled.a`
+  text-decoration: none;
+`;
