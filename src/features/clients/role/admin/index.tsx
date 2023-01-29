@@ -5,11 +5,21 @@ import {
   ClientsPageFilter,
   ClientsPageFilterActions,
 } from 'features/clients/styles';
-import { CardWithChart, CardWithText, Table, Title } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  Menu,
+  Table,
+  Title,
+} from 'components/custom';
 import {
   ContactedIcon,
+  ContactIcon,
+  DeleteIcon,
+  EditIcon,
   IdentifiedIcon,
   RegisteredIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
 } from 'components/svg';
@@ -19,7 +29,7 @@ import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import { DClientsHead, DGenerateClientsFilter } from 'features/clients/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 import {
   AddClientsModal,
   ContactClientsModal,
@@ -45,6 +55,12 @@ const ClientsPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const [menu, open, setOpen] = useMenu(false);
+
+  const handleMenu = () => {
+    setOpen(!open);
+  };
 
   const [aiModal, openAiModal, closeAiModal] = useModal(false);
   const [eModal, openEModal, closeEModal] = useModal(false);
@@ -259,7 +275,37 @@ const ClientsPage = () => {
             <Button color="primary" variant="contained" onClick={openNiModal}>
               Note Client
             </Button>
+            <Button color="primary" variant="contained" onClick={handleMenu}>
+              Action button
+            </Button>
           </Stack>
+          {open && (
+            <Menu
+              items={[
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <EditIcon />,
+                  label: 'Note',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+                {
+                  icon: <DeleteIcon />,
+                  label: 'Remove',
+                  action: () => {},
+                },
+              ]}
+              ref={menu}
+            />
+          )}
         </Stack>
       </CardWithText>
       {aiModal && <AddClientsModal onClose={closeAiModal} />}

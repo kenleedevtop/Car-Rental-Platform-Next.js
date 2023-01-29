@@ -3,21 +3,31 @@ import type { NextRequest } from 'next/server';
 import { CUnprotectedRoutes, CProtectedRoutes } from 'constants/routes';
 import { validateToken } from 'utilities/validate-token';
 
-export async function middleware(request: NextRequest) {
-  const loggedIn = await validateToken(request);
+const PUBLIC_FILE = /\.(.*)$/;
 
-  const isProtectedRoute = CProtectedRoutes.includes(request.nextUrl.pathname);
-  const isUnprotectedRoute = CUnprotectedRoutes.includes(
-    request.nextUrl.pathname
-  );
+export async function middleware(request: NextRequest) {
+  const { pathname, locale, defaultLocale } = request.nextUrl;
+
+  if (
+    pathname.startsWith('/_next') || // exclude Next.js internals
+    pathname.startsWith('/api') || //  exclude all API routes
+    pathname.startsWith('/static') || // exclude static files
+    PUBLIC_FILE.test(pathname) // exclude all files in the public folder
+  ) {
+    return NextResponse.next();
+  }
+
+  const loggedIn = await validateToken(request);
+  const withLocale = locale === defaultLocale ? '' : `/${locale}`;
+
+  const isProtectedRoute = CProtectedRoutes.includes(pathname);
+  const isUnprotectedRoute = CUnprotectedRoutes.includes(pathname);
 
   if (loggedIn && !isProtectedRoute) {
-    return NextResponse.redirect(new URL('/', request.url));
+    return NextResponse.redirect(new URL(`${withLocale}/`, request.url));
   }
   if (!loggedIn && !isUnprotectedRoute) {
-    return NextResponse.redirect(new URL('/login', request.url));
+    return NextResponse.redirect(new URL(`${withLocale}/login`, request.url));
   }
   return NextResponse.next();
 }
-
-export const config = { matcher: '/((?!.*\\.).*)' };

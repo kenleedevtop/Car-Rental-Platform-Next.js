@@ -6,6 +6,7 @@ import {
   AmbasadorHelpPage,
   InfluencerHelpPage,
 } from 'features';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Help = () => {
   const { role, setRouteName } = useAppContext();
@@ -23,5 +24,13 @@ const Help = () => {
     </>
   );
 };
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['help', 'common'])),
+    },
+  };
+}
 
 export default Help;

@@ -62,7 +62,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
       {
         id: 17,
         label: 'Ambassadors',
-        location: '/users/ambasadors',
+        location: '/users/ambassadors',
       },
     ],
   },

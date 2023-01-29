@@ -191,18 +191,22 @@ const IncomePage = () => {
                   {
                     reference: 'statement',
                     label: 'Statement',
+                    visible: true,
                   },
                   {
                     reference: 'type',
                     label: 'Type',
+                    visible: true,
                   },
                   {
                     reference: 'date',
                     label: 'Date',
+                    visible: true,
                   },
                   {
                     reference: 'amount',
                     label: 'Amount',
+                    visible: true,
                   },
                 ]}
                 items={[]}

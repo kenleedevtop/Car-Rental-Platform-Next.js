@@ -4,6 +4,8 @@ import { TAddReportModalProps } from 'features/reports/role/admin/elements/creat
 import { AddReportModalMain } from 'features/reports/role/admin/elements/create-report-modal/styles';
 import { Button, Input, Switch } from 'components/ui';
 import { GridCell } from 'components/system';
+import { useModal } from 'hooks';
+import { ApproveReportsModal } from 'features/reports/role/admin/elements';
 
 const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
   const [state, setState] = useState({
@@ -11,6 +13,8 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
     type: null,
     additional: '',
   });
+
+  const [arModal, openArModal, closeArModal] = useModal(false);
 
   return (
     <Modal
@@ -21,7 +25,7 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={openArModal}
         >
           Create
         </Button>,
@@ -67,6 +71,7 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
           />
         </GridCell>
       </AddReportModalMain>
+      {arModal && <ApproveReportsModal onClose={closeArModal} />}
     </Modal>
   );
 };

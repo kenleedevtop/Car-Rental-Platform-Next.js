@@ -89,29 +89,36 @@ export const DClientsHead = [
   {
     reference: 'username',
     label: 'Username',
+    visible: true,
   },
   {
     reference: 'campaigns',
     label: 'Campaigns',
+    visible: true,
   },
   {
     reference: 'cpc',
     label: 'CPC',
+    visible: true,
   },
   {
     reference: 'cpt',
     label: 'CPT',
+    visible: true,
   },
   {
     reference: 'price',
     label: 'Price',
+    visible: true,
   },
   {
     reference: 'overlap',
     label: 'Overlap',
+    visible: true,
   },
   {
     reference: 'actions',
     label: 'Actions',
+    visible: true,
   },
 ];

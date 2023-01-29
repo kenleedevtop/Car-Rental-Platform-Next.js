@@ -6,6 +6,8 @@ import {
   CalendarCardCellDate,
   CalendarCardDay,
   CalendarCardDays,
+  CalendarReset,
+  CalendarTitle,
 } from 'components/custom/calendar-card/styles';
 import {
   TCalendarCardProps,
@@ -13,20 +15,52 @@ import {
 } from 'components/custom/calendar-card/types';
 import { getCalendarDates } from 'utilities/calendar';
 import { format } from 'date-fns';
+import { useModal } from 'hooks';
+import {
+  CalendarControls,
+  Scheduler,
+} from 'components/custom/calendar-card/elements';
+import { RestartAlt } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
 
 const CalendarCard = ({ ...props }: TCalendarCardProps) => {
+  const [scModal, scModalOpen, scModalClose] = useModal(false);
   const [date, setDate] = useState(new Date());
 
   const days: TCalendarDate[] = getCalendarDates(date);
 
   const handleClick = (x: TCalendarDate) => () => {
     setDate(x.date);
+    scModalOpen();
+  };
+
+  const handleDate = (v: Date) => {
+    setDate(v);
+  };
+
+  const handleToday = () => {
+    setDate(new Date());
   };
 
   return (
     <CalendarCardMain
-      title="Calendar"
-      actions={[<div>{format(date, 'MMM, yyyy')}</div>]}
+      title={
+        <CalendarTitle>
+          Calendar
+          <Tooltip title="Reset to today's date">
+            <CalendarReset onClick={handleToday}>
+              <RestartAlt />
+            </CalendarReset>
+          </Tooltip>
+        </CalendarTitle>
+      }
+      actions={[
+        <CalendarControls
+          date={date}
+          onBack={handleDate}
+          onForward={handleDate}
+        />,
+      ]}
       {...props}
     >
       <CalendarCardDays columns={7}>
@@ -39,14 +73,25 @@ const CalendarCard = ({ ...props }: TCalendarCardProps) => {
         <CalendarCardDay weekend>SAT</CalendarCardDay>
       </CalendarCardDays>
       <CalendarCardGrid columns={7}>
-        {days.map((x) => (
-          <CalendarCardCell onClick={handleClick(x)}>
-            <CalendarCardCellDate currentMonth={x.currentMonth} today={x.today}>
-              {format(x.date, 'd')}
-            </CalendarCardCellDate>
-          </CalendarCardCell>
-        ))}
+        {days.map((x) => {
+          const isHighlighted = x.date.toISOString() === date.toISOString();
+
+          return (
+            <CalendarCardCell
+              onClick={handleClick(x)}
+              isHighlighted={isHighlighted}
+            >
+              <CalendarCardCellDate
+                currentMonth={x.currentMonth}
+                today={x.today}
+              >
+                {format(x.date, 'd')}
+              </CalendarCardCellDate>
+            </CalendarCardCell>
+          );
+        })}
       </CalendarCardGrid>
+      {scModal && <Scheduler onClose={scModalClose} date={date} />}
     </CalendarCardMain>
   );
 };

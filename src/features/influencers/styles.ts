@@ -30,3 +30,18 @@ export const InfluencersPageFilterActions = styled(Stack)<{
     min-width: 100px;
   }
 `;
+
+export const InfluencersPageActions = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const InfluencersPageButtons = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+  display: flex;
+  align-items: center;
+  gap: ${theme.spacing(3)};
+  `}
+`;

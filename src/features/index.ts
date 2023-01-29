@@ -24,7 +24,7 @@ export { AdminDiscoverClientsPage } from 'features/discover-clients';
 // Discover Influencers
 export { AdminDiscoverInfluencersPage } from 'features/discover-influencers';
 
-export { AmbasadorsPage } from 'features/ambasadors';
+export { AmbassadorsPage } from 'features/ambassadors';
 
 // Finance
 export { AdminFinancePage } from 'features/finance';
@@ -53,6 +53,9 @@ export { AdminInfluencersPage } from 'features/influencers';
 // Reports
 export { AdminReportsPage, ClientReportsPage } from 'features/reports';
 
+// Finished Reports
+export { default as FinishedReportPage } from 'features/finished-report';
+
 // SML
 export { AdminSmlPage, ClientSmlPage } from 'features/sml';
 
@@ -77,3 +80,6 @@ export { default as CreateSurveyPage } from 'features/create-survey';
 
 // Registration
 export { default as LoadingPage } from 'features/loading';
+
+// Reset Password
+export { default as ResetPasswordPage } from 'features/reset-password';

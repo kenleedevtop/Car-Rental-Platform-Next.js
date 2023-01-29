@@ -31,26 +31,32 @@ export const DCampaignsHead = [
   {
     reference: 'campaignName',
     label: 'Campaign name',
+    visible: true,
   },
   {
     reference: 'platform',
     label: 'Platform',
+    visible: true,
   },
   {
     reference: 'postType',
     label: 'Post Type',
+    visible: true,
   },
   {
     reference: 'startAndFinish',
     label: 'Start & Finish',
+    visible: true,
   },
   {
     reference: 'amount',
     label: 'Amount',
+    visible: true,
   },
   {
     reference: 'actions',
     label: 'Actions',
+    visible: true,
   },
 ];
 
@@ -58,17 +64,21 @@ export const DCampaignsHead2 = [
   {
     reference: 'accepted',
     label: 'Accepted',
+    visible: true,
   },
   {
     reference: 'infoReceived',
     label: 'Info Received',
+    visible: true,
   },
   {
     reference: 'toBePosted',
     label: 'To Be Posted',
+    visible: true,
   },
   {
     reference: 'approved',
     label: 'Approved',
+    visible: true,
   },
 ];

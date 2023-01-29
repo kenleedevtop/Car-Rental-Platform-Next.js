@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Grid } from 'components/system';
+import { Input } from 'components/ui';
 
 export const LostPasswordModalMain = styled(Grid)<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -17,6 +18,15 @@ export const LostPasswordModalMain = styled(Grid)<{ theme?: Theme }>`
     margin: ${theme.spacing(5)} 0;
   }
 
+  ${theme.breakpoints.down('sm')} {
+    padding: 0;
+  }
+
+  ${theme.breakpoints.down('md')} {
+    button {
+      width: 100%;
+    }
+  }
 `}
 `;
 
@@ -26,6 +36,13 @@ export const LostPasswordTitle = styled.div<{ theme?: Theme }>`
   font-weight: 700;
   color: ${theme.palette.primary.main};
   margin-bottom: ${theme.spacing(2.5)};
+  ${theme.breakpoints.down('sm')} {
+    text-align: center;
+    line-height: 120%;
+  }
+  ${theme.breakpoints.down('md')} {
+    font-size: 32px;
+  }
   `}
 `;
 
@@ -34,7 +51,25 @@ export const LostPasswordText = styled.div<{ theme?: Theme }>`
 font-size: 20px;
 text-align: center;
 color: #6D728E;
-margin-bottom: ${theme.spacing(10)};
+
 line-height: 30px;
+
+${theme.breakpoints.down('md')} {
+  margin-bottom: 0;
+  font-size: 16px;
+}
+${theme.breakpoints.up('md')} {
+  margin-bottom: ${theme.spacing(10)};
+}
+
 `}
+`;
+
+export const LostPasswordInput = styled(Input)<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 50%;
+    ${theme.breakpoints.down('md')} {
+        width: 100%;
+    }
+  `}
 `;
