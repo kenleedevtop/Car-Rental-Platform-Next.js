@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { RegisterTitle, RegisterSubtitle } from 'features/register/styles';
+import {
+  RegisterTitle,
+  RegisterSubtitle,
+  RegisterInfluencerMain,
+  RegisterInfluencerStack,
+  RegisterInfluencerFName,
+  RegisterInfluencerLName,
+  RegisterLocalization,
+} from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import {
@@ -9,7 +17,10 @@ import {
   passwordSchema,
 } from 'utilities/validators';
 import { AuthorizationAPI } from 'api';
-import { useSnackbar } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
+import { ConfirmRegistrationModal } from 'features/register/elements';
+import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -19,6 +30,10 @@ const RegisterPage = () => {
     password: '',
   });
 
+  const { t } = useTranslation('register');
+
+  const router = useRouter();
+
   const { push } = useSnackbar();
 
   const [errors, setErrors] = useState([false, false, false, false, false]);
@@ -27,6 +42,8 @@ const RegisterPage = () => {
     setErrors((x) => x.map((a, b) => (b === index ? value : a)));
   };
 
+  const [crModal, openCrModal, closeCrModal] = useModal(false);
+
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
@@ -34,28 +51,37 @@ const RegisterPage = () => {
     !state.password ||
     !!errors.find((x) => x);
 
+  const handleClose = () => {
+    router.push('/login');
+    closeCrModal();
+  };
+
   const handleRegister = async () => {
     try {
-      const { message } = await AuthorizationAPI.registerAsInfluencer(state);
-      push(message, { variant: 'success' });
+      await AuthorizationAPI.registerAsInfluencer(
+        state,
+        router.locale as string
+      );
+      openCrModal();
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
     }
   };
 
   return (
-    <Stack>
-      <RegisterTitle>Sign Up as Influencer</RegisterTitle>
+    <RegisterInfluencerMain>
+      <RegisterTitle>{t('Sign Up as Influencer')}</RegisterTitle>
       <RegisterSubtitle>
-        Turn your voice into a force for positive change by signing up as a
-        patient influencer below.
+        {t(
+          'Turn your voice into a force for positive change by signing up as a patient influencer below.'
+        )}
       </RegisterSubtitle>
-      <Stack direction="horizontal">
-        <Input
+      <RegisterInfluencerStack direction="horizontal">
+        <RegisterInfluencerFName
           type="text"
-          label="First Name"
+          label={t('First name') as string}
           required
-          placeholder="Please enter your first name"
+          placeholder={t('Please Enter your First Name') as string}
           value={state.firstName}
           onValue={(firstName) => setState({ ...state, firstName })}
           errorCallback={handleErrors(0)}
@@ -81,11 +107,11 @@ const RegisterPage = () => {
             },
           ]}
         />
-        <Input
+        <RegisterInfluencerLName
           type="text"
-          label="Last Name"
+          label={t('Last Name') as string}
           required
-          placeholder="Please enter your last name"
+          placeholder={t('Please Enter your Last Name') as string}
           value={state.lastName}
           onValue={(lastName) => setState({ ...state, lastName })}
           errorCallback={handleErrors(1)}
@@ -111,13 +137,13 @@ const RegisterPage = () => {
             },
           ]}
         />
-      </Stack>
+      </RegisterInfluencerStack>
       <Stack direction="horizontal">
         <Input
           type="text"
-          label="Email"
+          label={t('Email') as string}
           required
-          placeholder="Please enter your email"
+          placeholder={t('Please Enter your Email') as string}
           value={state.email}
           onValue={(email) => setState({ ...state, email })}
           errorCallback={handleErrors(3)}
@@ -147,9 +173,9 @@ const RegisterPage = () => {
       <Stack direction="horizontal">
         <Input
           type="password"
-          label="Password"
+          label={t('Password') as string}
           required
-          placeholder="Please enter your password"
+          placeholder={t('Please Enter your Password') as string}
           value={state.password}
           onValue={(password) => setState({ ...state, password })}
           errorCallback={handleErrors(4)}
@@ -184,9 +210,11 @@ const RegisterPage = () => {
         disabled={isDisabled}
         onClick={handleRegister}
       >
-        SIGN UP NOW
+        {t('SIGN UP NOW')}
       </Button>
-    </Stack>
+      <RegisterLocalization />
+      {crModal && <ConfirmRegistrationModal onClose={handleClose} />}
+    </RegisterInfluencerMain>
   );
 };
 

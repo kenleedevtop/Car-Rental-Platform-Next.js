@@ -6,6 +6,7 @@ import {
   ClientCampaignsPage,
   InfluencerCampaignsPage,
 } from 'features';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Campaigns = () => {
   const { role, setRouteName } = useAppContext();
@@ -23,5 +24,13 @@ const Campaigns = () => {
     </>
   );
 };
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['campaigns', 'common'])),
+    },
+  };
+}
 
 export default Campaigns;

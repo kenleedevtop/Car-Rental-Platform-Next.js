@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
-import { TAddInfluencerModalProps } from 'features/discover-influencers/role/admin/elements/add-influencer-modal/types';
-import { AddInfluencerModalMain } from 'features/discover-influencers/role/admin/elements/add-influencer-modal/styles';
-import { Button, Input } from 'components/ui';
+import { TAddInfluencerModalProps } from 'features/campaigns/role/admin/elements/add-campaign-modal/types';
+import {
+  AddInfluencerModalMain,
+  CampaignsTitle,
+} from 'features/campaigns/role/admin/elements/add-campaign-modal/styles';
+import { Button, Checkbox, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
+import { EditIcon } from 'components/svg';
 
 const AddInfluencerModal = ({
   onClose,
@@ -25,7 +29,10 @@ const AddInfluencerModal = ({
     influencerSize: null,
     diseaseArea: null,
     location: null,
-    ageRange: null,
+    ageRange: {
+      min: '',
+      max: '',
+    },
     gender: null,
     targetAudienceInfo: '',
 
@@ -33,6 +40,18 @@ const AddInfluencerModal = ({
     postType: null,
     image: null,
     instructions: '',
+
+    contract: '',
+    contractCheck: false,
+
+    comments: [],
+    labels: [],
+    meetings: [],
+    reminders: [],
+    tasks: [],
+    created: null,
+    status: null,
+    statusChanged: null,
   });
 
   const handleFile = async () => {};
@@ -42,7 +61,11 @@ const AddInfluencerModal = ({
   return (
     <Modal
       size="medium"
-      title="Create Campaign"
+      title={
+        <CampaignsTitle>
+          Create Campaign <EditIcon />
+        </CampaignsTitle>
+      }
       actions={[
         <Button
           color="primary"
@@ -58,7 +81,7 @@ const AddInfluencerModal = ({
     >
       <Stack style={{ height: '650px' }}>
         <Tabs
-          tabs={['Info', 'Target', 'Instructions']}
+          tabs={['Info', 'Target', 'Instructions', 'Contract', 'Management']}
           value={tab}
           onValue={setTab}
         />
@@ -79,7 +102,7 @@ const AddInfluencerModal = ({
               onValue={(client) => setState({ ...state, client })}
             />
             <Input
-              type="text"
+              type="select"
               label="Product"
               placeholder="Please Enter"
               value={state.product}
@@ -114,7 +137,7 @@ const AddInfluencerModal = ({
               onValue={(report) => setState({ ...state, report })}
             />
             <Input
-              type="select"
+              type="number"
               label="Budget"
               placeholder="Please Select"
               value={state.budget}
@@ -168,18 +191,28 @@ const AddInfluencerModal = ({
               onValue={(location) => setState({ ...state, location })}
             />
             <Input
-              type="select"
+              type="min-max"
               label="Age Range"
               placeholder="Please Select"
               value={state.ageRange}
               onValue={(ageRange) => setState({ ...state, ageRange })}
             />
             <Input
-              type="date"
+              type="select"
               label="Gender"
               placeholder="Please Select"
               value={state.gender}
               onValue={(gender) => setState({ ...state, gender })}
+              options={[
+                {
+                  label: 'Male',
+                  value: 'male',
+                },
+                {
+                  label: 'Female',
+                  value: 'female',
+                },
+              ]}
             />
             <GridCell columnSpan={2}>
               <Input
@@ -223,12 +256,97 @@ const AddInfluencerModal = ({
                 multiline
                 rows={5}
                 type="text"
-                label="Campaign Info"
+                label="Instructions"
                 placeholder="Please Enter"
                 value={state.campaignInfo}
                 onValue={(campaignInfo) => setState({ ...state, campaignInfo })}
               />
             </GridCell>
+          </AddInfluencerModalMain>
+        )}
+
+        {tab === 3 && (
+          <AddInfluencerModalMain columns={1}>
+            <Stack>
+              <Input
+                type="text"
+                multiline
+                value={state.contract}
+                onValue={(contract) => setState({ ...state, contract })}
+              />
+              <Checkbox label="I've written and approved the Contract: <Campaign Name>" />
+            </Stack>
+          </AddInfluencerModalMain>
+        )}
+
+        {tab === 4 && (
+          <AddInfluencerModalMain columns={1}>
+            <Stack direction="horizontal">
+              <Input
+                type="multiselect"
+                label="Comments"
+                placeholder="Please Enter"
+                value={state.comments}
+                onValue={(comments) => setState({ ...state, comments })}
+              />
+              <Input
+                type="multiselect"
+                label="Labels"
+                placeholder="Please Enter"
+                value={state.labels}
+                onValue={(labels) => setState({ ...state, labels })}
+              />
+            </Stack>
+            <Stack direction="horizontal">
+              <Input
+                type="multiselect"
+                label="Meetings"
+                placeholder="Please Enter"
+                value={state.meetings}
+                onValue={(meetings) => setState({ ...state, meetings })}
+              />
+              <Input
+                type="multiselect"
+                label="Reminders"
+                placeholder="Please Enter"
+                value={state.reminders}
+                onValue={(reminders) => setState({ ...state, reminders })}
+              />
+            </Stack>
+            <Stack direction="horizontal">
+              <Input
+                type="multiselect"
+                label="Tasks"
+                placeholder="Please Enter"
+                value={state.tasks}
+                onValue={(tasks) => setState({ ...state, tasks })}
+              />
+              <Input
+                type="date"
+                label="On Platform Since"
+                placeholder="Please Enter"
+                value={state.created}
+                onValue={(created) => setState({ ...state, created })}
+              />
+            </Stack>
+            <Stack direction="horizontal">
+              <Input
+                type="text"
+                label="Status"
+                placeholder="Please Enter"
+                value={state.status}
+                onValue={(status) => setState({ ...state, status })}
+              />
+              <Input
+                type="date"
+                label="Status Changed"
+                placeholder="Please Enter"
+                value={state.statusChanged}
+                onValue={(statusChanged) =>
+                  setState({ ...state, statusChanged })
+                }
+              />
+            </Stack>
           </AddInfluencerModalMain>
         )}
       </Stack>

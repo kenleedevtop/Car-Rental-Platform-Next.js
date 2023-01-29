@@ -25,3 +25,10 @@ export const ExtendedLineChart = dynamic(
 export const PieChart = dynamic(() => import('components/csr/pie-chart'), {
   ssr: false,
 });
+
+export const BubbleChart = dynamic(
+  () => import('components/csr/bubble-chart'),
+  {
+    ssr: false,
+  }
+);

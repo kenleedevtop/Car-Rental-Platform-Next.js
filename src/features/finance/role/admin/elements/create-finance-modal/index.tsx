@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TCreateFinanceModalProps } from 'features/finance/role/admin/elements/create-finance-modal/types';
 import { CreateFinanceModalMain } from 'features/finance/role/admin/elements/create-finance-modal/styles';
-import { Button, Input } from 'components/ui';
+import { Button, Input, InputGroup } from 'components/ui';
 import { Stack } from 'components/system';
 
 const CreateFinanceModal = ({
@@ -12,6 +12,7 @@ const CreateFinanceModal = ({
   const [state, setState] = useState({
     cost: '',
     amountC: null,
+    currencyC: null,
     typeC: '',
     dateC: null,
     subjectC: null,
@@ -23,6 +24,7 @@ const CreateFinanceModal = ({
 
     revenue: '',
     amountR: null,
+    currencyR: null,
     typeR: '',
     dateR: null,
     subjectR: null,
@@ -65,15 +67,40 @@ const CreateFinanceModal = ({
               value={state.cost}
               onValue={(cost) => setState({ ...state, cost })}
             />
-            <Input
-              type="select"
+            <InputGroup
               label="Amount"
-              placeholder="Please Enter"
-              value={state.amountC}
-              onValue={(amountC) => setState({ ...state, amountC })}
+              inputRatio="100px 1fr"
+              elements={[
+                {
+                  value: state.currencyC,
+                  onValue: (currencyC) => setState({ ...state, currencyC }),
+                  type: 'select',
+                  placeholder: 'CHF',
+                  options: [
+                    {
+                      value: 'eur',
+                      label: 'EUR',
+                    },
+                    {
+                      value: 'usd',
+                      label: 'USD',
+                    },
+                    {
+                      value: 'chf',
+                      label: 'CHF',
+                    },
+                  ],
+                },
+                {
+                  value: state.amountC,
+                  onValue: (amountC) => setState({ ...state, amountC }),
+                  type: 'text',
+                  placeholder: '18',
+                },
+              ]}
             />
             <Input
-              type="text"
+              type="select"
               label="Type"
               placeholder="Please Enter"
               value={state.typeC}
@@ -139,12 +166,37 @@ const CreateFinanceModal = ({
               value={state.revenue}
               onValue={(revenue) => setState({ ...state, revenue })}
             />
-            <Input
-              type="select"
+            <InputGroup
               label="Amount"
-              placeholder="Please Enter"
-              value={state.amountR}
-              onValue={(amountR) => setState({ ...state, amountR })}
+              inputRatio="100px 1fr"
+              elements={[
+                {
+                  value: state.currencyR,
+                  onValue: (currencyR) => setState({ ...state, currencyR }),
+                  type: 'select',
+                  placeholder: 'CHF',
+                  options: [
+                    {
+                      value: 'eur',
+                      label: 'EUR',
+                    },
+                    {
+                      value: 'usd',
+                      label: 'USD',
+                    },
+                    {
+                      value: 'chf',
+                      label: 'CHF',
+                    },
+                  ],
+                },
+                {
+                  value: state.amountR,
+                  onValue: (amountR) => setState({ ...state, amountR }),
+                  type: 'text',
+                  placeholder: '18',
+                },
+              ]}
             />
             <Input
               type="select"

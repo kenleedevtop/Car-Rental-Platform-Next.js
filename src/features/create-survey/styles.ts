@@ -39,3 +39,13 @@ export const CreditContainer = styled.div<{ theme?: Theme }>`
     font-size: 12.5px;
   `}
 `;
+
+export const CreateSurveyButtons = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: ${theme.spacing(5)} 0 0;
+  `}
+`;

@@ -17,6 +17,7 @@ import { Grid, GridCell, Stack } from 'components/system';
 import { Button, InputGroup, Pagination } from 'components/ui';
 import React, { useState } from 'react';
 import { DCampaignItems } from 'features/home/role/influencer/data';
+import Theme from 'theme';
 
 const HomePage = () => {
   const [state, setState] = useState({
@@ -92,10 +93,12 @@ const HomePage = () => {
                     {
                       reference: 'campaign',
                       label: 'Campaign',
+                      visible: true,
                     },
                     {
                       reference: 'status',
                       label: 'Status',
+                      visible: true,
                     },
                   ]}
                   items={DCampaignItems}
@@ -126,7 +129,12 @@ const HomePage = () => {
                       '41-45',
                       '46-50',
                     ]}
-                    data={[5, 10, 15, 20, 25, 18, 13, 8, 3, 1]}
+                    data={[
+                      {
+                        color: `${Theme.palette.secondary.main}40`,
+                        values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                      },
+                    ]}
                     verticalLabel="Number of Influencers"
                     horizontalLabel="Amount Per Post"
                   />
@@ -197,10 +205,12 @@ const HomePage = () => {
                     {
                       reference: 'campaign',
                       label: 'Campaign',
+                      visible: true,
                     },
                     {
                       reference: 'status',
                       label: 'Status',
+                      visible: true,
                     },
                   ]}
                   items={DCampaignItems}
@@ -230,7 +240,12 @@ const HomePage = () => {
                       '41-45',
                       '46-50',
                     ]}
-                    data={[5, 10, 15, 20, 25, 18, 13, 8, 3, 1]}
+                    data={[
+                      {
+                        color: `${Theme.palette.secondary.main}40`,
+                        values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                      },
+                    ]}
                     verticalLabel="Number of Influencers"
                     horizontalLabel="Amount Per Post"
                   />

@@ -4,14 +4,13 @@ import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import { RegisteredCache, SerializedStyles, StyleSheet } from '@emotion/utils';
 import { DashboardLayout, PageLayout } from 'layouts';
-
 import createEmotionCache from 'ssr/create-emotion-cache';
 import CssBaseline from '@mui/material/CssBaseline';
 import Theme from 'theme';
 import Head from 'next/head';
 import { AppContextProvider } from 'context';
 import { QueryClient, QueryClientProvider } from 'react-query';
-
+import { appWithTranslation } from 'next-i18next';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -102,4 +101,4 @@ const MyApp = ({
   );
 };
 
-export default MyApp;
+export default appWithTranslation(MyApp as any);

@@ -13,25 +13,37 @@ import {
   CardWithChart,
   CardWithProgress,
   CardWithText,
+  Menu,
   Table,
+  Tabs,
 } from 'components/custom';
 import {
+  ArchiveIcon,
   BusinessmanIcon,
   ContactedIcon,
+  ContactIcon,
+  DeleteIcon,
+  EditIcon,
+  FinishIcon,
   IdentifiedIcon,
   RedCrossIcon,
   RegisteredIcon,
+  ReportIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
+  StartIcon,
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 import {
   AddCampaignModal,
   ExportCampaignsModal,
+  NoteCampaignsModal,
+  ScheduleCampaignModal,
 } from 'features/campaigns/role/admin/elements';
 import { useQuery } from 'react-query';
 import { CampaignAPI } from 'api';
@@ -43,10 +55,14 @@ const CampaignsPage = () => {
 
   const [acModal, openAcModal, closeAcModal] = useModal(false);
   const [ecModal, openEcModal, closeEcModal] = useModal(false);
+  const [scModal, openScModal, closeScModal] = useModal(false);
+  const [ncModal, openNcModal, closeNcModal] = useModal(false);
 
   const [filter, setFilter] = useState<any>(DGenerateCampaignsFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [tabs, setTabs] = useState(0);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -58,6 +74,28 @@ const CampaignsPage = () => {
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
+  const [menuI, openI, setOpenI] = useMenu(false);
+  const [menuO, openO, setOpenO] = useMenu(false);
+  const [menuF, openF, setOpenF] = useMenu(false);
+  const [menuA, openA, setOpenA] = useMenu(false);
+  const [menuIn, openIn, setOpenIn] = useMenu(false);
+
+  const handleMenuI = () => {
+    setOpenI(!openI);
+  };
+  const handleMenuO = () => {
+    setOpenO(!openO);
+  };
+  const handleMenuF = () => {
+    setOpenF(!openF);
+  };
+  const handleMenuA = () => {
+    setOpenA(!openA);
+  };
+  const handleMenuIn = () => {
+    setOpenIn(!openIn);
+  };
+
   return (
     <CampaignsPageMain>
       {/* <div>
@@ -67,7 +105,7 @@ const CampaignsPage = () => {
       </div> */}
       <CampaignsPageCharts columns={4}>
         <CardWithChart
-          title="In Preparation"
+          title="Revenue"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -218,7 +256,7 @@ const CampaignsPage = () => {
             Export
           </Button>,
           <Button color="primary" variant="contained" onClick={openAcModal}>
-            Add Campaign
+            Create Campaign
           </Button>,
         ]}
       >
@@ -331,12 +369,200 @@ const CampaignsPage = () => {
               </CampaignsPageFilterActions>
             </CampaignsPageFilter>
           </Collapse>
+          <Tabs
+            value={tabs}
+            onValue={setTabs}
+            tabs={['In Preparation', 'Ongoing', 'Finished']}
+          />
           <Table head={DCampaignsHead} items={[]} renderItem={renderItem} />
           <Pagination count={10} />
+          <Stack direction="horizontal">
+            <Button variant="contained" color="primary" onClick={openNcModal}>
+              Note Campaign
+            </Button>
+            <Button variant="contained" color="primary" onClick={openScModal}>
+              Schedule Campaign
+            </Button>
+          </Stack>
+          <Stack direction="horizontal">
+            <Button variant="contained" color="primary" onClick={handleMenuI}>
+              Inprogress action
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleMenuO}>
+              Ongoing action
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleMenuF}>
+              Finished action
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleMenuA}>
+              Archived action
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleMenuIn}>
+              Influencer action
+            </Button>
+          </Stack>
         </Stack>
+
+        {openI && (
+          <Menu
+            items={[
+              {
+                icon: <StartIcon />,
+                label: 'Start',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuI}
+          />
+        )}
+        {openO && (
+          <Menu
+            items={[
+              {
+                icon: <FinishIcon />,
+                label: 'Finish',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuO}
+          />
+        )}
+        {openF && (
+          <Menu
+            items={[
+              {
+                icon: <ArchiveIcon />,
+                label: 'Archive',
+                action: () => {},
+              },
+              {
+                icon: <ReportIcon />,
+                label: 'Report',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuF}
+          />
+        )}
+        {openA && (
+          <Menu
+            items={[
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuA}
+          />
+        )}
+        {openIn && (
+          <Menu
+            items={[
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <EditIcon />,
+                label: 'Note',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuIn}
+          />
+        )}
       </CardWithText>
       {acModal && <AddCampaignModal onClose={closeAcModal} />}
       {ecModal && <ExportCampaignsModal onClose={closeEcModal} />}
+      {scModal && <ScheduleCampaignModal onClose={closeScModal} />}
+      {ncModal && <NoteCampaignsModal onClose={closeNcModal} />}
     </CampaignsPageMain>
   );
 };

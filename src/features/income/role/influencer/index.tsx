@@ -196,18 +196,22 @@ const IncomePage = () => {
                   {
                     reference: 'statement',
                     label: 'Statement',
+                    visible: true,
                   },
                   {
                     reference: 'type',
                     label: 'Type',
+                    visible: true,
                   },
                   {
                     reference: 'date',
                     label: 'Date',
+                    visible: true,
                   },
                   {
                     reference: 'amount',
                     label: 'Amount',
+                    visible: true,
                   },
                 ]}
                 items={[]}
@@ -304,18 +308,22 @@ const IncomePage = () => {
                   {
                     reference: 'userName',
                     label: 'User Name',
+                    visible: true,
                   },
                   {
                     reference: 'platform',
                     label: 'Platform',
+                    visible: true,
                   },
                   {
                     reference: 'registrationDate',
                     label: 'Registration Date',
+                    visible: true,
                   },
                   {
                     reference: 'lifetimeValue',
                     label: 'Lifetime Value',
+                    visible: true,
                   },
                 ]}
                 items={[]}
