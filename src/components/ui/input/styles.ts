@@ -21,6 +21,7 @@ export const InputMain = styled.div<{ theme?: Theme }>`
       }
       .MuiInputBase-input {
         padding: ${theme.spacing(2)} !important;
+        text-overflow: ellipsis;
       }
       .MuiOutlinedInput-notchedOutline {
         border: 1px solid ${theme.palette.primary.main}20;
