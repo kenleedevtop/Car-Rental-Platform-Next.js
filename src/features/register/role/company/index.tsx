@@ -82,9 +82,11 @@ const RegisterPage = () => {
 
   return (
     <RegisterCompanyMain>
-      <RegisterTitle>{t('Lost your password?')}</RegisterTitle>
+      <RegisterTitle>{t('Sign Up as Company')}</RegisterTitle>
       <RegisterSubtitle>
-        {t('Enter email to get password for recovery.')}
+        {t(
+          'Reach the most relevant market possible by connecting with influencers who have pre-established trust with your target audience.'
+        )}
       </RegisterSubtitle>
       <RegisterCompanyTopStack direction="horizontal">
         <RegisterCompanyFName

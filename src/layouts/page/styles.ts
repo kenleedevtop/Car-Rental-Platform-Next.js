@@ -14,6 +14,7 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     
     ${theme.breakpoints.down('md')} {
       display: grid;
@@ -26,37 +27,31 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
 
 export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-    display: flex;
-    flex-direction: column;    
-    width: 50%;
+    display: grid;
+    place-items: center;
     height: 100%;
-    ${theme.breakpoints.up('xs')} {
-      padding: ${theme.spacing(10)} ${theme.spacing(5)};
-    }
-    ${theme.breakpoints.up('sm')} {
-      padding: ${theme.spacing(10)} ${theme.spacing(10)};
-    }
     ${theme.breakpoints.down('md')} {
-      width: 100%;
+      padding: 12px 18px !important;
     }
     ${theme.breakpoints.up('md')} {
-      padding: ${theme.spacing(45)} ${theme.spacing(15)};
+      padding: 24px 2.5% 0;
     }
     ${theme.breakpoints.up('lg')} {
-      padding: ${theme.spacing(45)} ${theme.spacing(25)};
+      padding: 24px 7.5% 0;
     }
     ${theme.breakpoints.up('xl')} {
-      padding: ${theme.spacing(45)} ${theme.spacing(50)};
+      padding: 24px 7.5% 0 12.5%; 
     }
     `}
 `;
 
 export const PageLayoutRight = styled.img<{ theme?: Theme }>`
   ${({ theme }) => `
-      width: 50%;
+      width: min(50%, 900px);
       height: 100%;
+      background-size: cover;
       object-fit: cover;
-      object-position: center;
+
       ${theme.breakpoints.down('md')} {
         width: 100%;
         height: 100%;

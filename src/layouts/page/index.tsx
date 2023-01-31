@@ -16,13 +16,13 @@ const PageLayout = ({ children, ...props }: TPageLayoutProps) => {
 
   useEffect(() => {
     if (pathname === '/login') {
-      setImage('/static/assets/images/login.png');
+      setImage('/static/assets/images/login.jpg');
     } else if (pathname === '/register' && query.as === 'company') {
-      setImage('/static/assets/images/register-company.png');
+      setImage('/static/assets/images/register-company.jpg');
     } else if (pathname === '/register' && query.as === 'ambassador') {
-      setImage('/static/assets/images/register-company.png');
+      setImage('/static/assets/images/register-company.jpg');
     } else {
-      setImage('/static/assets/images/register-influencer.png');
+      setImage('/static/assets/images/register-influencer.jpg');
     }
   }, [pathname, query]);
 
