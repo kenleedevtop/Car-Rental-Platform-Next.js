@@ -3,20 +3,31 @@ import { Theme } from '@mui/material';
 import { LocalizationSelect } from 'components/custom';
 import { Stack } from 'components/system';
 
-export const LoginMain = styled.div``;
+export const LoginMain = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    font-family: 'Poppins', sans-serif;
+  `}
+`;
+
+export const LoginContainer = styled.div``;
 
 export const LoginTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     font-size: 48px;
     font-weight: 700;
     color: ${theme.palette.primary.main};
+    font-family: 'Poppins', sans-serif;
     `}
 `;
 
 export const LoginSubtitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     font-size: 20px;
-    color: ${theme.palette.primary.main}
+    color: ${theme.palette.primary.main};
+    opacity: 0.72;
+    font-family: 'Poppins', sans-serif;
+    margin-top: -18px;
+    margin-bottom: 18px;
 `}
 `;
 
