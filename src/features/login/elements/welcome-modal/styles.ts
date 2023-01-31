@@ -10,7 +10,8 @@ export const SWelcomeModalMain = styled(Grid)<{ theme?: Theme }>`
   padding: 0 ${theme.spacing(10)} ${theme.spacing(10)};
 
   button {
-    width: 50%;
+    width: 100%;
+    max-width: 400px;
     padding: ${theme.spacing(2.5)};
     text-transform: uppercase;
     font-weight: 700;
@@ -63,4 +64,10 @@ ${theme.breakpoints.up('md')} {
 }
 
 `}
+`;
+
+export const SWelcomeModalInput = styled(Input)`
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 `;
