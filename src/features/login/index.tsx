@@ -20,6 +20,7 @@ import { useTranslation } from 'next-i18next';
 import { TLoginParams } from 'api/authorization/types';
 import FakeAsync from 'utilities/fake-async';
 import { TLoginValidatingState } from 'features/login/types';
+import { AuthorizationAPI } from 'api';
 
 const Login = () => {
   const [state, setState] = useState<TLoginParams>({
@@ -37,6 +38,7 @@ const Login = () => {
     {
       loading: false,
       role: null,
+      error: false,
     }
   );
 
@@ -67,19 +69,29 @@ const Login = () => {
 
   useEffect(() => {
     const checkActivationCode = async () => {
-      if (query.code) {
-        setValidatingState((x) => ({ ...x, loading: true }));
-        openWlModal();
-        await FakeAsync(5000);
-        setValidatingState((x) => ({
-          ...x,
-          role: 'influencer',
-          loading: false,
-        }));
+      if (query.token && query.id) {
+        try {
+          const token = query.token as string;
+          const id = query.id as string;
+          setValidatingState((x) => ({ ...x, loading: true }));
+          openWlModal();
+          const { role } = await AuthorizationAPI.verifyEmail({ token, id });
+          setValidatingState((x) => ({
+            ...x,
+            role,
+            loading: false,
+          }));
+        } catch {
+          setValidatingState((x) => ({
+            ...x,
+            loading: false,
+            error: true,
+          }));
+        }
       }
     };
     checkActivationCode();
-  }, [query.code]);
+  }, [query.token]);
 
   return (
     <Stack>
@@ -121,6 +133,7 @@ const Login = () => {
       {mtModal && <MaintenanceModal onClose={closeMtModal} />}
       {wlModal && (
         <WelcomeModal
+          error={validatingState.error}
           role={validatingState.role as any}
           onClose={handleWelcomeModalClose}
         />

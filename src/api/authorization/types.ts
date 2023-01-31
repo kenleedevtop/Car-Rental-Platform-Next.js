@@ -34,6 +34,7 @@ export type TChangePasswordWithTokenParams = {
 
 export type TVerifyEmailParams = {
   token: string;
+  id: string;
 };
 
 export type TResetPasswordParams = {
@@ -56,4 +57,8 @@ export type TRegisterAsCompanyParams = {
     name: string;
     role: string;
   };
+};
+
+export type TResendVerificationEmail = {
+  email: string;
 };
