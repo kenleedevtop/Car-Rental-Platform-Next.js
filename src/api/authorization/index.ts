@@ -10,6 +10,7 @@ import {
   TRegisterAsCompanyParams,
   TMeResponse,
   TLoginResponse,
+  TResendVerificationEmail,
 } from 'api/authorization/types';
 
 const AuthorizationAPI = {
@@ -37,7 +38,14 @@ const AuthorizationAPI = {
   },
   verifyEmail: async (body: TVerifyEmailParams) => {
     const { data } = await axios.post(
-      `${Project.apis.v1}/auth/verify-email`,
+      `${Project.apis.v1}/auth/register/verify-email`,
+      body
+    );
+    return data;
+  },
+  resendVerificationEmail: async (body: TResendVerificationEmail) => {
+    const { data } = await axios.post(
+      `${Project.apis.v1}/auth/register/resend-verification-email`,
       body
     );
     return data;

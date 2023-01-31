@@ -8,6 +8,10 @@ const PUBLIC_FILE = /\.(.*)$/;
 export async function middleware(request: NextRequest) {
   const { pathname, locale, defaultLocale } = request.nextUrl;
 
+  console.log('====================================');
+  console.log(pathname);
+  console.log('====================================');
+
   if (
     pathname.startsWith('/_next') || // exclude Next.js internals
     pathname.startsWith('/api') || //  exclude all API routes
