@@ -1,14 +1,7 @@
 import React from 'react';
 
 const reportSMLIcon = ({ ...props }) => (
-  <svg
-    width="14"
-    height="15"
-    viewBox="0 0 14 15"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+  <svg width="14" height="15" viewBox="0 0 14 15" fill="none" {...props}>
     <path
       d="M12.5303 11.9H2.00909V2.45455C2.00909 2.14826 1.76084 1.9 1.45455 1.9C1.14826 1.9 0.9 2.14826 0.9 2.45455V12.4545C0.9 12.7608 1.14826 13.0091 1.45455 13.0091H12.5303C12.8366 13.0091 13.0848 12.7608 13.0848 12.4545C13.0848 12.1482 12.8366 11.9 12.5303 11.9Z"
       fill="currentColor"

@@ -19,7 +19,7 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
   return (
     <SidebarMain {...props}>
       <SidebarLogoLink href="/">
-        <SidebarLogo src="/static/assets/images/logo.png" />
+        <SidebarLogo src="/static/assets/images/PatientsInfluence.svg" />
       </SidebarLogoLink>
       <SidebarItems>
         {DSidebarItems.filter((x) => x.roles.includes(role)).map((x) =>

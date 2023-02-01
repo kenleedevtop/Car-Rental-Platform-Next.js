@@ -20,5 +20,15 @@
   "Please Confirm Your Email": "Bitte bestätigen Sie Ihre E-Mail-Adresse",
   "We've sent a confirmation link to your email address.": "Wir haben Ihnen einen Bestätigungslink an Ihre E-Mail-Adresse gesendet.",
   "Please click on the link to complete your registration.": "Bitte klicken Sie auf den Link, um die Registrierung abzuschließen.",
-  "CLOSE": "SCHLIESSEN"
+  "CLOSE": "SCHLIESSEN",
+  "First name is required": "Vorname ist erforderlich",
+  "First name needs to be at least 2 characters long": "Vorname muss mindestens 2 Zeichen lang sein",
+  "Last name is required": "Nachname ist erfordelich",
+  "Last name needs to be at least 2 characters long": "Nachname muss mindestens 2 Zeichen lang sein",
+  "Company is required": "Unternehmen ist erforderlich",
+  "Role is required": "Rolle ist erforderlich",
+  "Email is required": "E-Mail-Adresse ist erforderlich",
+  "Not a valid email format": "Kein gültiges E-Mail-Format",
+  "Password is required": "Passwort ist erforderlich",
+  "Password must have at least one uppercase, lowercase letter, number and symbol": "Passwort muss mindestens einen Großbuchstaben, Kleinbuchstaben, Zahl und Symbol enthalten"
 }
