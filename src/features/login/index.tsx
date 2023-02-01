@@ -11,7 +11,8 @@ import { Stack } from 'components/system';
 import { useModal, useSnackbar } from 'hooks';
 import {
   LostPasswordModal,
-  MaintenanceModal,
+  ComingSoonCompany,
+  ComingSoonInfluencer,
   WelcomeModal,
 } from 'features/login/elements';
 import { useRouter } from 'next/router';
@@ -31,7 +32,8 @@ const Login = () => {
   const { t } = useTranslation('login');
 
   const [lpModal, openLpModal, closeLpModal] = useModal(false);
-  const [mtModal, openMtModal, closeMtModal] = useModal(false);
+  const [cscModal, openCscModal, closeCscModal] = useModal(false);
+  const [csiModal, openCsiModal, closeCsiModal] = useModal(false);
   const [wlModal, openWlModal, closeWlModal] = useModal(false);
 
   const [validatingState, setValidatingState] = useState<TLoginValidatingState>(
@@ -42,6 +44,11 @@ const Login = () => {
     }
   );
 
+  const [loginState, setLoginState] = useState({
+    role: '',
+    affiliateLink: '',
+  });
+
   const { query, push } = useRouter();
   const { push: pushSnackbar } = useSnackbar();
 
@@ -49,9 +56,14 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      // openMtModal();
-      await login(state);
-      push('/');
+      // ;
+      //
+      const { role, affiliateLink } = await login(state);
+      setLoginState({ role, affiliateLink });
+      role.includes('INFLUENCER') ? openCsiModal() : openCscModal();
+      console.log(affiliateLink);
+
+      // push('/');
     } catch (e: any) {
       pushSnackbar(`${e.response.data.message} 🤡`, {
         variant: 'error',
@@ -130,7 +142,13 @@ const Login = () => {
       </Button>
       <LoginLocalization />
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
-      {mtModal && <MaintenanceModal onClose={closeMtModal} />}
+      {cscModal && <ComingSoonCompany onClose={closeCscModal} />}
+      {csiModal && (
+        <ComingSoonInfluencer
+          affiliateLink={loginState.affiliateLink}
+          onClose={closeCsiModal}
+        />
+      )}
       {wlModal && (
         <WelcomeModal
           error={validatingState.error}
