@@ -50,7 +50,9 @@ export const PageLayoutRight = styled.img<{ theme?: Theme }>`
       width: min(50%, 900px);
       height: 100%;
       background-size: cover;
+      background-position: top center;
       object-fit: cover;
+
 
       ${theme.breakpoints.down('md')} {
         width: 100%;

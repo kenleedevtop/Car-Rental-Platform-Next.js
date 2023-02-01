@@ -1,14 +1,7 @@
 import React from 'react';
 
 const VerticalDotsIcon = ({ ...props }) => (
-  <svg
-    width="27"
-    height="26"
-    viewBox="0 0 27 26"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+  <svg width="27" height="26" viewBox="0 0 27 26" fill="none" {...props}>
     <path
       d="M18.5 0H8.5C4.72876 0 2.84315 0 1.67157 1.17157C0.5 2.34315 0.5 4.22876 0.5 8V18C0.5 21.7712 0.5 23.6569 1.67157 24.8284C2.84315 26 4.72876 26 8.5 26H18.5C22.2712 26 24.1569 26 25.3284 24.8284C26.5 23.6569 26.5 21.7712 26.5 18V8C26.5 4.22876 26.5 2.34315 25.3284 1.17157C24.1569 0 22.2712 0 18.5 0Z"
       fill="white"

@@ -87,7 +87,7 @@ const RegisterPage = () => {
           errorCallback={handleErrors(0)}
           validators={[
             {
-              message: 'First name is required',
+              message: t('First name is required'),
               validator: (firstName) => {
                 const v = firstName as string;
                 if (v.trim()) return true;
@@ -95,7 +95,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'First name needs to be at least 2 characters long',
+              message: t('First name needs to be at least 2 characters long'),
               validator: (firstName) => {
                 try {
                   firstNameSchema.validateSync({ firstName });
@@ -117,7 +117,7 @@ const RegisterPage = () => {
           errorCallback={handleErrors(1)}
           validators={[
             {
-              message: 'Last name is required',
+              message: t('Last name is required'),
               validator: (lastName) => {
                 const v = lastName as string;
                 if (v.trim()) return true;
@@ -125,7 +125,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'Last name needs to be at least 2 characters long',
+              message: t('Last name needs to be at least 2 characters long'),
               validator: (lastName) => {
                 try {
                   lastNameSchema.validateSync({ lastName });
@@ -149,7 +149,7 @@ const RegisterPage = () => {
           errorCallback={handleErrors(3)}
           validators={[
             {
-              message: 'Email is required',
+              message: t('Email is required'),
               validator: (email) => {
                 const v = email as string;
                 if (v.trim()) return true;
@@ -157,7 +157,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'Not a valid email format',
+              message: t('Not a valid email format'),
               validator: (email) => {
                 try {
                   emailSchema.validateSync({ email });
@@ -181,7 +181,7 @@ const RegisterPage = () => {
           errorCallback={handleErrors(4)}
           validators={[
             {
-              message: 'Password is required',
+              message: t('Password is required'),
               validator: (password) => {
                 const v = password as string;
                 if (v.trim()) return true;
@@ -189,8 +189,9 @@ const RegisterPage = () => {
               },
             },
             {
-              message:
-                'Password must have at least one uppercase, lowercase letter, number and symbol',
+              message: t(
+                'Password must have at least one uppercase, lowercase letter, number and symbol'
+              ),
               validator: (password) => {
                 try {
                   passwordSchema.validateSync({ password });

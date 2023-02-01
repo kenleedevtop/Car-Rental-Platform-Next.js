@@ -8,6 +8,7 @@ export type TLoginParams = {
 export type TLoginResponse = {
   token: string;
   role: Array<TUserRole>;
+  affiliateLink: string;
 };
 
 export type TMeResponse = {

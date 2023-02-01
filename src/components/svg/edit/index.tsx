@@ -1,14 +1,7 @@
 import React from 'react';
 
 const EditIcon = ({ ...props }) => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 20 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    {...props}
-  >
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
     <g clipPath="url(#clip0_9_1008)">
       <path d="M18.75 16.25H1.25V17.5H18.75V16.25Z" fill="currentColor" />
       <path
