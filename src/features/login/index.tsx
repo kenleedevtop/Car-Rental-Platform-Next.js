@@ -54,13 +54,13 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      // ;
-      //
       const { role, affiliateLink } = await login(state);
       setLoginState({ role, affiliateLink });
-      role.includes('INFLUENCER') ? openCsiModal() : openCscModal();
-      console.log(affiliateLink);
-
+      if (role.includes('INFLUENCER')) {
+        openCsiModal();
+      } else {
+        openCscModal();
+      }
       // push('/');
     } catch (e: any) {
       pushSnackbar(`${e.response.data.message} 🤡`, {
