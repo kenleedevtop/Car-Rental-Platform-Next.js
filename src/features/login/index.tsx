@@ -56,14 +56,15 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const { role, affiliateLink } = await login(state);
-      setLoginState({ role, affiliateLink });
-      if (role.includes('INFLUENCER')) {
-        openCsiModal();
-      } else {
-        openCscModal();
-      }
-      // push('/');
+      // const { role, affiliateLink } = await login(state);
+      // setLoginState({ role, affiliateLink });
+      // if (role.includes('INFLUENCER')) {
+      //   openCsiModal();
+      // } else {
+      //   openCscModal();
+      // }
+      await login(state);
+      push('/');
     } catch (e: any) {
       pushSnackbar(`${e.response.data.message} 🤡`, {
         variant: 'error',

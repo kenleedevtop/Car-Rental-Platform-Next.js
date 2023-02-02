@@ -381,7 +381,7 @@ const SmlPage = () => {
                 icon: <ReportSMLIcon />,
                 label: 'Report',
                 action: () => {
-                  handleRoute('/sml/reports');
+                  handleRoute('/services/sml/reports');
                 },
               },
               {
