@@ -1,4 +1,7 @@
-import { TLoginParams } from 'api/authorization/types';
+import {
+  TLoginParams,
+  TResendVerificationEmail,
+} from 'api/authorization/types';
 import { TUser, TUserRole } from 'types/global';
 
 export type TAppContextState = {

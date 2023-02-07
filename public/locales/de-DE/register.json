@@ -18,7 +18,6 @@
   "Please Enter your Role": "Bitte geben Sie Ihre Rolle ein",
   "SIGN UP NOW": "REGISTRIEREN",
   "Please Confirm Your Email": "Bitte bestätigen Sie Ihre E-Mail-Adresse",
-  "We've sent a confirmation link to your email address.": "Wir haben Ihnen einen Bestätigungslink an Ihre E-Mail-Adresse gesendet.",
   "Please click on the link to complete your registration.": "Bitte klicken Sie auf den Link, um die Registrierung abzuschließen.",
   "CLOSE": "SCHLIESSEN",
   "First name is required": "Vorname ist erforderlich",
@@ -30,5 +29,8 @@
   "Email is required": "E-Mail-Adresse ist erforderlich",
   "Not a valid email format": "Kein gültiges E-Mail-Format",
   "Password is required": "Passwort ist erforderlich",
-  "Password must have at least one uppercase, lowercase letter, number and symbol": "Passwort muss mindestens einen Großbuchstaben, Kleinbuchstaben, Zahl und Symbol enthalten"
+  "Password must have at least one uppercase, lowercase letter, number and symbol": "Passwort muss mindestens einen Großbuchstaben, Kleinbuchstaben, Zahl und Symbol enthalten",
+  "We've sent a confirmation link to your email address. Please click on the link to complete your registration. If the email is not in your inbox, kindly check your spam folder. If you still can't find it, we'd be happy to": "Wir haben Ihnen einen Bestätigungslink an Ihre E-Mail-Adresse gesendet. Bitte klicken Sie auf den Link, um die Registrierung abzuschließen. Wenn die E-Mail nicht in Ihrem Posteingang ist, überprüfen Sie bitte Ihren Spam-Ordner. Wenn Sie sie immer noch nicht finden können,",
+  "resend the confirmation email to you.": "senden wir Ihnen gerne erneut eine Bestätigungs-E-Mail.",
+  "A confirmation email has been resent to the email address you provided. If you still don't receive it within a few minutes, please reach out to us at support@patientsinfluence.com and we'll assist you as soon as possible.": "Eine Bestätigungs-E-Mail wurde an die von Ihnen angegebene E-Mail-Adresse erneut gesendet. Wenn Sie sie innerhalb weniger Minuten immer noch nicht erhalten, kontaktieren Sie uns bitte unter support@patientsinfluence.com, und wir werden Ihnen so schnell wie möglich helfen."
 }
