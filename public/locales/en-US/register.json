@@ -18,7 +18,9 @@
   "Please Enter your Role": "Please Enter your Role",
   "SIGN UP NOW": "SIGN UP NOW",
   "Please Confirm Your Email": "Please Confirm Your Email",
-  "We've sent a confirmation link to your email address.": "We've sent a confirmation link to your email address.",
+  "We've sent a confirmation link to your email address. Please click on the link to complete your registration. If the email is not in your inbox, kindly check your spam folder. If you still can't find it, we'd be happy to": "We've sent a confirmation link to your email address. Please click on the link to complete your registration. If the email is not in your inbox, kindly check your spam folder. If you still can't find it, we'd be happy to",
+  "resend the confirmation email to you.": "resend the confirmation email to you.",
+  "A confirmation email has been resent to the email address you provided. If you still don't receive it within a few minutes, please reach out to us at support@patientsinfluence.com and we'll assist you as soon as possible.": "A confirmation email has been resent to the email address you provided. If you still don't receive it within a few minutes, please reach out to us at support@patientsinfluence.com and we'll assist you as soon as possible.",
   "Please click on the link to complete your registration.": "Please click on the link to complete your registration.",
   "CLOSE": "CLOSE"
 }
