@@ -214,7 +214,9 @@ const RegisterPage = () => {
         {t('SIGN UP NOW')}
       </Button>
       <RegisterLocalization />
-      {crModal && <ConfirmRegistrationModal onClose={handleClose} />}
+      {crModal && (
+        <ConfirmRegistrationModal email={state.email} onClose={handleClose} />
+      )}
     </RegisterInfluencerMain>
   );
 };
