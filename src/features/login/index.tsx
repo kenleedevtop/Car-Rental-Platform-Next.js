@@ -14,6 +14,7 @@ import {
   ComingSoonCompany,
   ComingSoonInfluencer,
   WelcomeModal,
+  ConfirmRegistrationModal,
 } from 'features/login/elements';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
@@ -22,6 +23,7 @@ import { TLoginParams } from 'api/authorization/types';
 import FakeAsync from 'utilities/fake-async';
 import { TLoginValidatingState } from 'features/login/types';
 import { AuthorizationAPI } from 'api';
+import { AxiosError } from 'axios';
 
 const Login = () => {
   const [state, setState] = useState<TLoginParams>({
@@ -35,6 +37,7 @@ const Login = () => {
   const [cscModal, openCscModal, closeCscModal] = useModal(false);
   const [csiModal, openCsiModal, closeCsiModal] = useModal(false);
   const [wlModal, openWlModal, closeWlModal] = useModal(false);
+  const [crModal, openCrModal, closeCrModal] = useModal(false);
 
   const [validatingState, setValidatingState] = useState<TLoginValidatingState>(
     {
@@ -64,10 +67,16 @@ const Login = () => {
         openCscModal();
       }
       // push('/');
-    } catch (e: any) {
-      pushSnackbar(`${e.response.data.message} 🤡`, {
-        variant: 'error',
-      });
+    } catch (e) {
+      if (e instanceof AxiosError && e.response) {
+        if (e.response.data.status === 'CREATED') {
+          openCrModal();
+          return;
+        }
+        pushSnackbar(`${e.response.data.message} 🤡`, {
+          variant: 'error',
+        });
+      }
     }
   };
 
@@ -143,6 +152,9 @@ const Login = () => {
       <LoginLocalization />
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
       {cscModal && <ComingSoonCompany onClose={closeCscModal} />}
+      {crModal && (
+        <ConfirmRegistrationModal email={state.email} onClose={closeCrModal} />
+      )}
       {csiModal && (
         <ComingSoonInfluencer
           affiliateLink={loginState.affiliateLink}
