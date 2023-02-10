@@ -25,6 +25,7 @@ export const RegisterSubtitle = styled.div<{ theme?: Theme }>`
 
 export const RegisterInfluencerMain = styled(Stack)<{ theme?: Theme }>`
   ${({ theme }) => `
+
   ${theme.breakpoints.down('sm')} {
     .css-9v3k90-StackMain {
       flex-direction: column;
@@ -37,6 +38,7 @@ export const RegisterInfluencerMain = styled(Stack)<{ theme?: Theme }>`
 `;
 export const RegisterCompanyMain = styled(Stack)<{ theme?: Theme }>`
   ${({ theme }) => `
+
   ${theme.breakpoints.down('sm')} {
     .css-9v3k90-StackMain {
       flex-direction: column;

@@ -30,6 +30,8 @@ const RegisterPage = () => {
     password: '',
   });
 
+  const [counter, setCounter] = useState(0);
+
   const { t } = useTranslation('register');
 
   const router = useRouter();
@@ -49,12 +51,15 @@ const RegisterPage = () => {
     !state.lastName ||
     !state.email ||
     !state.password ||
-    !!errors.find((x) => x);
+    !!errors.find((x) => x) ||
+    counter === 1;
 
   const handleClose = () => {
     router.push('/login');
     closeCrModal();
   };
+
+  const timeoutTime = 10000;
 
   const handleRegister = async () => {
     try {
@@ -64,7 +69,13 @@ const RegisterPage = () => {
       );
       openCrModal();
     } catch (e: any) {
+      let step = 0;
+      step += 1;
+      setCounter(step);
       push(e.response.data.message, { variant: 'error' });
+      setTimeout(() => {
+        setCounter(0);
+      }, timeoutTime);
     }
   };
 
@@ -79,7 +90,7 @@ const RegisterPage = () => {
       <RegisterInfluencerStack direction="horizontal">
         <RegisterInfluencerFName
           type="text"
-          label={t('First name') as string}
+          label={t('First Name') as string}
           required
           placeholder={t('Please Enter your First Name') as string}
           value={state.firstName}
