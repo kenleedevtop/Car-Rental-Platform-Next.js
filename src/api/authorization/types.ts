@@ -23,12 +23,11 @@ export type TMeResponse = {
 };
 
 export type TChangePasswordParams = {
-  email: string;
   oldPassword: string;
   newPassword: string;
 };
 
-export type TChangePasswordWithTokenParams = {
+export type TResetPasswordWithTokenParams = {
   token: string;
   newPassword: string;
 };
