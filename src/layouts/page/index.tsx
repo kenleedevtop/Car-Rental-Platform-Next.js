@@ -31,7 +31,11 @@ const PageLayout = ({ children, ...props }: TPageLayoutProps) => {
       <Header />
       <PageLayoutContent>
         <PageLayoutLeft>{children}</PageLayoutLeft>
-        {image && <PageLayoutRight key={image} src={image} />}
+        {image && (
+          <PageLayoutRight key={image}>
+            <img src={image} alt="" />
+          </PageLayoutRight>
+        )}
       </PageLayoutContent>
     </PageLayoutMain>
   );

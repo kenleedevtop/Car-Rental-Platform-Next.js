@@ -4,7 +4,9 @@ import {
   ChangePasswordTitle,
 } from 'features/reset-password/styles';
 import { Button, Input } from 'components/ui';
-import { useAppContext } from 'context';
+import { useSnackbar } from 'hooks';
+import { AuthorizationAPI } from 'api';
+import { useRouter } from 'next/router';
 
 const ChangePassword = () => {
   const [state, setState] = useState({
@@ -12,9 +14,23 @@ const ChangePassword = () => {
     confirmPassword: '',
   });
 
-  const { login } = useAppContext();
+  const { push } = useSnackbar();
 
-  const handleChange = async () => {};
+  const { query } = useRouter();
+
+  const handleChange = async () => {
+    try {
+      if (query.token && state.password === state.confirmPassword) {
+        const { message } = await AuthorizationAPI.resetPasswordWithToken({
+          newPassword: state.password,
+          token: query.token as string,
+        });
+        push(message, { variant: 'success' });
+      }
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
+    }
+  };
 
   const isDisabled = !state.confirmPassword.trim() || !state.password.trim();
 
@@ -22,14 +38,14 @@ const ChangePassword = () => {
     <ChangePasswordMain>
       <ChangePasswordTitle>Change your password.</ChangePasswordTitle>
       <Input
-        type="text"
+        type="password"
         label="New Password"
         placeholder="Please Enter your New Password"
         value={state.password}
         onValue={(password) => setState({ ...state, password })}
       />
       <Input
-        type="text"
+        type="password"
         label="Confirm Password"
         placeholder="Please Confirm your New Password"
         value={state.confirmPassword}

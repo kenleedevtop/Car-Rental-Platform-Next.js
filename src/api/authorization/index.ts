@@ -3,7 +3,7 @@ import Project from 'constants/project';
 import {
   TLoginParams,
   TChangePasswordParams,
-  TChangePasswordWithTokenParams,
+  TResetPasswordWithTokenParams,
   TVerifyEmailParams,
   TResetPasswordParams,
   TRegisterAsInfluencerParams,
@@ -29,9 +29,9 @@ const AuthorizationAPI = {
     );
     return data;
   },
-  changePasswordWithToken: async (body: TChangePasswordWithTokenParams) => {
+  resetPasswordWithToken: async (body: TResetPasswordWithTokenParams) => {
     const { data } = await axios.post(
-      `${Project.apis.v1}/auth/change-password-with-token`,
+      `${Project.apis.v1}/auth/reset-password-with-token`,
       body
     );
     return data;
