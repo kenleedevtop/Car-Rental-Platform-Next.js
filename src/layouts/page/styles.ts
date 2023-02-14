@@ -32,11 +32,13 @@ export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: grid;
     place-items: center;
-    height: 100%;
+    min-height: 100vh;
 
     
     ${theme.breakpoints.down('md')} {
       padding: 12px 18px !important;
+      min-height: unset;
+      height: 100%;
     }
     ${theme.breakpoints.up('md')} {
       padding: 150px 2.5% 150px;
