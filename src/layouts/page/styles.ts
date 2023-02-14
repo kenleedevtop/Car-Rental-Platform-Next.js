@@ -4,7 +4,6 @@ import { Theme } from '@mui/material';
 export const PageLayoutMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: flex;
-    align-items: center;
     width: 100%;
     height: 100%;
   `}
@@ -15,13 +14,16 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    justify-content: stretch;
     
     ${theme.breakpoints.down('md')} {
       display: grid;
       grid-template-columns: auto;
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: 1fr auto;
       gap: 100px;
+      align-items: center;
+      justify-content: unset;
     }   
   `}
 `;
@@ -30,11 +32,13 @@ export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: grid;
     place-items: center;
-    height: 100%;
+    min-height: 100vh;
 
     
     ${theme.breakpoints.down('md')} {
       padding: 12px 18px !important;
+      min-height: unset;
+      height: 100%;
     }
     ${theme.breakpoints.up('md')} {
       padding: 150px 2.5% 150px;
@@ -48,12 +52,11 @@ export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const PageLayoutRight = styled.div<{ theme?: Theme }>`
+export const PageLayoutRight = styled.img<{ theme?: Theme }>`
   ${({ theme }) => `
       width: min(45%, 900px);
-      height: 100%;
-      display: grid;
-      grid-template-columns: auto;
+      min-height: 100vh; 
+      object-fit: cover;
 
       ${theme.breakpoints.down('md')} {
         width: 100%;
@@ -62,12 +65,4 @@ export const PageLayoutRight = styled.div<{ theme?: Theme }>`
         margin-top: 150px;
       }
     `}
-`;
-
-export const PageLayoutRightImage = styled.img`
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
 `;

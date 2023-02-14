@@ -12,6 +12,7 @@ export const HeaderMain = styled.header<{ theme?: Theme }>`
         justify-content: space-between;
         align-items: center;
         font-family: 'Poppins', sans-serif;
+        z-index: 10;
 
         ${theme.breakpoints.down('md')} {
           background: #fff;
