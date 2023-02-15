@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import {
   ChangePasswordMain,
   ChangePasswordTitle,
+  ChangePasswordLocalization,
 } from 'features/reset-password/styles';
 import { Button, Input } from 'components/ui';
 import { useSnackbar } from 'hooks';
 import { AuthorizationAPI } from 'api';
+import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 
 const ChangePassword = () => {
@@ -13,6 +15,8 @@ const ChangePassword = () => {
     password: '',
     confirmPassword: '',
   });
+
+  const { t } = useTranslation('reset-password');
 
   const { push } = useSnackbar();
 
@@ -36,18 +40,18 @@ const ChangePassword = () => {
 
   return (
     <ChangePasswordMain>
-      <ChangePasswordTitle>Change your password.</ChangePasswordTitle>
+      <ChangePasswordTitle>{t('Change your password.')}</ChangePasswordTitle>
       <Input
         type="password"
-        label="New Password"
-        placeholder="Please Enter your New Password"
+        label={t('New Password') as string}
+        placeholder={t('Please Enter your New Password') as string}
         value={state.password}
         onValue={(password) => setState({ ...state, password })}
       />
       <Input
         type="password"
-        label="Confirm Password"
-        placeholder="Please Confirm your New Password"
+        label={t('Confirm Password') as string}
+        placeholder={t('Please Confirm your New Password') as string}
         value={state.confirmPassword}
         onValue={(confirmPassword) => setState({ ...state, confirmPassword })}
       />
@@ -58,8 +62,9 @@ const ChangePassword = () => {
         onClick={handleChange}
         disabled={isDisabled}
       >
-        Change Password
+        {t('Change Password')}
       </Button>
+      <ChangePasswordLocalization />
     </ChangePasswordMain>
   );
 };
