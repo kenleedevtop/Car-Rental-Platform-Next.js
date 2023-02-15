@@ -43,10 +43,16 @@ const AuthorizationAPI = {
     );
     return data;
   },
-  resendVerificationEmail: async (body: TResendVerificationEmail) => {
+  resendVerificationEmail: async (
+    body: TResendVerificationEmail,
+    locale?: string
+  ) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/register/resend-verification-email`,
-      body
+      body,
+      {
+        headers: { 'Accept-Language': locale },
+      }
     );
     return data;
   },
