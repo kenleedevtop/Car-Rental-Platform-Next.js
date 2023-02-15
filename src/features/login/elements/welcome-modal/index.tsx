@@ -62,6 +62,7 @@ const WelcomeModal = ({
             )}
           </SWelcomeModalText>
         )}
+        console.log(role);
         {role !== 'INFLUENCER' && (
           <SWelcomeModalText>
             {t(
