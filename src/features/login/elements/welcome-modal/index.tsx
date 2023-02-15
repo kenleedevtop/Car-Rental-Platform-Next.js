@@ -39,28 +39,14 @@ const WelcomeModal = ({
   return error ? (
     <Modal size="medium" onClose={onClose} {...props}>
       <SWelcomeModalMain columns={1}>
-        <SWelcomeModalTitle>{t('Activation Failed!')}</SWelcomeModalTitle>
+        <SWelcomeModalTitle>
+          {t('Unable to Confirm Your Account')}
+        </SWelcomeModalTitle>
         <SWelcomeModalText>
           {t(
-            'Activation code is not valid. You can resend activation link to your email!'
+            "We're sorry, but we were unable to confirm your account with the link you clicked. Please check your email for a new confirmation link, as the old one may have expired. If you continue to experience issues, our team at support@patientsinfluence.com is always here to assist you and ensure your account is fully activated."
           )}
         </SWelcomeModalText>
-        <SWelcomeModalInput
-          type="text"
-          label="Email"
-          placeholder="Please Enter your Email"
-          value={email}
-          onValue={setEmail}
-        />
-        <Button
-          variant="contained"
-          color="secondary"
-          size="large"
-          onClick={handleEmail}
-          disabled={!email}
-        >
-          {t('RESEND')}
-        </Button>
       </SWelcomeModalMain>
     </Modal>
   ) : (
@@ -76,7 +62,7 @@ const WelcomeModal = ({
             )}
           </SWelcomeModalText>
         )}
-        {role === 'COMPANY' && (
+        {role !== 'INFLUENCER' && (
           <SWelcomeModalText>
             {t(
               "Congratulations on confirming your email and activating your account! You are now one step closer to discovering the power of patient influencer marketing and how it can benefit your healthcare organization. We are excited to have you on board and look forward to working with you to make a difference in the industry. Let's get started!"
