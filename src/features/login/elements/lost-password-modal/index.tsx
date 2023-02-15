@@ -41,9 +41,11 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
           {t(
             "Forgot your password? No problem! Just enter your email address below and we'll send you a link to reset your password."
           )}
-          {t(
-            "If you're still having trouble, please contact our support team at support@patientsinfluence.com for assistance."
-          )}
+          <p>
+            {t(
+              "If you're still having trouble, please contact our support team at support@patientsinfluence.com for assistance."
+            )}
+          </p>
         </LostPasswordText>
         <LostPasswordInput
           type="text"
