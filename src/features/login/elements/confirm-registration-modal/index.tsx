@@ -14,6 +14,7 @@ import { AuthorizationAPI } from 'api';
 import { TResendVerificationEmail } from 'api/authorization/types';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'hooks';
+import { useRouter } from 'next/router';
 
 const ConfirmRegistrationModal = ({
   onClose,
@@ -21,19 +22,20 @@ const ConfirmRegistrationModal = ({
   ...props
 }: TConfirmRegistrationModalProps) => {
   const { t } = useTranslation('login');
+  const { locale } = useRouter();
   const { push } = useSnackbar();
 
   const [clicked, setClicked] = useState(false);
 
   const resendVerification = async (body: TResendVerificationEmail) => {
-    setClicked(true);
     try {
-      await AuthorizationAPI.resendVerificationEmail(body);
+      await AuthorizationAPI.resendVerificationEmail(body, locale);
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
         push(e.response.data.message, {
           variant: 'error',
         });
+        setClicked(true);
       }
     }
   };
@@ -49,7 +51,7 @@ const ConfirmRegistrationModal = ({
     <p>
       {t(
         "Please confirm your email by clicking on the link sent to you. Only after confirmation, you will be able to log in to your account. If the email is not in your inbox, kindly check your spam folder. If you still can't find it, we'd be happy to"
-      )}{' '}
+      )}
       <SConfirmRegistrationModalLink
         onClick={(e) => {
           e.preventDefault();

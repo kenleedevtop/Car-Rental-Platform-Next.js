@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { LocalizationSelect } from 'components/custom';
 
-export const ChangePasswordMain = styled.div<{ theme?: Theme }>`
+export const ChangePasswordMain = styled.form<{ theme?: Theme }>`
   ${({ theme }) => `
     display: flex;
     flex-direction: column;
