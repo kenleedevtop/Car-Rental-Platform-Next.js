@@ -5,12 +5,9 @@ import {
   SWelcomeModalMain,
   SWelcomeModalTitle,
   SWelcomeModalText,
-  SWelcomeModalInput,
 } from 'features/login/elements/welcome-modal/styles';
 import { Button } from 'components/ui';
 import { useTranslation } from 'react-i18next';
-import { AuthorizationAPI } from 'api';
-import { useSnackbar } from 'hooks';
 
 const WelcomeModal = ({
   role,
@@ -48,7 +45,7 @@ const WelcomeModal = ({
             )}
           </SWelcomeModalText>
         )}
-        {role !== 'INFLUENCER' && (
+        {role === 'CLIENT' && (
           <SWelcomeModalText>
             {t(
               "Congratulations on confirming your email and activating your account! You are now one step closer to discovering the power of patient influencer marketing and how it can benefit your healthcare organization. We are excited to have you on board and look forward to working with you to make a difference in the industry. Let's get started!"
