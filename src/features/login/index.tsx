@@ -20,7 +20,6 @@ import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
 import { useTranslation } from 'next-i18next';
 import { TLoginParams } from 'api/authorization/types';
-import FakeAsync from 'utilities/fake-async';
 import { TLoginValidatingState } from 'features/login/types';
 import { AuthorizationAPI } from 'api';
 import { AxiosError } from 'axios';
@@ -73,7 +72,7 @@ const Login = () => {
           openCrModal();
           return;
         }
-        pushSnackbar(`${e.response.data.message} 🤡`, {
+        pushSnackbar(`${e.response.data.message}`, {
           variant: 'error',
         });
       }
