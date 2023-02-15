@@ -20,21 +20,7 @@ const WelcomeModal = ({
 }: TWelcomeModalProps) => {
   const { t } = useTranslation('login');
 
-  const [email, setEmail] = useState('');
-
-  const { push } = useSnackbar();
-
-  const handleEmail = async () => {
-    try {
-      await AuthorizationAPI.resendVerificationEmail({ email });
-      push('Verification token has been sent to your email!', {
-        variant: 'success',
-      });
-      onClose();
-    } catch {
-      push('Something went wrong!', { variant: 'error' });
-    }
-  };
+  console.log(role);
 
   return error ? (
     <Modal size="medium" onClose={onClose} {...props}>
@@ -62,7 +48,6 @@ const WelcomeModal = ({
             )}
           </SWelcomeModalText>
         )}
-        console.log(role);
         {role !== 'INFLUENCER' && (
           <SWelcomeModalText>
             {t(
