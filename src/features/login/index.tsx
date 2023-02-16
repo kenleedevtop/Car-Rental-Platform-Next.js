@@ -64,7 +64,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const { role, affiliateLink } = await login(state);
+      const { role, affiliateLink } = await login(state, locale);
       setLoginState({ role, affiliateLink });
       if (role.includes('INFLUENCER')) {
         openCsiModal();
