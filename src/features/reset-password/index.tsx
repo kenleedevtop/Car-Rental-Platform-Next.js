@@ -28,16 +28,19 @@ const ChangePassword = () => {
   const { push } = useSnackbar();
 
   const { query } = useRouter();
-
+  const { locale } = useRouter();
   const router = useRouter();
 
   const handleChange = async () => {
     try {
       if (query.token && state.password === state.confirmPassword) {
-        const { message } = await AuthorizationAPI.resetPasswordWithToken({
-          newPassword: state.password,
-          token: query.token as string,
-        });
+        const { message } = await AuthorizationAPI.resetPasswordWithToken(
+          {
+            newPassword: state.password,
+            token: query.token as string,
+          },
+          locale
+        );
         push(message, { variant: 'success' });
         router.push('/login');
       }
@@ -50,10 +53,6 @@ const ChangePassword = () => {
     !state.confirmPassword.trim() ||
     !state.password.trim() ||
     !!errors.find((x) => !x);
-
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   return (
     <ChangePasswordMain>

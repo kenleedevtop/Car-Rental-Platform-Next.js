@@ -12,18 +12,22 @@ import { AuthorizationAPI } from 'api';
 import { useSnackbar } from 'hooks';
 import { emailSchema } from 'utilities/validators';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'next/router';
 
 const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(false);
 
   const { t } = useTranslation('common');
-
+  const { locale } = useRouter();
   const { push } = useSnackbar();
 
   const handleReset = async () => {
     try {
-      const { message } = await AuthorizationAPI.resetPassword({ email });
+      const { message } = await AuthorizationAPI.resetPassword(
+        { email },
+        locale
+      );
       push(message, { variant: 'success' });
       onClose();
     } catch (e: any) {

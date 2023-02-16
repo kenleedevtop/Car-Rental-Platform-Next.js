@@ -50,17 +50,18 @@ const AppContextProvider = ({ ...props }) => {
     }
   };
 
-  // const login = async (body: TLoginParams) => {
-  //   const { token, role, affiliateLink } = await AuthorizationAPI.login(body);
-  //   return { role, affiliateLink };
-  // };
-
   const login = async (body: TLoginParams) => {
-    const { token } = await AuthorizationAPI.login(body);
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    Cookies.set('Authorization', token);
-    await getMeData();
+    const { token, attempt, role, affiliateLink } =
+      await AuthorizationAPI.login(body);
+    return { role, affiliateLink, attempt };
   };
+
+  // const login = async (body: TLoginParams) => {
+  //   const { token } = await AuthorizationAPI.login(body);
+  //   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  //   Cookies.set('Authorization', token);
+  //   await getMeData();
+  // };
 
   useEffect(() => {
     const token = Cookies.get('Authorization');

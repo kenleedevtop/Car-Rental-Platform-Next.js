@@ -9,6 +9,7 @@ export type TLoginResponse = {
   token: string;
   role: Array<TUserRole>;
   affiliateLink: string;
+  attempt: number;
 };
 
 export type TMeResponse = {
