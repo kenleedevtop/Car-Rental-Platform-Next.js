@@ -6,7 +6,7 @@ export {
 } from 'features/account';
 
 // Benefits
-export { InfluencerBenefitsPage } from 'features/benefits';
+export { InfluencerBenefitsPage, AdminBenefitsPage } from 'features/benefits';
 
 // Campaigns
 export {

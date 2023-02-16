@@ -11,6 +11,7 @@ import {
   HelpIcon,
   AccountIcon,
   SurveyIcon,
+  ServicesIcon,
 } from 'components/svg';
 import { TSidebarItem } from 'components/custom/sidebar/types';
 
@@ -31,12 +32,12 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['ADMIN'],
     items: [
       {
-        id: 13,
+        id: 14,
         label: 'Influencers',
         location: '/discover/influencers',
       },
       {
-        id: 14,
+        id: 15,
         label: 'Clients',
         location: '/discover/clients',
       },
@@ -50,17 +51,17 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['ADMIN'],
     items: [
       {
-        id: 15,
+        id: 16,
         label: 'Influencers',
         location: '/users/influencers',
       },
       {
-        id: 16,
+        id: 17,
         label: 'Clients',
         location: '/users/clients',
       },
       {
-        id: 17,
+        id: 18,
         label: 'Ambassadors',
         location: '/users/ambassadors',
       },
@@ -72,7 +73,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <CampaignsIcon />,
     label: 'Campaigns',
     location: '/campaigns',
-    roles: ['ADMIN', 'INFLUENCER', 'CLIENT'],
+    roles: ['INFLUENCER', 'CLIENT'],
   },
   {
     id: 5,
@@ -80,7 +81,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <ReportsIcon />,
     label: 'Reports',
     location: '/reports',
-    roles: ['ADMIN', 'CLIENT'],
+    roles: ['CLIENT'],
   },
   {
     id: 6,
@@ -88,7 +89,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <SMLIcon />,
     label: 'SML',
     location: '/sml',
-    roles: ['ADMIN', 'CLIENT'],
+    roles: ['CLIENT'],
   },
   {
     id: 7,
@@ -96,7 +97,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <SurveyIcon />,
     label: 'Surveys',
     location: '/surveys',
-    roles: ['ADMIN', 'INFLUENCER', 'CLIENT'],
+    roles: ['INFLUENCER', 'CLIENT'],
   },
   {
     id: 8,
@@ -108,6 +109,40 @@ export const DSidebarItems: Array<TSidebarItem> = [
   },
   {
     id: 9,
+    type: 'nested',
+    icon: <ServicesIcon />,
+    label: 'Services',
+    roles: ['ADMIN'],
+    items: [
+      {
+        id: 19,
+        label: 'Campaigns',
+        location: '/services/campaigns',
+      },
+      {
+        id: 20,
+        label: 'Reports',
+        location: '/services/reports',
+      },
+      {
+        id: 21,
+        label: 'SML',
+        location: '/services/sml',
+      },
+      {
+        id: 22,
+        label: 'Surveys',
+        location: '/services/surveys',
+      },
+      {
+        id: 23,
+        label: 'Benefits',
+        location: '/services/benefits',
+      },
+    ],
+  },
+  {
+    id: 10,
     type: 'route',
     icon: <SMLIcon />,
     label: 'Benefits',
@@ -116,7 +151,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
   },
 
   {
-    id: 10,
+    id: 11,
     type: 'route',
     icon: <FinanceIcon />,
     label: 'Finance',
@@ -124,7 +159,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['ADMIN'],
   },
   {
-    id: 11,
+    id: 12,
     type: 'route',
     icon: <HelpIcon />,
     label: 'Help',
@@ -132,7 +167,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['INFLUENCER', 'CLIENT', 'AMBASADOR'],
   },
   {
-    id: 12,
+    id: 13,
     type: 'route',
     icon: <AccountIcon />,
     label: 'Account',
