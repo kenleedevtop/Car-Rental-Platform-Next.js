@@ -51,6 +51,13 @@ const Login = () => {
     affiliateLink: '',
   });
 
+  const [attemptCount, setAttemptcount] = useState(0);
+
+  const handleCount = () => {
+    setAttemptcount((prev) => prev + 1);
+  };
+  console.log(attemptCount);
+
   const { query, push } = useRouter();
   const { push: pushSnackbar } = useSnackbar();
 
@@ -69,6 +76,7 @@ const Login = () => {
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
         if (e.response.data.status === 'CREATED') {
+          setAttemptcount(e.response.data.attempt);
           openCrModal();
           return;
         }
@@ -152,7 +160,12 @@ const Login = () => {
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
       {cscModal && <ComingSoonCompany onClose={closeCscModal} />}
       {crModal && (
-        <ConfirmRegistrationModal email={state.email} onClose={closeCrModal} />
+        <ConfirmRegistrationModal
+          incrementAttempt={handleCount}
+          attempt={attemptCount}
+          email={state.email}
+          onClose={closeCrModal}
+        />
       )}
       {csiModal && (
         <ComingSoonInfluencer

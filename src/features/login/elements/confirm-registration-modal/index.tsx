@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'components/custom';
 import { TConfirmRegistrationModalProps } from 'features/login/elements/confirm-registration-modal/types';
 import {
@@ -19,6 +19,8 @@ import { useRouter } from 'next/router';
 const ConfirmRegistrationModal = ({
   onClose,
   email,
+  attempt,
+  incrementAttempt,
   ...props
 }: TConfirmRegistrationModalProps) => {
   const { t } = useTranslation('login');
@@ -40,6 +42,14 @@ const ConfirmRegistrationModal = ({
     }
   };
 
+  useEffect(() => {
+    if (attempt > 1) {
+      setClicked(true);
+    } else {
+      setClicked(false);
+    }
+  }, [attempt]);
+
   const resentMessage = (
     <p>
       {t(
@@ -56,6 +66,7 @@ const ConfirmRegistrationModal = ({
         onClick={(e) => {
           e.preventDefault();
           resendVerification({ email });
+          incrementAttempt();
         }}
       >
         {t('resend the confirmation email to you.')}

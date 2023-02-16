@@ -8,6 +8,7 @@ import {
   TResetPasswordParams,
   TRegisterAsInfluencerParams,
   TRegisterAsCompanyParams,
+  TRegisterAsAmbassadorParams,
   TMeResponse,
   TLoginResponse,
   TResendVerificationEmail,
@@ -84,6 +85,21 @@ const AuthorizationAPI = {
   ) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/register/company`,
+      body,
+      {
+        headers: {
+          'Accept-Language': language,
+        },
+      }
+    );
+    return data;
+  },
+  registerAsAmbassador: async (
+    body: TRegisterAsAmbassadorParams,
+    language: string
+  ) => {
+    const { data } = await axios.post(
+      `${Project.apis.v1}/auth/register/ambassador`,
       body,
       {
         headers: {
