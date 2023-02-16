@@ -19,7 +19,7 @@ const PageLayout = ({ children, ...props }: TPageLayoutProps) => {
       setImage('/static/assets/images/login.jpg');
     } else if (pathname === '/register' && query.as === 'company') {
       setImage('/static/assets/images/register-company.jpg');
-    } else if (pathname === '/register' && query.as === 'ambassador') {
+    } else if (pathname === '/register' && query.as?.includes('ambassador')) {
       setImage('/static/assets/images/register-company.jpg');
     } else {
       setImage('/static/assets/images/register-influencer.jpg');

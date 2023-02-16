@@ -31,9 +31,9 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
 export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: grid;
-    place-items: center;
+    place-items: center flex-start;
     min-height: 100vh;
-
+    width: 100%;
     
     ${theme.breakpoints.down('md')} {
       padding: 12px 18px !important;
