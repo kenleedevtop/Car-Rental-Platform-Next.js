@@ -23,12 +23,11 @@ export type TMeResponse = {
 };
 
 export type TChangePasswordParams = {
-  email: string;
   oldPassword: string;
   newPassword: string;
 };
 
-export type TChangePasswordWithTokenParams = {
+export type TResetPasswordWithTokenParams = {
   token: string;
   newPassword: string;
 };
@@ -50,6 +49,17 @@ export type TRegisterAsInfluencerParams = {
 };
 
 export type TRegisterAsCompanyParams = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  company: {
+    name: string;
+    role: string;
+  };
+};
+
+export type TRegisterAsAmbassadorParams = {
   firstName: string;
   lastName: string;
   email: string;

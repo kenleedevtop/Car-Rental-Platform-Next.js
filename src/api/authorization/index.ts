@@ -3,11 +3,12 @@ import Project from 'constants/project';
 import {
   TLoginParams,
   TChangePasswordParams,
-  TChangePasswordWithTokenParams,
+  TResetPasswordWithTokenParams,
   TVerifyEmailParams,
   TResetPasswordParams,
   TRegisterAsInfluencerParams,
   TRegisterAsCompanyParams,
+  TRegisterAsAmbassadorParams,
   TMeResponse,
   TLoginResponse,
   TResendVerificationEmail,
@@ -29,9 +30,9 @@ const AuthorizationAPI = {
     );
     return data;
   },
-  changePasswordWithToken: async (body: TChangePasswordWithTokenParams) => {
+  resetPasswordWithToken: async (body: TResetPasswordWithTokenParams) => {
     const { data } = await axios.post(
-      `${Project.apis.v1}/auth/change-password-with-token`,
+      `${Project.apis.v1}/auth/reset-password-with-token`,
       body
     );
     return data;
@@ -43,10 +44,16 @@ const AuthorizationAPI = {
     );
     return data;
   },
-  resendVerificationEmail: async (body: TResendVerificationEmail) => {
+  resendVerificationEmail: async (
+    body: TResendVerificationEmail,
+    locale?: string
+  ) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/register/resend-verification-email`,
-      body
+      body,
+      {
+        headers: { 'Accept-Language': locale },
+      }
     );
     return data;
   },
@@ -78,6 +85,21 @@ const AuthorizationAPI = {
   ) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/register/company`,
+      body,
+      {
+        headers: {
+          'Accept-Language': language,
+        },
+      }
+    );
+    return data;
+  },
+  registerAsAmbassador: async (
+    body: TRegisterAsAmbassadorParams,
+    language: string
+  ) => {
+    const { data } = await axios.post(
+      `${Project.apis.v1}/auth/register/ambassador`,
       body,
       {
         headers: {

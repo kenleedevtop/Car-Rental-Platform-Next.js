@@ -36,6 +36,8 @@ const RegisterPage = () => {
     password: '',
   });
 
+  const [counter, setCounter] = useState(0);
+
   const router = useRouter();
 
   const { push } = useSnackbar();
@@ -57,6 +59,8 @@ const RegisterPage = () => {
 
   const [crModal, openCrModal, closeCrModal] = useModal(false);
 
+  const timeoutTime = 10000;
+
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
@@ -64,14 +68,21 @@ const RegisterPage = () => {
     !state.company.role ||
     !state.email ||
     !state.password ||
-    !!errors.find((x) => x);
+    !!errors.find((x) => x) ||
+    counter === 1;
 
   const handleRegister = async () => {
     try {
       await AuthorizationAPI.registerAsCompany(state, router.locale as string);
       openCrModal();
     } catch (e: any) {
+      let step = 0;
+      step += 1;
+      setCounter(step);
       push(e.response.data.message, { variant: 'error' });
+      setTimeout(() => {
+        setCounter(0);
+      }, timeoutTime);
     }
   };
 
@@ -266,7 +277,9 @@ const RegisterPage = () => {
         {t('SIGN UP NOW')}
       </Button>
       <RegisterLocalization />
-      {crModal && <ConfirmRegistrationModal onClose={handleClose} />}
+      {crModal && (
+        <ConfirmRegistrationModal email={state.email} onClose={handleClose} />
+      )}
     </RegisterCompanyMain>
   );
 };

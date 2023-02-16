@@ -44,7 +44,7 @@ const BenefitsPage = () => {
     <BenefitsPageMain>
       <BenefitsPageCharts columns={4}>
         <CardWithChart
-          title="Revenue"
+          title="Accessories"
           icon={<UserFocusIcon />}
           percent={2}
           count={23}
@@ -56,7 +56,7 @@ const BenefitsPage = () => {
           }}
         />
         <CardWithChart
-          title="Cost"
+          title="Apparel & Footwear"
           icon={<UserFocusIcon />}
           percent={2}
           count={23}
@@ -68,7 +68,7 @@ const BenefitsPage = () => {
           }}
         />
         <CardWithChart
-          title="Profit"
+          title="Beauty & Personal Care"
           icon={<UserFocusIcon />}
           percent={2}
           count={23}
@@ -80,7 +80,7 @@ const BenefitsPage = () => {
           }}
         />
         <CardWithChart
-          title="Margin"
+          title="Electronics"
           icon={<UserFocusIcon />}
           percent={2}
           count={23}
@@ -92,7 +92,7 @@ const BenefitsPage = () => {
           }}
         />
         <CardWithChart
-          title="Profit"
+          title="Food & Beverage"
           icon={<UserFocusIcon />}
           percent={2}
           count={23}
@@ -104,7 +104,79 @@ const BenefitsPage = () => {
           }}
         />
         <CardWithChart
-          title="Margin"
+          title="Furniture"
+          icon={<UserFocusIcon />}
+          percent={2}
+          count={23}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Health & Wellness"
+          icon={<UserFocusIcon />}
+          percent={2}
+          count={23}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Leasure"
+          icon={<UserFocusIcon />}
+          percent={2}
+          count={23}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Nutrition"
+          icon={<UserFocusIcon />}
+          percent={2}
+          count={23}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Pet Care"
+          icon={<UserFocusIcon />}
+          percent={2}
+          count={23}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Services"
+          icon={<UserFocusIcon />}
+          percent={2}
+          count={23}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Travel"
           icon={<UserFocusIcon />}
           percent={2}
           count={23}

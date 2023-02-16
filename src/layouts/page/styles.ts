@@ -1,11 +1,12 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 
-export const PageLayoutMain = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
+export const PageLayoutMain = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    width: 100%;
+    height: 100%;
+  `}
 `;
 
 export const PageLayoutContent = styled.div<{ theme?: Theme }>`
@@ -13,14 +14,16 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: stretch;
+    justify-content: stretch;
     
     ${theme.breakpoints.down('md')} {
       display: grid;
       grid-template-columns: auto;
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: 1fr auto;
       gap: 100px;
+      align-items: center;
+      justify-content: unset;
     }   
   `}
 `;
@@ -28,31 +31,32 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
 export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: grid;
-    place-items: center;
-    height: 100%;
+    place-items: center flex-start;
+    min-height: 100vh;
+    width: 100%;
+    
     ${theme.breakpoints.down('md')} {
       padding: 12px 18px !important;
+      min-height: unset;
+      height: 100%;
     }
     ${theme.breakpoints.up('md')} {
-      padding: 24px 2.5% 0;
+      padding: 150px 2.5% 150px;
     }
     ${theme.breakpoints.up('lg')} {
-      padding: 24px 7.5% 0;
+      padding: 150px 7.5% 150px;
     }
     ${theme.breakpoints.up('xl')} {
-      padding: 24px 7.5% 0 12.5%; 
+      padding: 150px 7.5% 150px 12.5%; 
     }
     `}
 `;
 
 export const PageLayoutRight = styled.img<{ theme?: Theme }>`
   ${({ theme }) => `
-      width: min(50%, 900px);
-      height: 100%;
-      background-size: cover;
-      background-position: top center;
+      width: min(45%, 900px);
+      min-height: 100vh; 
       object-fit: cover;
-
 
       ${theme.breakpoints.down('md')} {
         width: 100%;

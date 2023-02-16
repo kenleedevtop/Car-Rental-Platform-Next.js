@@ -20,7 +20,6 @@ import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
 import { useTranslation } from 'next-i18next';
 import { TLoginParams } from 'api/authorization/types';
-import FakeAsync from 'utilities/fake-async';
 import { TLoginValidatingState } from 'features/login/types';
 import { AuthorizationAPI } from 'api';
 import { AxiosError } from 'axios';
@@ -52,6 +51,13 @@ const Login = () => {
     affiliateLink: '',
   });
 
+  const [attemptCount, setAttemptcount] = useState(0);
+
+  const handleCount = () => {
+    setAttemptcount((prev) => prev + 1);
+  };
+  console.log(attemptCount);
+
   const { query, push } = useRouter();
   const { push: pushSnackbar } = useSnackbar();
 
@@ -70,10 +76,11 @@ const Login = () => {
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
         if (e.response.data.status === 'CREATED') {
+          setAttemptcount(e.response.data.attempt);
           openCrModal();
           return;
         }
-        pushSnackbar(`${e.response.data.message} 🤡`, {
+        pushSnackbar(`${e.response.data.message}`, {
           variant: 'error',
         });
       }
@@ -153,7 +160,12 @@ const Login = () => {
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
       {cscModal && <ComingSoonCompany onClose={closeCscModal} />}
       {crModal && (
-        <ConfirmRegistrationModal email={state.email} onClose={closeCrModal} />
+        <ConfirmRegistrationModal
+          incrementAttempt={handleCount}
+          attempt={attemptCount}
+          email={state.email}
+          onClose={closeCrModal}
+        />
       )}
       {csiModal && (
         <ComingSoonInfluencer

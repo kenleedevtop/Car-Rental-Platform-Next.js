@@ -81,3 +81,10 @@ export const SConfirmRegistrationModalActions = styled(Stack)<{
 export const SConfirmRegistrationModalAction = styled(Link)`
   text-decoration: none;
 `;
+
+export const SConfirmRegistrationModalLink = styled.span<{ theme?: Theme }>`
+  ${({ theme }) => `
+  color: ${theme.palette.secondary.main};
+  cursor: pointer;
+  `}
+`;
