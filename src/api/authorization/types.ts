@@ -59,6 +59,17 @@ export type TRegisterAsCompanyParams = {
   };
 };
 
+export type TRegisterAsAmbassadorParams = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  company: {
+    name: string;
+    role: string;
+  };
+};
+
 export type TResendVerificationEmail = {
   email: string;
 };
