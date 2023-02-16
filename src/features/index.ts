@@ -76,7 +76,11 @@ export { default as SearchPage } from 'features/search';
 export { default as LoginPage } from 'features/login';
 
 // Registration
-export { RegisterCompanyPage, RegisterInfluencerPage } from 'features/register';
+export {
+  RegisterCompanyPage,
+  RegisterInfluencerPage,
+  RegisterAmbassadorPage,
+} from 'features/register';
 
 // Create Surveys
 export { default as CreateSurveyPage } from 'features/create-survey';

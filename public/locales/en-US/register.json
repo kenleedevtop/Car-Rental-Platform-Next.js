@@ -2,6 +2,7 @@
   "Sign Up": "Sign Up",
   "Sign Up as Influencer": "Sign Up as Influencer",
   "Sign Up as Company": "Sign Up as Company",
+  "Sign Up as Ambassador": "Sign Up as Ambassador",
   "Turn your voice into a force for positive change by signing up as a patient influencer below.": "Turn your voice into a force for positive change by signing up as a patient influencer below.",
   "Reach the most relevant market possible by connecting with influencers who have pre-established trust with your target audience.": "Reach the most relevant market possible by connecting with influencers who have pre-established trust with your target audience.",
   "First Name": "First Name",
@@ -18,7 +19,10 @@
   "Please Enter your Role": "Please Enter your Role",
   "SIGN UP NOW": "SIGN UP NOW",
   "Please Confirm Your Email": "Please Confirm Your Email",
-  "We've sent a confirmation link to your email address.": "We've sent a confirmation link to your email address.",
+  "We've sent a confirmation link to your email address. Please click on the link to complete your registration. If the email is not in your inbox, kindly check your spam folder. If you still can't find it, we'd be happy to": "We've sent a confirmation link to your email address. Please click on the link to complete your registration. If the email is not in your inbox, kindly check your spam folder. If you still can't find it, we'd be happy to",
+  "resend the confirmation email to you.": "resend the confirmation email to you.",
+  "A confirmation email has been resent to the email address you provided. If you still don't receive it within a few minutes, please reach out to us at support@patientsinfluence.com and we'll assist you as soon as possible.": "A confirmation email has been resent to the email address you provided. If you still don't receive it within a few minutes, please reach out to us at support@patientsinfluence.com and we'll assist you as soon as possible.",
   "Please click on the link to complete your registration.": "Please click on the link to complete your registration.",
-  "CLOSE": "CLOSE"
+  "CLOSE": "CLOSE",
+  "Lead the revolution to empower patients and transform healthcare for the better by leveraging your expertise and network with us.": "Lead the revolution to empower patients and transform healthcare for the better by leveraging your expertise and network with us."
 }

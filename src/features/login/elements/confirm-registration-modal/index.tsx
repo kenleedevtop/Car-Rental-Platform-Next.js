@@ -1,34 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'components/custom';
-import { TConfirmRegistrationModalProps } from 'features/register/elements/confirm-registration-modal/types';
+import { TConfirmRegistrationModalProps } from 'features/login/elements/confirm-registration-modal/types';
 import {
   SConfirmRegistrationModalMain,
   SConfirmRegistrationModalTitle,
   SConfirmRegistrationModalText,
   SConfirmRegistrationModalActions,
   SConfirmRegistrationModalLink,
-} from 'features/register/elements/confirm-registration-modal/styles';
+} from 'features/login/elements/confirm-registration-modal/styles';
 import { Button } from 'components/ui';
 import { useTranslation } from 'react-i18next';
 import { AuthorizationAPI } from 'api';
 import { TResendVerificationEmail } from 'api/authorization/types';
-import { useSnackbar } from 'hooks';
 import { AxiosError } from 'axios';
+import { useSnackbar } from 'hooks';
 import { useRouter } from 'next/router';
 
 const ConfirmRegistrationModal = ({
   onClose,
   email,
+  attempt,
+  incrementAttempt,
   ...props
 }: TConfirmRegistrationModalProps) => {
-  const { t } = useTranslation('register');
-
-  const [clicked, setClicked] = useState(false);
+  const { t } = useTranslation('login');
   const { locale } = useRouter();
   const { push } = useSnackbar();
 
+  const [clicked, setClicked] = useState(false);
+
   const resendVerification = async (body: TResendVerificationEmail) => {
-    setClicked(true);
     try {
       await AuthorizationAPI.resendVerificationEmail(body, locale);
     } catch (e) {
@@ -36,9 +37,18 @@ const ConfirmRegistrationModal = ({
         push(e.response.data.message, {
           variant: 'error',
         });
+        setClicked(true);
       }
     }
   };
+
+  useEffect(() => {
+    if (attempt > 1) {
+      setClicked(true);
+    } else {
+      setClicked(false);
+    }
+  }, [attempt]);
 
   const resentMessage = (
     <p>
@@ -50,12 +60,13 @@ const ConfirmRegistrationModal = ({
   const initialMessage = (
     <p>
       {t(
-        "We've sent a confirmation link to your email address. Please click on the link to complete your registration. If the email is not in your inbox, kindly check your spam folder. If you still can't find it, we'd be happy to"
-      )}{' '}
+        "Please confirm your email by clicking on the link sent to you. Only after confirmation, you will be able to log in to your account. If the email is not in your inbox, kindly check your spam folder. If you still can't find it, we'd be happy to"
+      )}
       <SConfirmRegistrationModalLink
         onClick={(e) => {
           e.preventDefault();
           resendVerification({ email });
+          incrementAttempt();
         }}
       >
         {t('resend the confirmation email to you.')}
@@ -67,7 +78,7 @@ const ConfirmRegistrationModal = ({
     <Modal size="medium" onClose={onClose} {...props}>
       <SConfirmRegistrationModalMain columns={1}>
         <SConfirmRegistrationModalTitle>
-          {t('Please Confirm Your Email')}
+          {t('Email Confirmation Required')}
         </SConfirmRegistrationModalTitle>
         <SConfirmRegistrationModalText>
           {clicked ? resentMessage : initialMessage}
