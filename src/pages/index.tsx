@@ -22,7 +22,7 @@ const Home = () => {
       {role === 'ADMIN' && <AdminHomePage />}
       {role === 'CLIENT' && <ClientHomePage />}
       {role === 'INFLUENCER' && <InfluencerHomePage />}
-      {role === 'AMBASADOR' && <AmbasadorHomePage />}
+      {role === 'AMBASSADOR' && <AmbasadorHomePage />}
     </>
   );
 };

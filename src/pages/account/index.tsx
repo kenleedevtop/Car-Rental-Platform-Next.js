@@ -19,7 +19,7 @@ const Account = () => {
     <>
       <Title>Account</Title>
       {role === 'CLIENT' && <ClientAccountPage />}
-      {role === 'AMBASADOR' && <AmbasadorAccountPage />}
+      {role === 'AMBASSADOR' && <AmbasadorAccountPage />}
       {role === 'INFLUENCER' && <InfluencerAccountPage />}
     </>
   );
