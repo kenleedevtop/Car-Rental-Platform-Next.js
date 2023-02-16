@@ -31,7 +31,7 @@ const ConfirmRegistrationModal = ({
           size="large"
           onClick={onClose}
         >
-          {t('Close')}
+          {t('CLOSE')}
         </Button>
       </MaintenanceMain>
     </Modal>
