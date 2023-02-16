@@ -9,6 +9,7 @@ import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { BarChart, BubbleChart, PieChart } from 'components/csr';
 import Theme from 'theme';
+import { InputLabel } from 'components/ui/input/styles';
 
 const InfluencerProfile = ({
   onClose,
@@ -55,7 +56,7 @@ const InfluencerProfile = ({
           size="large"
           onClick={onClose}
         >
-          Create
+          Close
         </Button>,
       ]}
       onClose={onClose}
@@ -158,74 +159,94 @@ const InfluencerProfile = ({
 
         {tab === 1 && (
           <InfluencerProfileModalMain columns={1}>
-            <PieChart
-              labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
-              data={[21, 52, 23, 14]}
-            />
-            <div style={{ width: '100%', height: 400 }}>
-              <BubbleChart
-                labels={[
-                  '0-5',
-                  '6-10',
-                  '11-15',
-                  '16-20',
-                  '21-25',
-                  '26-30',
-                  '31-35',
-                  '36-40',
-                  '41-45',
-                  '46-50',
-                ]}
-                data={[
-                  {
-                    color: `${Theme.palette.primary.main}`,
-                    values: [
-                      { x: 1, y: 1, r: 20 },
-                      { x: 2, y: 2, r: 5 },
-                      { x: 3, y: 3, r: 50 },
-                    ],
-                  },
-                  {
-                    color: `${Theme.palette.secondary.main}`,
-                    values: [
-                      { x: 3, y: 1, r: 1 },
-                      { x: 4, y: 2, r: 2 },
-                      { x: 5, y: 3, r: 8 },
-                    ],
-                  },
-                ]}
-                verticalLabel="Number of Influencers"
-                horizontalLabel="Amount Per Post"
-              />
-            </div>
-            <div style={{ width: '100%', height: 400 }}>
-              <BarChart
-                labels={[
-                  '0-5',
-                  '6-10',
-                  '11-15',
-                  '16-20',
-                  '21-25',
-                  '26-30',
-                  '31-35',
-                  '36-40',
-                  '41-45',
-                  '46-50',
-                ]}
-                data={[
-                  {
-                    color: `${Theme.palette.primary.main}`,
-                    values: [2, 6, 2, 13, 22, 5, 18, 5, 2, 7],
-                  },
-                  {
-                    color: `${Theme.palette.secondary.main}`,
-                    values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
-                  },
-                ]}
-                verticalLabel="Number of Influencers"
-                horizontalLabel="Amount Per Post"
-              />
-            </div>
+            <Stack direction="horizontal">
+              <Stack>
+                <InputLabel>Age & Gender</InputLabel>
+                <div style={{ width: '100%', height: 400 }}>
+                  <BarChart
+                    labels={[
+                      '0-5',
+                      '6-10',
+                      '11-15',
+                      '16-20',
+                      '21-25',
+                      '26-30',
+                      '31-35',
+                      '36-40',
+                      '41-45',
+                      '46-50',
+                    ]}
+                    data={[
+                      {
+                        color: `${Theme.palette.primary.main}`,
+                        values: [2, 6, 2, 13, 22, 5, 18, 5, 2, 7],
+                      },
+                      {
+                        color: `${Theme.palette.secondary.main}`,
+                        values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                      },
+                    ]}
+                    verticalLabel="% of followers"
+                    horizontalLabel="Age range"
+                  />
+                </div>
+              </Stack>
+              <Stack>
+                <InputLabel>Audience</InputLabel>
+                <PieChart
+                  labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
+                  data={[21, 52, 23, 14]}
+                />
+              </Stack>
+            </Stack>
+            <Stack direction="horizontal">
+              <Stack>
+                <InputLabel>Location</InputLabel>
+                <div style={{ width: '100%', height: 400 }}>
+                  <BarChart
+                    labels={['US', 'DE', 'CH', 'UK', 'IT', 'DE', 'CRO']}
+                    data={[
+                      {
+                        color: `${Theme.palette.primary.main}`,
+                        values: [28, 22, 18, 14, 12, 10, 8, 6, 4, 2],
+                      },
+                    ]}
+                    verticalLabel="% of followers"
+                  />
+                </div>
+              </Stack>
+              <Stack>
+                <InputLabel>City</InputLabel>
+                <div style={{ width: '100%', height: 400 }}>
+                  <BarChart
+                    labels={['US', 'DE', 'CH', 'UK', 'IT', 'DE', 'CRO']}
+                    data={[
+                      {
+                        color: `${Theme.palette.primary.main}`,
+                        values: [28, 22, 18, 14, 12, 10, 8, 6, 4, 2],
+                      },
+                    ]}
+                    verticalLabel="% of followers"
+                  />
+                </div>
+              </Stack>
+            </Stack>
+            <Stack direction="horizontal">
+              <Stack>
+                <InputLabel>Language</InputLabel>
+                <PieChart
+                  labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
+                  data={[21, 52, 23, 14]}
+                />
+              </Stack>
+              <Stack>
+                <InputLabel>Ethnicity</InputLabel>
+                <PieChart
+                  labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
+                  data={[21, 52, 23, 14]}
+                />
+              </Stack>
+            </Stack>
           </InfluencerProfileModalMain>
         )}
         {tab === 2 && (

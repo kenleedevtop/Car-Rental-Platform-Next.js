@@ -4,27 +4,63 @@ import {
   BenefitsPageCharts,
   BenefitsPageFilter,
   BenefitsPageFilterActions,
-} from 'features/benefits/role/influencer/styles';
+} from 'features/benefits/role/admin/styles';
 import {
   DFinanceHead,
   DFinanceHead2,
   DGenerateFinanceFilter,
-} from 'features/benefits/role/influencer/data';
-import { CardWithChart, CardWithText, Table } from 'components/custom';
-import { SlidersHorizontalIcon, UserFocusIcon } from 'components/svg';
+} from 'features/benefits/role/admin/data';
+import {
+  CardWithChart,
+  CardWithText,
+  Menu,
+  Table,
+  Tabs,
+} from 'components/custom';
+import {
+  ApproveIcon,
+  DeleteIcon,
+  InfoIcon,
+  ScheduleIcon,
+  SlidersHorizontalIcon,
+  UserFocusIcon,
+} from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 import {
-  AddSuggestionModal,
+  AddBenefitModal,
+  SuggestionInfoModal,
   ExportBenefitsModal,
-} from 'features/benefits/role/influencer/elements';
+  ConfirmChangeBenefitModal,
+  ConfirmAddBenefitModal,
+  ConfirmRemoveBenefitModal,
+  ConfirmRemoveSuggestionModal,
+  ConfirmUpdateSuggestionModal,
+} from 'features/benefits/role/admin/elements';
 
 const BenefitsPage = () => {
-  const [asModal, openAsModal, closeAsModal] = useModal(false);
+  const [abModal, openAbModal, closeAbModal] = useModal(false);
+  const [siModal, openSiModal, closeSiModal] = useModal(false);
   const [ebModal, openEbModal, closeEbModal] = useModal(false);
+  const [cabModal, openCabModal, closeCabModal] = useModal(false);
+  const [ccbModal, openCcbModal, closeCcbModal] = useModal(false);
+  const [crbModal, openCrbModal, closeCrbModal] = useModal(false);
+  const [crsModal, openCrsModal, closeCrsModal] = useModal(false);
+  const [cusModal, openCusModal, closeCusModal] = useModal(false);
+
+  const [menuTba, openTba, setOpenTba] = useMenu(false);
+  const [menuS, openS, setOpenS] = useMenu(false);
+
+  const handleMenuTba = () => {
+    setOpenTba(!openTba);
+  };
+
+  const handleMenuS = () => {
+    setOpenS(!openS);
+  };
 
   const [filter, setFilter] = useState<any>(DGenerateFinanceFilter());
 
@@ -39,6 +75,8 @@ const BenefitsPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const [tabs, setTabs] = useState(0);
 
   return (
     <BenefitsPageMain>
@@ -203,6 +241,9 @@ const BenefitsPage = () => {
           <Button color="default" variant="contained" onClick={openEbModal}>
             Export
           </Button>,
+          <Button color="primary" variant="contained" onClick={openAbModal}>
+            Add Benefit
+          </Button>,
         ]}
       >
         <Stack>
@@ -252,18 +293,109 @@ const BenefitsPage = () => {
       <CardWithText
         title="Suggestions"
         actions={[
-          <Button color="primary" variant="contained" onClick={openAsModal}>
+          <Button color="primary" variant="contained" onClick={() => {}}>
             Suggest
           </Button>,
         ]}
       >
         <Stack>
+          <Tabs
+            value={tabs}
+            onValue={setTabs}
+            tabs={['Active', 'To Be Approved']}
+          />
           <Table head={DFinanceHead2} items={[]} renderItem={renderItem} />
           <Pagination count={32} />
+          <Stack direction="horizontal">
+            <Button color="primary" variant="contained" onClick={openAbModal}>
+              Add benefit
+            </Button>
+            <Button color="primary" variant="contained" onClick={openSiModal}>
+              Suggestion info
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCcbModal}>
+              Confirm Change Benefit
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCabModal}>
+              Confirm Add Benefit
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCrbModal}>
+              Confirm Remove Benefit
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCrsModal}>
+              Confirm Remove Suggestion
+            </Button>
+            <Button color="primary" variant="contained" onClick={openCusModal}>
+              Confirm Update Suggestion
+            </Button>
+          </Stack>
+          <Stack direction="horizontal">
+            <Button color="primary" variant="contained" onClick={handleMenuTba}>
+              TBA actions
+            </Button>
+            <Button color="primary" variant="contained" onClick={handleMenuS}>
+              Suggestion actions
+            </Button>
+          </Stack>
         </Stack>
+        {openTba && (
+          <Menu
+            items={[
+              {
+                icon: <ApproveIcon />,
+                label: 'Approve',
+                action: () => {},
+              },
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuTba}
+          />
+        )}
+        {openS && (
+          <Menu
+            items={[
+              {
+                icon: <InfoIcon />,
+                label: 'Update',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+              {
+                icon: <DeleteIcon />,
+                label: 'Remove',
+                action: () => {},
+              },
+            ]}
+            ref={menuS}
+          />
+        )}
       </CardWithText>
-      {asModal && <AddSuggestionModal onClose={closeAsModal} />}
+      {abModal && <AddBenefitModal onClose={closeAbModal} />}
+      {siModal && <SuggestionInfoModal onClose={closeSiModal} />}
       {ebModal && <ExportBenefitsModal onClose={closeEbModal} />}
+      {cabModal && <ConfirmAddBenefitModal onClose={closeCabModal} />}
+      {ccbModal && <ConfirmChangeBenefitModal onClose={closeCcbModal} />}
+      {crbModal && <ConfirmRemoveBenefitModal onClose={closeCrbModal} />}
+      {crsModal && <ConfirmRemoveSuggestionModal onClose={closeCrsModal} />}
+      {cusModal && <ConfirmUpdateSuggestionModal onClose={closeCusModal} />}
     </BenefitsPageMain>
   );
 };

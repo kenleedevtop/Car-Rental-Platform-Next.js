@@ -67,7 +67,7 @@ export const SConfirmRegistrationModalActions = styled(Stack)<{
       width: 100%;
     }
   }
-
+  
   ${theme.breakpoints.down('md')} {
     button {
       font-size: 16px;

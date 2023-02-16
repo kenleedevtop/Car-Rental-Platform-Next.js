@@ -3,6 +3,8 @@ import { Grid } from 'components/system';
 
 export const InfluencerProfileModalMain = styled(Grid)`
   width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 export const InfluencerProfileChartContainer = styled.div`

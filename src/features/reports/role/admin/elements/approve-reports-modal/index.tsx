@@ -31,7 +31,7 @@ const ExportReportsModal = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={() => router.push('reports/finished')}
+          onClick={() => router.push('/services/reports/finished')}
         >
           Yes
         </Button>,
