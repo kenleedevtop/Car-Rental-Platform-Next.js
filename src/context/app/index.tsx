@@ -50,9 +50,9 @@ const AppContextProvider = ({ ...props }) => {
     }
   };
 
-  const login = async (body: TLoginParams) => {
+  const login = async (body: TLoginParams, locale?: string) => {
     const { token, attempt, role, affiliateLink } =
-      await AuthorizationAPI.login(body);
+      await AuthorizationAPI.login(body, locale);
     return { role, affiliateLink, attempt };
   };
 

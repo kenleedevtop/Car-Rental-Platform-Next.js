@@ -19,8 +19,10 @@ const AuthorizationAPI = {
     const { data } = await axios.get(`${Project.apis.v1}/auth/me`);
     return data as TMeResponse;
   },
-  login: async (body: TLoginParams) => {
-    const { data } = await axios.post(`${Project.apis.v1}/auth/login`, body);
+  login: async (body: TLoginParams, locale?: string) => {
+    const { data } = await axios.post(`${Project.apis.v1}/auth/login`, body, {
+      headers: { 'Accept-Language': locale },
+    });
     return data as TLoginResponse;
   },
   changePassword: async (body: TChangePasswordParams) => {
