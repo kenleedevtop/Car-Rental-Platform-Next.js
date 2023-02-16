@@ -10,6 +10,6 @@ export type TAppContextState = {
 
 export type TAppContext = TAppContextState & {
   setRouteName: (name: string) => void;
-  login: (body: TLoginParams) => Promise<any>;
+  login: (body: TLoginParams, locale?: string) => Promise<any>;
   logout: () => void;
 };
