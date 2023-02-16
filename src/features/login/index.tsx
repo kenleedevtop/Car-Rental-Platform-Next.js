@@ -56,9 +56,8 @@ const Login = () => {
   const handleCount = () => {
     setAttemptcount((prev) => prev + 1);
   };
-  console.log(attemptCount);
 
-  const { query, push } = useRouter();
+  const { query, push, locale } = useRouter();
   const { push: pushSnackbar } = useSnackbar();
 
   const { login } = useAppContext();
@@ -103,7 +102,10 @@ const Login = () => {
           const id = query.id as string;
           setValidatingState((x) => ({ ...x, loading: true }));
           openWlModal();
-          const { role } = await AuthorizationAPI.verifyEmail({ token, id });
+          const { role } = await AuthorizationAPI.verifyEmail(
+            { token, id },
+            locale
+          );
           setValidatingState((x) => ({
             ...x,
             role,

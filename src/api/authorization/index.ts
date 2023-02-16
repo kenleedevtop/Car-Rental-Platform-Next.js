@@ -30,17 +30,26 @@ const AuthorizationAPI = {
     );
     return data;
   },
-  resetPasswordWithToken: async (body: TResetPasswordWithTokenParams) => {
+  resetPasswordWithToken: async (
+    body: TResetPasswordWithTokenParams,
+    locale?: string
+  ) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/reset-password-with-token`,
-      body
+      body,
+      {
+        headers: { 'Accept-Language': locale },
+      }
     );
     return data;
   },
-  verifyEmail: async (body: TVerifyEmailParams) => {
+  verifyEmail: async (body: TVerifyEmailParams, locale?: string) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/register/verify-email`,
-      body
+      body,
+      {
+        headers: { 'Accept-Language': locale },
+      }
     );
     return data;
   },
@@ -57,10 +66,13 @@ const AuthorizationAPI = {
     );
     return data;
   },
-  resetPassword: async (body: TResetPasswordParams) => {
+  resetPassword: async (body: TResetPasswordParams, locale?: string) => {
     const { data } = await axios.post(
       `${Project.apis.v1}/auth/reset-password`,
-      body
+      body,
+      {
+        headers: { 'Accept-Language': locale },
+      }
     );
     return data;
   },

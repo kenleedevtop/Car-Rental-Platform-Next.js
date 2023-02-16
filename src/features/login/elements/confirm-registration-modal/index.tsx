@@ -42,8 +42,6 @@ const ConfirmRegistrationModal = ({
     }
   };
 
-  // comment
-
   useEffect(() => {
     if (attempt > 1) {
       setClicked(true);

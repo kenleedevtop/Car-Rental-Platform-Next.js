@@ -86,5 +86,6 @@ export const SConfirmRegistrationModalLink = styled.span<{ theme?: Theme }>`
   ${({ theme }) => `
   color: ${theme.palette.secondary.main};
   cursor: pointer;
+  margin-left: 5px;
   `}
 `;

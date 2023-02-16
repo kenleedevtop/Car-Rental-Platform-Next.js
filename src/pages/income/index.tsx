@@ -15,7 +15,7 @@ const Income = () => {
     <>
       <Title>Income</Title>
       {role === 'INFLUENCER' && <InfluencerIncomePage />}
-      {role === 'AMBASADOR' && <AmbasadorIncomePage />}
+      {role === 'AMBASSADOR' && <AmbasadorIncomePage />}
     </>
   );
 };

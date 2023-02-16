@@ -19,7 +19,7 @@ const Help = () => {
     <>
       <Title>Help</Title>
       {role === 'CLIENT' && <ClientHelpPage />}
-      {role === 'AMBASADOR' && <AmbasadorHelpPage />}
+      {role === 'AMBASSADOR' && <AmbasadorHelpPage />}
       {role === 'INFLUENCER' && <InfluencerHelpPage />}
     </>
   );
