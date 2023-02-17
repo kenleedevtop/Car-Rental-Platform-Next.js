@@ -5,14 +5,9 @@ import {
   DiscoverInfluencersPageFilter,
   DiscoverInfluencersPageFilterActions,
 } from 'features/discover-influencers/styles';
-import { CardWithChart, CardWithText, Menu, Tabs } from 'components/custom';
+import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
-  ApproveIcon,
-  ContactIcon,
-  DeleteIcon,
-  EditIcon,
   InstagramIcon,
-  ScheduleIcon,
   SlidersHorizontalIcon,
   TiktokIcon,
   TwitterIcon,
@@ -21,18 +16,27 @@ import { faker } from '@faker-js/faker';
 import { Button, Input } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateDiscoverInfluencersFilter } from 'features/discover-influencers/data';
+import {
+  DGenerateDiscoverInfluencersFilter,
+  DInfluencerHead,
+  DInfluencerHead2,
+  DInfluencerHead3,
+  DInfluencerHead4,
+} from 'features/discover-influencers/data';
 import {
   AddInfluencerModal,
   ContactInfluencerModal,
   DeleteInfluencerModal,
+  DiscoverActions,
   ExportInfluencersModal,
   InfluencerProfile,
   NoteInfluencer,
   NotificationsSettingsModal,
   ScheduleInfluencerModal,
+  ToBeApprovedActions,
 } from 'features/discover-influencers/role/admin/elements';
 import { useMenu, useModal } from 'hooks';
+import { TTableRenderItemObject } from 'components/custom/table/types';
 
 const DiscoverInfluencersPage = () => {
   // Modals
@@ -61,16 +65,7 @@ const DiscoverInfluencersPage = () => {
     setFilter(DGenerateDiscoverInfluencersFilter());
   };
 
-  const [tbaMenu, openTBA, setOpenTBA] = useMenu(false);
-  const [DIMenu, openDI, setOpenDI] = useMenu(false);
-
-  const handleTBAMenu = () => {
-    setOpenTBA(!openTBA);
-  };
-
-  const handleDIMenu = () => {
-    setOpenDI(!openDI);
-  };
+  const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   return (
     <DiscoverInfluencersPageMain>
@@ -211,6 +206,19 @@ const DiscoverInfluencersPage = () => {
             onValue={setTabs}
             tabs={['Identified', 'Contacted', 'Registered', 'To Be Approved']}
           />
+          {tabs === 0 && (
+            <Table head={DInfluencerHead} items={[]} renderItem={renderItem} />
+          )}
+          {tabs === 1 && (
+            <Table head={DInfluencerHead2} items={[]} renderItem={renderItem} />
+          )}
+          {tabs === 2 && (
+            <Table head={DInfluencerHead3} items={[]} renderItem={renderItem} />
+          )}
+          {tabs === 3 && (
+            <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
+          )}
+
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
               Delete Influencer
@@ -230,72 +238,11 @@ const DiscoverInfluencersPage = () => {
             <Button color="primary" variant="contained" onClick={openNiModal}>
               Note Influencer
             </Button>
-            <Button color="primary" variant="contained" onClick={handleTBAMenu}>
-              TBA actions
-            </Button>
-            <Button color="primary" variant="contained" onClick={handleDIMenu}>
-              Discover Actions
-            </Button>
           </Stack>
-          {openTBA && (
-            <Menu
-              items={[
-                {
-                  icon: <ApproveIcon />,
-                  label: 'Approve',
-                  action: () => {},
-                },
-                {
-                  icon: <ContactIcon />,
-                  label: 'Contact',
-                  action: () => {},
-                },
-                {
-                  icon: <EditIcon />,
-                  label: 'Note',
-                  action: () => {},
-                },
-                {
-                  icon: <ScheduleIcon />,
-                  label: 'Schedule',
-                  action: () => {},
-                },
-                {
-                  icon: <DeleteIcon />,
-                  label: 'Remove',
-                  action: () => {},
-                },
-              ]}
-              ref={tbaMenu}
-            />
-          )}
-          {openDI && (
-            <Menu
-              items={[
-                {
-                  icon: <ContactIcon />,
-                  label: 'Contact',
-                  action: () => {},
-                },
-                {
-                  icon: <EditIcon />,
-                  label: 'Note',
-                  action: () => {},
-                },
-                {
-                  icon: <ScheduleIcon />,
-                  label: 'Schedule',
-                  action: () => {},
-                },
-                {
-                  icon: <DeleteIcon />,
-                  label: 'Remove',
-                  action: () => {},
-                },
-              ]}
-              ref={DIMenu}
-            />
-          )}
+          <Stack direction="horizontal">
+            <ToBeApprovedActions />
+            <DiscoverActions />
+          </Stack>
         </Stack>
       </CardWithText>
       {aiModal && <AddInfluencerModal onClose={closeAiModal} />}

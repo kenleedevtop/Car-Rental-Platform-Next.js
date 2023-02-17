@@ -6,3 +6,5 @@ export { default as ExportInfluencersModal } from 'features/discover-influencers
 export { default as NotificationsSettingsModal } from 'features/discover-influencers/role/admin/elements/notifications-settings-modal';
 export { default as InfluencerProfile } from 'features/discover-influencers/role/admin/elements/influencer-profile';
 export { default as NoteInfluencer } from 'features/discover-influencers/role/admin/elements/note-influencers-modal';
+export { default as ToBeApprovedActions } from 'features/discover-influencers/role/admin/elements/to-be-approved-actions';
+export { default as DiscoverActions } from 'features/discover-influencers/role/admin/elements/discover-actions';

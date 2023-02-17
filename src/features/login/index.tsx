@@ -64,14 +64,15 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const { role, affiliateLink } = await login(state, locale);
-      setLoginState({ role, affiliateLink });
-      if (role.includes('INFLUENCER')) {
-        openCsiModal();
-      } else {
-        openCscModal();
-      }
-      // push('/');
+      // const { role, affiliateLink } = await login(state, locale);
+      // setLoginState({ role, affiliateLink });
+      // if (role.includes('INFLUENCER')) {
+      //   openCsiModal();
+      // } else {
+      //   openCscModal();
+      // }
+      await login(state);
+      push('/');
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
         if (e.response.data.status === 'CREATED') {

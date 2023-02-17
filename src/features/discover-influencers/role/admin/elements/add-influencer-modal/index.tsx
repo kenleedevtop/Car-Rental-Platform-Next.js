@@ -10,9 +10,9 @@ const AddInfluencerModal = ({
 }: TAddInfluencerModalProps) => {
   const [state, setState] = useState({
     firstName: '',
-    lastName: '',
     email: '',
     username: '',
+    dateContacted: null,
     socialMedia: null,
     diseaseArea: null,
     location: null,
@@ -45,11 +45,11 @@ const AddInfluencerModal = ({
           onValue={(firstName) => setState({ ...state, firstName })}
         />
         <Input
-          type="text"
-          label="Last Name"
+          type="date"
+          label="Date Contacted"
           placeholder="Please Enter"
-          value={state.lastName}
-          onValue={(lastName) => setState({ ...state, lastName })}
+          value={state.dateContacted}
+          onValue={(dateContacted) => setState({ ...state, dateContacted })}
         />
         <Input
           type="text"
