@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TContactInfluencerModalProps } from 'features/discover-influencers/role/admin/elements/contact-influencer-modal/types';
 import { ContactInfluencerModalMain } from 'features/discover-influencers/role/admin/elements/contact-influencer-modal/styles';
@@ -12,6 +12,7 @@ const ContactInfluencerModal = ({
   const [state, setState] = useState({
     subject: '',
     recipient: [],
+    emailType: 'template',
     message: '',
     type: 0,
   });
@@ -33,7 +34,7 @@ const ContactInfluencerModal = ({
       onClose={onClose}
       {...props}
     >
-      <ContactInfluencerModalMain style={{ height: '500px' }}>
+      <ContactInfluencerModalMain style={{ height: '550px' }}>
         <Tabs
           tabs={DTabs}
           value={state.type}
@@ -56,14 +57,35 @@ const ContactInfluencerModal = ({
           onValue={(recipient) => setState({ ...state, recipient })}
         />
         <Input
-          multiline
-          rows={state.type ? 8 : 5}
-          type="text"
-          label="Message"
-          placeholder="Your Message"
-          value={state.message}
-          onValue={(message) => setState({ ...state, message })}
+          type="select"
+          label="Email type"
+          placeholder="Select Email type"
+          value={state.emailType}
+          onValue={(emailType) =>
+            setState({ ...state, emailType: emailType.value })
+          }
+          options={[
+            {
+              value: 'template',
+              label: 'Template',
+            },
+            {
+              value: 'custom',
+              label: 'Custom',
+            },
+          ]}
         />
+        {state.emailType === 'custom' && (
+          <Input
+            multiline
+            rows={state.type ? 8 : 5}
+            type="text"
+            label="Message"
+            placeholder="Your Message"
+            value={state.message}
+            onValue={(message) => setState({ ...state, message })}
+          />
+        )}
       </ContactInfluencerModalMain>
     </Modal>
   );
