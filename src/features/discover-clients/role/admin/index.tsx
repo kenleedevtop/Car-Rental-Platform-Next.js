@@ -5,7 +5,13 @@ import {
   DiscoverClientsPageFilter,
   DiscoverClientsPageFilterActions,
 } from 'features/discover-clients/styles';
-import { CardWithChart, CardWithText, Menu, Tabs } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  Menu,
+  Table,
+  Tabs,
+} from 'components/custom';
 import {
   ContactedIcon,
   ContactIcon,
@@ -131,6 +137,9 @@ const DiscoverClientsPage = () => {
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
+          <Button color="default" variant="contained" onClick={() => {}}>
+            Import
+          </Button>,
           <Button color="primary" variant="contained" onClick={openAiModal}>
             Add Client
           </Button>,
@@ -211,6 +220,10 @@ const DiscoverClientsPage = () => {
             onValue={setTabs}
             tabs={['Identified', 'Contacted', 'Registered', 'Scheduled']}
           />
+          {tabs === 0 && <Table head={[]} items={[]} renderItem={() => {}} />}
+          {tabs === 1 && <Table head={[]} items={[]} renderItem={() => {}} />}
+          {tabs === 2 && <Table head={[]} items={[]} renderItem={() => {}} />}
+          {tabs === 3 && <Table head={[]} items={[]} renderItem={() => {}} />}
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
               Delete Client

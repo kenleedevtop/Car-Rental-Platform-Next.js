@@ -11,6 +11,7 @@ const ContactClientsModal = ({
   const [state, setState] = useState({
     subject: '',
     recipient: [],
+    emailType: 'template',
     message: '',
     type: 0,
   });
@@ -48,14 +49,35 @@ const ContactClientsModal = ({
           onValue={(recipient) => setState({ ...state, recipient })}
         />
         <Input
-          multiline
-          rows={state.type ? 8 : 5}
-          type="text"
-          label="Message"
-          placeholder="Your Message"
-          value={state.message}
-          onValue={(message) => setState({ ...state, message })}
+          type="select"
+          label="Email type"
+          placeholder="Select Email type"
+          value={state.emailType}
+          onValue={(emailType) =>
+            setState({ ...state, emailType: emailType.value })
+          }
+          options={[
+            {
+              value: 'template',
+              label: 'Template',
+            },
+            {
+              value: 'custom',
+              label: 'Custom',
+            },
+          ]}
         />
+        {state.emailType === 'custom' && (
+          <Input
+            multiline
+            rows={state.type ? 8 : 5}
+            type="text"
+            label="Message"
+            placeholder="Your Message"
+            value={state.message}
+            onValue={(message) => setState({ ...state, message })}
+          />
+        )}
       </ContactClientsModalMain>
     </Modal>
   );

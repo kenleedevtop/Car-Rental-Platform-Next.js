@@ -1,16 +1,47 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'components/custom';
 import { TInviteAmbassadorsModalProps } from 'features/ambassadors/role/admin/elements/invite-ambassadors/types';
 import { InviteAmbassadorsModalMain } from 'features/ambassadors/role/admin/elements/invite-ambassadors/styles';
 import { Button, Input } from 'components/ui';
 import { IconButton } from '@mui/material';
 import { CopyIcon } from 'components/svg';
+import { AdminAPI } from 'api';
+import { useSnackbar } from 'hooks';
 
 const InviteAmbassadors = ({
   onClose,
   ...props
 }: TInviteAmbassadorsModalProps) => {
-  const [link, setLink] = useState('test');
+  const [inviteLink, setInviteLink] = useState('');
+  const { push } = useSnackbar();
+
+  const handleInviteLink = async () => {
+    try {
+      const { link } = await AdminAPI.createAmbassadorInviteLink();
+      setInviteLink(link);
+    } catch {
+      push('Something failed!', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(inviteLink);
+      push(`Successfully copied!`, {
+        variant: 'success',
+      });
+    } catch {
+      push('Something failed!', {
+        variant: 'error',
+      });
+    }
+  };
+
+  useEffect(() => {
+    handleInviteLink();
+  }, []);
 
   return (
     <Modal
@@ -33,18 +64,14 @@ const InviteAmbassadors = ({
         <Input
           type="text"
           label="Link"
-          value={link}
+          value={inviteLink}
           disabled
           endAdornment={
             <IconButton>
-              <CopyIcon
-                onClick={() => {
-                  navigator.clipboard.writeText(link);
-                }}
-              />
+              <CopyIcon onClick={handleCopyToClipboard} />
             </IconButton>
           }
-          onValue={(v) => setLink(v)}
+          onValue={() => {}}
         />
       </InviteAmbassadorsModalMain>
     </Modal>

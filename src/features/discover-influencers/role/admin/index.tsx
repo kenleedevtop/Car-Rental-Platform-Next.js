@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DiscoverInfluencersPageMain,
   DiscoverInfluencersPageCharts,
@@ -35,8 +35,9 @@ import {
   ScheduleInfluencerModal,
   ToBeApprovedActions,
 } from 'features/discover-influencers/role/admin/elements';
-import { useMenu, useModal } from 'hooks';
+import { useModal } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
+import { AdminAPI } from 'api';
 
 const DiscoverInfluencersPage = () => {
   // Modals
@@ -66,6 +67,18 @@ const DiscoverInfluencersPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const getUsers = async () => {
+    try {
+      await AdminAPI.getInfluencers('REGISTERED');
+    } catch {
+      console.log('error');
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
     <DiscoverInfluencersPageMain>
@@ -118,6 +131,9 @@ const DiscoverInfluencersPage = () => {
             startIcon={<SlidersHorizontalIcon width="18" height="18" />}
           >
             Filters
+          </Button>,
+          <Button color="default" variant="contained" onClick={() => {}}>
+            Import
           </Button>,
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
@@ -204,7 +220,13 @@ const DiscoverInfluencersPage = () => {
           <Tabs
             value={tabs}
             onValue={setTabs}
-            tabs={['Identified', 'Contacted', 'Registered', 'To Be Approved']}
+            tabs={[
+              'Identified',
+              'Contacted',
+              'Registered',
+              'To Be Approved',
+              'Do Not Contact',
+            ]}
           />
           {tabs === 0 && (
             <Table head={DInfluencerHead} items={[]} renderItem={renderItem} />
@@ -216,6 +238,9 @@ const DiscoverInfluencersPage = () => {
             <Table head={DInfluencerHead3} items={[]} renderItem={renderItem} />
           )}
           {tabs === 3 && (
+            <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
+          )}
+          {tabs === 4 && (
             <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
           )}
 
@@ -238,8 +263,6 @@ const DiscoverInfluencersPage = () => {
             <Button color="primary" variant="contained" onClick={openNiModal}>
               Note Influencer
             </Button>
-          </Stack>
-          <Stack direction="horizontal">
             <ToBeApprovedActions />
             <DiscoverActions />
           </Stack>
