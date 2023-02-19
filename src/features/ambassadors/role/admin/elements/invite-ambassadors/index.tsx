@@ -12,13 +12,13 @@ const InviteAmbassadors = ({
   onClose,
   ...props
 }: TInviteAmbassadorsModalProps) => {
-  const [link, setLink] = useState('');
+  const [inviteLink, setInviteLink] = useState('');
   const { push } = useSnackbar();
 
   const handleInviteLink = async () => {
     try {
-      const { inviteLink } = await AdminAPI.createAmbassadorInviteLink();
-      setLink(inviteLink);
+      const { link } = await AdminAPI.createAmbassadorInviteLink();
+      setInviteLink(link);
     } catch {
       push('Something failed!', {
         variant: 'error',
@@ -28,7 +28,7 @@ const InviteAmbassadors = ({
 
   const handleCopyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(link);
+      await navigator.clipboard.writeText(inviteLink);
       push(`Successfully copied!`, {
         variant: 'success',
       });
@@ -64,14 +64,14 @@ const InviteAmbassadors = ({
         <Input
           type="text"
           label="Link"
-          value={link}
+          value={inviteLink}
           disabled
           endAdornment={
             <IconButton>
               <CopyIcon onClick={handleCopyToClipboard} />
             </IconButton>
           }
-          onValue={(v) => setLink(v)}
+          onValue={() => {}}
         />
       </InviteAmbassadorsModalMain>
     </Modal>
