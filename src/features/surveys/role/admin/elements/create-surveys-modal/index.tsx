@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TCreateSurveysModalProps } from 'features/surveys/role/admin/elements/create-surveys-modal/types';
 import { CreateSurveysModalMain } from 'features/surveys/role/admin/elements/create-surveys-modal/styles';
-import { Button, Input } from 'components/ui';
+import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 
@@ -15,18 +15,19 @@ const CreateSurveysModal = ({
     type: null,
     client: '',
     language: null,
-    budget: '',
+    budget: null,
+    currency: '',
     surveyInfo: '',
-    startFinishDate: {
-      min: '',
-      max: '',
-    },
+    startDate: null,
+    endDate: null,
+    ambassador: null,
 
     numberOfParticipants: null,
     numberOfQuestions: null,
     diseaseArea: null,
     location: null,
-    ageRange: null,
+    minAge: null,
+    maxAge: null,
     gender: null,
     targetAudInfo: '',
 
@@ -56,7 +57,7 @@ const CreateSurveysModal = ({
       onClose={onClose}
       {...props}
     >
-      <Stack style={{ height: '550px' }}>
+      <Stack style={{ height: '650px' }}>
         <Tabs
           tabs={['Info', 'Target', 'Instructions']}
           value={tab}
@@ -79,20 +80,29 @@ const CreateSurveysModal = ({
               onValue={(type) => setState({ ...state, type })}
             />
             <Input
-              type="text"
+              type="select"
               label="Client"
-              placeholder="Please Enter"
+              placeholder="Please Select"
               value={state.client}
               onValue={(client) => setState({ ...state, client })}
             />
-            <Input
-              type="min-max"
-              label="Start & Finish date"
-              placeholder="Please Select"
-              value={state.startFinishDate}
-              onValue={(startFinishDate) =>
-                setState({ ...state, startFinishDate })
-              }
+            <InputGroup
+              label="Date"
+              inputRatio="1fr 1fr"
+              elements={[
+                {
+                  type: 'date',
+                  placeholder: 'Start Date',
+                  value: state.startDate,
+                  onValue: (startDate) => setState({ ...state, startDate }),
+                },
+                {
+                  type: 'date',
+                  placeholder: 'End Date',
+                  value: state.endDate,
+                  onValue: (endDate) => setState({ ...state, endDate }),
+                },
+              ]}
             />
             <Input
               type="select"
@@ -101,12 +111,43 @@ const CreateSurveysModal = ({
               value={state.language}
               onValue={(language) => setState({ ...state, language })}
             />
-            <Input
-              type="text"
+            <InputGroup
               label="Budget"
-              placeholder="Please Enter"
-              value={state.budget}
-              onValue={(budget) => setState({ ...state, budget })}
+              inputRatio="100px 1fr"
+              elements={[
+                {
+                  value: state.currency,
+                  onValue: (currency) => setState({ ...state, currency }),
+                  type: 'select',
+                  placeholder: 'CHF',
+                  options: [
+                    {
+                      value: 'eur',
+                      label: 'EUR',
+                    },
+                    {
+                      value: 'usd',
+                      label: 'USD',
+                    },
+                    {
+                      value: 'chf',
+                      label: 'CHF',
+                    },
+                  ],
+                },
+                {
+                  value: state.budget,
+                  onValue: (budget) => setState({ ...state, budget }),
+                  type: 'number',
+                },
+              ]}
+            />
+            <Input
+              type="select"
+              label="Ambassador"
+              placeholder="Please Select"
+              value={state.ambassador}
+              onValue={(ambassador) => setState({ ...state, ambassador })}
             />
             <GridCell columnSpan={2}>
               <Input
@@ -124,7 +165,7 @@ const CreateSurveysModal = ({
         {tab === 1 && (
           <CreateSurveysModalMain columns={2}>
             <Input
-              type="text"
+              type="number"
               label="Number of Participants"
               placeholder="Please Enter"
               value={state.numberOfParticipants}
@@ -133,7 +174,7 @@ const CreateSurveysModal = ({
               }
             />
             <Input
-              type="select"
+              type="number"
               label="Number of Questions"
               placeholder="Please Select"
               value={state.numberOfQuestions}
@@ -155,12 +196,23 @@ const CreateSurveysModal = ({
               value={state.location}
               onValue={(location) => setState({ ...state, location })}
             />
-            <Input
-              type="select"
-              label="Age range"
-              placeholder="Please Select"
-              value={state.ageRange}
-              onValue={(ageRange) => setState({ ...state, ageRange })}
+            <InputGroup
+              label="Age Range"
+              inputRatio="1fr 1fr"
+              elements={[
+                {
+                  type: 'number',
+                  placeholder: 'Min Age',
+                  value: state.minAge,
+                  onValue: (minAge) => setState({ ...state, minAge }),
+                },
+                {
+                  type: 'number',
+                  placeholder: 'Max Age',
+                  value: state.maxAge,
+                  onValue: (maxAge) => setState({ ...state, maxAge }),
+                },
+              ]}
             />
             <Input
               type="select"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DiscoverInfluencersPageMain,
   DiscoverInfluencersPageCharts,
@@ -35,8 +35,9 @@ import {
   ScheduleInfluencerModal,
   ToBeApprovedActions,
 } from 'features/discover-influencers/role/admin/elements';
-import { useMenu, useModal } from 'hooks';
+import { useModal } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
+import { AdminAPI } from 'api';
 
 const DiscoverInfluencersPage = () => {
   // Modals
@@ -66,6 +67,18 @@ const DiscoverInfluencersPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const getUsers = async () => {
+    try {
+      await AdminAPI.getUsers('John');
+    } catch {
+      console.log('error');
+    }
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   return (
     <DiscoverInfluencersPageMain>
@@ -238,8 +251,6 @@ const DiscoverInfluencersPage = () => {
             <Button color="primary" variant="contained" onClick={openNiModal}>
               Note Influencer
             </Button>
-          </Stack>
-          <Stack direction="horizontal">
             <ToBeApprovedActions />
             <DiscoverActions />
           </Stack>

@@ -1,0 +1,21 @@
+export type TCreateSurveyParams = {
+  companyId?: string;
+  ambassadorId?: string;
+  name: string;
+  type: string;
+  startDate: string;
+  finishDate: string;
+  language: string;
+  budget: number;
+  info: string;
+  numberOfParticipants: number;
+  numberOfQuestions: number;
+  diseaseArea: string;
+  minAge: number;
+  maxAge: number;
+  gender: string;
+  targetAudienceInfo: string;
+  link?: string;
+  materials?: string;
+  survey?: string;
+};
