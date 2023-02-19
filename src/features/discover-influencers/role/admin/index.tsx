@@ -70,7 +70,7 @@ const DiscoverInfluencersPage = () => {
 
   const getUsers = async () => {
     try {
-      await AdminAPI.getUsers('John');
+      await AdminAPI.getInfluencers('REGISTERED');
     } catch {
       console.log('error');
     }
@@ -131,6 +131,9 @@ const DiscoverInfluencersPage = () => {
             startIcon={<SlidersHorizontalIcon width="18" height="18" />}
           >
             Filters
+          </Button>,
+          <Button color="default" variant="contained" onClick={() => {}}>
+            Import
           </Button>,
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
@@ -217,7 +220,13 @@ const DiscoverInfluencersPage = () => {
           <Tabs
             value={tabs}
             onValue={setTabs}
-            tabs={['Identified', 'Contacted', 'Registered', 'To Be Approved']}
+            tabs={[
+              'Identified',
+              'Contacted',
+              'Registered',
+              'To Be Approved',
+              'Do Not Contact',
+            ]}
           />
           {tabs === 0 && (
             <Table head={DInfluencerHead} items={[]} renderItem={renderItem} />
@@ -229,6 +238,9 @@ const DiscoverInfluencersPage = () => {
             <Table head={DInfluencerHead3} items={[]} renderItem={renderItem} />
           )}
           {tabs === 3 && (
+            <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
+          )}
+          {tabs === 4 && (
             <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
           )}
 
