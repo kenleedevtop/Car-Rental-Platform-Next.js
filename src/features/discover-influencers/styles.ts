@@ -30,3 +30,7 @@ export const DiscoverInfluencersPageFilterActions = styled(Stack)<{
     min-width: 100px;
   }
 `;
+
+export const DiscoverInfluencersAction = styled.div`
+  cursor: pointer;
+`;
