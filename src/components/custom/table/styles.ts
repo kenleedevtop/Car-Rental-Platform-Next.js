@@ -4,7 +4,6 @@ import { DragControls } from 'framer-motion';
 
 export const TableWrapper = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-    overflow: hidden;
     border-radius: 4px;
     border: 1px solid ${theme.palette.common.black}20;
     background-color: ${theme.palette.common.white};
@@ -68,7 +67,7 @@ export const TableBodyCell = styled.td<{ theme?: Theme }>`
   ${({ theme }) => `
         padding: ${theme.spacing(5)};;
         text-align: left;
-        color: ${theme.palette.common.gray[4]};
+        color: ${theme.palette.common.gray[10]};
     `}
 `;
 

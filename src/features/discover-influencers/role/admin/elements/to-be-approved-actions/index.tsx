@@ -3,7 +3,7 @@ import {
   ToBeApprovedActionsMain,
   ToBeApprovedActionsMenu,
 } from 'features/discover-influencers/role/admin/elements/to-be-approved-actions/styles';
-import { useMenu } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 import {
   ApproveIcon,
   ContactIcon,
@@ -12,6 +12,12 @@ import {
   ScheduleIcon,
   VerticalDotsIcon,
 } from 'components/svg';
+import {
+  ContactInfluencerModal,
+  DeleteInfluencerModal,
+  NoteInfluencer,
+  ScheduleInfluencerModal,
+} from 'features/influencers/role/admin/elements';
 
 const ToBeApprovedActions = ({ ...props }) => {
   const [menu, open, setOpen] = useMenu(false);
@@ -20,9 +26,14 @@ const ToBeApprovedActions = ({ ...props }) => {
     setOpen(!open);
   };
 
+  const [ciModal, openCiModal, closeCiModal] = useModal(false);
+  const [siModal, openSiModal, closeSiModal] = useModal(false);
+  const [niModal, openNiModal, closeNiModal] = useModal(false);
+  const [diModal, openDiModal, closeDiModal] = useModal(false);
+
   return (
-    <ToBeApprovedActionsMain onClick={handleMenu}>
-      <VerticalDotsIcon />
+    <ToBeApprovedActionsMain>
+      <VerticalDotsIcon onClick={handleMenu} />
       {open && (
         <ToBeApprovedActionsMenu
           items={[
@@ -34,27 +45,43 @@ const ToBeApprovedActions = ({ ...props }) => {
             {
               icon: <ContactIcon />,
               label: 'Contact',
-              action: () => {},
+              action: () => {
+                openCiModal();
+                handleMenu();
+              },
             },
             {
               icon: <EditIcon />,
               label: 'Note',
-              action: () => {},
+              action: () => {
+                openNiModal();
+                handleMenu();
+              },
             },
             {
               icon: <ScheduleIcon />,
               label: 'Schedule',
-              action: () => {},
+              action: () => {
+                openSiModal();
+                handleMenu();
+              },
             },
             {
               icon: <DeleteIcon />,
               label: 'Remove',
-              action: () => {},
+              action: () => {
+                openDiModal();
+                handleMenu();
+              },
             },
           ]}
           ref={menu}
         />
       )}
+      {ciModal && <ContactInfluencerModal onClose={closeCiModal} />}
+      {niModal && <NoteInfluencer onClose={closeNiModal} />}
+      {diModal && <DeleteInfluencerModal onClose={closeDiModal} />}
+      {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
     </ToBeApprovedActionsMain>
   );
 };

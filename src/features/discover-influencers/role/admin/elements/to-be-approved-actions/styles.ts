@@ -8,7 +8,6 @@ export const ToBeApprovedActionsMain = styled.div<{ theme?: Theme }>`
     place-items: center;
     position: relative;
     padding: ${theme.spacing(2)};
-    background-color: ${theme.palette.default.main};
     cursor: pointer;
 `}
 `;
