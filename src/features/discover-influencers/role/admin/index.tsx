@@ -4,6 +4,7 @@ import {
   DiscoverInfluencersPageCharts,
   DiscoverInfluencersPageFilter,
   DiscoverInfluencersPageFilterActions,
+  DiscoverInfluencersAction,
 } from 'features/discover-influencers/styles';
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
@@ -15,7 +16,7 @@ import {
 import { faker } from '@faker-js/faker';
 import { Button, Input } from 'components/ui';
 import { Grid, Stack } from 'components/system';
-import { Collapse } from '@mui/material';
+import { Collapse, Tooltip } from '@mui/material';
 import {
   DGenerateDiscoverInfluencersFilter,
   DInfluencerHead,
@@ -25,14 +26,9 @@ import {
 } from 'features/discover-influencers/data';
 import {
   AddInfluencerModal,
-  ContactInfluencerModal,
-  DeleteInfluencerModal,
   DiscoverActions,
   ExportInfluencersModal,
   InfluencerProfile,
-  NoteInfluencer,
-  NotificationsSettingsModal,
-  ScheduleInfluencerModal,
   ToBeApprovedActions,
 } from 'features/discover-influencers/role/admin/elements';
 import { useModal } from 'hooks';
@@ -43,18 +39,15 @@ const DiscoverInfluencersPage = () => {
   // Modals
   const [aiModal, openAiModal, closeAiModal] = useModal(false);
   const [eModal, openEModal, closeEModal] = useModal(false);
-  const [diModal, openDiModal, closeDiModal] = useModal(false);
-  const [ciModal, openCiModal, closeCiModal] = useModal(false);
-  const [siModal, openSiModal, closeSiModal] = useModal(false);
-  const [nsModal, openNsModal, closeNsModal] = useModal(false);
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
-  const [niModal, openNiModal, closeNiModal] = useModal(false);
 
   const [tabs, setTabs] = useState(0);
 
   const [filter, setFilter] = useState<any>(
     DGenerateDiscoverInfluencersFilter()
   );
+
+  const [influencers, setInfluencers] = useState([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -66,18 +59,40 @@ const DiscoverInfluencersPage = () => {
     setFilter(DGenerateDiscoverInfluencersFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return (
+        <DiscoverInfluencersAction onClick={openIpModal}>
+          {cell.data}
+        </DiscoverInfluencersAction>
+      );
+    }
+    if (headItem.reference === 'email') {
+      return cell.data;
+    }
+    if (headItem.reference === 'actions') {
+      return <DiscoverActions />;
+    }
 
-  const getUsers = async () => {
+    return '';
+  };
+
+  const getUsers = async (status: string) => {
     try {
-      await AdminAPI.getInfluencers('REGISTERED');
+      const { influencers: data } = await AdminAPI.getInfluencers(status);
+      setInfluencers(data);
     } catch {
       console.log('error');
     }
   };
 
   useEffect(() => {
-    getUsers();
+    getUsers('REGISTERED');
   }, []);
 
   return (
@@ -229,7 +244,11 @@ const DiscoverInfluencersPage = () => {
             ]}
           />
           {tabs === 0 && (
-            <Table head={DInfluencerHead} items={[]} renderItem={renderItem} />
+            <Table
+              head={DInfluencerHead}
+              items={influencers}
+              renderItem={renderItem}
+            />
           )}
           {tabs === 1 && (
             <Table head={DInfluencerHead2} items={[]} renderItem={renderItem} />
@@ -245,24 +264,6 @@ const DiscoverInfluencersPage = () => {
           )}
 
           <Stack direction="horizontal">
-            <Button color="primary" variant="contained" onClick={openDiModal}>
-              Delete Influencer
-            </Button>
-            <Button color="primary" variant="contained" onClick={openCiModal}>
-              Contact Influencer
-            </Button>
-            <Button color="primary" variant="contained" onClick={openSiModal}>
-              Schedule Influencer
-            </Button>
-            <Button color="primary" variant="contained" onClick={openNsModal}>
-              Notifications Settings
-            </Button>
-            <Button color="primary" variant="contained" onClick={openIpModal}>
-              Influencer Profile
-            </Button>
-            <Button color="primary" variant="contained" onClick={openNiModal}>
-              Note Influencer
-            </Button>
             <ToBeApprovedActions />
             <DiscoverActions />
           </Stack>
@@ -270,12 +271,7 @@ const DiscoverInfluencersPage = () => {
       </CardWithText>
       {aiModal && <AddInfluencerModal onClose={closeAiModal} />}
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}
-      {diModal && <DeleteInfluencerModal onClose={closeDiModal} />}
-      {ciModal && <ContactInfluencerModal onClose={closeCiModal} />}
-      {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
-      {nsModal && <NotificationsSettingsModal onClose={closeNsModal} />}
       {ipModal && <InfluencerProfile onClose={closeIpModal} />}
-      {niModal && <NoteInfluencer onClose={closeNiModal} />}
     </DiscoverInfluencersPageMain>
   );
 };

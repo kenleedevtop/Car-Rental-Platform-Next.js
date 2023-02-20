@@ -3,15 +3,20 @@ import {
   DiscoverActionsMain,
   DiscoverActionsMenu,
 } from 'features/discover-influencers/role/admin/elements/discover-actions/styles';
-import { useMenu } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 import {
-  ApproveIcon,
   ContactIcon,
   DeleteIcon,
   EditIcon,
   ScheduleIcon,
   VerticalDotsIcon,
 } from 'components/svg';
+import {
+  ContactInfluencerModal,
+  DeleteInfluencerModal,
+  NoteInfluencer,
+  ScheduleInfluencerModal,
+} from 'features/influencers/role/admin/elements';
 
 const DiscoverActions = ({ ...props }) => {
   const [menu, open, setOpen] = useMenu(false);
@@ -20,36 +25,57 @@ const DiscoverActions = ({ ...props }) => {
     setOpen(!open);
   };
 
+  const [ciModal, openCiModal, closeCiModal] = useModal(false);
+  const [siModal, openSiModal, closeSiModal] = useModal(false);
+  const [niModal, openNiModal, closeNiModal] = useModal(false);
+  const [diModal, openDiModal, closeDiModal] = useModal(false);
+
   return (
-    <DiscoverActionsMain onClick={handleMenu}>
-      <VerticalDotsIcon />
+    <DiscoverActionsMain>
+      <VerticalDotsIcon onClick={handleMenu} />
       {open && (
         <DiscoverActionsMenu
           items={[
             {
               icon: <ContactIcon />,
               label: 'Contact',
-              action: () => {},
+              action: () => {
+                openCiModal();
+                handleMenu();
+              },
             },
             {
               icon: <EditIcon />,
               label: 'Note',
-              action: () => {},
+              action: () => {
+                openNiModal();
+                handleMenu();
+              },
             },
             {
               icon: <ScheduleIcon />,
               label: 'Schedule',
-              action: () => {},
+              action: () => {
+                openSiModal();
+                handleMenu();
+              },
             },
             {
               icon: <DeleteIcon />,
               label: 'Remove',
-              action: () => {},
+              action: () => {
+                openDiModal();
+                handleMenu();
+              },
             },
           ]}
           ref={menu}
         />
       )}
+      {ciModal && <ContactInfluencerModal onClose={closeCiModal} />}
+      {niModal && <NoteInfluencer onClose={closeNiModal} />}
+      {diModal && <DeleteInfluencerModal onClose={closeDiModal} />}
+      {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
     </DiscoverActionsMain>
   );
 };
