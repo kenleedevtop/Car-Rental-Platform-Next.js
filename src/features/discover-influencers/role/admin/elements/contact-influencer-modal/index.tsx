@@ -49,6 +49,13 @@ const ContactInfluencerModal = ({
               value={state.subject}
               onValue={(subject) => setState({ ...state, subject })}
             />
+            <Input
+              type="multiselect"
+              label="Recipient"
+              placeholder="Select Recipient"
+              value={state.recipient}
+              onValue={(recipient) => setState({ ...state, recipient })}
+            />
 
             <Input
               type="select"

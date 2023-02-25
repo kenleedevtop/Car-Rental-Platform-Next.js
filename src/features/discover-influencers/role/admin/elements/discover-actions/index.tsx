@@ -16,7 +16,7 @@ import {
   DeleteInfluencerModal,
   NoteInfluencer,
   ScheduleInfluencerModal,
-} from 'features/influencers/role/admin/elements';
+} from 'features/discover-influencers/role/admin/elements';
 
 const DiscoverActions = ({ ...props }) => {
   const [menu, open, setOpen] = useMenu(false);
