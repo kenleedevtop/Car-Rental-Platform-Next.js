@@ -47,7 +47,8 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
         text-align: left;
         color: ${theme.palette.primary.main};
         font-weight: 500;
-        cursor: pointer;
+        max-width: 130px;
+        white-space: nowrap; 
         ${
           action
             ? `
@@ -65,7 +66,7 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
 
 export const TableBodyCell = styled.td<{ theme?: Theme }>`
   ${({ theme }) => `
-        padding: ${theme.spacing(5)};;
+        padding: ${theme.spacing(5)};
         text-align: left;
         color: ${theme.palette.common.gray[10]};
     `}
