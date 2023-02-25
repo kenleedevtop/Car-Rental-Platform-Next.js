@@ -25,11 +25,6 @@ export const DInfluencerHead = [
     visible: true,
   },
   {
-    reference: 'dateContacted',
-    label: 'Date Contacted',
-    visible: true,
-  },
-  {
     reference: 'email',
     label: 'Email',
     visible: true,
@@ -50,8 +45,8 @@ export const DInfluencerHead = [
     visible: true,
   },
   {
-    reference: 'locations',
-    label: 'Locations',
+    reference: 'location',
+    label: 'Location',
     visible: true,
   },
   {
@@ -98,8 +93,8 @@ export const DInfluencerHead2 = [
     visible: true,
   },
   {
-    reference: 'locations',
-    label: 'Locations',
+    reference: 'location',
+    label: 'Location',
     visible: true,
   },
   {
@@ -116,33 +111,43 @@ export const DInfluencerHead2 = [
 
 export const DInfluencerHead3 = [
   {
+    reference: 'firstName',
+    label: 'First Name',
+    visible: true,
+  },
+  {
+    reference: 'lastName',
+    label: 'Last Name',
+    visible: true,
+  },
+  {
+    reference: 'email',
+    label: 'Email',
+    visible: true,
+  },
+  {
     reference: 'username',
     label: 'Username',
     visible: true,
   },
   {
-    reference: 'campaigns',
-    label: 'Campaigns',
+    reference: 'socialMedia',
+    label: 'Social Media',
     visible: true,
   },
   {
-    reference: 'cpc',
-    label: 'CPC',
+    reference: 'diseaseArea',
+    label: 'Disease Area',
     visible: true,
   },
   {
-    reference: 'cpt',
-    label: 'CPT',
+    reference: 'location',
+    label: 'Location',
     visible: true,
   },
   {
-    reference: 'price',
-    label: 'Price',
-    visible: true,
-  },
-  {
-    reference: 'overlap',
-    label: 'Overlap',
+    reference: 'followers',
+    label: 'Followers',
     visible: true,
   },
   {

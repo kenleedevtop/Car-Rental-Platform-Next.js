@@ -14,9 +14,9 @@ import {
   TwitterIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input } from 'components/ui';
+import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
-import { Collapse, Tooltip } from '@mui/material';
+import { Collapse } from '@mui/material';
 import {
   DGenerateDiscoverInfluencersFilter,
   DInfluencerHead,
@@ -42,12 +42,14 @@ const DiscoverInfluencersPage = () => {
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
 
   const [tabs, setTabs] = useState(0);
+  const [status, setStatus] = useState('IDENTIFIED');
+  const [page, setPage] = useState(1);
+  const [influencers, setInfluencers] = useState([]);
+  const [counter, setCounter] = useState(0);
 
   const [filter, setFilter] = useState<any>(
     DGenerateDiscoverInfluencersFilter()
   );
-
-  const [influencers, setInfluencers] = useState([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -72,7 +74,25 @@ const DiscoverInfluencersPage = () => {
         </DiscoverInfluencersAction>
       );
     }
+    if (headItem.reference === 'lastName') {
+      return cell.data;
+    }
     if (headItem.reference === 'email') {
+      return cell.data;
+    }
+    if (headItem.reference === 'username') {
+      return cell.data;
+    }
+    if (headItem.reference === 'socialMedia') {
+      return cell.data;
+    }
+    if (headItem.reference === 'diseaseArea') {
+      return cell.data;
+    }
+    if (headItem.reference === 'location') {
+      return cell.data;
+    }
+    if (headItem.reference === 'followers') {
       return cell.data;
     }
     if (headItem.reference === 'actions') {
@@ -82,18 +102,26 @@ const DiscoverInfluencersPage = () => {
     return '';
   };
 
-  const getUsers = async (status: string) => {
+  const getUsers = async (input: string) => {
     try {
-      const { influencers: data } = await AdminAPI.getInfluencers(status);
+      const { leads: data, count: countNumber } = await AdminAPI.getInfluencers(
+        input
+      );
       setInfluencers(data);
+      const helper = Math.ceil(countNumber / 10);
+      setCounter(helper);
     } catch {
       console.log('error');
     }
   };
 
   useEffect(() => {
-    getUsers('REGISTERED');
+    getUsers(status);
   }, []);
+
+  const handlePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
 
   return (
     <DiscoverInfluencersPageMain>
@@ -201,7 +229,9 @@ const DiscoverInfluencersPage = () => {
                   type="min-max"
                   label="Status"
                   value={filter.status}
-                  onValue={(status) => setFilter({ ...filter, status })}
+                  onValue={(statusInput) =>
+                    setFilter({ ...filter, statusInput })
+                  }
                 />
                 <Input
                   type="multiselect"
@@ -254,7 +284,11 @@ const DiscoverInfluencersPage = () => {
             <Table head={DInfluencerHead2} items={[]} renderItem={renderItem} />
           )}
           {tabs === 2 && (
-            <Table head={DInfluencerHead3} items={[]} renderItem={renderItem} />
+            <Table
+              head={DInfluencerHead3}
+              items={influencers}
+              renderItem={renderItem}
+            />
           )}
           {tabs === 3 && (
             <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
@@ -262,7 +296,7 @@ const DiscoverInfluencersPage = () => {
           {tabs === 4 && (
             <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
           )}
-
+          <Pagination count={counter} page={page} onChange={handlePage} />
           <Stack direction="horizontal">
             <ToBeApprovedActions />
             <DiscoverActions />
