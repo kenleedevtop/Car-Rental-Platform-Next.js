@@ -5,6 +5,7 @@ import { AddInfluencerModalMain } from 'features/discover-influencers/role/admin
 import { Button, Input } from 'components/ui';
 import { AdminAPI } from 'api';
 import { useSnackbar } from 'hooks';
+import { GridCell } from 'components/system';
 
 const AddInfluencerModal = ({
   onClose,
@@ -16,7 +17,6 @@ const AddInfluencerModal = ({
     country: '',
     city: '',
     diseaseArea: '',
-    subDiseaseArea: '',
     username: '',
     socialMedia: '',
     followers: 0,
@@ -24,7 +24,6 @@ const AddInfluencerModal = ({
 
   const { push } = useSnackbar();
   const [diseases, setDiseases] = useState([]);
-  const [subDiseases, setSubDiseases] = useState([]);
   const [socialMedia, setSocialMedia] = useState([]);
 
   const getSocialMedia = async () => {
@@ -38,21 +37,14 @@ const AddInfluencerModal = ({
   const getDiseases = async () => {
     const data = await AdminAPI.getDiseaseAreas();
     setDiseases(
-      data.map((x: any) => ({
-        value: x.id,
-        label: x.name,
-        SubDiseaseAreas: x.SubDiseaseAreas,
-      }))
-    );
-  };
-
-  const handleDiseases = (diseaseArea: any) => {
-    setState({ ...state, diseaseArea: diseaseArea.value, subDiseaseArea: '' });
-    setSubDiseases(
-      diseaseArea.SubDiseaseAreas.map((x: any) => ({
-        value: x.id,
-        label: x.name,
-      }))
+      data
+        .map((x: any) =>
+          x.SubDiseaseAreas.map((y: any) => ({
+            value: `${x.id},${y.id}`,
+            label: `${y.name}, ${x.name}`,
+          }))
+        )
+        .flat()
     );
   };
 
@@ -67,7 +59,6 @@ const AddInfluencerModal = ({
     !state.username ||
     !state.socialMedia ||
     !state.diseaseArea ||
-    !state.subDiseaseArea ||
     !state.country ||
     !state.city ||
     !state.followers;
@@ -134,26 +125,18 @@ const AddInfluencerModal = ({
           }
           options={socialMedia}
         />
-        <Input
-          type="select"
-          label="Disease Area"
-          placeholder="Please Select"
-          value={state.diseaseArea}
-          onValue={handleDiseases}
-          options={diseases}
-        />
-        {state.diseaseArea !== '' && (
+        <GridCell columnSpan={2}>
           <Input
             type="select"
-            label="Subdisease Area"
+            label="Disease Area"
             placeholder="Please Select"
-            value={state.subDiseaseArea}
-            onValue={(subDiseaseArea) =>
-              setState({ ...state, subDiseaseArea: subDiseaseArea.value })
+            value={state.diseaseArea}
+            onValue={(diseaseArea) =>
+              setState({ ...state, diseaseArea: diseaseArea.value })
             }
-            options={subDiseases}
+            options={diseases}
           />
-        )}
+        </GridCell>
         <Input
           type="select"
           label="Country"
