@@ -284,11 +284,7 @@ const DiscoverInfluencersPage = () => {
             <Table head={DInfluencerHead2} items={[]} renderItem={renderItem} />
           )}
           {tabs === 2 && (
-            <Table
-              head={DInfluencerHead3}
-              items={influencers}
-              renderItem={renderItem}
-            />
+            <Table head={DInfluencerHead3} items={[]} renderItem={renderItem} />
           )}
           {tabs === 3 && (
             <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
