@@ -18,7 +18,7 @@ const HomePage = () => (
   <HomePageMain>
     <HomePageCharts>
       <HomePageChartsLabel>Discover Influencers</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="Identified"
           icon={<IdentifiedIcon />}
@@ -71,7 +71,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Discover Clients</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="Identified"
           icon={<IdentifiedIcon />}
@@ -124,7 +124,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Influencers</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="Instagram"
           icon={<IdentifiedIcon />}
@@ -177,7 +177,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Clients</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="Biotech"
           icon={<IdentifiedIcon />}
@@ -230,7 +230,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Campaigns</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="In Preparation"
           icon={<IdentifiedIcon />}
@@ -283,7 +283,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Reports</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="Ordered"
           icon={<IdentifiedIcon />}
@@ -336,7 +336,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Social Media Listening</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="Ordered"
           icon={<IdentifiedIcon />}
@@ -389,7 +389,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Surveys</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="In Preparation"
           icon={<IdentifiedIcon />}
@@ -442,7 +442,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Finance</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="Revenue"
           icon={<IdentifiedIcon />}

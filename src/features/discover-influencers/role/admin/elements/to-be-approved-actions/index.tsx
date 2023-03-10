@@ -78,9 +78,9 @@ const ToBeApprovedActions = ({ ...props }) => {
           ref={menu}
         />
       )}
-      {ciModal && <ContactInfluencerModal onClose={closeCiModal} />}
+      {ciModal && <ContactInfluencerModal id="0" onClose={closeCiModal} />}
       {niModal && <NoteInfluencer onClose={closeNiModal} />}
-      {diModal && <DeleteInfluencerModal onClose={closeDiModal} />}
+      {diModal && <DeleteInfluencerModal id="0" onClose={closeDiModal} />}
       {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
     </ToBeApprovedActionsMain>
   );

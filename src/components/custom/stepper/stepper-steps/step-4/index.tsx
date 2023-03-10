@@ -1,6 +1,15 @@
 import { Tooltip } from '@mui/material';
 import { InfoIcon } from 'components/svg';
-import { Grid, GridCell, Stack } from 'components/system';
+import { Stack } from 'components/system';
+import {
+  StepContainer,
+  StepStack,
+  StepTop,
+  StepLeft,
+  StepFMiddle,
+  StepSMiddle,
+  StepRight,
+} from 'components/custom/stepper/stepper-steps/step-4/style';
 import { Input } from 'components/ui';
 import React, { useState } from 'react';
 
@@ -24,9 +33,9 @@ const Step = () => {
     interviewLong: '',
   });
   return (
-    <Stack>
-      <Grid columns={8}>
-        <GridCell columnSpan={2}>
+    <StepStack>
+      <StepContainer>
+        <StepTop>
           <Input
             type="select"
             label="Currency"
@@ -48,10 +57,10 @@ const Step = () => {
               },
             ]}
           />
-        </GridCell>
-      </Grid>
-      <Grid columns={12}>
-        <GridCell columnSpan={3}>
+        </StepTop>
+      </StepContainer>
+      <StepContainer>
+        <StepLeft>
           <Stack>
             <p style={{ color: '#6f6f6f' }}>Instagram</p>
             <Input
@@ -76,11 +85,8 @@ const Step = () => {
               onValue={(instaP) => setFilter({ ...filter, instaP })}
             />
           </Stack>
-        </GridCell>
-        <GridCell
-          columnSpan={3}
-          style={{ paddingLeft: '20px', borderLeft: '1px solid #E9F0FC' }}
-        >
+        </StepLeft>
+        <StepFMiddle>
           <Stack>
             <p style={{ color: '#6f6f6f' }}>Twitter</p>
             <Input
@@ -105,11 +111,8 @@ const Step = () => {
               onValue={(yVideoL) => setFilter({ ...filter, yVideoL })}
             />
           </Stack>
-        </GridCell>
-        <GridCell
-          columnSpan={3}
-          style={{ paddingLeft: '20px', borderLeft: '1px solid #E9F0FC' }}
-        >
+        </StepFMiddle>
+        <StepSMiddle>
           <Stack>
             <p style={{ color: '#6f6f6f' }}>TikTok</p>
             <Input
@@ -120,11 +123,8 @@ const Step = () => {
               onValue={(yVideoL) => setFilter({ ...filter, yVideoL })}
             />
           </Stack>
-        </GridCell>
-        <GridCell
-          columnSpan={3}
-          style={{ paddingLeft: '20px', borderLeft: '1px solid #E9F0FC' }}
-        >
+        </StepSMiddle>
+        <StepRight>
           <Stack>
             <p style={{ color: '#6f6f6f' }}>Questionnaire</p>
             <p
@@ -216,9 +216,9 @@ const Step = () => {
               }
             />
           </Stack>
-        </GridCell>
-      </Grid>
-    </Stack>
+        </StepRight>
+      </StepContainer>
+    </StepStack>
   );
 };
 

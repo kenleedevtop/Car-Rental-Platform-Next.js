@@ -4,7 +4,20 @@ import { Grid, Stack } from 'components/system';
 
 export const FinancePageMain = styled(Stack)<{ theme?: Theme }>``;
 
-export const FinancePageCharts = styled(Grid)<{ theme?: Theme }>``;
+export const FinancePageCharts = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: ${theme.spacing(5)};
+
+    ${theme.breakpoints.down('xl')} {
+      grid-template-columns: 1fr 1fr;
+    }
+    ${theme.breakpoints.down('sm')} {
+      grid-template-columns: 1fr;
+    }
+  `}
+`;
 
 export const FinancePageFilter = styled(Stack)<{ theme?: Theme }>`
   ${({ theme }) => `

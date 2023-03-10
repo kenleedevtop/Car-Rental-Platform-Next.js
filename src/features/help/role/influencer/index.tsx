@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
-import { HelpPageMain } from 'features/help/styles';
+import {
+  HelpPageMain,
+  HelpPageContact,
+  HelpPageContactContainer,
+  HelpPageIconWithTextContainer,
+} from 'features/help/styles';
 import { Button, Input } from 'components/ui';
 import { IconWithText, Tabs } from 'components/custom';
 import { Grid, GridCell, Stack } from 'components/system';
@@ -58,8 +63,8 @@ const HelpPage = () => {
             />
           </Stack>
         ) : (
-          <Grid columns={4}>
-            <GridCell columnSpan={2} style={{ paddingRight: '120px' }}>
+          <HelpPageContact>
+            <HelpPageContactContainer>
               <Stack>
                 <h2>Write to us</h2>
                 <Input
@@ -88,32 +93,31 @@ const HelpPage = () => {
                   Send
                 </Button>
               </Stack>
-            </GridCell>
-            <GridCell
-              columnSpan={2}
-              style={{ borderLeft: '1px solid #E9F0FC', paddingLeft: '80px' }}
-            >
-              <Stack>
+            </HelpPageContactContainer>
+            <HelpPageContactContainer>
+              <HelpPageIconWithTextContainer>
                 <h2>Get in touch</h2>
-                <IconWithText
-                  style={{ marginTop: '50px' }}
-                  icon={<PhoneCallIcon />}
-                  title="Talk with our founder"
-                  text={['Schedule a call!']}
-                />
-                <IconWithText
-                  icon={<EnvelopeIcon />}
-                  title="Write to our founder"
-                  text={['Send an email!']}
-                />
-                <IconWithText
-                  icon={<LocationIcon />}
-                  title="Visit Us"
-                  text={['Riehenring 65, 4058 Basel Switzerland']}
-                />
-              </Stack>
-            </GridCell>
-          </Grid>
+                <Stack>
+                  <IconWithText
+                    style={{ marginTop: '50px' }}
+                    icon={<PhoneCallIcon />}
+                    title="Talk with our founder"
+                    text={['Schedule a call!']}
+                  />
+                  <IconWithText
+                    icon={<EnvelopeIcon />}
+                    title="Write to our founder"
+                    text={['Send an email!']}
+                  />
+                  <IconWithText
+                    icon={<LocationIcon />}
+                    title="Visit Us"
+                    text={['Riehenring 65, 4058 Basel Switzerland']}
+                  />
+                </Stack>
+              </HelpPageIconWithTextContainer>
+            </HelpPageContactContainer>
+          </HelpPageContact>
         )}
       </Stack>
     </HelpPageMain>

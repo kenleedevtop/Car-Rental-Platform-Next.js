@@ -53,7 +53,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
     <NavigationMain {...props}>
       <NavigationRouteName>{routeName}</NavigationRouteName>
       <NavigationItems>
-        {['admin'].includes(role) && (
+        {['ADMIN'].includes(role) && (
           <NavigationSearch
             placeholder="Looking for someone?"
             value={search}
@@ -61,7 +61,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
             onEnter={handleEnter}
           />
         )}
-        {['ambasador', 'influencer'].includes(role) && (
+        {['AMBASSADOR', 'INFLUENCER', 'CLIENT'].includes(role) && (
           <NavigationBalance>Balance: $499.00</NavigationBalance>
         )}
         <NavigationProfileOuter>

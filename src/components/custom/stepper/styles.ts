@@ -8,8 +8,15 @@ import {
 import Stack from 'components/system/stack';
 import { Card } from 'components/ui';
 
-export const StepperMain = styled(Card)`
-  height: 80vh;
+export const StepperMain = styled(Card)<{ theme?: Theme }>`
+  ${({ theme }) => `
+    height: 80vh;
+
+    ${theme.breakpoints.down('xl')} {
+      min-height: 80vh;
+      height: 100%;
+    }
+  `}
 `;
 
 export const StepperContainer = styled(Stepper)`

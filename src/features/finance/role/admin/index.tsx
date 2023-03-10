@@ -91,7 +91,7 @@ const FinancePage = () => {
 
   return (
     <FinancePageMain>
-      <FinancePageCharts columns={4}>
+      <FinancePageCharts>
         <CardWithChart
           title="Revenue"
           icon={<IdentifiedIcon />}
@@ -142,7 +142,7 @@ const FinancePage = () => {
         />
       </FinancePageCharts>
 
-      <FinancePageCharts columns={4}>
+      <FinancePageCharts>
         <CardWithProgress
           title="Industry"
           icon={<RedCrossIcon />}

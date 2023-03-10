@@ -20,6 +20,18 @@ export const HomePageChartsLabel = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const HomePageChartsGrid = styled(Grid)`
-  width: 100%;
+export const HomePageChartsGrid = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: ${theme.spacing(5)};
+
+  ${theme.breakpoints.down('xl')} {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  ${theme.breakpoints.down('sm')} {
+    grid-template-columns: 1fr;
+  }
+`}
 `;

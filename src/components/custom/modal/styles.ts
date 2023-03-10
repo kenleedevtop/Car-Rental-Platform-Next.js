@@ -33,6 +33,10 @@ export const ModalMain = styled(Card)<{ theme?: Theme; size: TModalSize }>`
     display: flex;
     flex-direction: column;
     gap: ${theme.spacing(5)};
+
+    ${theme.breakpoints.down('sm')} {
+      max-width: unset;
+    }
   `}
 `;
 

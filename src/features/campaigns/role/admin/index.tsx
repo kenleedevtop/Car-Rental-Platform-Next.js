@@ -103,7 +103,7 @@ const CampaignsPage = () => {
         <div>{error ? 'ERROR' : 'NOT ERROR'}</div>
         <div>{data ? JSON.stringify(data) : 'NOT DATA'}</div>
       </div> */}
-      <CampaignsPageCharts columns={4}>
+      <CampaignsPageCharts>
         <CardWithChart
           title="Revenue"
           icon={<IdentifiedIcon />}
@@ -154,7 +154,7 @@ const CampaignsPage = () => {
         />
       </CampaignsPageCharts>
 
-      <CampaignsPageCharts columns={4}>
+      <CampaignsPageCharts>
         <CardWithProgress
           title="Industry"
           icon={<RedCrossIcon />}
