@@ -79,7 +79,7 @@ const ReportsPage = () => {
 
   return (
     <ReportsPageMain>
-      <ReportsPageCharts columns={4}>
+      <ReportsPageCharts>
         <CardWithChart
           title="Ordered"
           icon={<IdentifiedIcon />}

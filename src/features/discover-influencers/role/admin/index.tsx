@@ -8,9 +8,13 @@ import {
 } from 'features/discover-influencers/styles';
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
+  ContactedIcon,
+  IdentifiedIcon,
   InstagramIcon,
+  RegisteredIcon,
   SlidersHorizontalIcon,
   TiktokIcon,
+  TotalIcon,
   TwitterIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
@@ -45,6 +49,7 @@ const DiscoverInfluencersPage = () => {
   const [status, setStatus] = useState('IDENTIFIED');
   const [page, setPage] = useState(1);
   const [influencers, setInfluencers] = useState([]);
+  const [currentInfluencer, setCurrentInfluencer] = useState<any>({});
   const [counter, setCounter] = useState(0);
 
   const [filter, setFilter] = useState<any>(
@@ -69,7 +74,12 @@ const DiscoverInfluencersPage = () => {
   }: TTableRenderItemObject) => {
     if (headItem.reference === 'firstName') {
       return (
-        <DiscoverInfluencersAction onClick={openIpModal}>
+        <DiscoverInfluencersAction
+          onClick={() => {
+            setCurrentInfluencer(row.data);
+            openIpModal();
+          }}
+        >
           {cell.data}
         </DiscoverInfluencersAction>
       );
@@ -96,7 +106,7 @@ const DiscoverInfluencersPage = () => {
       return cell.data;
     }
     if (headItem.reference === 'actions') {
-      return <DiscoverActions />;
+      return <DiscoverActions data={row.data} />;
     }
 
     return '';
@@ -127,10 +137,10 @@ const DiscoverInfluencersPage = () => {
     <DiscoverInfluencersPageMain>
       <DiscoverInfluencersPageCharts>
         <CardWithChart
-          title="Instagram"
-          icon={<InstagramIcon />}
+          title="Identified"
+          icon={<IdentifiedIcon />}
           percent={2}
-          count={7552.8}
+          count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
               faker.datatype.number({ min: 10, max: 30 })
@@ -139,10 +149,10 @@ const DiscoverInfluencersPage = () => {
           }}
         />
         <CardWithChart
-          title="Twitter"
-          icon={<TwitterIcon />}
+          title="Contacted"
+          icon={<ContactedIcon />}
           percent={2}
-          count={7552.8}
+          count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
               faker.datatype.number({ min: 10, max: 30 })
@@ -151,10 +161,22 @@ const DiscoverInfluencersPage = () => {
           }}
         />
         <CardWithChart
-          title="Tiktok"
-          icon={<TiktokIcon />}
-          percent={-6}
-          count={7552.8}
+          title="Registered"
+          icon={<RegisteredIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="To Be Approved"
+          icon={<TotalIcon />}
+          percent={2}
+          count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
               faker.datatype.number({ min: 10, max: 30 })
@@ -295,13 +317,17 @@ const DiscoverInfluencersPage = () => {
           <Pagination count={counter} page={page} onChange={handlePage} />
           <Stack direction="horizontal">
             <ToBeApprovedActions />
-            <DiscoverActions />
           </Stack>
         </Stack>
       </CardWithText>
       {aiModal && <AddInfluencerModal onClose={closeAiModal} />}
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}
-      {ipModal && <InfluencerProfile onClose={closeIpModal} />}
+      {ipModal && (
+        <InfluencerProfile
+          influencer={currentInfluencer}
+          onClose={closeIpModal}
+        />
+      )}
     </DiscoverInfluencersPageMain>
   );
 };

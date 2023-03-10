@@ -14,8 +14,7 @@ const AddInfluencerModal = ({
   const [state, setState] = useState({
     firstName: '',
     email: '',
-    country: '',
-    city: '',
+    location: '',
     diseaseArea: '',
     username: '',
     socialMedia: '',
@@ -24,34 +23,82 @@ const AddInfluencerModal = ({
 
   const { push } = useSnackbar();
   const [diseases, setDiseases] = useState([]);
+  const [subDiseases, setSubDiseases] = useState([]);
   const [socialMedia, setSocialMedia] = useState([]);
+  const [country, setCountry] = useState([]);
+  const [city, setCity] = useState([]);
+  const [location, setLocation] = useState([]);
 
   const getSocialMedia = async () => {
     const data = await AdminAPI.getSocialMedia();
 
     setSocialMedia(
-      data.socialMedia.map((x: any, id: number) => ({ value: id, label: x }))
+      data.socialMedia.map((x: any, id: number) => ({
+        value: x.toUpperCase(),
+        label: x,
+      }))
     );
   };
 
+  console.log('LOG', diseases, subDiseases);
+
   const getDiseases = async () => {
     const data = await AdminAPI.getDiseaseAreas();
+    console.log('DATA', data);
+
     setDiseases(
+      data.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+
+    setSubDiseases(
       data
         .map((x: any) =>
           x.SubDiseaseAreas.map((y: any) => ({
-            value: `${x.id},${y.id}`,
-            label: `${y.name}, ${x.name}`,
+            value: y.id,
+            label: y.name,
           }))
         )
         .flat()
     );
   };
 
+  // const getDiseases = async () => {
+  //   const data = await AdminAPI.getDiseaseAreas();
+  //   setDiseases(
+  //     data
+  //       .map((x: any) =>
+  //         x.SubDiseaseAreas.map((y: any) => ({
+  //           value: x.id + y.id,
+  //           label: `${y.name}, ${x.name}`,
+  //         }))
+  //       )
+  //       .flat()
+  //   );
+  // };
+
+  const getLocation = async () => {
+    const data = await AdminAPI.getLocation();
+
+    setLocation(
+      data.map((x: any) => ({
+        value: x.countryId + x.cityId,
+        label: `${x.cityName}, ${x.countryName}`,
+      }))
+    );
+  };
+
   useEffect(() => {
     getDiseases();
     getSocialMedia();
+    getLocation();
   }, []);
+
+  useEffect(() => {
+    console.log('State', state);
+  }, [state]);
 
   const isDisabled =
     !state.firstName ||
@@ -59,8 +106,7 @@ const AddInfluencerModal = ({
     !state.username ||
     !state.socialMedia ||
     !state.diseaseArea ||
-    !state.country ||
-    !state.city ||
+    !state.location ||
     !state.followers;
 
   const handleInfluencers = async () => {
@@ -125,6 +171,23 @@ const AddInfluencerModal = ({
           }
           options={socialMedia}
         />
+        <Input
+          type="number"
+          label="Followers"
+          placeholder="Please Enter"
+          value={state.followers}
+          onValue={(followers) =>
+            setState({ ...state, followers: parseInt(followers, 10) })
+          }
+        />
+        <Input
+          type="select"
+          label="Subdiseases"
+          placeholder="Please Select"
+          value={0}
+          onValue={() => {}}
+          options={subDiseases}
+        />
         <GridCell columnSpan={2}>
           <Input
             type="select"
@@ -137,41 +200,18 @@ const AddInfluencerModal = ({
             options={diseases}
           />
         </GridCell>
-        <Input
-          type="select"
-          label="Country"
-          placeholder="Please Select"
-          value={state.country}
-          onValue={(country) => setState({ ...state, country: country.value })}
-          options={[
-            {
-              value: 'vienna',
-              label: 'Vienna',
-            },
-          ]}
-        />
-        {state.country !== '' && (
+        <GridCell columnSpan={2}>
           <Input
             type="select"
-            label="City"
+            label="Location"
             placeholder="Please Select"
-            value={state.city}
-            onValue={(city) => setState({ ...state, city: city.value })}
-            options={[
-              {
-                value: 'vienna',
-                label: 'Vienna',
-              },
-            ]}
+            value={state.location}
+            onValue={(inputLocation) =>
+              setState({ ...state, location: inputLocation.value })
+            }
+            options={location}
           />
-        )}
-        <Input
-          type="number"
-          label="Followers"
-          placeholder="Please Enter"
-          value={state.followers}
-          onValue={(followers) => setState({ ...state, followers })}
-        />
+        </GridCell>
       </AddInfluencerModalMain>
     </Modal>
   );

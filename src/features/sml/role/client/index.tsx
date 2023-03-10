@@ -59,7 +59,7 @@ const SmlPage = () => {
 
   return (
     <SmlPageMain>
-      <SmlPageCharts columns={4}>
+      <SmlPageCharts>
         <CardWithChart
           title="To Be Created"
           icon={<IdentifiedIcon />}

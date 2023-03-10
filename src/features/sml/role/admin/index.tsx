@@ -86,7 +86,7 @@ const SmlPage = () => {
 
   return (
     <SmlPageMain>
-      <SmlPageCharts columns={4}>
+      <SmlPageCharts>
         <CardWithChart
           title="Ordered"
           icon={<IdentifiedIcon />}

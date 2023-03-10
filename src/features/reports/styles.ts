@@ -6,8 +6,19 @@ export const ReportsPageMain = styled(Stack)`
   width: 100%;
 `;
 
-export const ReportsPageCharts = styled(Grid)`
-  width: 100%;
+export const ReportsPageCharts = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: ${theme.spacing(5)};
+
+  ${theme.breakpoints.down('xl')} {
+    grid-template-columns: 1fr 1fr;
+  }
+  ${theme.breakpoints.down('sm')} {
+    grid-template-columns: 1fr;
+  }
+`}
 `;
 
 export const ReportsPageFilter = styled(Stack)<{ theme?: Theme }>`

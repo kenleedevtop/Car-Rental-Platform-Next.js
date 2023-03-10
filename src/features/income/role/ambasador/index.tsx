@@ -6,6 +6,11 @@ import {
   IncomePageChartsGrid,
   IncomePageFilter,
   IncomePageFilterActions,
+  WithdrawContainer,
+  WithdrawGrid,
+  WithdrawGridLeft,
+  WithdrawGridRight,
+  WithdrawNameContainer,
 } from 'features/income/styles';
 
 import { DGenerateIncomeFilter } from 'features/income/role/ambasador/data';
@@ -52,7 +57,7 @@ const IncomePage = () => {
   return (
     <IncomePageMain>
       <IncomePageCharts>
-        <IncomePageChartsGrid columns={4}>
+        <IncomePageChartsGrid>
           <CardWithChart
             title="Campaigns"
             icon={<IdentifiedIcon />}
@@ -217,128 +222,115 @@ const IncomePage = () => {
             </Stack>
           </CardWithText>
         ) : (
-          <Card>
-            <Grid columns={1}>
-              <Stack>
-                <Grid columns={4}>
-                  <GridCell columnSpan={2} style={{ paddingRight: '100px' }}>
-                    <Stack>
-                      <Stack direction="horizontal">
-                        <Input
-                          type="text"
-                          label="First Name"
-                          placeholder="John"
-                          value={filter.firstName}
-                          onValue={(firstName) =>
-                            setFilter({ ...filter, firstName })
-                          }
-                        />
-                        <Input
-                          type="text"
-                          label="Last Name"
-                          placeholder="Doe"
-                          value={filter.lastName}
-                          onValue={(lastName) =>
-                            setFilter({ ...filter, lastName })
-                          }
-                        />
-                      </Stack>
+          <WithdrawContainer>
+            <Stack>
+              <WithdrawGrid>
+                <WithdrawGridLeft>
+                  <Stack>
+                    <WithdrawNameContainer direction="horizontal">
                       <Input
                         type="text"
-                        label="Bank Name"
-                        placeholder="Bank of America"
-                        value={filter.bankName}
-                        onValue={(bankName) =>
-                          setFilter({ ...filter, bankName })
+                        label="First Name"
+                        placeholder="John"
+                        value={filter.firstName}
+                        onValue={(firstName) =>
+                          setFilter({ ...filter, firstName })
                         }
                       />
                       <Input
                         type="text"
-                        label="Bank Address"
-                        placeholder="St 6 Ft. Honey Park, NYC 1000001"
-                        value={filter.bankAddress}
-                        onValue={(bankAddress) =>
-                          setFilter({ ...filter, bankAddress })
+                        label="Last Name"
+                        placeholder="Doe"
+                        value={filter.lastName}
+                        onValue={(lastName) =>
+                          setFilter({ ...filter, lastName })
                         }
                       />
-                      <Input
-                        type="text"
-                        label="IBAN"
-                        placeholder="7895516485489487"
-                        value={filter.iban}
-                        onValue={(iban) => setFilter({ ...filter, iban })}
-                      />
-                    </Stack>
-                  </GridCell>
-                  <GridCell
-                    columnSpan={2}
-                    style={{
-                      borderLeft: '1px solid #E9F0FC',
-                      paddingLeft: '40px',
-                    }}
-                  >
-                    <Stack style={{ paddingRight: '150px' }}>
-                      <InputGroup
-                        label="Enter Amount (Available amount is $499.00)"
-                        inputRatio="100px 1fr"
-                        elements={[
-                          {
-                            value: filter.currency,
-                            onValue: (currency) =>
-                              setFilter({ ...filter, currency }),
-                            type: 'select',
-                            placeholder: 'USD',
-                            options: [
-                              {
-                                value: 'eur',
-                                label: 'EUR',
-                              },
-                              {
-                                value: 'usd',
-                                label: 'USD',
-                              },
-                            ],
-                          },
-                          {
-                            value: filter.amountW,
-                            onValue: (amountW) =>
-                              setFilter({ ...filter, amountW }),
-                            type: 'text',
-                            placeholder: '420',
-                          },
-                        ]}
-                      />
-                      <Note showIcon>Currency conversion fee is 1.00%</Note>
-                      <Input
-                        type="text"
-                        label="Confirm Password"
-                        placeholder="Password"
-                        value={filter.password}
-                        onValue={(password) =>
-                          setFilter({ ...filter, password })
-                        }
-                      />
-                      <Note showIcon>
-                        Enter your password to make sure it is really you.
-                      </Note>
-                      <Button color="primary" variant="contained" size="large">
-                        Withdraw
-                      </Button>
-                    </Stack>
-                  </GridCell>
-                </Grid>
-                <IconWithText
-                  style={{ marginTop: '50px' }}
-                  icon={<HouseIcon />}
-                  title="Withdraw money with ease!"
-                  text={[
-                    "Withdraw money from your Patients Influence account to your nominated personal bank account with ease. Please bear in mind that depending on your location, local bank's working hours and speed, the deposit may take up to a few days to reflected in your bank account.",
-                    'For any additional questions, please feel free to contact us at any time.',
-                  ]}
-                />
-              </Stack>
-            </Grid>
-          </Card>
+                    </WithdrawNameContainer>
+                    <Input
+                      type="text"
+                      label="Bank Name"
+                      placeholder="Bank of America"
+                      value={filter.bankName}
+                      onValue={(bankName) => setFilter({ ...filter, bankName })}
+                    />
+                    <Input
+                      type="text"
+                      label="Bank Address"
+                      placeholder="St 6 Ft. Honey Park, NYC 1000001"
+                      value={filter.bankAddress}
+                      onValue={(bankAddress) =>
+                        setFilter({ ...filter, bankAddress })
+                      }
+                    />
+                    <Input
+                      type="text"
+                      label="IBAN"
+                      placeholder="7895516485489487"
+                      value={filter.iban}
+                      onValue={(iban) => setFilter({ ...filter, iban })}
+                    />
+                  </Stack>
+                </WithdrawGridLeft>
+                <WithdrawGridRight>
+                  <Stack>
+                    <InputGroup
+                      label="Enter Amount (Available amount is $499.00)"
+                      inputRatio="100px 1fr"
+                      elements={[
+                        {
+                          value: filter.currency,
+                          onValue: (currency) =>
+                            setFilter({ ...filter, currency }),
+                          type: 'select',
+                          placeholder: 'USD',
+                          options: [
+                            {
+                              value: 'eur',
+                              label: 'EUR',
+                            },
+                            {
+                              value: 'usd',
+                              label: 'USD',
+                            },
+                          ],
+                        },
+                        {
+                          value: filter.amountW,
+                          onValue: (amountW) =>
+                            setFilter({ ...filter, amountW }),
+                          type: 'text',
+                          placeholder: '420',
+                        },
+                      ]}
+                    />
+                    <Note showIcon>Currency conversion fee is 1.00%</Note>
+                    <Input
+                      type="text"
+                      label="Confirm Password"
+                      placeholder="Password"
+                      value={filter.password}
+                      onValue={(password) => setFilter({ ...filter, password })}
+                    />
+                    <Note showIcon>
+                      Enter your password to make sure it is really you.
+                    </Note>
+                    <Button color="primary" variant="contained" size="large">
+                      Withdraw
+                    </Button>
+                  </Stack>
+                </WithdrawGridRight>
+              </WithdrawGrid>
+              <IconWithText
+                icon={<HouseIcon />}
+                title="Withdraw money with ease!"
+                text={[
+                  "Withdraw money from your Patients Influence account to your nominated personal bank account with ease. Please bear in mind that depending on your location, local bank's working hours and speed, the deposit may take up to a few days to reflected in your bank account.",
+                  'For any additional questions, please feel free to contact us at any time.',
+                ]}
+              />
+            </Stack>
+          </WithdrawContainer>
         )}
       </Card>
       {eiModal && <ExportIncomeModal onClose={closeEiModal} />}

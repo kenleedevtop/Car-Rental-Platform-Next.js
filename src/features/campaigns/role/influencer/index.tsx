@@ -35,7 +35,7 @@ const CampaignsPage = () => {
 
   return (
     <CampaignsPageMain>
-      <CampaignsPageCharts columns={3}>
+      <CampaignsPageCharts>
         <CardWithChart
           title="Available Campaigns"
           icon={<GramophoneIcon />}
