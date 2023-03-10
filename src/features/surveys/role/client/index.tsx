@@ -47,7 +47,7 @@ const SurveyPage = () => {
 
   return (
     <SurveysPageMain>
-      <SurveysPageCharts columns={4}>
+      <SurveysPageCharts>
         <CardWithChart
           title="In Preparation"
           icon={<IdentifiedIcon />}

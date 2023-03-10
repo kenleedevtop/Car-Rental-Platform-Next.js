@@ -11,6 +11,10 @@ export const SidebarMain = styled.div<{ theme?: Theme }>`
     align-items: center;
     padding: ${theme.spacing(5)} 0;
     background-color: ${theme.palette.common.white};
+
+    ${theme.breakpoints.down('lg')} {
+      transform: translateX(-100%);
+    }
     `}
 `;
 

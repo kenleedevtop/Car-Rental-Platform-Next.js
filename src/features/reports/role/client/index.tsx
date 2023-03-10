@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import {
-  SmlPageMain,
-  SmlPageCharts,
-  SmlPageFilter,
-  SmlPageFilterActions,
-} from 'features/sml/styles';
+  ReportsPageMain,
+  ReportsPageCharts,
+  ReportsPageFilter,
+  ReportsPageFilterActions,
+} from 'features/reports/styles';
 import {
   CardWithChart,
   CardWithText,
@@ -52,8 +52,8 @@ const ReportsPage = () => {
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   return (
-    <SmlPageMain>
-      <SmlPageCharts columns={4}>
+    <ReportsPageMain>
+      <ReportsPageCharts>
         <CardWithChart
           title="Without report"
           icon={<IdentifiedIcon />}
@@ -102,8 +102,8 @@ const ReportsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-      </SmlPageCharts>
-      <SmlPageCharts columns={4}>
+      </ReportsPageCharts>
+      <ReportsPageCharts>
         <CardWithChart
           title="Reach"
           icon={<IdentifiedIcon />}
@@ -152,7 +152,7 @@ const ReportsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-      </SmlPageCharts>
+      </ReportsPageCharts>
       <CardWithText
         title="Reports"
         description="2 New Reports This Month"
@@ -175,7 +175,7 @@ const ReportsPage = () => {
       >
         <Stack>
           <Collapse in={filterOpen}>
-            <SmlPageFilter>
+            <ReportsPageFilter>
               <Grid columns={4}>
                 <Input
                   type="text"
@@ -261,7 +261,7 @@ const ReportsPage = () => {
                   onValue={(budget) => setFilter({ ...filter, budget })}
                 />
               </Grid>
-              <SmlPageFilterActions direction="horizontal">
+              <ReportsPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
                 </Button>
@@ -272,8 +272,8 @@ const ReportsPage = () => {
                 >
                   Clear filter
                 </Button>
-              </SmlPageFilterActions>
-            </SmlPageFilter>
+              </ReportsPageFilterActions>
+            </ReportsPageFilter>
           </Collapse>
           <Tabs
             tabs={['Without Report', 'To Be Created', 'Received', 'Approved']}
@@ -333,7 +333,7 @@ const ReportsPage = () => {
       </CardWithText>
       {erModal && <ExportReportsModal onClose={closeErModal} />}
       {crModal && <CreateReportsModal onClose={closeCrModal} />}
-    </SmlPageMain>
+    </ReportsPageMain>
   );
 };
 

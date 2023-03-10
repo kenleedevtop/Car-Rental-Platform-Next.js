@@ -6,8 +6,19 @@ export const SmlPageMain = styled(Stack)`
   width: 100%;
 `;
 
-export const SmlPageCharts = styled(Grid)`
-  width: 100%;
+export const SmlPageCharts = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: ${theme.spacing(5)};
+
+  ${theme.breakpoints.down('xl')} {
+    grid-template-columns: 1fr 1fr;
+  }
+  ${theme.breakpoints.down('sm')} {
+    grid-template-columns: 1fr;
+  }
+`}
 `;
 
 export const SmlPageFilter = styled(Stack)<{ theme?: Theme }>`

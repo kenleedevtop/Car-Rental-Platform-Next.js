@@ -22,7 +22,7 @@ const HomePage = () => (
   <HomePageMain>
     <HomePageCharts>
       <HomePageChartsLabel>Campaigns Overview</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="In preparation"
           icon={<IdentifiedIcon />}
@@ -74,7 +74,7 @@ const HomePage = () => (
       </HomePageChartsGrid>
     </HomePageCharts>
     <HomePageCharts>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithProgress
           title="Influencers"
           icon={<RedCrossIcon />}
@@ -223,7 +223,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Reports Overview</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="Instagram"
           icon={<IdentifiedIcon />}
@@ -324,7 +324,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Social Media Listening Overview</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="In Preparation"
           icon={<IdentifiedIcon />}
@@ -377,7 +377,7 @@ const HomePage = () => (
     </HomePageCharts>
     <HomePageCharts>
       <HomePageChartsLabel>Surveys Overview</HomePageChartsLabel>
-      <HomePageChartsGrid columns={4}>
+      <HomePageChartsGrid>
         <CardWithChart
           title="To Be Created"
           icon={<IdentifiedIcon />}

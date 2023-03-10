@@ -1,13 +1,39 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
-import { Grid, Stack } from 'components/system';
+import { Stack } from 'components/system';
 
 export const SurveysPageMain = styled(Stack)`
   width: 100%;
 `;
 
-export const SurveysPageCharts = styled(Grid)`
-  width: 100%;
+export const SurveysPageCharts = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: ${theme.spacing(5)};
+
+    ${theme.breakpoints.down('xl')} {
+      grid-template-columns: 1fr 1fr;
+    }
+    ${theme.breakpoints.down('sm')} {
+      grid-template-columns: 1fr;
+    }
+  `}
+`;
+
+export const SurveysInfluencerPageCharts = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: ${theme.spacing(5)};
+
+    ${theme.breakpoints.down('xl')} {
+      grid-template-columns: 1fr 1fr;
+    }
+    ${theme.breakpoints.down('sm')} {
+      grid-template-columns: 1fr;
+    }
+  `}
 `;
 
 export const SurveysPageFilter = styled(Stack)<{ theme?: Theme }>`

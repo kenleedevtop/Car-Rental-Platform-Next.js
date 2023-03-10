@@ -18,10 +18,16 @@ export const DashboardLayoutBox = styled.div`
   display: flex;
 `;
 
-export const DashboardLayoutSidebar = styled(Sidebar)`
-  min-width: 175px;
-  width: 175px;
-  height: 100%;
+export const DashboardLayoutSidebar = styled(Sidebar)<{ theme?: Theme }>`
+  ${({ theme }) => `
+    min-width: 175px;
+    width: 175px;
+    height: 100%;
+
+    ${theme.breakpoints.down('lg')} {
+      display: none;
+    }
+  `}
 `;
 
 export const DashboardLayoutContainerOuter = styled.div<{ theme?: Theme }>`
@@ -46,6 +52,9 @@ export const DashboardLayoutContainer = styled.div<{ theme?: Theme }>`
 export const DashboardLayoutContent = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
   width: calc(100% - 350px - ${theme.spacing(5)});
+  ${theme.breakpoints.down('lg')} {
+      width: 100%;
+  }
   `}
 `;
 
@@ -56,5 +65,8 @@ export const DashboardLayoutWidgets = styled.div<{ theme?: Theme }>`
     display: flex;
     flex-direction: column;
     gap: ${theme.spacing(5)};
+    ${theme.breakpoints.down('lg')} {
+      display: none;
+    }
   `}
 `;

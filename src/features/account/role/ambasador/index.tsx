@@ -4,8 +4,11 @@ import {
   AccountMain,
   AccountSpan,
   AccountChange,
+  AccountContainer,
+  AccountForm,
+  AccountStack,
 } from 'features/account/style';
-import { Grid, GridCell, Stack } from 'components/system';
+import { Stack } from 'components/system';
 import { Input } from 'components/ui';
 import {
   ChangeEmailModal,
@@ -28,10 +31,10 @@ const AccountPage = ({ ...props }) => {
 
   return (
     <AccountMain {...props}>
-      <Grid columns={4}>
-        <GridCell columnSpan={2}>
+      <AccountContainer>
+        <AccountForm>
           <Stack>
-            <Grid columns={2}>
+            <AccountStack direction="horizontal">
               <Input
                 type="text"
                 label="First Name"
@@ -46,8 +49,8 @@ const AccountPage = ({ ...props }) => {
                 value={filter.lastName}
                 onValue={(lastName) => setFilter({ ...filter, lastName })}
               />
-            </Grid>
-            <Grid columns={2}>
+            </AccountStack>
+            <AccountStack direction="horizontal">
               <Input
                 type="text"
                 label="Company"
@@ -62,7 +65,7 @@ const AccountPage = ({ ...props }) => {
                 value={filter.role}
                 onValue={(role) => setFilter({ ...filter, role })}
               />
-            </Grid>
+            </AccountStack>
             <AccountChange>
               <Input
                 type="text"
@@ -84,8 +87,8 @@ const AccountPage = ({ ...props }) => {
               <AccountSpan onClick={openCpModal}>Change Password</AccountSpan>
             </AccountChange>
           </Stack>
-        </GridCell>
-      </Grid>
+        </AccountForm>
+      </AccountContainer>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
       {cpModal && <ChangePasswordModal onClose={closeCpModal} />}
     </AccountMain>

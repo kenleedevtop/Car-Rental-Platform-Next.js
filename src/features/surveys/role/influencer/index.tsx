@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   SurveysPageMain,
-  SurveysPageCharts,
+  SurveysInfluencerPageCharts,
   SurveysPageFilter,
   SurveysPageFilterActions,
 } from 'features/surveys/styles';
@@ -32,7 +32,7 @@ const SurveysPage = () => {
 
   return (
     <SurveysPageMain>
-      <SurveysPageCharts columns={3}>
+      <SurveysInfluencerPageCharts>
         <CardWithChart
           title="Available"
           icon={<GramophoneIcon />}
@@ -69,7 +69,7 @@ const SurveysPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-      </SurveysPageCharts>
+      </SurveysInfluencerPageCharts>
       <CardWithText
         title="Available Surveys"
         description="20 new Surveys"
