@@ -63,6 +63,21 @@ export const HelpPageContactContainer = styled.div<{ theme?: Theme }>`
                 padding-bottom: 0;
             }
         }
+
+        ${theme.breakpoints.down('md')} {
+            &:first-of-type {
+                border-right: unset;
+                border-bottom: 1px solid ${theme.palette.default.main};
+                padding-right: 0;
+                padding-bottom: ${theme.spacing(10)};
+            }
+    
+            &:last-of-type {
+                border: none;
+                padding-left: 0;
+                padding-top: ${theme.spacing(10)};
+            }
+        }
     `}
 `;
 
@@ -71,5 +86,9 @@ export const HelpPageIconWithTextContainer = styled.div<{ theme?: Theme }>`
             display: flex;
             flex-direction: column;
             gap: ${theme.spacing(15)};
+
+            ${theme.breakpoints.down('md')} {
+                align-items: center;
+            }
         `}
 `;
