@@ -10,10 +10,18 @@ export const CardMain = styled(Card)<{ theme?: Theme }>`
     `}
 `;
 
-export const CardHead = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+export const CardHead = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    ${theme.breakpoints.down('sm')} {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: ${theme.spacing(5)};
+    }
+  `}
 `;
 
 export const CardText = styled.div``;
@@ -39,6 +47,11 @@ export const CardActions = styled.div<{ theme?: Theme }>`
     display: flex;
     align-items: center;
     gap: ${theme.spacing(4)};
+
+    ${theme.breakpoints.down('sm')} {
+      display: grid;
+      gap: ${theme.spacing(4)};
+    }
 `}
 `;
 

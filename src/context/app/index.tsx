@@ -23,7 +23,12 @@ const AppContextProvider = ({ ...props }) => {
     user: null,
     role: 'CLIENT',
     initialLoading: true,
+    showMobileMenu: false,
   });
+
+  const handleMobileMenu = (value: boolean) => {
+    setState((x) => ({ ...x, showMobileMenu: value }));
+  };
 
   const setRouteName = (routeName: string) => {
     setState((x) => ({ ...x, routeName }));
@@ -74,8 +79,8 @@ const AppContextProvider = ({ ...props }) => {
   }, []);
 
   const providerValue = useMemo(
-    () => ({ ...state, setRouteName, login, logout }),
-    [state, setRouteName, login, logout]
+    () => ({ ...state, setRouteName, login, logout, handleMobileMenu }),
+    [state, setRouteName, login, logout, handleMobileMenu]
   );
   return state.initialLoading ? (
     <LoadingPage />

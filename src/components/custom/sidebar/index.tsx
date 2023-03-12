@@ -4,6 +4,7 @@ import {
   SidebarLogo,
   SidebarItems,
   SidebarLogoLink,
+  SidebarCancel,
 } from 'components/custom/sidebar/styles';
 import {
   SidebarItem,
@@ -12,12 +13,22 @@ import {
 import { DSidebarItems } from 'components/custom/sidebar/data';
 import { TSidebarProps } from 'components/custom/sidebar/types';
 import { useAppContext } from 'context';
+import { CancelIcon } from 'components/svg';
 
 const Sidebar = ({ ...props }: TSidebarProps) => {
-  const { role } = useAppContext();
+  const { role, handleMobileMenu, showMobileMenu } = useAppContext();
+
+  const handleSidebar = () => {
+    if (window.innerWidth < 1200) {
+      handleMobileMenu(!showMobileMenu);
+    }
+  };
 
   return (
     <SidebarMain {...props}>
+      <SidebarCancel onClick={handleSidebar}>
+        <CancelIcon />
+      </SidebarCancel>
       <SidebarLogoLink href="/">
         <SidebarLogo src="/static/assets/images/PatientsInfluence.svg" />
       </SidebarLogoLink>
@@ -29,6 +40,7 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
               icon={x.icon}
               items={x.items}
               key={x.id}
+              onClick={handleSidebar}
             />
           ) : (
             <SidebarItem
@@ -36,6 +48,7 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
               icon={x.icon}
               location={x.location}
               key={x.id}
+              onClick={handleSidebar}
             />
           )
         )}

@@ -8,4 +8,6 @@ export const createInitialState = (): TAppContext => ({
   logout: () => {},
   role: 'CLIENT',
   initialLoading: true,
+  showMobileMenu: false,
+  handleMobileMenu: () => {},
 });

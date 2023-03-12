@@ -6,6 +6,7 @@ import {
   IncomePageChartsGrid,
   IncomePageFilter,
   IncomePageFilterActions,
+  IncomePageFilterContainer,
   WithdrawContainer,
   WithdrawGrid,
   WithdrawGridLeft,
@@ -32,7 +33,7 @@ import {
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Card, Input, InputGroup, Pagination } from 'components/ui';
-import { Collapse, Grid, GridCell, Stack } from 'components/system';
+import { Collapse, Grid, Stack } from 'components/system';
 import { useModal } from 'hooks';
 import { ExportIncomeModal } from 'features/income/role/ambasador/elements';
 import Note from 'components/custom/note';
@@ -118,6 +119,11 @@ const IncomePage = () => {
           <CardWithText
             title="Account Statement"
             description="20 new Campaigns"
+            style={
+              window.innerWidth < 600
+                ? { padding: '1.25rem 0', boxShadow: 'unset' }
+                : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+            }
             actions={[
               <Button
                 color={filterOpen ? 'secondary' : 'default'}
@@ -135,7 +141,7 @@ const IncomePage = () => {
             <Stack>
               <Collapse removeGap in={filterOpen}>
                 <IncomePageFilter>
-                  <Grid columns={4}>
+                  <IncomePageFilterContainer>
                     <Input
                       type="select"
                       label="Search For Statement"
@@ -145,7 +151,7 @@ const IncomePage = () => {
                     />
                     <InputGroup
                       label="Start & Finish"
-                      inputRatio="200px 200px"
+                      inputRatio="1fr 1fr"
                       elements={[
                         {
                           value: filter.start,
@@ -176,7 +182,7 @@ const IncomePage = () => {
                       value={filter.amount}
                       onValue={(amount) => setFilter({ ...filter, amount })}
                     />
-                  </Grid>
+                  </IncomePageFilterContainer>
                   <IncomePageFilterActions direction="horizontal">
                     <Button color="primary" variant="contained">
                       Filter

@@ -23,7 +23,14 @@ const HelpCollapse = ({ title, icon, text, ...props }: THelpCollapseProps) => {
           <h2>{title}</h2>
           {icon}
         </HelpCollapseHeader>
-        <Collapse style={{ paddingRight: '150px' }} in={help}>
+        <Collapse
+          style={
+            window.innerWidth < 600
+              ? { paddingRight: '0' }
+              : { paddingRight: '150px' }
+          }
+          in={help}
+        >
           {text}
         </Collapse>
       </Stack>
