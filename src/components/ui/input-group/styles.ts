@@ -12,10 +12,17 @@ export const InputGroupLabel = styled(Label)<{ theme?: Theme }>`
 
 export const InputGroupElements = styled.div<{
   inputRatio: string;
+  theme?: Theme;
 }>`
-  ${({ inputRatio }) => `
+  ${({ inputRatio, theme }) => `
         display: grid;
         grid-template-columns: ${inputRatio};
+
+        ${theme.breakpoints.down('sm')} {
+          display: grid;
+          grid-template-columns: 1fr !important;
+          gap: ${theme.spacing(2)};
+        }
     `}
 `;
 

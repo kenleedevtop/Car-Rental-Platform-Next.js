@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   NavigationMain,
   NavigationRouteName,
@@ -11,11 +11,20 @@ import {
   NavigationSearch,
   NavigationProfileDropdown,
   NavigationProvileIcon,
+  NavigationMenu,
+  NavigationMenuButton,
+  NavigationNotification,
 } from 'components/custom/navigation/styles';
 import { ProfilePicture } from 'components/custom/navigation/elements';
 import { TNavigationProps } from 'components/custom/navigation/types';
 import { useAppContext } from 'context';
-import { AccountIcon, ArrowDownIcon, LogoutIcon } from 'components/svg';
+import {
+  AccountIcon,
+  ArrowDownIcon,
+  BellIcon,
+  LogoutIcon,
+  MenuIcon,
+} from 'components/svg';
 import { useMenu, useModal } from 'hooks';
 import { useRouter } from 'next/router';
 
@@ -37,7 +46,8 @@ const Navigation = ({ ...props }: TNavigationProps) => {
     }
   };
 
-  const { logout, routeName, role, user } = useAppContext();
+  const { logout, routeName, role, user, handleMobileMenu, showMobileMenu } =
+    useAppContext();
 
   const handleMenu = () => {
     setOpen(!open);
@@ -49,9 +59,18 @@ const Navigation = ({ ...props }: TNavigationProps) => {
     setOpen(!open);
   };
 
+  const handleSidebar = () => {
+    handleMobileMenu(!showMobileMenu);
+  };
+
   return (
     <NavigationMain {...props}>
-      <NavigationRouteName>{routeName}</NavigationRouteName>
+      <NavigationMenu>
+        <NavigationMenuButton onClick={handleSidebar}>
+          <MenuIcon />
+        </NavigationMenuButton>
+        <NavigationRouteName>{routeName}</NavigationRouteName>
+      </NavigationMenu>
       <NavigationItems>
         {['ADMIN'].includes(role) && (
           <NavigationSearch
@@ -64,6 +83,9 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         {['AMBASSADOR', 'INFLUENCER', 'CLIENT'].includes(role) && (
           <NavigationBalance>Balance: $499.00</NavigationBalance>
         )}
+        <NavigationNotification>
+          <BellIcon />
+        </NavigationNotification>
         <NavigationProfileOuter>
           <NavigationProfile onClick={handleMenu}>
             <NavigationProfileName>{`${user?.firstName} ${user?.lastName}`}</NavigationProfileName>

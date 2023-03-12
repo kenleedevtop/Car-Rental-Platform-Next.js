@@ -7,6 +7,9 @@ export const TableWrapper = styled.div<{ theme?: Theme }>`
     border-radius: 4px;
     border: 1px solid ${theme.palette.common.black}20;
     background-color: ${theme.palette.common.white};
+
+    overflow-x: scroll;
+    overflow-y: hidden;
   `}
 `;
 
@@ -47,7 +50,6 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
         text-align: left;
         color: ${theme.palette.primary.main};
         font-weight: 500;
-        max-width: 130px;
         white-space: nowrap; 
         ${
           action
@@ -69,6 +71,7 @@ export const TableBodyCell = styled.td<{ theme?: Theme }>`
         padding: ${theme.spacing(5)};
         text-align: left;
         color: ${theme.palette.common.gray[10]};
+        white-space: nowrap; 
     `}
 `;
 

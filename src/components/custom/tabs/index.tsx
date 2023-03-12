@@ -18,6 +18,9 @@ const Tabs = ({ value, onValue, tabs, ...props }: TTabsProps) => {
       onChange={handleChange}
       textColor="secondary"
       indicatorColor="secondary"
+      variant={window.innerWidth < 600 ? 'scrollable' : 'standard'}
+      scrollButtons="auto"
+      allowScrollButtonsMobile
       {...props}
     >
       {tabs.map((x, y) => (
