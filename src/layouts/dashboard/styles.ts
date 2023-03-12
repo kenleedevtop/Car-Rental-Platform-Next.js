@@ -25,7 +25,14 @@ export const DashboardLayoutSidebar = styled(Sidebar)<{ theme?: Theme }>`
     height: 100%;
 
     ${theme.breakpoints.down('lg')} {
-      display: none;
+      transform: translateX(-100%);
+      transition: transform 0.15s ease-in-out;
+      position: fixed;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      background: #fff;
+      z-index: 9999;
     }
   `}
 `;

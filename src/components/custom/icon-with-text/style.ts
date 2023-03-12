@@ -6,7 +6,13 @@ export const IconWithTextMain = styled.div<{ theme?: Theme }>`
     display: grid;
     grid-template-columns: 60px auto;
     align-items: center;
-    gap: ${theme.spacing(4)}
+    gap: ${theme.spacing(4)};
+
+      ${theme.breakpoints.down('sm')} {
+        display: grid;
+        grid-template-columns: 1fr;
+        place-items: center;
+      }
     `}
 `;
 
@@ -37,9 +43,15 @@ export const IconWithTextText = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const IconWithTextTitle = styled.div`
-  color: #7e839f;
-  font-size: 22px;
+export const IconWithTextTitle = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    color: #7e839f;
+    font-size: 22px;
+    
+    ${theme.breakpoints.down('sm')} {
+      text-align: center;
+    }
+  `}
 `;
 
 export const IconWithTextP = styled.div<{ theme?: Theme }>`
@@ -47,5 +59,9 @@ export const IconWithTextP = styled.div<{ theme?: Theme }>`
     color: ${theme.palette.primary.main};
     font-weight: 400;
     font-size: 14px;
+
+    ${theme.breakpoints.down('sm')} {
+      text-align: center;
+    }
     `}
 `;

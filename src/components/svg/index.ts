@@ -56,3 +56,5 @@ export { default as ReceivedIcon } from 'components/svg/received';
 export { default as ManageIcon } from 'components/svg/manage';
 export { default as ReportSMLIcon } from 'components/svg/report-sml';
 export { default as ServicesIcon } from 'components/svg/services';
+export { default as MenuIcon } from 'components/svg/menu';
+export { default as BellIcon } from 'components/svg/bell';

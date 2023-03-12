@@ -6,10 +6,12 @@ export type TAppContextState = {
   routeName: string;
   role: TUserRole;
   initialLoading: boolean;
+  showMobileMenu: boolean;
 };
 
 export type TAppContext = TAppContextState & {
   setRouteName: (name: string) => void;
   login: (body: TLoginParams, locale?: string) => Promise<any>;
   logout: () => void;
+  handleMobileMenu: (value: boolean) => void;
 };

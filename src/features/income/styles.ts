@@ -33,13 +33,45 @@ export const IncomePageFilter = styled(Stack)<{ theme?: Theme }>`
     `}
 `;
 
+export const IncomePageFilterContainer = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: ${theme.spacing(5)};
+
+    ${theme.breakpoints.down('xl')} {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    ${theme.breakpoints.down('lg')} {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    ${theme.breakpoints.down('lg')} {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    ${theme.breakpoints.down('sm')} {
+      grid-template-columns: 1fr;
+    }
+  `}
+`;
+
 export const IncomePageFilterActions = styled(Stack)<{
   theme?: Theme;
 }>`
-  justify-content: flex-end;
-  & > * {
-    min-width: 100px;
-  }
+  ${({ theme }) => `
+    justify-content: flex-end;
+    & > * {
+      min-width: 100px;
+    }
+
+    ${theme.breakpoints.down('sm')} {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      gap: ${theme.spacing(5)};
+    }
+  `}
 `;
 
 export const IconBackground = styled.div<{ theme?: Theme }>`

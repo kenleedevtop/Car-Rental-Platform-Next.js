@@ -14,6 +14,11 @@ export const AvatarMain = styled.div<{ theme?: Theme }>`
     justify-content: center;
     text-align: center;
     position: relative;
+
+    ${theme.breakpoints.down('sm')} {
+      width: 32px;
+      height: 32px;
+    }
   `}
 `;
 

@@ -11,9 +11,10 @@ export const SidebarMain = styled.div<{ theme?: Theme }>`
     align-items: center;
     padding: ${theme.spacing(5)} 0;
     background-color: ${theme.palette.common.white};
+    position: relative;
 
     ${theme.breakpoints.down('lg')} {
-      transform: translateX(-100%);
+      padding-top: ${theme.spacing(20)}
     }
     `}
 `;
@@ -34,5 +35,25 @@ export const SidebarItems = styled.div<{ theme?: Theme }>`
         width: 100%;
         gap: ${theme.spacing(3.75)};
         padding-left: ${theme.spacing(2.5)};
+    `}
+`;
+
+export const SidebarCancel = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+      display: none;
+      cursor: pointer;
+
+      ${theme.breakpoints.down('lg')} {
+        position: absolute;
+        display: block;
+        top: 10px;
+        right: 10px;
+
+        svg {
+          width: 20px;
+          height: 20px;
+          color: ${theme.palette.primary.light};
+        }
+      }
     `}
 `;
