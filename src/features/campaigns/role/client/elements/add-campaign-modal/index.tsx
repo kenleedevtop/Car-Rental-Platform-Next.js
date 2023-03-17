@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
 import { AddCampaignsModalMain } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
-import { Button, Input } from 'components/ui';
+import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 
@@ -10,10 +10,8 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
   const [state, setState] = useState({
     campaignName: '',
     product: '',
-    startNFinishDate: {
-      min: '',
-      max: '',
-    },
+    startDate: null,
+    endDate: null,
     report: null,
     budget: '',
     campaignInfo: '',
@@ -24,6 +22,8 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
     location: null,
     ageRange: null,
     gender: null,
+    ethnicity: [],
+    interests: [],
     targetAudienceInfo: '',
 
     platform: null,
@@ -53,7 +53,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
       onClose={onClose}
       {...props}
     >
-      <Stack style={{ height: '550px' }}>
+      <Stack style={{ height: '650px' }}>
         <Tabs
           tabs={['Info', 'Target', 'Instructions']}
           value={tab}
@@ -77,14 +77,23 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               value={state.product}
               onValue={(product) => setState({ ...state, product })}
             />
-            <Input
-              type="min-max"
-              label="Start & Finish Date"
-              placeholder="Please Select"
-              value={state.startNFinishDate}
-              onValue={(startNFinishDate) =>
-                setState({ ...state, startNFinishDate })
-              }
+            <InputGroup
+              label="Start & Finish date"
+              inputRatio="1fr 1fr"
+              elements={[
+                {
+                  type: 'date',
+                  placeholder: 'From',
+                  value: state.startDate,
+                  onValue: (startDate) => setState({ ...state, startDate }),
+                },
+                {
+                  type: 'date',
+                  placeholder: 'To',
+                  value: state.endDate,
+                  onValue: (endDate) => setState({ ...state, endDate }),
+                },
+              ]}
             />
             <Input
               type="select"
@@ -155,11 +164,35 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               onValue={(ageRange) => setState({ ...state, ageRange })}
             />
             <Input
-              type="date"
+              type="select"
               label="Gender"
               placeholder="Please Select"
               value={state.gender}
               onValue={(gender) => setState({ ...state, gender })}
+              options={[
+                {
+                  value: 1,
+                  label: 'Male',
+                },
+                {
+                  value: 2,
+                  label: 'Female',
+                },
+              ]}
+            />
+            <Input
+              type="multiselect"
+              label="Ethnicity"
+              placeholder="Please Select"
+              value={state.ethnicity}
+              onValue={(ethnicity) => setState({ ...state, ethnicity })}
+            />
+            <Input
+              type="multiselect"
+              label="Interests"
+              placeholder="Please Select"
+              value={state.interests}
+              onValue={(interests) => setState({ ...state, interests })}
             />
             <GridCell columnSpan={2}>
               <Input

@@ -32,15 +32,15 @@ export const StepForm = styled.div<{ theme?: Theme }>`
     gap: ${theme.spacing(5)};
 
     ${theme.breakpoints.down('xl')} {
-      grid-column: 1/5;
+      grid-column: 1/6;
     }
 
     ${theme.breakpoints.down('lg')} {
-      grid-column: 1/4;
+      grid-column: 1/5;
     }
 
     ${theme.breakpoints.down('md')} {
-      grid-column: 1/5;
+      grid-column: 1/6;
     }
 
     ${theme.breakpoints.down('sm')} {

@@ -34,6 +34,7 @@ export const AccountForm = styled.div<{ theme?: Theme }>`
     display: grid;
     grid-template-columns: 1fr;
     grid-column: 1/3;
+    gap: ${theme.spacing(5)};
 
     ${theme.breakpoints.down('xl')} {
       grid-column: 1/4;

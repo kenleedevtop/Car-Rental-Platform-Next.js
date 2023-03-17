@@ -317,6 +317,7 @@ const DiscoverInfluencersPage = () => {
           <Pagination count={counter} page={page} onChange={handlePage} />
           <Stack direction="horizontal">
             <ToBeApprovedActions />
+            <DiscoverActions data={currentInfluencer} />
           </Stack>
         </Stack>
       </CardWithText>

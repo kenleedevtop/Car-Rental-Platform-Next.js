@@ -4,6 +4,7 @@ import {
   ReportsPageCharts,
   ReportsPageFilter,
   ReportsPageFilterActions,
+  ReportsPageFilterContainer,
 } from 'features/reports/styles';
 import {
   CardWithChart,
@@ -21,7 +22,7 @@ import {
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
-import { Grid, Stack } from 'components/system';
+import { Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import { DGenerateReportsFilter } from 'features/reports/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
@@ -156,6 +157,11 @@ const ReportsPage = () => {
       <CardWithText
         title="Reports"
         description="2 New Reports This Month"
+        style={
+          window.innerWidth < 600
+            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+        }
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -176,7 +182,7 @@ const ReportsPage = () => {
         <Stack>
           <Collapse in={filterOpen}>
             <ReportsPageFilter>
-              <Grid columns={4}>
+              <ReportsPageFilterContainer>
                 <Input
                   type="text"
                   label="Search For Report"
@@ -260,7 +266,7 @@ const ReportsPage = () => {
                   value={filter.budget}
                   onValue={(budget) => setFilter({ ...filter, budget })}
                 />
-              </Grid>
+              </ReportsPageFilterContainer>
               <ReportsPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

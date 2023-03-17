@@ -4,6 +4,7 @@ import {
   BenefitsPageCharts,
   BenefitsPageFilter,
   BenefitsPageFilterActions,
+  BenefitsPageFilterContainer,
 } from 'features/benefits/role/influencer/styles';
 import {
   DFinanceHead,
@@ -208,7 +209,7 @@ const BenefitsPage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <BenefitsPageFilter>
-              <Grid columns={4}>
+              <BenefitsPageFilterContainer>
                 <Input
                   type="text"
                   label="Search For Benefit"
@@ -230,7 +231,7 @@ const BenefitsPage = () => {
                   value={filter.category}
                   onValue={(category) => setFilter({ ...filter, category })}
                 />
-              </Grid>
+              </BenefitsPageFilterContainer>
               <BenefitsPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

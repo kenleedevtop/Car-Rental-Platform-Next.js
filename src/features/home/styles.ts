@@ -35,3 +35,16 @@ export const HomePageChartsGrid = styled.div<{ theme?: Theme }>`
   }
 `}
 `;
+
+export const HomeInfluencerPageGrid = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: ${theme.spacing(5)};
+
+      
+      ${theme.breakpoints.down('xl')} {
+        grid-template-columns: 1fr;
+      }
+  `}
+`;

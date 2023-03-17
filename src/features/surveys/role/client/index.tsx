@@ -4,6 +4,7 @@ import {
   SurveysPageCharts,
   SurveysPageFilter,
   SurveysPageFilterActions,
+  SurveysPageFilterContainer,
 } from 'features/surveys/styles';
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
@@ -100,6 +101,11 @@ const SurveyPage = () => {
       <CardWithText
         title="Surveys"
         description="More than 290+ new Reports"
+        style={
+          window.innerWidth < 600
+            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+        }
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -120,7 +126,7 @@ const SurveyPage = () => {
         <Stack>
           <Collapse in={filterOpen}>
             <SurveysPageFilter>
-              <Grid columns={4}>
+              <SurveysPageFilterContainer>
                 <Input
                   type="select"
                   label="Location"
@@ -169,7 +175,7 @@ const SurveyPage = () => {
                   value={filter.budget}
                   onValue={(budget) => setFilter({ ...filter, budget })}
                 />
-              </Grid>
+              </SurveysPageFilterContainer>
               <SurveysPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

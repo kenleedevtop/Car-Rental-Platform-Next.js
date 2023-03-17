@@ -31,7 +31,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
       {...props}
     >
       <Stack>
-        <AddCampaignsModalMain columns={2}>
+        <AddCampaignsModalMain>
           <Input
             type="text"
             label="Company Name"
