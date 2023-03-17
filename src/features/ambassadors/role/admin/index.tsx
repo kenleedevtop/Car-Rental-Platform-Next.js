@@ -13,6 +13,7 @@ import { DAmbassadorsHead } from 'features/ambassadors/data';
 import { useModal } from 'hooks';
 import {
   AmbassadorsProfile,
+  ClientListAmbassadorModal,
   ContactAmbassadorsModal,
   DeleteAmbassadorsModal,
   InviteAmbassadors,
@@ -23,14 +24,13 @@ import {
 const AdminAmbassadorsPage = () => {
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
-  const [tabs, setTabs] = useState(0);
-
   const [daModal, openDaModal, closeDaModal] = useModal(false);
   const [caModal, openCaModal, closeCaModal] = useModal(false);
   const [saModal, openSaModal, closeSaModal] = useModal(false);
   const [apModal, openApModal, closeApModal] = useModal(false);
   const [naModal, openNaModal, closeNaModal] = useModal(false);
   const [iaModal, openIaModal, closeIaModal] = useModal(false);
+  const [claModal, openClaModal, closeClaModal] = useModal(false);
 
   return (
     <AmbassadorsPageMain>
@@ -87,11 +87,6 @@ const AdminAmbassadorsPage = () => {
         ]}
       >
         <Stack>
-          <Tabs
-            value={tabs}
-            onValue={setTabs}
-            tabs={['Registered', 'Approved', 'Clients']}
-          />
           <Table head={DAmbassadorsHead} items={[]} renderItem={renderItem} />
           <Pagination count={32} />
           <Stack direction="horizontal">
@@ -110,6 +105,9 @@ const AdminAmbassadorsPage = () => {
             <Button color="primary" variant="contained" onClick={openNaModal}>
               Note Ambasador
             </Button>
+            <Button color="primary" variant="contained" onClick={openClaModal}>
+              Client List
+            </Button>
           </Stack>
         </Stack>
       </CardWithText>
@@ -119,6 +117,7 @@ const AdminAmbassadorsPage = () => {
       {apModal && <AmbassadorsProfile onClose={closeApModal} />}
       {naModal && <NoteAmbassadors onClose={closeNaModal} />}
       {iaModal && <InviteAmbassadors onClose={closeIaModal} />}
+      {claModal && <ClientListAmbassadorModal onClose={closeClaModal} />}
     </AmbassadorsPageMain>
   );
 };

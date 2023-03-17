@@ -27,6 +27,8 @@ const CreateSurveysModal = ({
     ageRange: null,
     gender: null,
     targetAudInfo: '',
+    ethnicity: [],
+    interests: [],
 
     link: '',
     materials: null,
@@ -78,23 +80,24 @@ const CreateSurveysModal = ({
                 onValue={(type) => setState({ ...state, type })}
               />
             </Stack>
-            <Stack>
-              <InputLabel>Start & Finish date </InputLabel>
-              <Stack direction="horizontal">
-                <Input
-                  type="date"
-                  placeholder="Start"
-                  value={state.startDate}
-                  onValue={(startDate) => setState({ ...state, startDate })}
-                />
-                <Input
-                  type="date"
-                  placeholder="Finish"
-                  value={state.finishDate}
-                  onValue={(finishDate) => setState({ ...state, finishDate })}
-                />
-              </Stack>
-            </Stack>
+            <InputGroup
+              label="Start & Finish date"
+              inputRatio="1fr 1fr"
+              elements={[
+                {
+                  type: 'date',
+                  placeholder: 'From',
+                  value: state.startDate,
+                  onValue: (startDate) => setState({ ...state, startDate }),
+                },
+                {
+                  type: 'date',
+                  placeholder: 'To',
+                  value: state.finishDate,
+                  onValue: (finishDate) => setState({ ...state, finishDate }),
+                },
+              ]}
+            />
             <Stack direction="horizontal">
               <Input
                 type="select"
@@ -171,6 +174,20 @@ const CreateSurveysModal = ({
               placeholder="Please Select"
               value={state.gender}
               onValue={(gender) => setState({ ...state, gender })}
+            />
+            <Input
+              type="multiselect"
+              label="Ethnicity"
+              placeholder="Please Select"
+              value={state.ethnicity}
+              onValue={(ethnicity) => setState({ ...state, ethnicity })}
+            />
+            <Input
+              type="multiselect"
+              label="Interests"
+              placeholder="Please Select"
+              value={state.interests}
+              onValue={(interests) => setState({ ...state, interests })}
             />
             <GridCell columnSpan={2}>
               <Input

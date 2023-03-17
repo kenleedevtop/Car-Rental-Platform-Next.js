@@ -1,4 +1,4 @@
-export const DAmbassadorsHead = [
+export const DClientListHead = [
   {
     reference: 'client',
     label: 'Client',

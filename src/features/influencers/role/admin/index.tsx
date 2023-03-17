@@ -238,28 +238,21 @@ const InfluencersPage = () => {
                   />
                   <Input
                     type="multiselect"
-                    label="Mentions"
+                    label="Keywords"
                     placeholder="Choose several state"
-                    value={filter.mentions}
-                    onValue={(mentions) => setFilter({ ...filter, mentions })}
+                    value={filter.keywords}
+                    onValue={(keywords) => setFilter({ ...filter, keywords })}
                   />
                   <Input
                     type="multiselect"
-                    label="Hashtags"
+                    label="Labels"
                     placeholder="Choose several state"
-                    value={filter.hashtags}
-                    onValue={(hashtags) => setFilter({ ...filter, hashtags })}
-                  />
-                  <Input
-                    type="multiselect"
-                    label="Brands"
-                    placeholder="Choose several state"
-                    value={filter.brands}
-                    onValue={(brands) => setFilter({ ...filter, brands })}
+                    value={filter.labels}
+                    onValue={(labels) => setFilter({ ...filter, labels })}
                   />
                   <Input
                     type="min-max"
-                    label="Campaigns"
+                    label="Campaigns in Last 30 days"
                     value={filter.campaigns}
                     onValue={(campaigns) => setFilter({ ...filter, campaigns })}
                   />

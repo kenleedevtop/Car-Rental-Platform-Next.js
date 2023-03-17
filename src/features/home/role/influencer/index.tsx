@@ -10,6 +10,7 @@ import {
   CampaignsCard,
   Title,
 } from 'components/custom';
+import { HomeInfluencerPageGrid } from 'features/home/styles';
 import { TColor } from 'components/custom/status/types';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { DotsIcon, InfoIcon } from 'components/svg';
@@ -78,8 +79,8 @@ const HomePage = () => {
 
   return (
     <Stack>
-      <Grid columns={4}>
-        <GridCell columnSpan={2}>
+      <HomeInfluencerPageGrid>
+        <GridCell columnSpan={1}>
           <Stack>
             <CardWithText title="Campaigns" actions={[<DotsIcon />]}>
               <Stack>
@@ -191,7 +192,7 @@ const HomePage = () => {
             </CardWithText>
           </Stack>
         </GridCell>
-        <GridCell columnSpan={2}>
+        <GridCell columnSpan={1}>
           <Stack>
             <CardWithText title="Surveys" actions={[<DotsIcon />]}>
               <Stack>
@@ -302,11 +303,11 @@ const HomePage = () => {
             </CardWithText>
           </Stack>
         </GridCell>
-      </Grid>
+      </HomeInfluencerPageGrid>
       <Grid>
         <CardWithText title="Performance">
-          <Grid columns={8} style={{ gap: '100px' }}>
-            <GridCell columnSpan={4}>
+          <HomeInfluencerPageGrid>
+            <GridCell columnSpan={1}>
               <Stack
                 direction="horizontal"
                 style={{
@@ -396,7 +397,7 @@ const HomePage = () => {
                 </div>
               </Stack>
             </GridCell>
-            <GridCell columnSpan={4}>
+            <GridCell columnSpan={1}>
               <Stack
                 direction="horizontal"
                 style={{
@@ -456,7 +457,7 @@ const HomePage = () => {
                 </Stack>
               </Stack>
             </GridCell>
-          </Grid>
+          </HomeInfluencerPageGrid>
         </CardWithText>
       </Grid>
     </Stack>

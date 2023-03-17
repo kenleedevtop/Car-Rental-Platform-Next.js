@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
   CampaignsPageMain,
-  CampaignsPageCharts,
+  CampaignsInfluencerPageCharts,
   CampaignsPageFilter,
   CampaignsPageFilterActions,
+  CampaignsPageFilterContainer,
 } from 'features/campaigns/styles';
 import {
   DCampaignsHead,
@@ -12,7 +13,7 @@ import {
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import { GramophoneIcon, SlidersHorizontalIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 
@@ -35,7 +36,7 @@ const CampaignsPage = () => {
 
   return (
     <CampaignsPageMain>
-      <CampaignsPageCharts>
+      <CampaignsInfluencerPageCharts>
         <CardWithChart
           title="Available Campaigns"
           icon={<GramophoneIcon />}
@@ -72,10 +73,15 @@ const CampaignsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-      </CampaignsPageCharts>
+      </CampaignsInfluencerPageCharts>
       <CardWithText
         title="Available Campaigns"
         description="20 new Campaigns"
+        style={
+          window.innerWidth < 600
+            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+        }
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -90,7 +96,7 @@ const CampaignsPage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <CampaignsPageFilter>
-              <Grid columns={4}>
+              <CampaignsPageFilterContainer>
                 <Input
                   type="select"
                   label="Company"
@@ -112,15 +118,26 @@ const CampaignsPage = () => {
                   value={filter.postType}
                   onValue={(postType) => setFilter({ ...filter, postType })}
                 />
-                <Input
-                  type="min-max"
-                  label="Start & Finish"
-                  value={filter.startNFinish}
-                  onValue={(startNFinish) =>
-                    setFilter({ ...filter, startNFinish })
-                  }
+                <InputGroup
+                  label="Date"
+                  inputRatio="1fr 1fr"
+                  elements={[
+                    {
+                      type: 'date',
+                      placeholder: 'From',
+                      value: filter.startDate,
+                      onValue: (startDate) =>
+                        setFilter({ ...filter, startDate }),
+                    },
+                    {
+                      type: 'date',
+                      placeholder: 'To',
+                      value: filter.endDate,
+                      onValue: (endDate) => setFilter({ ...filter, endDate }),
+                    },
+                  ]}
                 />
-              </Grid>
+              </CampaignsPageFilterContainer>
               <CampaignsPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -139,7 +156,14 @@ const CampaignsPage = () => {
           <Pagination count={32} />
         </Stack>
       </CardWithText>
-      <CardWithText title="Campaings in Progress">
+      <CardWithText
+        title="Campaings in Progress"
+        style={
+          window.innerWidth < 600
+            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+        }
+      >
         <Stack>
           <Tabs
             value={tabs}

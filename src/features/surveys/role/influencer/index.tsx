@@ -4,6 +4,7 @@ import {
   SurveysInfluencerPageCharts,
   SurveysPageFilter,
   SurveysPageFilterActions,
+  SurveysPageFilterContainer,
 } from 'features/surveys/styles';
 import { DSurveysHead, DGenerateSurveyFilter } from 'features/surveys/data';
 import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
@@ -73,6 +74,11 @@ const SurveysPage = () => {
       <CardWithText
         title="Available Surveys"
         description="20 new Surveys"
+        style={
+          window.innerWidth < 600
+            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+        }
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -87,7 +93,7 @@ const SurveysPage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <SurveysPageFilter>
-              <Grid columns={4}>
+              <SurveysPageFilterContainer>
                 <Input
                   type="select"
                   label="Company"
@@ -115,7 +121,7 @@ const SurveysPage = () => {
                   value={filter.amount}
                   onValue={(amount) => setFilter({ ...filter, amount })}
                 />
-              </Grid>
+              </SurveysPageFilterContainer>
               <SurveysPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -134,7 +140,14 @@ const SurveysPage = () => {
           <Pagination count={32} />
         </Stack>
       </CardWithText>
-      <CardWithText title="Campaings in Progress">
+      <CardWithText
+        title="Campaings in Progress"
+        style={
+          window.innerWidth < 600
+            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+        }
+      >
         <Stack>
           <Tabs
             value={tabs}

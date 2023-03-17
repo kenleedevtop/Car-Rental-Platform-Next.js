@@ -8,7 +8,6 @@ import {
   AccountForm,
   AccountStack,
 } from 'features/account/style';
-import { Grid } from 'components/system';
 import { Input } from 'components/ui';
 import {
   ChangeEmailModal,
@@ -23,6 +22,7 @@ const AccountPage = ({ ...props }) => {
     company: '',
     role: '',
     diseaseArea: null,
+    location: '',
     markets: '',
     email: '',
     password: '',
@@ -84,6 +84,13 @@ const AccountPage = ({ ...props }) => {
               onValue={(markets) => setFilter({ ...filter, markets })}
             />
           </AccountStack>
+          <Input
+            type="select"
+            label="Location"
+            placeholder="Please select"
+            value={filter.location}
+            onValue={(location) => setFilter({ ...filter, location })}
+          />
           <AccountChange>
             <Input
               type="text"
