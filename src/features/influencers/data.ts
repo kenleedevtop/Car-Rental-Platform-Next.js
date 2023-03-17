@@ -3,9 +3,8 @@ export const DGenerateInfluencersFilter = () => ({
   diseaseArea: null,
   location: null,
   interests: [],
-  mentions: [],
-  hashtags: [],
-  brands: [],
+  keywords: [],
+  labels: [],
   age: {
     min: '',
     max: '',

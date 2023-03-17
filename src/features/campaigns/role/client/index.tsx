@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   CampaignsPageMain,
-  CampaignsPageCharts,
+  CampaignsPageFilterContainer,
   CampaignsPageFilter,
   CampaignsPageFilterActions,
 } from 'features/campaigns/styles';
@@ -36,14 +36,8 @@ import {
   AddCampaignModal,
   ExportCampaignsModal,
 } from 'features/campaigns/role/client/elements';
-// import { useQuery } from 'react-query';
-// import { CampaignAPI } from 'api';
 
 const CampaignsPage = () => {
-  // const { isLoading, error, data } = useQuery('campaigns/all', () =>
-  //     CampaignAPI.getAll()
-  // );
-
   const [acModal, openAcModal, closeAcModal] = useModal(false);
   const [ecModal, openEcModal, closeEcModal] = useModal(false);
 
@@ -65,12 +59,7 @@ const CampaignsPage = () => {
 
   return (
     <CampaignsPageMain>
-      {/* <div>
-                <div>{isLoading ? 'LOADING' : 'NOT LOADING'}</div>
-                <div>{error ? 'ERROR' : 'NOT ERROR'}</div>
-                <div>{data ? JSON.stringify(data) : 'NOT DATA'}</div>
-            </div> */}
-      <CampaignsPageCharts>
+      <CampaignsPageFilterContainer>
         <CardWithChart
           title="In Preparation"
           icon={<IdentifiedIcon />}
@@ -119,9 +108,9 @@ const CampaignsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-      </CampaignsPageCharts>
+      </CampaignsPageFilterContainer>
 
-      <CampaignsPageCharts>
+      <CampaignsPageFilterContainer>
         <CardWithProgress
           title="Influencers"
           icon={<RedCrossIcon />}
@@ -266,10 +255,15 @@ const CampaignsPage = () => {
             },
           ]}
         />
-      </CampaignsPageCharts>
+      </CampaignsPageFilterContainer>
       <CardWithText
         title="Campaigns"
         description="20 new Affiliates"
+        style={
+          window.innerWidth < 600
+            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+        }
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -290,7 +284,7 @@ const CampaignsPage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <CampaignsPageFilter>
-              <Grid columns={4}>
+              <CampaignsPageFilterContainer>
                 <Input
                   type="text"
                   label="Search For Campaign"
@@ -374,7 +368,7 @@ const CampaignsPage = () => {
                   value={filter.budget}
                   onValue={(budget) => setFilter({ ...filter, budget })}
                 />
-              </Grid>
+              </CampaignsPageFilterContainer>
               <CampaignsPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

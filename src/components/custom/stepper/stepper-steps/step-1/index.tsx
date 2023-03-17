@@ -15,6 +15,7 @@ import {
   ChangeEmailModal,
   ChangePasswordModal,
 } from 'components/custom/stepper/elements';
+import { CopyIcon } from 'components/svg';
 
 const Step = () => {
   const [filter, setFilter] = useState({
@@ -26,7 +27,22 @@ const Step = () => {
     markets: '',
     email: '',
     password: '',
-    colleagues: [],
+    invitedBy: '',
+    affiliateFriends: [
+      {
+        value: 1,
+        label: '@ivanjurisic',
+      },
+      {
+        value: 2,
+        label: 'Affiliate friend 2',
+      },
+      {
+        value: 3,
+        label: 'Affiliate friend 3',
+      },
+    ],
+    affiliateLink: '',
   });
 
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
@@ -72,11 +88,28 @@ const Step = () => {
           <StepSpan onClick={openCpModal}>Change Password</StepSpan>
         </StepChange>
         <Input
+          type="text"
+          label="Invited by"
+          placeholder="Username1"
+          value={filter.invitedBy}
+          onValue={(invitedBy) => setFilter({ ...filter, invitedBy })}
+        />
+        <Input
           type="multiselect"
-          label="Add Affiliate"
-          placeholder="name@company.com;"
-          value={filter.colleagues}
-          onValue={(colleagues) => setFilter({ ...filter, colleagues })}
+          disabled
+          label="Affiliate friends"
+          value={filter.affiliateFriends}
+          onValue={(affiliateFriends) =>
+            setFilter({ ...filter, affiliateFriends })
+          }
+        />
+        <Input
+          type="text"
+          label="Affiliate link"
+          disabled
+          value={filter.affiliateLink}
+          endAdornment={<CopyIcon />}
+          onValue={(affiliateLink) => setFilter({ ...filter, affiliateLink })}
         />
       </StepForm>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}

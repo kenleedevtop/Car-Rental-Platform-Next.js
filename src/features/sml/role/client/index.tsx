@@ -4,6 +4,7 @@ import {
   SmlPageCharts,
   SmlPageFilter,
   SmlPageFilterActions,
+  SMLPageFilterContainer,
 } from 'features/sml/styles';
 import {
   CardWithChart,
@@ -112,6 +113,11 @@ const SmlPage = () => {
       <CardWithText
         title="Social Media Listening"
         description="2 New Reports This Month"
+        style={
+          window.innerWidth < 600
+            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+        }
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -132,7 +138,7 @@ const SmlPage = () => {
         <Stack>
           <Collapse in={filterOpen}>
             <SmlPageFilter>
-              <Grid columns={4}>
+              <SMLPageFilterContainer>
                 <Input
                   type="text"
                   label="Search For Report"
@@ -186,7 +192,7 @@ const SmlPage = () => {
                   value={filter.platform}
                   onValue={(platform) => setFilter({ ...filter, platform })}
                 />
-              </Grid>
+              </SMLPageFilterContainer>
               <SmlPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

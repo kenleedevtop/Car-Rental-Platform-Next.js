@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   NavigationMain,
   NavigationRouteName,
@@ -8,7 +8,7 @@ import {
   NavigationProfile,
   NavigationProfileName,
   NavigationProfileImage,
-  NavigationSearch,
+  // NavigationSearch,
   NavigationProfileDropdown,
   NavigationProvileIcon,
   NavigationMenu,
@@ -30,21 +30,21 @@ import { useRouter } from 'next/router';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen] = useMenu(false);
-  const [search, setSearch] = useState('');
+  // const [search, setSearch] = useState('');
 
   const [ppModal, openPpModal, closePpModal] = useModal(false);
 
   const router = useRouter();
 
-  const handleEnter = () => {
-    const q = search.trim();
-    if (q) {
-      router.push({
-        pathname: `/search`,
-        query: { q },
-      });
-    }
-  };
+  // const handleEnter = () => {
+  //   const q = search.trim();
+  //   if (q) {
+  //     router.push({
+  //       pathname: `/search`,
+  //       query: { q },
+  //     });
+  //   }
+  // };
 
   const { logout, routeName, role, user, handleMobileMenu, showMobileMenu } =
     useAppContext();
@@ -72,14 +72,6 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         <NavigationRouteName>{routeName}</NavigationRouteName>
       </NavigationMenu>
       <NavigationItems>
-        {['ADMIN'].includes(role) && (
-          <NavigationSearch
-            placeholder="Looking for someone?"
-            value={search}
-            onValue={setSearch}
-            onEnter={handleEnter}
-          />
-        )}
         {['AMBASSADOR', 'INFLUENCER', 'CLIENT'].includes(role) && (
           <NavigationBalance>Balance: $499.00</NavigationBalance>
         )}

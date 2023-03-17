@@ -25,8 +25,6 @@ const AddInfluencerModal = ({
   const [diseases, setDiseases] = useState([]);
   const [subDiseases, setSubDiseases] = useState([]);
   const [socialMedia, setSocialMedia] = useState([]);
-  const [country, setCountry] = useState([]);
-  const [city, setCity] = useState([]);
   const [location, setLocation] = useState([]);
 
   const getSocialMedia = async () => {
@@ -40,44 +38,19 @@ const AddInfluencerModal = ({
     );
   };
 
-  console.log('LOG', diseases, subDiseases);
-
   const getDiseases = async () => {
     const data = await AdminAPI.getDiseaseAreas();
-    console.log('DATA', data);
-
     setDiseases(
-      data.map((x: any) => ({
-        value: x.id,
-        label: x.name,
-      }))
-    );
-
-    setSubDiseases(
       data
         .map((x: any) =>
           x.SubDiseaseAreas.map((y: any) => ({
-            value: y.id,
-            label: y.name,
+            value: x.id + y.id,
+            label: `${y.name}, ${x.name}`,
           }))
         )
         .flat()
     );
   };
-
-  // const getDiseases = async () => {
-  //   const data = await AdminAPI.getDiseaseAreas();
-  //   setDiseases(
-  //     data
-  //       .map((x: any) =>
-  //         x.SubDiseaseAreas.map((y: any) => ({
-  //           value: x.id + y.id,
-  //           label: `${y.name}, ${x.name}`,
-  //         }))
-  //       )
-  //       .flat()
-  //   );
-  // };
 
   const getLocation = async () => {
     const data = await AdminAPI.getLocation();
@@ -179,14 +152,6 @@ const AddInfluencerModal = ({
           onValue={(followers) =>
             setState({ ...state, followers: parseInt(followers, 10) })
           }
-        />
-        <Input
-          type="select"
-          label="Subdiseases"
-          placeholder="Please Select"
-          value={0}
-          onValue={() => {}}
-          options={subDiseases}
         />
         <GridCell columnSpan={2}>
           <Input

@@ -26,10 +26,14 @@ const CreateSurveysModal = ({
     numberOfQuestions: null,
     diseaseArea: null,
     location: null,
-    minAge: null,
-    maxAge: null,
+    ageRange: {
+      minAge: null,
+      maxAge: null,
+    },
     gender: null,
     targetAudInfo: '',
+    ethnicity: [],
+    interests: [],
 
     link: '',
     materials: null,
@@ -196,23 +200,12 @@ const CreateSurveysModal = ({
               value={state.location}
               onValue={(location) => setState({ ...state, location })}
             />
-            <InputGroup
+            <Input
+              type="min-max"
               label="Age Range"
-              inputRatio="1fr 1fr"
-              elements={[
-                {
-                  type: 'number',
-                  placeholder: 'Min Age',
-                  value: state.minAge,
-                  onValue: (minAge) => setState({ ...state, minAge }),
-                },
-                {
-                  type: 'number',
-                  placeholder: 'Max Age',
-                  value: state.maxAge,
-                  onValue: (maxAge) => setState({ ...state, maxAge }),
-                },
-              ]}
+              placeholder="Please Select"
+              value={state.ageRange}
+              onValue={(ageRange) => setState({ ...state, ageRange })}
             />
             <Input
               type="select"
@@ -220,6 +213,20 @@ const CreateSurveysModal = ({
               placeholder="Please Select"
               value={state.gender}
               onValue={(gender) => setState({ ...state, gender })}
+            />
+            <Input
+              type="multiselect"
+              label="Ethnicity"
+              placeholder="Please Select"
+              value={state.ethnicity}
+              onValue={(ethnicity) => setState({ ...state, ethnicity })}
+            />
+            <Input
+              type="multiselect"
+              label="Interests"
+              placeholder="Please Select"
+              value={state.interests}
+              onValue={(interests) => setState({ ...state, interests })}
             />
             <GridCell columnSpan={2}>
               <Input

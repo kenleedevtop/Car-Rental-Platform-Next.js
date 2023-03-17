@@ -34,6 +34,8 @@ const AddInfluencerModal = ({
       max: '',
     },
     gender: null,
+    ethnicity: [],
+    interests: [],
     targetAudienceInfo: '',
 
     platform: null,
@@ -214,6 +216,20 @@ const AddInfluencerModal = ({
                 },
               ]}
             />
+            <Input
+              type="multiselect"
+              label="Ethnicity"
+              placeholder="Please Select"
+              value={state.ethnicity}
+              onValue={(ethnicity) => setState({ ...state, ethnicity })}
+            />
+            <Input
+              type="multiselect"
+              label="Interests"
+              placeholder="Please Select"
+              value={state.interests}
+              onValue={(interests) => setState({ ...state, interests })}
+            />
             <GridCell columnSpan={2}>
               <Input
                 multiline
@@ -272,6 +288,7 @@ const AddInfluencerModal = ({
                 type="text"
                 multiline
                 value={state.contract}
+                rows={8}
                 onValue={(contract) => setState({ ...state, contract })}
               />
               <Checkbox label="I've written and approved the Contract: <Campaign Name>" />

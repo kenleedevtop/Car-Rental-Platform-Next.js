@@ -6,6 +6,7 @@ import {
   IncomePageChartsGrid,
   IncomePageFilter,
   IncomePageFilterActions,
+  IncomePageFilterContainer,
   WithdrawContainer,
   WithdrawGrid,
   WithdrawGridLeft,
@@ -119,6 +120,11 @@ const IncomePage = () => {
           <CardWithText
             title="Account Statement"
             description="20 new Campaigns"
+            style={
+              window.innerWidth < 600
+                ? { padding: '1.25rem 0', boxShadow: 'unset' }
+                : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+            }
             actions={[
               <Button
                 color={filterOpen ? 'secondary' : 'default'}
@@ -140,7 +146,7 @@ const IncomePage = () => {
             <Stack>
               <Collapse removeGap in={filterOpen}>
                 <IncomePageFilter>
-                  <Grid columns={4}>
+                  <IncomePageFilterContainer>
                     <Input
                       type="select"
                       label="Search For Statement"
@@ -181,7 +187,7 @@ const IncomePage = () => {
                       value={filter.amount}
                       onValue={(amount) => setFilter({ ...filter, amount })}
                     />
-                  </Grid>
+                  </IncomePageFilterContainer>
                   <IncomePageFilterActions direction="horizontal">
                     <Button color="primary" variant="contained">
                       Filter
@@ -231,6 +237,11 @@ const IncomePage = () => {
           <CardWithText
             title="Affiliate Program"
             description="20 new Campaigns"
+            style={
+              window.innerWidth < 600
+                ? { padding: '1.25rem 0', boxShadow: 'unset' }
+                : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+            }
             actions={[
               <Button
                 color={filterOpen ? 'secondary' : 'default'}
@@ -252,7 +263,7 @@ const IncomePage = () => {
             <Stack>
               <Collapse removeGap in={filterOpen}>
                 <IncomePageFilter>
-                  <Grid columns={4}>
+                  <IncomePageFilterContainer>
                     <Input
                       type="select"
                       label="Search For User"
@@ -293,7 +304,7 @@ const IncomePage = () => {
                       value={filter.amountP}
                       onValue={(amountP) => setFilter({ ...filter, amountP })}
                     />
-                  </Grid>
+                  </IncomePageFilterContainer>
                   <IncomePageFilterActions direction="horizontal">
                     <Button color="primary" variant="contained">
                       Filter
