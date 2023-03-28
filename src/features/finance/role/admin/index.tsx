@@ -23,13 +23,18 @@ import {
   BusinessmanIcon,
   ContactedIcon,
   ContactIcon,
+  CostIcon,
   DeclineIcon,
   DeleteIcon,
   EditIcon,
+  FinanceSmallIcon,
   IdentifiedIcon,
+  MarginIcon,
+  ProfitIcon,
   ReceivedIcon,
   RedCrossIcon,
   RegisteredIcon,
+  RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
@@ -94,7 +99,8 @@ const FinancePage = () => {
       <FinancePageCharts>
         <CardWithChart
           title="Revenue"
-          icon={<IdentifiedIcon />}
+          icon={<RevenueIcon />}
+          smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -106,7 +112,8 @@ const FinancePage = () => {
         />
         <CardWithChart
           title="Cost"
-          icon={<ContactedIcon />}
+          icon={<CostIcon />}
+          smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -118,7 +125,8 @@ const FinancePage = () => {
         />
         <CardWithChart
           title="Profit"
-          icon={<RegisteredIcon />}
+          icon={<ProfitIcon />}
+          smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -130,7 +138,8 @@ const FinancePage = () => {
         />
         <CardWithChart
           title="Margin"
-          icon={<TotalIcon />}
+          icon={<MarginIcon />}
+          smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
           chartData={{

@@ -20,3 +20,5 @@ export { default as Status } from 'components/custom/status';
 export { default as Header } from 'components/custom/header';
 export { default as Loader } from 'components/custom/loader';
 export { default as CampaignsCard } from 'components/custom/campaigns-card';
+export { default as CheckboxTable } from 'components/custom/checkbox-table';
+export { default as Chat } from 'components/custom/chat';

@@ -17,13 +17,18 @@ import {
   ContactIcon,
   DeleteIcon,
   EditIcon,
+  FinishedIcon,
   IdentifiedIcon,
   InfoIcon,
+  InpreparationIcon,
   ManageIcon,
+  OngoingIcon,
   RegisteredIcon,
+  RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   StartIcon,
+  SurveysSmallIcon,
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
@@ -69,7 +74,8 @@ const SurveyPage = () => {
       <SurveysPageCharts>
         <CardWithChart
           title="In Preparation"
-          icon={<IdentifiedIcon />}
+          icon={<InpreparationIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -81,7 +87,8 @@ const SurveyPage = () => {
         />
         <CardWithChart
           title="Ongoing"
-          icon={<ContactedIcon />}
+          icon={<OngoingIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -93,8 +100,9 @@ const SurveyPage = () => {
         />
         <CardWithChart
           title="Finished"
-          icon={<RegisteredIcon />}
-          percent={-6}
+          icon={<FinishedIcon />}
+          smallIcon={<SurveysSmallIcon />}
+          percent={2}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -105,8 +113,9 @@ const SurveyPage = () => {
         />
         <CardWithChart
           title="Revenue"
-          icon={<TotalIcon />}
-          percent={-6}
+          icon={<RevenueIcon />}
+          smallIcon={<SurveysSmallIcon />}
+          percent={2}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>

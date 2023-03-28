@@ -1,16 +1,18 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
+import { TColor } from '../status/types';
 
 export const ProgressDisplayMain = styled.div<{
   theme?: Theme;
   percent: number;
+  color: TColor;
 }>`
-  ${({ theme, percent }) => `
+  ${({ theme, percent, color }) => `
         width: 100%;
-        background-color: ${theme.palette.primary.main}20;
+        background-color:  ${theme.palette[color].light}80;
         border-radius: 4px;
         position: relative;
-        padding: ${theme.spacing(2)} ${theme.spacing(3)};
+        padding: ${theme.spacing(3)} ${theme.spacing(3)};
         &::before {
             width: ${percent}%;
             height: 100%;
@@ -19,7 +21,7 @@ export const ProgressDisplayMain = styled.div<{
             position: absolute;
             left: 0px;
             top: 0px;
-            background-color: ${theme.palette.primary.main}c0;
+            background-color: ${theme.palette[color].main};
         }
     `}
 `;

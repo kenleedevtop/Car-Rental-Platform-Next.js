@@ -13,21 +13,27 @@ import {
   Tabs,
 } from 'components/custom';
 import {
-  ContactedIcon,
+  ClientContactedIcon,
+  ClientIdentifiedIcon,
+  ClientRegisteredIcon,
+  ClientScheduledIcon,
   ContactIcon,
   DeleteIcon,
   EditIcon,
-  IdentifiedIcon,
-  RegisteredIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
-  TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input } from 'components/ui';
+import { Button, Input, InputGroup } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateDiscoverClientsFilter } from 'features/discover-clients/data';
+import {
+  DClientsHeadContacted,
+  DClientsHeadIdentified,
+  DClientsHeadRegistered,
+  DClientsHeadScheduled,
+  DGenerateDiscoverClientsFilter,
+} from 'features/discover-clients/data';
 import {
   AddClientsModal,
   ContactClientsModal,
@@ -39,6 +45,7 @@ import {
   ScheduleClientsModal,
 } from 'features/discover-clients/role/admin/elements';
 import { useMenu, useModal } from 'hooks';
+import { TTableRenderItemObject } from 'components/custom/table/types';
 
 const DiscoverClientsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateDiscoverClientsFilter());
@@ -70,12 +77,19 @@ const DiscoverClientsPage = () => {
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
   const [niModal, openNiModal, closeNiModal] = useModal(false);
 
+  const renderItem = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {};
+
   return (
     <DiscoverClientsPageMain>
       <DiscoverClientsPageCharts>
         <CardWithChart
           title="Identified"
-          icon={<IdentifiedIcon />}
+          icon={<ClientIdentifiedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -87,7 +101,7 @@ const DiscoverClientsPage = () => {
         />
         <CardWithChart
           title="Contacted"
-          icon={<ContactedIcon />}
+          icon={<ClientContactedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -99,7 +113,7 @@ const DiscoverClientsPage = () => {
         />
         <CardWithChart
           title="Registered"
-          icon={<RegisteredIcon />}
+          icon={<ClientRegisteredIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -110,8 +124,8 @@ const DiscoverClientsPage = () => {
           }}
         />
         <CardWithChart
-          title="Call Scheduled"
-          icon={<TotalIcon />}
+          title="Scheduled"
+          icon={<ClientScheduledIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -150,21 +164,49 @@ const DiscoverClientsPage = () => {
             <DiscoverClientsPageFilter>
               <Grid columns={4}>
                 <Input
-                  type="select"
+                  type="text"
+                  label="Search"
+                  placeholder="Please Enter"
+                  value={filter.search}
+                  onValue={(search) => setFilter({ ...filter, search })}
+                />
+                <Input
+                  type="multiselect"
                   label="Industry"
                   placeholder="Please Select"
                   value={filter.industry}
                   onValue={(industry) => setFilter({ ...filter, industry })}
                 />
                 <Input
-                  type="select"
+                  type="multiselect"
                   label="Company"
                   placeholder="Please Select"
                   value={filter.company}
                   onValue={(company) => setFilter({ ...filter, company })}
                 />
                 <Input
-                  type="select"
+                  type="multiselect"
+                  label="Role"
+                  placeholder="Please Select"
+                  value={filter.role}
+                  onValue={(role) => setFilter({ ...filter, role })}
+                />
+                <Input
+                  type="multiselect"
+                  label="Product"
+                  placeholder="Please Select"
+                  value={filter.product}
+                  onValue={(product) => setFilter({ ...filter, product })}
+                />
+                <Input
+                  type="multiselect"
+                  label="Ambassador"
+                  placeholder="Please Select"
+                  value={filter.ambassador}
+                  onValue={(ambassador) => setFilter({ ...filter, ambassador })}
+                />
+                <Input
+                  type="multiselect"
                   label="Disease Area"
                   placeholder="Please Select"
                   value={filter.diseaseArea}
@@ -181,24 +223,86 @@ const DiscoverClientsPage = () => {
                 />
                 <Input
                   type="multiselect"
+                  label="Market"
+                  placeholder="Please Select"
+                  value={filter.market}
+                  onValue={(market) => setFilter({ ...filter, market })}
+                />
+                <Input
+                  type="select"
+                  label="Status"
+                  placeholder="Please Select"
+                  value={filter.status}
+                  onValue={(status) => setFilter({ ...filter, status })}
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Not confirmed',
+                    },
+                    {
+                      value: 0,
+                      label: 'Confirmed',
+                    },
+                    {
+                      value: 0,
+                      label: 'Verified',
+                    },
+                    {
+                      value: 0,
+                      label: 'Approved',
+                    },
+                  ]}
+                />
+                <InputGroup
+                  label="Joined"
+                  inputRatio="1fr 1fr"
+                  elements={[
+                    {
+                      type: 'date',
+                      placeholder: 'From',
+                      value: filter.joinedFrom,
+                      onValue: (joinedFrom) =>
+                        setFilter({ ...filter, joinedFrom }),
+                    },
+                    {
+                      type: 'date',
+                      placeholder: 'To',
+                      value: filter.joinedTo,
+                      onValue: (joinedTo) => setFilter({ ...filter, joinedTo }),
+                    },
+                  ]}
+                />
+                <Input
+                  type="multiselect"
                   label="Label"
                   placeholder="Please Select"
                   value={filter.label}
                   onValue={(label) => setFilter({ ...filter, label })}
                 />
                 <Input
-                  type="select"
-                  label="Email"
-                  placeholder="Show all"
-                  value={filter.email}
-                  onValue={(email) => setFilter({ ...filter, email })}
-                />
-                <Input
-                  type="select"
-                  label="Task"
-                  placeholder="Show all"
-                  value={filter.task}
-                  onValue={(task) => setFilter({ ...filter, task })}
+                  type="multiselect"
+                  label="Schedule"
+                  placeholder="Please Select"
+                  value={filter.schedule}
+                  onValue={(schedule) => setFilter({ ...filter, schedule })}
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Reminder',
+                    },
+                    {
+                      value: 1,
+                      label: 'Task',
+                    },
+                    {
+                      value: 2,
+                      label: 'Meeting',
+                    },
+                    {
+                      value: 3,
+                      label: 'Task',
+                    },
+                  ]}
                 />
               </Grid>
               <DiscoverClientsPageFilterActions direction="horizontal">
@@ -220,10 +324,34 @@ const DiscoverClientsPage = () => {
             onValue={setTabs}
             tabs={['Identified', 'Contacted', 'Registered', 'Scheduled']}
           />
-          {tabs === 0 && <Table head={[]} items={[]} renderItem={() => {}} />}
-          {tabs === 1 && <Table head={[]} items={[]} renderItem={() => {}} />}
-          {tabs === 2 && <Table head={[]} items={[]} renderItem={() => {}} />}
-          {tabs === 3 && <Table head={[]} items={[]} renderItem={() => {}} />}
+          {tabs === 0 && (
+            <Table
+              head={DClientsHeadIdentified}
+              items={[]}
+              renderItem={() => {}}
+            />
+          )}
+          {tabs === 1 && (
+            <Table
+              head={DClientsHeadContacted}
+              items={[]}
+              renderItem={() => {}}
+            />
+          )}
+          {tabs === 2 && (
+            <Table
+              head={DClientsHeadRegistered}
+              items={[]}
+              renderItem={() => {}}
+            />
+          )}
+          {tabs === 3 && (
+            <Table
+              head={DClientsHeadScheduled}
+              items={[]}
+              renderItem={() => {}}
+            />
+          )}
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
               Delete Client

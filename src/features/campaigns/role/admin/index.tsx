@@ -20,15 +20,20 @@ import {
 import {
   ArchiveIcon,
   BusinessmanIcon,
+  CampaignsSmallIcon,
   ContactedIcon,
   ContactIcon,
   DeleteIcon,
   EditIcon,
+  FinishedIcon,
   FinishIcon,
   IdentifiedIcon,
+  InpreparationIcon,
+  OngoingIcon,
   RedCrossIcon,
   RegisteredIcon,
   ReportIcon,
+  RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   StartIcon,
@@ -105,9 +110,10 @@ const CampaignsPage = () => {
       </div> */}
       <CampaignsPageCharts>
         <CardWithChart
-          title="Revenue"
-          icon={<IdentifiedIcon />}
+          title="In Preparation"
+          icon={<InpreparationIcon />}
           percent={2}
+          smallIcon={<CampaignsSmallIcon />}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -118,7 +124,8 @@ const CampaignsPage = () => {
         />
         <CardWithChart
           title="Ongoing"
-          icon={<ContactedIcon />}
+          icon={<OngoingIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -130,7 +137,8 @@ const CampaignsPage = () => {
         />
         <CardWithChart
           title="Finished"
-          icon={<RegisteredIcon />}
+          icon={<FinishedIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -141,8 +149,9 @@ const CampaignsPage = () => {
           }}
         />
         <CardWithChart
-          title="Total"
-          icon={<TotalIcon />}
+          title="Revenue"
+          icon={<RevenueIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{

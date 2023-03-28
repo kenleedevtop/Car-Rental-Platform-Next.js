@@ -21,8 +21,13 @@ import {
   DeliverIcon,
   DownloadIcon,
   EditIcon,
+  FinishedIcon,
   IdentifiedIcon,
+  OrderedIcon,
+  ReadyIcon,
   RegisteredIcon,
+  ReportsSmallIcon,
+  RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
@@ -82,8 +87,9 @@ const ReportsPage = () => {
       <ReportsPageCharts>
         <CardWithChart
           title="Ordered"
-          icon={<IdentifiedIcon />}
+          icon={<OrderedIcon />}
           percent={2}
+          smallIcon={<ReportsSmallIcon />}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -94,7 +100,8 @@ const ReportsPage = () => {
         />
         <CardWithChart
           title="Ready"
-          icon={<ContactedIcon />}
+          icon={<ReadyIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -106,8 +113,9 @@ const ReportsPage = () => {
         />
         <CardWithChart
           title="Delivered"
-          icon={<RegisteredIcon />}
-          percent={-6}
+          icon={<FinishedIcon />}
+          smallIcon={<ReportsSmallIcon />}
+          percent={2}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -118,8 +126,9 @@ const ReportsPage = () => {
         />
         <CardWithChart
           title="Revenue"
-          icon={<TotalIcon />}
-          percent={-6}
+          icon={<RevenueIcon />}
+          smallIcon={<ReportsSmallIcon />}
+          percent={2}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>

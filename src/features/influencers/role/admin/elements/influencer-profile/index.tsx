@@ -1,34 +1,52 @@
 import React, { useState } from 'react';
-import { Modal, ProgressDisplay, Tabs, Title } from 'components/custom';
+import { Chat, Modal, ProgressDisplay, Tabs, Title } from 'components/custom';
 import { TInfluencerProfileModalProps } from 'features/influencers/role/admin/elements/influencer-profile/types';
 import {
   InfluencerProfileModalMain,
   InfluencerProfileChartContainer,
+  InfluencerTitle,
+  InfluencerGrid,
 } from 'features/influencers/role/admin/elements/influencer-profile/style';
-import { Button, Input } from 'components/ui';
+import { Button, Input, InputGroup } from 'components/ui';
 import { Stack } from 'components/system';
 import { BarChart, BubbleChart, PieChart } from 'components/csr';
 import Theme from 'theme';
 import { InputLabel } from 'components/ui/input/styles';
+import { CopyIcon, EditIcon } from 'components/svg';
+import { useSnackbar } from 'hooks';
 
 const InfluencerProfile = ({
   onClose,
   ...props
 }: TInfluencerProfileModalProps) => {
   const [state, setState] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
+    experienceAs: '',
     email: '',
     platform: '',
     username: '',
     diseaseArea: '',
     location: '',
+    age: '',
+    gender: '',
+    invitedBy: '',
+    invited: '',
+
+    ethnicity: '',
+    brands: '',
+    products: '',
+    interests: '',
+    struggles: '',
+    followers: '',
     averageLikes: '',
     averageComments: '',
     engagement: '',
-    followersScore: '',
+    stakeholderRatio: '',
 
     project: null,
-    dateRange: null,
+    dateFrom: null,
+    dateTo: null,
 
     projectsP: null,
     submission: [],
@@ -41,14 +59,40 @@ const InfluencerProfile = ({
     verifiedSince: null,
   });
 
+  const [disabled, setDisabled] = useState(true);
+
   const [tab, setTab] = useState(0);
+
+  const handleDisabled = () => {
+    setDisabled(!disabled);
+  };
+  const { push } = useSnackbar();
+  const [link, setLink] = useState('dsadsadsada');
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(link);
+      push(`Successfully copied!`, {
+        variant: 'success',
+      });
+    } catch {
+      push('Something failed!', {
+        variant: 'error',
+      });
+    }
+  };
 
   // const handleFile = async () => {};
 
   return (
     <Modal
       size="medium"
-      title="First Name Last Name"
+      title={
+        <InfluencerTitle>
+          First Name Last Name
+          {state.firstName} {state.lastName}
+          <EditIcon style={{ cursor: 'pointer' }} onClick={handleDisabled} />
+        </InfluencerTitle>
+      }
       actions={[
         <Button
           color="primary"
@@ -62,9 +106,18 @@ const InfluencerProfile = ({
       onClose={onClose}
       {...props}
     >
-      <Stack>
+      <Stack
+        style={{ height: '500px', overflowY: 'scroll', paddingRight: '10px' }}
+      >
         <Tabs
-          tabs={['Info', 'Audience', 'Performance', 'Projects', 'Management']}
+          tabs={[
+            'Info',
+            'Influencer',
+            'Audience',
+            'Performance',
+            'Projects',
+            'Management',
+          ]}
           value={tab}
           onValue={setTab}
         />
@@ -73,16 +126,18 @@ const InfluencerProfile = ({
             <Stack direction="horizontal">
               <Input
                 type="text"
-                label="Name"
+                label="Experience As"
                 placeholder="Please Enter"
-                value={state.name}
-                onValue={(name) => setState({ ...state, name })}
+                value={state.experienceAs}
+                disabled={disabled}
+                onValue={(experienceAs) => setState({ ...state, experienceAs })}
               />
               <Input
                 type="text"
                 label="Email"
                 placeholder="Please Enter"
                 value={state.email}
+                disabled={disabled}
                 onValue={(email) => setState({ ...state, email })}
               />
             </Stack>
@@ -92,6 +147,7 @@ const InfluencerProfile = ({
                 label="Platform"
                 placeholder="Please Enter"
                 value={state.platform}
+                disabled={disabled}
                 onValue={(platform) => setState({ ...state, platform })}
               />
               <Input
@@ -99,6 +155,7 @@ const InfluencerProfile = ({
                 label="Username"
                 placeholder="Please Enter"
                 value={state.username}
+                disabled={disabled}
                 onValue={(username) => setState({ ...state, username })}
               />
             </Stack>
@@ -108,6 +165,7 @@ const InfluencerProfile = ({
                 label="Disease Area"
                 placeholder="Please Enter"
                 value={state.diseaseArea}
+                disabled={disabled}
                 onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
               />
               <Input
@@ -115,7 +173,102 @@ const InfluencerProfile = ({
                 label="Location"
                 placeholder="Please Enter"
                 value={state.location}
+                disabled={disabled}
                 onValue={(location) => setState({ ...state, location })}
+              />
+            </Stack>
+            <Stack direction="horizontal">
+              <Input
+                type="text"
+                label="Age"
+                placeholder="Please Enter"
+                value={state.age}
+                disabled={disabled}
+                onValue={(age) => setState({ ...state, age })}
+              />
+              <Input
+                type="text"
+                label="Gender"
+                placeholder="Please Enter"
+                value={state.gender}
+                disabled={disabled}
+                onValue={(gender) => setState({ ...state, gender })}
+              />
+            </Stack>
+            <Stack direction="horizontal">
+              <Input
+                type="text"
+                label="Invited By"
+                placeholder="Please Enter"
+                value={state.invitedBy}
+                disabled={disabled}
+                onValue={(invitedBy) => setState({ ...state, invitedBy })}
+              />
+              <Input
+                type="text"
+                label="Invited"
+                placeholder="Please Enter"
+                value={state.invited}
+                disabled={disabled}
+                onValue={(invited) => setState({ ...state, invited })}
+              />
+            </Stack>
+          </InfluencerProfileModalMain>
+        )}
+        {tab === 1 && (
+          <InfluencerProfileModalMain columns={1}>
+            <Stack direction="horizontal">
+              <Input
+                type="text"
+                label="Ethnicity"
+                placeholder="Please Enter"
+                value={state.ethnicity}
+                disabled={disabled}
+                onValue={(ethnicity) => setState({ ...state, ethnicity })}
+              />
+              <Input
+                type="text"
+                label="Brands"
+                placeholder="Please Enter"
+                value={state.brands}
+                disabled={disabled}
+                onValue={(brands) => setState({ ...state, brands })}
+              />
+            </Stack>
+            <Stack direction="horizontal">
+              <Input
+                type="text"
+                label="Products"
+                placeholder="Please Enter"
+                value={state.products}
+                disabled={disabled}
+                onValue={(products) => setState({ ...state, products })}
+              />
+              <Input
+                type="text"
+                label="Interests"
+                placeholder="Please Enter"
+                value={state.interests}
+                disabled={disabled}
+                onValue={(interests) => setState({ ...state, interests })}
+              />
+            </Stack>
+            <Stack direction="horizontal">
+              <Input
+                type="text"
+                label="Struggles"
+                placeholder="Please Enter"
+                value={state.struggles}
+                disabled={disabled}
+                onValue={(struggles) => setState({ ...state, struggles })}
+              />
+              <Input
+                type="text"
+                label="Followers"
+                placeholder="Please Enter"
+                value={state.followers}
+                disabled={disabled}
+                onValue={(followers) => setState({ ...state, followers })}
               />
             </Stack>
             <Stack direction="horizontal">
@@ -124,6 +277,7 @@ const InfluencerProfile = ({
                 label="Average Likes"
                 placeholder="Please Enter"
                 value={state.averageLikes}
+                disabled={disabled}
                 onValue={(averageLikes) => setState({ ...state, averageLikes })}
               />
               <Input
@@ -131,6 +285,7 @@ const InfluencerProfile = ({
                 label="Average Comments"
                 placeholder="Please Enter"
                 value={state.averageComments}
+                disabled={disabled}
                 onValue={(averageComments) =>
                   setState({ ...state, averageComments })
                 }
@@ -142,148 +297,197 @@ const InfluencerProfile = ({
                 label="Engagement"
                 placeholder="Please Enter"
                 value={state.engagement}
+                disabled={disabled}
                 onValue={(engagement) => setState({ ...state, engagement })}
               />
               <Input
                 type="text"
-                label="Followers Score"
+                label="Stakeholder Ratio"
                 placeholder="Please Enter"
-                value={state.followersScore}
-                onValue={(followersScore) =>
-                  setState({ ...state, followersScore })
+                value={state.stakeholderRatio}
+                disabled={disabled}
+                onValue={(stakeholderRatio) =>
+                  setState({ ...state, stakeholderRatio })
                 }
               />
             </Stack>
           </InfluencerProfileModalMain>
         )}
 
-        {tab === 1 && (
+        {tab === 2 && (
           <InfluencerProfileModalMain columns={1}>
-            <Stack direction="horizontal">
-              <Stack>
-                <InputLabel>Age & Gender</InputLabel>
-                <div style={{ width: '100%', height: 400 }}>
-                  <BarChart
-                    labels={[
-                      '0-5',
-                      '6-10',
-                      '11-15',
-                      '16-20',
-                      '21-25',
-                      '26-30',
-                      '31-35',
-                      '36-40',
-                      '41-45',
-                      '46-50',
-                    ]}
-                    data={[
-                      {
-                        color: `${Theme.palette.primary.main}`,
-                        values: [2, 6, 2, 13, 22, 5, 18, 5, 2, 7],
-                      },
-                      {
-                        color: `${Theme.palette.secondary.main}`,
-                        values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
-                      },
-                    ]}
-                    verticalLabel="% of followers"
-                    horizontalLabel="Age range"
+            <Stack style={{ paddingRight: '10px' }}>
+              <Stack direction="horizontal">
+                <Stack>
+                  <InputLabel>Age & Gender</InputLabel>
+                  <div style={{ width: '100%', height: 400 }}>
+                    <BarChart
+                      labels={[
+                        '0-5',
+                        '6-10',
+                        '11-15',
+                        '16-20',
+                        '21-25',
+                        '26-30',
+                        '31-35',
+                        '36-40',
+                        '41-45',
+                        '46-50',
+                      ]}
+                      data={[
+                        {
+                          color: `${Theme.palette.primary.main}`,
+                          values: [2, 6, 2, 13, 22, 5, 18, 5, 2, 7],
+                        },
+                        {
+                          color: `${Theme.palette.secondary.main}`,
+                          values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                        },
+                      ]}
+                      verticalLabel="% of followers"
+                      horizontalLabel="Age range"
+                    />
+                  </div>
+                </Stack>
+                <Stack>
+                  <InputLabel>Audience</InputLabel>
+                  <PieChart
+                    labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
+                    data={[21, 52, 23, 14]}
                   />
-                </div>
+                </Stack>
               </Stack>
-              <Stack>
-                <InputLabel>Audience</InputLabel>
-                <PieChart
-                  labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
-                  data={[21, 52, 23, 14]}
-                />
+              <Stack direction="horizontal">
+                <Stack>
+                  <InputLabel>Location</InputLabel>
+                  <div style={{ width: '100%', height: 400 }}>
+                    <BarChart
+                      labels={['US', 'DE', 'CH', 'UK', 'IT', 'DE', 'CRO']}
+                      data={[
+                        {
+                          color: `${Theme.palette.primary.main}`,
+                          values: [28, 22, 18, 14, 12, 10, 8, 6, 4, 2],
+                        },
+                      ]}
+                      verticalLabel="% of followers"
+                    />
+                  </div>
+                </Stack>
+                <Stack>
+                  <InputLabel>City</InputLabel>
+                  <div style={{ width: '100%', height: 400 }}>
+                    <BarChart
+                      labels={['US', 'DE', 'CH', 'UK', 'IT', 'DE', 'CRO']}
+                      data={[
+                        {
+                          color: `${Theme.palette.primary.main}`,
+                          values: [28, 22, 18, 14, 12, 10, 8, 6, 4, 2],
+                        },
+                      ]}
+                      verticalLabel="% of followers"
+                    />
+                  </div>
+                </Stack>
               </Stack>
-            </Stack>
-            <Stack direction="horizontal">
-              <Stack>
-                <InputLabel>Location</InputLabel>
-                <div style={{ width: '100%', height: 400 }}>
-                  <BarChart
-                    labels={['US', 'DE', 'CH', 'UK', 'IT', 'DE', 'CRO']}
-                    data={[
-                      {
-                        color: `${Theme.palette.primary.main}`,
-                        values: [28, 22, 18, 14, 12, 10, 8, 6, 4, 2],
-                      },
-                    ]}
-                    verticalLabel="% of followers"
+              <Stack direction="horizontal">
+                <Stack>
+                  <InputLabel>Language</InputLabel>
+                  <PieChart
+                    labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
+                    data={[21, 52, 23, 14]}
                   />
-                </div>
-              </Stack>
-              <Stack>
-                <InputLabel>City</InputLabel>
-                <div style={{ width: '100%', height: 400 }}>
-                  <BarChart
-                    labels={['US', 'DE', 'CH', 'UK', 'IT', 'DE', 'CRO']}
-                    data={[
-                      {
-                        color: `${Theme.palette.primary.main}`,
-                        values: [28, 22, 18, 14, 12, 10, 8, 6, 4, 2],
-                      },
-                    ]}
-                    verticalLabel="% of followers"
+                </Stack>
+                <Stack>
+                  <InputLabel>Ethnicity</InputLabel>
+                  <PieChart
+                    labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
+                    data={[21, 52, 23, 14]}
                   />
-                </div>
+                </Stack>
               </Stack>
-            </Stack>
-            <Stack direction="horizontal">
-              <Stack>
-                <InputLabel>Language</InputLabel>
-                <PieChart
-                  labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
-                  data={[21, 52, 23, 14]}
-                />
-              </Stack>
-              <Stack>
-                <InputLabel>Ethnicity</InputLabel>
-                <PieChart
-                  labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
-                  data={[21, 52, 23, 14]}
-                />
+              <Stack direction="horizontal">
+                <Stack>
+                  <InputLabel>Interests</InputLabel>
+                  <div style={{ width: '100%', height: 400 }}>
+                    <BarChart
+                      labels={['H', 'F', 'T', 'B', 'C', 'A', 'T']}
+                      data={[
+                        {
+                          color: `${Theme.palette.primary.main}`,
+                          values: [28, 22, 18, 14, 12, 10, 8, 6, 4, 2],
+                        },
+                      ]}
+                      verticalLabel="% of followers"
+                    />
+                  </div>
+                </Stack>
+                <Stack>
+                  <InputLabel>Struggles</InputLabel>
+                  <div style={{ width: '100%', height: 400 }}>
+                    <BarChart
+                      labels={['H', 'F', 'M', 'T', 'C', 'D', 'Z']}
+                      data={[
+                        {
+                          color: `${Theme.palette.primary.main}`,
+                          values: [28, 22, 18, 14, 12, 10, 8, 6, 4, 2],
+                        },
+                      ]}
+                      verticalLabel="% of followers"
+                    />
+                  </div>
+                </Stack>
               </Stack>
             </Stack>
           </InfluencerProfileModalMain>
         )}
-        {tab === 2 && (
+        {tab === 3 && (
           <InfluencerProfileModalMain columns={1}>
-            <Stack
-              style={{
-                height: '500px',
-                overflowY: 'scroll',
-                paddingRight: '20px',
-              }}
-            >
-              <Stack direction="horizontal">
+            <Stack style={{ paddingRight: '10px' }}>
+              <InfluencerGrid>
                 <Input
                   type="select"
                   label="Project"
                   placeholder="Please Select"
                   value={state.project}
+                  disabled={disabled}
                   onValue={(project) => setState({ ...state, project })}
                 />
-                <Input
-                  type="date"
-                  label="Date Range"
-                  placeholder="Please Select"
-                  value={state.dateRange}
-                  onValue={(dateRange) => setState({ ...state, dateRange })}
+                <InputGroup
+                  label="Start & Finish"
+                  inputRatio="1fr 1fr"
+                  elements={[
+                    {
+                      value: state.dateFrom,
+                      onValue: (dateFrom) => setState({ ...state, dateFrom }),
+                      type: 'date',
+                      placeholder: 'Start date',
+                    },
+                    {
+                      value: state.dateTo,
+                      onValue: (dateTo) => setState({ ...state, dateTo }),
+                      type: 'date',
+                      placeholder: 'End date',
+                    },
+                  ]}
                 />
-              </Stack>
+              </InfluencerGrid>
               <Stack>
                 <Stack direction="horizontal">
                   <Stack>
                     <Title title="Total Project" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                   <Stack>
@@ -293,10 +497,17 @@ const InfluencerProfile = ({
                     />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                 </Stack>
@@ -305,10 +516,17 @@ const InfluencerProfile = ({
                     <Title title="Total Earnings" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                   <Stack>
@@ -318,10 +536,17 @@ const InfluencerProfile = ({
                     />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                 </Stack>
@@ -333,20 +558,34 @@ const InfluencerProfile = ({
                     />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                   <Stack>
                     <Title title="Cost per Target" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                 </Stack>
@@ -355,20 +594,34 @@ const InfluencerProfile = ({
                     <Title title="Reach" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                   <Stack>
                     <Title title="Cost per Click" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                 </Stack>
@@ -377,20 +630,34 @@ const InfluencerProfile = ({
                     <Title title="Engagement" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                   <Stack>
                     <Title title="Likes" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                 </Stack>
@@ -399,20 +666,34 @@ const InfluencerProfile = ({
                     <Title title="Comments" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
                         percent={100}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                   <Stack>
                     <Title title="Website Clicks" style={{ color: 'unset' }} />
                     <InfluencerProfileChartContainer>
                       <ProgressDisplay
-                        label="Patient community"
-                        percent={100}
+                        percent={80}
+                        color="primary"
+                        label="Highest"
+                        tooltip
                       />
-                      <ProgressDisplay label="Patient community" percent={70} />
+                      <ProgressDisplay
+                        percent={70}
+                        color="secondary"
+                        label="Average"
+                        tooltip
+                      />
                     </InfluencerProfileChartContainer>
                   </Stack>
                 </Stack>
@@ -420,7 +701,7 @@ const InfluencerProfile = ({
             </Stack>
           </InfluencerProfileModalMain>
         )}
-        {tab === 3 && (
+        {tab === 4 && (
           <InfluencerProfileModalMain columns={1}>
             <Stack direction="horizontal">
               <Input
@@ -431,24 +712,29 @@ const InfluencerProfile = ({
                 onValue={(projectsP) => setState({ ...state, projectsP })}
               />
               <Input
-                type="multiselect"
+                type="text"
                 label="Submission"
                 placeholder="Please Select"
-                value={state.submission}
+                value={link}
+                disabled
+                endAdornment={<CopyIcon />}
+                onClick={handleCopyToClipboard}
                 onValue={(submission) => setState({ ...state, submission })}
               />
             </Stack>
+            <Chat />
           </InfluencerProfileModalMain>
         )}
 
-        {tab === 4 && (
+        {tab === 5 && (
           <InfluencerProfileModalMain columns={1}>
-            <Stack direction="horizontal" style={{}}>
+            <Stack direction="horizontal">
               <Input
                 type="multiselect"
                 label="Comments"
                 placeholder="Please Enter"
                 value={state.comments}
+                disabled={disabled}
                 onValue={(comments) => setState({ ...state, comments })}
               />
               <Input
@@ -456,6 +742,7 @@ const InfluencerProfile = ({
                 label="Labels"
                 placeholder="Please Enter"
                 value={state.labels}
+                disabled={disabled}
                 onValue={(labels) => setState({ ...state, labels })}
               />
             </Stack>
@@ -465,6 +752,7 @@ const InfluencerProfile = ({
                 label="Meetings"
                 placeholder="Please Enter"
                 value={state.meetings}
+                disabled={disabled}
                 onValue={(meetings) => setState({ ...state, meetings })}
               />
               <Input
@@ -472,6 +760,7 @@ const InfluencerProfile = ({
                 label="Reminders"
                 placeholder="Please Enter"
                 value={state.reminders}
+                disabled={disabled}
                 onValue={(reminders) => setState({ ...state, reminders })}
               />
             </Stack>
@@ -481,6 +770,7 @@ const InfluencerProfile = ({
                 label="Tasks"
                 placeholder="Please Enter"
                 value={state.tasks}
+                disabled={disabled}
                 onValue={(tasks) => setState({ ...state, tasks })}
               />
               <Input
@@ -488,6 +778,7 @@ const InfluencerProfile = ({
                 label="Verified Since"
                 placeholder="Please Enter"
                 value={state.verifiedSince}
+                disabled={disabled}
                 onValue={(verifiedSince) =>
                   setState({ ...state, verifiedSince })
                 }

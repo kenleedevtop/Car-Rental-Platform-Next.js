@@ -17,6 +17,7 @@ import {
   ContactIcon,
   DeleteIcon,
   EditIcon,
+  HospitalIcon,
   IdentifiedIcon,
   RegisteredIcon,
   ScheduleIcon,
@@ -112,7 +113,7 @@ const ClientsPage = () => {
         />
         <CardWithChart
           title="Total"
-          icon={<TotalIcon />}
+          icon={<HospitalIcon />}
           percent={2}
           count={75}
           chartData={{

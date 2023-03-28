@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
+import { Theme } from '@mui/material';
 import { Grid } from 'components/system';
 
 export const InfluencerProfileModalMain = styled(Grid)`
   width: 100%;
-  overflow-x: hidden;
-  overflow-y: scroll;
 `;
 
 export const InfluencerProfileChartContainer = styled.div`
@@ -16,5 +15,14 @@ export const InfluencerProfileChartContainer = styled.div`
   border: 1px solid #e9f0fc;
   border-right: unset;
   border-top: unset;
-  padding: 10px;
+`;
+
+export const InfluencerTitle = styled.div``;
+
+export const InfluencerGrid = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: ${theme.spacing(5)};
+  `}
 `;

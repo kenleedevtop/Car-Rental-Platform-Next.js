@@ -8,10 +8,17 @@ export const DiscoverClientsPageMain = styled(Stack)`
 
 export const DiscoverClientsPageCharts = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-        display: flex;
-        gap: ${theme.spacing(5)};
-        width: 100%;
-    `}
+display: grid;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+gap: ${theme.spacing(5)};
+
+${theme.breakpoints.down('xl')} {
+  grid-template-columns: 1fr 1fr;
+}
+${theme.breakpoints.down('sm')} {
+  grid-template-columns: 1fr;
+}
+`}
 `;
 
 export const DiscoverClientsPageFilter = styled(Stack)<{ theme?: Theme }>`

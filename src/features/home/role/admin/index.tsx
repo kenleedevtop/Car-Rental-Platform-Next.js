@@ -11,6 +11,33 @@ import {
   IdentifiedIcon,
   RegisteredIcon,
   TotalIcon,
+  DailyIcon,
+  YearlyIcon,
+  MonthlyIcon,
+  WeeklyIcon,
+  UserIcon,
+  ClientIdentifiedIcon,
+  ClientContactedIcon,
+  ClientRegisteredIcon,
+  ClientScheduledIcon,
+  InstagramIcon,
+  TwitterIcon,
+  TiktokIcon,
+  HospitalIcon,
+  OrderedIcon,
+  RevenueIcon,
+  FinishedIcon,
+  OngoingIcon,
+  ReadyIcon,
+  InpreparationIcon,
+  CostIcon,
+  ProfitIcon,
+  MarginIcon,
+  CampaignsSmallIcon,
+  ReportsSmallIcon,
+  SMLSmallIcon,
+  SurveysSmallIcon,
+  FinanceSmallIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 
@@ -20,9 +47,10 @@ const HomePage = () => (
       <HomePageChartsLabel>Discover Influencers</HomePageChartsLabel>
       <HomePageChartsGrid>
         <CardWithChart
-          title="Identified"
-          icon={<IdentifiedIcon />}
+          title="Daily"
+          icon={<DailyIcon />}
           percent={2}
+          smallIcon={<UserIcon />}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -32,9 +60,10 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Contacted"
-          icon={<ContactedIcon />}
+          title="Weekly"
+          icon={<WeeklyIcon />}
           percent={2}
+          smallIcon={<UserIcon />}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -44,9 +73,10 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Registered"
-          icon={<RegisteredIcon />}
+          title="Monthly"
+          icon={<MonthlyIcon />}
           percent={2}
+          smallIcon={<UserIcon />}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -56,9 +86,10 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="To Be Approved"
-          icon={<TotalIcon />}
+          title="Yearly"
+          icon={<YearlyIcon />}
           percent={2}
+          smallIcon={<UserIcon />}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -74,7 +105,7 @@ const HomePage = () => (
       <HomePageChartsGrid>
         <CardWithChart
           title="Identified"
-          icon={<IdentifiedIcon />}
+          icon={<ClientIdentifiedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -86,7 +117,7 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Contacted"
-          icon={<ContactedIcon />}
+          icon={<ClientContactedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -98,7 +129,7 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Registered"
-          icon={<RegisteredIcon />}
+          icon={<ClientRegisteredIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -110,7 +141,7 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Scheduled"
-          icon={<TotalIcon />}
+          icon={<ClientScheduledIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -127,7 +158,8 @@ const HomePage = () => (
       <HomePageChartsGrid>
         <CardWithChart
           title="Instagram"
-          icon={<IdentifiedIcon />}
+          icon={<InstagramIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -139,7 +171,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Twitter"
-          icon={<ContactedIcon />}
+          icon={<TwitterIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -151,7 +184,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Tiktok"
-          icon={<RegisteredIcon />}
+          icon={<TiktokIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -164,6 +198,7 @@ const HomePage = () => (
         <CardWithChart
           title="Total"
           icon={<TotalIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -216,7 +251,7 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Hospitals"
-          icon={<TotalIcon />}
+          icon={<HospitalIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -233,8 +268,9 @@ const HomePage = () => (
       <HomePageChartsGrid>
         <CardWithChart
           title="In Preparation"
-          icon={<IdentifiedIcon />}
+          icon={<InpreparationIcon />}
           percent={2}
+          smallIcon={<CampaignsSmallIcon />}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -245,7 +281,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Ongoing"
-          icon={<ContactedIcon />}
+          icon={<OngoingIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -257,7 +294,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Finished"
-          icon={<RegisteredIcon />}
+          icon={<FinishedIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -269,7 +307,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Revenue"
-          icon={<TotalIcon />}
+          icon={<RevenueIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -286,8 +325,9 @@ const HomePage = () => (
       <HomePageChartsGrid>
         <CardWithChart
           title="Ordered"
-          icon={<IdentifiedIcon />}
+          icon={<OrderedIcon />}
           percent={2}
+          smallIcon={<ReportsSmallIcon />}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -298,7 +338,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Ready"
-          icon={<ContactedIcon />}
+          icon={<ReadyIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -310,7 +351,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Delivered"
-          icon={<RegisteredIcon />}
+          icon={<FinishedIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -322,7 +364,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Revenue"
-          icon={<TotalIcon />}
+          icon={<RevenueIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -339,7 +382,8 @@ const HomePage = () => (
       <HomePageChartsGrid>
         <CardWithChart
           title="Ordered"
-          icon={<IdentifiedIcon />}
+          icon={<OrderedIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -351,7 +395,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Ready"
-          icon={<ContactedIcon />}
+          icon={<ReadyIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -363,7 +408,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Delivered"
-          icon={<RegisteredIcon />}
+          icon={<FinishedIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -375,7 +421,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Revenue"
-          icon={<TotalIcon />}
+          icon={<RevenueIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -392,7 +439,8 @@ const HomePage = () => (
       <HomePageChartsGrid>
         <CardWithChart
           title="In Preparation"
-          icon={<IdentifiedIcon />}
+          icon={<InpreparationIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -404,7 +452,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Ongoing"
-          icon={<ContactedIcon />}
+          icon={<OngoingIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -416,7 +465,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Finished"
-          icon={<RegisteredIcon />}
+          icon={<FinishedIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -428,7 +478,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Revenue"
-          icon={<TotalIcon />}
+          icon={<RevenueIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -445,7 +496,8 @@ const HomePage = () => (
       <HomePageChartsGrid>
         <CardWithChart
           title="Revenue"
-          icon={<IdentifiedIcon />}
+          icon={<RevenueIcon />}
+          smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -457,7 +509,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Cost"
-          icon={<ContactedIcon />}
+          icon={<CostIcon />}
+          smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -469,7 +522,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Profit"
-          icon={<RegisteredIcon />}
+          icon={<ProfitIcon />}
+          smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -481,7 +535,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Margin"
-          icon={<TotalIcon />}
+          icon={<MarginIcon />}
+          smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
           chartData={{

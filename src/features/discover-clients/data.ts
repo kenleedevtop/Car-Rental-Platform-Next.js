@@ -1,9 +1,347 @@
 export const DGenerateDiscoverClientsFilter = () => ({
-  industry: null,
-  company: null,
-  diseaseArea: null,
-  location: null,
-  email: null,
-  task: null,
+  search: '',
+  role: [],
+  market: [],
+  industry: [],
+  product: [],
+  ambassador: [],
+  company: [],
+  status: null,
+  diseaseArea: [],
+  location: [],
   label: [],
+  schedule: [],
+  joinedFrom: null,
+  joinedTo: null,
 });
+
+export const DClientsHeadIdentified = [
+  {
+    reference: 'firstName',
+    label: 'First Name',
+    visible: true,
+  },
+  {
+    reference: 'lastName',
+    label: 'Last Name',
+    visible: true,
+  },
+  {
+    reference: 'email',
+    label: 'Email',
+    visible: false,
+  },
+  {
+    reference: 'status',
+    label: 'Status',
+    visible: false,
+  },
+  {
+    reference: 'registeredAt',
+    label: 'Registered At',
+    visible: false,
+  },
+  {
+    reference: 'updatedAt',
+    label: 'Updated At',
+    visible: false,
+  },
+  {
+    reference: 'label',
+    label: 'Label',
+    visible: false,
+  },
+  {
+    reference: 'ambassador',
+    label: 'Ambassador',
+    visible: false,
+  },
+  {
+    reference: 'company',
+    label: 'Company',
+    visible: true,
+  },
+  {
+    reference: 'industry',
+    label: 'Industry',
+    visible: false,
+  },
+  {
+    reference: 'product',
+    label: 'Product',
+    visible: true,
+  },
+  {
+    reference: 'location',
+    label: 'Location',
+    visible: false,
+  },
+  {
+    reference: 'market',
+    label: 'Market',
+    visible: false,
+  },
+  {
+    reference: 'diseaseAreas',
+    label: 'Disease Areas',
+    visible: false,
+  },
+  {
+    reference: 'role',
+    label: 'Role',
+    visible: false,
+  },
+  {
+    reference: 'contactedAt',
+    label: 'Contacted At',
+    visible: false,
+  },
+];
+
+export const DClientsHeadContacted = [
+  {
+    reference: 'firstName',
+    label: 'First Name',
+    visible: true,
+  },
+  {
+    reference: 'lastName',
+    label: 'Last Name',
+    visible: true,
+  },
+  {
+    reference: 'email',
+    label: 'Email',
+    visible: false,
+  },
+  {
+    reference: 'status',
+    label: 'Status',
+    visible: false,
+  },
+  {
+    reference: 'registeredAt',
+    label: 'Registered At',
+    visible: false,
+  },
+  {
+    reference: 'updatedAt',
+    label: 'Updated At',
+    visible: false,
+  },
+  {
+    reference: 'label',
+    label: 'Label',
+    visible: false,
+  },
+  {
+    reference: 'ambassador',
+    label: 'Ambassador',
+    visible: false,
+  },
+  {
+    reference: 'company',
+    label: 'Company',
+    visible: true,
+  },
+  {
+    reference: 'industry',
+    label: 'Industry',
+    visible: false,
+  },
+  {
+    reference: 'product',
+    label: 'Product',
+    visible: true,
+  },
+  {
+    reference: 'location',
+    label: 'Location',
+    visible: false,
+  },
+  {
+    reference: 'market',
+    label: 'Market',
+    visible: false,
+  },
+  {
+    reference: 'diseaseAreas',
+    label: 'Disease Areas',
+    visible: false,
+  },
+  {
+    reference: 'role',
+    label: 'Role',
+    visible: false,
+  },
+  {
+    reference: 'contactedAt',
+    label: 'Contacted At',
+    visible: true,
+  },
+];
+
+export const DClientsHeadRegistered = [
+  {
+    reference: 'firstName',
+    label: 'First Name',
+    visible: true,
+  },
+  {
+    reference: 'lastName',
+    label: 'Last Name',
+    visible: true,
+  },
+  {
+    reference: 'email',
+    label: 'Email',
+    visible: false,
+  },
+  {
+    reference: 'status',
+    label: 'Status',
+    visible: false,
+  },
+  {
+    reference: 'registeredAt',
+    label: 'Registered At',
+    visible: true,
+  },
+  {
+    reference: 'updatedAt',
+    label: 'Updated At',
+    visible: false,
+  },
+  {
+    reference: 'label',
+    label: 'Label',
+    visible: false,
+  },
+  {
+    reference: 'ambassador',
+    label: 'Ambassador',
+    visible: false,
+  },
+  {
+    reference: 'company',
+    label: 'Company',
+    visible: true,
+  },
+  {
+    reference: 'industry',
+    label: 'Industry',
+    visible: false,
+  },
+  {
+    reference: 'product',
+    label: 'Product',
+    visible: false,
+  },
+  {
+    reference: 'location',
+    label: 'Location',
+    visible: true,
+  },
+  {
+    reference: 'market',
+    label: 'Market',
+    visible: false,
+  },
+  {
+    reference: 'diseaseAreas',
+    label: 'Disease Areas',
+    visible: true,
+  },
+  {
+    reference: 'role',
+    label: 'Role',
+    visible: true,
+  },
+  {
+    reference: 'contactedAt',
+    label: 'Contacted At',
+    visible: false,
+  },
+];
+export const DClientsHeadScheduled = [
+  {
+    reference: 'firstName',
+    label: 'First Name',
+    visible: true,
+  },
+  {
+    reference: 'lastName',
+    label: 'Last Name',
+    visible: true,
+  },
+  {
+    reference: 'email',
+    label: 'Email',
+    visible: false,
+  },
+  {
+    reference: 'status',
+    label: 'Status',
+    visible: false,
+  },
+  {
+    reference: 'registeredAt',
+    label: 'Registered At',
+    visible: false,
+  },
+  {
+    reference: 'updatedAt',
+    label: 'Updated At',
+    visible: true,
+  },
+  {
+    reference: 'label',
+    label: 'Label',
+    visible: false,
+  },
+  {
+    reference: 'ambassador',
+    label: 'Ambassador',
+    visible: false,
+  },
+  {
+    reference: 'company',
+    label: 'Company',
+    visible: true,
+  },
+  {
+    reference: 'industry',
+    label: 'Industry',
+    visible: false,
+  },
+  {
+    reference: 'product',
+    label: 'Product',
+    visible: false,
+  },
+  {
+    reference: 'location',
+    label: 'Location',
+    visible: true,
+  },
+  {
+    reference: 'market',
+    label: 'Market',
+    visible: false,
+  },
+  {
+    reference: 'diseaseAreas',
+    label: 'Disease Areas',
+    visible: true,
+  },
+  {
+    reference: 'role',
+    label: 'Role',
+    visible: true,
+  },
+  {
+    reference: 'contactedAt',
+    label: 'Contacted At',
+    visible: false,
+  },
+];
