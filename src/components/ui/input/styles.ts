@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Theme, MenuItem, TextField, Autocomplete } from '@mui/material';
+import { Theme, MenuItem, TextField, Autocomplete, Chip } from '@mui/material';
 import { DesktopDatePicker, DesktopTimePicker } from '@mui/x-date-pickers';
 import { Label } from 'components/ui';
 
@@ -88,4 +88,13 @@ export const InputError = styled.div<{ theme?: Theme }>`
     font-size: 12px;
     font-weight: 500;
   `}
+`;
+
+export const InputChip = styled(Chip)<{ theme?: Theme }>`
+  ${({ theme }) => `
+    .MuiChip-root-InputChip {
+      background: ${theme.palette.secondary.main}5;
+      color: ${theme.palette.secondary.main};
+    }
+    `}
 `;

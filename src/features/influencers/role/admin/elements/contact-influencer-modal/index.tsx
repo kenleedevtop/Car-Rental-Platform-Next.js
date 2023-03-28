@@ -33,7 +33,7 @@ const ContactInfluencerModal = ({
       onClose={onClose}
       {...props}
     >
-      <ContactInfluencerModalMain style={{ height: '500px' }}>
+      <ContactInfluencerModalMain style={{ height: '400px' }}>
         <Tabs
           tabs={DTabs}
           value={state.type}
@@ -49,15 +49,8 @@ const ContactInfluencerModal = ({
           />
         )}
         <Input
-          type="multiselect"
-          label="Recipient"
-          placeholder="Select Recipient"
-          value={state.recipient}
-          onValue={(recipient) => setState({ ...state, recipient })}
-        />
-        <Input
           multiline
-          rows={state.type ? 8 : 5}
+          rows={state.type ? 7 : 5}
           type="text"
           label="Message"
           placeholder="Your Message"

@@ -89,6 +89,7 @@ const Table = ({
             onReorder={setLocalHead}
             axis="y"
             as="div"
+            style={{ height: '500px', overflowY: 'scroll' }}
           >
             {localHead.map((x) => (
               <OrderListDraggable

@@ -1,115 +1,22 @@
 export const DGenerateDiscoverInfluencersFilter = () => ({
-  platform: null,
-  diseaseArea: null,
-  location: null,
-  task: null,
-  followers: {
-    min: '',
-    max: '',
-  },
+  search: '',
+  diseaseArea: [],
+  location: [],
+  gender: null,
+  experienceAs: null,
+  socialMedia: null,
+  status: null,
+  joinedFrom: null,
+  joinedTo: null,
+  schedule: [],
+  label: [],
   age: {
     min: '',
     max: '',
   },
-  status: {
-    min: '',
-    max: '',
-  },
-  label: [],
 });
 
-export const DInfluencerHead = [
-  {
-    reference: 'firstName',
-    label: 'First Name',
-    visible: true,
-  },
-  {
-    reference: 'email',
-    label: 'Email',
-    visible: true,
-  },
-  {
-    reference: 'username',
-    label: 'Username',
-    visible: true,
-  },
-  {
-    reference: 'socialMedia',
-    label: 'Social Media',
-    visible: true,
-  },
-  {
-    reference: 'diseaseArea',
-    label: 'Disease Area',
-    visible: true,
-  },
-  {
-    reference: 'location',
-    label: 'Location',
-    visible: true,
-  },
-  {
-    reference: 'followers',
-    label: 'Followers',
-    visible: true,
-  },
-  {
-    reference: 'actions',
-    label: 'Actions',
-    visible: true,
-  },
-];
-
-export const DInfluencerHead2 = [
-  {
-    reference: 'firstName',
-    label: 'First Name',
-    visible: true,
-  },
-  {
-    reference: 'dateContacted',
-    label: 'Date Contacted',
-    visible: true,
-  },
-  {
-    reference: 'email',
-    label: 'Email',
-    visible: true,
-  },
-  {
-    reference: 'username',
-    label: 'Username',
-    visible: true,
-  },
-  {
-    reference: 'socialMedia',
-    label: 'Social Media',
-    visible: true,
-  },
-  {
-    reference: 'diseaseArea',
-    label: 'Disease Area',
-    visible: true,
-  },
-  {
-    reference: 'location',
-    label: 'Location',
-    visible: true,
-  },
-  {
-    reference: 'followers',
-    label: 'Followers',
-    visible: true,
-  },
-  {
-    reference: 'actions',
-    label: 'Actions',
-    visible: true,
-  },
-];
-
-export const DInfluencerHead3 = [
+export const DInfluencerHeadRegistered = [
   {
     reference: 'firstName',
     label: 'First Name',
@@ -126,29 +33,64 @@ export const DInfluencerHead3 = [
     visible: true,
   },
   {
-    reference: 'username',
-    label: 'Username',
+    reference: 'status',
+    label: 'Status',
     visible: true,
   },
   {
-    reference: 'socialMedia',
-    label: 'Social Media',
+    reference: 'registeredAt',
+    label: 'Registered At',
     visible: true,
   },
   {
-    reference: 'diseaseArea',
-    label: 'Disease Area',
+    reference: 'updatedAt',
+    label: 'Updated At',
+    visible: false,
+  },
+  {
+    reference: 'label',
+    label: 'Label',
+    visible: false,
+  },
+  {
+    reference: 'invitedBy',
+    label: 'Invited By',
     visible: true,
+  },
+  {
+    reference: 'gender',
+    label: 'Gender',
+    visible: false,
+  },
+  {
+    reference: 'age',
+    label: 'Age',
+    visible: false,
   },
   {
     reference: 'location',
     label: 'Location',
-    visible: true,
+    visible: false,
   },
   {
-    reference: 'followers',
-    label: 'Followers',
-    visible: true,
+    reference: 'diseaseArea',
+    label: 'Disease Area',
+    visible: false,
+  },
+  {
+    reference: 'socialMedia',
+    label: 'Social Media',
+    visible: false,
+  },
+  {
+    reference: 'desiredAmount',
+    label: 'Desired Amount',
+    visible: false,
+  },
+  {
+    reference: 'currency',
+    label: 'Currency',
+    visible: false,
   },
   {
     reference: 'actions',
@@ -157,36 +99,81 @@ export const DInfluencerHead3 = [
   },
 ];
 
-export const DInfluencerHead4 = [
+export const DInfluencerHeadToBeApproved = [
   {
-    reference: 'username',
-    label: 'Username',
+    reference: 'firstName',
+    label: 'First Name',
     visible: true,
   },
   {
-    reference: 'campaigns',
-    label: 'Campaigns',
+    reference: 'lastName',
+    label: 'Last Name',
     visible: true,
   },
   {
-    reference: 'cpc',
-    label: 'CPC',
+    reference: 'email',
+    label: 'Email',
     visible: true,
   },
   {
-    reference: 'cpt',
-    label: 'CPT',
+    reference: 'status',
+    label: 'Status',
     visible: true,
   },
   {
-    reference: 'price',
-    label: 'Price',
+    reference: 'registeredAt',
+    label: 'Registered At',
     visible: true,
   },
   {
-    reference: 'overlap',
-    label: 'Overlap',
+    reference: 'updatedAt',
+    label: 'Updated At',
+    visible: false,
+  },
+  {
+    reference: 'label',
+    label: 'Label',
+    visible: false,
+  },
+  {
+    reference: 'invitedBy',
+    label: 'Invited By',
     visible: true,
+  },
+  {
+    reference: 'gender',
+    label: 'Gender',
+    visible: false,
+  },
+  {
+    reference: 'age',
+    label: 'Age',
+    visible: false,
+  },
+  {
+    reference: 'location',
+    label: 'Location',
+    visible: false,
+  },
+  {
+    reference: 'diseaseArea',
+    label: 'Disease Area',
+    visible: false,
+  },
+  {
+    reference: 'socialMedia',
+    label: 'Social Media',
+    visible: false,
+  },
+  {
+    reference: 'desiredAmount',
+    label: 'Desired Amount',
+    visible: false,
+  },
+  {
+    reference: 'currency',
+    label: 'Currency',
+    visible: false,
   },
   {
     reference: 'actions',

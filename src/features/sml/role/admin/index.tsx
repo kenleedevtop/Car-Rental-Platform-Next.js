@@ -18,12 +18,17 @@ import {
   CreateIcon,
   DeleteIcon,
   EditIcon,
+  FinishedIcon,
   IdentifiedIcon,
   InfoIcon,
+  OrderedIcon,
+  ReadyIcon,
   RegisteredIcon,
   ReportSMLIcon,
+  RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
+  SMLSmallIcon,
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
@@ -89,7 +94,8 @@ const SmlPage = () => {
       <SmlPageCharts>
         <CardWithChart
           title="Ordered"
-          icon={<IdentifiedIcon />}
+          icon={<OrderedIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -101,7 +107,8 @@ const SmlPage = () => {
         />
         <CardWithChart
           title="Ready"
-          icon={<ContactedIcon />}
+          icon={<ReadyIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -113,8 +120,9 @@ const SmlPage = () => {
         />
         <CardWithChart
           title="Delivered"
-          icon={<RegisteredIcon />}
-          percent={-6}
+          icon={<FinishedIcon />}
+          smallIcon={<SMLSmallIcon />}
+          percent={2}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -125,8 +133,9 @@ const SmlPage = () => {
         />
         <CardWithChart
           title="Revenue"
-          icon={<TotalIcon />}
-          percent={-6}
+          icon={<RevenueIcon />}
+          smallIcon={<SMLSmallIcon />}
+          percent={2}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>

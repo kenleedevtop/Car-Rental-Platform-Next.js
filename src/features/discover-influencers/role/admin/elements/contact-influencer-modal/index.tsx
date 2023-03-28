@@ -58,7 +58,7 @@ const ContactInfluencerModal = ({
       onClose={onClose}
       {...props}
     >
-      <ContactInfluencerModalMain style={{ height: '475px' }}>
+      <ContactInfluencerModalMain style={{ height: '400px' }}>
         <Tabs
           tabs={['Email', 'Direct Message']}
           value={tabs}

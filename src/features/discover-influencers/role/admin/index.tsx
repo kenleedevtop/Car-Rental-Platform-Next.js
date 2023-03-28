@@ -5,31 +5,33 @@ import {
   DiscoverInfluencersPageFilter,
   DiscoverInfluencersPageFilterActions,
   DiscoverInfluencersAction,
+  DiscoverInfluencersFilterContainer,
 } from 'features/discover-influencers/styles';
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
 import {
-  ContactedIcon,
-  IdentifiedIcon,
-  InstagramIcon,
-  RegisteredIcon,
+  CardWithChart,
+  CardWithText,
+  CheckboxTable,
+  Table,
+  Tabs,
+} from 'components/custom';
+import {
+  DailyIcon,
+  MonthlyIcon,
   SlidersHorizontalIcon,
-  TiktokIcon,
-  TotalIcon,
-  TwitterIcon,
+  UserIcon,
+  WeeklyIcon,
+  YearlyIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
-import { Grid, Stack } from 'components/system';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
+import { Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import {
   DGenerateDiscoverInfluencersFilter,
-  DInfluencerHead,
-  DInfluencerHead2,
-  DInfluencerHead3,
-  DInfluencerHead4,
+  DInfluencerHeadRegistered,
+  DInfluencerHeadToBeApproved,
 } from 'features/discover-influencers/data';
 import {
-  AddInfluencerModal,
   DiscoverActions,
   ExportInfluencersModal,
   InfluencerProfile,
@@ -41,7 +43,6 @@ import { AdminAPI } from 'api';
 
 const DiscoverInfluencersPage = () => {
   // Modals
-  const [aiModal, openAiModal, closeAiModal] = useModal(false);
   const [eModal, openEModal, closeEModal] = useModal(false);
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
 
@@ -118,8 +119,7 @@ const DiscoverInfluencersPage = () => {
         input
       );
       setInfluencers(data);
-      const helper = Math.ceil(countNumber / 10);
-      setCounter(helper);
+      console.log('STABRESTA', influencers);
     } catch {
       console.log('error');
     }
@@ -137,8 +137,9 @@ const DiscoverInfluencersPage = () => {
     <DiscoverInfluencersPageMain>
       <DiscoverInfluencersPageCharts>
         <CardWithChart
-          title="Identified"
-          icon={<IdentifiedIcon />}
+          title="Daily"
+          icon={<DailyIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -149,8 +150,9 @@ const DiscoverInfluencersPage = () => {
           }}
         />
         <CardWithChart
-          title="Contacted"
-          icon={<ContactedIcon />}
+          title="Weekly"
+          icon={<WeeklyIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -161,8 +163,9 @@ const DiscoverInfluencersPage = () => {
           }}
         />
         <CardWithChart
-          title="Registered"
-          icon={<RegisteredIcon />}
+          title="Monthly"
+          icon={<MonthlyIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -173,8 +176,9 @@ const DiscoverInfluencersPage = () => {
           }}
         />
         <CardWithChart
-          title="To Be Approved"
-          icon={<TotalIcon />}
+          title="Yearly"
+          icon={<YearlyIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -197,27 +201,21 @@ const DiscoverInfluencersPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained" onClick={() => {}}>
-            Import
-          </Button>,
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
-          </Button>,
-          <Button color="primary" variant="contained" onClick={openAiModal}>
-            Add Influencer
           </Button>,
         ]}
       >
         <Stack>
           <Collapse in={filterOpen}>
             <DiscoverInfluencersPageFilter>
-              <Grid columns={4}>
+              <DiscoverInfluencersFilterContainer>
                 <Input
-                  type="select"
-                  label="Platform"
-                  placeholder="Please Select"
-                  value={filter.platform}
-                  onValue={(platform) => setFilter({ ...filter, platform })}
+                  type="text"
+                  label="Search"
+                  placeholder="Please Enter"
+                  value={filter.search}
+                  onValue={(search) => setFilter({ ...filter, search })}
                 />
                 <Input
                   type="select"
@@ -237,39 +235,160 @@ const DiscoverInfluencersPage = () => {
                 />
                 <Input
                   type="min-max"
-                  label="Followers"
-                  value={filter.followers}
-                  onValue={(followers) => setFilter({ ...filter, followers })}
-                />
-                <Input
-                  type="min-max"
                   label="Age"
                   value={filter.age}
                   onValue={(age) => setFilter({ ...filter, age })}
                 />
                 <Input
-                  type="min-max"
-                  label="Status"
-                  value={filter.status}
-                  onValue={(statusInput) =>
-                    setFilter({ ...filter, statusInput })
+                  type="select"
+                  label="Gender"
+                  placeholder="Please Select"
+                  value={filter.gender}
+                  onValue={(gender) => setFilter({ ...filter, gender })}
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Male',
+                    },
+                    {
+                      value: 1,
+                      label: 'Female',
+                    },
+                    {
+                      value: 2,
+                      label: 'Other',
+                    },
+                  ]}
+                />
+                <Input
+                  type="select"
+                  label="Experience As"
+                  placeholder="Please Select"
+                  value={filter.experienceAs}
+                  onValue={(experienceAs) =>
+                    setFilter({ ...filter, experienceAs })
                   }
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Patient',
+                    },
+                    {
+                      value: 1,
+                      label: 'Caregiver',
+                    },
+                  ]}
+                />
+                <Input
+                  type="select"
+                  label="Social Media"
+                  placeholder="Please Select"
+                  value={filter.socialMedia}
+                  onValue={(socialMedia) =>
+                    setFilter({ ...filter, socialMedia })
+                  }
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Instagram',
+                    },
+                    {
+                      value: 1,
+                      label: 'Twitter',
+                    },
+                  ]}
+                />
+                <Input
+                  type="select"
+                  label="Status"
+                  placeholder="Please Select"
+                  value={filter.status}
+                  onValue={(status) => setFilter({ ...filter, status })}
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Not confirmed',
+                    },
+                    {
+                      value: 1,
+                      label: 'Confirmed',
+                    },
+                    {
+                      value: 2,
+                      label: 'Verified',
+                    },
+                    {
+                      value: 3,
+                      label: 'Approved',
+                    },
+                  ]}
+                />
+                <InputGroup
+                  label="Joined"
+                  inputRatio="1fr 1fr"
+                  elements={[
+                    {
+                      type: 'date',
+                      placeholder: 'From',
+                      value: filter.joinedFrom,
+                      onValue: (joinedFrom) =>
+                        setFilter({ ...filter, joinedFrom }),
+                    },
+                    {
+                      type: 'date',
+                      placeholder: 'To',
+                      value: filter.joinedTo,
+                      onValue: (joinedTo) => setFilter({ ...filter, joinedTo }),
+                    },
+                  ]}
                 />
                 <Input
                   type="multiselect"
                   label="Add Label"
-                  placeholder="Choose several state"
+                  placeholder="Please Select"
                   value={filter.label}
                   onValue={(label) => setFilter({ ...filter, label })}
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Great',
+                    },
+                    {
+                      value: 1,
+                      label: 'Dumb',
+                    },
+                    {
+                      value: 2,
+                      label: 'Without',
+                    },
+                  ]}
                 />
                 <Input
                   type="select"
-                  label="Task"
+                  label="Schedule"
                   placeholder="Please Select"
-                  value={filter.Task}
-                  onValue={(Task) => setFilter({ ...filter, Task })}
+                  value={filter.schedule}
+                  onValue={(schedule) => setFilter({ ...filter, schedule })}
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Reminder',
+                    },
+                    {
+                      value: 1,
+                      label: 'Task',
+                    },
+                    {
+                      value: 2,
+                      label: 'Meeting',
+                    },
+                    {
+                      value: 3,
+                      label: 'Without',
+                    },
+                  ]}
                 />
-              </Grid>
+              </DiscoverInfluencersFilterContainer>
               <DiscoverInfluencersPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -287,32 +406,21 @@ const DiscoverInfluencersPage = () => {
           <Tabs
             value={tabs}
             onValue={setTabs}
-            tabs={[
-              'Identified',
-              'Contacted',
-              'Registered',
-              'To Be Approved',
-              'Do Not Contact',
-            ]}
+            tabs={['Registered', 'To Be Approved']}
           />
           {tabs === 0 && (
-            <Table
-              head={DInfluencerHead}
-              items={influencers}
+            <CheckboxTable
+              head={DInfluencerHeadRegistered}
+              items={[influencers]}
               renderItem={renderItem}
             />
           )}
           {tabs === 1 && (
-            <Table head={DInfluencerHead2} items={[]} renderItem={renderItem} />
-          )}
-          {tabs === 2 && (
-            <Table head={DInfluencerHead3} items={[]} renderItem={renderItem} />
-          )}
-          {tabs === 3 && (
-            <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
-          )}
-          {tabs === 4 && (
-            <Table head={DInfluencerHead4} items={[]} renderItem={renderItem} />
+            <CheckboxTable
+              head={DInfluencerHeadToBeApproved}
+              items={[]}
+              renderItem={renderItem}
+            />
           )}
           <Pagination count={counter} page={page} onChange={handlePage} />
           <Stack direction="horizontal">
@@ -321,7 +429,6 @@ const DiscoverInfluencersPage = () => {
           </Stack>
         </Stack>
       </CardWithText>
-      {aiModal && <AddInfluencerModal onClose={closeAiModal} />}
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}
       {ipModal && (
         <InfluencerProfile
