@@ -6,16 +6,16 @@ import { Button, Input } from 'components/ui';
 
 const AddClientsModal = ({ onClose, ...props }: TAddClientsModalProps) => {
   const [state, setState] = useState({
-    clientName: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    role: '',
-    phone: '',
-    company: '',
-    product: '',
-    industry: null,
-    diseaseArea: null,
-    location: null,
-    market: null,
+    company: [],
+    role: [],
+    product: [],
+    industry: [],
+    diseaseArea: [],
+    location: [],
+    market: [],
   });
 
   return (
@@ -29,7 +29,7 @@ const AddClientsModal = ({ onClose, ...props }: TAddClientsModalProps) => {
           size="large"
           onClick={onClose}
         >
-          Add
+          Create
         </Button>,
       ]}
       onClose={onClose}
@@ -38,10 +38,17 @@ const AddClientsModal = ({ onClose, ...props }: TAddClientsModalProps) => {
       <AddClientsModalMain columns={2}>
         <Input
           type="text"
-          label="Client Name"
+          label="First Name"
           placeholder="Please Enter"
-          value={state.clientName}
-          onValue={(clientName) => setState({ ...state, clientName })}
+          value={state.firstName}
+          onValue={(firstName) => setState({ ...state, firstName })}
+        />
+        <Input
+          type="text"
+          label="Last Name"
+          placeholder="Please Enter"
+          value={state.lastName}
+          onValue={(lastName) => setState({ ...state, lastName })}
         />
         <Input
           type="text"
@@ -51,56 +58,49 @@ const AddClientsModal = ({ onClose, ...props }: TAddClientsModalProps) => {
           onValue={(email) => setState({ ...state, email })}
         />
         <Input
-          type="text"
-          label="Role"
-          placeholder="Please Enter"
-          value={state.role}
-          onValue={(role) => setState({ ...state, role })}
-        />
-        <Input
-          type="text"
-          label="Phone Number"
-          placeholder="Please Enter"
-          value={state.phone}
-          onValue={(phone) => setState({ ...state, phone })}
-        />
-        <Input
-          type="text"
+          type="multiselect"
           label="Company"
           placeholder="Please Select"
           value={state.company}
           onValue={(company) => setState({ ...state, company })}
         />
         <Input
-          type="text"
+          type="multiselect"
+          label="Role"
+          placeholder="Please Enter"
+          value={state.role}
+          onValue={(role) => setState({ ...state, role })}
+        />
+        <Input
+          type="multiselect"
           label="Product"
           placeholder="Please Select"
           value={state.product}
           onValue={(product) => setState({ ...state, product })}
         />
         <Input
-          type="select"
+          type="multiselect"
           label="Industry"
           placeholder="Please Select"
           value={state.industry}
           onValue={(industry) => setState({ ...state, industry })}
         />
         <Input
-          type="select"
+          type="multiselect"
           label="Disease Area"
           placeholder="Please Enter"
           value={state.diseaseArea}
           onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
         />
         <Input
-          type="select"
+          type="multiselect"
           label="Location"
           placeholder="Please Enter"
           value={state.location}
           onValue={(location) => setState({ ...state, location })}
         />
         <Input
-          type="select"
+          type="multiselect"
           label="Market"
           placeholder="Please Enter"
           value={state.market}

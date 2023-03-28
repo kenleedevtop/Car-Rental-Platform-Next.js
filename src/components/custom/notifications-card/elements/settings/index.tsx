@@ -198,7 +198,7 @@ const NotificationSettings = ({ onClose, ...props }: TNotificationSettings) => {
               />
               <Switch
                 color="secondary"
-                label="Campaign Created"
+                label="Order Created"
                 value={state.campaignCreated}
                 onValue={(campaignCreated) =>
                   setState({ ...state, campaignCreated })

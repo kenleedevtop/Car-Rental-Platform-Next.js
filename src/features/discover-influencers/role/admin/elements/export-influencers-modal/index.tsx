@@ -53,24 +53,10 @@ const ExportInfluencersModal = ({
         />
         <Checkbox
           color="secondary"
-          label="Identified"
-          size="large"
-          value={state.identified}
-          onValue={(identified) => setState({ ...state, identified })}
-        />
-        <Checkbox
-          color="secondary"
           label="Registered"
           size="large"
           value={state.registered}
           onValue={(registered) => setState({ ...state, registered })}
-        />
-        <Checkbox
-          color="secondary"
-          label="Contacted"
-          size="large"
-          value={state.contacted}
-          onValue={(contacted) => setState({ ...state, contacted })}
         />
         <Checkbox
           color="secondary"

@@ -17,6 +17,7 @@ import { formatNumber } from 'utilities/extended-proto';
 const CardWithChart = ({
   title,
   icon,
+  smallIcon = <BusinessmanIcon />,
   count,
   percent,
   chartData,
@@ -29,7 +30,7 @@ const CardWithChart = ({
     </CardWithChartText>
     <CardWithChartValues>
       <CardWithChartCount>
-        <BusinessmanIcon />
+        {smallIcon}
         {formatNumber(count)}
       </CardWithChartCount>
       <PercentIndicator percent={percent} />

@@ -9,6 +9,7 @@ import {
   InputTimepicker,
   InputRow,
   InputError,
+  InputChip,
 } from 'components/ui/input/styles';
 import { TInputProps } from 'components/ui/input/types';
 import { Chip, MenuItem } from '@mui/material';
@@ -316,12 +317,12 @@ const Input = ({
           disabled={disabled}
           onInputChange={(_a, b) => setSearch(b)}
           isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
-          onKeyDown={handleKeyDown}
           renderTags={(v: any[], getTagProps) =>
             v.map((option: any, index: number) => (
-              <Chip
-                variant="outlined"
+              <InputChip
                 label={option.label}
+                color="info"
+                variant="outlined"
                 {...getTagProps({ index })}
               />
             ))
@@ -340,11 +341,12 @@ const Input = ({
             <InputText
               {...x}
               variant="outlined"
-              placeholder={placeholder}
+              placeholder={options ? placeholder : ''}
               error={error}
               onBlur={handleBlur}
               onFocus={handleFocus}
               disabled={disabled}
+              onKeyDown={handleKeyDown}
               InputProps={{
                 ...InputProps,
                 endAdornment: [endAdornment, _endAdornment],

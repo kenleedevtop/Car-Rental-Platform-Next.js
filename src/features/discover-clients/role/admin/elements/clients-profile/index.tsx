@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TClientsProfileModalProps } from 'features/discover-clients/role/admin/elements/clients-profile/types';
-import { ClientsProfileModalMain } from 'features/discover-clients/role/admin/elements/clients-profile/style';
+import {
+  ClientsProfileModalMain,
+  ClientTitle,
+} from 'features/discover-clients/role/admin/elements/clients-profile/style';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
+import { EditIcon } from 'components/svg';
 
 const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
   const [state, setState] = useState({
-    clientName: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    role: '',
-    phone: '',
     company: '',
+    role: '',
     product: '',
     industry: null,
     diseaseArea: null,
@@ -30,10 +34,96 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
 
   const [tab, setTab] = useState(0);
 
+  const [disabled, setDisabled] = useState(true);
+
+  const handleDisabled = () => {
+    setDisabled(!disabled);
+  };
+
+  const [commentLabel, setCommentLabel] = useState<any>([]);
+  const [labelLabel, setLabelLabel] = useState<any>([]);
+  const [meetingLabel, setMeetingLabel] = useState<any>([]);
+  const [reminderLabel, setReminderLabel] = useState<any>([]);
+  const [taskLabel, setTaskLabel] = useState<any>([]);
+
+  const handleCommentLabel = (v: any) => {
+    setCommentLabel(v);
+  };
+  const handleLabelLabel = (v: any) => {
+    setLabelLabel(v);
+  };
+  const handleMeetingLabel = (v: any) => {
+    setMeetingLabel(v);
+  };
+  const handleReminderLabel = (v: any) => {
+    setReminderLabel(v);
+  };
+  const handleTaskLabel = (v: any) => {
+    setTaskLabel(v);
+  };
+
+  const [commentOptions, setCommentOptions] = useState([
+    {
+      label: 'Label',
+      value: 'label',
+    },
+  ]);
+  const [labelOptions, setLabelOptions] = useState([
+    {
+      label: 'Label',
+      value: 'label',
+    },
+  ]);
+  const [meetingOptions, setMeetingOptions] = useState([
+    {
+      label: 'Label',
+      value: 'label',
+    },
+  ]);
+  const [reminderOptions, setReminderOptions] = useState([
+    {
+      label: 'Label',
+      value: 'label',
+    },
+  ]);
+  const [taskOptions, setTaskOptions] = useState([
+    {
+      label: 'Label',
+      value: 'label',
+    },
+  ]);
+
+  const handleNewCommentTag = (v: any) => {
+    setCommentOptions((x) => [...x, v]);
+    setCommentLabel((x: any) => [...x, v]);
+  };
+  const handleNewLabelTag = (v: any) => {
+    setLabelOptions((x) => [...x, v]);
+    setLabelLabel((x: any) => [...x, v]);
+  };
+  const handleNewMeetingTag = (v: any) => {
+    setMeetingOptions((x) => [...x, v]);
+    setMeetingLabel((x: any) => [...x, v]);
+  };
+  const handleNewReminderTag = (v: any) => {
+    setReminderOptions((x) => [...x, v]);
+    setReminderLabel((x: any) => [...x, v]);
+  };
+  const handleNewTaskTag = (v: any) => {
+    setTaskOptions((x) => [...x, v]);
+    setTaskLabel((x: any) => [...x, v]);
+  };
+
   return (
     <Modal
       size="medium"
-      title="First Name Last Name"
+      title={
+        <ClientTitle>
+          First Name Last Name
+          {state.firstName} {state.lastName}
+          <EditIcon style={{ cursor: 'pointer' }} onClick={handleDisabled} />
+        </ClientTitle>
+      }
       actions={[
         <Button
           color="primary"
@@ -41,7 +131,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
           size="large"
           onClick={onClose}
         >
-          Create
+          {disabled ? 'Close' : 'Edit'}
         </Button>,
       ]}
       onClose={onClose}
@@ -50,157 +140,151 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
       <Stack style={{ height: '500px' }}>
         <Tabs tabs={['Info', 'Management']} value={tab} onValue={setTab} />
         {tab === 0 && (
-          <ClientsProfileModalMain columns={1}>
-            <Stack direction="horizontal">
-              <Input
-                type="text"
-                label="Client Name"
-                placeholder="Please Enter"
-                value={state.clientName}
-                onValue={(clientName) => setState({ ...state, clientName })}
-              />
-              <Input
-                type="text"
-                label="Email"
-                placeholder="Please Enter"
-                value={state.email}
-                onValue={(email) => setState({ ...state, email })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="text"
-                label="Role"
-                placeholder="Please Enter"
-                value={state.role}
-                onValue={(role) => setState({ ...state, role })}
-              />
-              <Input
-                type="text"
-                label="Phone Number"
-                placeholder="Please Enter"
-                value={state.phone}
-                onValue={(phone) => setState({ ...state, phone })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="text"
-                label="Company"
-                placeholder="Please Enter"
-                value={state.company}
-                onValue={(company) => setState({ ...state, company })}
-              />
-              <Input
-                type="text"
-                label="Product"
-                placeholder="Please Enter"
-                value={state.product}
-                onValue={(product) => setState({ ...state, product })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="select"
-                label="Industry"
-                placeholder="Please Enter"
-                value={state.industry}
-                onValue={(industry) => setState({ ...state, industry })}
-              />
-              <Input
-                type="select"
-                label="Disease Area"
-                placeholder="Please Enter"
-                value={state.diseaseArea}
-                onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="select"
-                label="Location"
-                placeholder="Please Enter"
-                value={state.location}
-                onValue={(location) => setState({ ...state, location })}
-              />
-              <Input
-                type="select"
-                label="Market"
-                placeholder="Please Enter"
-                value={state.market}
-                onValue={(market) => setState({ ...state, market })}
-              />
-            </Stack>
+          <ClientsProfileModalMain columns={2}>
+            <Input
+              type="text"
+              label="Email"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.email}
+              onValue={(email) => setState({ ...state, email })}
+            />
+            <Input
+              type="text"
+              label="Company"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.company}
+              onValue={(company) => setState({ ...state, company })}
+            />
+            <Input
+              type="text"
+              label="Role"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.role}
+              onValue={(role) => setState({ ...state, role })}
+            />
+            <Input
+              type="text"
+              label="Product"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.product}
+              onValue={(product) => setState({ ...state, product })}
+            />
+            <Input
+              type="select"
+              label="Industry"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.industry}
+              onValue={(industry) => setState({ ...state, industry })}
+            />
+            <Input
+              type="select"
+              label="Disease Area"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.diseaseArea}
+              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+            />
+            <Input
+              type="select"
+              label="Location"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.location}
+              onValue={(location) => setState({ ...state, location })}
+            />
+            <Input
+              type="select"
+              label="Market"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.market}
+              onValue={(market) => setState({ ...state, market })}
+            />
           </ClientsProfileModalMain>
         )}
         {tab === 1 && (
-          <ClientsProfileModalMain columns={1}>
-            <Stack direction="horizontal">
-              <Input
-                type="multiselect"
-                label="Comments"
-                placeholder="Please Enter"
-                value={state.comments}
-                onValue={(comments) => setState({ ...state, comments })}
-              />
-              <Input
-                type="multiselect"
-                label="Labels"
-                placeholder="Please Enter"
-                value={state.labels}
-                onValue={(labels) => setState({ ...state, labels })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="multiselect"
-                label="Meetings"
-                placeholder="Please Enter"
-                value={state.meetings}
-                onValue={(meetings) => setState({ ...state, meetings })}
-              />
-              <Input
-                type="multiselect"
-                label="Reminders"
-                placeholder="Please Enter"
-                value={state.reminders}
-                onValue={(reminders) => setState({ ...state, reminders })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="multiselect"
-                label="Tasks"
-                placeholder="Please Enter"
-                value={state.tasks}
-                onValue={(tasks) => setState({ ...state, tasks })}
-              />
-              <Input
-                type="date"
-                label="On Platform Since"
-                placeholder="Please Enter"
-                value={state.onPlatformSince}
-                onValue={(onPlatformSince) =>
-                  setState({ ...state, onPlatformSince })
-                }
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="text"
-                label="Status"
-                placeholder="Please Enter"
-                value={state.status}
-                onValue={(status) => setState({ ...state, status })}
-              />
-              <Input
-                type="date"
-                label="Status Change"
-                placeholder="Please Enter"
-                value={state.statusChange}
-                onValue={(statusChange) => setState({ ...state, statusChange })}
-              />
-            </Stack>
+          <ClientsProfileModalMain columns={2}>
+            <Input
+              type="multiselect"
+              label="Comments"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={commentLabel}
+              onValue={handleCommentLabel}
+              onNewTag={handleNewCommentTag}
+              options={commentOptions}
+            />
+            <Input
+              type="multiselect"
+              label="Labels"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={labelLabel}
+              onValue={handleLabelLabel}
+              onNewTag={handleNewLabelTag}
+              options={labelOptions}
+            />
+            <Input
+              type="multiselect"
+              label="Meetings"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={meetingLabel}
+              onValue={handleMeetingLabel}
+              onNewTag={handleNewMeetingTag}
+              options={meetingOptions}
+            />
+            <Input
+              type="multiselect"
+              label="Reminders"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={reminderLabel}
+              onValue={handleReminderLabel}
+              onNewTag={handleNewReminderTag}
+              options={reminderOptions}
+            />
+            <Input
+              type="multiselect"
+              label="Tasks"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={taskLabel}
+              onValue={handleTaskLabel}
+              onNewTag={handleNewTaskTag}
+              options={taskOptions}
+            />
+            <Input
+              type="date"
+              label="On Platform Since"
+              placeholder="Please Enter"
+              disabled={disabled}
+              value={state.onPlatformSince}
+              onValue={(onPlatformSince) =>
+                setState({ ...state, onPlatformSince })
+              }
+            />
+            <Input
+              type="text"
+              label="Status"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.status}
+              onValue={(status) => setState({ ...state, status })}
+            />
+            <Input
+              type="date"
+              label="Status Change"
+              disabled={disabled}
+              placeholder="Please Enter"
+              value={state.statusChange}
+              onValue={(statusChange) => setState({ ...state, statusChange })}
+            />
           </ClientsProfileModalMain>
         )}
       </Stack>

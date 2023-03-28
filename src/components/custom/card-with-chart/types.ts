@@ -7,6 +7,7 @@ export type TChartData = {
 
 export type TCardWithChartProps = React.HTMLAttributes<HTMLDivElement> & {
   icon: ReactNode;
+  smallIcon?: ReactNode;
   title: string;
   count: number;
   percent: number;
