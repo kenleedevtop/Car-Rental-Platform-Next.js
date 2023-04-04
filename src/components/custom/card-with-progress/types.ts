@@ -7,7 +7,7 @@ export type TProgressData = {
 };
 
 export type TCardWithProgressProps = React.HTMLAttributes<HTMLDivElement> & {
-  icon: ReactNode;
+  icon: ReactNode | string;
   title: string;
   progressData: Array<TProgressData>;
 };

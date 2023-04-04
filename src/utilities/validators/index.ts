@@ -27,15 +27,3 @@ export const usernameSchema = object().shape({
     .matches(/[a-z0-9.]/)
     .matches(/^\S*$/),
 });
-
-export const formSchema = object().shape({
-  password: string()
-    .min(8)
-    .matches(/[0-9]/)
-    .matches(/[a-z]/)
-    .matches(/[A-Z]/)
-    .matches(/[^\w]/),
-  confirmPassword: string().test(function (value) {
-    return this.parent.password === value;
-  }),
-});

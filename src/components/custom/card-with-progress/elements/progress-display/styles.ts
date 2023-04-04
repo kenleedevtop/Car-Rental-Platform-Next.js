@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Progress } from 'components/ui';
 import { Theme } from '@mui/material';
+import { gradient } from 'utilities/style';
 
 export const ProgressDisplayMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -23,9 +24,13 @@ export const ProgressDisplayIcon = styled.div<{ theme?: Theme }>`
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 9px;
     font-weight: 500;
-    color: ${theme.palette.common.gray[8]};
+    color: ${theme.palette.common.white};
+    background: ${gradient(45, [
+      theme.palette.primary.dark,
+      theme.palette.secondary.light,
+    ])};
   `}
 `;
 

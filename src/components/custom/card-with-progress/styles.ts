@@ -31,6 +31,7 @@ export const CardWithProgressIcon = styled.div<{ theme?: Theme }>`
           theme.palette.primary.dark,
           theme.palette.secondary.light,
         ])};
+        font-size: 2.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
