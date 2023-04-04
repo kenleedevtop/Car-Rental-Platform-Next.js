@@ -1,31 +1,168 @@
 export const DGenerateCampaignsFilter = () => ({
-  company: null,
-  client: null,
-  industry: null,
-  dataRange: null,
-  platform: null,
-  postType: null,
-  startNFinish: {
-    min: '',
-    max: '',
-  },
-
-  product: null,
-  location: null,
-  diseaseArea: null,
-  promotionType: null,
-  influencerSize: null,
-  numberOfIfluencers: {
+  search: '',
+  budget: {
     min: '',
     max: '',
   },
   startDate: null,
   endDate: null,
-  budget: {
+  influencers: {
     min: '',
     max: '',
   },
+  influencerSize: null,
+  socialMedia: null,
+  postType: null,
+  report: null,
+  labels: null,
+  schedule: null,
+
+  industry: null,
+  company: null,
+  client: null,
+  ambassador: null,
+  product: null,
+
+  diseaseArea: null,
+  struggles: null,
+  location: null,
+  ethnicity: null,
+  interests: null,
+  age: {
+    min: '',
+    max: '',
+  },
+  gender: null,
+  language: null,
 });
+
+export const DCampaignsAdminHead = [
+  {
+    reference: 'labels',
+    label: 'Labels',
+    visible: false,
+  },
+  {
+    reference: 'campaignName',
+    label: 'Campaign Name',
+    visible: true,
+  },
+  {
+    reference: 'client',
+    label: 'Client',
+    visible: true,
+  },
+  {
+    reference: 'ambassador',
+    label: 'Ambassador',
+    visible: false,
+  },
+  {
+    reference: 'budget',
+    label: 'Budget',
+    visible: true,
+  },
+  {
+    reference: 'originalBudget',
+    label: 'Original budget / Currency',
+    visible: false,
+  },
+  {
+    reference: 'diseaseArea',
+    label: 'Disease Area',
+    visible: true,
+  },
+  {
+    reference: 'struggles',
+    label: 'Struggles',
+    visible: false,
+  },
+  {
+    reference: 'location',
+    label: 'Location',
+    visible: true,
+  },
+  {
+    reference: 'company',
+    label: 'Company',
+    visible: false,
+  },
+  {
+    reference: 'ethnicity',
+    label: 'Ethnicity',
+    visible: false,
+  },
+  {
+    reference: 'interests',
+    label: 'Interests',
+    visible: false,
+  },
+  {
+    reference: 'product',
+    label: 'Product',
+    visible: true,
+  },
+  {
+    reference: 'startDate',
+    label: 'Start Date',
+    visible: false,
+  },
+  {
+    reference: 'endDate',
+    label: 'End Date',
+    visible: false,
+  },
+  {
+    reference: 'influencersNumber',
+    label: 'Influencers (Number)',
+    visible: true,
+  },
+  {
+    reference: 'influencerSize',
+    label: 'Influencer Size',
+    visible: false,
+  },
+  {
+    reference: 'ageMin',
+    label: 'Age min',
+    visible: false,
+  },
+  {
+    reference: 'ageMax',
+    label: 'Age max',
+    visible: false,
+  },
+  {
+    reference: 'gender',
+    label: 'Gender',
+    visible: false,
+  },
+  {
+    reference: 'socialMediaPlatform',
+    label: 'Social Media Platform',
+    visible: false,
+  },
+  {
+    reference: 'postType',
+    label: 'Post Type',
+    visible: false,
+  },
+  {
+    reference: 'website',
+    label: 'Website',
+    visible: false,
+  },
+  {
+    reference: 'report',
+    label: 'Report',
+    visible: false,
+  },
+  {
+    reference: 'language',
+    label: 'Language',
+    visible: false,
+  },
+];
 
 export const DCampaignsHead = [
   {

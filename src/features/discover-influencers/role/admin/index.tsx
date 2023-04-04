@@ -303,7 +303,9 @@ const DiscoverInfluencersPage = () => {
                   label="Status"
                   placeholder="Please Select"
                   value={filter.status}
-                  onValue={(status) => setFilter({ ...filter, status })}
+                  onValue={(inputStatus) =>
+                    setFilter({ ...filter, status: inputStatus })
+                  }
                   options={[
                     {
                       value: 0,

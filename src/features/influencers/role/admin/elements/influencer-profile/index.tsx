@@ -479,7 +479,7 @@ const InfluencerProfile = ({
                       <ProgressDisplay
                         percent={100}
                         color="primary"
-                        label="Highest"
+                        label="Bilo sta"
                         tooltip
                       />
                       <ProgressDisplay

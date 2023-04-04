@@ -90,3 +90,9 @@ export { default as LoadingPage } from 'features/loading';
 
 // Reset Password
 export { default as ResetPasswordPage } from 'features/reset-password';
+
+// Ongoing Campaigns
+export { default as OngoingCampaignPage } from 'features/ongoing-campaign';
+
+// Inpreparation Campaigns
+export { default as InpreparationCampaignsPage } from 'features/inpreparation-campaign';
