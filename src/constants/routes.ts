@@ -16,6 +16,8 @@ export const CProtectedRoutes = [
   '/search',
   '/sml',
   '/services/campaigns',
+  '/services/campaigns/inpreparation',
+  '/services/campaigns/ongoing',
   '/services/reports',
   '/services/reports/finished',
   '/services/sml',

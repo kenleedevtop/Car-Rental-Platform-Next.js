@@ -83,3 +83,8 @@ export { default as SMLSmallIcon } from 'components/svg/sml-small';
 export { default as SurveysSmallIcon } from 'components/svg/surveys-small';
 export { default as FinanceSmallIcon } from 'components/svg/finance-small';
 export { default as SendIcon } from 'components/svg/send';
+export { default as CampaignsCompanyIcon } from 'components/svg/campaigns-company';
+export { default as CampaignsLocationIcon } from 'components/svg/campaigns-location';
+export { default as CampaignsDiseaseIcon } from 'components/svg/campaigns-diseasearea';
+export { default as CampaignsStruggleIcon } from 'components/svg/campaigns-struggle';
+export { default as InviteIcon } from 'components/svg/invite';

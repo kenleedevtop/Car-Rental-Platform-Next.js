@@ -6,7 +6,7 @@ import {
   CampaignsPageFilterActions,
 } from 'features/campaigns/styles';
 import {
-  DCampaignsHead,
+  DCampaignsAdminHead,
   DGenerateCampaignsFilter,
 } from 'features/campaigns/data';
 import {
@@ -18,26 +18,25 @@ import {
   Tabs,
 } from 'components/custom';
 import {
-  ArchiveIcon,
-  BusinessmanIcon,
+  CampaignsCompanyIcon,
+  CampaignsDiseaseIcon,
+  CampaignsLocationIcon,
   CampaignsSmallIcon,
-  ContactedIcon,
+  CampaignsStruggleIcon,
   ContactIcon,
   DeleteIcon,
   EditIcon,
   FinishedIcon,
   FinishIcon,
-  IdentifiedIcon,
+  InfoIcon,
   InpreparationIcon,
+  ManageIcon,
   OngoingIcon,
-  RedCrossIcon,
-  RegisteredIcon,
   ReportIcon,
   RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   StartIcon,
-  TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
@@ -46,28 +45,25 @@ import { TTableRenderItemObject } from 'components/custom/table/types';
 import { useMenu, useModal } from 'hooks';
 import {
   AddCampaignModal,
+  CreatedCampaignModal,
   ExportCampaignsModal,
   NoteCampaignsModal,
   ScheduleCampaignModal,
 } from 'features/campaigns/role/admin/elements';
-import { useQuery } from 'react-query';
-import { CampaignAPI } from 'api';
 
 const CampaignsPage = () => {
-  // const { isLoading, error, data } = useQuery('campaigns/all', () =>
-  //   CampaignAPI.getAll()
-  // );
-
   const [acModal, openAcModal, closeAcModal] = useModal(false);
   const [ecModal, openEcModal, closeEcModal] = useModal(false);
   const [scModal, openScModal, closeScModal] = useModal(false);
   const [ncModal, openNcModal, closeNcModal] = useModal(false);
+  const [ccModal, openCcModal, closeCcModal] = useModal(false);
 
   const [filter, setFilter] = useState<any>(DGenerateCampaignsFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
 
   const [tabs, setTabs] = useState(0);
+  const [filterTabs, setFilterTabs] = useState(0);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -103,11 +99,6 @@ const CampaignsPage = () => {
 
   return (
     <CampaignsPageMain>
-      {/* <div>
-        <div>{isLoading ? 'LOADING' : 'NOT LOADING'}</div>
-        <div>{error ? 'ERROR' : 'NOT ERROR'}</div>
-        <div>{data ? JSON.stringify(data) : 'NOT DATA'}</div>
-      </div> */}
       <CampaignsPageCharts>
         <CardWithChart
           title="In Preparation"
@@ -165,86 +156,96 @@ const CampaignsPage = () => {
 
       <CampaignsPageCharts>
         <CardWithProgress
-          title="Industry"
-          icon={<RedCrossIcon />}
+          title="Company"
+          icon={<CampaignsCompanyIcon />}
           progressData={[
             {
-              icon: <BusinessmanIcon />,
+              icon: 'TS',
               percent: 100,
               title: 'Test',
             },
             {
-              icon: <BusinessmanIcon />,
+              icon: 'TS',
               percent: 38,
               title: 'Test',
             },
             {
-              icon: <BusinessmanIcon />,
-              percent: 75,
+              icon: 'TS',
+              percent: 57,
+              title: 'Test',
+            },
+            {
+              icon: 'TS',
+              percent: 57,
+              title: 'Test',
+            },
+            {
+              icon: 'TS',
+              percent: 57,
               title: 'Test',
             },
           ]}
         />
         <CardWithProgress
           title="Location"
-          icon={<RedCrossIcon />}
+          icon={<CampaignsLocationIcon />}
           progressData={[
             {
-              icon: <BusinessmanIcon />,
+              icon: 'US',
               percent: 100,
-              title: 'Test',
+              title: 'United States',
             },
             {
-              icon: <BusinessmanIcon />,
+              icon: 'US',
               percent: 38,
-              title: 'Test',
+              title: 'United States',
             },
             {
-              icon: <BusinessmanIcon />,
-              percent: 75,
-              title: 'Test',
+              icon: 'US',
+              percent: 57,
+              title: 'United States',
             },
           ]}
         />
         <CardWithProgress
           title="Disease Area"
-          icon={<RedCrossIcon />}
+          icon={<CampaignsDiseaseIcon />}
           progressData={[
             {
-              icon: <BusinessmanIcon />,
+              icon: 'BC',
               percent: 100,
-              title: 'Test',
+              title: 'Brain Cancer',
             },
             {
-              icon: <BusinessmanIcon />,
+              icon: 'BC',
               percent: 38,
-              title: 'Test',
+              title: 'Brain Cancer',
             },
             {
-              icon: <BusinessmanIcon />,
-              percent: 75,
-              title: 'Test',
+              icon: 'BC',
+              percent: 57,
+              title: 'Brain Cancer',
             },
           ]}
         />
         <CardWithProgress
-          title="Platform"
-          icon={<RedCrossIcon />}
+          title="Struggle"
+          icon={<CampaignsStruggleIcon />}
           progressData={[
             {
-              icon: <BusinessmanIcon />,
+              icon: 'MP',
               percent: 100,
-              title: 'Test',
+              title: 'Muscle Pain',
             },
             {
-              icon: <BusinessmanIcon />,
+              icon: 'MP',
               percent: 38,
-              title: 'Test',
+              title: 'Muscle Pain',
             },
             {
-              icon: <BusinessmanIcon />,
-              percent: 75,
-              title: 'Test',
+              icon: 'MP',
+              percent: 57,
+              title: 'Muscle Pain',
             },
           ]}
         />
@@ -272,98 +273,198 @@ const CampaignsPage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <CampaignsPageFilter>
-              <Grid columns={4}>
-                <Input
-                  type="select"
-                  label="Company"
-                  placeholder="Please Select"
-                  value={filter.company}
-                  onValue={(company) => setFilter({ ...filter, company })}
-                />
-                <Input
-                  type="select"
-                  label="Client"
-                  placeholder="Please Select"
-                  value={filter.client}
-                  onValue={(client) => setFilter({ ...filter, client })}
-                />
-                <Input
-                  type="select"
-                  label="Location"
-                  placeholder="Please Select"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
-                />
-                <Input
-                  type="select"
-                  label="Disease Area"
-                  placeholder="Please Select"
-                  value={filter.diseaseArea}
-                  onValue={(diseaseArea) =>
-                    setFilter({ ...filter, diseaseArea })
-                  }
-                />
-                <Input
-                  type="select"
-                  label="Industry"
-                  placeholder="Please Select"
-                  value={filter.industry}
-                  onValue={(industry) => setFilter({ ...filter, industry })}
-                />
-                <Input
-                  type="select"
-                  label="Platform"
-                  placeholder="Please Select"
-                  value={filter.platform}
-                  onValue={(platform) => setFilter({ ...filter, platform })}
-                />
-                <Input
-                  type="select"
-                  label="Promotion Type"
-                  placeholder="Please Select"
-                  value={filter.promotionType}
-                  onValue={(promotionType) =>
-                    setFilter({ ...filter, promotionType })
-                  }
-                />
-                <Input
-                  type="select"
-                  label="Data Range"
-                  placeholder="Please Select"
-                  value={filter.dataRange}
-                  onValue={(dataRange) => setFilter({ ...filter, dataRange })}
-                />
-                <Input
-                  type="number"
-                  label="Influencer Size"
-                  placeholder="Please Enter"
-                  value={filter.influencerSize}
-                  onValue={(influencerSize) =>
-                    setFilter({ ...filter, influencerSize })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Influencers"
-                  value={filter.numberOfIfluencers}
-                  onValue={(numberOfIfluencers) =>
-                    setFilter({ ...filter, numberOfIfluencers })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Budget"
-                  value={filter.budget}
-                  onValue={(budget) => setFilter({ ...filter, budget })}
-                />
-                <Input
-                  type="multiselect"
-                  label="Label"
-                  placeholder="Please Select"
-                  value={filter.label}
-                  onValue={(label) => setFilter({ ...filter, label })}
-                />
-              </Grid>
+              <Tabs
+                tabs={['Campaign', 'Client', 'Target']}
+                value={filterTabs}
+                onValue={setFilterTabs}
+              />
+              {filterTabs === 0 && (
+                <Grid columns={4}>
+                  <Input
+                    type="text"
+                    label="Search"
+                    placeholder="Please Enter"
+                    value={filter.search}
+                    onValue={(search) => setFilter({ ...filter, search })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Budget"
+                    value={filter.budget}
+                    onValue={(budget) => setFilter({ ...filter, budget })}
+                  />
+                  <Input
+                    type="date"
+                    label="startDate"
+                    placeholder="Please Select"
+                    value={filter.startDate}
+                    onValue={(startDate) => setFilter({ ...filter, startDate })}
+                  />
+                  <Input
+                    type="date"
+                    label="endDate"
+                    placeholder="Please Select"
+                    value={filter.endDate}
+                    onValue={(endDate) => setFilter({ ...filter, endDate })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Influencers (Number)"
+                    value={filter.influencers}
+                    onValue={(influencers) =>
+                      setFilter({ ...filter, influencers })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Influencer Size"
+                    placeholder="Please Select"
+                    value={filter.influencerSize}
+                    onValue={(influencerSize) =>
+                      setFilter({ ...filter, influencerSize })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Social Media Platform"
+                    placeholder="Please Select"
+                    value={filter.socialMedia}
+                    onValue={(socialMedia) =>
+                      setFilter({ ...filter, socialMedia })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Post Type"
+                    placeholder="Please Select"
+                    value={filter.postType}
+                    onValue={(postType) => setFilter({ ...filter, postType })}
+                  />
+                  <Input
+                    type="select"
+                    label="Report"
+                    placeholder="Please Select"
+                    value={filter.report}
+                    onValue={(report) => setFilter({ ...filter, report })}
+                  />
+                  <Input
+                    type="select"
+                    label="Labels"
+                    placeholder="Please Select"
+                    value={filter.labels}
+                    onValue={(labels) => setFilter({ ...filter, labels })}
+                  />
+                  <Input
+                    type="select"
+                    label="Schedule"
+                    placeholder="Please Select"
+                    value={filter.schedule}
+                    onValue={(schedule) => setFilter({ ...filter, schedule })}
+                  />
+                </Grid>
+              )}
+              {filterTabs === 1 && (
+                <Grid columns={4}>
+                  <Input
+                    type="select"
+                    label="Disease Area"
+                    placeholder="Please Select"
+                    value={filter.industry}
+                    onValue={(industry) => setFilter({ ...filter, industry })}
+                  />
+                  <Input
+                    type="select"
+                    label="Company"
+                    placeholder="Please Select"
+                    value={filter.company}
+                    onValue={(company) => setFilter({ ...filter, company })}
+                  />
+                  <Input
+                    type="select"
+                    label="Client"
+                    placeholder="Please Select"
+                    value={filter.client}
+                    onValue={(client) => setFilter({ ...filter, client })}
+                  />
+                  <Input
+                    type="select"
+                    label="Ambassador"
+                    placeholder="Please Select"
+                    value={filter.ambassador}
+                    onValue={(ambassador) =>
+                      setFilter({ ...filter, ambassador })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Product"
+                    placeholder="Please Select"
+                    value={filter.product}
+                    onValue={(product) => setFilter({ ...filter, product })}
+                  />
+                </Grid>
+              )}
+              {filterTabs === 2 && (
+                <Grid columns={4}>
+                  <Input
+                    type="select"
+                    label="Disease Area"
+                    placeholder="Please Select"
+                    value={filter.diseaseArea}
+                    onValue={(diseaseArea) =>
+                      setFilter({ ...filter, diseaseArea })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Struggles"
+                    placeholder="Please Select"
+                    value={filter.struggles}
+                    onValue={(struggles) => setFilter({ ...filter, struggles })}
+                  />
+                  <Input
+                    type="select"
+                    label="Location"
+                    placeholder="Please Select"
+                    value={filter.location}
+                    onValue={(location) => setFilter({ ...filter, location })}
+                  />
+                  <Input
+                    type="select"
+                    label="Ethnicity"
+                    placeholder="Please Select"
+                    value={filter.ethnicity}
+                    onValue={(ethnicity) => setFilter({ ...filter, ethnicity })}
+                  />
+                  <Input
+                    type="select"
+                    label="Interests"
+                    placeholder="Please Select"
+                    value={filter.interests}
+                    onValue={(interests) => setFilter({ ...filter, interests })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Age"
+                    value={filter.age}
+                    onValue={(age) => setFilter({ ...filter, age })}
+                  />
+                  <Input
+                    type="select"
+                    label="Gender"
+                    placeholder="Please Select"
+                    value={filter.gender}
+                    onValue={(gender) => setFilter({ ...filter, gender })}
+                  />
+                  <Input
+                    type="select"
+                    label="Language"
+                    placeholder="Please Select"
+                    value={filter.language}
+                    onValue={(language) => setFilter({ ...filter, language })}
+                  />
+                </Grid>
+              )}
               <CampaignsPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -383,7 +484,11 @@ const CampaignsPage = () => {
             onValue={setTabs}
             tabs={['In Preparation', 'Ongoing', 'Finished']}
           />
-          <Table head={DCampaignsHead} items={[]} renderItem={renderItem} />
+          <Table
+            head={DCampaignsAdminHead}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={10} />
           <Stack direction="horizontal">
             <Button variant="contained" color="primary" onClick={openNcModal}>
@@ -391,6 +496,9 @@ const CampaignsPage = () => {
             </Button>
             <Button variant="contained" color="primary" onClick={openScModal}>
               Schedule Campaign
+            </Button>
+            <Button variant="contained" color="primary" onClick={openCcModal}>
+              Created Campaign
             </Button>
           </Stack>
           <Stack direction="horizontal">
@@ -418,6 +526,16 @@ const CampaignsPage = () => {
               {
                 icon: <StartIcon />,
                 label: 'Start',
+                action: () => {},
+              },
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ManageIcon />,
+                label: 'Manage',
                 action: () => {},
               },
               {
@@ -453,6 +571,16 @@ const CampaignsPage = () => {
                 action: () => {},
               },
               {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ManageIcon />,
+                label: 'Manage',
+                action: () => {},
+              },
+              {
                 icon: <ContactIcon />,
                 label: 'Contact',
                 action: () => {},
@@ -480,13 +608,18 @@ const CampaignsPage = () => {
           <Menu
             items={[
               {
-                icon: <ArchiveIcon />,
-                label: 'Archive',
+                icon: <ReportIcon />,
+                label: 'Report',
                 action: () => {},
               },
               {
-                icon: <ReportIcon />,
-                label: 'Report',
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ManageIcon />,
+                label: 'Manage',
                 action: () => {},
               },
               {
@@ -572,6 +705,7 @@ const CampaignsPage = () => {
       {ecModal && <ExportCampaignsModal onClose={closeEcModal} />}
       {scModal && <ScheduleCampaignModal onClose={closeScModal} />}
       {ncModal && <NoteCampaignsModal onClose={closeNcModal} />}
+      {ccModal && <CreatedCampaignModal onClose={closeCcModal} />}
     </CampaignsPageMain>
   );
 };

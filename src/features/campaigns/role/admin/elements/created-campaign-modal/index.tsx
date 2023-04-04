@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Modal, Tabs } from 'components/custom';
-import { TAddInfluencerModalProps } from 'features/campaigns/role/admin/elements/add-campaign-modal/types';
+import { Chat, Modal, Tabs } from 'components/custom';
+import { TAddInfluencerModalProps } from 'features/campaigns/role/admin/elements/created-campaign-modal/types';
 import {
   AddInfluencerModalMain,
   CampaignsTitle,
-} from 'features/campaigns/role/admin/elements/add-campaign-modal/styles';
-import { Button, Checkbox, Input, InputGroup } from 'components/ui';
+} from 'features/campaigns/role/admin/elements/created-campaign-modal/styles';
+import { Button, Checkbox, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
-import { EditIcon } from 'components/svg';
+import { CopyIcon, EditIcon } from 'components/svg';
+import { useSnackbar } from 'hooks';
 
 const AddInfluencerModal = ({
   onClose,
@@ -18,44 +19,73 @@ const AddInfluencerModal = ({
     campaignName: '',
     client: null,
     product: '',
-    influencers: null,
+    ambassador: null,
     startDate: null,
     finishDate: null,
     report: null,
     budget: '',
-    currency: '',
     campaignInfo: '',
 
-    location: null,
-    language: null,
+    numberOfInfluencers: '',
+    influencerSize: null,
     diseaseArea: null,
-    stakeholders: null,
-    gender: null,
-    age: {
+    location: null,
+    ageRange: {
       min: '',
       max: '',
     },
-    ethnicity: null,
-    struggles: null,
-    interests: null,
-    influencerSize: null,
+    gender: null,
+    ethnicity: [],
+    interests: [],
     targetAudienceInfo: '',
 
     platform: null,
     postType: null,
     image: null,
-    website: null,
     instructions: '',
+
+    contract: '',
+    contractCheck: false,
+
+    chat: null,
+    submission: 'dsadas',
   });
 
   const handleFile = async () => {};
 
   const [tab, setTab] = useState(0);
 
+  const [disabled, setDisabled] = useState(true);
+
+  const handleDisabled = () => {
+    setDisabled(!disabled);
+  };
+
+  const { push } = useSnackbar();
+
+  const [link, setLink] = useState('dsadsadsada');
+
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(link);
+      push(`Successfully copied!`, {
+        variant: 'success',
+      });
+    } catch {
+      push('Something failed!', {
+        variant: 'error',
+      });
+    }
+  };
+
   return (
     <Modal
       size="medium"
-      title="Create Campaign "
+      title={
+        <CampaignsTitle>
+          Create Campaign <EditIcon onClick={handleDisabled} />
+        </CampaignsTitle>
+      }
       actions={[
         <Button
           color="primary"
@@ -63,7 +93,7 @@ const AddInfluencerModal = ({
           size="large"
           onClick={onClose}
         >
-          Create
+          {disabled ? 'Close' : 'Confirm'}
         </Button>,
       ]}
       onClose={onClose}
@@ -73,13 +103,14 @@ const AddInfluencerModal = ({
         style={{ height: '500px', overflowY: 'scroll', paddingRight: '10px' }}
       >
         <Tabs
-          tabs={['Info', 'Target', 'Instructions']}
+          tabs={['Info', 'Target', 'Instructions', 'Contract', 'Chat']}
           value={tab}
           onValue={setTab}
         />
         {tab === 0 && (
           <AddInfluencerModalMain columns={2}>
             <Input
+              disabled={disabled}
               type="text"
               label="Campaign Name"
               placeholder="Please Enter"
@@ -87,6 +118,7 @@ const AddInfluencerModal = ({
               onValue={(campaignName) => setState({ ...state, campaignName })}
             />
             <Input
+              disabled={disabled}
               type="select"
               label="Client"
               placeholder="Please Select"
@@ -94,6 +126,7 @@ const AddInfluencerModal = ({
               onValue={(client) => setState({ ...state, client })}
             />
             <Input
+              disabled={disabled}
               type="select"
               label="Product"
               placeholder="Please Enter"
@@ -101,13 +134,15 @@ const AddInfluencerModal = ({
               onValue={(product) => setState({ ...state, product })}
             />
             <Input
-              type="number"
-              label="Influencers"
+              disabled={disabled}
+              type="select"
+              label="Ambassador"
               placeholder="Please Select"
-              value={state.influencers}
-              onValue={(influencers) => setState({ ...state, influencers })}
+              value={state.ambassador}
+              onValue={(ambassador) => setState({ ...state, ambassador })}
             />
             <Input
+              disabled={disabled}
               type="date"
               label="Start Date"
               placeholder="Please Enter"
@@ -115,6 +150,7 @@ const AddInfluencerModal = ({
               onValue={(startDate) => setState({ ...state, startDate })}
             />
             <Input
+              disabled={disabled}
               type="date"
               label="Finish Date"
               placeholder="Please Enter"
@@ -122,46 +158,24 @@ const AddInfluencerModal = ({
               onValue={(finishDate) => setState({ ...state, finishDate })}
             />
             <Input
+              disabled={disabled}
               type="select"
               label="Report"
               placeholder="Please Select"
               value={state.report}
               onValue={(report) => setState({ ...state, report })}
             />
-            <InputGroup
-              label="Amount"
-              inputRatio="100px 1fr"
-              elements={[
-                {
-                  value: state.currency,
-                  onValue: (currency) => setState({ ...state, currency }),
-                  type: 'select',
-                  placeholder: 'CHF',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                    {
-                      value: 'chf',
-                      label: 'CHF',
-                    },
-                  ],
-                },
-                {
-                  value: state.budget,
-                  onValue: (budget) => setState({ ...state, budget }),
-                  type: 'text',
-                  placeholder: 'Please Enter',
-                },
-              ]}
+            <Input
+              disabled={disabled}
+              type="number"
+              label="Budget"
+              placeholder="Please Select"
+              value={state.budget}
+              onValue={(budget) => setState({ ...state, budget })}
             />
             <GridCell columnSpan={2}>
               <Input
+                disabled={disabled}
                 multiline
                 rows={5}
                 type="text"
@@ -176,20 +190,27 @@ const AddInfluencerModal = ({
         {tab === 1 && (
           <AddInfluencerModalMain columns={2}>
             <Input
-              type="select"
-              label="Location"
+              disabled={disabled}
+              type="number"
+              label="Number of Influencers"
               placeholder="Please Enter"
-              value={state.location}
-              onValue={(location) => setState({ ...state, location })}
+              value={state.numberOfInfluencers}
+              onValue={(numberOfInfluencers) =>
+                setState({ ...state, numberOfInfluencers })
+              }
             />
             <Input
+              disabled={disabled}
               type="select"
-              label="Language"
+              label="Influencer Size"
               placeholder="Please Select"
-              value={state.language}
-              onValue={(language) => setState({ ...state, language })}
+              value={state.influencerSize}
+              onValue={(influencerSize) =>
+                setState({ ...state, influencerSize })
+              }
             />
             <Input
+              disabled={disabled}
               type="select"
               label="Disease Area"
               placeholder="Please Select"
@@ -197,13 +218,23 @@ const AddInfluencerModal = ({
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
             />
             <Input
+              disabled={disabled}
               type="select"
-              label="Stakeholder"
+              label="Location"
               placeholder="Please Select"
-              value={state.stakeholders}
-              onValue={(stakeholders) => setState({ ...state, stakeholders })}
+              value={state.location}
+              onValue={(location) => setState({ ...state, location })}
             />
             <Input
+              disabled={disabled}
+              type="min-max"
+              label="Age Range"
+              placeholder="Please Select"
+              value={state.ageRange}
+              onValue={(ageRange) => setState({ ...state, ageRange })}
+            />
+            <Input
+              disabled={disabled}
               type="select"
               label="Gender"
               placeholder="Please Select"
@@ -218,53 +249,27 @@ const AddInfluencerModal = ({
                   label: 'Female',
                   value: 'female',
                 },
-                {
-                  label: 'Other',
-                  value: 'other',
-                },
               ]}
             />
             <Input
-              type="min-max"
-              label="Age Range"
-              placeholder="Please Select"
-              value={state.age}
-              onValue={(age) => setState({ ...state, age })}
-            />
-            <Input
-              type="select"
+              disabled={disabled}
+              type="multiselect"
               label="Ethnicity"
               placeholder="Please Select"
               value={state.ethnicity}
               onValue={(ethnicity) => setState({ ...state, ethnicity })}
             />
             <Input
-              type="select"
+              disabled={disabled}
+              type="multiselect"
               label="Interests"
               placeholder="Please Select"
               value={state.interests}
               onValue={(interests) => setState({ ...state, interests })}
             />
-            <Input
-              type="select"
-              label="Influencer size"
-              placeholder="Please Select"
-              value={state.influencerSize}
-              onValue={(influencerSize) =>
-                setState({ ...state, influencerSize })
-              }
-            />
-            <Input
-              type="text"
-              label="Target Audience info"
-              placeholder="Please Select"
-              value={state.targetAudienceInfo}
-              onValue={(targetAudienceInfo) =>
-                setState({ ...state, targetAudienceInfo })
-              }
-            />
             <GridCell columnSpan={2}>
               <Input
+                disabled={disabled}
                 multiline
                 rows={5}
                 type="text"
@@ -281,6 +286,7 @@ const AddInfluencerModal = ({
         {tab === 2 && (
           <AddInfluencerModalMain columns={2}>
             <Input
+              disabled={disabled}
               type="select"
               label="Platform"
               placeholder="Please Select"
@@ -288,6 +294,7 @@ const AddInfluencerModal = ({
               onValue={(platform) => setState({ ...state, platform })}
             />
             <Input
+              disabled={disabled}
               type="select"
               label="Post Type"
               placeholder="Please Select"
@@ -295,29 +302,14 @@ const AddInfluencerModal = ({
               onValue={(postType) => setState({ ...state, postType })}
             />
             <GridCell columnSpan={2}>
-              <Stack direction="horizontal">
-                <div style={{ width: '50%' }}>
-                  <InputLabel>Image</InputLabel>
-                  <Button
-                    color="default"
-                    variant="contained"
-                    onClick={handleFile}
-                  >
-                    Upload
-                  </Button>
-                </div>
-                <Input
-                  type="text"
-                  label="Website"
-                  placeholder="Please Enter"
-                  value={state.website}
-                  onValue={(website) => setState({ ...state, website })}
-                  style={{ width: '50%' }}
-                />
-              </Stack>
+              <InputLabel>Image</InputLabel>
+              <Button color="default" variant="contained" onClick={handleFile}>
+                Upload
+              </Button>
             </GridCell>
             <GridCell columnSpan={2}>
               <Input
+                disabled={disabled}
                 multiline
                 rows={5}
                 type="text"
@@ -327,6 +319,47 @@ const AddInfluencerModal = ({
                 onValue={(campaignInfo) => setState({ ...state, campaignInfo })}
               />
             </GridCell>
+          </AddInfluencerModalMain>
+        )}
+
+        {tab === 3 && (
+          <AddInfluencerModalMain columns={1}>
+            <Stack>
+              <Input
+                disabled={disabled}
+                type="text"
+                multiline
+                value={state.contract}
+                rows={8}
+                onValue={(contract) => setState({ ...state, contract })}
+              />
+              <Checkbox label="I've written and approved the Contract: <Campaign Name>" />
+            </Stack>
+          </AddInfluencerModalMain>
+        )}
+
+        {tab === 4 && (
+          <AddInfluencerModalMain columns={1}>
+            <Stack direction="horizontal">
+              <Input
+                type="select"
+                label="Chat"
+                placeholder="Please Select"
+                value={state.chat}
+                onValue={(chat) => setState({ ...state, chat })}
+              />
+              <Input
+                type="text"
+                label="Submission"
+                disabled
+                placeholder="Please Select"
+                value={link}
+                endAdornment={<CopyIcon />}
+                onClick={handleCopyToClipboard}
+                onValue={(submission) => setState({ ...state, submission })}
+              />
+            </Stack>
+            <Chat />
           </AddInfluencerModalMain>
         )}
       </Stack>
