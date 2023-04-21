@@ -15,7 +15,7 @@ import {
   CardWithProgress,
   CardWithText,
   Menu,
-  Table,
+  CheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
@@ -382,7 +382,11 @@ const FinancePage = () => {
             onValue={setTab}
             tabs={['Payments', 'Withdrawals']}
           />
-          <Table head={DFinanceHead} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DFinanceHead}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>
@@ -396,7 +400,11 @@ const FinancePage = () => {
       >
         <Stack>
           <Tabs value={tabs} onValue={setTabs} tabs={['Pending', 'Received']} />
-          <Table head={DFinanceHead2} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DFinanceHead2}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
           <Stack direction="horizontal">
             <Button color="default" variant="contained" onClick={handleMenuRP}>

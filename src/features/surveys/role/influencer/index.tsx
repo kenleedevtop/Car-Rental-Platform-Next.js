@@ -7,7 +7,12 @@ import {
   SurveysPageFilterContainer,
 } from 'features/surveys/styles';
 import { DSurveysHead, DGenerateSurveyFilter } from 'features/surveys/data';
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  CheckboxTable,
+  Tabs,
+} from 'components/custom';
 import { GramophoneIcon, SlidersHorizontalIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
@@ -136,7 +141,11 @@ const SurveysPage = () => {
               </SurveysPageFilterActions>
             </SurveysPageFilter>
           </Collapse>
-          <Table head={DSurveysHead} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DSurveysHead}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>

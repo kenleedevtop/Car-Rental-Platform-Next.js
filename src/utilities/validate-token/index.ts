@@ -1,28 +1,23 @@
+import { AuthorizationAPI } from 'api';
 import Project from 'constants/project';
-import type { NextRequest } from 'next/server';
 
-export const validateToken = async (req: NextRequest) => {
+export const validateToken = async () => {
   try {
-    const token = req.cookies.get('Authorization')?.value;
-    if (!token) {
-      throw 'Token not found'!;
-    }
+    // const user = await fetch(`${Project.apis.v1}/pingAuth`, {
+    //   method: 'GET',
+    //   credentials: 'include'
+    // }).then((x) => {
+    //   console.log(x.status, x.statusText);
 
-    const { user } = await fetch(`${Project.apis.v1}/auth/me`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((x) => x.json());
+    //   if (x.ok) {
+    //     return x.json()
+    //   }
+    //   throw new Error('Invalid token.')
+    // });
+    const user = await AuthorizationAPI.pingAuth();
 
-    if (!user) {
-      throw 'Token not valid'!;
-    }
     return true;
   } catch {
-    if (req.cookies.has('Authorization')) {
-      req.cookies.delete('Authorization');
-    }
     return false;
   }
 };

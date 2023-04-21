@@ -26,3 +26,27 @@ export const InfluencerGrid = styled.div<{ theme?: Theme }>`
       gap: ${theme.spacing(5)};
   `}
 `;
+
+export const HoverView = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 100%;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    gap: ${theme.spacing(4)};
+
+    div {
+      width: 14px;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+
+      &:first-of-type {
+        background: ${theme.palette.primary.main}
+      }
+
+      &:last-of-type {
+        background: ${theme.palette.secondary.main}
+      }
+    }
+  `}
+`;

@@ -16,7 +16,7 @@ import {
   lastNameSchema,
   passwordSchema,
 } from 'utilities/validators';
-import { AuthorizationAPI } from 'api';
+import { InfluencerAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
@@ -30,7 +30,7 @@ const RegisterPage = () => {
     password: '',
   });
 
-  const [counter, setCounter] = useState(0);
+  // const [counter, setCounter] = useState(0);
 
   const { t } = useTranslation('register');
 
@@ -51,31 +51,31 @@ const RegisterPage = () => {
     !state.lastName ||
     !state.email ||
     !state.password ||
-    !!errors.find((x) => x) ||
-    counter === 1;
+    !!errors.find((x) => x);
+  // counter === 1;
 
   const handleClose = () => {
     router.push('/login');
     closeCrModal();
   };
 
-  const timeoutTime = 10000;
+  // const timeoutTime = 10000;
 
   const handleRegister = async () => {
     try {
-      await AuthorizationAPI.registerAsInfluencer(
-        state,
-        router.locale as string
+      await InfluencerAPI.registration(
+        state
+        // router.locale as string
       );
       openCrModal();
     } catch (e: any) {
-      let step = 0;
-      step += 1;
-      setCounter(step);
+      // let step = 0;
+      // step += 1;
+      // setCounter(step);
       push(e.response.data.message, { variant: 'error' });
-      setTimeout(() => {
-        setCounter(0);
-      }, timeoutTime);
+      // setTimeout(() => {
+      //   setCounter(0);
+      // }, timeoutTime);
     }
   };
 

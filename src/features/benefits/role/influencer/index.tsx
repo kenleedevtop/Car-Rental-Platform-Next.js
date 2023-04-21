@@ -11,7 +11,12 @@ import {
   DFinanceHead2,
   DGenerateFinanceFilter,
 } from 'features/benefits/role/influencer/data';
-import { CardWithChart, CardWithText, Table } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  CheckboxTable,
+  Table,
+} from 'components/custom';
 import { SlidersHorizontalIcon, UserFocusIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
@@ -246,7 +251,11 @@ const BenefitsPage = () => {
               </BenefitsPageFilterActions>
             </BenefitsPageFilter>
           </Collapse>
-          <Table head={DFinanceHead} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DFinanceHead}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>
@@ -259,7 +268,11 @@ const BenefitsPage = () => {
         ]}
       >
         <Stack>
-          <Table head={DFinanceHead2} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DFinanceHead2}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>

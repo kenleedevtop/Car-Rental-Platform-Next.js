@@ -13,3 +13,20 @@ export const AmbassadorsPageCharts = styled.div<{ theme?: Theme }>`
         width: 100%;
     `}
 `;
+
+export const AmbassadorsPageFilter = styled(Stack)<{ theme?: Theme }>`
+  ${({ theme }) => `
+        border-radius: 4px;
+        border: 1px solid ${theme.palette.common.black}20;
+        padding: ${theme.spacing(5)};
+    `}
+`;
+
+export const AmbassadorsPageFilterActions = styled(Stack)<{
+  theme?: Theme;
+}>`
+  justify-content: flex-end;
+  & > * {
+    min-width: 100px;
+  }
+`;

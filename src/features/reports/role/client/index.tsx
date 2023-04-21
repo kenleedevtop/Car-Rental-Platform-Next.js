@@ -9,7 +9,7 @@ import {
 import {
   CardWithChart,
   CardWithText,
-  Table,
+  CheckboxTable,
   Tabs,
   Title,
 } from 'components/custom';
@@ -287,7 +287,7 @@ const ReportsPage = () => {
             onValue={setTabsValue}
           />
           <Title title="Without report" />
-          <Table
+          <CheckboxTable
             head={[
               {
                 reference: 'campaignName',

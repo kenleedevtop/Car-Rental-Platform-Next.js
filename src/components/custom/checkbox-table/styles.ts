@@ -91,4 +91,13 @@ export const TableEmpty = styled.div<{ theme?: Theme }>`
   `}
 `;
 
-export const TableHeadCellAction = styled(IconButton)``;
+export const TableHeadCellAction = styled.div`
+  min-width: 50px;
+  width: 50px;
+  max-width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  align-self: flex-end;
+`;

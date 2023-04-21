@@ -5,7 +5,11 @@ import {
   SearchPageFilterButton,
   SearchPageContent,
 } from 'features/search/styles';
-import { CardWithText, HighlightedText, Table } from 'components/custom';
+import {
+  CardWithText,
+  CheckboxTable,
+  HighlightedText,
+} from 'components/custom';
 import { useRouter } from 'next/router';
 import { Input } from 'components/ui';
 import { DSearchTableHead, DSearchTableItems } from 'features/search/data';
@@ -90,7 +94,7 @@ const SearchPage = () => {
               Search
             </SearchPageFilterButton>
           </SearchPageFilter>
-          <Table
+          <CheckboxTable
             head={DSearchTableHead}
             items={filteredItems}
             renderItem={renderItem}

@@ -6,7 +6,12 @@ import {
   SurveysPageFilterActions,
   SurveysPageFilterContainer,
 } from 'features/surveys/styles';
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  CheckboxTable,
+  Tabs,
+} from 'components/custom';
 import {
   ContactedIcon,
   IdentifiedIcon,
@@ -195,7 +200,7 @@ const SurveyPage = () => {
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <Table
+          <CheckboxTable
             head={[
               {
                 reference: 'survey',

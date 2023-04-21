@@ -5,7 +5,7 @@ import {
   Note,
   ProgressDisplay,
   Status,
-  Table,
+  CheckboxTable,
   Tabs,
   CampaignsCard,
   Title,
@@ -89,7 +89,7 @@ const HomePage = () => {
                   value={tabsC}
                   onValue={setTabsC}
                 />
-                <Table
+                <CheckboxTable
                   head={[
                     {
                       reference: 'campaign',
@@ -201,7 +201,7 @@ const HomePage = () => {
                   value={tabsS}
                   onValue={setTabsS}
                 />
-                <Table
+                <CheckboxTable
                   head={[
                     {
                       reference: 'campaign',

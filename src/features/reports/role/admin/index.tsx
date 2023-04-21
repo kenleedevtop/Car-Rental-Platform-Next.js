@@ -9,7 +9,7 @@ import {
   CardWithChart,
   CardWithText,
   Menu,
-  Table,
+  CheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
@@ -271,7 +271,7 @@ const ReportsPage = () => {
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <Table
+          <CheckboxTable
             head={[
               {
                 reference: 'campaign',

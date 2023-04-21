@@ -91,6 +91,9 @@ export { default as LoadingPage } from 'features/loading';
 // Reset Password
 export { default as ResetPasswordPage } from 'features/reset-password';
 
+// Email Confirmation
+export { default as EmailConfirmationPage } from 'features/email-confirmation';
+
 // Ongoing Campaigns
 export { default as OngoingCampaignPage } from 'features/ongoing-campaign';
 

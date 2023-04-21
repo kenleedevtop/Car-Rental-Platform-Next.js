@@ -6,6 +6,7 @@ import {
   InfluencerProfileChartContainer,
   InfluencerTitle,
   InfluencerGrid,
+  HoverView,
 } from 'features/influencers/role/admin/elements/influencer-profile/style';
 import { Button, Input, InputGroup } from 'components/ui';
 import { Stack } from 'components/system';
@@ -479,13 +480,29 @@ const InfluencerProfile = ({
                       <ProgressDisplay
                         percent={100}
                         color="primary"
-                        label="Bilo sta"
+                        label={
+                          <HoverView>
+                            <span> Total: 22 </span>
+                            <div />
+                            <span>Campaigns: 20</span>
+                            <div />
+                            <span>Surveys: 2</span>
+                          </HoverView>
+                        }
                         tooltip
                       />
                       <ProgressDisplay
                         percent={70}
                         color="secondary"
-                        label="Average"
+                        label={
+                          <HoverView>
+                            <span> Total: 22 </span>
+                            <div />
+                            <span>Campaigns: 20</span>
+                            <div />
+                            <span>Surveys: 2</span>
+                          </HoverView>
+                        }
                         tooltip
                       />
                     </InfluencerProfileChartContainer>

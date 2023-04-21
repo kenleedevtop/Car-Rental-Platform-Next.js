@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   RegisterTitle,
   RegisterSubtitle,
@@ -18,20 +18,23 @@ import {
   lastNameSchema,
   passwordSchema,
 } from 'utilities/validators';
-import { AuthorizationAPI } from 'api';
+import { ClientAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import CompanyAPI from 'api/company';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
     firstName: '',
     lastName: '',
-    company: {
-      name: '',
-      role: '',
-    },
+    companyId: null,
+    companyTitleId: null,
+    // company: {
+    //   name: 1,
+    //   role: 1,
+    // },
     email: '',
     password: '',
   });
@@ -49,8 +52,8 @@ const RegisterPage = () => {
     false,
     false,
     false,
-    false,
-    false,
+    // false,
+    // false,
   ]);
 
   const handleErrors = (index: number) => (value: boolean) => {
@@ -64,16 +67,18 @@ const RegisterPage = () => {
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
-    !state.company.name ||
-    !state.company.role ||
+    // !state.company.name ||
+    // !state.company.role ||
     !state.email ||
     !state.password ||
     !!errors.find((x) => x) ||
     counter === 1;
 
+  // , router.locale as string
+
   const handleRegister = async () => {
     try {
-      await AuthorizationAPI.registerAsCompany(state, router.locale as string);
+      await ClientAPI.registration(state);
       openCrModal();
     } catch (e: any) {
       let step = 0;
@@ -90,6 +95,36 @@ const RegisterPage = () => {
     router.push('/login');
     closeCrModal();
   };
+
+  const [companies, setCompanies] = useState<any>([]);
+  const [titles, setTitles] = useState<any>([]);
+
+  const getCompanies = async () => {
+    const { result } = await CompanyAPI.getAll();
+
+    setCompanies(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getTitles = async () => {
+    const { result } = await CompanyAPI.getAllTitles();
+
+    setTitles(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  useEffect(() => {
+    getCompanies();
+    getTitles();
+  }, []);
 
   return (
     <RegisterCompanyMain>
@@ -163,46 +198,44 @@ const RegisterPage = () => {
       </RegisterCompanyTopStack>
       <RegisterCompanyBottomStack direction="horizontal">
         <RegisterCompanyCompany
-          type="text"
+          type="select"
           label={t('Company') as string}
           required
           placeholder={t('Please Enter your Company') as string}
-          value={state.company.name}
-          onValue={(name) =>
-            setState({ ...state, company: { ...state.company, name } })
-          }
-          errorCallback={handleErrors(2)}
-          validators={[
-            {
-              message: t('Company is required'),
-              validator: (company) => {
-                const v = company as string;
-                if (v.trim()) return true;
-                return false;
-              },
-            },
-          ]}
+          value={state.companyId}
+          onValue={({ value }) => setState({ ...state, companyId: value })}
+          options={companies}
+          // errorCallback={handleErrors(2)}
+          // validators={[
+          //   {
+          //     message: t('Company is required'),
+          //     validator: (company) => {
+          //       const v = company as string;
+          //       if (v.trim()) return true;
+          //       return false;
+          //     },
+          //   },
+          // ]}
         />
         <RegisterCompanyRole
-          type="text"
+          type="select"
           label={t('Role') as string}
           required
           placeholder={t('Please Enter your Role') as string}
-          value={state.company.role}
-          onValue={(role) =>
-            setState({ ...state, company: { ...state.company, role } })
-          }
-          errorCallback={handleErrors(3)}
-          validators={[
-            {
-              message: t('Role is required'),
-              validator: (role) => {
-                const v = role as string;
-                if (v.trim()) return true;
-                return false;
-              },
-            },
-          ]}
+          value={state.companyTitleId}
+          onValue={({ value }) => setState({ ...state, companyTitleId: value })}
+          options={titles}
+          // errorCallback={handleErrors(3)}
+          // validators={[
+          //   {
+          //     message: t('Role is required'),
+          //     validator: (role) => {
+          //       const v = role as string;
+          //       if (v.trim()) return true;
+          //       return false;
+          //     },
+          //   },
+          // ]}
         />
       </RegisterCompanyBottomStack>
       <Input
