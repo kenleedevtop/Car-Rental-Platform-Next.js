@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Table } from 'components/custom';
+import { CheckboxTable, Modal, Table } from 'components/custom';
 import { TClientListAmbassadorModalProps } from 'features/ambassadors/role/admin/elements/client-list-ambassador-modal/types';
 import { ClientListAmbassadorModalMain } from 'features/ambassadors/role/admin/elements/client-list-ambassador-modal/styles';
 import { DClientListHead } from 'features/ambassadors/role/admin/elements/client-list-ambassador-modal/data';
@@ -34,7 +34,11 @@ const ClientListAmbassadorModal = ({
       {...props}
     >
       <ClientListAmbassadorModalMain>
-        <Table head={DClientListHead} items={[]} renderItem={renderItem} />
+        <CheckboxTable
+          head={DClientListHead}
+          items={[]}
+          renderItem={renderItem}
+        />
       </ClientListAmbassadorModalMain>
     </Modal>
   );

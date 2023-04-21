@@ -11,7 +11,6 @@ import {
   CardWithChart,
   CardWithText,
   CheckboxTable,
-  Table,
   Tabs,
 } from 'components/custom';
 import {

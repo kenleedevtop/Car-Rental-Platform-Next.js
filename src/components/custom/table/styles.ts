@@ -9,7 +9,7 @@ export const TableWrapper = styled.div<{ theme?: Theme }>`
     background-color: ${theme.palette.common.white};
 
     overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: scroll;
   `}
 `;
 

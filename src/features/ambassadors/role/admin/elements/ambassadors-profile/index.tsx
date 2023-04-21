@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TAmbasadorProfileModalProps } from 'features/ambassadors/role/admin/elements/ambassadors-profile/types';
-import { AmbasadorProfileModalMain } from 'features/ambassadors/role/admin/elements/ambassadors-profile/style';
+import {
+  AmbasadorProfileModalMain,
+  ClientTitle,
+} from 'features/ambassadors/role/admin/elements/ambassadors-profile/style';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
+import { EditIcon } from 'components/svg';
 
 const AmbasadorProfile = ({
   onClose,
@@ -12,10 +16,9 @@ const AmbasadorProfile = ({
   const [state, setState] = useState({
     clientName: '',
     email: '',
+    company: null,
     role: '',
-    phone: '',
-    company: '',
-    product: '',
+    product: null,
     industry: null,
     diseaseArea: null,
     location: null,
@@ -29,6 +32,8 @@ const AmbasadorProfile = ({
     smlLastMonth: '',
     totalSurveys: '',
     surveysLastMonth: '',
+    totalCommision: '',
+    commisionInLast30Days: '',
 
     comments: [],
     labels: [],
@@ -42,10 +47,20 @@ const AmbasadorProfile = ({
 
   const [tab, setTab] = useState(0);
 
+  const [editActive, setEditActive] = useState(true);
+
+  const handleEdit = () => {
+    setEditActive((prev) => !prev);
+  };
+
   return (
     <Modal
       size="medium"
-      title="First Name Last Name"
+      title={
+        <ClientTitle>
+          First Name Last Name <EditIcon onClick={handleEdit} />
+        </ClientTitle>
+      }
       actions={[
         <Button
           color="primary"
@@ -66,93 +81,78 @@ const AmbasadorProfile = ({
           onValue={setTab}
         />
         {tab === 0 && (
-          <AmbasadorProfileModalMain columns={1}>
-            <Stack direction="horizontal">
-              <Input
-                type="text"
-                label="Client Name"
-                placeholder="Please Enter"
-                value={state.clientName}
-                onValue={(clientName) => setState({ ...state, clientName })}
-              />
-              <Input
-                type="text"
-                label="Email"
-                placeholder="Please Enter"
-                value={state.email}
-                onValue={(email) => setState({ ...state, email })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="text"
-                label="Role"
-                placeholder="Please Enter"
-                value={state.role}
-                onValue={(role) => setState({ ...state, role })}
-              />
-              <Input
-                type="text"
-                label="Phone Number"
-                placeholder="Please Enter"
-                value={state.phone}
-                onValue={(phone) => setState({ ...state, phone })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="text"
-                label="Company"
-                placeholder="Please Enter"
-                value={state.company}
-                onValue={(company) => setState({ ...state, company })}
-              />
-              <Input
-                type="text"
-                label="Product"
-                placeholder="Please Enter"
-                value={state.product}
-                onValue={(product) => setState({ ...state, product })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="select"
-                label="Industry"
-                placeholder="Please Enter"
-                value={state.industry}
-                onValue={(industry) => setState({ ...state, industry })}
-              />
-              <Input
-                type="select"
-                label="Disease Area"
-                placeholder="Please Enter"
-                value={state.diseaseArea}
-                onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                type="select"
-                label="Location"
-                placeholder="Please Enter"
-                value={state.location}
-                onValue={(location) => setState({ ...state, location })}
-              />
-              <Input
-                type="select"
-                label="Market"
-                placeholder="Please Enter"
-                value={state.market}
-                onValue={(market) => setState({ ...state, market })}
-              />
-            </Stack>
+          <AmbasadorProfileModalMain columns={2}>
+            <Input
+              disabled={editActive}
+              type="text"
+              label="Email"
+              placeholder="Please Enter"
+              value={state.email}
+              onValue={(email) => setState({ ...state, email })}
+            />
+            <Input
+              disabled={editActive}
+              type="text"
+              label="Role"
+              placeholder="Please Enter"
+              value={state.role}
+              onValue={(role) => setState({ ...state, role })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Company"
+              placeholder="Please Select"
+              value={state.company}
+              onValue={(company) => setState({ ...state, company })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Product"
+              placeholder="Please Select"
+              value={state.product}
+              onValue={(product) => setState({ ...state, product })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Industry"
+              placeholder="Please Select"
+              value={state.industry}
+              onValue={(industry) => setState({ ...state, industry })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Disease Area"
+              placeholder="Please Select"
+              value={state.diseaseArea}
+              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Location"
+              placeholder="Please Select"
+              value={state.location}
+              onValue={(location) => setState({ ...state, location })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Market"
+              placeholder="Please Select"
+              value={state.market}
+              onValue={(market) => setState({ ...state, market })}
+            />
           </AmbasadorProfileModalMain>
         )}
         {tab === 1 && (
           <AmbasadorProfileModalMain columns={1}>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Total Campaigns"
                 placeholder="Please Enter"
@@ -162,6 +162,7 @@ const AmbasadorProfile = ({
                 }
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="Campaigns in Last 30 Days"
                 placeholder="Please Enter"
@@ -173,6 +174,7 @@ const AmbasadorProfile = ({
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Total Reports"
                 placeholder="Please Enter"
@@ -180,6 +182,7 @@ const AmbasadorProfile = ({
                 onValue={(totalReports) => setState({ ...state, totalReports })}
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="Reports in Last 30 Days"
                 placeholder="Please Enter"
@@ -191,6 +194,7 @@ const AmbasadorProfile = ({
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Total SML Reports"
                 placeholder="Please Enter"
@@ -200,6 +204,7 @@ const AmbasadorProfile = ({
                 }
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="SML Reports in Last 30 Days"
                 placeholder="Please Enter"
@@ -209,6 +214,7 @@ const AmbasadorProfile = ({
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Total Surveys"
                 placeholder="Please Enter"
@@ -216,6 +222,7 @@ const AmbasadorProfile = ({
                 onValue={(totalSurveys) => setState({ ...state, totalSurveys })}
               />
               <Input
+                disabled={editActive}
                 type="text"
                 label="Surveys in Last 30 Days"
                 placeholder="Please Enter"
@@ -225,12 +232,35 @@ const AmbasadorProfile = ({
                 }
               />
             </Stack>
+            <Stack direction="horizontal">
+              <Input
+                disabled={editActive}
+                type="text"
+                label="Total Revenue"
+                placeholder="Please Enter"
+                value={state.totalCommision}
+                onValue={(totalCommision) =>
+                  setState({ ...state, totalCommision })
+                }
+              />
+              <Input
+                disabled={editActive}
+                type="text"
+                label="Revenue in Last 30 Days"
+                placeholder="Please Enter"
+                value={state.commisionInLast30Days}
+                onValue={(commisionInLast30Days) =>
+                  setState({ ...state, commisionInLast30Days })
+                }
+              />
+            </Stack>
           </AmbasadorProfileModalMain>
         )}
         {tab === 2 && (
           <AmbasadorProfileModalMain columns={1}>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Comments"
                 placeholder="Please Enter"
@@ -238,6 +268,7 @@ const AmbasadorProfile = ({
                 onValue={(comments) => setState({ ...state, comments })}
               />
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Labels"
                 placeholder="Please Enter"
@@ -247,6 +278,7 @@ const AmbasadorProfile = ({
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Meetings"
                 placeholder="Please Enter"
@@ -254,6 +286,7 @@ const AmbasadorProfile = ({
                 onValue={(meetings) => setState({ ...state, meetings })}
               />
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Reminders"
                 placeholder="Please Enter"
@@ -263,6 +296,7 @@ const AmbasadorProfile = ({
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="multiselect"
                 label="Tasks"
                 placeholder="Please Enter"
@@ -270,6 +304,7 @@ const AmbasadorProfile = ({
                 onValue={(tasks) => setState({ ...state, tasks })}
               />
               <Input
+                disabled={editActive}
                 type="date"
                 label="On Platform Since"
                 placeholder="Please Enter"
@@ -281,6 +316,7 @@ const AmbasadorProfile = ({
             </Stack>
             <Stack direction="horizontal">
               <Input
+                disabled={editActive}
                 type="text"
                 label="Status"
                 placeholder="Please Enter"
@@ -288,6 +324,7 @@ const AmbasadorProfile = ({
                 onValue={(status) => setState({ ...state, status })}
               />
               <Input
+                disabled={editActive}
                 type="date"
                 label="Status Change"
                 placeholder="Please Enter"

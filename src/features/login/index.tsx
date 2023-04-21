@@ -11,17 +11,12 @@ import { Stack } from 'components/system';
 import { useModal, useSnackbar } from 'hooks';
 import {
   LostPasswordModal,
-  ComingSoonCompany,
-  ComingSoonInfluencer,
-  WelcomeModal,
   ConfirmRegistrationModal,
 } from 'features/login/elements';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
 import { useTranslation } from 'next-i18next';
 import { TLoginParams } from 'api/authorization/types';
-import { TLoginValidatingState } from 'features/login/types';
-import { AuthorizationAPI } from 'api';
 import { AxiosError } from 'axios';
 
 const Login = () => {
@@ -33,96 +28,35 @@ const Login = () => {
   const { t } = useTranslation('login');
 
   const [lpModal, openLpModal, closeLpModal] = useModal(false);
-  const [cscModal, openCscModal, closeCscModal] = useModal(false);
-  const [csiModal, openCsiModal, closeCsiModal] = useModal(false);
-  const [wlModal, openWlModal, closeWlModal] = useModal(false);
   const [crModal, openCrModal, closeCrModal] = useModal(false);
 
-  const [validatingState, setValidatingState] = useState<TLoginValidatingState>(
-    {
-      loading: false,
-      role: null,
-      error: false,
-    }
-  );
-
-  const [loginState, setLoginState] = useState({
-    role: '',
-    affiliateLink: '',
-  });
-
-  const [attemptCount, setAttemptcount] = useState(0);
-
-  const handleCount = () => {
-    setAttemptcount((prev) => prev + 1);
-  };
-
-  const { query, push, locale } = useRouter();
+  const { push } = useRouter();
   const { push: pushSnackbar } = useSnackbar();
 
   const { login } = useAppContext();
 
   const handleLogin = async () => {
     try {
-      // const { role, affiliateLink } = await login(state, locale);
-      // setLoginState({ role, affiliateLink });
-      // if (role.includes('INFLUENCER')) {
-      //   openCsiModal();
-      // } else {
-      //   openCscModal();
-      // }
       await login(state);
+
+      // debugger
+
       push('/');
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
-        if (e.response.data.status === 'CREATED') {
-          setAttemptcount(e.response.data.attempt);
+        if (
+          e.response.data.message ===
+          'Please confirm your e-mail address in order to complete the sign-up process.'
+        ) {
           openCrModal();
-          return;
+        } else {
+          pushSnackbar(e.response.data.message, { variant: 'error' });
         }
-        pushSnackbar(`${e.response.data.message}`, {
-          variant: 'error',
-        });
       }
-    }
-  };
-
-  const handleWelcomeModalClose = () => {
-    if (validatingState.loading === false) {
-      closeWlModal();
     }
   };
 
   const isDisabled = !state.email.trim() || !state.password.trim();
-
-  useEffect(() => {
-    const checkActivationCode = async () => {
-      if (query.token && query.id) {
-        try {
-          const token = query.token as string;
-          const id = query.id as string;
-          setValidatingState((x) => ({ ...x, loading: true }));
-          openWlModal();
-          const { role } = await AuthorizationAPI.verifyEmail(
-            { token, id },
-            locale
-          );
-          setValidatingState((x) => ({
-            ...x,
-            role,
-            loading: false,
-          }));
-        } catch {
-          setValidatingState((x) => ({
-            ...x,
-            loading: false,
-            error: true,
-          }));
-        }
-      }
-    };
-    checkActivationCode();
-  }, [query.token]);
 
   return (
     <Stack>
@@ -161,27 +95,8 @@ const Login = () => {
       </Button>
       <LoginLocalization />
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
-      {cscModal && <ComingSoonCompany onClose={closeCscModal} />}
       {crModal && (
-        <ConfirmRegistrationModal
-          incrementAttempt={handleCount}
-          attempt={attemptCount}
-          email={state.email}
-          onClose={closeCrModal}
-        />
-      )}
-      {csiModal && (
-        <ComingSoonInfluencer
-          affiliateLink={loginState.affiliateLink}
-          onClose={closeCsiModal}
-        />
-      )}
-      {wlModal && (
-        <WelcomeModal
-          error={validatingState.error}
-          role={validatingState.role as any}
-          onClose={handleWelcomeModalClose}
-        />
+        <ConfirmRegistrationModal email={state.email} onClose={closeCrModal} />
       )}
     </Stack>
   );

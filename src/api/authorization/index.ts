@@ -2,127 +2,62 @@ import axios from 'axios';
 import Project from 'constants/project';
 import {
   TLoginParams,
-  TChangePasswordParams,
-  TResetPasswordWithTokenParams,
-  TVerifyEmailParams,
-  TResetPasswordParams,
-  TRegisterAsInfluencerParams,
-  TRegisterAsCompanyParams,
-  TRegisterAsAmbassadorParams,
-  TMeResponse,
   TLoginResponse,
-  TResendVerificationEmail,
+  TResetPassword,
+  TConfirmResetPassword,
+  TEmailConfirmation,
+  TResendEmailConfirmation,
 } from 'api/authorization/types';
 
+import client from 'api/client';
+
 const AuthorizationAPI = {
-  me: async () => {
-    const { data } = await axios.get(`${Project.apis.v1}/auth/me`);
-    return data as TMeResponse;
-  },
   login: async (body: TLoginParams, locale?: string) => {
-    const { data } = await axios.post(`${Project.apis.v1}/auth/login`, body, {
-      headers: { 'Accept-Language': locale },
-    });
+    const { data } = await client.post(`/auth/login`, { data: body });
     return data as TLoginResponse;
   },
-  changePassword: async (body: TChangePasswordParams) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/auth/change-password`,
-      body
-    );
+
+  logout: async () => {
+    await client.post(`/auth/logout`);
+  },
+
+  emailConfirmation: async (body: TEmailConfirmation) => {
+    const { data } = await client.post(`/auth/emailConfirmation`, {
+      data: body,
+    });
+
     return data;
   },
-  resetPasswordWithToken: async (
-    body: TResetPasswordWithTokenParams,
-    locale?: string
-  ) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/auth/reset-password-with-token`,
-      body,
-      {
-        headers: { 'Accept-Language': locale },
-      }
-    );
+
+  resendEmailConfirmation: async (body: TResendEmailConfirmation) => {
+    const { data } = await client.post(`/auth/resendEmailConfirmation`, {
+      data: body,
+    });
+
     return data;
   },
-  verifyEmail: async (body: TVerifyEmailParams, locale?: string) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/auth/register/verify-email`,
-      body,
-      {
-        headers: { 'Accept-Language': locale },
-      }
-    );
+
+  resetPassword: async (body: TResetPassword) => {
+    const { data } = await client.post(`/auth/resetPassword`, { data: body });
+
     return data;
   },
-  resendVerificationEmail: async (
-    body: TResendVerificationEmail,
-    locale?: string
-  ) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/auth/register/resend-verification-email`,
-      body,
-      {
-        headers: { 'Accept-Language': locale },
-      }
-    );
+
+  confirmResetPassword: async (body: TConfirmResetPassword) => {
+    const { data } = await client.post(`/auth/resetPassword/confirm`, {
+      data: body,
+    });
+
     return data;
   },
-  resetPassword: async (body: TResetPasswordParams, locale?: string) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/auth/reset-password`,
-      body,
-      {
-        headers: { 'Accept-Language': locale },
-      }
-    );
+
+  me: async () => {
+    const { data } = await client.get(`/auth/me`);
+
     return data;
   },
-  registerAsInfluencer: async (
-    body: TRegisterAsInfluencerParams,
-    language: string
-  ) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/auth/register/influencer`,
-      body,
-      {
-        headers: {
-          'Accept-Language': language,
-        },
-      }
-    );
-    return data;
-  },
-  registerAsCompany: async (
-    body: TRegisterAsCompanyParams,
-    language: string
-  ) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/auth/register/company`,
-      body,
-      {
-        headers: {
-          'Accept-Language': language,
-        },
-      }
-    );
-    return data;
-  },
-  registerAsAmbassador: async (
-    body: TRegisterAsAmbassadorParams,
-    language: string
-  ) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/auth/register/ambassador`,
-      body,
-      {
-        headers: {
-          'Accept-Language': language,
-        },
-      }
-    );
-    return data;
-  },
+
+  pingAuth: () => client.get(`/pingAuth`),
 };
 
 export default AuthorizationAPI;

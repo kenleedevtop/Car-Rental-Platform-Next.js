@@ -10,6 +10,7 @@ import {
   InputRow,
   InputError,
   InputChip,
+  MultiSelectInputContainer,
 } from 'components/ui/input/styles';
 import { TInputProps } from 'components/ui/input/types';
 import { Chip, MenuItem } from '@mui/material';
@@ -302,61 +303,63 @@ const Input = ({
         </LocalizationProvider>
       )}
       {type === 'multiselect' && (
-        <InputMultiSelect
-          multiple
-          filterSelectedOptions
-          options={options}
-          getOptionLabel={(option: any) => {
-            const opt = options.find((x) => x.value === option.value);
-            if (!opt) {
-              return '';
+        <MultiSelectInputContainer>
+          <InputMultiSelect
+            multiple
+            filterSelectedOptions
+            options={options}
+            getOptionLabel={(option: any) => {
+              const opt = options.find((x) => x.value === option.value);
+              if (!opt) {
+                return '';
+              }
+              return opt.label;
+            }}
+            value={value}
+            onChange={handleMultiselect}
+            inputValue={search}
+            disabled={disabled}
+            onInputChange={(_a, b) => setSearch(b)}
+            isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
+            renderTags={(v: any[], getTagProps) =>
+              v.map((option: any, index: number) => (
+                <InputChip
+                  label={option.label}
+                  color="info"
+                  variant="outlined"
+                  {...getTagProps({ index })}
+                />
+              ))
             }
-            return opt.label;
-          }}
-          value={value}
-          onChange={handleMultiselect}
-          inputValue={search}
-          disabled={disabled}
-          onInputChange={(_a, b) => setSearch(b)}
-          isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
-          renderTags={(v: any[], getTagProps) =>
-            v.map((option: any, index: number) => (
-              <InputChip
-                label={option.label}
-                color="info"
+            renderOption={(optionProps, option: any) => (
+              <MenuItem {...optionProps}>{option.label}</MenuItem>
+            )}
+            renderInput={({
+              InputProps: {
+                endAdornment: _endAdornment,
+                startAdornment: _startAdornment,
+                ...InputProps
+              },
+              ...x
+            }) => (
+              <InputText
+                {...x}
                 variant="outlined"
-                {...getTagProps({ index })}
+                placeholder={options ? placeholder : ''}
+                error={error}
+                onBlur={handleBlur}
+                onFocus={handleFocus}
+                disabled={disabled}
+                onKeyDown={handleKeyDown}
+                InputProps={{
+                  ...InputProps,
+                  endAdornment: [endAdornment, _endAdornment],
+                  startAdornment: [startAdornment, _startAdornment],
+                }}
               />
-            ))
-          }
-          renderOption={(optionProps, option: any) => (
-            <MenuItem {...optionProps}>{option.label}</MenuItem>
-          )}
-          renderInput={({
-            InputProps: {
-              endAdornment: _endAdornment,
-              startAdornment: _startAdornment,
-              ...InputProps
-            },
-            ...x
-          }) => (
-            <InputText
-              {...x}
-              variant="outlined"
-              placeholder={options ? placeholder : ''}
-              error={error}
-              onBlur={handleBlur}
-              onFocus={handleFocus}
-              disabled={disabled}
-              onKeyDown={handleKeyDown}
-              InputProps={{
-                ...InputProps,
-                endAdornment: [endAdornment, _endAdornment],
-                startAdornment: [startAdornment, _startAdornment],
-              }}
-            />
-          )}
-        />
+            )}
+          />
+        </MultiSelectInputContainer>
       )}
       {error && <InputError>{errorMessage}</InputError>}
     </InputMain>

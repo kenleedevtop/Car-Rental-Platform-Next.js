@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FinishedReportMain } from 'features/finished-report/styles';
 import { Button } from 'components/ui';
-import { CardWithText, Table } from 'components/custom';
+import { CardWithText, CheckboxTable, Table } from 'components/custom';
 import { useRouter } from 'next/router';
 
 const FinishedReportPage = ({ ...props }) => {
@@ -24,7 +24,7 @@ const FinishedReportPage = ({ ...props }) => {
           </Button>,
         ]}
       >
-        <Table
+        <CheckboxTable
           head={[
             {
               reference: 'influencer',

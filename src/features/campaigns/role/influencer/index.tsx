@@ -10,7 +10,12 @@ import {
   DCampaignsHead,
   DGenerateCampaignsFilter,
 } from 'features/campaigns/data';
-import { CardWithChart, CardWithText, Table, Tabs } from 'components/custom';
+import {
+  CardWithChart,
+  CardWithText,
+  CheckboxTable,
+  Tabs,
+} from 'components/custom';
 import { GramophoneIcon, SlidersHorizontalIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
@@ -152,7 +157,11 @@ const CampaignsPage = () => {
               </CampaignsPageFilterActions>
             </CampaignsPageFilter>
           </Collapse>
-          <Table head={DCampaignsHead} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DCampaignsHead}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>

@@ -25,7 +25,7 @@ const Login = () => {
       <Title>{t('Sign Up')}</Title>
       {query.as === 'company' && <RegisterCompanyPage />}
       {query.as === 'influencer' && <RegisterInfluencerPage />}
-      {query.as?.includes('ambassador') && <RegisterAmbassadorPage />}
+      {query.as === 'ambassador' && <RegisterAmbassadorPage />}
     </>
   );
 };

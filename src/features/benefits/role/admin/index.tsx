@@ -13,8 +13,8 @@ import {
 import {
   CardWithChart,
   CardWithText,
+  CheckboxTable,
   Menu,
-  Table,
   Tabs,
 } from 'components/custom';
 import {
@@ -286,7 +286,11 @@ const BenefitsPage = () => {
               </BenefitsPageFilterActions>
             </BenefitsPageFilter>
           </Collapse>
-          <Table head={DFinanceHead} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DFinanceHead}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>
@@ -304,7 +308,11 @@ const BenefitsPage = () => {
             onValue={setTabs}
             tabs={['Active', 'To Be Approved']}
           />
-          <Table head={DFinanceHead2} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DFinanceHead2}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openAbModal}>

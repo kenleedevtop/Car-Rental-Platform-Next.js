@@ -9,7 +9,7 @@ import {
   CardWithChart,
   CardWithText,
   Menu,
-  Table,
+  CheckboxTable,
   Title,
 } from 'components/custom';
 import {
@@ -22,7 +22,6 @@ import {
   RegisteredIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
-  TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
@@ -32,7 +31,6 @@ import { DClientsHead, DGenerateClientsFilter } from 'features/clients/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { useMenu, useModal } from 'hooks';
 import {
-  AddClientsModal,
   ContactClientsModal,
   DeleteClientsModal,
   ExportClientsModal,
@@ -63,7 +61,6 @@ const ClientsPage = () => {
     setOpen(!open);
   };
 
-  const [aiModal, openAiModal, closeAiModal] = useModal(false);
   const [eModal, openEModal, closeEModal] = useModal(false);
   const [diModal, openDiModal, closeDiModal] = useModal(false);
   const [ciModal, openCiModal, closeCiModal] = useModal(false);
@@ -139,9 +136,6 @@ const ClientsPage = () => {
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained" onClick={openAiModal}>
-            Add Client
-          </Button>,
         ]}
       >
         <Stack>
@@ -149,21 +143,49 @@ const ClientsPage = () => {
             <ClientsPageFilter>
               <Grid columns={4}>
                 <Input
-                  type="select"
+                  type="text"
+                  label="Search"
+                  placeholder="Please Enter"
+                  value={filter.search}
+                  onValue={(search) => setFilter({ ...filter, search })}
+                />
+                <Input
+                  type="multiselect"
                   label="Industry"
                   placeholder="Please Select"
                   value={filter.industry}
                   onValue={(industry) => setFilter({ ...filter, industry })}
                 />
                 <Input
-                  type="select"
+                  type="multiselect"
                   label="Company"
                   placeholder="Please Select"
                   value={filter.company}
                   onValue={(company) => setFilter({ ...filter, company })}
                 />
                 <Input
-                  type="select"
+                  type="multiselect"
+                  label="Role"
+                  placeholder="Please Select"
+                  value={filter.role}
+                  onValue={(role) => setFilter({ ...filter, role })}
+                />
+                <Input
+                  type="multiselect"
+                  label="Product"
+                  placeholder="Please Select"
+                  value={filter.product}
+                  onValue={(product) => setFilter({ ...filter, product })}
+                />
+                <Input
+                  type="multiselect"
+                  label="Ambassador"
+                  placeholder="Please Select"
+                  value={filter.ambassador}
+                  onValue={(ambassador) => setFilter({ ...filter, ambassador })}
+                />
+                <Input
+                  type="multiselect"
                   label="Disease Area"
                   placeholder="Please Select"
                   value={filter.diseaseArea}
@@ -172,51 +194,11 @@ const ClientsPage = () => {
                   }
                 />
                 <Input
-                  type="select"
+                  type="multiselect"
                   label="Location"
                   placeholder="Please Select"
                   value={filter.location}
                   onValue={(location) => setFilter({ ...filter, location })}
-                />
-                <Input
-                  type="select"
-                  label="Campaign Status"
-                  placeholder="Please Select"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
-                />
-                <InputGroup
-                  label="Date Joined"
-                  inputRatio="1fr 1fr"
-                  elements={[
-                    {
-                      value: filter.startDate,
-                      onValue: (startDate) =>
-                        setFilter({ ...filter, startDate }),
-                      type: 'date',
-                      placeholder: 'From',
-                    },
-                    {
-                      value: filter.endDate,
-                      onValue: (endDate) => setFilter({ ...filter, endDate }),
-                      type: 'date',
-                      placeholder: 'To',
-                    },
-                  ]}
-                />
-                <Input
-                  type="min-max"
-                  label="Number of Campaigns"
-                  value={filter.campaignNumber}
-                  onValue={(campaignNumber) =>
-                    setFilter({ ...filter, campaignNumber })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Revenue"
-                  value={filter.revenue}
-                  onValue={(revenue) => setFilter({ ...filter, revenue })}
                 />
                 <Input
                   type="multiselect"
@@ -226,6 +208,35 @@ const ClientsPage = () => {
                   onValue={(market) => setFilter({ ...filter, market })}
                 />
                 <Input
+                  type="select"
+                  label="Project Status"
+                  placeholder="Please Select"
+                  value={filter.projectStatus}
+                  onValue={(projectStatus) =>
+                    setFilter({ ...filter, projectStatus })
+                  }
+                />
+                <InputGroup
+                  label="Date Joined"
+                  inputRatio="1fr 1fr"
+                  elements={[
+                    {
+                      value: filter.joinedStart,
+                      onValue: (joinedStart) =>
+                        setFilter({ ...filter, joinedStart }),
+                      type: 'date',
+                      placeholder: 'From',
+                    },
+                    {
+                      value: filter.joinedEnd,
+                      onValue: (joinedEnd) =>
+                        setFilter({ ...filter, joinedEnd }),
+                      type: 'date',
+                      placeholder: 'To',
+                    },
+                  ]}
+                />
+                <Input
                   type="multiselect"
                   label="Label"
                   placeholder="Please Select"
@@ -233,11 +244,41 @@ const ClientsPage = () => {
                   onValue={(label) => setFilter({ ...filter, label })}
                 />
                 <Input
-                  type="select"
-                  label="Task"
-                  placeholder="Show all"
-                  value={filter.task}
-                  onValue={(task) => setFilter({ ...filter, task })}
+                  type="multiselect"
+                  label="Schedule"
+                  placeholder="Please Select"
+                  value={filter.schedule}
+                  onValue={(schedule) => setFilter({ ...filter, schedule })}
+                />
+                <Input
+                  type="multiselect"
+                  label="Project"
+                  placeholder="Please Select"
+                  value={filter.project}
+                  onValue={(project) => setFilter({ ...filter, project })}
+                />
+                <Input
+                  type="min-max"
+                  label="Total Project"
+                  value={filter.totalProject}
+                  onValue={(totalProject) =>
+                    setFilter({ ...filter, totalProject })
+                  }
+                />
+                <Input
+                  type="min-max"
+                  label="Project Last 30 Days"
+                  value={filter.projectLast30Days}
+                  onValue={(projectLast30Days) =>
+                    setFilter({ ...filter, projectLast30Days })
+                  }
+                />
+                <Input
+                  type="min-max"
+                  label="Budget"
+                  placeholder="Please Select"
+                  value={filter.budget}
+                  onValue={(budget) => setFilter({ ...filter, budget })}
                 />
               </Grid>
               <ClientsPageFilterActions direction="horizontal">
@@ -255,7 +296,11 @@ const ClientsPage = () => {
             </ClientsPageFilter>
           </Collapse>
           <Title title="Clients" />
-          <Table head={DClientsHead} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DClientsHead}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
@@ -309,7 +354,6 @@ const ClientsPage = () => {
           )}
         </Stack>
       </CardWithText>
-      {aiModal && <AddClientsModal onClose={closeAiModal} />}
       {eModal && <ExportClientsModal onClose={closeEModal} />}
       {diModal && <DeleteClientsModal onClose={closeDiModal} />}
       {ciModal && <ContactClientsModal onClose={closeCiModal} />}

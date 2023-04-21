@@ -57,8 +57,34 @@ export const InputSelectItem = styled(MenuItem)``;
 export const InputText = styled(TextField)``;
 
 export const InputMultiSelect = styled(Autocomplete)`
+  border: none !important;
+
+  input,
+  fieldset {
+    border: none !important;
+  }
+
   .MuiOutlinedInput-root {
-    padding: 0 !important;
+    padding-top: 0 !important;
+    padding-left: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .MuiAutocomplete-endAdornment {
+    top: 7.5px !important;
+  }
+`;
+
+export const MultiSelectInputContainer = styled.div<{ theme?: Theme }>`
+  border: 1px solid #2d377920;
+  border-radius: 5px;
+
+  max-height: 42px;
+  overflow-y: scroll;
+
+  &:active,
+  &:focus {
+    border-color: #448dc9ff;
   }
 `;
 

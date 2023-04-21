@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SidebarMain,
   SidebarLogo,
@@ -24,6 +24,39 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
     }
   };
 
+  const nestedArray = [
+    {
+      id: 0,
+      state: false,
+    },
+    {
+      id: 1,
+      state: false,
+    },
+    {
+      id: 2,
+      state: false,
+    },
+  ];
+
+  const [nested, setNested] = useState<any>(nestedArray);
+
+  const handleNested = (id: number | string) => {
+    const helper = [...nested];
+
+    helper.map((x: any) => {
+      if (x.id === id) {
+        x.state = !x.state;
+      } else {
+        x.state = false;
+      }
+
+      return '';
+    });
+
+    setNested(helper);
+  };
+
   return (
     <SidebarMain {...props}>
       <SidebarCancel onClick={handleSidebar}>
@@ -33,14 +66,18 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
         <SidebarLogo src="/static/assets/images/PatientsInfluence.svg" />
       </SidebarLogoLink>
       <SidebarItems>
-        {DSidebarItems.filter((x) => x.roles.includes(role)).map((x) =>
+        {DSidebarItems.filter((x) => x.roles.includes(role)).map((x, index) =>
           x.type === 'nested' ? (
             <SidebarItemNested
               label={x.label}
               icon={x.icon}
               items={x.items}
               key={x.id}
-              onClick={handleSidebar}
+              item={nested[index - 1]}
+              onClick={() => {
+                handleNested(index - 1);
+                handleSidebar();
+              }}
             />
           ) : (
             <SidebarItem
