@@ -14,8 +14,16 @@ export const validateToken = async () => {
     //   }
     //   throw new Error('Invalid token.')
     // });
-    const user = await AuthorizationAPI.pingAuth();
+    await fetch(`${Project.apis.v1}/pingAuth`, {
+      credentials: 'include',
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error('Middleware error');
+      }
 
+      return res.json();
+    });
     return true;
   } catch {
     return false;
