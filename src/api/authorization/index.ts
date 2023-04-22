@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Project from 'constants/project';
 import {
   TLoginParams,
   TLoginResponse,
@@ -9,16 +7,16 @@ import {
   TResendEmailConfirmation,
 } from 'api/authorization/types';
 
-import client from 'api/client';
+import { client, localClient } from 'api/api-client';
 
 const AuthorizationAPI = {
   login: async (body: TLoginParams, locale?: string) => {
-    const { data } = await client.post(`/auth/login`, { data: body });
+    const { data } = await client.post(`/auth/login`, body);
     return data as TLoginResponse;
   },
 
   logout: async () => {
-    await client.post(`/auth/logout`);
+    await localClient.post(`/logout`);
   },
 
   emailConfirmation: async (body: TEmailConfirmation) => {

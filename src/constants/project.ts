@@ -4,6 +4,7 @@ const Project = {
   apis: {
     // v1: 'https://api-dev.patientsinfluence.com',
     v1: 'http://localhost:3000',
+    v1local: '/api',
   },
   title: {
     prefix: '',
