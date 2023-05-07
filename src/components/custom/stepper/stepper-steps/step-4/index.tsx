@@ -35,34 +35,9 @@ const Step = () => {
   return (
     <StepStack>
       <StepContainer>
-        <StepTop>
-          <Input
-            type="select"
-            label="Currency"
-            placeholder="Currency"
-            value={filter.currency}
-            onValue={(currency) => setFilter({ ...filter, currency })}
-            options={[
-              {
-                value: 'eur',
-                label: 'EUR',
-              },
-              {
-                value: 'usd',
-                label: 'USD',
-              },
-              {
-                value: 'chf',
-                label: 'CHF',
-              },
-            ]}
-          />
-        </StepTop>
-      </StepContainer>
-      <StepContainer>
         <StepLeft>
           <Stack>
-            <p style={{ color: '#6f6f6f' }}>Instagram</p>
+            <p style={{ color: '#2D3779' }}>Instagram</p>
             <Input
               type="text"
               label="Post"
@@ -86,7 +61,7 @@ const Step = () => {
             />
           </Stack>
         </StepLeft>
-        <StepFMiddle>
+        {/* <StepFMiddle>
           <Stack>
             <p style={{ color: '#6f6f6f' }}>Twitter</p>
             <Input
@@ -112,21 +87,21 @@ const Step = () => {
             />
           </Stack>
         </StepFMiddle>
-        <StepSMiddle>
-          <Stack>
-            <p style={{ color: '#6f6f6f' }}>TikTok</p>
-            <Input
-              type="text"
-              label="Post"
-              placeholder="Please Enter Amount"
-              value={filter.yVideoL}
-              onValue={(yVideoL) => setFilter({ ...filter, yVideoL })}
-            />
-          </Stack>
-        </StepSMiddle>
+        <StepSMiddle> */}
+        {/* <Stack>
+          <p style={{ color: '#6f6f6f' }}>TikTok</p>
+          <Input
+            type="text"
+            label="Post"
+            placeholder="Please Enter Amount"
+            value={filter.yVideoL}
+            onValue={(yVideoL) => setFilter({ ...filter, yVideoL })}
+          />
+        </Stack>
+      </StepSMiddle> */}
         <StepRight>
           <Stack>
-            <p style={{ color: '#6f6f6f' }}>Questionnaire</p>
+            <p style={{ color: '#2D3779' }}>Questionnaire</p>
             <p
               style={{
                 color: '#6f6f6f',

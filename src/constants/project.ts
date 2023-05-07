@@ -2,7 +2,7 @@ const Project = {
   name: 'Patients Influence',
   version: '1.0.0',
   apis: {
-    v1: 'http://localhost:3000',
+    v1: 'https://api.patientsinfluence.com',
   },
   title: {
     prefix: '',

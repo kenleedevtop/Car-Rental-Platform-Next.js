@@ -10,30 +10,40 @@ import {
   CardWithChart,
   CardWithText,
   CheckboxTable,
+  Menu,
   Tabs,
   Title,
 } from 'components/custom';
 import {
+  ContactIcon,
   ContactedIcon,
   IdentifiedIcon,
+  InfoIcon,
+  ManageIcon,
   RegisteredIcon,
+  ReportIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateReportsFilter } from 'features/reports/data';
+import {
+  DGenerateReportsClientsFilter,
+  DReportsClientHead,
+} from 'features/reports/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
   ExportReportsModal,
   CreateReportsModal,
 } from 'features/reports/role/client/elements';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
+import { useRouter } from 'next/router';
 
 const ReportsPage = () => {
-  const [filter, setFilter] = useState<any>(DGenerateReportsFilter());
+  const [filter, setFilter] = useState<any>(DGenerateReportsClientsFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -47,10 +57,30 @@ const ReportsPage = () => {
   };
 
   const clearFilters = () => {
-    setFilter(DGenerateReportsFilter());
+    setFilter(DGenerateReportsClientsFilter());
+  };
+
+  const [menuWr, openWr, setOpenWr] = useMenu(false);
+  const [menuO, openO, setOpenO] = useMenu(false);
+  const [menuOn, openOn, setOpenOn] = useMenu(false);
+  const [menuD, openD, setOpenD] = useMenu(false);
+
+  const handleMenuWr = () => {
+    setOpenWr(!openWr);
+  };
+  const handleMenuO = () => {
+    setOpenO(!openO);
+  };
+  const handleMenuOn = () => {
+    setOpenOn(!openOn);
+  };
+  const handleMenuD = () => {
+    setOpenD(!openD);
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const router = useRouter();
 
   return (
     <ReportsPageMain>
@@ -185,8 +215,8 @@ const ReportsPage = () => {
               <ReportsPageFilterContainer>
                 <Input
                   type="text"
-                  label="Search For Report"
-                  placeholder="Campaign Name"
+                  label="Search"
+                  placeholder="Please Enter"
                   value={filter.search}
                   onValue={(search) => setFilter({ ...filter, search })}
                 />
@@ -199,72 +229,91 @@ const ReportsPage = () => {
                 />
                 <Input
                   type="select"
-                  label="Location"
-                  placeholder="Select Language"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
-                />
-                <Input
-                  type="select"
-                  label="Disease Area"
-                  placeholder="Select Disease Area"
-                  value={filter.diseaseArea}
-                  onValue={(diseaseArea) =>
-                    setFilter({ ...filter, diseaseArea })
-                  }
-                />
-                <Input
-                  type="text"
-                  label="Platform"
-                  placeholder="Select Platform"
-                  value={filter.platform}
-                  onValue={(platform) => setFilter({ ...filter, platform })}
-                />
-                <Input
-                  type="select"
-                  label="Promotion Type"
-                  placeholder="Select Promotion Team"
-                  value={filter.promotionType}
-                  onValue={(promotionType) =>
-                    setFilter({ ...filter, promotionType })
-                  }
-                />
-                <Input
-                  type="select"
-                  label="Influencer Size"
-                  placeholder="Select Influencer Size"
-                  value={filter.influencerSize}
-                  onValue={(influencerSize) =>
-                    setFilter({ ...filter, influencerSize })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Numbers of Ifluencers"
-                  value={filter.numberOfIfluencers}
-                  onValue={(numberOfIfluencers) =>
-                    setFilter({ ...filter, numberOfIfluencers })
-                  }
-                />
-                <Input
-                  type="date"
-                  label="Start Date"
-                  placeholder="Select Start Date"
-                  value={filter.startDate}
-                  onValue={(startDate) => setFilter({ ...filter, startDate })}
-                />
-                <Input
-                  type="date"
-                  label="End Date"
-                  placeholder="Select End Date"
-                  value={filter.endDate}
-                  onValue={(endDate) => setFilter({ ...filter, endDate })}
+                  label="Type"
+                  placeholder="Please Select"
+                  value={filter.type}
+                  onValue={(type) => setFilter({ ...filter, type })}
                 />
                 <Input
                   type="min-max"
                   label="Budget"
                   value={filter.budget}
                   onValue={(budget) => setFilter({ ...filter, budget })}
+                />
+                <InputGroup
+                  label="Date"
+                  inputRatio="1fr 1fr"
+                  elements={[
+                    {
+                      value: filter.dateStart,
+                      onValue: (dateStart) =>
+                        setFilter({ ...filter, dateStart }),
+                      type: 'date',
+                      placeholder: 'From',
+                    },
+                    {
+                      value: filter.dateEnd,
+                      onValue: (dateEnd) => setFilter({ ...filter, dateEnd }),
+                      type: 'date',
+                      placeholder: 'To',
+                    },
+                  ]}
+                />
+                <Input
+                  type="min-max"
+                  label="Numbers of Ifluencers"
+                  value={filter.influencers}
+                  onValue={(influencers) =>
+                    setFilter({ ...filter, influencers })
+                  }
+                />
+                <Input
+                  type="min-max"
+                  label="Reach"
+                  value={filter.reach}
+                  onValue={(reach) => setFilter({ ...filter, reach })}
+                />
+                <Input
+                  type="min-max"
+                  label="Likes"
+                  value={filter.likes}
+                  onValue={(likes) => setFilter({ ...filter, likes })}
+                />
+                <Input
+                  type="min-max"
+                  label="Comments"
+                  value={filter.comments}
+                  onValue={(comments) => setFilter({ ...filter, comments })}
+                />
+                <Input
+                  type="min-max"
+                  label="Website Clicks"
+                  value={filter.websiteClicks}
+                  onValue={(websiteClicks) =>
+                    setFilter({ ...filter, websiteClicks })
+                  }
+                />
+                <Input
+                  type="min-max"
+                  label="Engagement"
+                  value={filter.engagement}
+                  onValue={(engagement) => setFilter({ ...filter, engagement })}
+                />
+                <Input
+                  type="min-max"
+                  label="Cost Per Click"
+                  value={filter.costPerClick}
+                  onValue={(costPerClick) =>
+                    setFilter({ ...filter, costPerClick })
+                  }
+                />
+                <Input
+                  type="min-max"
+                  label="Cost Per Target"
+                  value={filter.costPerTarget}
+                  onValue={(costPerTarget) =>
+                    setFilter({ ...filter, costPerTarget })
+                  }
                 />
               </ReportsPageFilterContainer>
               <ReportsPageFilterActions direction="horizontal">
@@ -282,60 +331,124 @@ const ReportsPage = () => {
             </ReportsPageFilter>
           </Collapse>
           <Tabs
-            tabs={['Without Report', 'To Be Created', 'Received', 'Approved']}
+            tabs={['Without Report', 'Ordered', 'Ongoing', 'Delivered']}
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <Title title="Without report" />
           <CheckboxTable
-            head={[
-              {
-                reference: 'campaignName',
-                label: 'Campaign name',
-                visible: true,
-              },
-              {
-                reference: 'product',
-                label: 'Product',
-                visible: true,
-              },
-              {
-                reference: 'platform',
-                label: 'Platform',
-                visible: true,
-              },
-              {
-                reference: 'startAndFinishDate',
-                label: 'Start & Finish Date',
-                visible: true,
-              },
-              {
-                reference: 'influencers',
-                label: 'Influencers',
-                visible: true,
-              },
-              {
-                reference: 'report',
-                label: 'Report',
-                visible: true,
-              },
-              {
-                reference: 'budget',
-                label: 'Budget',
-                visible: true,
-              },
-              {
-                reference: 'actions',
-                label: 'Actions',
-                visible: true,
-              },
-            ]}
+            head={DReportsClientHead}
             items={[]}
             renderItem={renderItem}
           />
-
           <Pagination count={32} />
+          <Stack direction="horizontal">
+            <Button variant="contained" color="primary" onClick={handleMenuWr}>
+              Without Report Action
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleMenuO}>
+              Ordered Action
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleMenuOn}>
+              Ongoing Action
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleMenuD}>
+              Delivered Action
+            </Button>
+          </Stack>
         </Stack>
+        {openWr && (
+          <Menu
+            items={[
+              {
+                icon: <ReportIcon />,
+                label: 'Report',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+            ]}
+            ref={menuWr}
+          />
+        )}
+        {openO && (
+          <Menu
+            items={[
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+            ]}
+            ref={menuO}
+          />
+        )}
+        {openOn && (
+          <Menu
+            items={[
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+            ]}
+            ref={menuOn}
+          />
+        )}
+        {openD && (
+          <Menu
+            items={[
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ManageIcon />,
+                label: 'Manage',
+                action: () => router.push('/reports/manage'),
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
+              {
+                icon: <ScheduleIcon />,
+                label: 'Schedule',
+                action: () => {},
+              },
+            ]}
+            ref={menuD}
+          />
+        )}
       </CardWithText>
       {erModal && <ExportReportsModal onClose={closeErModal} />}
       {crModal && <CreateReportsModal onClose={closeCrModal} />}

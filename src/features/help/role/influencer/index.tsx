@@ -4,11 +4,11 @@ import {
   HelpPageMain,
   HelpPageContact,
   HelpPageContactContainer,
-  HelpPageIconWithTextContainer,
+  HelpPageIconWithTextIContainer,
 } from 'features/help/styles';
 import { Button, Input } from 'components/ui';
 import { IconWithText, Tabs } from 'components/custom';
-import { Grid, GridCell, Stack } from 'components/system';
+import { Stack } from 'components/system';
 import {
   ArrowDownIcon,
   EnvelopeIcon,
@@ -70,21 +70,21 @@ const HelpPage = () => {
                 <Input
                   type="select"
                   label="Topic"
-                  placeholder="Select Topic"
+                  placeholder="Please Select"
                   value={filter.topic}
                   onValue={(topic) => setFilter({ ...filter, topic })}
                 />
                 <Input
                   type="text"
                   label="Subject"
-                  placeholder="Subject"
+                  placeholder="Please Enter"
                   value={filter.subject}
                   onValue={(subject) => setFilter({ ...filter, subject })}
                 />
                 <Input
                   type="text"
                   label="Message"
-                  placeholder="St 6 Ft. Honey Park, NYC 100001"
+                  placeholder="Please Enter"
                   value={filter.message}
                   onValue={(message) => setFilter({ ...filter, message })}
                   multiline
@@ -95,11 +95,10 @@ const HelpPage = () => {
               </Stack>
             </HelpPageContactContainer>
             <HelpPageContactContainer>
-              <HelpPageIconWithTextContainer>
+              <HelpPageIconWithTextIContainer>
                 <h2>Get in touch</h2>
                 <Stack>
                   <IconWithText
-                    style={{ marginTop: '50px' }}
                     icon={<PhoneCallIcon />}
                     title="Talk with our founder"
                     text={['Schedule a call!']}
@@ -115,7 +114,7 @@ const HelpPage = () => {
                     text={['Riehenring 65, 4058 Basel Switzerland']}
                   />
                 </Stack>
-              </HelpPageIconWithTextContainer>
+              </HelpPageIconWithTextIContainer>
             </HelpPageContactContainer>
           </HelpPageContact>
         )}

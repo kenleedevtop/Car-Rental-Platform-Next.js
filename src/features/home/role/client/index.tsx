@@ -7,25 +7,37 @@ import {
 } from 'features/home/styles';
 import { CardWithChart, CardWithProgress } from 'components/custom';
 import {
+  CampaignsSmallIcon,
   ContactedIcon,
+  FinishedIcon,
   IdentifiedIcon,
+  InpreparationIcon,
   InstagramIcon,
+  OngoingIcon,
+  OrderedIcon,
   RedCrossIcon,
   RegisteredIcon,
+  ReportsSmallIcon,
+  SMLSmallIcon,
+  SurveysSmallIcon,
   TiktokIcon,
   TotalIcon,
   TwitterIcon,
+  WithoutReportIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
+import SubscriptionIcon from 'components/svg/subscriptions';
+import ReccomendedIcon from 'components/svg/recommended';
 
 const HomePage = () => (
   <HomePageMain>
     <HomePageCharts>
-      <HomePageChartsLabel>Campaigns Overview</HomePageChartsLabel>
+      <HomePageChartsLabel>Campaigns </HomePageChartsLabel>
       <HomePageChartsGrid>
         <CardWithChart
           title="In preparation"
-          icon={<IdentifiedIcon />}
+          icon={<InpreparationIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -37,7 +49,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Ongoing"
-          icon={<ContactedIcon />}
+          icon={<OngoingIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -49,7 +62,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Completed"
-          icon={<RegisteredIcon />}
+          icon={<FinishedIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -60,257 +74,9 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Total"
-          icon={<TotalIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-      </HomePageChartsGrid>
-    </HomePageCharts>
-    <HomePageCharts>
-      <HomePageChartsGrid>
-        <CardWithProgress
           title="Influencers"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Platform"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Location"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Disease area"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-      </HomePageChartsGrid>
-    </HomePageCharts>
-    <HomePageCharts>
-      <HomePageChartsLabel>Reports Overview</HomePageChartsLabel>
-      <HomePageChartsGrid>
-        <CardWithChart
-          title="Instagram"
-          icon={<IdentifiedIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Twitter"
-          icon={<ContactedIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Tiktok"
-          icon={<RegisteredIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Total"
           icon={<TotalIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Biotech"
-          icon={<IdentifiedIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="In Preparation"
-          icon={<ContactedIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Medtech"
-          icon={<RegisteredIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Hospitals"
-          icon={<TotalIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -323,11 +89,25 @@ const HomePage = () => (
       </HomePageChartsGrid>
     </HomePageCharts>
     <HomePageCharts>
-      <HomePageChartsLabel>Social Media Listening Overview</HomePageChartsLabel>
+      <HomePageChartsLabel>Reports </HomePageChartsLabel>
       <HomePageChartsGrid>
         <CardWithChart
-          title="In Preparation"
-          icon={<IdentifiedIcon />}
+          title="Without Report"
+          icon={<WithoutReportIcon />}
+          smallIcon={<ReportsSmallIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Ordered"
+          icon={<OrderedIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -339,7 +119,8 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Ongoing"
-          icon={<ContactedIcon />}
+          icon={<OngoingIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -350,20 +131,9 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Finished"
-          icon={<RegisteredIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Revenue"
-          icon={<TotalIcon />}
+          title="Delivered"
+          icon={<FinishedIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -376,11 +146,12 @@ const HomePage = () => (
       </HomePageChartsGrid>
     </HomePageCharts>
     <HomePageCharts>
-      <HomePageChartsLabel>Surveys Overview</HomePageChartsLabel>
+      <HomePageChartsLabel>Social Media Listening </HomePageChartsLabel>
       <HomePageChartsGrid>
         <CardWithChart
-          title="To Be Created"
-          icon={<IdentifiedIcon />}
+          title="Recommended"
+          icon={<ReccomendedIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -391,8 +162,9 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="To Be Sent"
-          icon={<ContactedIcon />}
+          title="Ordered"
+          icon={<OrderedIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -403,8 +175,9 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Approved"
-          icon={<RegisteredIcon />}
+          title="Ongoing"
+          icon={<OngoingIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -415,8 +188,66 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Revenue"
+          title="Subscriptions"
+          icon={<SubscriptionIcon />}
+          smallIcon={<SMLSmallIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+      </HomePageChartsGrid>
+    </HomePageCharts>
+    <HomePageCharts>
+      <HomePageChartsLabel>Surveys </HomePageChartsLabel>
+      <HomePageChartsGrid>
+        <CardWithChart
+          title="In Preparation"
+          icon={<InpreparationIcon />}
+          smallIcon={<SurveysSmallIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Ongoing"
+          icon={<OngoingIcon />}
+          smallIcon={<SurveysSmallIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Finished"
+          icon={<FinishedIcon />}
+          smallIcon={<SurveysSmallIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Participants"
           icon={<TotalIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{

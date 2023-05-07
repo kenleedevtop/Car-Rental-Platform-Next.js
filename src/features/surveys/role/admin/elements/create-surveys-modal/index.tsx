@@ -20,6 +20,7 @@ const CreateSurveysModal = ({
     surveyInfo: '',
     startDate: null,
     endDate: null,
+    tokens: null,
     ambassador: null,
 
     numberOfParticipants: null,
@@ -114,6 +115,13 @@ const CreateSurveysModal = ({
               placeholder="Please Select"
               value={state.language}
               onValue={(language) => setState({ ...state, language })}
+            />
+            <Input
+              type="select"
+              label="Tokens"
+              placeholder="Please Select"
+              value={state.tokens}
+              onValue={(tokens) => setState({ ...state, tokens })}
             />
             <InputGroup
               label="Budget"

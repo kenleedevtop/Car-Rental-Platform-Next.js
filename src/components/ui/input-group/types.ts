@@ -28,4 +28,5 @@ export type TInputGroupProps = React.HTMLAttributes<HTMLInputElement> & {
   helper?: string | ReactNode;
   inputRatio: string;
   elements: Array<TInputGroupElement>;
+  disabled?: boolean;
 };

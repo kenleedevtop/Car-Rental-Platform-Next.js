@@ -13,6 +13,7 @@ const InputGroup = ({
   helper,
   elements,
   inputRatio,
+  disabled,
   ...props
 }: TInputGroupProps) => (
   <InputGroupMain {...props}>
@@ -23,7 +24,7 @@ const InputGroup = ({
     )}
     <InputGroupElements inputRatio={inputRatio}>
       {elements.map((x) => (
-        <InputGroupElement {...x} />
+        <InputGroupElement disabled={disabled} {...x} />
       ))}
     </InputGroupElements>
   </InputGroupMain>

@@ -1,6 +1,11 @@
-import { CardWithText, CheckboxTable, Tabs, Title } from 'components/custom';
+import { CardWithText, Chat, CheckboxTable, Tabs } from 'components/custom';
 import React, { useEffect, useState } from 'react';
-import { Question } from 'features/create-survey/elements';
+import {
+  InfluencerProfile,
+  Question,
+  QuestionsModal,
+  Response,
+} from 'features/create-survey/elements';
 import {
   CreateSurveyPageMain,
   AddQuestion,
@@ -9,8 +14,8 @@ import {
   CreditContainer,
   CreateSurveyButtons,
 } from 'features/create-survey/styles';
-import { Button, Card, Input, Label } from 'components/ui';
-import { AddIcon } from 'components/svg';
+import { Button, Card, Input, InputGroup, Label } from 'components/ui';
+import { AddIcon, SlidersHorizontalIcon } from 'components/svg';
 import { v4 } from 'uuid';
 import {
   DQuestionMultichoiceConstructor,
@@ -22,10 +27,16 @@ import {
   TSurveyQuestionData,
   TSurveyQuestionType,
 } from 'features/create-survey/types';
-import { BubbleChart, PieChart } from 'components/csr';
-import { Stack } from 'components/system';
+import { Collapse, Grid, GridCell, Stack } from 'components/system';
+import { useModal } from 'hooks';
+import { DGenerateManageSMLFilter } from 'features/manage-sml/data';
 import { InputLabel } from 'components/ui/input/styles';
+import { BarChart, PieChart } from 'components/csr';
 import Theme from 'theme';
+import {
+  ManageSMLFilterActions,
+  ManageSMLPageFilter,
+} from 'features/manage-sml/styles';
 
 const CreateSurveyPage = () => {
   const [tab, setTab] = useState(0);
@@ -39,8 +50,6 @@ const CreateSurveyPage = () => {
       question: '',
     },
   ]);
-
-  const [variables, setVariables] = useState('');
 
   const [credit, setCredit] = useState(0);
 
@@ -88,39 +97,61 @@ const CreateSurveyPage = () => {
   };
 
   useEffect(() => {
-    console.log(questions);
     updateCredit();
   }, [questions]);
 
-  const changeType = (id: string) => (value: TSurveyQuestionType) => {
+  const changeType = (id: string) => (income: any) => {
     const questionTypes = {
       short: DQuestionShortConstructor,
       paragraph: DQuestionParagraphConstructor,
       multichoice: DQuestionMultichoiceConstructor,
       multiselect: DQuestionMultiselectConstructor,
     };
-    const newQuestion = questionTypes[value]();
+
+    const smh: TSurveyQuestionType = income.value;
+
+    const newQuestion = questionTypes[smh]();
     setQuestions((prev) => prev.map((el) => (el.id === id ? newQuestion : el)));
   };
 
   const submitSurvey = () => {};
+
+  const [ifModal, openIfModal, closeIfModal] = useModal(false);
+  const [qmModal, openQmModal, closeQmModal] = useModal(false);
+
+  const [filterTabs, setFilterTabs] = useState(0);
+
+  const [filter, setFilter] = useState<any>(DGenerateManageSMLFilter());
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  const toggleFilter = () => {
+    setFilterOpen(!filterOpen);
+  };
+
+  const clearFilters = () => {
+    setFilter(DGenerateManageSMLFilter());
+  };
 
   return (
     <CreateSurveyPageMain>
       <Tabs
         value={tab}
         onValue={setTab}
-        tabs={['Questions', 'Responses', 'Participants']}
+        tabs={[
+          'Questions',
+          'Responses',
+          'Participants',
+          'Demographics',
+          'AI Consultant',
+        ]}
       />
 
       {tab === 0 && (
-        <>
-          <CardWithText title="Survey Name">
+        <CardWithText title="Survey Name">
+          <Stack>
             <Label>
               Question credits <CreditContainer>{credit}</CreditContainer>
             </Label>
-          </CardWithText>
-          <Card>
             <QuestionContainer>
               {questions.map((el, index) => (
                 <Question
@@ -147,129 +178,661 @@ const CreateSurveyPage = () => {
                 Submit Survey
               </Button>
             </CreateSurveyActions>
-          </Card>
-        </>
+          </Stack>
+        </CardWithText>
       )}
       {tab === 1 && (
-        <Card>
+        <CardWithText
+          title="Survey Name"
+          description={
+            <Label>
+              Question credits <CreditContainer>{credit}</CreditContainer>
+            </Label>
+          }
+        >
           <Stack>
-            {questions.map((el, index) => (
-              <Question
-                questionId={index + 1}
-                copy={copyQuestion}
-                remove={deleteQuestion}
-                updateQuestion={updateQuestion(el.id)}
-                changeType={changeType(el.id)}
-                question={el}
-              />
-            ))}
+            <Input
+              type="select"
+              label="Question"
+              placeholder="Please Select"
+              value={0}
+              onValue={() => {}}
+            />
+            <Stack>
+              {questions.map((el, index) => (
+                <Response data={el} />
+              ))}
+            </Stack>
+          </Stack>
+        </CardWithText>
+      )}
+
+      {tab === 2 && (
+        <CardWithText title="Survey" description="Influencers">
+          <Stack>
+            <CheckboxTable
+              head={[
+                {
+                  reference: 'firstName',
+                  label: 'First Name',
+                  visible: true,
+                },
+                {
+                  reference: 'lastName',
+                  label: 'Last Name',
+                  visible: false,
+                },
+                {
+                  reference: 'experienceAs',
+                  label: 'Experience As',
+                  visible: false,
+                },
+                {
+                  reference: 'email',
+                  label: 'Email',
+                  visible: false,
+                },
+                {
+                  reference: 'socialMedia',
+                  label: 'Social Media',
+                  visible: false,
+                },
+                {
+                  reference: 'username',
+                  label: 'Username',
+                  visible: false,
+                },
+                {
+                  reference: 'diseaseArea',
+                  label: 'Disease Area',
+                  visible: false,
+                },
+                {
+                  reference: 'location',
+                  label: 'Location',
+                  visible: false,
+                },
+                {
+                  reference: 'age',
+                  label: 'Age',
+                  visible: false,
+                },
+                {
+                  reference: 'gender',
+                  label: 'Gender',
+                  visible: false,
+                },
+                {
+                  reference: 'invitedBy',
+                  label: 'Invited By',
+                  visible: false,
+                },
+                {
+                  reference: 'invited',
+                  label: 'Invited',
+                  visible: false,
+                },
+                {
+                  reference: 'ethnicity',
+                  label: 'Ethnicity',
+                  visible: false,
+                },
+                {
+                  reference: 'brands',
+                  label: 'Brands',
+                  visible: false,
+                },
+                {
+                  reference: 'products',
+                  label: 'Products',
+                  visible: false,
+                },
+                {
+                  reference: 'interests',
+                  label: 'Interests',
+                  visible: false,
+                },
+                {
+                  reference: 'struggles',
+                  label: 'Struggles',
+                  visible: false,
+                },
+                {
+                  reference: 'language',
+                  label: 'Language',
+                  visible: false,
+                },
+                {
+                  reference: 'followers',
+                  label: 'Followers',
+                  visible: false,
+                },
+                {
+                  reference: 'averageLikes',
+                  label: 'Average Likes',
+                  visible: false,
+                },
+                {
+                  reference: 'averageComments',
+                  label: 'Average Comments',
+                  visible: false,
+                },
+                {
+                  reference: 'engagement',
+                  label: 'Engagement',
+                  visible: false,
+                },
+                {
+                  reference: 'label',
+                  label: 'Label',
+                  visible: false,
+                },
+                {
+                  reference: 'registeredAt',
+                  label: 'Registered At',
+                  visible: false,
+                },
+                {
+                  reference: 'questionCreditAmount',
+                  label: 'Question Credit Amount',
+                  visible: false,
+                },
+                {
+                  reference: 'totalEarnings',
+                  label: 'Total Earnings',
+                  visible: false,
+                },
+                {
+                  reference: 'earningsLast30Days',
+                  label: 'Earnings Last 30 Days',
+                  visible: false,
+                },
+                {
+                  reference: 'totalProjects',
+                  label: 'Total Projects',
+                  visible: false,
+                },
+                {
+                  reference: 'projectsLast30Days',
+                  label: 'Projects Last 30 Days',
+                  visible: false,
+                },
+                {
+                  reference: 'totalCampaigns',
+                  label: 'Total Campaigns',
+                  visible: false,
+                },
+                {
+                  reference: 'campaignsLast30Days',
+                  label: 'Campaigns Last 30 Days',
+                  visible: false,
+                },
+                {
+                  reference: 'totalSurveys',
+                  label: 'Total Surveys',
+                  visible: false,
+                },
+                {
+                  reference: 'surveysLast30Days',
+                  label: 'Surveys Last 30 Days',
+                  visible: false,
+                },
+                {
+                  reference: 'questionCreditAmount',
+                  label: 'Question Credit Amount',
+                  visible: false,
+                },
+                {
+                  reference: 'surveyStatus',
+                  label: 'Survey - Status',
+                  visible: true,
+                },
+                {
+                  reference: 'surveyStatusChanged',
+                  label: 'Status Changed',
+                  visible: true,
+                },
+                {
+                  reference: 'actions',
+                  label: 'Actions',
+                  visible: true,
+                },
+              ]}
+              items={[]}
+              renderItem={() => {}}
+            />
             <Stack direction="horizontal">
-              <Stack
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                }}
-              >
-                <InputLabel> Results </InputLabel>
-                <PieChart
-                  style={{ width: '50%' }}
-                  labels={['Patients', 'Doctors', 'Nurses', 'Muggles']}
-                  data={[21, 52, 23, 14]}
-                />
-              </Stack>
+              <Button color="primary" variant="contained" onClick={openIfModal}>
+                Influencer Profile
+              </Button>
+              <Button color="primary" variant="contained" onClick={openQmModal}>
+                Questions Modal
+              </Button>
+            </Stack>
+          </Stack>
+        </CardWithText>
+      )}
+      {tab === 3 && (
+        <Card>
+          <Grid columns={2}>
+            <GridCell columnSpan={2}>
               <Stack>
-                <Input
-                  type="select"
-                  label="Variable"
-                  placeholder="Please Select"
-                  value={variables}
-                  onValue={(updated) => setVariables(updated)}
-                />
-                <div style={{ width: '100%', height: 400 }}>
-                  <BubbleChart
+                <InputLabel>Total Mentions - Brand</InputLabel>
+                <div style={{ width: '100%', height: 300, margin: '50px 0px' }}>
+                  <BarChart
                     labels={[
-                      '0-5',
-                      '6-10',
-                      '11-15',
-                      '16-20',
-                      '21-25',
-                      '26-30',
-                      '31-35',
-                      '36-40',
-                      '41-45',
-                      '46-50',
+                      '#multiple',
+                      '#ms',
+                      '#pain',
+                      '#awareness',
+                      '#hashtag',
+                      '#hashtag',
+                      '#hashtag',
+                      '#hashtag',
+                      '#hashtag',
+                      '#hashtag',
                     ]}
                     data={[
                       {
                         color: `${Theme.palette.primary.main}`,
                         values: [
-                          { x: 1, y: 1, r: 20 },
-                          { x: 2, y: 2, r: 5 },
-                          { x: 3, y: 3, r: 50 },
-                        ],
-                      },
-                      {
-                        color: `${Theme.palette.secondary.main}`,
-                        values: [
-                          { x: 3, y: 1, r: 1 },
-                          { x: 4, y: 2, r: 2 },
-                          { x: 5, y: 3, r: 8 },
+                          1000, 760, 660, 620, 504, 500, 300, 200, 100, 50,
                         ],
                       },
                     ]}
-                    verticalLabel="Number of Influencers"
-                    horizontalLabel="Amount Per Post"
+                    verticalLabel="Number of mentions"
                   />
                 </div>
               </Stack>
+            </GridCell>
+            <Stack>
+              <InputLabel>Sentiment Analysis - Brand</InputLabel>
+              <PieChart
+                labels={['Positive', 'Negative', 'Neutral']}
+                data={[52, 23, 14]}
+              />
             </Stack>
-          </Stack>
+            <Stack>
+              <InputLabel>Sentiment Analysis - Product</InputLabel>
+              <PieChart
+                labels={['Positive', 'Negative', 'Neutral']}
+                data={[52, 23, 14]}
+              />
+            </Stack>
+            <Stack>
+              <InputLabel>Total Mentions - Brand</InputLabel>
+              <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
+                <BarChart
+                  labels={[
+                    '#multiple',
+                    '#ms',
+                    '#pain',
+                    '#awareness',
+                    '#hashtag',
+                  ]}
+                  data={[
+                    {
+                      color: `${Theme.palette.primary.main}`,
+                      values: [50, 30, 20, 10, 5],
+                    },
+                  ]}
+                  verticalLabel="Number of mentions"
+                />
+              </div>
+            </Stack>
+            <Stack>
+              <InputLabel>Total Mentions - Brand</InputLabel>
+              <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
+                <BarChart
+                  labels={[
+                    '#multiple',
+                    '#ms',
+                    '#pain',
+                    '#awareness',
+                    '#hashtag',
+                  ]}
+                  data={[
+                    {
+                      color: `${Theme.palette.primary.main}`,
+                      values: [50, 30, 20, 10, 5],
+                    },
+                  ]}
+                  verticalLabel="Number of mentions"
+                />
+              </div>
+            </Stack>
+            <Stack>
+              <InputLabel>Total Mentions - Brand</InputLabel>
+              <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
+                <BarChart
+                  labels={[
+                    '#multiple',
+                    '#ms',
+                    '#pain',
+                    '#awareness',
+                    '#hashtag',
+                  ]}
+                  data={[
+                    {
+                      color: `${Theme.palette.primary.main}`,
+                      values: [50, 30, 20, 10, 5],
+                    },
+                  ]}
+                  verticalLabel="Number of mentions"
+                />
+              </div>
+            </Stack>
+            <Stack>
+              <InputLabel>Total Mentions - Brand</InputLabel>
+              <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
+                <BarChart
+                  labels={[
+                    '#multiple',
+                    '#ms',
+                    '#pain',
+                    '#awareness',
+                    '#hashtag',
+                  ]}
+                  data={[
+                    {
+                      color: `${Theme.palette.primary.main}`,
+                      values: [50, 30, 20, 10, 5],
+                    },
+                  ]}
+                  verticalLabel="Number of mentions"
+                />
+              </div>
+            </Stack>
+            <Stack>
+              <InputLabel>Total Mentions - Brand</InputLabel>
+              <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
+                <BarChart
+                  labels={[
+                    '#multiple',
+                    '#ms',
+                    '#pain',
+                    '#awareness',
+                    '#hashtag',
+                  ]}
+                  data={[
+                    {
+                      color: `${Theme.palette.primary.main}`,
+                      values: [50, 30, 20, 10, 5],
+                    },
+                  ]}
+                  verticalLabel="Number of mentions"
+                />
+              </div>
+            </Stack>
+          </Grid>
         </Card>
       )}
-
-      {tab === 2 && (
-        <CardWithText title="Survey" description="Influencers">
-          <CheckboxTable
-            head={[
-              {
-                reference: 'username',
-                label: 'Username',
-                visible: true,
-              },
-              {
-                reference: 'status',
-                label: 'Status',
-                visible: true,
-              },
-              {
-                reference: 'statusChange',
-                label: 'Status change',
-                visible: true,
-              },
-              {
-                reference: 'hyperlink',
-                label: 'Hyperlinks',
-                visible: true,
-              },
-              {
-                reference: 'actions',
-                label: 'Actions',
-                visible: true,
-              },
+      {tab === 4 && (
+        <>
+          <CardWithText
+            title="AI Consultant"
+            description="More than 30.7k posts"
+            actions={[
+              <Button
+                color={filterOpen ? 'secondary' : 'default'}
+                variant="contained"
+                onClick={toggleFilter}
+                startIcon={<SlidersHorizontalIcon width="18" height="18" />}
+              >
+                Filters
+              </Button>,
             ]}
-            items={[]}
-            renderItem={() => {}}
-          />
-          <CreateSurveyButtons>
-            <Button variant="contained" color="default">
-              Back
-            </Button>
-            <Button variant="contained" color="primary">
-              Save
-            </Button>
-          </CreateSurveyButtons>
-        </CardWithText>
+          >
+            <Collapse in={filterOpen}>
+              <ManageSMLPageFilter>
+                <Tabs
+                  tabs={['Author', 'Post']}
+                  value={filterTabs}
+                  onValue={setFilterTabs}
+                />
+                {filterTabs === 0 && (
+                  <Grid columns={4}>
+                    <Input
+                      type="select"
+                      label="Stakeholder"
+                      placeholder="Please Select"
+                      value={filter.stakeholder}
+                      onValue={(stakeholder) =>
+                        setFilter({ ...filter, stakeholder })
+                      }
+                    />
+                    <Input
+                      type="select"
+                      label="Gender"
+                      placeholder="Please Select"
+                      value={filter.gender}
+                      onValue={(gender) => setFilter({ ...filter, gender })}
+                      options={[
+                        { value: 0, label: 'Male' },
+                        { value: 1, label: 'Female' },
+                        { value: 2, label: 'Other' },
+                      ]}
+                    />
+                    <Input
+                      type="select"
+                      label="Disease Area"
+                      placeholder="Please Select"
+                      value={filter.diseaseArea}
+                      onValue={(diseaseArea) =>
+                        setFilter({ ...filter, diseaseArea })
+                      }
+                    />
+                    <Input
+                      type="select"
+                      label="Location"
+                      placeholder="Please Select"
+                      value={filter.location}
+                      onValue={(location) => setFilter({ ...filter, location })}
+                    />
+                    <Input
+                      type="select"
+                      label="Ethnicity"
+                      placeholder="Please Select"
+                      value={filter.ethnicity}
+                      onValue={(ethnicity) =>
+                        setFilter({ ...filter, ethnicity })
+                      }
+                      options={[
+                        { value: 0, label: 'Male' },
+                        { value: 1, label: 'Female' },
+                        { value: 2, label: 'Other' },
+                      ]}
+                    />
+                    <Input
+                      type="min-max"
+                      label="Age"
+                      value={filter.age}
+                      onValue={(age) => setFilter({ ...filter, age })}
+                    />
+                    <Input
+                      type="select"
+                      label="Struggles"
+                      placeholder="Please Select"
+                      value={filter.struggles}
+                      onValue={(struggles) =>
+                        setFilter({ ...filter, struggles })
+                      }
+                    />
+                    <Input
+                      type="select"
+                      label="Symptoms"
+                      placeholder="Please Select"
+                      value={filter.symptoms}
+                      onValue={(symptoms) => setFilter({ ...filter, symptoms })}
+                    />
+                    <Input
+                      type="select"
+                      label="Interests"
+                      placeholder="Please Select"
+                      value={filter.interests}
+                      onValue={(interests) =>
+                        setFilter({ ...filter, interests })
+                      }
+                    />
+                    <Input
+                      type="text"
+                      label="Bio"
+                      placeholder="Please Enter"
+                      value={filter.bio}
+                      onValue={(bio) => setFilter({ ...filter, bio })}
+                    />
+                  </Grid>
+                )}
+                {filterTabs === 1 && (
+                  <Grid columns={4}>
+                    <Input
+                      type="select"
+                      label="Social Media"
+                      placeholder="Select Select"
+                      value={filter.socialMedia}
+                      onValue={(socialMedia) =>
+                        setFilter({ ...filter, socialMedia })
+                      }
+                    />
+                    <Input
+                      type="select"
+                      label="Theme"
+                      placeholder="Select Select"
+                      value={filter.theme}
+                      onValue={(theme) => setFilter({ ...filter, theme })}
+                    />
+                    <Input
+                      type="select"
+                      label="Disease Area (HCP)"
+                      placeholder="Select Select"
+                      value={filter.diseaseAreaBA}
+                      onValue={(diseaseAreaBA) =>
+                        setFilter({ ...filter, diseaseAreaBA })
+                      }
+                    />
+                    <Input
+                      type="select"
+                      label="Struggle"
+                      placeholder="Select Select"
+                      value={filter.struggle}
+                      onValue={(struggle) => setFilter({ ...filter, struggle })}
+                    />
+                    <Input
+                      type="select"
+                      label="Symptom"
+                      placeholder="Select Select"
+                      value={filter.symptom}
+                      onValue={(symptom) => setFilter({ ...filter, symptom })}
+                    />
+                    <Input
+                      type="select"
+                      label="Interests"
+                      placeholder="Select Select"
+                      value={filter.interestBA}
+                      onValue={(interestBA) =>
+                        setFilter({ ...filter, interestBA })
+                      }
+                    />
+                    <Input
+                      type="select"
+                      label="Sentiment"
+                      placeholder="Select Select"
+                      value={filter.sentiment}
+                      onValue={(sentiment) =>
+                        setFilter({ ...filter, sentiment })
+                      }
+                    />
+                    <Input
+                      type="select"
+                      label="Language"
+                      placeholder="Select Select"
+                      value={filter.language}
+                      onValue={(language) => setFilter({ ...filter, language })}
+                    />
+                    <Input
+                      type="select"
+                      label="Brand"
+                      placeholder="Select Select"
+                      value={filter.brand}
+                      onValue={(brand) => setFilter({ ...filter, brand })}
+                    />
+                    <Input
+                      type="select"
+                      label="Product"
+                      placeholder="Select Select"
+                      value={filter.product}
+                      onValue={(product) => setFilter({ ...filter, product })}
+                    />
+                    <Input
+                      type="min-max"
+                      label="Likes"
+                      value={filter.likes}
+                      onValue={(likes) => setFilter({ ...filter, likes })}
+                    />
+                    <Input
+                      type="min-max"
+                      label="Comments"
+                      value={filter.comments}
+                      onValue={(comments) => setFilter({ ...filter, comments })}
+                    />
+                    <InputGroup
+                      label="Date"
+                      inputRatio="1fr 1fr"
+                      elements={[
+                        {
+                          value: filter.startDate,
+                          onValue: (startDate) =>
+                            setFilter({ ...filter, startDate }),
+                          type: 'date',
+                          placeholder: 'From',
+                        },
+                        {
+                          value: filter.endDate,
+                          onValue: (endDate) =>
+                            setFilter({ ...filter, endDate }),
+                          type: 'date',
+                          placeholder: 'To',
+                        },
+                      ]}
+                    />
+                    <Input
+                      type="text"
+                      label="Keyword"
+                      placeholder="Select Enter"
+                      value={filter.keyword}
+                      onValue={(keyword) => setFilter({ ...filter, keyword })}
+                    />
+                  </Grid>
+                )}
+                <ManageSMLFilterActions direction="horizontal">
+                  <Button color="primary" variant="contained">
+                    Filter
+                  </Button>
+                  <Button
+                    color="secondary"
+                    variant="outlined"
+                    onClick={clearFilters}
+                  >
+                    Clear filter
+                  </Button>
+                </ManageSMLFilterActions>
+              </ManageSMLPageFilter>
+            </Collapse>
+          </CardWithText>
+          <CardWithText title="Remaining Tokens">
+            <Chat />
+          </CardWithText>
+        </>
+      )}
+
+      {ifModal && <InfluencerProfile onClose={closeIfModal} />}
+      {qmModal && (
+        <QuestionsModal
+          firstName="John"
+          lastName="Doe"
+          questions={questions}
+          onClose={closeQmModal}
+        />
       )}
     </CreateSurveyPageMain>
   );

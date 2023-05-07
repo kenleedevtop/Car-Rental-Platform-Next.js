@@ -1,17 +1,16 @@
 export const DGenerateIncomeFilter = () => ({
   search: '',
+  type: null,
   start: null,
   end: null,
-  statement: null,
   amount: {
     min: '',
     max: '',
   },
 
   searchForUser: '',
-  startP: null,
-  endP: null,
-  platform: null,
+  registrationDateStart: null,
+  registrationDateEnd: null,
   amountP: {
     min: '',
     max: '',

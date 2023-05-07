@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   AccountMain,
@@ -14,7 +14,9 @@ import {
   ChangeEmailModal,
   ChangePasswordModal,
 } from 'features/account/role/ambasador/elements';
-import { useModal } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
+import { CopyIcon } from 'components/svg';
+import { AdminAPI } from 'api';
 
 const AccountPage = ({ ...props }) => {
   const [filter, setFilter] = useState({
@@ -24,10 +26,42 @@ const AccountPage = ({ ...props }) => {
     role: '',
     email: '',
     password: '',
+    link: '',
+    list: [],
   });
 
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
+
+  const { push } = useSnackbar();
+
+  const handleInviteLink = async () => {
+    try {
+      const { link } = await AdminAPI.createAmbassadorInviteLink();
+      setFilter({ ...filter, link });
+    } catch {
+      push('Something failed!', {
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(filter.link);
+      push(`Successfully copied!`, {
+        variant: 'success',
+      });
+    } catch {
+      push('Something failed!', {
+        variant: 'error',
+      });
+    }
+  };
+
+  useEffect(() => {
+    handleInviteLink();
+  }, []);
 
   return (
     <AccountMain {...props}>
@@ -38,14 +72,14 @@ const AccountPage = ({ ...props }) => {
               <Input
                 type="text"
                 label="First Name"
-                placeholder="John"
+                placeholder="Please Enter"
                 value={filter.firstname}
                 onValue={(firstname) => setFilter({ ...filter, firstname })}
               />
               <Input
                 type="text"
                 label="Last Name"
-                placeholder="Doe"
+                placeholder="Please Enter"
                 value={filter.lastName}
                 onValue={(lastName) => setFilter({ ...filter, lastName })}
               />
@@ -54,14 +88,14 @@ const AccountPage = ({ ...props }) => {
               <Input
                 type="text"
                 label="Company"
-                placeholder="John"
+                placeholder="Please Enter"
                 value={filter.company}
                 onValue={(company) => setFilter({ ...filter, company })}
               />
               <Input
                 type="text"
                 label="Role"
-                placeholder="Doe"
+                placeholder="Please Enter"
                 value={filter.role}
                 onValue={(role) => setFilter({ ...filter, role })}
               />
@@ -70,7 +104,7 @@ const AccountPage = ({ ...props }) => {
               <Input
                 type="text"
                 label="Email"
-                placeholder="johndoe@gmail.com"
+                placeholder="Please Enter"
                 value={filter.email}
                 onValue={(email) => setFilter({ ...filter, email })}
               />
@@ -80,12 +114,29 @@ const AccountPage = ({ ...props }) => {
               <Input
                 type="text"
                 label="Password"
-                placeholder="**********"
+                placeholder="Please Enter"
                 value={filter.password}
                 onValue={(password) => setFilter({ ...filter, password })}
               />
               <AccountSpan onClick={openCpModal}>Change Password</AccountSpan>
             </AccountChange>
+            <Input
+              disabled
+              endAdornment={<CopyIcon onClick={handleCopyToClipboard} />}
+              type="text"
+              label="Invite Link"
+              placeholder="asdsadksa;dlsa"
+              value={filter.link}
+              onValue={(link) => setFilter({ ...filter, link })}
+            />
+            <Input
+              disabled
+              type="multiselect"
+              label="Invited List"
+              placeholder="Please Select"
+              value={filter.list}
+              onValue={(list) => setFilter({ ...filter, list })}
+            />
           </Stack>
         </AccountForm>
       </AccountContainer>

@@ -41,6 +41,10 @@ const ConfirmRegistrationModal = ({
     }
   };
 
+  useEffect(() => {
+    console.log('EMAIL', email);
+  }, [email]);
+
   const resentMessage = (
     <p>
       {t(

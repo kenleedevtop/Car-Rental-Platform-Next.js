@@ -1,18 +1,66 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'components/custom';
 import { TAddBenefitModalProps } from 'features/benefits/role/admin/elements/add-benefit/types';
 import { AddBenefitModalMain } from 'features/benefits/role/admin/elements/add-benefit/styles';
 import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
+import { ConfirmAddBenefitModal } from 'features/benefits/role/admin/elements';
+import { useModal } from 'hooks';
+import { CompanyAPI, LocationAPI } from 'api';
 
 const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
   const [state, setState] = useState({
-    name: '',
-    website: '',
-    category: '',
-    location: '',
-    benefit: '',
+    benefitPartnershipId: -1,
+    benefitCompanyLink: '',
+    description: '',
+    benefitCategoryId: 1,
+    benefitLocations: [-1],
   });
+
+  const [initialState, setInitialState] = useState({
+    benefitPartnershipId: -1,
+    benefitCompanyLink: '',
+    description: '',
+    benefitCategoryId: 1,
+    benefitLocations: [-1],
+  });
+
+  const [cabModal, openCabModal, closeCabModal] = useModal(false);
+
+  const [companies, setCompanies] = useState<any>([]);
+
+  const getCompanies = async () => {
+    const { result } = await CompanyAPI.getAll();
+
+    setCompanies(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const [locations, setLocations] = useState<any>([]);
+
+  const getLocations = async () => {
+    const { result } = await LocationAPI.getAll();
+
+    setLocations(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  useEffect(() => {
+    getCompanies();
+    getLocations();
+  }, []);
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   return (
     <Modal
@@ -23,7 +71,7 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={openCabModal}
         >
           Confirm
         </Button>,
@@ -34,30 +82,46 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
       <Stack>
         <AddBenefitModalMain columns={2}>
           <Input
-            type="text"
+            type="select"
             label="Company Name"
             placeholder="Please Enter"
-            value={state.name}
-            onValue={(name) => setState({ ...state, name })}
+            value={state.benefitPartnershipId}
+            onValue={({ value }) =>
+              setState({ ...state, benefitPartnershipId: value })
+            }
+            options={companies}
           />
           <Input
             type="text"
             label="Company website"
             placeholder="Please Enter"
-            value={state.website}
-            onValue={(website) => setState({ ...state, website })}
+            value={state.benefitCompanyLink}
+            onValue={(benefitCompanyLink) =>
+              setState({ ...state, benefitCompanyLink })
+            }
           />
           <Input
-            type="text"
+            type="select"
             label="Category"
-            value={state.category}
-            onValue={(category) => setState({ ...state, category })}
+            placeholder="Please Select"
+            value={state.benefitCategoryId}
+            onValue={(benefitCategoryId) =>
+              setState({ ...state, benefitCategoryId })
+            }
           />
           <Input
-            type="text"
+            type="select"
             label="Location"
-            value={state.location}
-            onValue={(location) => setState({ ...state, location })}
+            placeholder="Please Select"
+            value={
+              state.benefitLocations
+                ? state.benefitLocations[state.benefitLocations.length - 1]
+                : null
+            }
+            onValue={({ value }) =>
+              setState({ ...state, benefitLocations: [value] })
+            }
+            options={locations}
           />
           <GridCell columnSpan={2}>
             <Input
@@ -65,12 +129,22 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
               rows={3}
               type="text"
               label="Benefit"
-              value={state.benefit}
-              onValue={(benefit) => setState({ ...state, benefit })}
+              placeholder="Please Enter"
+              value={state.description}
+              onValue={(description) => setState({ ...state, description })}
             />
           </GridCell>
         </AddBenefitModalMain>
       </Stack>
+      {cabModal && (
+        <ConfirmAddBenefitModal
+          value={state}
+          onClose={() => {
+            closeCabModal();
+            setState(initialState);
+          }}
+        />
+      )}
     </Modal>
   );
 };

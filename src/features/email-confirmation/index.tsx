@@ -13,15 +13,12 @@ const EmailConfirmation = () => {
   const { t } = useTranslation('email-confirmation');
   const { push } = useSnackbar();
   const [message, setMessage] = useState('');
-  const [role, setRole] = useState('');
 
   const { query } = useRouter();
 
   const handleChange = async () => {
     try {
-      await AuthorizationAPI.emailConfirmation({
-        token: query.token as string,
-      });
+      await AuthorizationAPI.emailConfirmation({ token: query.token as any });
       push('User has been confirmed successfully.', { variant: 'success' });
       setMessage('User has been confirmed successfully.');
     } catch (e: any) {
@@ -33,6 +30,8 @@ const EmailConfirmation = () => {
   };
 
   useEffect(() => {
+    console.log(query);
+
     if (query.token) {
       handleChange();
     }

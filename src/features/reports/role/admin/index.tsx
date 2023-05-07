@@ -13,36 +13,33 @@ import {
   Tabs,
 } from 'components/custom';
 import {
-  ApproveIcon,
-  ContactedIcon,
   ContactIcon,
   CreateIcon,
   DeleteIcon,
   DeliverIcon,
-  DownloadIcon,
   EditIcon,
   FinishedIcon,
-  IdentifiedIcon,
+  InfoIcon,
+  ManageIcon,
   OrderedIcon,
   ReadyIcon,
-  RegisteredIcon,
   ReportsSmallIcon,
   RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
-  TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateReportsFilter } from 'features/reports/data';
+import { DGenerateReportsFilter, DReportsHead } from 'features/reports/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
   ExportReportsModal,
   CreateReportsModal,
 } from 'features/reports/role/admin/elements';
 import { useMenu, useModal } from 'hooks';
+import { useRouter } from 'next/router';
 
 const ReportsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateReportsFilter());
@@ -51,13 +48,14 @@ const ReportsPage = () => {
 
   const [tabsValue, setTabsValue] = useState(0);
 
+  const [tabs, setTabs] = useState(0);
+
   const [erModal, openErModal, closeErModal] = useModal(false);
   const [crModal, openCrModal, closeCrModal] = useModal(false);
 
   const [menuTBC, openTBC, setOpenTBC] = useMenu(false);
   const [menuTBS, openTBS, setOpenTBS] = useMenu(false);
   const [menuAF, openAF, setOpenAF] = useMenu(false);
-  const [menuA, openA, setOpenA] = useMenu(false);
 
   const handleMenuTBC = () => {
     setOpenTBC(!openTBC);
@@ -67,9 +65,6 @@ const ReportsPage = () => {
   };
   const handleMenuAF = () => {
     setOpenAF(!openAF);
-  };
-  const handleMenuA = () => {
-    setOpenA(!openA);
   };
 
   const toggleFilter = () => {
@@ -81,6 +76,8 @@ const ReportsPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const router = useRouter();
 
   return (
     <ReportsPageMain>
@@ -161,97 +158,175 @@ const ReportsPage = () => {
         <Stack>
           <Collapse in={filterOpen}>
             <ReportsPageFilter>
-              <Grid columns={4}>
-                <Input
-                  type="select"
-                  label="Company"
-                  placeholder="Select Company"
-                  value={filter.company}
-                  onValue={(company) => setFilter({ ...filter, company })}
-                />
-                <Input
-                  type="select"
-                  label="Client"
-                  placeholder="Select Client"
-                  value={filter.client}
-                  onValue={(client) => setFilter({ ...filter, client })}
-                />
-                <Input
-                  type="select"
-                  label="Report"
-                  placeholder="Select Type"
-                  value={filter.report}
-                  onValue={(report) => setFilter({ ...filter, report })}
-                />
-                <Input
-                  type="select"
-                  label="Location"
-                  placeholder="Select Location"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
-                />
-                <Input
-                  type="select"
-                  label="Disease Area"
-                  placeholder="Select Disease Area"
-                  value={filter.diseaseArea}
-                  onValue={(diseaseArea) =>
-                    setFilter({ ...filter, diseaseArea })
-                  }
-                />
-                <Input
-                  type="text"
-                  label="Platform"
-                  placeholder="Select Platform"
-                  value={filter.platform}
-                  onValue={(platform) => setFilter({ ...filter, platform })}
-                />
-                <Input
-                  type="select"
-                  label="Promotion Type"
-                  placeholder="Select Promotion Team"
-                  value={filter.promotionType}
-                  onValue={(promotionType) =>
-                    setFilter({ ...filter, promotionType })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Numbers of Ifluencer"
-                  value={filter.numberOfIfluencers}
-                  onValue={(numberOfIfluencers) =>
-                    setFilter({ ...filter, numberOfIfluencers })
-                  }
-                />
-                <Input
-                  type="date"
-                  label="Start"
-                  placeholder="Select Start Date"
-                  value={filter.startDate}
-                  onValue={(startDate) => setFilter({ ...filter, startDate })}
-                />
-                <Input
-                  type="date"
-                  label="End"
-                  placeholder="Select End Date"
-                  value={filter.endDate}
-                  onValue={(endDate) => setFilter({ ...filter, endDate })}
-                />
-                <Input
-                  type="min-max"
-                  label="Budget"
-                  placeholder="Please Select"
-                  value={filter.budget}
-                  onValue={(budget) => setFilter({ ...filter, budget })}
-                />
-                <Input
-                  type="multiselect"
-                  label="Lable"
-                  placeholder="Choose several state"
-                  value={filter.lable}
-                  onValue={(lable) => setFilter({ ...filter, lable })}
-                />
-              </Grid>
+              <Tabs
+                tabs={['Report', 'Client']}
+                value={tabs}
+                onValue={setTabs}
+              />
+              {tabs === 0 && (
+                <Grid columns={4}>
+                  <Input
+                    type="text"
+                    label="Search"
+                    placeholder="Select Enter"
+                    value={filter.search}
+                    onValue={(search) => setFilter({ ...filter, search })}
+                  />
+                  <Input
+                    type="select"
+                    label="Type"
+                    placeholder="Select Select"
+                    value={filter.type}
+                    onValue={(type) => setFilter({ ...filter, type })}
+                    options={[
+                      {
+                        value: 0,
+                        label: 'Basic',
+                      },
+                      {
+                        value: 1,
+                        label: 'Premium',
+                      },
+                      {
+                        value: 2,
+                        label: 'Custom',
+                      },
+                    ]}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Budget"
+                    value={filter.budget}
+                    onValue={(budget) => setFilter({ ...filter, budget })}
+                  />
+                  <InputGroup
+                    label="Date"
+                    inputRatio="1fr 1fr"
+                    elements={[
+                      {
+                        value: filter.dateStart,
+                        onValue: (dateStart) =>
+                          setFilter({ ...filter, dateStart }),
+                        type: 'date',
+                        placeholder: 'From',
+                      },
+                      {
+                        value: filter.dateEnd,
+                        onValue: (dateEnd) => setFilter({ ...filter, dateEnd }),
+                        type: 'date',
+                        placeholder: 'To',
+                      },
+                    ]}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Influencers"
+                    value={filter.influencers}
+                    onValue={(influencers) =>
+                      setFilter({ ...filter, influencers })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Reach"
+                    value={filter.reach}
+                    onValue={(reach) => setFilter({ ...filter, reach })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Likes"
+                    value={filter.likes}
+                    onValue={(likes) => setFilter({ ...filter, likes })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Comments"
+                    value={filter.comments}
+                    onValue={(comments) => setFilter({ ...filter, comments })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Website clicks"
+                    value={filter.websiteClicks}
+                    onValue={(websiteClicks) =>
+                      setFilter({ ...filter, websiteClicks })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Engagement"
+                    value={filter.engagement}
+                    onValue={(engagement) =>
+                      setFilter({ ...filter, engagement })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Cost per Click"
+                    value={filter.costPerClick}
+                    onValue={(costPerClick) =>
+                      setFilter({ ...filter, costPerClick })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Cost per Target"
+                    value={filter.costPerTarget}
+                    onValue={(costPerTarget) =>
+                      setFilter({ ...filter, costPerTarget })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Labels"
+                    placeholder="Please Select"
+                    value={filter.labels}
+                    onValue={(labels) => setFilter({ ...filter, labels })}
+                  />
+                </Grid>
+              )}
+              {tabs === 1 && (
+                <Grid columns={4}>
+                  <Input
+                    type="select"
+                    label="Industry"
+                    placeholder="Please Select"
+                    value={filter.industry}
+                    onValue={(industry) => setFilter({ ...filter, industry })}
+                  />
+                  <Input
+                    type="select"
+                    label="Company"
+                    placeholder="Please Select"
+                    value={filter.company}
+                    onValue={(company) => setFilter({ ...filter, company })}
+                  />
+                  <Input
+                    type="select"
+                    label="Client"
+                    placeholder="Please Select"
+                    value={filter.client}
+                    onValue={(client) => setFilter({ ...filter, client })}
+                  />
+                  <Input
+                    type="select"
+                    label="Ambassador"
+                    placeholder="Please Select"
+                    value={filter.ambassador}
+                    onValue={(ambassador) =>
+                      setFilter({ ...filter, ambassador })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Product"
+                    placeholder="Please Select"
+                    value={filter.product}
+                    onValue={(product) => setFilter({ ...filter, product })}
+                  />
+                </Grid>
+              )}
+
               <ReportsPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -272,38 +347,7 @@ const ReportsPage = () => {
             onValue={setTabsValue}
           />
           <CheckboxTable
-            head={[
-              {
-                reference: 'campaign',
-                label: 'Campaign',
-                visible: true,
-              },
-              {
-                reference: 'type',
-                label: 'Type',
-                visible: true,
-              },
-              {
-                reference: 'date',
-                label: 'Date',
-                visible: true,
-              },
-              {
-                reference: 'influencers',
-                label: 'Influencers',
-                visible: true,
-              },
-              {
-                reference: 'price',
-                label: 'Price',
-                visible: true,
-              },
-              {
-                reference: 'actions',
-                label: 'Actions',
-                visible: true,
-              },
-            ]}
+            head={DReportsHead}
             items={[]}
             renderItem={renderItem}
           />
@@ -312,21 +356,28 @@ const ReportsPage = () => {
 
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={handleMenuTBC}>
-              TBC Actions
+              Ordered
             </Button>
             <Button color="primary" variant="contained" onClick={handleMenuTBS}>
-              TBS Actions
+              Ready
             </Button>
             <Button color="primary" variant="contained" onClick={handleMenuAF}>
-              AF Actions
-            </Button>
-            <Button color="primary" variant="contained" onClick={handleMenuA}>
-              A Actions
+              Delivered
             </Button>
           </Stack>
           {openTBC && (
             <Menu
               items={[
+                {
+                  icon: <InfoIcon />,
+                  label: 'Info',
+                  action: () => {},
+                },
+                {
+                  icon: <ManageIcon />,
+                  label: 'Manage',
+                  action: () => router.push('/services/reports/manage'),
+                },
                 {
                   icon: <CreateIcon />,
                   label: 'Create',
@@ -339,7 +390,7 @@ const ReportsPage = () => {
                 },
                 {
                   icon: <EditIcon />,
-                  label: 'Note',
+                  label: 'Create',
                   action: () => {},
                 },
                 {
@@ -360,13 +411,18 @@ const ReportsPage = () => {
             <Menu
               items={[
                 {
-                  icon: <DeliverIcon />,
-                  label: 'Deliver',
+                  icon: <InfoIcon />,
+                  label: 'Info',
                   action: () => {},
                 },
                 {
-                  icon: <DownloadIcon />,
-                  label: 'Download',
+                  icon: <ManageIcon />,
+                  label: 'Manage',
+                  action: () => router.push('/services/reports/manage'),
+                },
+                {
+                  icon: <DeliverIcon />,
+                  label: 'Deliver',
                   action: () => {},
                 },
                 {
@@ -397,14 +453,14 @@ const ReportsPage = () => {
             <Menu
               items={[
                 {
-                  icon: <ApproveIcon />,
-                  label: 'Approved',
+                  icon: <InfoIcon />,
+                  label: 'Info',
                   action: () => {},
                 },
                 {
-                  icon: <DownloadIcon />,
-                  label: 'Download',
-                  action: () => {},
+                  icon: <ManageIcon />,
+                  label: 'Manage',
+                  action: () => router.push('/services/reports/manage'),
                 },
                 {
                   icon: <ContactIcon />,
@@ -428,38 +484,6 @@ const ReportsPage = () => {
                 },
               ]}
               ref={menuAF}
-            />
-          )}
-          {openA && (
-            <Menu
-              items={[
-                {
-                  icon: <DownloadIcon />,
-                  label: 'Download',
-                  action: () => {},
-                },
-                {
-                  icon: <ContactIcon />,
-                  label: 'Contact',
-                  action: () => {},
-                },
-                {
-                  icon: <EditIcon />,
-                  label: 'Note',
-                  action: () => {},
-                },
-                {
-                  icon: <ScheduleIcon />,
-                  label: 'Schedule',
-                  action: () => {},
-                },
-                {
-                  icon: <DeleteIcon />,
-                  label: 'Remove',
-                  action: () => {},
-                },
-              ]}
-              ref={menuA}
             />
           )}
         </Stack>

@@ -62,7 +62,6 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
             value={state.outcome}
             onValue={(outcome) => setState({ ...state, outcome })}
           />
-          <Checkbox label="Post it anonymously" />
         </AddCampaignsModalMain>
       </Stack>
     </Modal>

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Project from 'constants/project';
 import {
   TCreateCompany,
@@ -7,41 +6,46 @@ import {
   TSingleCompanyTitle,
 } from 'api/company/types';
 
+import { client } from 'api/api-client';
+
 const CompanyAPI = {
   create: async (body: TCreateCompany) => {
-    const { data } = await axios.post(`${Project.apis.v1}/company`, body);
+    const { data } = await client.post(`${Project.apis.v1}/companies`, body);
 
     return data;
   },
 
   getAll: async () => {
-    const { data } = await axios.get(`${Project.apis.v1}/company?limit=500`);
+    const { data } = await client.get(`${Project.apis.v1}/companies`);
 
     return data;
   },
 
   createTitle: async (body: TCreateCompanyTitle) => {
-    const { data } = await axios.post(`${Project.apis.v1}/company/title`, body);
-
-    return data;
-  },
-
-  getAllTitles: async () => {
-    const { data } = await axios.get(
-      `${Project.apis.v1}/company/title?limit=500`
+    const { data } = await client.post(
+      `${Project.apis.v1}/companies/title`,
+      body
     );
 
     return data;
   },
 
+  getAllTitles: async () => {
+    const { data } = await client.get(`${Project.apis.v1}/companies/title`);
+
+    return data;
+  },
+
   getOneCompany: async (id: TSingleCompany) => {
-    const { data } = await axios.get(`${Project.apis.v1}/company/${id}`);
+    const { data } = await client.get(`${Project.apis.v1}/companies/${id}`);
 
     return data;
   },
 
   getOneCompanyTitle: async (id: TSingleCompanyTitle) => {
-    const { data } = await axios.get(`${Project.apis.v1}/company/title/${id}`);
+    const { data } = await client.get(
+      `${Project.apis.v1}/companies/title/${id}`
+    );
 
     return data;
   },
