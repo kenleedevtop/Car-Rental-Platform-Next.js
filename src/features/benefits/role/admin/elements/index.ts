@@ -6,3 +6,6 @@ export { default as ConfirmAddBenefitModal } from 'features/benefits/role/admin/
 export { default as ConfirmRemoveBenefitModal } from 'features/benefits/role/admin/elements/confirm-remove-benefit-modal';
 export { default as ConfirmRemoveSuggestionModal } from 'features/benefits/role/admin/elements/confirm-remove-suggestion-modal';
 export { default as ConfirmUpdateSuggestionModal } from 'features/benefits/role/admin/elements/confirm-update-suggestion-modal';
+export { default as ToBeApprovedActions } from 'features/benefits/role/admin/elements/to-be-approved-actions';
+export { default as ChangeBenefit } from 'features/benefits/role/admin/elements/change-benefit';
+export { default as CreateSuggestion } from 'features/benefits/role/admin/elements/create-suggestion';

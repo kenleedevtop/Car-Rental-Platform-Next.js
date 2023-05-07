@@ -17,10 +17,12 @@ import {
   ContactIcon,
   CreateIcon,
   DeleteIcon,
+  DeliverIcon,
   EditIcon,
   FinishedIcon,
   IdentifiedIcon,
   InfoIcon,
+  ManageIcon,
   OrderedIcon,
   ReadyIcon,
   RegisteredIcon,
@@ -32,10 +34,10 @@ import {
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateSmlFilter } from 'features/sml/data';
+import { DGenerateAdminSmlFilter } from 'features/sml/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
   ExportSmlModal,
@@ -48,7 +50,7 @@ import { useMenu, useModal } from 'hooks';
 import { useRouter } from 'next/router';
 
 const SmlPage = () => {
-  const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
+  const [filter, setFilter] = useState<any>(DGenerateAdminSmlFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -64,7 +66,7 @@ const SmlPage = () => {
   };
 
   const clearFilters = () => {
-    setFilter(DGenerateSmlFilter());
+    setFilter(DGenerateAdminSmlFilter());
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
@@ -88,6 +90,8 @@ const SmlPage = () => {
   const handleRoute = (route: string) => {
     router.push(route);
   };
+
+  const [tabs, setTabs] = useState(0);
 
   return (
     <SmlPageMain>
@@ -168,82 +172,151 @@ const SmlPage = () => {
         <Stack>
           <Collapse in={filterOpen}>
             <SmlPageFilter>
-              <Grid columns={4}>
-                <Input
-                  type="select"
-                  label="Company"
-                  placeholder="Select Company"
-                  value={filter.company}
-                  onValue={(company) => setFilter({ ...filter, company })}
-                />
-                <Input
-                  type="select"
-                  label="Client"
-                  placeholder="Select Client"
-                  value={filter.client}
-                  onValue={(client) => setFilter({ ...filter, client })}
-                />
-                <Input
-                  type="select"
-                  label="Stakeholder"
-                  placeholder="Select Type"
-                  value={filter.stakeholder}
-                  onValue={(stakeholder) =>
-                    setFilter({ ...filter, stakeholder })
-                  }
-                />
-                <Input
-                  type="select"
-                  label="Language"
-                  placeholder="Select Language"
-                  value={filter.language}
-                  onValue={(language) => setFilter({ ...filter, language })}
-                />
-                <Input
-                  type="select"
-                  label="Disease Area"
-                  placeholder="Select Disease Area"
-                  value={filter.diseaseArea}
-                  onValue={(diseaseArea) =>
-                    setFilter({ ...filter, diseaseArea })
-                  }
-                />
-                <Input
-                  type="text"
-                  label="Platform"
-                  placeholder="Select Platform"
-                  value={filter.platform}
-                  onValue={(platform) => setFilter({ ...filter, platform })}
-                />
-                <Input
-                  type="date"
-                  label="Start Date"
-                  placeholder="Start"
-                  value={filter.startDate}
-                  onValue={(startDate) => setFilter({ ...filter, startDate })}
-                />
-                <Input
-                  type="date"
-                  label="End Date"
-                  placeholder="Start"
-                  value={filter.endDate}
-                  onValue={(endDate) => setFilter({ ...filter, endDate })}
-                />
-                <Input
-                  type="min-max"
-                  label="Budget"
-                  placeholder="Please Select"
-                  value={filter.budget}
-                  onValue={(budget) => setFilter({ ...filter, budget })}
-                />
-                <Input
-                  type="multiselect"
-                  label="Lable"
-                  placeholder="Choose several state"
-                  value={filter.lable}
-                  onValue={(lable) => setFilter({ ...filter, lable })}
-                />
-              </Grid>
+              <Tabs tabs={['SML', 'Client']} value={tabs} onValue={setTabs} />
+              {tabs === 0 && (
+                <Grid columns={4}>
+                  <Input
+                    type="text"
+                    label="Search"
+                    placeholder="Please Enter"
+                    value={filter.search}
+                    onValue={(search) => setFilter({ ...filter, search })}
+                  />
+                  <Input
+                    type="select"
+                    label="Disease Area"
+                    placeholder="Please Select"
+                    value={filter.diseaseArea}
+                    onValue={(diseaseArea) =>
+                      setFilter({ ...filter, diseaseArea })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Social Media Platform"
+                    placeholder="Please Select"
+                    value={filter.socialMediaPlatform}
+                    onValue={(socialMediaPlatform) =>
+                      setFilter({ ...filter, socialMediaPlatform })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Budget"
+                    value={filter.budget}
+                    onValue={(budget) => setFilter({ ...filter, budget })}
+                  />
+                  <InputGroup
+                    label="Date Joined"
+                    inputRatio="1fr 1fr"
+                    elements={[
+                      {
+                        value: filter.startDateStart,
+                        onValue: (startDateStart) =>
+                          setFilter({ ...filter, startDateStart }),
+                        type: 'date',
+                        placeholder: 'From',
+                      },
+                      {
+                        value: filter.startDateEnd,
+                        onValue: (startDateEnd) =>
+                          setFilter({ ...filter, startDateEnd }),
+                        type: 'date',
+                        placeholder: 'To',
+                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="Date Joined"
+                    inputRatio="1fr 1fr"
+                    elements={[
+                      {
+                        value: filter.endDateStart,
+                        onValue: (endDateStart) =>
+                          setFilter({ ...filter, endDateStart }),
+                        type: 'date',
+                        placeholder: 'From',
+                      },
+                      {
+                        value: filter.endDateEnd,
+                        onValue: (endDateEnd) =>
+                          setFilter({ ...filter, endDateEnd }),
+                        type: 'date',
+                        placeholder: 'To',
+                      },
+                    ]}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Subscription"
+                    value={filter.subscription}
+                    onValue={(subscription) =>
+                      setFilter({ ...filter, subscription })
+                    }
+                  />
+                  <Input
+                    type="min-max"
+                    label="Tokens"
+                    value={filter.tokens}
+                    onValue={(tokens) => setFilter({ ...filter, tokens })}
+                  />
+                  <Input
+                    type="select"
+                    label="Labels"
+                    placeholder="Please Select"
+                    value={filter.labels}
+                    onValue={(labels) => setFilter({ ...filter, labels })}
+                  />
+                  <Input
+                    type="select"
+                    label="Schedule"
+                    placeholder="Please Select"
+                    value={filter.schedule}
+                    onValue={(schedule) => setFilter({ ...filter, schedule })}
+                  />
+                </Grid>
+              )}
+              {tabs === 1 && (
+                <Grid columns={4}>
+                  <Input
+                    type="select"
+                    label="Industry"
+                    placeholder="Please Select"
+                    value={filter.industry}
+                    onValue={(industry) => setFilter({ ...filter, industry })}
+                  />
+                  <Input
+                    type="select"
+                    label="Company"
+                    placeholder="Please Select"
+                    value={filter.company}
+                    onValue={(company) => setFilter({ ...filter, company })}
+                  />
+                  <Input
+                    type="select"
+                    label="Client"
+                    placeholder="Please Select"
+                    value={filter.client}
+                    onValue={(client) => setFilter({ ...filter, client })}
+                  />
+                  <Input
+                    type="select"
+                    label="Ambassador"
+                    placeholder="Please Select"
+                    value={filter.ambassador}
+                    onValue={(ambassador) =>
+                      setFilter({ ...filter, ambassador })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Product"
+                    placeholder="Please Select"
+                    value={filter.product}
+                    onValue={(product) => setFilter({ ...filter, product })}
+                  />
+                </Grid>
+              )}
               <SmlPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -276,28 +349,48 @@ const SmlPage = () => {
                 visible: true,
               },
               {
-                reference: 'platform',
-                label: 'Platform',
-                visible: true,
-              },
-              {
-                reference: 'stakeholder',
-                label: 'Stakeholder',
-                visible: true,
-              },
-              {
-                reference: 'period',
-                label: 'Period',
-                visible: true,
-              },
-              {
                 reference: 'subscription',
                 label: 'Subscription',
                 visible: true,
               },
               {
-                reference: 'status',
-                label: 'Status',
+                reference: 'tokens',
+                label: 'Tokens',
+                visible: true,
+              },
+              {
+                reference: 'budget',
+                label: 'Budget',
+                visible: true,
+              },
+              {
+                reference: 'budgetMonthly',
+                label: 'Budget (Monthly)',
+                visible: false,
+              },
+              {
+                reference: 'socialMedia',
+                label: 'Social Media',
+                visible: false,
+              },
+              {
+                reference: 'totalTokensUsed',
+                label: 'Total Tokens Used',
+                visible: false,
+              },
+              {
+                reference: 'tokensUsedThisMonth',
+                label: 'Tokens Used This Month',
+                visible: false,
+              },
+              {
+                reference: 'startDate',
+                label: 'Start Date',
+                visible: false,
+              },
+              {
+                reference: 'endDate',
+                label: 'End Date',
                 visible: true,
               },
               {
@@ -314,19 +407,39 @@ const SmlPage = () => {
 
           <Stack direction="horizontal">
             <Button variant="contained" onClick={handleMenuTBS}>
-              TBS actions
+              Ordered actions
             </Button>
             <Button variant="contained" onClick={handleMenuTBC}>
-              TBC actions
+              Ready actions
             </Button>
             <Button variant="contained" onClick={handleMenuSML}>
-              SML actions
+              Delivered actions
             </Button>
           </Stack>
         </Stack>
         {openTBS && (
           <Menu
             items={[
+              {
+                icon: <ReadyIcon />,
+                label: 'Ready',
+                action: () => {},
+              },
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ManageIcon />,
+                label: 'Manage',
+                action: () => {},
+              },
+              {
+                icon: <ContactIcon />,
+                label: 'Contact',
+                action: () => {},
+              },
               {
                 icon: <EditIcon />,
                 label: 'Note',
@@ -350,8 +463,18 @@ const SmlPage = () => {
           <Menu
             items={[
               {
-                icon: <CreateIcon />,
-                label: 'Create',
+                icon: <DeliverIcon />,
+                label: 'Deliver',
+                action: () => {},
+              },
+              {
+                icon: <InfoIcon />,
+                label: 'Info',
+                action: () => {},
+              },
+              {
+                icon: <ManageIcon />,
+                label: 'Manage',
                 action: () => {},
               },
               {
@@ -387,8 +510,8 @@ const SmlPage = () => {
                 action: () => {},
               },
               {
-                icon: <ReportSMLIcon />,
-                label: 'Report',
+                icon: <ManageIcon />,
+                label: 'Manage',
                 action: () => {
                   handleRoute('/services/sml/reports');
                 },

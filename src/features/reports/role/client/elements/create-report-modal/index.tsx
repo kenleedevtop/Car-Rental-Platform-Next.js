@@ -7,7 +7,9 @@ import { GridCell } from 'components/system';
 
 const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
   const [state, setState] = useState({
+    campaign: null,
     reportType: null,
+    budget: '',
     additional: '',
   });
 
@@ -31,24 +33,26 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
       <AddReportModalMain columns={2}>
         <Input
           type="select"
+          label="Campaign"
+          placeholder="Please Select"
+          value={state.campaign}
+          onValue={(campaign) => setState({ ...state, campaign })}
+        />
+        <Input
+          type="select"
           label="Report Type"
           placeholder="Basic"
           value={state.reportType}
           onValue={(reportType) => setState({ ...state, reportType })}
         />
-        <br />
-        <Switch label="Reach" helper="?" />
-        <Switch label="Cost per Target" helper="?" />
-        <Switch label="Number of Likes" helper="?" />
-        <Switch label="Cost per Click" helper="?" />
-        <Switch label="Number of Comments" helper="?" />
-        <Switch label="Overlap" helper="?" />
-        <Switch label="Website Clicks" helper="?" />
-        <Switch label="Brand Mentions" helper="?" />
-        <Switch label="Engagement" helper="?" />
-        <Switch label="New Followers" helper="?" />
-        <Switch label="Comments" helper="?" />
-        <Switch label="Social Media Listening" helper="?" />
+        <Input
+          type="text"
+          label="Budget"
+          placeholder="Please Enter"
+          value={state.budget}
+          onValue={(budget) => setState({ ...state, budget })}
+        />
+
         <GridCell columnSpan={2}>
           <Input
             type="text"

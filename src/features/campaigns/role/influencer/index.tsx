@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import {
   CampaignsPageMain,
   CampaignsInfluencerPageCharts,
-  CampaignsPageFilter,
-  CampaignsPageFilterActions,
-  CampaignsPageFilterContainer,
 } from 'features/campaigns/styles';
 import {
-  DCampaignsHead,
+  DCampaignsInfluencerHead,
+  DCampaignsInfluencerHead2,
   DGenerateCampaignsFilter,
 } from 'features/campaigns/data';
 import {
@@ -16,7 +14,13 @@ import {
   CheckboxTable,
   Tabs,
 } from 'components/custom';
-import { GramophoneIcon, SlidersHorizontalIcon } from 'components/svg';
+import {
+  FinishedIcon,
+  GramophoneIcon,
+  InpreparationIcon,
+  OngoingIcon,
+  SlidersHorizontalIcon,
+} from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
@@ -44,7 +48,7 @@ const CampaignsPage = () => {
       <CampaignsInfluencerPageCharts>
         <CardWithChart
           title="Available Campaigns"
-          icon={<GramophoneIcon />}
+          icon={<InpreparationIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -56,7 +60,7 @@ const CampaignsPage = () => {
         />
         <CardWithChart
           title="Campaigns in Progress"
-          icon={<GramophoneIcon />}
+          icon={<OngoingIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -68,7 +72,7 @@ const CampaignsPage = () => {
         />
         <CardWithChart
           title="Finished Campaigns"
-          icon={<GramophoneIcon />}
+          icon={<FinishedIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -87,19 +91,21 @@ const CampaignsPage = () => {
             ? { padding: '1.25rem 0', boxShadow: 'unset' }
             : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
         }
-        actions={[
-          <Button
-            color={filterOpen ? 'secondary' : 'default'}
-            variant="contained"
-            onClick={toggleFilter}
-            startIcon={<SlidersHorizontalIcon width="18" height="18" />}
-          >
-            Filters
-          </Button>,
-        ]}
+        actions={
+          [
+            // <Button
+            //   color={filterOpen ? 'secondary' : 'default'}
+            //   variant="contained"
+            //   onClick={toggleFilter}
+            //   startIcon={<SlidersHorizontalIcon width="18" height="18" />}
+            // >
+            //   Filters
+            // </Button>,
+          ]
+        }
       >
         <Stack>
-          <Collapse removeGap in={filterOpen}>
+          {/* <Collapse removeGap in={filterOpen}>
             <CampaignsPageFilter>
               <CampaignsPageFilterContainer>
                 <Input
@@ -156,9 +162,9 @@ const CampaignsPage = () => {
                 </Button>
               </CampaignsPageFilterActions>
             </CampaignsPageFilter>
-          </Collapse>
+          </Collapse> */}
           <CheckboxTable
-            head={DCampaignsHead}
+            head={DCampaignsInfluencerHead}
             items={[]}
             renderItem={renderItem}
           />
@@ -166,7 +172,7 @@ const CampaignsPage = () => {
         </Stack>
       </CardWithText>
       <CardWithText
-        title="Campaings in Progress"
+        title="Ongoing Campaigns"
         style={
           window.innerWidth < 600
             ? { padding: '1.25rem 0', boxShadow: 'unset' }
@@ -174,10 +180,10 @@ const CampaignsPage = () => {
         }
       >
         <Stack>
-          <Tabs
-            value={tabs}
-            onValue={setTabs}
-            tabs={['Accepted', 'Info Received', 'To Be Posted', 'Approved']}
+          <CheckboxTable
+            head={DCampaignsInfluencerHead2}
+            items={[]}
+            renderItem={renderItem}
           />
           <Pagination count={32} />
         </Stack>

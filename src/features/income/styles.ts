@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Stack } from 'components/system';
+import { Input } from 'components/ui';
 
 export const IncomePageMain = styled(Stack)`
   width: 100%;
@@ -167,4 +168,10 @@ export const WithdrawNameContainer = styled(Stack)<{ theme?: Theme }>`
           grid-template-columns: 1fr;
         }
     `}
+`;
+
+export const AmbassadorInput = styled(Input)`
+  span {
+    display: none !important;
+  }
 `;

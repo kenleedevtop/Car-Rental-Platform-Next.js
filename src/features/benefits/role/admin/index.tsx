@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BenefitsPageMain,
   BenefitsPageCharts,
@@ -18,28 +18,47 @@ import {
   Tabs,
 } from 'components/custom';
 import {
-  ApproveIcon,
+  ApparelIcon,
+  BeautyIcon,
   DeleteIcon,
+  ElectronicsIcon,
+  FoodIcon,
+  FurnitureIcon,
+  HealthIcon,
   InfoIcon,
+  LeisureIcon,
+  LockIcon,
+  NutritionIcon,
+  PetCareIcon,
   ScheduleIcon,
+  ServicesBIcon,
   SlidersHorizontalIcon,
-  UserFocusIcon,
+  TravelIcon,
+  AccesoriesIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import {
   AddBenefitModal,
   SuggestionInfoModal,
   ExportBenefitsModal,
   ConfirmChangeBenefitModal,
-  ConfirmAddBenefitModal,
   ConfirmRemoveBenefitModal,
   ConfirmRemoveSuggestionModal,
   ConfirmUpdateSuggestionModal,
+  CreateSuggestion,
+  ChangeBenefit,
+  ToBeApprovedActions,
 } from 'features/benefits/role/admin/elements';
+import { BenefitsAPI } from 'api';
+import Link from 'next/link';
+import {
+  TUsePaginationData,
+  TUsePaginationFunction,
+} from 'hooks/use-pagination/types';
 
 const BenefitsPage = () => {
   const [abModal, openAbModal, closeAbModal] = useModal(false);
@@ -50,9 +69,47 @@ const BenefitsPage = () => {
   const [crbModal, openCrbModal, closeCrbModal] = useModal(false);
   const [crsModal, openCrsModal, closeCrsModal] = useModal(false);
   const [cusModal, openCusModal, closeCusModal] = useModal(false);
+  const [cbModal, openCbModal, closeCbModal] = useModal(false);
+  const [csModal, openCsModal, closeCsModal] = useModal(false);
 
   const [menuTba, openTba, setOpenTba] = useMenu(false);
   const [menuS, openS, setOpenS] = useMenu(false);
+
+  const [benefits, setBenefits] = useState([]);
+
+  const getBenefits = async (params: any) => {
+    const { meta, result } = await BenefitsAPI.getBenefits(params);
+
+    setTotalResults(meta.countFiltered);
+    setBenefits(result);
+  };
+
+  const setStuff = async (data: any) => {
+    await getBenefits({ skip: data.skip, limit: data.limit });
+  };
+
+  const {
+    limit,
+    pagesCount,
+    page,
+    setTotalResults,
+    setLimit,
+    handlePageChange,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (
+      data: TUsePaginationData,
+      setPage: TUsePaginationFunction
+    ) => {
+      setStuff(data);
+      setPage(data.page);
+    },
+  });
+
+  const handleGet = () => {
+    getBenefits({ limit, skip: (page - 1) * limit });
+  };
 
   const handleMenuTba = () => {
     setOpenTba(!openTba);
@@ -74,7 +131,43 @@ const BenefitsPage = () => {
     setFilter(DGenerateFinanceFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'company') {
+      return row.data.benefitPartnership.name;
+    }
+    if (headItem.reference === 'category') {
+      return row.data.benefitCategory.name;
+    }
+    if (headItem.reference === 'location') {
+      row.data.benefitLocations.forEach((item: any) => {
+        row.data = item.location.name;
+      });
+
+      return row.data;
+    }
+    if (headItem.reference === 'link') {
+      return (
+        <Link href={row.data.benefitCompanyLink}>
+          <LockIcon />
+        </Link>
+      );
+      // return row.data.benefitCompanyLink;
+    }
+    if (headItem.reference === 'benefit') {
+      return row.data.description;
+    }
+
+    if (headItem.reference === 'actions') {
+      return <ToBeApprovedActions action={handleGet} data={row.data} />;
+    }
+
+    return '';
+  };
 
   const [tabs, setTabs] = useState(0);
 
@@ -83,7 +176,7 @@ const BenefitsPage = () => {
       <BenefitsPageCharts columns={4}>
         <CardWithChart
           title="Accessories"
-          icon={<UserFocusIcon />}
+          icon={<AccesoriesIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -95,7 +188,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Apparel & Footwear"
-          icon={<UserFocusIcon />}
+          icon={<ApparelIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -107,7 +200,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Beauty & Personal Care"
-          icon={<UserFocusIcon />}
+          icon={<BeautyIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -119,7 +212,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Electronics"
-          icon={<UserFocusIcon />}
+          icon={<ElectronicsIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -131,7 +224,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Food & Beverage"
-          icon={<UserFocusIcon />}
+          icon={<FoodIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -143,7 +236,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Furniture"
-          icon={<UserFocusIcon />}
+          icon={<FurnitureIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -155,7 +248,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Health & Wellness"
-          icon={<UserFocusIcon />}
+          icon={<HealthIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -167,7 +260,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Leasure"
-          icon={<UserFocusIcon />}
+          icon={<LeisureIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -179,7 +272,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Nutrition"
-          icon={<UserFocusIcon />}
+          icon={<NutritionIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -191,7 +284,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Pet Care"
-          icon={<UserFocusIcon />}
+          icon={<PetCareIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -203,7 +296,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Services"
-          icon={<UserFocusIcon />}
+          icon={<ServicesBIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -215,7 +308,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Travel"
-          icon={<UserFocusIcon />}
+          icon={<TravelIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -288,16 +381,20 @@ const BenefitsPage = () => {
           </Collapse>
           <CheckboxTable
             head={DFinanceHead}
-            items={[]}
+            items={benefits}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
         </Stack>
       </CardWithText>
       <CardWithText
         title="Suggestions"
         actions={[
-          <Button color="primary" variant="contained" onClick={() => {}}>
+          <Button color="primary" variant="contained" onClick={openCsModal}>
             Suggest
           </Button>,
         ]}
@@ -344,35 +441,11 @@ const BenefitsPage = () => {
             <Button color="primary" variant="contained" onClick={handleMenuS}>
               Suggestion actions
             </Button>
+            <Button color="primary" variant="contained" onClick={openCbModal}>
+              Change Benefit
+            </Button>
           </Stack>
         </Stack>
-        {openTba && (
-          <Menu
-            items={[
-              {
-                icon: <ApproveIcon />,
-                label: 'Approve',
-                action: () => {},
-              },
-              {
-                icon: <InfoIcon />,
-                label: 'Info',
-                action: () => {},
-              },
-              {
-                icon: <ScheduleIcon />,
-                label: 'Schedule',
-                action: () => {},
-              },
-              {
-                icon: <DeleteIcon />,
-                label: 'Remove',
-                action: () => {},
-              },
-            ]}
-            ref={menuTba}
-          />
-        )}
         {openS && (
           <Menu
             items={[
@@ -396,14 +469,23 @@ const BenefitsPage = () => {
           />
         )}
       </CardWithText>
-      {abModal && <AddBenefitModal onClose={closeAbModal} />}
+      {abModal && (
+        <AddBenefitModal
+          onClose={() => {
+            closeAbModal();
+            handleGet();
+          }}
+        />
+      )}
       {siModal && <SuggestionInfoModal onClose={closeSiModal} />}
       {ebModal && <ExportBenefitsModal onClose={closeEbModal} />}
-      {cabModal && <ConfirmAddBenefitModal onClose={closeCabModal} />}
-      {ccbModal && <ConfirmChangeBenefitModal onClose={closeCcbModal} />}
-      {crbModal && <ConfirmRemoveBenefitModal onClose={closeCrbModal} />}
+      {/* {cbModal && <ChangeBenefit  onClose={closeCbModal} />} */}
+      {/* {cabModal && <ConfirmAddBenefitModal onClose={closeCabModal} />} */}
+      {/* {ccbModal && <ConfirmChangeBenefitModal onClose={closeCcbModal} />} */}
+      {/* {crbModal && <ConfirmRemoveBenefitModal onClose={closeCrbModal} />} */}
       {crsModal && <ConfirmRemoveSuggestionModal onClose={closeCrsModal} />}
       {cusModal && <ConfirmUpdateSuggestionModal onClose={closeCusModal} />}
+      {csModal && <CreateSuggestion onClose={closeCsModal} />}
     </BenefitsPageMain>
   );
 };

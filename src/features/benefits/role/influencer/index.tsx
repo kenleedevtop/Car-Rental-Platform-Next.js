@@ -7,17 +7,30 @@ import {
   BenefitsPageFilterContainer,
 } from 'features/benefits/role/influencer/styles';
 import {
-  DFinanceHead,
-  DFinanceHead2,
+  DBenefitsIHead,
+  DBenefitsIHead2,
   DGenerateFinanceFilter,
 } from 'features/benefits/role/influencer/data';
+import { CardWithChart, CardWithText, CheckboxTable } from 'components/custom';
 import {
-  CardWithChart,
-  CardWithText,
-  CheckboxTable,
-  Table,
-} from 'components/custom';
-import { SlidersHorizontalIcon, UserFocusIcon } from 'components/svg';
+  ApparelIcon,
+  BeautyIcon,
+  DeleteIcon,
+  ElectronicsIcon,
+  FoodIcon,
+  FurnitureIcon,
+  HealthIcon,
+  InfoIcon,
+  LeisureIcon,
+  LockIcon,
+  NutritionIcon,
+  PetCareIcon,
+  ScheduleIcon,
+  ServicesBIcon,
+  SlidersHorizontalIcon,
+  TravelIcon,
+  UserFocusIcon,
+} from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
@@ -27,6 +40,7 @@ import {
   AddSuggestionModal,
   ExportBenefitsModal,
 } from 'features/benefits/role/influencer/elements';
+import AccesoriesIcon from 'components/svg/accessories';
 
 const BenefitsPage = () => {
   const [asModal, openAsModal, closeAsModal] = useModal(false);
@@ -51,7 +65,7 @@ const BenefitsPage = () => {
       <BenefitsPageCharts columns={4}>
         <CardWithChart
           title="Accessories"
-          icon={<UserFocusIcon />}
+          icon={<AccesoriesIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -63,7 +77,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Apparel & Footwear"
-          icon={<UserFocusIcon />}
+          icon={<ApparelIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -75,7 +89,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Beauty & Personal Care"
-          icon={<UserFocusIcon />}
+          icon={<BeautyIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -87,7 +101,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Electronics"
-          icon={<UserFocusIcon />}
+          icon={<ElectronicsIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -111,7 +125,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Furniture"
-          icon={<UserFocusIcon />}
+          icon={<FurnitureIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -123,7 +137,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Health & Wellness"
-          icon={<UserFocusIcon />}
+          icon={<HealthIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -135,7 +149,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Leasure"
-          icon={<UserFocusIcon />}
+          icon={<LeisureIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -147,7 +161,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Nutrition"
-          icon={<UserFocusIcon />}
+          icon={<NutritionIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -159,7 +173,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Pet Care"
-          icon={<UserFocusIcon />}
+          icon={<PetCareIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -171,7 +185,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Services"
-          icon={<UserFocusIcon />}
+          icon={<ServicesBIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -183,7 +197,7 @@ const BenefitsPage = () => {
         />
         <CardWithChart
           title="Travel"
-          icon={<UserFocusIcon />}
+          icon={<TravelIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -206,9 +220,6 @@ const BenefitsPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained" onClick={openEbModal}>
-            Export
-          </Button>,
         ]}
       >
         <Stack>
@@ -217,17 +228,10 @@ const BenefitsPage = () => {
               <BenefitsPageFilterContainer>
                 <Input
                   type="text"
-                  label="Search For Benefit"
-                  placeholder="Search For Statement"
+                  label="Search"
+                  placeholder="Search For Benefit"
                   value={filter.search}
                   onValue={(search) => setFilter({ ...filter, search })}
-                />
-                <Input
-                  type="select"
-                  label="Location"
-                  placeholder="Please Select"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
                 />
                 <Input
                   type="select"
@@ -235,6 +239,13 @@ const BenefitsPage = () => {
                   placeholder="Please Select"
                   value={filter.category}
                   onValue={(category) => setFilter({ ...filter, category })}
+                />
+                <Input
+                  type="select"
+                  label="Location"
+                  placeholder="Please Select"
+                  value={filter.location}
+                  onValue={(location) => setFilter({ ...filter, location })}
                 />
               </BenefitsPageFilterContainer>
               <BenefitsPageFilterActions direction="horizontal">
@@ -252,7 +263,7 @@ const BenefitsPage = () => {
             </BenefitsPageFilter>
           </Collapse>
           <CheckboxTable
-            head={DFinanceHead}
+            head={DBenefitsIHead}
             items={[]}
             renderItem={renderItem}
           />
@@ -269,7 +280,7 @@ const BenefitsPage = () => {
       >
         <Stack>
           <CheckboxTable
-            head={DFinanceHead2}
+            head={DBenefitsIHead2}
             items={[]}
             renderItem={renderItem}
           />

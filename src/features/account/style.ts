@@ -12,7 +12,7 @@ export const AccountSpan = styled.div<{ theme?: Theme }>`
     color: ${theme.palette.secondary.main};
     text-align: right;
     cursor: pointer;
-    font-size: 9px;
+    font-size: 12px;
  `}
 `;
 

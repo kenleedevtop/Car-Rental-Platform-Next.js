@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { CreateSurveyPage } from 'features';
+import { CreateClientSurveyPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const CreateSurvey = () => {
@@ -14,7 +14,7 @@ const CreateSurvey = () => {
   return (
     <>
       <Title>Create Survey</Title>
-      {role === 'ADMIN' && <CreateSurveyPage />}
+      {role === 'CLIENT' && <CreateClientSurveyPage />}
     </>
   );
 };

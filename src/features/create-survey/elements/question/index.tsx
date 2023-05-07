@@ -88,21 +88,14 @@ const Question = ({
     <QuestionMain {...props}>
       <QuestionHeader>
         <QuestionCounter>
-          <span>Question {questionId}</span>
           <Input
             type="text"
-            placeholder="Enter question"
+            placeholder={`Question ${questionId}`}
             value={question.question}
             onValue={changeQuestion}
           />
         </QuestionCounter>
         <QuestionHeaderActions>
-          <Input
-            type="number"
-            placeholder="Question credit"
-            value={question.credit}
-            onValue={changeCredit}
-          />
           <Input
             type="select"
             placeholder="Short Answer"
@@ -126,6 +119,12 @@ const Question = ({
                 label: 'Multiselect',
               },
             ]}
+          />
+          <Input
+            type="number"
+            placeholder="Question credit"
+            value={question.credit}
+            onValue={changeCredit}
           />
         </QuestionHeaderActions>
       </QuestionHeader>
@@ -219,11 +218,13 @@ const Question = ({
       </QuestionBody>
       <QuestionFooter>
         <CopyIcon
+          style={{ color: '#9F9FB0' }}
           onClick={() => {
             copy(question.id);
           }}
         />
         <DeleteIcon
+          style={{ color: '#9F9FB0' }}
           onClick={() => {
             remove(question.id);
           }}

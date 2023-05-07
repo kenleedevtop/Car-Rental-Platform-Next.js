@@ -1,11 +1,18 @@
 export type TAddBenefit = {
-  benefitsPartnershipId: string;
+  benefitPartnershipId: number | null;
   benefitCompanyLink: string;
   description: string;
-  benefitCategoryId: string;
-  benefitLocations: Array<string>;
+  benefitCategoryId: number | null;
+  benefitLocations: Array<number> | null;
 };
 
 export type TSingleBenefit = {
-  id: string;
+  id: number;
+};
+
+export type TAddSuggestion = {
+  partnershipName: string;
+  partnershipLink: string;
+  argumentDescription: string;
+  outcomeDescription: string;
 };

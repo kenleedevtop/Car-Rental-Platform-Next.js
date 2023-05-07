@@ -7,7 +7,7 @@ import {
   TResendEmailConfirmation,
 } from 'api/authorization/types';
 
-import { client, localClient } from 'api/api-client';
+import { client } from 'api/api-client';
 
 const AuthorizationAPI = {
   login: async (body: TLoginParams, locale?: string) => {
@@ -16,23 +16,15 @@ const AuthorizationAPI = {
   },
 
   logout: async () => {
-    await localClient.post(`/logout`);
+    await client.post(`/auth/logout`);
   },
 
   emailConfirmation: async (body: TEmailConfirmation) => {
-    const { data } = await client.post(`/auth/emailConfirmation`, {
-      data: body,
-    });
-
-    return data;
+    await client.post(`/auth/emailConfirmation`, body);
   },
 
   resendEmailConfirmation: async (body: TResendEmailConfirmation) => {
-    const { data } = await client.post(`/auth/resendEmailConfirmation`, {
-      data: body,
-    });
-
-    return data;
+    await client.post(`/auth/resendEmailConfirmation`, body);
   },
 
   resetPassword: async (body: TResetPassword) => {

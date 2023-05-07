@@ -5,6 +5,6 @@ export type TCardWithTextProps = Omit<
   'title'
 > & {
   title: ReactNode;
-  description?: string;
+  description?: string | React.ReactNode;
   actions?: Array<React.ReactNode>;
 };

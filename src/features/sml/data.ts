@@ -15,3 +15,33 @@ export const DGenerateSmlFilter = () => ({
 
   report: '',
 });
+
+export const DGenerateAdminSmlFilter = () => ({
+  search: '',
+  diseaseArea: null,
+  socialMediaPlatform: null,
+  budget: {
+    min: '',
+    max: '',
+  },
+  startDateStart: null,
+  startDateEnd: null,
+  endDateStart: null,
+  endDateEnd: null,
+  subscription: {
+    min: '',
+    max: '',
+  },
+  tokens: {
+    min: '',
+    max: '',
+  },
+  labels: null,
+  schedule: null,
+
+  industry: null,
+  company: null,
+  client: null,
+  ambassador: null,
+  product: null,
+});

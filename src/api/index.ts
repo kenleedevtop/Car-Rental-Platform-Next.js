@@ -6,3 +6,5 @@ export { default as InfluencerAPI } from 'api/influencer';
 export { default as ClientAPI } from 'api/client';
 export { default as AmbassadorAPI } from 'api/ambassador';
 export { default as CompanyAPI } from 'api/company';
+export { default as BenefitsAPI } from 'api/benefits';
+export { default as LocationAPI } from 'api/location';

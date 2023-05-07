@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
+import { gradient } from 'utilities/style';
 
 export const IconWithTextMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -21,15 +22,18 @@ export const IconWithTextIcon = styled.div<{ theme?: Theme }>`
     width: 60px;
     height: 60px;
     border-radius: 40px;
-    background-color: ${theme.palette.primary.main};
+    background: ${gradient(45, [
+      theme.palette.primary.dark,
+      theme.palette.secondary.light,
+    ])};
     display: grid;
     place-items: center;
     margin-right: ${theme.spacing(4)};
     
     & svg{
         color: #fff;
-        width: 40px;
-        height: 40px;
+        width: 30px;
+        height: 30px;
     }
 
     `}

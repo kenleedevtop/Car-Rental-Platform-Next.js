@@ -86,8 +86,15 @@ const AppContextProvider = ({ ...props }) => {
   }, []);
 
   const providerValue = useMemo(
-    () => ({ ...state, setRouteName, login, logout, handleMobileMenu }),
-    [state, setRouteName, login, logout, handleMobileMenu]
+    () => ({
+      ...state,
+      setRouteName,
+      getMeData,
+      login,
+      logout,
+      handleMobileMenu,
+    }),
+    [state, setRouteName, getMeData, login, logout, handleMobileMenu]
   );
   return state.initialLoading ? (
     <LoadingPage />

@@ -2,24 +2,22 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { CUnprotectedRoutes, CProtectedRoutes } from 'constants/routes';
 import Project from 'constants/project';
+import { RequestCookie } from 'next/dist/server/web/spec-extension/cookies';
 
 const PUBLIC_FILE = /\.(.*)$/;
 
-const checkLoggedIn = async () => {
+const checkLoggedIn = async (authCookie?: RequestCookie | undefined) => {
   try {
+    if (!authCookie) throw new Error('No cookie');
+
     const res = await fetch(`${Project.apis.v1}/pingAuth`, {
       method: 'GET',
       credentials: 'include',
       headers: new Headers({
         'Content-Type': 'application/json',
+        cookie: `${authCookie.name}=${authCookie.value}`,
       }),
     });
-
-    console.log(res.headers);
-
-    const a = await res.json();
-
-    console.log(a);
 
     if (!res.ok) {
       throw new Error('Bad ping');
@@ -43,7 +41,8 @@ export const middleware = async (request: NextRequest) => {
     return NextResponse.next();
   }
 
-  const loggedIn = await checkLoggedIn();
+  const authCookie = request.cookies.get('auth');
+  const loggedIn = await checkLoggedIn(authCookie);
 
   const withLocale = locale === defaultLocale ? '' : `/${locale}`;
 

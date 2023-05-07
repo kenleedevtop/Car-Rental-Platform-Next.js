@@ -9,26 +9,34 @@ import { InputLabel } from 'components/ui/input/styles';
 const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
   const [state, setState] = useState({
     campaignName: '',
-    product: '',
+    product: null,
+    influencers: null,
     startDate: null,
     endDate: null,
     report: null,
+    currency: null,
     budget: '',
     campaignInfo: '',
 
-    numberOfInfluencers: '',
-    influencerSize: null,
-    diseaseArea: null,
     location: null,
-    ageRange: null,
+    language: null,
+    diseaseArea: null,
+    stakeholders: null,
     gender: null,
-    ethnicity: [],
-    interests: [],
+    age: {
+      min: '',
+      max: '',
+    },
+    ethnicity: null,
+    struggles: null,
+    interests: null,
+    influencerSize: null,
     targetAudienceInfo: '',
 
     platform: null,
     postType: null,
     image: null,
+    website: '',
     instructions: '',
   });
 
@@ -39,7 +47,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
   return (
     <Modal
       size="medium"
-      title="Create Campaign"
+      title="Create"
       actions={[
         <Button
           color="primary"
@@ -71,9 +79,9 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               />
             </GridCell>
             <Input
-              type="text"
+              type="select"
               label="Product"
-              placeholder="Please Enter Product Name"
+              placeholder="Please Select"
               value={state.product}
               onValue={(product) => setState({ ...state, product })}
             />
@@ -102,12 +110,37 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               value={state.report}
               onValue={(report) => setState({ ...state, report })}
             />
-            <Input
-              type="select"
+            <InputGroup
               label="Budget"
-              placeholder="Please Select"
-              value={state.budget}
-              onValue={(budget) => setState({ ...state, budget })}
+              inputRatio="100px 1fr"
+              elements={[
+                {
+                  value: state.currency,
+                  onValue: (currency) => setState({ ...state, currency }),
+                  type: 'select',
+                  placeholder: 'CHF',
+                  options: [
+                    {
+                      value: 'eur',
+                      label: 'EUR',
+                    },
+                    {
+                      value: 'usd',
+                      label: 'USD',
+                    },
+                    {
+                      value: 'chf',
+                      label: 'CHF',
+                    },
+                  ],
+                },
+                {
+                  value: state.budget,
+                  onValue: (budget) => setState({ ...state, budget }),
+                  type: 'text',
+                  placeholder: 'Please Enter',
+                },
+              ]}
             />
             <GridCell columnSpan={2}>
               <Input
@@ -125,22 +158,18 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
         {tab === 1 && (
           <AddCampaignsModalMain columns={2}>
             <Input
-              type="number"
-              label="Number of Influencers"
-              placeholder="Please Enter"
-              value={state.numberOfInfluencers}
-              onValue={(numberOfInfluencers) =>
-                setState({ ...state, numberOfInfluencers })
-              }
+              type="select"
+              label="Location"
+              placeholder="Please Select"
+              value={state.location}
+              onValue={(location) => setState({ ...state, location })}
             />
             <Input
               type="select"
-              label="Influencer Size"
+              label="Language"
               placeholder="Please Select"
-              value={state.influencerSize}
-              onValue={(influencerSize) =>
-                setState({ ...state, influencerSize })
-              }
+              value={state.language}
+              onValue={(language) => setState({ ...state, language })}
             />
             <Input
               type="select"
@@ -151,17 +180,10 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
             />
             <Input
               type="select"
-              label="Location"
+              label="Stakeholders"
               placeholder="Please Select"
-              value={state.location}
-              onValue={(location) => setState({ ...state, location })}
-            />
-            <Input
-              type="select"
-              label="Age Range"
-              placeholder="Please Select"
-              value={state.ageRange}
-              onValue={(ageRange) => setState({ ...state, ageRange })}
+              value={state.stakeholders}
+              onValue={(stakeholders) => setState({ ...state, stakeholders })}
             />
             <Input
               type="select"
@@ -171,28 +193,55 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               onValue={(gender) => setState({ ...state, gender })}
               options={[
                 {
-                  value: 1,
+                  value: 0,
                   label: 'Male',
                 },
                 {
-                  value: 2,
+                  value: 1,
                   label: 'Female',
+                },
+                {
+                  value: 0,
+                  label: 'Other',
                 },
               ]}
             />
             <Input
-              type="multiselect"
+              type="min-max"
+              label="Age"
+              placeholder="Please Select"
+              value={state.age}
+              onValue={(age) => setState({ ...state, age })}
+            />
+            <Input
+              type="select"
               label="Ethnicity"
               placeholder="Please Select"
               value={state.ethnicity}
               onValue={(ethnicity) => setState({ ...state, ethnicity })}
             />
             <Input
-              type="multiselect"
+              type="select"
+              label="Struggles"
+              placeholder="Please Select"
+              value={state.struggles}
+              onValue={(struggles) => setState({ ...state, struggles })}
+            />
+            <Input
+              type="select"
               label="Interests"
               placeholder="Please Select"
               value={state.interests}
               onValue={(interests) => setState({ ...state, interests })}
+            />
+            <Input
+              type="select"
+              label="Influencer Size"
+              placeholder="Please Select"
+              value={state.influencerSize}
+              onValue={(influencerSize) =>
+                setState({ ...state, influencerSize })
+              }
             />
             <GridCell columnSpan={2}>
               <Input
@@ -225,12 +274,19 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               value={state.postType}
               onValue={(postType) => setState({ ...state, postType })}
             />
-            <GridCell columnSpan={2}>
+            <GridCell columnSpan={1}>
               <InputLabel>Image</InputLabel>
               <Button color="default" variant="contained" onClick={handleFile}>
                 Upload
               </Button>
             </GridCell>
+            <Input
+              type="text"
+              label="Website"
+              placeholder="Please Enter"
+              value={state.website}
+              onValue={(website) => setState({ ...state, website })}
+            />
             <GridCell columnSpan={2}>
               <Input
                 multiline

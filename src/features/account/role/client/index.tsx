@@ -19,11 +19,12 @@ const AccountPage = ({ ...props }) => {
   const [filter, setFilter] = useState({
     firstname: '',
     lastName: '',
-    company: '',
-    role: '',
+    company: null,
+    role: null,
     diseaseArea: null,
-    location: '',
-    markets: '',
+    location: null,
+    industry: null,
+    markets: null,
     email: '',
     password: '',
     colleagues: [],
@@ -40,30 +41,30 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="text"
               label="First Name"
-              placeholder="John"
+              placeholder="Please Enter"
               value={filter.firstname}
               onValue={(firstname) => setFilter({ ...filter, firstname })}
             />
             <Input
               type="text"
               label="Last Name"
-              placeholder="Doe"
+              placeholder="Please Enter"
               value={filter.lastName}
               onValue={(lastName) => setFilter({ ...filter, lastName })}
             />
           </AccountStack>
           <AccountStack direction="horizontal">
             <Input
-              type="text"
+              type="select"
               label="Company"
-              placeholder="John"
+              placeholder="Please Select"
               value={filter.company}
               onValue={(company) => setFilter({ ...filter, company })}
             />
             <Input
-              type="text"
+              type="select"
               label="Role"
-              placeholder="Doe"
+              placeholder="Please Select"
               value={filter.role}
               onValue={(role) => setFilter({ ...filter, role })}
             />
@@ -72,14 +73,14 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="select"
               label="Disease Areas"
-              placeholder="Male"
+              placeholder="Please Select"
               value={filter.diseaseArea}
               onValue={(diseaseArea) => setFilter({ ...filter, diseaseArea })}
             />
             <Input
-              type="text"
+              type="select"
               label="Markets"
-              placeholder="John"
+              placeholder="Please Select"
               value={filter.markets}
               onValue={(markets) => setFilter({ ...filter, markets })}
             />
@@ -87,9 +88,16 @@ const AccountPage = ({ ...props }) => {
           <Input
             type="select"
             label="Location"
-            placeholder="Please select"
+            placeholder="Please Select"
             value={filter.location}
             onValue={(location) => setFilter({ ...filter, location })}
+          />
+          <Input
+            type="select"
+            label="Industry"
+            placeholder="Please Select"
+            value={filter.industry}
+            onValue={(industry) => setFilter({ ...filter, industry })}
           />
           <AccountChange>
             <Input
@@ -111,13 +119,6 @@ const AccountPage = ({ ...props }) => {
             />
             <AccountSpan onClick={openCpModal}>Change Password</AccountSpan>
           </AccountChange>
-          <Input
-            type="multiselect"
-            label="Add Colleagues"
-            placeholder="name@company.com;"
-            value={filter.colleagues}
-            onValue={(colleagues) => setFilter({ ...filter, colleagues })}
-          />
         </AccountForm>
       </AccountContainer>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
