@@ -1,28 +1,31 @@
+import { AuthorizationAPI } from 'api';
 import Project from 'constants/project';
-import type { NextRequest } from 'next/server';
 
-export const validateToken = async (req: NextRequest) => {
+export const validateToken = async () => {
   try {
-    const token = req.cookies.get('Authorization')?.value;
-    if (!token) {
-      throw 'Token not found'!;
-    }
+    // const user = await fetch(`${Project.apis.v1}/pingAuth`, {
+    //   method: 'GET',
+    //   credentials: 'include'
+    // }).then((x) => {
+    //   console.log(x.status, x.statusText);
 
-    const { user } = await fetch(`${Project.apis.v1}/auth/me`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((x) => x.json());
+    //   if (x.ok) {
+    //     return x.json()
+    //   }
+    //   throw new Error('Invalid token.')
+    // });
+    await fetch(`${Project.apis.v1}/pingAuth`, {
+      credentials: 'include',
+      headers: new Headers({ 'Content-Type': 'application/json' }),
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error('Middleware error');
+      }
 
-    if (!user) {
-      throw 'Token not valid'!;
-    }
+      return res.json();
+    });
     return true;
   } catch {
-    if (req.cookies.has('Authorization')) {
-      req.cookies.delete('Authorization');
-    }
     return false;
   }
 };

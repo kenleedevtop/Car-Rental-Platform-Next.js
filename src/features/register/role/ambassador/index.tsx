@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   RegisterTitle,
   RegisterSubtitle,
@@ -18,7 +18,7 @@ import {
   lastNameSchema,
   passwordSchema,
 } from 'utilities/validators';
-import { AuthorizationAPI } from 'api';
+import { AmbassadorAPI, CompanyAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
@@ -28,12 +28,14 @@ const RegisterPage = () => {
   const [state, setState] = useState({
     firstName: '',
     lastName: '',
-    company: {
-      name: '',
-      role: '',
-    },
     email: '',
     password: '',
+    companyTitleId: '',
+    invCode: 'dsadsadsqedq2131',
+    company: {
+      name: '',
+      companyId: '',
+    },
   });
 
   const [counter, setCounter] = useState(0);
@@ -45,6 +47,7 @@ const RegisterPage = () => {
   const { t } = useTranslation('register');
 
   const [errors, setErrors] = useState([
+    false,
     false,
     false,
     false,
@@ -64,16 +67,17 @@ const RegisterPage = () => {
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
-    !state.company.name ||
-    !state.company.role ||
     !state.email ||
     !state.password ||
+    !state.companyTitleId ||
+    !state.company.name ||
+    !state.company.companyId ||
     !!errors.find((x) => x) ||
     counter === 1;
 
   const handleRegister = async () => {
     try {
-      await AuthorizationAPI.registerAsCompany(state, router.locale as string);
+      await AmbassadorAPI.registration(state);
       openCrModal();
     } catch (e: any) {
       let step = 0;
@@ -91,26 +95,59 @@ const RegisterPage = () => {
     closeCrModal();
   };
 
+  const [companies, setCompanies] = useState<any>([]);
+  const [titles, setTitles] = useState<any>([]);
+
+  const getCompanies = async () => {
+    const { result } = await CompanyAPI.getAll();
+
+    setCompanies(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getTitles = async () => {
+    const { result } = await CompanyAPI.getAllTitles();
+
+    setTitles(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  useEffect(() => {
+    getCompanies();
+    getTitles();
+  }, []);
+
+  useEffect(() => {
+    console.log('AAAA', state);
+  }, [state]);
+
   return (
     <RegisterCompanyMain>
-      <RegisterTitle>{t('Sign Up as Ambassador')}</RegisterTitle>
+      <RegisterTitle>Sign Up as Ambassador</RegisterTitle>
       <RegisterSubtitle>
-        {t(
-          'Lead the revolution to empower patients and transform healthcare for the better by leveraging your expertise and network with us.'
-        )}
+        Lead the revolution to empower patients and transform healthcare for the
+        better by leveraging your expertise and network with us.
       </RegisterSubtitle>
       <RegisterCompanyTopStack direction="horizontal">
         <RegisterCompanyFName
           type="text"
-          label={t('First Name') as string}
+          label="First Name"
           required
-          placeholder={t('Please Enter your First Name') as string}
+          placeholder="Please Enter your First Name"
           value={state.firstName}
           onValue={(firstName) => setState({ ...state, firstName })}
           errorCallback={handleErrors(0)}
           validators={[
             {
-              message: t('First name is required'),
+              message: 'First name is required',
               validator: (firstName) => {
                 const v = firstName as string;
                 if (v.trim()) return true;
@@ -118,7 +155,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: t('First name needs to be at least 2 characters long'),
+              message: 'First name needs to be at least 2 characters long',
               validator: (firstName) => {
                 try {
                   firstNameSchema.validateSync({ firstName });
@@ -132,15 +169,15 @@ const RegisterPage = () => {
         />
         <RegisterCompanyLName
           type="text"
-          label={t('Last Name') as string}
+          label="Last Name"
           required
-          placeholder={t('Please Enter your Last Name') as string}
+          placeholder="Please Enter your Last Name"
           value={state.lastName}
           onValue={(lastName) => setState({ ...state, lastName })}
           errorCallback={handleErrors(1)}
           validators={[
             {
-              message: t('Last name is required'),
+              message: 'Last name is required',
               validator: (lastName) => {
                 const v = lastName as string;
                 if (v.trim()) return true;
@@ -148,7 +185,7 @@ const RegisterPage = () => {
               },
             },
             {
-              message: t('Last name needs to be at least 2 characters long'),
+              message: 'Last name needs to be at least 2 characters long',
               validator: (lastName) => {
                 try {
                   lastNameSchema.validateSync({ lastName });
@@ -163,59 +200,61 @@ const RegisterPage = () => {
       </RegisterCompanyTopStack>
       <RegisterCompanyBottomStack direction="horizontal">
         <RegisterCompanyCompany
-          type="text"
-          label={t('Company') as string}
-          required
-          placeholder={t('Please Enter your Company') as string}
+          type="select"
+          label="Company"
+          placeholder="Please Enter your Company"
           value={state.company.name}
-          onValue={(name) =>
-            setState({ ...state, company: { ...state.company, name } })
+          onValue={(value) =>
+            setState({
+              ...state,
+              company: { name: value.label, companyId: value.value },
+            })
           }
-          errorCallback={handleErrors(2)}
-          validators={[
-            {
-              message: t('Company is required'),
-              validator: (company) => {
-                const v = company as string;
-                if (v.trim()) return true;
-                return false;
-              },
-            },
-          ]}
+          options={companies}
+          // errorCallback={handleErrors(2)}
+          // validators={[
+          //   {
+          //     message: 'Company is required',
+          //     validator: (company) => {
+          //       const v = company as string;
+          //       if (v.trim()) return true;
+          //       return false;
+          //     },
+          //   },
+          // ]}
         />
         <RegisterCompanyRole
-          type="text"
-          label={t('Role') as string}
-          required
-          placeholder={t('Please Enter your Role') as string}
-          value={state.company.role}
-          onValue={(role) =>
-            setState({ ...state, company: { ...state.company, role } })
-          }
-          errorCallback={handleErrors(3)}
-          validators={[
-            {
-              message: t('Role is required'),
-              validator: (role) => {
-                const v = role as string;
-                if (v.trim()) return true;
-                return false;
-              },
-            },
-          ]}
+          type="select"
+          label="Role"
+          // required
+          placeholder="Please Enter your Role"
+          value={state.companyTitleId}
+          onValue={({ value }) => setState({ ...state, companyTitleId: value })}
+          options={titles}
+          // errorCallback={handleErrors(3)}
+          // validators={[
+          //   {
+          //     message: 'Role is required',
+          //     validator: (role) => {
+          //       const v = role as string;
+          //       if (v.trim()) return true;
+          //       return false;
+          //     },
+          //   },
+          // ]}
         />
       </RegisterCompanyBottomStack>
       <Input
         type="text"
-        label={t('Email') as string}
+        label="Email"
         required
-        placeholder={t('Please Enter your Email') as string}
+        placeholder="Please Enter your Email"
         value={state.email}
         onValue={(email) => setState({ ...state, email })}
         errorCallback={handleErrors(4)}
         validators={[
           {
-            message: t('Email is required'),
+            message: 'Email is required',
             validator: (email) => {
               const v = email as string;
               if (v.trim()) return true;
@@ -223,7 +262,7 @@ const RegisterPage = () => {
             },
           },
           {
-            message: t('Not a valid email format'),
+            message: 'Not a valid email format',
             validator: (email) => {
               try {
                 emailSchema.validateSync({ email });
@@ -237,15 +276,15 @@ const RegisterPage = () => {
       />
       <Input
         type="password"
-        label={t('Password') as string}
+        label="Password"
         required
-        placeholder={t('Please Enter your Password') as string}
+        placeholder="Please Enter your Password"
         value={state.password}
         onValue={(password) => setState({ ...state, password })}
         errorCallback={handleErrors(5)}
         validators={[
           {
-            message: t('Password is required'),
+            message: 'Password is required',
             validator: (password) => {
               const v = password as string;
               if (v.trim()) return true;
@@ -253,9 +292,8 @@ const RegisterPage = () => {
             },
           },
           {
-            message: t(
-              'Password must have at least one uppercase, lowercase letter, number and symbol'
-            ),
+            message:
+              'Password must have at least one uppercase, lowercase letter, number and symbol',
             validator: (password) => {
               try {
                 passwordSchema.validateSync({ password });
@@ -274,9 +312,8 @@ const RegisterPage = () => {
         disabled={isDisabled}
         onClick={handleRegister}
       >
-        {t('SIGN UP NOW')}
+        SIGN UP NOW
       </Button>
-      <RegisterLocalization />
       {crModal && (
         <ConfirmRegistrationModal email={state.email} onClose={handleClose} />
       )}

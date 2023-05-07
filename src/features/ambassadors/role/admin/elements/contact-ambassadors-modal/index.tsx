@@ -10,9 +10,8 @@ const ContactAmbassadorsModal = ({
 }: TContactAmbassadorsModalProps) => {
   const [state, setState] = useState({
     subject: '',
-    recipient: [],
+    emailType: 'template',
     message: '',
-    type: 0,
   });
 
   return (
@@ -41,21 +40,35 @@ const ContactAmbassadorsModal = ({
           onValue={(subject) => setState({ ...state, subject })}
         />
         <Input
-          type="multiselect"
-          label="Recipient"
-          placeholder="Select Recipient"
-          value={state.recipient}
-          onValue={(recipient) => setState({ ...state, recipient })}
+          type="select"
+          label="Email type"
+          placeholder="Select Email type"
+          value={state.emailType}
+          onValue={(emailType) =>
+            setState({ ...state, emailType: emailType.value })
+          }
+          options={[
+            {
+              value: 'template',
+              label: 'Template',
+            },
+            {
+              value: 'custom',
+              label: 'Custom',
+            },
+          ]}
         />
-        <Input
-          multiline
-          rows={state.type ? 8 : 5}
-          type="text"
-          label="Message"
-          placeholder="Your Message"
-          value={state.message}
-          onValue={(message) => setState({ ...state, message })}
-        />
+        {state.emailType === 'custom' && (
+          <Input
+            multiline
+            rows={5}
+            type="text"
+            label="Message"
+            placeholder="Your Message"
+            value={state.message}
+            onValue={(message) => setState({ ...state, message })}
+          />
+        )}
       </ContactAmbassadorsModalMain>
     </Modal>
   );

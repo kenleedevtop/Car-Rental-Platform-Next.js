@@ -4,7 +4,7 @@ import {
   SmlPageFilter,
   SmlPageFilterActions,
 } from 'features/sml-reports/styles';
-import { CardWithText, Table, Tabs } from 'components/custom';
+import { CardWithText, CheckboxTable, Tabs } from 'components/custom';
 import { SlidersHorizontalIcon } from 'components/svg';
 import { Button, Card, Input, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
@@ -348,7 +348,7 @@ const SMLReportPage = () => {
               <Stack direction="horizontal">
                 <Stack>
                   <InputLabel>Most Mentioned Phrases - Brand</InputLabel>
-                  <Table
+                  <CheckboxTable
                     head={[
                       {
                         reference: 'phrase',
@@ -373,7 +373,7 @@ const SMLReportPage = () => {
                 </Stack>
                 <Stack>
                   <InputLabel>Most Mentioned Phrases - Product</InputLabel>
-                  <Table
+                  <CheckboxTable
                     head={[
                       {
                         reference: 'phrase',
@@ -750,7 +750,7 @@ const SMLReportPage = () => {
                 </Stack>
                 <Stack>
                   <InputLabel>Most Mentioned Phrases - Symptoms</InputLabel>
-                  <Table
+                  <CheckboxTable
                     head={[
                       {
                         reference: 'phrase',
@@ -1029,7 +1029,7 @@ const SMLReportPage = () => {
                 </Stack>
                 <Stack>
                   <InputLabel>Most Mentioned Phrases - All</InputLabel>
-                  <Table
+                  <CheckboxTable
                     head={[
                       {
                         reference: 'phrase',
@@ -1545,7 +1545,7 @@ const SMLReportPage = () => {
           <Card>
             <Stack>
               <InputLabel>Most Liked</InputLabel>
-              <Table
+              <CheckboxTable
                 head={[
                   {
                     reference: 'caption',
@@ -1572,7 +1572,7 @@ const SMLReportPage = () => {
           <Card>
             <Stack>
               <InputLabel>Most Commented</InputLabel>
-              <Table
+              <CheckboxTable
                 head={[
                   {
                     reference: 'caption',
@@ -1619,7 +1619,7 @@ const SMLReportPage = () => {
                 </Stack>
                 <Stack>
                   <InputLabel>Most Mentioned Phrases - All</InputLabel>
-                  <Table
+                  <CheckboxTable
                     head={[
                       {
                         reference: 'phrase',

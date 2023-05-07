@@ -9,7 +9,7 @@ import {
   CardWithChart,
   CardWithText,
   Menu,
-  Table,
+  CheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
@@ -325,28 +325,28 @@ const DiscoverClientsPage = () => {
             tabs={['Identified', 'Contacted', 'Registered', 'Scheduled']}
           />
           {tabs === 0 && (
-            <Table
+            <CheckboxTable
               head={DClientsHeadIdentified}
               items={[]}
               renderItem={() => {}}
             />
           )}
           {tabs === 1 && (
-            <Table
+            <CheckboxTable
               head={DClientsHeadContacted}
               items={[]}
               renderItem={() => {}}
             />
           )}
           {tabs === 2 && (
-            <Table
+            <CheckboxTable
               head={DClientsHeadRegistered}
               items={[]}
               renderItem={() => {}}
             />
           )}
           {tabs === 3 && (
-            <Table
+            <CheckboxTable
               head={DClientsHeadScheduled}
               items={[]}
               renderItem={() => {}}

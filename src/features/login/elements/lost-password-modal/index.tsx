@@ -25,13 +25,13 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
   const handleReset = async () => {
     try {
       const { message } = await AuthorizationAPI.resetPassword(
-        { email },
-        locale
+        { email }
+        // , locale
       );
-      push(message, { variant: 'success' });
+      push('Password reset email sent successfully.', { variant: 'success' });
       onClose();
     } catch (e: any) {
-      push(e.response.data.message, { variant: 'error' });
+      push('Password reset unsuccessful', { variant: 'error' });
     }
   };
 

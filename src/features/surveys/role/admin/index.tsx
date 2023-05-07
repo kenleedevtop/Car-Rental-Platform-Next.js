@@ -9,7 +9,7 @@ import {
   CardWithChart,
   CardWithText,
   Menu,
-  Table,
+  CheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
@@ -244,7 +244,7 @@ const SurveyPage = () => {
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <Table
+          <CheckboxTable
             head={[
               {
                 reference: 'survey',

@@ -88,3 +88,5 @@ export { default as CampaignsLocationIcon } from 'components/svg/campaigns-locat
 export { default as CampaignsDiseaseIcon } from 'components/svg/campaigns-diseasearea';
 export { default as CampaignsStruggleIcon } from 'components/svg/campaigns-struggle';
 export { default as InviteIcon } from 'components/svg/invite';
+export { default as ManageColumnsIcon } from 'components/svg/manage-columns';
+export { default as CarretDownIcon } from 'components/svg/carret-down';

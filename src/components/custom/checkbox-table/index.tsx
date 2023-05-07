@@ -18,6 +18,12 @@ import { useModal } from 'hooks';
 import { Modal } from 'components/custom';
 import { Button, Checkbox } from 'components/ui';
 import { Reorder } from 'framer-motion';
+import { Stack } from 'components/system';
+import {
+  ArrowDownIcon,
+  CarretDownIcon,
+  ManageColumnsIcon,
+} from 'components/svg';
 import { OrderListDraggable } from './elements';
 
 const Table = ({
@@ -30,23 +36,48 @@ const Table = ({
 
   const visibleItems = localHead.filter((x) => x.visible);
 
+  const [headCheckbox, setHeadCheckbox] = useState(false);
+
+  const handleHeadCheckbox = () => {
+    setHeadCheckbox(!headCheckbox);
+  };
+
+  const [checkbox, setCheckbox] = useState(false);
+
+  const handleCheckbox = () => {
+    if (headCheckbox) {
+      setCheckbox(!headCheckbox);
+    } else {
+      setCheckbox(!checkbox);
+    }
+  };
+
   return (
     <>
+      <Stack style={{ justifyContent: 'flex-end' }} direction="horizontal">
+        <TableHeadCellAction color="primary" onClick={openTModal}>
+          <ManageColumnsIcon />
+        </TableHeadCellAction>
+        <Button
+          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+          color="default"
+          variant="contained"
+          size="large"
+          onClick={() => {}}
+        >
+          Bulk Action <CarretDownIcon />
+        </Button>
+      </Stack>
       <TableWrapper>
         <TableMain>
           <TableHead>
             <TableHeadRow>
               <TableHeadCell>
-                <Checkbox />
+                <Checkbox value={headCheckbox} onValue={handleHeadCheckbox} />
               </TableHeadCell>
               {visibleItems.map((x: any) => (
                 <TableHeadCell key={x.reference}>{x.label}</TableHeadCell>
               ))}
-              <TableHeadCell action>
-                <TableHeadCellAction color="primary" onClick={openTModal}>
-                  <BackupTableRounded />
-                </TableHeadCellAction>
-              </TableHeadCell>
             </TableHeadRow>
           </TableHead>
           {!!items.length && (
@@ -54,7 +85,7 @@ const Table = ({
               {items.map((x: any, y: number) => (
                 <TableBodyRow>
                   <TableBodyCell>
-                    <Checkbox />
+                    <Checkbox value={checkbox} onValue={handleCheckbox} />
                   </TableBodyCell>
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
                     <TableBodyCell>

@@ -1,16 +1,38 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { CUnprotectedRoutes, CProtectedRoutes } from 'constants/routes';
-import { validateToken } from 'utilities/validate-token';
+import Project from 'constants/project';
 
 const PUBLIC_FILE = /\.(.*)$/;
 
-export async function middleware(request: NextRequest) {
-  const { pathname, locale, defaultLocale } = request.nextUrl;
+const checkLoggedIn = async () => {
+  try {
+    const res = await fetch(`${Project.apis.v1}/pingAuth`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    });
 
-  console.log('====================================');
-  console.log(pathname);
-  console.log('====================================');
+    console.log(res.headers);
+
+    const a = await res.json();
+
+    console.log(a);
+
+    if (!res.ok) {
+      throw new Error('Bad ping');
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+export const middleware = async (request: NextRequest) => {
+  const { pathname, locale, defaultLocale } = request.nextUrl;
 
   if (
     pathname.startsWith('/_next') || // exclude Next.js internals
@@ -21,7 +43,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const loggedIn = await validateToken(request);
+  const loggedIn = await checkLoggedIn();
+
   const withLocale = locale === defaultLocale ? '' : `/${locale}`;
 
   const isProtectedRoute = CProtectedRoutes.includes(pathname);
@@ -34,4 +57,4 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL(`${withLocale}/login`, request.url));
   }
   return NextResponse.next();
-}
+};

@@ -17,60 +17,23 @@ export type TMeResponse = {
     id: string;
     firstName: string;
     lastName: string;
-    username: string;
-    email: string;
     role: Array<TUserRole>;
   };
 };
 
-export type TChangePasswordParams = {
-  oldPassword: string;
-  newPassword: string;
+export type TResetPassword = {
+  email: string;
 };
 
-export type TResetPasswordWithTokenParams = {
+export type TConfirmResetPassword = {
+  password: string;
   token: string;
-  newPassword: string;
 };
 
-export type TVerifyEmailParams = {
+export type TEmailConfirmation = {
   token: string;
-  id: string;
 };
 
-export type TResetPasswordParams = {
-  email: string;
-};
-
-export type TRegisterAsInfluencerParams = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-};
-
-export type TRegisterAsCompanyParams = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  company: {
-    name: string;
-    role: string;
-  };
-};
-
-export type TRegisterAsAmbassadorParams = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  company: {
-    name: string;
-    role: string;
-  };
-};
-
-export type TResendVerificationEmail = {
+export type TResendEmailConfirmation = {
   email: string;
 };

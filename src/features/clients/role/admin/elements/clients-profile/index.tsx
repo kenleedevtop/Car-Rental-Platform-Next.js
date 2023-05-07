@@ -13,9 +13,8 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
   const [state, setState] = useState({
     clientName: '',
     email: '',
-    role: '',
-    phone: '',
     company: null,
+    role: '',
     product: null,
     industry: null,
     diseaseArea: null,
@@ -79,97 +78,71 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
           onValue={setTab}
         />
         {tab === 0 && (
-          <ClientsProfileModalMain columns={1}>
-            <Stack direction="horizontal">
-              <Input
-                disabled={editActive}
-                type="text"
-                label="Client Name"
-                placeholder="Please Enter"
-                value={state.clientName}
-                onValue={(clientName) => setState({ ...state, clientName })}
-              />
-              <Input
-                disabled={editActive}
-                type="text"
-                label="Email"
-                placeholder="Please Enter"
-                value={state.email}
-                onValue={(email) => setState({ ...state, email })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                disabled={editActive}
-                type="text"
-                label="Role"
-                placeholder="Please Enter"
-                value={state.role}
-                onValue={(role) => setState({ ...state, role })}
-              />
-              <Input
-                disabled={editActive}
-                type="text"
-                label="Phone Number"
-                placeholder="Please Enter"
-                value={state.phone}
-                onValue={(phone) => setState({ ...state, phone })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                disabled={editActive}
-                type="select"
-                label="Company"
-                placeholder="Please Select"
-                value={state.company}
-                onValue={(company) => setState({ ...state, company })}
-              />
-              <Input
-                disabled={editActive}
-                type="select"
-                label="Product"
-                placeholder="Please Select"
-                value={state.product}
-                onValue={(product) => setState({ ...state, product })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                disabled={editActive}
-                type="select"
-                label="Industry"
-                placeholder="Please Select"
-                value={state.industry}
-                onValue={(industry) => setState({ ...state, industry })}
-              />
-              <Input
-                disabled={editActive}
-                type="select"
-                label="Disease Area"
-                placeholder="Please Select"
-                value={state.diseaseArea}
-                onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
-              />
-            </Stack>
-            <Stack direction="horizontal">
-              <Input
-                disabled={editActive}
-                type="select"
-                label="Location"
-                placeholder="Please Select"
-                value={state.location}
-                onValue={(location) => setState({ ...state, location })}
-              />
-              <Input
-                disabled={editActive}
-                type="select"
-                label="Market"
-                placeholder="Please Select"
-                value={state.market}
-                onValue={(market) => setState({ ...state, market })}
-              />
-            </Stack>
+          <ClientsProfileModalMain columns={2}>
+            <Input
+              disabled={editActive}
+              type="text"
+              label="Email"
+              placeholder="Please Enter"
+              value={state.email}
+              onValue={(email) => setState({ ...state, email })}
+            />
+            <Input
+              disabled={editActive}
+              type="text"
+              label="Role"
+              placeholder="Please Enter"
+              value={state.role}
+              onValue={(role) => setState({ ...state, role })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Company"
+              placeholder="Please Select"
+              value={state.company}
+              onValue={(company) => setState({ ...state, company })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Product"
+              placeholder="Please Select"
+              value={state.product}
+              onValue={(product) => setState({ ...state, product })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Industry"
+              placeholder="Please Select"
+              value={state.industry}
+              onValue={(industry) => setState({ ...state, industry })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Disease Area"
+              placeholder="Please Select"
+              value={state.diseaseArea}
+              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Location"
+              placeholder="Please Select"
+              value={state.location}
+              onValue={(location) => setState({ ...state, location })}
+            />
+            <Input
+              disabled={editActive}
+              type="select"
+              label="Market"
+              placeholder="Please Select"
+              value={state.market}
+              onValue={(market) => setState({ ...state, market })}
+            />
           </ClientsProfileModalMain>
         )}
         {tab === 1 && (

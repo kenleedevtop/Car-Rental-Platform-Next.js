@@ -20,7 +20,7 @@ import {
   CardWithChart,
   CardWithText,
   IconWithText,
-  Table,
+  CheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
@@ -202,7 +202,7 @@ const IncomePage = () => {
                   </IncomePageFilterActions>
                 </IncomePageFilter>
               </Collapse>
-              <Table
+              <CheckboxTable
                 head={[
                   {
                     reference: 'statement',
@@ -319,7 +319,7 @@ const IncomePage = () => {
                   </IncomePageFilterActions>
                 </IncomePageFilter>
               </Collapse>
-              <Table
+              <CheckboxTable
                 head={[
                   {
                     reference: 'userName',

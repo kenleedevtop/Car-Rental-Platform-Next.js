@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SidebarItemNestedMain,
   SidebarItemNestedOuter,
@@ -18,28 +18,24 @@ const SidebarItemNested = ({
   icon,
   label,
   items,
+  item,
   ...props
 }: TSidebarItemNestedProps) => {
   const router = useRouter();
 
   const active = items.map((x) => x.location).includes(router.pathname);
-
-  const [expanded, setExpanded] = useState(active);
-
-  const handleDropdown = () => {
-    setExpanded(!expanded);
-  };
+  const { state } = item;
 
   return (
     <SidebarItemNestedOuter active={active} {...props}>
-      <SidebarItemNestedMain onClick={handleDropdown}>
+      <SidebarItemNestedMain>
         <SidebarItemNestedIcon>{icon}</SidebarItemNestedIcon>
         <SidebarItemNestedLabel>{label}</SidebarItemNestedLabel>
-        <SidebarItemNestedExpandIcon expanded={expanded}>
+        <SidebarItemNestedExpandIcon expanded={state}>
           <ArrowDownIcon />
         </SidebarItemNestedExpandIcon>
       </SidebarItemNestedMain>
-      <SidebarItemNestedDropDown expanded={expanded}>
+      <SidebarItemNestedDropDown expanded={state}>
         {items.map((x: TSidebarSubItem) => (
           <SidebarItemNestedDropDownSubItem href={x.location} key={x.id}>
             <SidebarItemNestedDropDownSubItemLabel

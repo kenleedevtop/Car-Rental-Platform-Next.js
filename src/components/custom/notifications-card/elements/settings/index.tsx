@@ -25,7 +25,7 @@ const NotificationSettings = ({ onClose, ...props }: TNotificationSettings) => {
     submited: false,
     inPreparation: false,
     finished: false,
-    reportPending: false,
+    withdrawalRequest: false,
     registeredAmbassador: false,
     clientMessage: false,
     influencerMessage: false,
@@ -270,10 +270,10 @@ const NotificationSettings = ({ onClose, ...props }: TNotificationSettings) => {
               />
               <Switch
                 color="secondary"
-                label="Report Pending"
-                value={state.reportPending}
-                onValue={(reportPending) =>
-                  setState({ ...state, reportPending })
+                label="Withdrawal Request"
+                value={state.withdrawalRequest}
+                onValue={(withdrawalRequest) =>
+                  setState({ ...state, withdrawalRequest })
                 }
               />
             </Stack>

@@ -9,7 +9,7 @@ import {
 import {
   CardWithChart,
   CardWithText,
-  Table,
+  CheckboxTable,
   Tabs,
   Title,
 } from 'components/custom';
@@ -213,7 +213,7 @@ const SmlPage = () => {
             onValue={setTabsValue}
           />
           <Title title="Of Interest" />
-          <Table
+          <CheckboxTable
             head={[
               {
                 reference: 'report',

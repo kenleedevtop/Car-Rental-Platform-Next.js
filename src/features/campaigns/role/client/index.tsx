@@ -13,7 +13,7 @@ import {
   CardWithChart,
   CardWithProgress,
   CardWithText,
-  Table,
+  CheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
@@ -388,7 +388,11 @@ const CampaignsPage = () => {
             onValue={setTabs}
             tabs={['In Preparation', 'Ongoing', 'Finished', 'Report Received']}
           />
-          <Table head={DCampaignsHead} items={[]} renderItem={renderItem} />
+          <CheckboxTable
+            head={DCampaignsHead}
+            items={[]}
+            renderItem={renderItem}
+          />
           <Pagination count={32} />
         </Stack>
       </CardWithText>

@@ -34,18 +34,18 @@ const ChangePassword = () => {
   const handleChange = async () => {
     try {
       if (query.token && state.password === state.confirmPassword) {
-        const { message } = await AuthorizationAPI.resetPasswordWithToken(
+        const { message } = await AuthorizationAPI.confirmResetPassword(
           {
-            newPassword: state.password,
+            password: state.password,
             token: query.token as string,
-          },
-          locale
+          }
+          // locale
         );
-        push(message, { variant: 'success' });
+        push('Password successfully reseted.', { variant: 'success' });
         router.push('/login');
       }
     } catch (e: any) {
-      push(e.response.data.message, { variant: 'error' });
+      push('Password reset was unsuccessful.', { variant: 'error' });
     }
   };
 

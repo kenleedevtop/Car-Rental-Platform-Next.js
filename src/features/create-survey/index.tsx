@@ -1,4 +1,4 @@
-import { CardWithText, Table, Tabs, Title } from 'components/custom';
+import { CardWithText, CheckboxTable, Tabs, Title } from 'components/custom';
 import React, { useEffect, useState } from 'react';
 import { Question } from 'features/create-survey/elements';
 import {
@@ -230,7 +230,7 @@ const CreateSurveyPage = () => {
 
       {tab === 2 && (
         <CardWithText title="Survey" description="Influencers">
-          <Table
+          <CheckboxTable
             head={[
               {
                 reference: 'username',

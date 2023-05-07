@@ -12,6 +12,7 @@ import Cookies from 'js-cookie';
 import { TLoginParams } from 'api/authorization/types';
 import axios from 'axios';
 import { LoadingPage } from 'features';
+import { convertNumberToRole } from 'utilities/converters';
 
 const AppContext = createContext(createInitialState());
 
@@ -34,48 +35,54 @@ const AppContextProvider = ({ ...props }) => {
     setState((x) => ({ ...x, routeName }));
   };
 
-  const logout = () => {
-    Cookies.remove('Authorization');
-    axios.defaults.headers.common.Authorization = null;
+  const logout = async () => {
+    await AuthorizationAPI.logout();
   };
 
   const getMeData = async () => {
     try {
-      const { user } = await AuthorizationAPI.me();
+      const user = await AuthorizationAPI.me();
 
       if (!user) throw 'No user returned';
 
-      const roleResult = user.role.find((_x) => true);
+      const roleResult = convertNumberToRole(user.role);
 
       if (!roleResult) throw 'No role found';
 
       setState({ ...state, user, role: roleResult, initialLoading: false });
+
+      return user;
     } catch {
       setState({ ...state, initialLoading: false });
     }
+
+    return '';
   };
 
-  // const login = async (body: TLoginParams, locale?: string) => {
-  //   const { token, attempt, role, affiliateLink } =
-  //     await AuthorizationAPI.login(body, locale);
-  //   return { role, affiliateLink, attempt };
-  // };
-
   const login = async (body: TLoginParams) => {
-    const { token } = await AuthorizationAPI.login(body);
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    Cookies.set('Authorization', token);
-    await getMeData();
+    await AuthorizationAPI.login(body);
+
+    // Cookies.set('Authorization', token);
+    const user = await getMeData();
+
+    return user;
   };
 
   useEffect(() => {
-    const token = Cookies.get('Authorization');
-    if (token) {
-      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-      getMeData();
-    } else {
-      setState({ ...state, initialLoading: false });
-    }
+    (async () => {
+      try {
+        await getMeData();
+      } catch {
+        setState({ ...state, initialLoading: false });
+      }
+    })();
+    // const token = Cookies.get('Authorization');
+    // if (token) {
+    //   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    //   getMeData();
+    // } else {
+    //   setState({ ...state, initialLoading: false });
+    // }
   }, []);
 
   const providerValue = useMemo(

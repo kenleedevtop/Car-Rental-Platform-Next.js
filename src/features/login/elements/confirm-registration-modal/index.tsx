@@ -11,16 +11,15 @@ import {
 import { Button } from 'components/ui';
 import { useTranslation } from 'react-i18next';
 import { AuthorizationAPI } from 'api';
-import { TResendVerificationEmail } from 'api/authorization/types';
 import { AxiosError } from 'axios';
 import { useSnackbar } from 'hooks';
 import { useRouter } from 'next/router';
+import { TResendEmailConfirmation } from 'api/authorization/types';
 
 const ConfirmRegistrationModal = ({
   onClose,
   email,
-  attempt,
-  incrementAttempt,
+  role,
   ...props
 }: TConfirmRegistrationModalProps) => {
   const { t } = useTranslation('login');
@@ -29,26 +28,18 @@ const ConfirmRegistrationModal = ({
 
   const [clicked, setClicked] = useState(false);
 
-  const resendVerification = async (body: TResendVerificationEmail) => {
+  const resendVerification = async (body: TResendEmailConfirmation) => {
     try {
-      await AuthorizationAPI.resendVerificationEmail(body, locale);
+      await AuthorizationAPI.resendEmailConfirmation(body);
+      setClicked(true);
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
         push(e.response.data.message, {
           variant: 'error',
         });
-        setClicked(true);
       }
     }
   };
-
-  useEffect(() => {
-    if (attempt > 1) {
-      setClicked(true);
-    } else {
-      setClicked(false);
-    }
-  }, [attempt]);
 
   const resentMessage = (
     <p>
@@ -66,7 +57,6 @@ const ConfirmRegistrationModal = ({
         onClick={(e) => {
           e.preventDefault();
           resendVerification({ email });
-          incrementAttempt();
         }}
       >
         {t('resend the confirmation email to you.')}
