@@ -16,6 +16,7 @@ export const MenuItem = styled.div<{ theme?: Theme }>`
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    place-items: center;
     align-items: center;
     gap: ${theme.spacing(2)};
     cursor: pointer;
@@ -31,6 +32,7 @@ export const MenuItemIcon = styled.div<{ theme?: Theme }>`
 
     width: 14px;
     height: 14px;   
+    font-size: 12px;
     display: grid;
     place-items: center;
     color: ${theme.palette.common.gray[8]}80;
@@ -46,6 +48,7 @@ export const MenuItemIcon = styled.div<{ theme?: Theme }>`
 export const MenuItemLabel = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     font-size: 12px;
+    height: 100%;
     color: ${theme.palette.common.gray[8]};
     
     `}

@@ -29,8 +29,8 @@ const RegisterPage = () => {
   const [state, setState] = useState({
     firstName: '',
     lastName: '',
-    companyId: null,
-    companyTitleId: null,
+    companyId: 1,
+    companyTitleId: 1,
     // company: {
     //   name: 1,
     //   role: 1,

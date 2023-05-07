@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 export type TMenuProps = React.HTMLAttributes<HTMLDivElement> & {
   items: Array<{
-    icon: ReactNode;
+    icon?: ReactNode | string;
     label: string;
     action: () => void;
   }>;

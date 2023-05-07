@@ -50,8 +50,8 @@ const RegisterPage = () => {
     false,
     false,
     false,
-    false,
-    false,
+    // false,
+    // false,
     false,
     false,
   ]);
@@ -69,9 +69,9 @@ const RegisterPage = () => {
     !state.lastName ||
     !state.email ||
     !state.password ||
-    !state.companyTitleId ||
-    !state.company.name ||
-    !state.company.companyId ||
+    // !state.companyTitleId ||
+    // !state.company.name ||
+    // !state.company.companyId ||
     !!errors.find((x) => x) ||
     counter === 1;
 
@@ -124,10 +124,6 @@ const RegisterPage = () => {
     getCompanies();
     getTitles();
   }, []);
-
-  useEffect(() => {
-    console.log('AAAA', state);
-  }, [state]);
 
   return (
     <RegisterCompanyMain>

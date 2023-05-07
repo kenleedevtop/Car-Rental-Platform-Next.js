@@ -20,19 +20,11 @@ const AuthorizationAPI = {
   },
 
   emailConfirmation: async (body: TEmailConfirmation) => {
-    const { data } = await client.post(`/auth/emailConfirmation`, {
-      data: body,
-    });
-
-    return data;
+    await client.post(`/auth/emailConfirmation`, body);
   },
 
   resendEmailConfirmation: async (body: TResendEmailConfirmation) => {
-    const { data } = await client.post(`/auth/resendEmailConfirmation`, {
-      data: body,
-    });
-
-    return data;
+    await client.post(`/auth/resendEmailConfirmation`, body);
   },
 
   resetPassword: async (body: TResetPassword) => {

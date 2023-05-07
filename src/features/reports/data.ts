@@ -1,23 +1,269 @@
 export const DGenerateReportsFilter = () => ({
   search: '',
-  product: null,
-  company: null,
-  client: null,
-  report: null,
-  location: null,
-  diseaseArea: null,
-  platform: null,
-  promotionType: null,
-  influencerSize: null,
-  startDate: null,
-  endDate: null,
-  numberOfIfluencers: {
-    min: '',
-    max: '',
-  },
+  type: null,
   budget: {
     min: '',
     max: '',
   },
-  lable: [],
+  dateStart: null,
+  dateEnd: null,
+  influencers: {
+    min: '',
+    max: '',
+  },
+  reach: {
+    min: '',
+    max: '',
+  },
+  likes: {
+    min: '',
+    max: '',
+  },
+  comments: {
+    min: '',
+    max: '',
+  },
+  websiteClicks: {
+    min: '',
+    max: '',
+  },
+  engagement: {
+    min: '',
+    max: '',
+  },
+  costPerClick: {
+    min: '',
+    max: '',
+  },
+  costPerTarget: {
+    min: '',
+    max: '',
+  },
+  labels: null,
+
+  industry: null,
+  company: null,
+  client: null,
+  ambassador: null,
+  product: null,
 });
+
+export const DGenerateReportsClientsFilter = () => ({
+  search: '',
+  product: null,
+  type: null,
+  budget: {
+    min: '',
+    max: '',
+  },
+  dateStart: null,
+  dateEnd: null,
+  influencers: {
+    min: '',
+    max: '',
+  },
+  reach: {
+    min: '',
+    max: '',
+  },
+  likes: {
+    min: '',
+    max: '',
+  },
+  comments: {
+    min: '',
+    max: '',
+  },
+  websiteClicks: {
+    min: '',
+    max: '',
+  },
+  engagement: {
+    min: '',
+    max: '',
+  },
+  costPerClick: {
+    min: '',
+    max: '',
+  },
+  costPerTarget: {
+    min: '',
+    max: '',
+  },
+});
+
+export const DReportsClientHead = [
+  {
+    reference: 'campaign',
+    label: 'Campaign',
+    visible: true,
+  },
+  {
+    reference: 'type',
+    label: 'Type',
+    visible: true,
+  },
+  {
+    reference: 'budget',
+    label: 'Budget',
+    visible: true,
+  },
+  {
+    reference: 'date',
+    label: 'Date',
+    visible: false,
+  },
+  {
+    reference: 'influencers',
+    label: 'Influencers (Number)',
+    visible: false,
+  },
+  {
+    reference: 'reach',
+    label: 'Reach',
+    visible: false,
+  },
+  {
+    reference: 'likes',
+    label: 'Likes',
+    visible: false,
+  },
+  {
+    reference: 'comments',
+    label: 'Comments',
+    visible: false,
+  },
+  {
+    reference: 'websiteClicks',
+    label: 'Website Clicks',
+    visible: false,
+  },
+  {
+    reference: 'engagement',
+    label: 'Engagement',
+    visible: false,
+  },
+  {
+    reference: 'costPerClick',
+    label: 'Cost Per Click',
+    visible: true,
+  },
+  {
+    reference: 'costPerTarget',
+    label: 'Cost Per Target',
+    visible: true,
+  },
+  {
+    reference: 'costPerEngagement',
+    label: 'Cost Per Engagement',
+    visible: false,
+  },
+  {
+    reference: 'product',
+    label: 'Product',
+    visible: false,
+  },
+];
+
+export const DReportsHead = [
+  {
+    reference: 'client',
+    label: 'Client',
+    visible: true,
+  },
+  {
+    reference: 'campaign',
+    label: 'Campaign',
+    visible: true,
+  },
+  {
+    reference: 'type',
+    label: 'Type',
+    visible: true,
+  },
+  {
+    reference: 'budget',
+    label: 'Budget',
+    visible: true,
+  },
+  {
+    reference: 'date',
+    label: 'Date',
+    visible: false,
+  },
+  {
+    reference: 'influencers',
+    label: 'Influencers',
+    visible: false,
+  },
+  {
+    reference: 'reach',
+    label: 'Reach',
+    visible: false,
+  },
+  {
+    reference: 'likes',
+    label: 'Likes',
+    visible: false,
+  },
+  {
+    reference: 'comments',
+    label: 'Comments',
+    visible: false,
+  },
+  {
+    reference: 'websiteClicks',
+    label: 'Website Clicks',
+    visible: false,
+  },
+  {
+    reference: 'engagement',
+    label: 'Engagement',
+    visible: false,
+  },
+  {
+    reference: 'costPerClick',
+    label: 'Cost per Click',
+    visible: true,
+  },
+  {
+    reference: 'costPerTarget',
+    label: 'Cost per Target',
+    visible: true,
+  },
+  {
+    reference: 'costPerEngagement',
+    label: 'Cost per Engagement',
+    visible: false,
+  },
+  {
+    reference: 'labels',
+    label: 'Labels',
+    visible: false,
+  },
+  {
+    reference: 'industry',
+    label: 'Industry',
+    visible: false,
+  },
+  {
+    reference: 'company',
+    label: 'Company',
+    visible: false,
+  },
+  {
+    reference: 'ambassador',
+    label: 'Ambassador',
+    visible: false,
+  },
+  {
+    reference: 'product',
+    label: 'Product',
+    visible: false,
+  },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: false,
+  },
+];

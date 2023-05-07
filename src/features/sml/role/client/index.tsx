@@ -10,13 +10,19 @@ import {
   CardWithChart,
   CardWithText,
   CheckboxTable,
+  Menu,
   Tabs,
   Title,
 } from 'components/custom';
 import {
+  ContactIcon,
   ContactedIcon,
   IdentifiedIcon,
+  InfoIcon,
+  ManageIcon,
+  OrderedIcon,
   RegisteredIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
 } from 'components/svg';
@@ -27,13 +33,15 @@ import { Collapse } from '@mui/material';
 import { DGenerateSmlFilter } from 'features/sml/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
+  CreateSmlModal,
+  CreateSmlTabsModal,
   ExportSmlModal,
   //   CreateSmlModal,
   //   OrderSmlModal,
   //   CreateSmlTabsModal,
   //   CreateSmlFinal,
 } from 'features/sml/role/client/elements';
-import { useModal } from 'hooks';
+import { useMenu, useModal } from 'hooks';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
@@ -43,9 +51,9 @@ const SmlPage = () => {
   const [tabsValue, setTabsValue] = useState(0);
 
   const [esModal, openEsModal, closeEsModal] = useModal(false);
-  //   const [csModal, openCsModal, closeCsModal] = useModal(false);
+  const [csModal, openCsModal, closeCsModal] = useModal(false);
   //   const [osModal, openOsModal, closeOsModal] = useModal(false);
-  //   const [cstModal, openCstModal, closeCstModal] = useModal(false);
+  const [cstModal, openCstModal, closeCstModal] = useModal(false);
   //   const [csfModal, openCsfModal, closeCsfModal] = useModal(false);
 
   const toggleFilter = () => {
@@ -57,6 +65,24 @@ const SmlPage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
+
+  const [menuR, openR, setOpenR] = useMenu(false);
+  const [menuO, openO, setOpenO] = useMenu(false);
+  const [menuOn, openOn, setOpenOn] = useMenu(false);
+  const [menuS, openS, setOpenS] = useMenu(false);
+
+  const handleMenuR = () => {
+    setOpenR(!openR);
+  };
+  const handleMenuO = () => {
+    setOpenO(!openO);
+  };
+  const handleMenuOn = () => {
+    setOpenOn(!openOn);
+  };
+  const handleMenuS = () => {
+    setOpenS(!openS);
+  };
 
   return (
     <SmlPageMain>
@@ -130,13 +156,13 @@ const SmlPage = () => {
           <Button color="default" variant="contained" onClick={openEsModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained">
+          <Button color="primary" variant="contained" onClick={openCsModal}>
             Get Report
           </Button>,
         ]}
       >
         <Stack>
-          <Collapse in={filterOpen}>
+          {/* <Collapse in={filterOpen}>
             <SmlPageFilter>
               <SMLPageFilterContainer>
                 <Input
@@ -206,7 +232,7 @@ const SmlPage = () => {
                 </Button>
               </SmlPageFilterActions>
             </SmlPageFilter>
-          </Collapse>
+          </Collapse> */}
           <Tabs
             tabs={['Of Interest', 'New', 'Archive', 'Subscriptions']}
             value={tabsValue}
@@ -216,33 +242,48 @@ const SmlPage = () => {
           <CheckboxTable
             head={[
               {
-                reference: 'report',
-                label: 'Report',
-                visible: true,
-              },
-              {
                 reference: 'diseaseArea',
                 label: 'Disease Area',
                 visible: true,
               },
               {
-                reference: 'stakeholder',
-                label: 'Stakeholder',
+                reference: 'subscription',
+                label: 'Subscription',
                 visible: true,
               },
               {
-                reference: 'platform',
-                label: 'Platform',
+                reference: 'tokens',
+                label: 'Tokens',
                 visible: true,
               },
               {
-                reference: 'language',
-                label: 'Language',
+                reference: 'budget',
+                label: 'Budget (Monthly)',
+                visible: false,
+              },
+              {
+                reference: 'socialMedia',
+                label: 'Social Media',
                 visible: true,
               },
               {
-                reference: 'date',
-                label: 'Date',
+                reference: 'totalTokensUsed',
+                label: 'Total Tokens Used',
+                visible: false,
+              },
+              {
+                reference: 'tokensUsedThisMonth',
+                label: 'Tokens Used This Month',
+                visible: false,
+              },
+              {
+                reference: 'startDate',
+                label: 'Start Date',
+                visible: false,
+              },
+              {
+                reference: 'endDate',
+                label: 'End Date',
                 visible: true,
               },
               {
@@ -256,13 +297,122 @@ const SmlPage = () => {
           />
 
           <Pagination count={32} />
+
+          <Stack direction="horizontal">
+            <Button variant="contained" onClick={handleMenuR}>
+              Reccomended actions
+            </Button>
+            <Button variant="contained" onClick={handleMenuO}>
+              Ordered actions
+            </Button>
+            <Button variant="contained" onClick={handleMenuOn}>
+              Ongoing actions
+            </Button>
+            <Button variant="contained" onClick={handleMenuS}>
+              Subscription actions
+            </Button>
+            <Button variant="contained" onClick={openCstModal}>
+              Create SML Tabs
+            </Button>
+          </Stack>
+          {openR && (
+            <Menu
+              items={[
+                {
+                  icon: <OrderedIcon />,
+                  label: 'Order',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+              ]}
+              ref={menuR}
+            />
+          )}
+          {openO && (
+            <Menu
+              items={[
+                {
+                  icon: <InfoIcon />,
+                  label: 'Info',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+              ]}
+              ref={menuO}
+            />
+          )}
+          {openOn && (
+            <Menu
+              items={[
+                {
+                  icon: <InfoIcon />,
+                  label: 'Info',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+              ]}
+              ref={menuOn}
+            />
+          )}
+          {openS && (
+            <Menu
+              items={[
+                {
+                  icon: <InfoIcon />,
+                  label: 'Info',
+                  action: () => {},
+                },
+                {
+                  icon: <ManageIcon />,
+                  label: 'Manage',
+                  action: () => {},
+                },
+                {
+                  icon: <ContactIcon />,
+                  label: 'Contact',
+                  action: () => {},
+                },
+                {
+                  icon: <ScheduleIcon />,
+                  label: 'Schedule',
+                  action: () => {},
+                },
+              ]}
+              ref={menuS}
+            />
+          )}
         </Stack>
       </CardWithText>
       {esModal && <ExportSmlModal onClose={closeEsModal} />}
-      {/* {csModal && <CreateSmlModal onClose={closeCsModal} />}
-      {osModal && <OrderSmlModal onClose={closeOsModal} />}
+      {csModal && <CreateSmlModal onClose={closeCsModal} />}
       {cstModal && <CreateSmlTabsModal onClose={closeCstModal} />}
-      {csfModal && <CreateSmlFinal onClose={closeCsfModal} />} */}
     </SmlPageMain>
   );
 };

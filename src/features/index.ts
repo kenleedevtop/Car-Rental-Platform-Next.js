@@ -53,14 +53,23 @@ export { AdminInfluencersPage } from 'features/influencers';
 // Reports
 export { AdminReportsPage, ClientReportsPage } from 'features/reports';
 
-// Finished Reports
-export { default as FinishedReportPage } from 'features/finished-report';
+// Manage Reports
+export { default as ManageReportPage } from 'features/manage-report';
+
+// Manage Client Reports
+export { default as ManageClientReportPage } from 'features/manage-client-report';
+
+// Manage Client Campaing
+export { default as ManageClientCampaignPage } from 'features/manage-client-campaign';
 
 // SML
 export { AdminSmlPage, ClientSmlPage } from 'features/sml';
 
 // SML reports
 export { SMLReportPage } from 'features/sml-reports';
+
+// SML Manage
+export { default as ManageSMLPage } from 'features/manage-sml';
 
 // Surveys
 export {
@@ -84,6 +93,12 @@ export {
 
 // Create Surveys
 export { default as CreateSurveyPage } from 'features/create-survey';
+
+// Create Client Surveys
+export { default as CreateClientSurveyPage } from 'features/create-client-survey';
+
+// Manage Surveys
+export { default as ManageSurveyPage } from 'features/manage-survey';
 
 // Registration
 export { default as LoadingPage } from 'features/loading';

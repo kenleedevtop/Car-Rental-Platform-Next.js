@@ -11,6 +11,7 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
   const [state, setState] = useState({
     campaign: null,
     type: null,
+    budget: '',
     additional: '',
   });
 
@@ -48,18 +49,13 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
           value={state.type}
           onValue={(type) => setState({ ...state, type })}
         />
-        <Switch label="Reach" />
-        <Switch label="Cost per Target" />
-        <Switch label="Number of Likes" />
-        <Switch label="Const per Click" />
-        <Switch label="Number of Comments" />
-        <Switch label="Overlap" />
-        <Switch label="Website Clicks" />
-        <Switch label="Brand Mentions" />
-        <Switch label="Engagement" />
-        <Switch label="New Followers" />
-        <Switch label="Comments" />
-        <Switch label="Social Media Listening" />
+        <Input
+          type="text"
+          label="Budget"
+          placeholder="Please Enter"
+          value={state.budget}
+          onValue={(budget) => setState({ ...state, budget })}
+        />
         <GridCell columnSpan={2}>
           <Input
             type="text"

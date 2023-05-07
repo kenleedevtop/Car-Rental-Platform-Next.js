@@ -12,27 +12,31 @@ const CreateSurveysModal = ({
 }: TCreateSurveysModalProps) => {
   const [state, setState] = useState({
     surveyName: '',
-    type: null,
-    client: '',
-    language: null,
-    budget: '',
-    surveyInfo: '',
+    product: null,
+    participants: '',
     startDate: null,
-    finishDate: null,
+    endDate: null,
+    budget: '',
+    currency: null,
+    tokens: null,
+    surveyInfo: '',
 
-    numberOfParticipants: null,
-    numberOfQuestions: null,
-    diseaseArea: null,
     location: null,
-    ageRange: null,
+    language: null,
+    diseaseArea: null,
     gender: null,
+    ageRange: {
+      min: '',
+      max: '',
+    },
+    ethnicity: null,
+    struggles: null,
+    interests: null,
     targetAudInfo: '',
-    ethnicity: [],
-    interests: [],
 
     link: '',
     materials: null,
-    survey: '',
+    instructions: '',
   });
 
   const [tab, setTab] = useState(0);
@@ -56,65 +60,91 @@ const CreateSurveysModal = ({
       onClose={onClose}
       {...props}
     >
-      <Stack style={{ height: '600px' }}>
+      <Stack
+        style={{ height: '450px', overflowY: 'scroll', paddingRight: '10px' }}
+      >
         <Tabs
           tabs={['Info', 'Target', 'Instructions']}
           value={tab}
           onValue={setTab}
         />
         {tab === 0 && (
-          <CreateSurveysModalMain columns={1}>
-            <Stack direction="horizontal">
-              <Input
-                type="text"
-                label="Survey name"
-                placeholder="Please Enter"
-                value={state.surveyName}
-                onValue={(surveyName) => setState({ ...state, surveyName })}
-              />
-              <Input
-                type="select"
-                label="Type"
-                placeholder="Please Select"
-                value={state.type}
-                onValue={(type) => setState({ ...state, type })}
-              />
-            </Stack>
+          <CreateSurveysModalMain columns={2}>
+            <Input
+              type="text"
+              label="Survey name"
+              placeholder="Please Enter"
+              value={state.surveyName}
+              onValue={(surveyName) => setState({ ...state, surveyName })}
+            />
+            <Input
+              type="select"
+              label="Product"
+              placeholder="Please Select"
+              value={state.product}
+              onValue={(product) => setState({ ...state, product })}
+            />
+            <Input
+              type="select"
+              label="Participants"
+              placeholder="Please Select"
+              value={state.participants}
+              onValue={(participants) => setState({ ...state, participants })}
+            />
+            <Input
+              type="date"
+              label="Start Date"
+              placeholder="Please Select"
+              value={state.startDate}
+              onValue={(startDate) => setState({ ...state, startDate })}
+            />
+            <Input
+              type="date"
+              label="End Date"
+              placeholder="Please Select"
+              value={state.endDate}
+              onValue={(endDate) => setState({ ...state, endDate })}
+            />
+            <Input
+              type="select"
+              label="Tokens"
+              placeholder="Please Select"
+              value={state.tokens}
+              onValue={(tokens) => setState({ ...state, tokens })}
+            />
             <InputGroup
-              label="Start & Finish date"
-              inputRatio="1fr 1fr"
+              label="Budget"
+              inputRatio="100px 1fr"
               elements={[
                 {
-                  type: 'date',
-                  placeholder: 'From',
-                  value: state.startDate,
-                  onValue: (startDate) => setState({ ...state, startDate }),
+                  value: state.currency,
+                  onValue: (currency) => setState({ ...state, currency }),
+                  type: 'select',
+                  placeholder: 'CHF',
+                  options: [
+                    {
+                      value: 'eur',
+                      label: 'EUR',
+                    },
+                    {
+                      value: 'usd',
+                      label: 'USD',
+                    },
+                    {
+                      value: 'chf',
+                      label: 'CHF',
+                    },
+                  ],
                 },
                 {
-                  type: 'date',
-                  placeholder: 'To',
-                  value: state.finishDate,
-                  onValue: (finishDate) => setState({ ...state, finishDate }),
+                  value: state.budget,
+                  onValue: (budget) => setState({ ...state, budget }),
+                  type: 'text',
+                  placeholder: 'Please Enter',
                 },
               ]}
             />
-            <Stack direction="horizontal">
-              <Input
-                type="select"
-                label="Language"
-                placeholder="Please Select"
-                value={state.language}
-                onValue={(language) => setState({ ...state, language })}
-              />
-              <Input
-                type="text"
-                label="Budget"
-                placeholder="Please Enter"
-                value={state.budget}
-                onValue={(budget) => setState({ ...state, budget })}
-              />
-            </Stack>
-            <GridCell columnSpan={1}>
+            <GridCell columnSpan={2}>
               <Input
                 multiline
                 rows={5}
@@ -130,22 +160,18 @@ const CreateSurveysModal = ({
         {tab === 1 && (
           <CreateSurveysModalMain columns={2}>
             <Input
-              type="text"
-              label="Number of Participants"
-              placeholder="Please Enter"
-              value={state.numberOfParticipants}
-              onValue={(numberOfParticipants) =>
-                setState({ ...state, numberOfParticipants })
-              }
+              type="select"
+              label="Location"
+              placeholder="Please Select"
+              value={state.location}
+              onValue={(location) => setState({ ...state, location })}
             />
             <Input
               type="select"
-              label="Number of Questions"
+              label="Language"
               placeholder="Please Select"
-              value={state.numberOfQuestions}
-              onValue={(numberOfQuestions) =>
-                setState({ ...state, numberOfQuestions })
-              }
+              value={state.language}
+              onValue={(language) => setState({ ...state, language })}
             />
             <Input
               type="select"
@@ -156,34 +182,48 @@ const CreateSurveysModal = ({
             />
             <Input
               type="select"
-              label="Location"
+              label="Gender"
               placeholder="Please Select"
-              value={state.location}
-              onValue={(location) => setState({ ...state, location })}
+              value={state.gender}
+              onValue={(gender) => setState({ ...state, gender })}
+              options={[
+                {
+                  value: 0,
+                  label: 'Male',
+                },
+                {
+                  value: 1,
+                  label: 'Female',
+                },
+                {
+                  value: 2,
+                  label: 'Other',
+                },
+              ]}
             />
             <Input
-              type="select"
-              label="Age range"
+              type="min-max"
+              label="Age"
               placeholder="Please Select"
               value={state.ageRange}
               onValue={(ageRange) => setState({ ...state, ageRange })}
             />
             <Input
               type="select"
-              label="Gender"
-              placeholder="Please Select"
-              value={state.gender}
-              onValue={(gender) => setState({ ...state, gender })}
-            />
-            <Input
-              type="multiselect"
               label="Ethnicity"
               placeholder="Please Select"
               value={state.ethnicity}
               onValue={(ethnicity) => setState({ ...state, ethnicity })}
             />
             <Input
-              type="multiselect"
+              type="select"
+              label="Struggles"
+              placeholder="Please Select"
+              value={state.struggles}
+              onValue={(struggles) => setState({ ...state, struggles })}
+            />
+            <Input
+              type="select"
               label="Interests"
               placeholder="Please Select"
               value={state.interests}
@@ -223,10 +263,10 @@ const CreateSurveysModal = ({
               multiline
               rows={5}
               type="text"
-              label="Survey"
+              label="Instructions"
               placeholder="Please Enter"
-              value={state.survey}
-              onValue={(survey) => setState({ ...state, survey })}
+              value={state.instructions}
+              onValue={(instructions) => setState({ ...state, instructions })}
             />
           </CreateSurveysModalMain>
         )}

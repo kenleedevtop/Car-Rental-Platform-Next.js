@@ -8,7 +8,7 @@ export const StepContainer = styled.div<{ theme?: Theme }>`
     grid-template-columns: repeat(8, 1fr);
 
     ${theme.breakpoints.down('xl')} {
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: auto auto;
       gap: ${theme.spacing(5)};
     }
 
@@ -47,7 +47,7 @@ export const StepLeft = styled.div<{ theme?: Theme }>`
       padding-right: ${theme.spacing(5)};
 
       ${theme.breakpoints.down('xl')} {
-        grid-column: 1/5;
+        grid-column: 1/9;
         grid-row: 1/2;
         padding-right: 0;
       }
@@ -82,7 +82,7 @@ export const StepFMiddle = styled.div<{ theme?: Theme }>`
 `;
 export const StepSMiddle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-      grid-column: 5/7;
+      grid-column: 3/6;
       padding-right: ${theme.spacing(5)};
       padding-left: ${theme.spacing(5)};
       border-left: 1px solid ${theme.palette.default.main};
@@ -104,11 +104,11 @@ export const StepSMiddle = styled.div<{ theme?: Theme }>`
 `;
 export const StepRight = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-      grid-column: 7/9;
+      grid-column: 3/5;
       padding-left: ${theme.spacing(5)};
 
       ${theme.breakpoints.down('xl')} {
-        grid-column: 5/9;
+        grid-column: 1/9;
         grid-row: 2/3;
         padding-left: 0;
       }

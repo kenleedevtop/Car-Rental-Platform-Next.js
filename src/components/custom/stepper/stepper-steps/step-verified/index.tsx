@@ -11,7 +11,8 @@ const Step = () => (
       height: ' 50vh',
     }}
   >
-    Congratulations! You are now verified!{' '}
+    Congratulations, you&apos;ve successfully completed all verification steps!
+    Your account is now pending approval.
     <VerifiedIcon
       width="20"
       height="20"

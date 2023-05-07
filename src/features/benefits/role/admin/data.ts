@@ -30,6 +30,11 @@ export const DFinanceHead = [
     label: 'Benefit',
     visible: true,
   },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
+  },
 ];
 
 export const DFinanceHead2 = [

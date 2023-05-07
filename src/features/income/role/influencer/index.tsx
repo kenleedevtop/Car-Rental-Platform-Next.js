@@ -12,6 +12,7 @@ import {
   WithdrawGridLeft,
   WithdrawGridRight,
   WithdrawNameContainer,
+  AmbassadorInput,
 } from 'features/income/styles';
 
 import { DGenerateIncomeFilter } from 'features/income/role/influencer/data';
@@ -27,6 +28,11 @@ import {
   SlidersHorizontalIcon,
   HouseIcon,
   UserFocusIcon,
+  CampaignsIcon,
+  CampaignsSmallIcon,
+  SurveysAIcon,
+  DonationsIcon,
+  AffiliateIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Card, Input, InputGroup, Pagination } from 'components/ui';
@@ -62,7 +68,8 @@ const IncomePage = () => {
         <IncomePageChartsGrid>
           <CardWithChart
             title="Campaigns"
-            icon={<UserFocusIcon />}
+            icon={<CampaignsIcon />}
+            smallIcon={<UserFocusIcon />}
             percent={5}
             count={90.56}
             chartData={{
@@ -74,7 +81,7 @@ const IncomePage = () => {
           />
           <CardWithChart
             title="Surveys"
-            icon={<UserFocusIcon />}
+            icon={<SurveysAIcon />}
             percent={5}
             count={90.56}
             chartData={{
@@ -86,7 +93,7 @@ const IncomePage = () => {
           />
           <CardWithChart
             title="Affiliate program"
-            icon={<UserFocusIcon />}
+            icon={<AffiliateIcon />}
             percent={5}
             count={90.56}
             chartData={{
@@ -98,7 +105,7 @@ const IncomePage = () => {
           />
           <CardWithChart
             title="Donations"
-            icon={<UserFocusIcon />}
+            icon={<DonationsIcon />}
             percent={5}
             count={90.56}
             chartData={{
@@ -148,14 +155,21 @@ const IncomePage = () => {
                 <IncomePageFilter>
                   <IncomePageFilterContainer>
                     <Input
-                      type="select"
-                      label="Search For Statement"
-                      placeholder="Search For Statement"
+                      type="text"
+                      label="Search"
+                      placeholder="Please Enter"
                       value={filter.search}
                       onValue={(search) => setFilter({ ...filter, search })}
                     />
+                    <Input
+                      type="select"
+                      label="Type"
+                      placeholder="Please Enter"
+                      value={filter.type}
+                      onValue={(type) => setFilter({ ...filter, type })}
+                    />
                     <InputGroup
-                      label="Start & Finish"
+                      label="Date"
                       inputRatio="1fr 1fr"
                       elements={[
                         {
@@ -172,16 +186,7 @@ const IncomePage = () => {
                         },
                       ]}
                     />
-                    <Input
-                      type="select"
-                      label="Statement Type"
-                      placeholder="Please Select"
-                      value={filter.statement}
-                      onValue={(statement) =>
-                        setFilter({ ...filter, statement })
-                      }
-                    />
-                    <Input
+                    <AmbassadorInput
                       type="min-max"
                       label="Amount"
                       value={filter.amount}
@@ -266,8 +271,8 @@ const IncomePage = () => {
                   <IncomePageFilterContainer>
                     <Input
                       type="select"
-                      label="Search For User"
-                      placeholder="Search For User"
+                      label="Search"
+                      placeholder="Please Enter"
                       value={filter.searchForUser}
                       onValue={(searchForUser) =>
                         setFilter({ ...filter, searchForUser })
@@ -278,27 +283,22 @@ const IncomePage = () => {
                       inputRatio="200px 200px"
                       elements={[
                         {
-                          value: filter.startP,
-                          onValue: (startP) => setFilter({ ...filter, startP }),
+                          value: filter.registrationDateStart,
+                          onValue: (registrationDateStart) =>
+                            setFilter({ ...filter, registrationDateStart }),
                           type: 'date',
                           placeholder: 'Start date',
                         },
                         {
-                          value: filter.endP,
-                          onValue: (endP) => setFilter({ ...filter, endP }),
+                          value: filter.registrationDateEnd,
+                          onValue: (registrationDateEnd) =>
+                            setFilter({ ...filter, registrationDateEnd }),
                           type: 'date',
                           placeholder: 'End date',
                         },
                       ]}
                     />
-                    <Input
-                      type="select"
-                      label="Platform"
-                      placeholder="Please Select"
-                      value={filter.platform}
-                      onValue={(platform) => setFilter({ ...filter, platform })}
-                    />
-                    <Input
+                    <AmbassadorInput
                       type="min-max"
                       label="Amount"
                       value={filter.amountP}
@@ -322,13 +322,8 @@ const IncomePage = () => {
               <CheckboxTable
                 head={[
                   {
-                    reference: 'userName',
-                    label: 'User Name',
-                    visible: true,
-                  },
-                  {
-                    reference: 'platform',
-                    label: 'Platform',
+                    reference: 'name',
+                    label: 'Name',
                     visible: true,
                   },
                   {
@@ -360,7 +355,7 @@ const IncomePage = () => {
                       <Input
                         type="text"
                         label="First Name"
-                        placeholder="John"
+                        placeholder="Please Enter"
                         value={filter.firstName}
                         onValue={(firstName) =>
                           setFilter({ ...filter, firstName })
@@ -369,7 +364,7 @@ const IncomePage = () => {
                       <Input
                         type="text"
                         label="Last Name"
-                        placeholder="Doe"
+                        placeholder="Please Enter"
                         value={filter.lastName}
                         onValue={(lastName) =>
                           setFilter({ ...filter, lastName })
@@ -379,14 +374,14 @@ const IncomePage = () => {
                     <Input
                       type="text"
                       label="Bank Name"
-                      placeholder="Bank of America"
+                      placeholder="Please Enter"
                       value={filter.bankName}
                       onValue={(bankName) => setFilter({ ...filter, bankName })}
                     />
                     <Input
                       type="text"
                       label="Bank Address"
-                      placeholder="St 6 Ft. Honey Park, NYC 1000001"
+                      placeholder="Please Enter"
                       value={filter.bankAddress}
                       onValue={(bankAddress) =>
                         setFilter({ ...filter, bankAddress })
@@ -395,7 +390,7 @@ const IncomePage = () => {
                     <Input
                       type="text"
                       label="IBAN"
-                      placeholder="7895516485489487"
+                      placeholder="Please Enter"
                       value={filter.iban}
                       onValue={(iban) => setFilter({ ...filter, iban })}
                     />
@@ -412,15 +407,19 @@ const IncomePage = () => {
                           onValue: (currency) =>
                             setFilter({ ...filter, currency }),
                           type: 'select',
-                          placeholder: 'USD',
+                          placeholder: 'CHF',
                           options: [
                             {
-                              value: 'eur',
-                              label: 'EUR',
+                              value: 'chf',
+                              label: 'CHF',
                             },
                             {
                               value: 'usd',
                               label: 'USD',
+                            },
+                            {
+                              value: 'eur',
+                              label: 'EUR',
                             },
                           ],
                         },
@@ -433,6 +432,11 @@ const IncomePage = () => {
                         },
                       ]}
                     />
+                    <Note showIcon>
+                      55 CHF is approximatelay{' '}
+                      <span style={{ color: '#448DC9' }}>60 USD</span>, but a
+                      minor currency exchange fee (%) from a bank is expected.
+                    </Note>
                     <Input
                       type="text"
                       label="Confirm Password"
@@ -449,15 +453,6 @@ const IncomePage = () => {
                   </Stack>
                 </WithdrawGridRight>
               </WithdrawGrid>
-              <IconWithText
-                style={{ marginTop: '50px' }}
-                icon={<HouseIcon />}
-                title="Withdraw money with ease!"
-                text={[
-                  "Withdraw money from your Patients Influence account to your nominated personal bank account with ease. Please bear in mind that depending on your location, local bank's working hours and speed, the deposit may take up to a few days to reflected in your bank account.",
-                  'For any additional questions, please feel free to contact us at any time.',
-                ]}
-              />
             </Stack>
           </WithdrawContainer>
         )}

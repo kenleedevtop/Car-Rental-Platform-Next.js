@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   NavigationMain,
   NavigationRouteName,
@@ -9,6 +9,9 @@ import {
   NavigationProfileName,
   NavigationProfileImage,
   // NavigationSearch,
+  BalanceIcon,
+  NavigationBalanceDropdown,
+  NavigationCurrency,
   NavigationProfileDropdown,
   NavigationProvileIcon,
   NavigationMenu,
@@ -30,9 +33,13 @@ import { useRouter } from 'next/router';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen] = useMenu(false);
+  const [currencyRef, openR, setOpenR] = useMenu(false);
+
   // const [search, setSearch] = useState('');
 
   const [ppModal, openPpModal, closePpModal] = useModal(false);
+
+  const [currency, setCurrency] = useState('CHF');
 
   const router = useRouter();
 
@@ -51,6 +58,10 @@ const Navigation = ({ ...props }: TNavigationProps) => {
 
   const handleMenu = () => {
     setOpen(!open);
+  };
+
+  const handleCurrencyMenu = () => {
+    setOpenR(!openR);
   };
 
   const handleLogout = () => {
@@ -72,8 +83,51 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         <NavigationRouteName>{routeName}</NavigationRouteName>
       </NavigationMenu>
       <NavigationItems>
-        {['AMBASSADOR', 'INFLUENCER', 'CLIENT'].includes(role) && (
+        {/* {['AMBASSADOR', 'INFLUENCER'].includes(role) && (
           <NavigationBalance>Balance: $499.00</NavigationBalance>
+        )} */}
+
+        {['AMBASSADOR', 'INFLUENCER', 'CLIENT'].includes(role) && (
+          <>
+            <NavigationCurrency onClick={handleCurrencyMenu}>
+              Currency: {currency}{' '}
+              <BalanceIcon expanded={openR}>
+                {' '}
+                <ArrowDownIcon />{' '}
+              </BalanceIcon>{' '}
+            </NavigationCurrency>
+            {openR && (
+              <NavigationBalanceDropdown
+                items={[
+                  {
+                    icon: '€',
+                    label: 'EUR',
+                    action: () => {
+                      setCurrency('EUR');
+                      handleCurrencyMenu();
+                    },
+                  },
+                  {
+                    icon: '$',
+                    label: 'USD',
+                    action: () => {
+                      setCurrency('USD');
+                      handleCurrencyMenu();
+                    },
+                  },
+                  {
+                    icon: 'Fr',
+                    label: 'CHF',
+                    action: () => {
+                      setCurrency('CHF');
+                      handleCurrencyMenu();
+                    },
+                  },
+                ]}
+                ref={menuRef}
+              />
+            )}
+          </>
         )}
         <NavigationNotification>
           <BellIcon />
@@ -81,24 +135,38 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         <NavigationProfileOuter>
           <NavigationProfile onClick={handleMenu}>
             <NavigationProfileName>{`${user?.firstName} ${user?.lastName}`}</NavigationProfileName>
-            <NavigationProfileImage image="https://static.intercomassets.com/avatars/5017590/square_128/NIX-1623671396.jpg">
-              IJ
-            </NavigationProfileImage>
+            {['CLIENT', 'ADMIN'].includes(role) && (
+              <NavigationProfileImage image="https://static.intercomassets.com/avatars/5017590/square_128/NIX-1623671396.jpg">
+                IJ
+              </NavigationProfileImage>
+            )}
             <NavigationProvileIcon expanded={open}>
               <ArrowDownIcon />
             </NavigationProvileIcon>
           </NavigationProfile>
-          {open && (
+          {open && ['ADMIN'].includes(role) && (
             <NavigationProfileDropdown
               items={[
                 {
                   icon: <AccountIcon />,
                   label: 'Account',
                   action: () => {
-                    handleMenu();
                     openPpModal();
+                    handleMenu();
                   },
                 },
+                {
+                  icon: <LogoutIcon />,
+                  label: 'Logout',
+                  action: handleLogout,
+                },
+              ]}
+              ref={menuRef}
+            />
+          )}
+          {open && ['INFLUENCER', 'CLIENT', 'AMBASSADOR'].includes(role) && (
+            <NavigationProfileDropdown
+              items={[
                 {
                   icon: <LogoutIcon />,
                   label: 'Logout',

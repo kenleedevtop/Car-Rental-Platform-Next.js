@@ -6,4 +6,5 @@ export type TSidebarItemNestedProps = React.HTMLAttributes<HTMLDivElement> & {
   label: string;
   items: Array<TSidebarSubItem>;
   item: any;
+  action: () => void;
 };

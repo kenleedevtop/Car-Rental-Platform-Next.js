@@ -48,3 +48,12 @@ export const HomeInfluencerPageGrid = styled.div<{ theme?: Theme }>`
       }
   `}
 `;
+
+export const HomeItem = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+        padding: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+      `}
+`;

@@ -8,7 +8,8 @@ import {
 import {
   DFinanceHead,
   DFinanceHead2,
-  DGenerateFinanceFilter,
+  DFinanceHead3,
+  DGenerateFinanceAdminFilter,
 } from 'features/finance/data';
 import {
   CardWithChart,
@@ -40,7 +41,7 @@ import {
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { useMenu, useModal } from 'hooks';
@@ -48,26 +49,31 @@ import {
   CreateFinanceModal,
   ExportFinanceModal,
   ApproveFinanceModal,
+  CostInfoModal,
+  RevenueInfoModal,
 } from 'features/finance/role/admin/elements';
 
 const FinancePage = () => {
   const [cfModal, openCfModal, closeCfModal] = useModal(false);
   const [efModal, openEfModal, closeEfModal] = useModal(false);
   const [afModal, openAfModal, closeAfModal] = useModal(false);
+  const [riModal, openRiModal, closeRiModal] = useModal(false);
+  const [ciModal, openCiModal, closeCiModal] = useModal(false);
 
-  const [filter, setFilter] = useState<any>(DGenerateFinanceFilter());
+  const [filter, setFilter] = useState<any>(DGenerateFinanceAdminFilter());
 
   const [filterOpen, setFilterOpen] = useState(false);
 
   const [tabs, setTabs] = useState(0);
   const [tab, setTab] = useState(0);
+  const [filterTabs, setFilterTabs] = useState(0);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
   };
 
   const clearFilters = () => {
-    setFilter(DGenerateFinanceFilter());
+    setFilter(DGenerateFinanceAdminFilter());
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
@@ -151,7 +157,7 @@ const FinancePage = () => {
         />
       </FinancePageCharts>
 
-      <FinancePageCharts>
+      {/* <FinancePageCharts>
         <CardWithProgress
           title="Industry"
           icon={<RedCrossIcon />}
@@ -236,7 +242,7 @@ const FinancePage = () => {
             },
           ]}
         />
-      </FinancePageCharts>
+      </FinancePageCharts> */}
       <CardWithText
         title="Financial Statement"
         description="More than 290+ new Statements"
@@ -260,98 +266,182 @@ const FinancePage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <FinancePageFilter>
-              <Grid columns={4}>
-                <Input
-                  type="select"
-                  label="Company"
-                  placeholder="Please Select"
-                  value={filter.company}
-                  onValue={(company) => setFilter({ ...filter, company })}
-                />
-                <Input
-                  type="select"
-                  label="Client"
-                  placeholder="Please Select"
-                  value={filter.client}
-                  onValue={(client) => setFilter({ ...filter, client })}
-                />
-                <Input
-                  type="select"
-                  label="Location"
-                  placeholder="Please Select"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
-                />
-                <Input
-                  type="select"
-                  label="Disease Area"
-                  placeholder="Please Select"
-                  value={filter.diseaseArea}
-                  onValue={(diseaseArea) =>
-                    setFilter({ ...filter, diseaseArea })
-                  }
-                />
-                <Input
-                  type="select"
-                  label="Industry"
-                  placeholder="Please Select"
-                  value={filter.industry}
-                  onValue={(industry) => setFilter({ ...filter, industry })}
-                />
-                <Input
-                  type="select"
-                  label="Platform"
-                  placeholder="Please Select"
-                  value={filter.platform}
-                  onValue={(platform) => setFilter({ ...filter, platform })}
-                />
-                <Input
-                  type="select"
-                  label="Promotion Type"
-                  placeholder="Please Select"
-                  value={filter.promotionType}
-                  onValue={(promotionType) =>
-                    setFilter({ ...filter, promotionType })
-                  }
-                />
-                <Input
-                  type="select"
-                  label="Data Range"
-                  placeholder="Please Select"
-                  value={filter.dataRange}
-                  onValue={(dataRange) => setFilter({ ...filter, dataRange })}
-                />
-                <Input
-                  type="number"
-                  label="Influencer Size"
-                  placeholder="Please Enter"
-                  value={filter.influencerSize}
-                  onValue={(influencerSize) =>
-                    setFilter({ ...filter, influencerSize })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Influencers"
-                  value={filter.influencers}
-                  onValue={(influencers) =>
-                    setFilter({ ...filter, influencers })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Budget"
-                  value={filter.budget}
-                  onValue={(budget) => setFilter({ ...filter, budget })}
-                />
-                <Input
-                  type="multiselect"
-                  label="Label"
-                  placeholder="Please Select"
-                  value={filter.label}
-                  onValue={(label) => setFilter({ ...filter, label })}
-                />
-              </Grid>
+              <Tabs
+                tabs={['Statement', 'Subject']}
+                value={filterTabs}
+                onValue={setFilterTabs}
+              />
+
+              {filterTabs === 0 && (
+                <Grid columns={4}>
+                  <Input
+                    type="text"
+                    label="Search"
+                    placeholder="Please Enter"
+                    value={filter.search}
+                    onValue={(search) => setFilter({ ...filter, search })}
+                  />
+                  <InputGroup
+                    label="Date Joined"
+                    inputRatio="1fr 1fr"
+                    elements={[
+                      {
+                        value: filter.startDate,
+                        onValue: (startDate) =>
+                          setFilter({ ...filter, startDate }),
+                        type: 'date',
+                        placeholder: 'From',
+                      },
+                      {
+                        value: filter.endDate,
+                        onValue: (endDate) => setFilter({ ...filter, endDate }),
+                        type: 'date',
+                        placeholder: 'To',
+                      },
+                    ]}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Budget"
+                    value={filter.budget}
+                    onValue={(budget) => setFilter({ ...filter, budget })}
+                  />
+                  <Input
+                    type="select"
+                    label="Type"
+                    placeholder="Please Select"
+                    value={filter.type}
+                    onValue={(type) => setFilter({ ...filter, type })}
+                  />
+                  <Input
+                    type="select"
+                    label="Location"
+                    placeholder="Please Select"
+                    value={filter.location}
+                    onValue={(location) => setFilter({ ...filter, location })}
+                  />
+                  <Input
+                    type="select"
+                    label="Disease Area"
+                    placeholder="Please Select"
+                    value={filter.diseaseArea}
+                    onValue={(diseaseArea) =>
+                      setFilter({ ...filter, diseaseArea })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Status"
+                    placeholder="Please Select"
+                    value={filter.status}
+                    onValue={(status) => setFilter({ ...filter, status })}
+                  />
+                  <Input
+                    type="select"
+                    label="Social Media Platform"
+                    placeholder="Please Select"
+                    value={filter.socialMediaPlatform}
+                    onValue={(socialMediaPlatform) =>
+                      setFilter({ ...filter, socialMediaPlatform })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Labels"
+                    placeholder="Please Select"
+                    value={filter.labels}
+                    onValue={(labels) => setFilter({ ...filter, labels })}
+                  />
+                  <Input
+                    type="select"
+                    label="Schedule"
+                    placeholder="Please Select"
+                    value={filter.schedule}
+                    onValue={(schedule) => setFilter({ ...filter, schedule })}
+                  />
+                </Grid>
+              )}
+
+              {filterTabs === 1 && (
+                <Grid columns={4}>
+                  <Input
+                    type="select"
+                    label="Company"
+                    placeholder="Please Select"
+                    value={filter.company}
+                    onValue={(company) => setFilter({ ...filter, company })}
+                  />
+                  <Input
+                    type="select"
+                    label="Client"
+                    placeholder="Please Select"
+                    value={filter.client}
+                    onValue={(client) => setFilter({ ...filter, client })}
+                  />
+                  <Input
+                    type="select"
+                    label="Influencer"
+                    placeholder="Please Select"
+                    value={filter.influencer}
+                    onValue={(influencer) =>
+                      setFilter({ ...filter, influencer })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Ambassador"
+                    placeholder="Please Select"
+                    value={filter.ambassador}
+                    onValue={(ambassador) =>
+                      setFilter({ ...filter, ambassador })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Vendor"
+                    placeholder="Please Select"
+                    value={filter.vendor}
+                    onValue={(vendor) => setFilter({ ...filter, vendor })}
+                  />
+                  <Input
+                    type="select"
+                    label="Campaign"
+                    placeholder="Please Select"
+                    value={filter.campaign}
+                    onValue={(campaign) => setFilter({ ...filter, campaign })}
+                  />
+                  <Input
+                    type="select"
+                    label="Report"
+                    placeholder="Please Select"
+                    value={filter.report}
+                    onValue={(report) => setFilter({ ...filter, report })}
+                  />
+                  <Input
+                    type="select"
+                    label="Social Media Listening"
+                    placeholder="Please Select"
+                    value={filter.socialMediaListening}
+                    onValue={(socialMediaListening) =>
+                      setFilter({ ...filter, socialMediaListening })
+                    }
+                  />
+                  <Input
+                    type="select"
+                    label="Survey"
+                    placeholder="Please Select"
+                    value={filter.survey}
+                    onValue={(survey) => setFilter({ ...filter, survey })}
+                  />
+                  <Input
+                    type="select"
+                    label="Product"
+                    placeholder="Please Select"
+                    value={filter.product}
+                    onValue={(product) => setFilter({ ...filter, product })}
+                  />
+                </Grid>
+              )}
               <FinancePageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -382,12 +472,26 @@ const FinancePage = () => {
             onValue={setTab}
             tabs={['Payments', 'Withdrawals']}
           />
-          <CheckboxTable
-            head={DFinanceHead}
-            items={[]}
-            renderItem={renderItem}
-          />
-          <Pagination count={32} />
+          {tab === 0 && (
+            <>
+              <CheckboxTable
+                head={DFinanceHead}
+                items={[]}
+                renderItem={renderItem}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+          {tab === 1 && (
+            <>
+              <CheckboxTable
+                head={DFinanceHead2}
+                items={[]}
+                renderItem={renderItem}
+              />
+              <Pagination count={32} />
+            </>
+          )}
         </Stack>
       </CardWithText>
       <CardWithText
@@ -400,12 +504,27 @@ const FinancePage = () => {
       >
         <Stack>
           <Tabs value={tabs} onValue={setTabs} tabs={['Pending', 'Received']} />
-          <CheckboxTable
-            head={DFinanceHead2}
-            items={[]}
-            renderItem={renderItem}
-          />
-          <Pagination count={32} />
+          {tabs === 0 && (
+            <>
+              <CheckboxTable
+                head={DFinanceHead3}
+                items={[]}
+                renderItem={renderItem}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+          {tabs === 1 && (
+            <>
+              <CheckboxTable
+                head={DFinanceHead3}
+                items={[]}
+                renderItem={renderItem}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+
           <Stack direction="horizontal">
             <Button color="default" variant="contained" onClick={handleMenuRP}>
               RP action
@@ -421,6 +540,12 @@ const FinancePage = () => {
             </Button>
             <Button color="default" variant="contained" onClick={handleMenuCPa}>
               CPa action
+            </Button>
+            <Button color="default" variant="contained" onClick={openCiModal}>
+              Cost Info
+            </Button>
+            <Button color="default" variant="contained" onClick={openRiModal}>
+              Revenue Info
             </Button>
           </Stack>
         </Stack>
@@ -588,6 +713,8 @@ const FinancePage = () => {
       {cfModal && <CreateFinanceModal onClose={closeCfModal} />}
       {efModal && <ExportFinanceModal onClose={closeEfModal} />}
       {afModal && <ApproveFinanceModal onClose={closeAfModal} />}
+      {ciModal && <CostInfoModal onClose={closeCiModal} />}
+      {riModal && <RevenueInfoModal onClose={closeRiModal} />}
     </FinancePageMain>
   );
 };

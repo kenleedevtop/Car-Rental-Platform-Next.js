@@ -16,10 +16,10 @@ const CreateFinanceModal = ({
     typeC: '',
     dateC: null,
     subjectC: null,
-    diseaseAreaC: null,
-    locationC: null,
     vendor: null,
-    emailC: '',
+    balanceChange: null,
+    project: '',
+    emailC: null,
     statusC: null,
 
     revenue: '',
@@ -28,9 +28,6 @@ const CreateFinanceModal = ({
     typeR: '',
     dateR: null,
     subjectR: null,
-    diseaseAreaR: null,
-    locationR: null,
-    client: null,
     emailR: '',
     statusR: null,
   });
@@ -56,7 +53,7 @@ const CreateFinanceModal = ({
       onClose={onClose}
       {...props}
     >
-      <Stack>
+      <Stack style={{ height: '500px' }}>
         <Tabs tabs={['Cost', 'Revenue']} value={tab} onValue={setTab} />
         {tab === 0 && (
           <CreateFinanceModalMain columns={2}>
@@ -122,24 +119,24 @@ const CreateFinanceModal = ({
             />
             <Input
               type="select"
-              label="Disease Area"
-              placeholder="Please Select"
-              value={state.diseaseAreaC}
-              onValue={(diseaseAreaC) => setState({ ...state, diseaseAreaC })}
-            />
-            <Input
-              type="select"
-              label="Location"
-              placeholder="Please Select"
-              value={state.locationC}
-              onValue={(locationC) => setState({ ...state, locationC })}
-            />
-            <Input
-              type="select"
               label="Vendor"
               placeholder="Please Select"
               value={state.vendor}
               onValue={(vendor) => setState({ ...state, vendor })}
+            />
+            <Input
+              type="select"
+              label="Balance Change"
+              placeholder="Please Select"
+              value={state.balanceChange}
+              onValue={(balanceChange) => setState({ ...state, balanceChange })}
+            />
+            <Input
+              type="select"
+              label="Project"
+              placeholder="Please Select"
+              value={state.project}
+              onValue={(project) => setState({ ...state, project })}
             />
             <Input
               type="select"
@@ -221,29 +218,8 @@ const CreateFinanceModal = ({
             />
             <Input
               type="select"
-              label="Disease Area"
-              placeholder="Please Select"
-              value={state.diseaseAreaR}
-              onValue={(diseaseAreaR) => setState({ ...state, diseaseAreaR })}
-            />
-            <Input
-              type="select"
-              label="Location"
-              placeholder="Please Select"
-              value={state.locationR}
-              onValue={(locationR) => setState({ ...state, locationR })}
-            />
-            <Input
-              type="select"
-              label="Client"
-              placeholder="Please Select"
-              value={state.client}
-              onValue={(client) => setState({ ...state, client })}
-            />
-            <Input
-              type="text"
               label="Email"
-              placeholder="Please Enter"
+              placeholder="Please Select"
               value={state.emailR}
               onValue={(emailR) => setState({ ...state, emailR })}
             />

@@ -29,3 +29,15 @@ export const DGenerateIncomeFilter = () => ({
   amountW: '',
   password: '',
 });
+
+export const DGenerateAmbassadorIncomeFilter = () => ({
+  search: '',
+  product: null,
+  client: null,
+  startDate: null,
+  endDate: null,
+  amount: {
+    min: '',
+    max: '',
+  },
+});

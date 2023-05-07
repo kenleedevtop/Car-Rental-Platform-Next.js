@@ -1,60 +1,70 @@
-import axios from 'axios';
 import Project from 'constants/project';
-import { TAddBenefit, TSingleBenefit } from 'api/benefits/types';
+import {
+  TAddBenefit,
+  TSingleBenefit,
+  TAddSuggestion,
+} from 'api/benefits/types';
+import { client } from 'api/api-client';
 
 const BenefitsAPI = {
-  getBenefits: async () => {
-    const { data } = await axios.get(`${Project.apis.v1}/benefits`);
+  getBenefits: async (filter: any = {}) => {
+    const { data } = await client.get(`${Project.apis.v1}/benefits`, {
+      params: filter,
+    });
     return data;
   },
 
   addBenefit: async (body: TAddBenefit) => {
-    await axios.post(`${Project.apis.v1}/benefits`);
+    await client.post(`${Project.apis.v1}/benefits`, body);
   },
 
   getSingleBenefit: async (id: TSingleBenefit) => {
-    const { data } = await axios.post(`${Project.apis.v1}/benefits/${id}`);
+    const { data } = await client.post(`${Project.apis.v1}/benefits/${id}`);
 
     return data;
   },
 
   updateBenefit: async (id: TSingleBenefit, body: TAddBenefit) => {
-    await axios.patch(`${Project.apis.v1}/benefits/${id}`, body);
+    await client.patch(`${Project.apis.v1}/benefits/${id}`, body);
   },
 
   deleteBenefit: async (id: TSingleBenefit) => {
-    await axios.delete(`${Project.apis.v1}/benefits/${id}`);
+    await client.delete(`${Project.apis.v1}/benefits/${id}`);
   },
 
   getSuggestions: async () => {
-    const { data } = await axios.get(`${Project.apis.v1}/suggestions`);
+    const { data } = await client.get(
+      `${Project.apis.v1}/benefits/suggestions`
+    );
     return data;
   },
 
-  addSuggestion: async (body: TAddBenefit) => {
-    await axios.post(`${Project.apis.v1}/suggestions`);
+  addSuggestion: async (body: TAddSuggestion) => {
+    await client.post(`${Project.apis.v1}/benefits/suggestions`, body);
   },
 
   getSingleSuggestion: async (id: TSingleBenefit) => {
-    const { data } = await axios.post(`${Project.apis.v1}/suggestions/${id}`);
+    const { data } = await client.get(
+      `${Project.apis.v1}/benefits/suggestions/${id}`
+    );
 
     return data;
   },
 
   updateSuggestion: async (id: TSingleBenefit, body: TAddBenefit) => {
-    await axios.patch(`${Project.apis.v1}/suggestions/${id}`, body);
+    await client.patch(`${Project.apis.v1}/benefits/suggestions/${id}`, body);
   },
 
   deleteSuggestion: async (id: TSingleBenefit) => {
-    await axios.delete(`${Project.apis.v1}/suggestions/${id}`);
+    await client.delete(`${Project.apis.v1}/benefits/suggestions/${id}`);
   },
 
   upvoteSuggestion: async (id: TSingleBenefit) => {
-    await axios.post(`${Project.apis.v1}/suggestions/${id}/upvote`);
+    await client.post(`${Project.apis.v1}/benefits/suggestions/${id}/upvote`);
   },
 
   downvoteSuggestion: async (id: TSingleBenefit) => {
-    await axios.post(`${Project.apis.v1}/suggestions/${id}/downvote`);
+    await client.post(`${Project.apis.v1}/benefits/suggestions/${id}/downvote`);
   },
 };
 

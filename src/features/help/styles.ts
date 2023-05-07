@@ -35,6 +35,7 @@ export const HelpPageContactContainer = styled.div<{ theme?: Theme }>`
 
         &:last-of-type {
             padding-left: ${theme.spacing(15)};
+            height: 100%;
         }
 
         ${theme.breakpoints.down('xl')} {
@@ -85,7 +86,19 @@ export const HelpPageIconWithTextContainer = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
             display: flex;
             flex-direction: column;
-            gap: ${theme.spacing(15)};
+            gap: ${theme.spacing(30)};
+
+            ${theme.breakpoints.down('md')} {
+                align-items: center;
+            }
+        `}
+`;
+
+export const HelpPageIconWithTextIContainer = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+            display: flex;
+            flex-direction: column;
+            gap: ${theme.spacing(10)};
 
             ${theme.breakpoints.down('md')} {
                 align-items: center;
