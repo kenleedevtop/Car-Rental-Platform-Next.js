@@ -80,35 +80,35 @@ const BenefitsPage = () => {
   const getBenefits = async (params: any) => {
     const { meta, result } = await BenefitsAPI.getBenefits(params);
 
-    setTotalResults(meta.countFiltered);
+    // setTotalResults(meta.countFiltered);
     setBenefits(result);
   };
 
-  const setStuff = async (data: any) => {
-    await getBenefits({ skip: data.skip, limit: data.limit });
-  };
+  // const setStuff = async (data: any) => {
+  //   await getBenefits({ skip: data.skip, limit: data.limit });
+  // };
 
-  const {
-    limit,
-    pagesCount,
-    page,
-    setTotalResults,
-    setLimit,
-    handlePageChange,
-  } = usePagination({
-    limit: 10,
-    page: 1,
-    onChange: async (
-      data: TUsePaginationData,
-      setPage: TUsePaginationFunction
-    ) => {
-      setStuff(data);
-      setPage(data.page);
-    },
-  });
+  // const {
+  //   limit,
+  //   pagesCount,
+  //   page,
+  //   setTotalResults,
+  //   setLimit,
+  //   handlePageChange,
+  // } = usePagination({
+  //   limit: 10,
+  //   page: 1,
+  //   onChange: async (
+  //     data: TUsePaginationData,
+  //     setPage: TUsePaginationFunction
+  //   ) => {
+  //     setStuff(data);
+  //     setPage(data.page);
+  //   },
+  // });
 
   const handleGet = () => {
-    getBenefits({ limit, skip: (page - 1) * limit });
+    // getBenefits({ limit, skip: (page - 1) * limit });
   };
 
   const handleMenuTba = () => {
@@ -384,11 +384,11 @@ const BenefitsPage = () => {
             items={benefits}
             renderItem={renderItem}
           />
-          <Pagination
+          {/* <Pagination
             onChange={(_e, x) => handlePageChange(x)}
             page={page}
             count={pagesCount}
-          />
+          /> */}
         </Stack>
       </CardWithText>
       <CardWithText
