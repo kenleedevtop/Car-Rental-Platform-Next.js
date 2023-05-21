@@ -15,6 +15,7 @@ const SMLManage = () => {
     <>
       <Title>SML Reports</Title>
       {role === 'ADMIN' && <ManageSMLPage />}
+      {role === 'SUPERADMIN' && <ManageSMLPage />}
     </>
   );
 };

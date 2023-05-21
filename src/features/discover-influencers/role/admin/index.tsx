@@ -38,7 +38,7 @@ import {
 } from 'features/discover-influencers/role/admin/elements';
 import { useModal } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { AdminAPI } from 'api';
+import { InfluencerAPI } from 'api';
 
 const DiscoverInfluencersPage = () => {
   // Modals
@@ -46,11 +46,6 @@ const DiscoverInfluencersPage = () => {
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
 
   const [tabs, setTabs] = useState(0);
-  const [status, setStatus] = useState('IDENTIFIED');
-  const [page, setPage] = useState(1);
-  const [influencers, setInfluencers] = useState([]);
-  const [currentInfluencer, setCurrentInfluencer] = useState<any>({});
-  const [counter, setCounter] = useState(0);
 
   const [filter, setFilter] = useState<any>(
     DGenerateDiscoverInfluencersFilter()
@@ -66,6 +61,20 @@ const DiscoverInfluencersPage = () => {
     setFilter(DGenerateDiscoverInfluencersFilter());
   };
 
+  const [influencers, setInfluencers] = useState<any>([]);
+
+  const getInfluencers = async () => {
+    const { result } = await InfluencerAPI.getInfluencers();
+
+    setInfluencers(result);
+  };
+
+  const [currentInfluencer, setCurrentInfluencer] = useState<any>();
+
+  const getCurrentInfluencer = (value: any) => {
+    setCurrentInfluencer(value);
+  };
+
   const renderItem = ({
     headItem,
     cell,
@@ -76,7 +85,7 @@ const DiscoverInfluencersPage = () => {
       return (
         <DiscoverInfluencersAction
           onClick={() => {
-            setCurrentInfluencer(row.data);
+            getCurrentInfluencer(row.data.id);
             openIpModal();
           }}
         >
@@ -90,47 +99,33 @@ const DiscoverInfluencersPage = () => {
     if (headItem.reference === 'email') {
       return cell.data;
     }
-    if (headItem.reference === 'username') {
-      return cell.data;
+    if (headItem.reference === 'status') {
+      return 'Registered';
     }
-    if (headItem.reference === 'socialMedia') {
-      return cell.data;
+    if (headItem.reference === 'registeredAt') {
+      return row.data.createdAt.slice(0, 10);
     }
-    if (headItem.reference === 'diseaseArea') {
-      return cell.data;
+
+    if (headItem.reference === 'invitedBy') {
+      return row.data.influencer.invitendByUserId;
     }
-    if (headItem.reference === 'location') {
-      return cell.data;
-    }
-    if (headItem.reference === 'followers') {
-      return cell.data;
-    }
+
     if (headItem.reference === 'actions') {
-      return <DiscoverActions data={row.data} />;
+      return (
+        <DiscoverActions data={row.data} refreshInfluencers={getInfluencers} />
+      );
     }
 
     return '';
   };
 
-  const getUsers = async (input: string) => {
-    try {
-      const { leads: data, count: countNumber } = await AdminAPI.getInfluencers(
-        input
-      );
-      setInfluencers(data);
-      console.log('STABRESTA', influencers);
-    } catch {
-      console.log('error');
-    }
-  };
-
   useEffect(() => {
-    getUsers(status);
+    getInfluencers();
   }, []);
 
-  const handlePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
-  };
+  useEffect(() => {
+    setInfluencers(influencers);
+  }, [influencers]);
 
   return (
     <DiscoverInfluencersPageMain>
@@ -412,7 +407,7 @@ const DiscoverInfluencersPage = () => {
           {tabs === 0 && (
             <CheckboxTable
               head={DInfluencerHeadRegistered}
-              items={[influencers]}
+              items={influencers}
               renderItem={renderItem}
             />
           )}
@@ -423,17 +418,16 @@ const DiscoverInfluencersPage = () => {
               renderItem={renderItem}
             />
           )}
-          <Pagination count={counter} page={page} onChange={handlePage} />
+          <Pagination count={1} />
           <Stack direction="horizontal">
             <ToBeApprovedActions />
-            <DiscoverActions data={currentInfluencer} />
           </Stack>
         </Stack>
       </CardWithText>
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}
       {ipModal && (
         <InfluencerProfile
-          influencer={currentInfluencer}
+          influencerId={currentInfluencer}
           onClose={closeIpModal}
         />
       )}

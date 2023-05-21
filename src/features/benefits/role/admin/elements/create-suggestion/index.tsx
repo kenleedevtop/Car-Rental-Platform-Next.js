@@ -6,6 +6,7 @@ import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { BenefitsAPI } from 'api';
 import UsersAPI from 'api/users';
+import { useSnackbar } from 'hooks';
 
 const CreateSuggestion = ({
   onClose,
@@ -25,14 +26,17 @@ const CreateSuggestion = ({
     outcomeDescription: '',
   });
 
-  const handleAddSuggestion = async () => {
-    await BenefitsAPI.addSuggestion(state);
-    // setState(initialState);
-  };
+  const { push } = useSnackbar();
 
-  useEffect(() => {
-    console.log('STATE', state);
-  }, [state]);
+  const handleAddSuggestion = async () => {
+    try {
+      await BenefitsAPI.addSuggestion(state);
+      push('Suggestion successfully added.', { variant: 'success' });
+      setState(initialState);
+    } catch {
+      push("Suggestion couldn't be added.", { variant: 'error' });
+    }
+  };
 
   return (
     <Modal

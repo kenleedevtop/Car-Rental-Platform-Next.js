@@ -15,12 +15,16 @@ const ChangeBenefitModal = ({
   ...props
 }: TChangeBenefitModalProps) => {
   const [state, setState] = useState({
-    benefitPartnershipId: data.benefitCategoryId,
+    benefitPartnershipId: data.benefitPartnershipId,
     benefitCompanyLink: data.benefitCompanyLink,
     description: data.description,
-    benefitCategoryId: 1,
+    benefitCategoryId: data.benefitCategoryId,
     benefitLocations: data.benefitsLocations,
   });
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
 
   useEffect(() => {
     setState({
@@ -34,7 +38,7 @@ const ChangeBenefitModal = ({
   const [companies, setCompanies] = useState<any>([]);
 
   const getCompanies = async () => {
-    const { result } = await CompanyAPI.getAll();
+    const { result } = await BenefitsAPI.getBenefitsPartnerships();
 
     setCompanies(
       result.map((x: any) => ({
@@ -57,6 +61,19 @@ const ChangeBenefitModal = ({
     );
   };
 
+  const [categories, setCategories] = useState<any>([]);
+
+  const getCategories = async () => {
+    const result = await BenefitsAPI.getBenefitsCategories();
+
+    setCategories(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
   const [disabled, setDisabled] = useState(true);
 
   const handleDisabled = () => {
@@ -66,6 +83,7 @@ const ChangeBenefitModal = ({
   useEffect(() => {
     getCompanies();
     getLocations();
+    getCategories();
   }, []);
 
   const [ccbModal, openCcbModal, closeCcbModal] = useModal(false);
@@ -124,9 +142,10 @@ const ChangeBenefitModal = ({
             label="Category"
             placeholder="Please Select"
             value={state.benefitCategoryId}
-            onValue={(benefitCategoryId) =>
-              setState({ ...state, benefitCategoryId })
+            onValue={({ value }) =>
+              setState({ ...state, benefitCategoryId: value })
             }
+            options={categories}
           />
           <Input
             disabled={disabled}

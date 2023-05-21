@@ -15,6 +15,7 @@ const CreateSurvey = () => {
     <>
       <Title>Create Survey</Title>
       {role === 'ADMIN' && <CreateSurveyPage />}
+      {role === 'SUPERADMIN' && <CreateSurveyPage />}
     </>
   );
 };

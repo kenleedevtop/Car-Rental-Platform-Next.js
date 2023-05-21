@@ -144,7 +144,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
               <ArrowDownIcon />
             </NavigationProvileIcon>
           </NavigationProfile>
-          {open && ['ADMIN'].includes(role) && (
+          {open && ['ADMIN', 'SUPERADMIN'].includes(role) && (
             <NavigationProfileDropdown
               items={[
                 {

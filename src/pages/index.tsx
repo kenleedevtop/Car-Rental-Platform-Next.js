@@ -20,6 +20,7 @@ const Home = () => {
     <>
       <Title>Home</Title>
       {role === 'ADMIN' && <AdminHomePage />}
+      {role === 'SUPERADMIN' && <AdminHomePage />}
       {role === 'CLIENT' && <ClientHomePage />}
       {role === 'INFLUENCER' && <InfluencerHomePage />}
       {role === 'AMBASSADOR' && <AmbasadorHomePage />}

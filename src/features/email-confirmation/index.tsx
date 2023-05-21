@@ -5,7 +5,7 @@ import {
   EmailButton,
 } from 'features/email-confirmation/styles';
 import { useSnackbar } from 'hooks';
-import { InfluencerAPI, ClientAPI, AmbassadorAPI, AuthorizationAPI } from 'api';
+import { AuthorizationAPI } from 'api';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 

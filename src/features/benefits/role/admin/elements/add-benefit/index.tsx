@@ -6,14 +6,14 @@ import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { ConfirmAddBenefitModal } from 'features/benefits/role/admin/elements';
 import { useModal } from 'hooks';
-import { CompanyAPI, LocationAPI } from 'api';
+import { BenefitsAPI, CompanyAPI, LocationAPI } from 'api';
 
 const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
   const [state, setState] = useState({
     benefitPartnershipId: -1,
     benefitCompanyLink: '',
     description: '',
-    benefitCategoryId: 1,
+    benefitCategoryId: -1,
     benefitLocations: [-1],
   });
 
@@ -21,16 +21,35 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
     benefitPartnershipId: -1,
     benefitCompanyLink: '',
     description: '',
-    benefitCategoryId: 1,
+    benefitCategoryId: -1,
     benefitLocations: [-1],
   });
 
+  const [search, setSearch] = useState('');
+
+  const handleSearch = (value: any) => {
+    setSearch(value);
+  };
+
   const [cabModal, openCabModal, closeCabModal] = useModal(false);
+
+  const [categories, setCategories] = useState<any>([]);
+
+  const getCategories = async () => {
+    const result = await BenefitsAPI.getBenefitsCategories();
+
+    setCategories(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
 
   const [companies, setCompanies] = useState<any>([]);
 
   const getCompanies = async () => {
-    const { result } = await CompanyAPI.getAll();
+    const { result } = await BenefitsAPI.getBenefitsPartnerships();
 
     setCompanies(
       result.map((x: any) => ({
@@ -55,12 +74,9 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
 
   useEffect(() => {
     getCompanies();
+    getCategories();
     getLocations();
   }, []);
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
 
   return (
     <Modal
@@ -86,6 +102,8 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
             label="Company Name"
             placeholder="Please Enter"
             value={state.benefitPartnershipId}
+            // inputValue={search}
+            // onInputChange={(input: any) => handleSearch(input)}
             onValue={({ value }) =>
               setState({ ...state, benefitPartnershipId: value })
             }
@@ -105,9 +123,10 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
             label="Category"
             placeholder="Please Select"
             value={state.benefitCategoryId}
-            onValue={(benefitCategoryId) =>
-              setState({ ...state, benefitCategoryId })
+            onValue={({ value }) =>
+              setState({ ...state, benefitCategoryId: value })
             }
+            options={categories}
           />
           <Input
             type="select"

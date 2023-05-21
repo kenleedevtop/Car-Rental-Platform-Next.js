@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TNoteInfluencersModalProps } from 'features/discover-influencers/role/admin/elements/note-influencers-modal/types';
 import {
@@ -8,6 +8,8 @@ import {
 import { Button, Input } from 'components/ui';
 import { InputLabel } from 'components/ui/input/styles';
 import { SingleComment } from 'features/discover-influencers/role/admin/elements/note-influencers-modal/elements';
+import LabelsAPI from 'api/labels';
+import { useSnackbar } from 'hooks';
 
 const NoteInfluencersModal = ({
   onClose,
@@ -17,6 +19,8 @@ const NoteInfluencersModal = ({
   const [comments, setComments] = useState<string[]>([]);
   const [input, setInput] = useState('');
   const [tabs, setTabs] = useState(0);
+
+  const { push } = useSnackbar();
 
   const [options, setOptions] = useState([
     {
@@ -45,10 +49,36 @@ const NoteInfluencersModal = ({
     setComments((prev) => prev.filter((x, id) => id !== index));
   };
 
+  const postLabels = async (x: any) => {
+    await LabelsAPI.postLabel(x);
+  };
+
   const handleNewTag = (v: any) => {
     setOptions((x) => [...x, v]);
     setLabel((x: any) => [...x, v]);
+
+    try {
+      postLabels({ name: v.label, assigneeType: 0 });
+      push('Label added', { variant: 'success' });
+    } catch {
+      push('Something failed. Label not added.', { variant: 'error' });
+    }
   };
+
+  const getAssigneeType = async () => {
+    const { result } = await LabelsAPI.getAssigneeType();
+    console.log(result);
+  };
+
+  const getLabels = async () => {
+    const { result } = await LabelsAPI.getLabels();
+    console.log(result);
+  };
+
+  useEffect(() => {
+    getAssigneeType();
+    getLabels();
+  }, []);
 
   return (
     <Modal

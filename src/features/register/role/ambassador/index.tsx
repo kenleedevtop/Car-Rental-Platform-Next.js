@@ -199,11 +199,11 @@ const RegisterPage = () => {
           type="select"
           label="Company"
           placeholder="Please Enter your Company"
-          value={state.company.name}
-          onValue={(value) =>
+          value={state.company.companyId}
+          onValue={({ value, label }) =>
             setState({
               ...state,
-              company: { name: value.label, companyId: value.value },
+              company: { name: label, companyId: value },
             })
           }
           options={companies}

@@ -75,17 +75,21 @@ const BenefitsPage = () => {
   const [menuTba, openTba, setOpenTba] = useMenu(false);
   const [menuS, openS, setOpenS] = useMenu(false);
 
-  const [benefits, setBenefits] = useState([]);
+  // const [benefits, setBenefits] = useState([]);
+  // const [suggestions, setSuggestions] = useState([]);
 
-  const getBenefits = async (params: any) => {
-    const { meta, result } = await BenefitsAPI.getBenefits(params);
+  // const getSuggestions = async (params: any) => {
+  //   const { meta, result } = await BenefitsAPI.getSuggestions(params);
 
-    // setTotalResults(meta.countFiltered);
-    setBenefits(result);
-  };
+  //   setTotalResults(meta.countFiltered);
+  //   setSuggestions(result);
+  // };
 
-  // const setStuff = async (data: any) => {
-  //   await getBenefits({ skip: data.skip, limit: data.limit });
+  // const getBenefits = async (params: any) => {
+  //   const { meta, result } = await BenefitsAPI.getBenefits(params);
+
+  //   setTotalResults(meta.countFiltered);
+  //   setBenefits(result);
   // };
 
   // const {
@@ -102,14 +106,33 @@ const BenefitsPage = () => {
   //     data: TUsePaginationData,
   //     setPage: TUsePaginationFunction
   //   ) => {
-  //     setStuff(data);
+  //     await getBenefits({ skip: data.skip, limit: data.limit });
   //     setPage(data.page);
   //   },
   // });
 
-  const handleGet = () => {
-    // getBenefits({ limit, skip: (page - 1) * limit });
-  };
+  // const suggestion = usePagination({
+  //   limit: 10,
+  //   page: 1,
+  //   onChange: async (
+  //     suggestionData: TUsePaginationData,
+  //     suggestionSetPage: TUsePaginationFunction
+  //   ) => {
+  //     await getSuggestions({
+  //       skip: suggestionData.skip,
+  //       limit: suggestionData.limit,
+  //     });
+  //     suggestionSetPage(suggestionData.page);
+  //   },
+  // });
+
+  // const handleGet = () => {
+  //   getBenefits({ limit, skip: (page - 1) * limit });
+  // };
+
+  // const handleGetSuggestions = () => {
+  //   getSuggestions({ limit, skip: (page - 1) * limit });
+  // };
 
   const handleMenuTba = () => {
     setOpenTba(!openTba);
@@ -162,9 +185,49 @@ const BenefitsPage = () => {
       return row.data.description;
     }
 
-    if (headItem.reference === 'actions') {
-      return <ToBeApprovedActions action={handleGet} data={row.data} />;
+    // if (headItem.reference === 'actions') {
+    //   return <ToBeApprovedActions action={handleGet} data={row.data} />;
+    // }
+
+    return '';
+  };
+
+  const renderItemSuggestions = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'company') {
+      return row.data.benefitPartnership.name;
     }
+    if (headItem.reference === 'category') {
+      return row.data.benefitCategory.name;
+    }
+    if (headItem.reference === 'location') {
+      row.data.benefitLocations.forEach((item: any) => {
+        row.data = item.location.name;
+      });
+
+      return row.data;
+    }
+    if (headItem.reference === 'link') {
+      return (
+        <Link href={row.data.benefitCompanyLink}>
+          <LockIcon />
+        </Link>
+      );
+      // return row.data.benefitCompanyLink;
+    }
+    if (headItem.reference === 'benefit') {
+      return row.data.description;
+    }
+
+    // if (headItem.reference === 'actions') {
+    //   return (
+    //     <ToBeApprovedActions action={handleGetSuggestions} data={row.data} />
+    //   );
+    // }
 
     return '';
   };
@@ -379,12 +442,12 @@ const BenefitsPage = () => {
               </BenefitsPageFilterActions>
             </BenefitsPageFilter>
           </Collapse>
-          <CheckboxTable
+          {/* <CheckboxTable
             head={DFinanceHead}
             items={benefits}
             renderItem={renderItem}
           />
-          {/* <Pagination
+          <Pagination
             onChange={(_e, x) => handlePageChange(x)}
             page={page}
             count={pagesCount}
@@ -408,7 +471,7 @@ const BenefitsPage = () => {
           <CheckboxTable
             head={DFinanceHead2}
             items={[]}
-            renderItem={renderItem}
+            renderItem={renderItemSuggestions}
           />
           <Pagination count={32} />
           <Stack direction="horizontal">
@@ -473,7 +536,7 @@ const BenefitsPage = () => {
         <AddBenefitModal
           onClose={() => {
             closeAbModal();
-            handleGet();
+            // handleGet();
           }}
         />
       )}
@@ -485,7 +548,14 @@ const BenefitsPage = () => {
       {/* {crbModal && <ConfirmRemoveBenefitModal onClose={closeCrbModal} />} */}
       {crsModal && <ConfirmRemoveSuggestionModal onClose={closeCrsModal} />}
       {cusModal && <ConfirmUpdateSuggestionModal onClose={closeCusModal} />}
-      {csModal && <CreateSuggestion onClose={closeCsModal} />}
+      {csModal && (
+        <CreateSuggestion
+          onClose={() => {
+            closeCsModal();
+            // handleGetSuggestions();
+          }}
+        />
+      )}
     </BenefitsPageMain>
   );
 };

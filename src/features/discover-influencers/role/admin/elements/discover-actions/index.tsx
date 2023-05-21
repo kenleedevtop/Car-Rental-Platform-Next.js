@@ -19,7 +19,11 @@ import {
 } from 'features/discover-influencers/role/admin/elements';
 import { TDiscoverActionsMenuProps } from 'features/discover-influencers/role/admin/elements/discover-actions/types';
 
-const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
+const DiscoverActions = ({
+  data,
+  refreshInfluencers,
+  ...props
+}: TDiscoverActionsMenuProps) => {
   const [menu, open, setOpen] = useMenu(false);
 
   const handleMenu = () => {
@@ -77,7 +81,16 @@ const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
         <ContactInfluencerModal id={data.id} onClose={closeCiModal} />
       )}
       {niModal && <NoteInfluencer onClose={closeNiModal} />}
-      {diModal && <DeleteInfluencerModal id={data.id} onClose={closeDiModal} />}
+      {diModal && (
+        <DeleteInfluencerModal
+          id={data.id}
+          refreshInfluencers={refreshInfluencers}
+          onClose={() => {
+            refreshInfluencers();
+            closeDiModal();
+          }}
+        />
+      )}
       {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
     </DiscoverActionsMain>
   );

@@ -22,14 +22,14 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <HomeIcon />,
     label: 'Home',
     location: '/',
-    roles: ['ADMIN', 'INFLUENCER', 'CLIENT', 'AMBASSADOR'],
+    roles: ['ADMIN', 'SUPERADMIN', 'INFLUENCER', 'CLIENT', 'AMBASSADOR'],
   },
   {
     id: 2,
     type: 'nested',
     icon: <DiscoverIcon />,
     label: 'Discover',
-    roles: ['ADMIN'],
+    roles: ['ADMIN', 'SUPERADMIN'],
     items: [
       {
         id: 14,
@@ -48,7 +48,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'nested',
     icon: <ClientsIcon />,
     label: 'Users',
-    roles: ['ADMIN'],
+    roles: ['ADMIN', 'SUPERADMIN'],
     items: [
       {
         id: 16,
@@ -112,7 +112,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     type: 'nested',
     icon: <ServicesIcon />,
     label: 'Services',
-    roles: ['ADMIN'],
+    roles: ['ADMIN', 'SUPERADMIN'],
     items: [
       {
         id: 19,
@@ -156,7 +156,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <FinanceIcon />,
     label: 'Finance',
     location: '/finance',
-    roles: ['ADMIN'],
+    roles: ['ADMIN', 'SUPERADMIN'],
   },
   {
     id: 12,

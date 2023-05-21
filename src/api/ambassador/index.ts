@@ -5,31 +5,27 @@ import {
   TRegisterAsAmbassadorParams,
 } from 'api/ambassador/types';
 
+import { client } from 'api/api-client';
+
 const AmbassadorAPI = {
   registration: async (body: TRegisterAsAmbassadorParams) => {
-    const { data } = await axios.post(
-      `${Project.apis.v1}/ambassador/registration`,
-      body
-    );
-    return data;
+    await client.post(`${Project.apis.v1}/ambassador/registration`, body);
   },
 
   getAmbassadors: async () => {
-    const { data } = await axios.get(`${Project.apis.v1}/ambassador`);
+    const { data } = await client.get(`${Project.apis.v1}/ambassador`);
 
     return data;
   },
 
   getSingleAmbassador: async (id: TSingleAmbassador) => {
-    const { data } = await axios.get(`${Project.apis.v1}/ambassador/${id}`);
+    const { data } = await client.get(`${Project.apis.v1}/ambassador/${id}`);
 
     return data;
   },
 
   deleteAmbassador: async (id: TSingleAmbassador) => {
-    const { data } = await axios.delete(`${Project.apis.v1}/ambassador/${id}`);
-
-    return data;
+    await client.delete(`${Project.apis.v1}/ambassador/${id}`);
   },
 };
 

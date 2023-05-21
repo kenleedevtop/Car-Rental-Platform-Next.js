@@ -15,6 +15,7 @@ const Finance = () => {
     <>
       <Title>Finance</Title>
       {role === 'ADMIN' && <AdminFinancePage />}
+      {role === 'SUPERADMIN' && <AdminFinancePage />}
     </>
   );
 };

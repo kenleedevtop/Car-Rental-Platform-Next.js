@@ -15,6 +15,7 @@ const DiscoverClients = () => {
     <>
       <Title>Discover Clients</Title>
       {role === 'ADMIN' && <AdminDiscoverClientsPage />}
+      {role === 'SUPERADMIN' && <AdminDiscoverClientsPage />}
     </>
   );
 };

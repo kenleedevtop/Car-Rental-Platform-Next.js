@@ -15,10 +15,9 @@ export const MenuItem = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    place-items: center;
+    grid-template-columns: 14px 1fr;
     align-items: center;
-    gap: ${theme.spacing(2)};
+    gap: ${theme.spacing(5)};
     cursor: pointer;
     padding: ${theme.spacing(2.5)} ${theme.spacing(5)};
     &:hover {
@@ -50,6 +49,9 @@ export const MenuItemLabel = styled.div<{ theme?: Theme }>`
     font-size: 12px;
     height: 100%;
     color: ${theme.palette.common.gray[8]};
+    display: flex;
+    align-items: center;
+    justify-content: flex-start
     
     `}
 `;

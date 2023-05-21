@@ -15,6 +15,7 @@ const Clients = () => {
     <>
       <Title>Clients</Title>
       {role === 'ADMIN' && <AdminClientsPage />}
+      {role === 'SUPERADMIN' && <AdminClientsPage />}
     </>
   );
 };

@@ -11,7 +11,6 @@ import {
   ScheduleIcon,
   VerticalDotsIcon,
 } from 'components/svg';
-import { BenefitsAPI } from 'api';
 import {
   ChangeBenefit,
   ConfirmRemoveBenefitModal,

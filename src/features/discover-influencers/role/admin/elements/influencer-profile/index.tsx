@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TInfluencerProfileModalProps } from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
 import {
@@ -8,41 +8,127 @@ import {
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { EditIcon } from 'components/svg';
-import { AdminAPI } from 'api';
+import { InfluencerAPI, LocationAPI } from 'api';
 import { useSnackbar } from 'hooks';
+import DiseaseAreaAPI from 'api/diseaseArea';
 
 const InfluencerProfile = ({
   onClose,
-  influencer,
+  influencerId,
   ...props
 }: TInfluencerProfileModalProps) => {
-  const [state, setState] = useState({
-    firstName: influencer.firstName || '',
-    lastName: influencer.lastName || '',
-    email: influencer.email || '',
-    username: influencer.username || '',
-    socialMedia: influencer.socialMedia || '',
-    diseaseArea: influencer.diseaseArea || null,
-    location: influencer.location || null,
-    followers: influencer.followers || 0,
+  const [influencer, setInfluencer] = useState<any>();
+  const [locations, setLocations] = useState<any>([]);
+  const [diseaseArea, setDiseaseArea] = useState<any>([]);
+  const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [state, setState] = useState<any>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    username: '',
+    locationId: null,
+    followers: null,
+    diseaseAreas: [],
+    socialPlatforms: [
+      {
+        socialPlatformId: null,
+        authorizationCode: '',
+      },
+    ],
   });
 
-  const [disabled, setDisabled] = useState(true);
-  const [data, setData] = useState(influencer);
-
   const { push } = useSnackbar();
+
+  const getInfluencer = async () => {
+    const data = await InfluencerAPI.getSingleInfluencer(influencerId);
+    setInfluencer(data);
+  };
+
+  const getLocations = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await LocationAPI.getAll(s);
+    setLocations(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getDiseaseArea = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await DiseaseAreaAPI.getAll(s);
+
+    setDiseaseArea(
+      result.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const updateInfluencer = async (body: any, id: any) => {
+    if (!disabled) {
+      const { locationId, diseaseAreas, socialPlatforms, ...rest } = body;
+
+      const newBody = {
+        ...rest,
+        locationId: locationId.value,
+        diseaseAreas: diseaseAreas.map((x: any) => x.value),
+        socialPlatforms: [
+          {
+            authorizationCode: socialPlatforms[0].authorizationCode,
+            socialPlatformId: socialPlatforms[0].socialPlatformId.value,
+          },
+        ],
+      };
+
+      try {
+        await InfluencerAPI.updateInfluencer(newBody, id);
+        push('Successfully updated Influencer', { variant: 'success' });
+        onClose();
+      } catch {
+        push('Something went wrong.', { variant: 'error' });
+      }
+    }
+  };
 
   const handleDisabled = () => {
     setDisabled(!disabled);
   };
 
-  const handleUpdate = async () => {
-    try {
-      await AdminAPI.updateInfluencer(influencer.id, influencer);
-      push('Influencer successfully updated!', { variant: 'success' });
-    } catch (e: any) {
-      push(e.response.data.message, { variant: 'error' });
+  useEffect(() => {
+    getInfluencer();
+    getLocations();
+    getDiseaseArea();
+  }, []);
+
+  useEffect(() => {
+    if (influencer) {
+      setState({
+        ...state,
+        firstName: influencer.firstName,
+        lastName: influencer.lastName,
+        email: influencer.email,
+        locationId: influencer.locationId,
+      });
     }
+  }, [influencer]);
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
+
+  const handleNewTag = (v: any) => {
+    setState({ ...state, diseaseAreas: [...state.diseaseAreas, v] });
   };
 
   return (
@@ -50,7 +136,7 @@ const InfluencerProfile = ({
       size="medium"
       title={
         <InfluencerTitle>
-          {state.firstName} {state.lastName}{' '}
+          {state.firstName} {state.lastName}
           <EditIcon style={{ cursor: 'pointer' }} onClick={handleDisabled} />
         </InfluencerTitle>
       }
@@ -59,12 +145,7 @@ const InfluencerProfile = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={() => {
-            if (!disabled) {
-              handleUpdate();
-              onClose();
-            }
-          }}
+          onClick={() => updateInfluencer(state, influencerId)}
         >
           {disabled ? 'Close' : 'Save'}
         </Button>,
@@ -73,79 +154,104 @@ const InfluencerProfile = ({
       {...props}
     >
       <Stack>
-        <InfluencerProfileModalMain columns={1}>
-          <Stack direction="horizontal">
-            <Input
-              type="text"
-              label="First Name"
-              placeholder="Please Enter"
-              disabled={disabled}
-              value={state.firstName}
-              onValue={(firstName) => setState({ ...state, firstName })}
-            />
-            <Input
-              type="text"
-              label="Last Name"
-              placeholder="Please Enter"
-              disabled={disabled}
-              value={state.lastName}
-              onValue={(lastName) => setState({ ...state, lastName })}
-            />
-          </Stack>
-          <Stack direction="horizontal">
-            <Input
-              type="text"
-              label="Email"
-              placeholder="Please Enter"
-              disabled={disabled}
-              value={state.email}
-              onValue={(email) => setState({ ...state, email })}
-            />
-            <Input
-              type="text"
-              label="Username"
-              placeholder="Please Enter"
-              disabled={disabled}
-              value={state.username}
-              onValue={(username) => setState({ ...state, username })}
-            />
-          </Stack>
-          <Stack direction="horizontal">
-            <Input
-              type="text"
-              label="Social Media"
-              placeholder="Please Enter"
-              disabled={disabled}
-              value={state.socialMedia}
-              onValue={(socialMedia) => setState({ ...state, socialMedia })}
-            />
-            <Input
-              type="text"
-              label="Disease Area"
-              placeholder="Please Enter"
-              disabled={disabled}
-              value={state.diseaseArea}
-              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
-            />
-          </Stack>
-          <Stack direction="horizontal">
-            <Input
-              type="text"
-              label="Location"
-              placeholder="Please Enter"
-              disabled={disabled}
-              value={state.location}
-              onValue={(location) => setState({ ...state, location })}
-            />
-            <Input
-              type="number"
-              label="Followers"
-              placeholder="Please Enter"
-              disabled={disabled}
-              value={state.followers}
-              onValue={(followers) => setState({ ...state, followers })}
-            />
-          </Stack>
+        <InfluencerProfileModalMain columns={2}>
+          <Input
+            type="text"
+            label="First Name"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.firstName}
+            onValue={(firstName) => setState({ ...state, firstName })}
+          />
+          <Input
+            type="text"
+            label="Last Name"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.lastName}
+            onValue={(lastName) => setState({ ...state, lastName })}
+          />
+          <Input
+            type="text"
+            label="Email"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.email}
+            onValue={(email) => setState({ ...state, email })}
+          />
+          <Input
+            type="select"
+            label="Social Media"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.socialPlatforms[0].socialPlatformId}
+            onValue={(socialMedia) => {
+              setState({
+                ...state,
+                socialPlatforms: [
+                  {
+                    socialPlatformId: socialMedia,
+                    authorizationCode: '',
+                  },
+                ],
+              });
+            }}
+            options={[
+              {
+                value: 0,
+                label: 'Instagram',
+              },
+              {
+                value: 1,
+                label: 'Twitter',
+              },
+              {
+                value: 2,
+                label: 'Facebook',
+              },
+            ]}
+          />
+          <Input
+            type="text"
+            label="Username"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.username}
+            onValue={(username) => setState({ ...state, username })}
+          />
+          <Input
+            type="multiselect"
+            label="Disease Area"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.diseaseAreas}
+            onSearch={debounce(getDiseaseArea, 1000)}
+            onValue={(input) => {
+              setState({ ...state, diseaseAreas: input });
+            }}
+            onNewTag={handleNewTag}
+            loading={loading}
+            options={diseaseArea}
+          />
+          <Input
+            type="select"
+            label="Location"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.locationId}
+            onSearch={debounce(getLocations, 1000)}
+            onValue={(locationId) => setState({ ...state, locationId })}
+            loading={loading}
+            options={locations}
+          />
+          <Input
+            type="number"
+            label="Followers"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.followers}
+            onValue={(followers) => setState({ ...state, followers })}
+          />
         </InfluencerProfileModalMain>
       </Stack>
     </Modal>

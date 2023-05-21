@@ -42,9 +42,12 @@ const Input = ({
   minRows,
   maxRows,
   onNewTag,
+  initialSearch = '',
+  onSearch,
+  loading = false,
   ...props
 }: TInputProps) => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(initialSearch);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [disabledNewTag, setDisabledNewTag] = useState(false);
@@ -54,7 +57,7 @@ const Input = ({
   };
 
   const handleSelect = (_e: React.ChangeEvent<any>, v: any) => {
-    if (onValue) onValue(v);
+    if (onValue && v) onValue(v);
   };
 
   const handleMultiselect = (_e: React.ChangeEvent<any>, v: any) => {
@@ -82,6 +85,14 @@ const Input = ({
     }
     if (errorCallback) errorCallback(false);
     if (onBlur) onBlur(e);
+  };
+
+  const handleSearch = (x: string) => {
+    if (onSearch) {
+      onSearch(x);
+    }
+
+    setSearch(x);
   };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -226,20 +237,19 @@ const Input = ({
       {type === 'select' && (
         <InputSelect
           options={options}
-          getOptionLabel={(option: any) => {
-            const opt = options.find((x) => x.value === option);
-            if (!opt) return '';
-
-            return opt.label;
-          }}
-          renderOption={(optionProps, option: any) => (
-            <MenuItem {...optionProps}>{option.label}</MenuItem>
-          )}
+          getOptionLabel={(option: any) => (option ? option.label : '')}
           value={value}
           onChange={handleSelect}
           inputValue={search}
-          onInputChange={(_a, b) => setSearch(b)}
           disabled={disabled}
+          onInputChange={(_a, b) => handleSearch(b)}
+          loading={loading}
+          isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
+          renderOption={(optionProps, option: any) => (
+            <MenuItem key={option.value} {...optionProps}>
+              {option.label}
+            </MenuItem>
+          )}
           renderInput={({
             InputProps: { endAdornment: _endAdornment, ...InputProps },
             ...x
@@ -252,6 +262,7 @@ const Input = ({
               onBlur={handleBlur}
               onFocus={handleFocus}
               disabled={disabled}
+              // onKeyDown={handleKeyDown}
               InputProps={{
                 ...InputProps,
                 startAdornment,
@@ -308,18 +319,20 @@ const Input = ({
             multiple
             filterSelectedOptions
             options={options}
-            getOptionLabel={(option: any) => {
-              const opt = options.find((x) => x.value === option.value);
-              if (!opt) {
-                return '';
-              }
-              return opt.label;
-            }}
+            getOptionLabel={
+              (option: any) => (option ? option.label : '')
+              // const opt = options.find((x) => x.value === option.value);
+              // if (!opt) {
+              //   return '';
+              // }
+              // return opt.label;
+            }
             value={value}
             onChange={handleMultiselect}
             inputValue={search}
             disabled={disabled}
-            onInputChange={(_a, b) => setSearch(b)}
+            onInputChange={(_a, b) => handleSearch(b)}
+            loading={loading}
             isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
             renderTags={(v: any[], getTagProps) =>
               v.map((option: any, index: number) => (
@@ -332,7 +345,9 @@ const Input = ({
               ))
             }
             renderOption={(optionProps, option: any) => (
-              <MenuItem {...optionProps}>{option.label}</MenuItem>
+              <MenuItem key={option.value} {...optionProps}>
+                {option.label}
+              </MenuItem>
             )}
             renderInput={({
               InputProps: {

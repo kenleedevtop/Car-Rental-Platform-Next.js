@@ -5,5 +5,5 @@ export type TCreateLocation = {
 };
 
 export type TSingleLocation = {
-  id: string;
+  id: number;
 };

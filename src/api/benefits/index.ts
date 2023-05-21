@@ -14,6 +14,20 @@ const BenefitsAPI = {
     return data;
   },
 
+  getBenefitsCategories: async () => {
+    const { data } = await client.get(`${Project.apis.v1}/benefits/categories`);
+
+    return data;
+  },
+
+  getBenefitsPartnerships: async () => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/benefits/partnerships`
+    );
+
+    return data;
+  },
+
   addBenefit: async (body: TAddBenefit) => {
     await client.post(`${Project.apis.v1}/benefits`, body);
   },
@@ -32,10 +46,14 @@ const BenefitsAPI = {
     await client.delete(`${Project.apis.v1}/benefits/${id}`);
   },
 
-  getSuggestions: async () => {
+  getSuggestions: async (filter: any = {}) => {
     const { data } = await client.get(
-      `${Project.apis.v1}/benefits/suggestions`
+      `${Project.apis.v1}/benefits/suggestions`,
+      {
+        params: filter,
+      }
     );
+
     return data;
   },
 

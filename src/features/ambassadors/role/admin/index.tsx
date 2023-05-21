@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AmbassadorsPageMain,
   AmbassadorsPageCharts,
@@ -35,6 +35,7 @@ import {
   NoteAmbassadors,
   ScheduleAmbassadorsModal,
 } from 'features/ambassadors/role/admin/elements';
+import { AmbassadorAPI } from 'api';
 
 const AdminAmbassadorsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateAmbassadorsFilter());
@@ -49,7 +50,7 @@ const AdminAmbassadorsPage = () => {
     setFilter(DGenerateAmbassadorsFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({ row, cell }: TTableRenderItemObject) => '';
 
   const [daModal, openDaModal, closeDaModal] = useModal(false);
   const [caModal, openCaModal, closeCaModal] = useModal(false);
@@ -58,6 +59,18 @@ const AdminAmbassadorsPage = () => {
   const [naModal, openNaModal, closeNaModal] = useModal(false);
   const [iaModal, openIaModal, closeIaModal] = useModal(false);
   const [claModal, openClaModal, closeClaModal] = useModal(false);
+
+  const [ambassadors, setAmbassadors] = useState<any>([]);
+
+  const getAmbassadors = async () => {
+    const { result } = await AmbassadorAPI.getAmbassadors();
+
+    console.log(result);
+  };
+
+  useEffect(() => {
+    getAmbassadors();
+  }, []);
 
   return (
     <AmbassadorsPageMain>

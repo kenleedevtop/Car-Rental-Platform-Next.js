@@ -3,5 +3,6 @@ import React from 'react';
 export type TDeleteInfluencerModalProps =
   React.HTMLAttributes<HTMLDivElement> & {
     onClose: () => void;
-    id: string;
+    id: any;
+    refreshInfluencers: () => void;
   };

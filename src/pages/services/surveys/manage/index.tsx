@@ -15,6 +15,7 @@ const ManageSurvey = () => {
     <>
       <Title>Manage Survey</Title>
       {role === 'ADMIN' && <ManageSurveyPage />}
+      {role === 'SUPERADMIN' && <ManageSurveyPage />}
     </>
   );
 };

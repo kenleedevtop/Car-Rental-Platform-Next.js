@@ -15,6 +15,7 @@ const SML = () => {
     <>
       <Title>SML</Title>
       {role === 'ADMIN' && <AdminSmlPage />}
+      {role === 'SUPERADMIN' && <AdminSmlPage />}
       {role === 'CLIENT' && <ClientSmlPage />}
     </>
   );

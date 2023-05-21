@@ -15,6 +15,7 @@ const OngoingCampaign = () => {
     <>
       <Title>Ongoing Campaigns</Title>
       {role === 'ADMIN' && <OngoingCampaignPage />}
+      {role === 'SUPERADMIN' && <OngoingCampaignPage />}
     </>
   );
 };

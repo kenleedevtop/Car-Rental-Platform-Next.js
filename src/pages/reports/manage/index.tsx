@@ -15,6 +15,7 @@ const ManageReport = () => {
     <>
       <Title>Manage Report</Title>
       {role === 'ADMIN' && <ManageReportPage />}
+      {role === 'SUPERADMIN' && <ManageReportPage />}
       {role === 'CLIENT' && <ManageClientReportPage />}
     </>
   );

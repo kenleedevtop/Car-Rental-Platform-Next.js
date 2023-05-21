@@ -15,6 +15,7 @@ const Ambassadors = () => {
     <>
       <Title> Ambassadors</Title>
       {role === 'ADMIN' && <AmbassadorsPage />}
+      {role === 'SUPERADMIN' && <AmbassadorsPage />}
     </>
   );
 };

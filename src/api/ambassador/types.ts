@@ -12,5 +12,5 @@ export type TRegisterAsAmbassadorParams = {
 };
 
 export type TSingleAmbassador = {
-  id: string;
+  id: number;
 };

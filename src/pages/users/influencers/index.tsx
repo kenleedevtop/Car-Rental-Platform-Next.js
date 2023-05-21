@@ -15,6 +15,7 @@ const Influencers = () => {
     <>
       <Title>Influencers</Title>
       {role === 'ADMIN' && <AdminInfluencersPage />}
+      {role === 'SUPERADMIN' && <AdminInfluencersPage />}
     </>
   );
 };

@@ -37,6 +37,11 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   disabled?: boolean;
   minRows?: number;
   maxRows?: number;
+  inputValue?: string | [];
+  initialSearch?: string;
+  loading?: boolean;
+  onInputChange?: (v: any) => void;
   errorCallback?: (e: boolean) => void;
   onNewTag?: (v: any) => void;
+  onSearch?: (v: string) => void;
 };

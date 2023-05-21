@@ -15,6 +15,7 @@ const InpreparationCampaigns = () => {
     <>
       <Title>Inpreparation Campaigns</Title>
       {role === 'ADMIN' && <InpreparationCampaignsPage />}
+      {role === 'SUPERADMIN' && <InpreparationCampaignsPage />}
     </>
   );
 };

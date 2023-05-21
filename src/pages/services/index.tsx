@@ -19,6 +19,7 @@ const Services = () => {
     <>
       <Title>Services</Title>
       {role === 'ADMIN' && <AdminCampaignsPage />}
+      {role === 'SUPERADMIN' && <AdminCampaignsPage />}
       {role === 'CLIENT' && <ClientCampaignsPage />}
       {role === 'INFLUENCER' && <InfluencerCampaignsPage />}
     </>

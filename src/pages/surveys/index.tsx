@@ -19,6 +19,7 @@ const Surveys = () => {
     <>
       <Title>Surveys</Title>
       {role === 'ADMIN' && <AdminSurveysPage />}
+      {role === 'SUPERADMIN' && <AdminSurveysPage />}
       {role === 'CLIENT' && <ClientSurveysPage />}
       {role === 'INFLUENCER' && <InfluencerSurveysPage />}
     </>

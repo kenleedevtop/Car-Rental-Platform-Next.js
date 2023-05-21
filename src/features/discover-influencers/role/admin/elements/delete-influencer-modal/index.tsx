@@ -3,11 +3,12 @@ import { Modal } from 'components/custom';
 import { TDeleteInfluencerModalProps } from 'features/discover-influencers/role/admin/elements/delete-influencer-modal/types';
 import { DeleteInfluencerModalMain } from 'features/discover-influencers/role/admin/elements/delete-influencer-modal/styles';
 import { Button } from 'components/ui';
-import { AdminAPI } from 'api';
+import { AdminAPI, InfluencerAPI } from 'api';
 import { useSnackbar } from 'hooks';
 
 const DeleteInfluencerModal = ({
   onClose,
+  refreshInfluencers,
   id,
   ...props
 }: TDeleteInfluencerModalProps) => {
@@ -15,7 +16,7 @@ const DeleteInfluencerModal = ({
 
   const handleDelete = async () => {
     try {
-      await AdminAPI.deleteInfluencer(id);
+      await InfluencerAPI.deleteInfluencer(id);
       push('Influencer successfully deleted!', { variant: 'success' });
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
@@ -41,6 +42,7 @@ const DeleteInfluencerModal = ({
           size="large"
           onClick={() => {
             handleDelete();
+            refreshInfluencers();
             onClose();
           }}
         >
