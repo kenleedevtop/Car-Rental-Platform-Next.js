@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   BenefitsPageMain,
   BenefitsPageCharts,
@@ -45,20 +45,13 @@ import {
   AddBenefitModal,
   SuggestionInfoModal,
   ExportBenefitsModal,
-  ConfirmChangeBenefitModal,
-  ConfirmRemoveBenefitModal,
   ConfirmRemoveSuggestionModal,
   ConfirmUpdateSuggestionModal,
   CreateSuggestion,
-  ChangeBenefit,
   ToBeApprovedActions,
 } from 'features/benefits/role/admin/elements';
 import { BenefitsAPI } from 'api';
 import Link from 'next/link';
-import {
-  TUsePaginationData,
-  TUsePaginationFunction,
-} from 'hooks/use-pagination/types';
 
 const BenefitsPage = () => {
   const [abModal, openAbModal, closeAbModal] = useModal(false);
@@ -72,67 +65,52 @@ const BenefitsPage = () => {
   const [cbModal, openCbModal, closeCbModal] = useModal(false);
   const [csModal, openCsModal, closeCsModal] = useModal(false);
 
+  const [benefits, setBenefits] = useState([]);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await BenefitsAPI.getBenefits({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setBenefits(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
+
+  const [suggestions, setSuggestions] = useState([]);
+
+  const [filterParamsS, setFilterParamsS] = useState({});
+
+  const {
+    pagesCount: sPageCount,
+    page: sPage,
+    setTotalResults: setTotalsResultsS,
+    handlePageChange: handlePageChangeS,
+    reload: reloadS,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { result, meta } = await BenefitsAPI.getSuggestions({
+        limit: params.limit,
+        skip: params.skip,
+        search: '',
+        ...filterParamsS,
+      });
+      setSuggestions(result);
+      setTotalResults(meta.countFiltered);
+    },
+  });
+
   const [menuTba, openTba, setOpenTba] = useMenu(false);
   const [menuS, openS, setOpenS] = useMenu(false);
-
-  // const [benefits, setBenefits] = useState([]);
-  // const [suggestions, setSuggestions] = useState([]);
-
-  // const getSuggestions = async (params: any) => {
-  //   const { meta, result } = await BenefitsAPI.getSuggestions(params);
-
-  //   setTotalResults(meta.countFiltered);
-  //   setSuggestions(result);
-  // };
-
-  // const getBenefits = async (params: any) => {
-  //   const { meta, result } = await BenefitsAPI.getBenefits(params);
-
-  //   setTotalResults(meta.countFiltered);
-  //   setBenefits(result);
-  // };
-
-  // const {
-  //   limit,
-  //   pagesCount,
-  //   page,
-  //   setTotalResults,
-  //   setLimit,
-  //   handlePageChange,
-  // } = usePagination({
-  //   limit: 10,
-  //   page: 1,
-  //   onChange: async (
-  //     data: TUsePaginationData,
-  //     setPage: TUsePaginationFunction
-  //   ) => {
-  //     await getBenefits({ skip: data.skip, limit: data.limit });
-  //     setPage(data.page);
-  //   },
-  // });
-
-  // const suggestion = usePagination({
-  //   limit: 10,
-  //   page: 1,
-  //   onChange: async (
-  //     suggestionData: TUsePaginationData,
-  //     suggestionSetPage: TUsePaginationFunction
-  //   ) => {
-  //     await getSuggestions({
-  //       skip: suggestionData.skip,
-  //       limit: suggestionData.limit,
-  //     });
-  //     suggestionSetPage(suggestionData.page);
-  //   },
-  // });
-
-  // const handleGet = () => {
-  //   getBenefits({ limit, skip: (page - 1) * limit });
-  // };
-
-  // const handleGetSuggestions = () => {
-  //   getSuggestions({ limit, skip: (page - 1) * limit });
-  // };
 
   const handleMenuTba = () => {
     setOpenTba(!openTba);
@@ -185,9 +163,9 @@ const BenefitsPage = () => {
       return row.data.description;
     }
 
-    // if (headItem.reference === 'actions') {
-    //   return <ToBeApprovedActions action={handleGet} data={row.data} />;
-    // }
+    if (headItem.reference === 'actions') {
+      return <ToBeApprovedActions action={reload} data={row.data} />;
+    }
 
     return '';
   };
@@ -223,11 +201,9 @@ const BenefitsPage = () => {
       return row.data.description;
     }
 
-    // if (headItem.reference === 'actions') {
-    //   return (
-    //     <ToBeApprovedActions action={handleGetSuggestions} data={row.data} />
-    //   );
-    // }
+    if (headItem.reference === 'actions') {
+      return <ToBeApprovedActions action={reloadS} data={row.data} />;
+    }
 
     return '';
   };
@@ -442,7 +418,7 @@ const BenefitsPage = () => {
               </BenefitsPageFilterActions>
             </BenefitsPageFilter>
           </Collapse>
-          {/* <CheckboxTable
+          <CheckboxTable
             head={DFinanceHead}
             items={benefits}
             renderItem={renderItem}
@@ -451,7 +427,7 @@ const BenefitsPage = () => {
             onChange={(_e, x) => handlePageChange(x)}
             page={page}
             count={pagesCount}
-          /> */}
+          />
         </Stack>
       </CardWithText>
       <CardWithText
@@ -470,10 +446,14 @@ const BenefitsPage = () => {
           />
           <CheckboxTable
             head={DFinanceHead2}
-            items={[]}
+            items={suggestions}
             renderItem={renderItemSuggestions}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChangeS(x)}
+            page={sPage}
+            count={sPageCount}
+          />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openAbModal}>
               Add benefit
@@ -534,9 +514,9 @@ const BenefitsPage = () => {
       </CardWithText>
       {abModal && (
         <AddBenefitModal
-          onClose={() => {
+          onClose={async () => {
             closeAbModal();
-            // handleGet();
+            await reload();
           }}
         />
       )}
@@ -550,9 +530,9 @@ const BenefitsPage = () => {
       {cusModal && <ConfirmUpdateSuggestionModal onClose={closeCusModal} />}
       {csModal && (
         <CreateSuggestion
-          onClose={() => {
+          onClose={async () => {
             closeCsModal();
-            // handleGetSuggestions();
+            await reload();
           }}
         />
       )}

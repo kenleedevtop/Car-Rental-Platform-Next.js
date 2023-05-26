@@ -20,13 +20,11 @@ import { DGenerateAmbassadorIncomeFilter } from 'features/income/role/ambasador/
 import {
   CardWithChart,
   CardWithText,
-  IconWithText,
   CheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
   SlidersHorizontalIcon,
-  HouseIcon,
   CampaignsIcon,
   SMLAIcon,
   SurveysAIcon,
@@ -34,7 +32,7 @@ import {
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Card, Input, InputGroup, Pagination } from 'components/ui';
-import { Collapse, Grid, Stack } from 'components/system';
+import { Collapse, Stack } from 'components/system';
 import { useModal } from 'hooks';
 import { ExportIncomeModal } from 'features/income/role/ambasador/elements';
 import Note from 'components/custom/note';

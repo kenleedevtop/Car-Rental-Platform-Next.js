@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   InfluencersPageMain,
   InfluencersPageCharts,
@@ -6,6 +6,7 @@ import {
   InfluencersPageFilterActions,
   InfluencersPageActions,
   InfluencersPageButtons,
+  InfluencerAction,
 } from 'features/influencers/styles';
 import {
   CardWithChart,
@@ -48,7 +49,9 @@ import {
   NotificationsSettingsModal,
   ScheduleInfluencerModal,
   ConfirmInfluencerModal,
+  DiscoverActions,
 } from 'features/influencers/role/admin/elements';
+import { InfluencerAPI } from 'api';
 
 const InfluencersPage = () => {
   // Modals
@@ -69,6 +72,20 @@ const InfluencersPage = () => {
 
   const [tabs, setTabs] = useState(0);
 
+  const [influencers, setInfluencers] = useState<any>([]);
+
+  const getInfluencers = async () => {
+    const { result } = await InfluencerAPI.getInfluencers();
+
+    setInfluencers(result);
+  };
+
+  const [currentInfluencer, setCurrentInfluencer] = useState<any>();
+
+  const getCurrentInfluencer = (value: any) => {
+    setCurrentInfluencer(value);
+  };
+
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
   };
@@ -77,7 +94,57 @@ const InfluencersPage = () => {
     setFilter(DGenerateInfluencersFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return (
+        <InfluencerAction
+          onClick={() => {
+            getCurrentInfluencer(row.data.id);
+            openIpModal();
+          }}
+        >
+          {cell.data}
+        </InfluencerAction>
+      );
+    }
+    if (headItem.reference === 'lastName') {
+      return cell.data;
+    }
+    if (headItem.reference === 'email') {
+      return cell.data;
+    }
+    if (headItem.reference === 'status') {
+      return 'Registered';
+    }
+    if (headItem.reference === 'registeredAt') {
+      return row.data.createdAt.slice(0, 10);
+    }
+
+    if (headItem.reference === 'invitedBy') {
+      return row.data.influencer.invitendByUserId;
+    }
+
+    if (headItem.reference === 'actions') {
+      return (
+        <DiscoverActions data={row.data} refreshInfluencers={getInfluencers} />
+      );
+    }
+
+    return '';
+  };
+
+  useEffect(() => {
+    getInfluencers();
+  }, []);
+
+  useEffect(() => {
+    setInfluencers(influencers);
+  }, [influencers]);
 
   const [menu, open, setOpen] = useMenu(false);
 

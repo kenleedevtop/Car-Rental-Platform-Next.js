@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ClientsPageMain,
   ClientsPageCharts,
@@ -39,6 +39,7 @@ import {
   NotificationsSettingsModal,
   ScheduleClientsModal,
 } from 'features/clients/role/admin/elements';
+import { ClientAPI } from 'api';
 
 const ClientsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateClientsFilter());
@@ -68,6 +69,35 @@ const ClientsPage = () => {
   const [nsModal, openNsModal, closeNsModal] = useModal(false);
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
   const [niModal, openNiModal, closeNiModal] = useModal(false);
+
+  const [clients, setClients] = useState([]);
+
+  const getClients = async () => {
+    const { result } = await ClientAPI.getClients({
+      pagination: {
+        skip: 0,
+        limit: 10,
+      },
+      columns: [
+        'firstName',
+        'lastName',
+        'company',
+        'product',
+        'markets',
+        'diseaseAreas',
+        'totalOngoingProjects',
+      ],
+      filters: {
+        search: '',
+      },
+    });
+
+    console.log(result);
+  };
+
+  useEffect(() => {
+    getClients();
+  }, []);
 
   return (
     <ClientsPageMain>

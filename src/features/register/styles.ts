@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { LocalizationSelect } from 'components/custom';
 import { Stack } from 'components/system';
-import { Input } from 'components/ui';
+import { Checkbox, Input } from 'components/ui';
 
 export const RegisterTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -117,4 +117,20 @@ export const RegisterInfluencerLName = styled(Input)<{ theme?: Theme }>`
 
 export const RegisterLocalization = styled(LocalizationSelect)`
   margin: 0 auto;
+`;
+
+export const RegisterCheckbox = styled(Checkbox)<{ theme?: Theme }>`
+  ${({ theme }) => `
+      color: #6D728E;
+
+      display: grid;
+      grid-template-columns: 15px 1fr;
+      padding: 0 ${theme.spacing(5)};
+      font-size: 18px;
+
+      a {
+        color: #2D3779;
+        text-decoration: none;
+      }
+    `}
 `;

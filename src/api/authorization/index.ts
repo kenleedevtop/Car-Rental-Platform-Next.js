@@ -10,7 +10,7 @@ import {
 import { client } from 'api/api-client';
 
 const AuthorizationAPI = {
-  login: async (body: TLoginParams, locale?: string) => {
+  login: async (body: TLoginParams) => {
     const { data } = await client.post(`/auth/login`, body);
     return data as TLoginResponse;
   },

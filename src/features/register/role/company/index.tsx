@@ -10,6 +10,7 @@ import {
   RegisterCompanyCompany,
   RegisterCompanyRole,
   RegisterLocalization,
+  RegisterCheckbox,
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import {
@@ -18,26 +19,49 @@ import {
   lastNameSchema,
   passwordSchema,
 } from 'utilities/validators';
-import { ClientAPI } from 'api';
+import { ClientAPI, LegalsAPI, CompanyAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-import CompanyAPI from 'api/company';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
     firstName: '',
     lastName: '',
-    companyId: 1,
-    companyTitleId: 1,
+    company: {
+      value: undefined,
+      label: '',
+      name: '',
+    },
+    companyTitleId: {
+      value: null,
+      label: '',
+    },
     // company: {
     //   name: 1,
     //   role: 1,
     // },
     email: '',
     password: '',
+    commonLegalId: null,
   });
+
+  const [legalsChecked, setLegalsChecked] = useState(false);
+  const [commonLegal, setCommonLegals] = useState<any>(null);
+
+  const getLegals = async () => {
+    const data = await LegalsAPI.getLegals();
+
+    const common = data.find((r: any) => r.type === 0);
+
+    setState({
+      ...state,
+      commonLegalId: common.id,
+    });
+
+    setCommonLegals(common);
+  };
 
   const [counter, setCounter] = useState(0);
 
@@ -72,13 +96,21 @@ const RegisterPage = () => {
     !state.email ||
     !state.password ||
     !!errors.find((x) => x) ||
-    counter === 1;
+    counter === 1 ||
+    !legalsChecked;
 
   // , router.locale as string
 
   const handleRegister = async () => {
     try {
-      await ClientAPI.registration(state);
+      await ClientAPI.registration({
+        ...state,
+        companyTitleId: state.companyTitleId.value,
+        company: {
+          name: state.company.label,
+          companyId: state.company.value,
+        },
+      });
       openCrModal();
     } catch (e: any) {
       let step = 0;
@@ -121,10 +153,25 @@ const RegisterPage = () => {
     );
   };
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setState({
+        ...state,
+        company: { ...state.company, label: event.target.value },
+      });
+    }
+  };
+
   useEffect(() => {
     getCompanies();
     getTitles();
+    getLegals();
   }, []);
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   return (
     <RegisterCompanyMain>
@@ -202,9 +249,10 @@ const RegisterPage = () => {
           label={t('Company') as string}
           required
           placeholder={t('Please Enter your Company') as string}
-          value={state.companyId}
-          onValue={({ value }) => setState({ ...state, companyId: value })}
+          value={state.company.name ? state.company.name : state.company}
+          onValue={(value) => setState({ ...state, company: value })}
           options={companies}
+          onKeyDown={handleKeyDown}
           // errorCallback={handleErrors(2)}
           // validators={[
           //   {
@@ -223,7 +271,7 @@ const RegisterPage = () => {
           required
           placeholder={t('Please Enter your Role') as string}
           value={state.companyTitleId}
-          onValue={({ value }) => setState({ ...state, companyTitleId: value })}
+          onValue={(value) => setState({ ...state, companyTitleId: value })}
           options={titles}
           // errorCallback={handleErrors(3)}
           // validators={[
@@ -299,6 +347,13 @@ const RegisterPage = () => {
             },
           },
         ]}
+      />
+      <RegisterCheckbox
+        value={legalsChecked}
+        onValue={(value) => setLegalsChecked(value)}
+        label={<span dangerouslySetInnerHTML={{ __html: commonLegal?.text }} />}
+        size="small"
+        color="primary"
       />
       <Button
         variant="contained"

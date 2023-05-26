@@ -8,3 +8,4 @@ export { default as NotificationsSettingsModal } from 'features/influencers/role
 export { default as InfluencerProfile } from 'features/influencers/role/admin/elements/influencer-profile';
 export { default as NoteInfluencer } from 'features/influencers/role/admin/elements/note-influencers-modal';
 export { default as ConfirmInfluencerModal } from 'features/influencers/role/admin/elements/confirm-influencer-modal';
+export { default as DiscoverActions } from 'features/influencers/role/admin/elements/discover-actions';

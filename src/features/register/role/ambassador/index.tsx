@@ -9,7 +9,7 @@ import {
   RegisterCompanyLName,
   RegisterCompanyCompany,
   RegisterCompanyRole,
-  RegisterLocalization,
+  RegisterCheckbox,
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import {
@@ -23,6 +23,7 @@ import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -300,6 +301,23 @@ const RegisterPage = () => {
             },
           },
         ]}
+      />
+      <RegisterCheckbox
+        label={
+          <>
+            {t('I agree to the')}
+            <Link href="https://patientsinfluence.com/terms-of-use/">
+              {t('Terms of Service')}
+            </Link>
+            {t('and')}
+            <Link href="https://patientsinfluence.com/privacy-statement/">
+              {t('Privacy Policy')}
+            </Link>
+            .
+          </>
+        }
+        size="small"
+        color="primary"
       />
       <Button
         variant="contained"

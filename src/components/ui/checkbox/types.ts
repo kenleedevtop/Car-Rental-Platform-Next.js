@@ -12,7 +12,7 @@ export type TCheckboxColor =
   | 'info';
 
 export type TCheckboxProps = React.HTMLAttributes<HTMLInputElement> & {
-  label?: string;
+  label?: string | ReactNode;
   size?: TCheckboxSize;
   color?: TCheckboxColor;
   value?: boolean;

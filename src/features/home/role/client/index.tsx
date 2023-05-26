@@ -8,21 +8,14 @@ import {
 import { CardWithChart, CardWithProgress } from 'components/custom';
 import {
   CampaignsSmallIcon,
-  ContactedIcon,
   FinishedIcon,
-  IdentifiedIcon,
   InpreparationIcon,
-  InstagramIcon,
   OngoingIcon,
   OrderedIcon,
-  RedCrossIcon,
-  RegisteredIcon,
   ReportsSmallIcon,
   SMLSmallIcon,
   SurveysSmallIcon,
-  TiktokIcon,
   TotalIcon,
-  TwitterIcon,
   WithoutReportIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';

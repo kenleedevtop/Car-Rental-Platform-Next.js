@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   TableWrapper,
   TableMain,
@@ -24,6 +24,7 @@ import {
   CarretDownIcon,
   ManageColumnsIcon,
 } from 'components/svg';
+import { useAppContext } from 'context';
 import { OrderListDraggable } from './elements';
 
 const Table = ({
@@ -52,22 +53,26 @@ const Table = ({
     }
   };
 
+  const { role } = useAppContext();
+
   return (
     <>
-      <Stack style={{ justifyContent: 'flex-end' }} direction="horizontal">
-        <TableHeadCellAction color="primary" onClick={openTModal}>
-          <ManageColumnsIcon />
-        </TableHeadCellAction>
-        <Button
-          style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
-          color="default"
-          variant="contained"
-          size="large"
-          onClick={() => {}}
-        >
-          Bulk Action <CarretDownIcon />
-        </Button>
-      </Stack>
+      {['ADMIN', 'SUPERADMIN'].includes(role) && (
+        <Stack style={{ justifyContent: 'flex-end' }} direction="horizontal">
+          <TableHeadCellAction color="primary" onClick={openTModal}>
+            <ManageColumnsIcon />
+          </TableHeadCellAction>
+          <Button
+            style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
+            color="default"
+            variant="contained"
+            size="large"
+            onClick={() => {}}
+          >
+            Bulk Action <CarretDownIcon />
+          </Button>
+        </Stack>
+      )}
       <TableWrapper>
         <TableMain>
           <TableHead>

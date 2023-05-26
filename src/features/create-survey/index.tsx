@@ -12,7 +12,6 @@ import {
   QuestionContainer,
   CreateSurveyActions,
   CreditContainer,
-  CreateSurveyButtons,
 } from 'features/create-survey/styles';
 import { Button, Card, Input, InputGroup, Label } from 'components/ui';
 import { AddIcon, SlidersHorizontalIcon } from 'components/svg';

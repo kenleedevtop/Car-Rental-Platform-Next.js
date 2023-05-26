@@ -65,9 +65,14 @@ export const CheckboxInput = styled.input<{
 
 export const CheckboxLabel = styled(Label)<{ theme?: Theme }>`
   ${({ theme }) => `
+      display: block;
       font-size: 14px;
       color: ${theme.palette.common.gray[8]};
       user-select: none;
       cursor: pointer;
+
+      a {
+        margin: 0 ${theme.spacing(1)};
+      }
     `}
 `;

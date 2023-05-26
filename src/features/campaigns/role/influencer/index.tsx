@@ -8,22 +8,11 @@ import {
   DCampaignsInfluencerHead2,
   DGenerateCampaignsFilter,
 } from 'features/campaigns/data';
-import {
-  CardWithChart,
-  CardWithText,
-  CheckboxTable,
-  Tabs,
-} from 'components/custom';
-import {
-  FinishedIcon,
-  GramophoneIcon,
-  InpreparationIcon,
-  OngoingIcon,
-  SlidersHorizontalIcon,
-} from 'components/svg';
+import { CardWithChart, CardWithText, CheckboxTable } from 'components/custom';
+import { FinishedIcon, InpreparationIcon, OngoingIcon } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, InputGroup, Pagination } from 'components/ui';
-import { Grid, Stack, Collapse } from 'components/system';
+import { Pagination } from 'components/ui';
+import { Stack } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 
 const CampaignsPage = () => {

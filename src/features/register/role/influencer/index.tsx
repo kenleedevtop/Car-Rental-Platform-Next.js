@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   RegisterTitle,
   RegisterSubtitle,
@@ -7,6 +7,7 @@ import {
   RegisterInfluencerFName,
   RegisterInfluencerLName,
   RegisterLocalization,
+  RegisterCheckbox,
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
@@ -21,6 +22,7 @@ import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import LegalsAPI from 'api/legals';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -28,13 +30,41 @@ const RegisterPage = () => {
     lastName: '',
     email: '',
     password: '',
+    commonLegalId: null,
+    patientSpecificLegalId: null,
   });
 
-  // const [counter, setCounter] = useState(0);
+  const router = useRouter();
+
+  const [legals, setLegals] = useState({});
+  const [legalsChecked, setLegalsChecked] = useState({
+    commonLegal: false,
+    patientSpecificLegal: false,
+  });
+
+  const [commonLegal, setCommonLegal] = useState<any>('');
+  const [patientsSpecificLegal, setPatientsSpecificLegal] = useState<any>('');
+
+  const getLegals = async () => {
+    const data = await LegalsAPI.getLegals();
+
+    const common = data.find((r: any) => r.type === 0);
+    const specific = data.find((r: any) => r.type === 1);
+
+    setState({
+      ...state,
+      commonLegalId: common.id,
+      patientSpecificLegalId: specific.id,
+    });
+    setCommonLegal(common);
+    setPatientsSpecificLegal(specific);
+  };
+
+  useEffect(() => {
+    getLegals();
+  }, []);
 
   const { t } = useTranslation('register');
-
-  const router = useRouter();
 
   const { push } = useSnackbar();
 
@@ -51,31 +81,34 @@ const RegisterPage = () => {
     !state.lastName ||
     !state.email ||
     !state.password ||
-    !!errors.find((x) => x);
-  // counter === 1;
+    !!errors.find((x) => x) ||
+    !legalsChecked.commonLegal ||
+    !legalsChecked.patientSpecificLegal;
 
   const handleClose = () => {
     router.push('/login');
     closeCrModal();
   };
 
-  // const timeoutTime = 10000;
-
   const handleRegister = async () => {
     try {
-      await InfluencerAPI.registration(
-        state
-        // router.locale as string
-      );
+      await InfluencerAPI.registration({ ...state, ...legals });
       openCrModal();
     } catch (e: any) {
-      // let step = 0;
-      // step += 1;
-      // setCounter(step);
-      push(e.response.data.message, { variant: 'error' });
-      // setTimeout(() => {
-      //   setCounter(0);
-      // }, timeoutTime);
+      if (
+        window.location.href.includes('de-DE') &&
+        e.response.data.message === 'Email already in use'
+      ) {
+        push(
+          'Die angegebene E-Mail-Adresse ist bereits mit einem Konto verknüpft.',
+          { variant: 'error' }
+        );
+      } else {
+        push(
+          'The provided email address is already associated with an account.',
+          { variant: 'error' }
+        );
+      }
     }
   };
 
@@ -213,6 +246,35 @@ const RegisterPage = () => {
               },
             },
           ]}
+        />
+      </Stack>
+      <Stack>
+        <RegisterCheckbox
+          label={
+            <span dangerouslySetInnerHTML={{ __html: commonLegal?.text }} />
+          }
+          size="small"
+          color="primary"
+          value={legalsChecked.commonLegal}
+          onValue={(v) =>
+            setLegalsChecked({ ...legalsChecked, commonLegal: v })
+          }
+        />
+        <RegisterCheckbox
+          label={
+            <span
+              dangerouslySetInnerHTML={{ __html: patientsSpecificLegal?.text }}
+            />
+          }
+          size="small"
+          color="primary"
+          value={legalsChecked.patientSpecificLegal}
+          onValue={(patientSpecificLegal) =>
+            setLegalsChecked({
+              ...legalsChecked,
+              patientSpecificLegal,
+            })
+          }
         />
       </Stack>
       <Button

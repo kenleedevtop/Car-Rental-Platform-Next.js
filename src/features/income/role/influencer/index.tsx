@@ -20,16 +20,13 @@ import { DGenerateIncomeFilter } from 'features/income/role/influencer/data';
 import {
   CardWithChart,
   CardWithText,
-  IconWithText,
   CheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
   SlidersHorizontalIcon,
-  HouseIcon,
   UserFocusIcon,
   CampaignsIcon,
-  CampaignsSmallIcon,
   SurveysAIcon,
   DonationsIcon,
   AffiliateIcon,

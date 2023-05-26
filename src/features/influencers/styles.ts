@@ -45,3 +45,5 @@ export const InfluencersPageButtons = styled.div<{ theme?: Theme }>`
   gap: ${theme.spacing(3)};
   `}
 `;
+
+export const InfluencerAction = styled.div``;

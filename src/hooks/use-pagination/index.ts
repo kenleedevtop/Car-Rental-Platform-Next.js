@@ -31,6 +31,10 @@ const usePagination = ({
     [totalResults, limit]
   );
 
+  const reload = async () => {
+    await handlePageChange(page);
+  };
+
   return {
     limit,
     page,
@@ -39,6 +43,7 @@ const usePagination = ({
     pagesCount,
     setLimit,
     handlePageChange,
+    reload,
   };
 };
 

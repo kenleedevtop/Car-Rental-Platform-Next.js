@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   LoginTitle,
   LoginSubtitle,
@@ -30,15 +30,23 @@ const Login = () => {
   const [lpModal, openLpModal, closeLpModal] = useModal(false);
   const [crModal, openCrModal, closeCrModal] = useModal(false);
 
-  const { push } = useRouter();
+  const [link, setLink] = useState(window.location.href);
+  const [query, setQuery] = useState('de-DE');
+
+  const { push, pathname } = useRouter();
+  const router = useRouter();
   const { push: pushSnackbar } = useSnackbar();
 
   const { login } = useAppContext();
 
+  // useEffect(() => {
+  //   link.includes('de-DE') ? setQuery('de-DE') : setQuery('');
+  //   console.log(query);
+  // }, [link]);
+
   const handleLogin = async () => {
     try {
       await login(state);
-
       // debugger
 
       push('/');

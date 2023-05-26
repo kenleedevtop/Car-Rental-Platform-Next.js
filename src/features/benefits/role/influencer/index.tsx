@@ -15,17 +15,12 @@ import { CardWithChart, CardWithText, CheckboxTable } from 'components/custom';
 import {
   ApparelIcon,
   BeautyIcon,
-  DeleteIcon,
   ElectronicsIcon,
-  FoodIcon,
   FurnitureIcon,
   HealthIcon,
-  InfoIcon,
   LeisureIcon,
-  LockIcon,
   NutritionIcon,
   PetCareIcon,
-  ScheduleIcon,
   ServicesBIcon,
   SlidersHorizontalIcon,
   TravelIcon,
@@ -33,7 +28,7 @@ import {
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
-import { Grid, Stack, Collapse } from 'components/system';
+import { Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { useModal } from 'hooks';
 import {

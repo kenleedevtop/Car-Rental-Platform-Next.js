@@ -31,6 +31,14 @@ const InfluencerAPI = {
     return data;
   },
 
+  getDInfluencers: async () => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/influencer/discoverInfluencers?limit=50`
+    );
+
+    return data;
+  },
+
   getSingleInfluencer: async (id: any) => {
     const { data } = await client.get(`${Project.apis.v1}/influencer/${id}`);
 

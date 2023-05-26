@@ -12,7 +12,6 @@ import {
   CheckboxTable,
   Menu,
   Tabs,
-  Title,
 } from 'components/custom';
 import {
   ContactIcon,

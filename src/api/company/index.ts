@@ -9,7 +9,7 @@ import {
 import { client } from 'api/api-client';
 
 const CompanyAPI = {
-  create: async (body: TCreateCompany) => {
+  create: async (body: any) => {
     const { data } = await client.post(`${Project.apis.v1}/companies`, body);
 
     return data;
@@ -31,7 +31,9 @@ const CompanyAPI = {
   },
 
   getAllTitles: async () => {
-    const { data } = await client.get(`${Project.apis.v1}/companies/title`);
+    const { data } = await client.get(
+      `${Project.apis.v1}/companies/title?limit=20`
+    );
 
     return data;
   },

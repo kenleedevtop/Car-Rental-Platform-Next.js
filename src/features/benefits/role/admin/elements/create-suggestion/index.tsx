@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TCreateSuggestionModalProps } from 'features/benefits/role/admin/elements/create-suggestion/types';
 import { CreateSuggestionModalMain } from 'features/benefits/role/admin/elements/create-suggestion/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { BenefitsAPI } from 'api';
-import UsersAPI from 'api/users';
 import { useSnackbar } from 'hooks';
 
 const CreateSuggestion = ({
@@ -51,7 +50,10 @@ const CreateSuggestion = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={handleAddSuggestion}
+          onClick={async () => {
+            handleAddSuggestion();
+            onClose();
+          }}
         >
           Confirm
         </Button>,

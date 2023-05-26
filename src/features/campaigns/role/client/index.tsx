@@ -11,7 +11,6 @@ import {
 } from 'features/campaigns/data';
 import {
   CardWithChart,
-  CardWithProgress,
   CardWithText,
   CheckboxTable,
   Menu,

@@ -5,6 +5,7 @@ import { Collapse, Stack } from 'components/system';
 import {
   HelpCollapseMain,
   HelpCollapseHeader,
+  HelpCollapseText,
 } from 'features/help/elements/help-collapse/style';
 
 import { THelpCollapseProps } from 'features/help/elements/help-collapse/types';
@@ -31,7 +32,9 @@ const HelpCollapse = ({ title, icon, text, ...props }: THelpCollapseProps) => {
           }
           in={help}
         >
-          {text}
+          {text.map((txt) => (
+            <HelpCollapseText>{txt}</HelpCollapseText>
+          ))}
         </Collapse>
       </Stack>
     </HelpCollapseMain>

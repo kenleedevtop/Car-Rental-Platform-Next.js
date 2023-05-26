@@ -8,3 +8,4 @@ export { default as AmbassadorAPI } from 'api/ambassador';
 export { default as CompanyAPI } from 'api/company';
 export { default as BenefitsAPI } from 'api/benefits';
 export { default as LocationAPI } from 'api/location';
+export { default as LegalsAPI } from 'api/legals';

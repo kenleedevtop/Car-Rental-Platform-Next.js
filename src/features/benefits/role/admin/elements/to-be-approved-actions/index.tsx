@@ -79,9 +79,9 @@ const ToBeApprovedActions = ({ action, data, ...props }: any) => {
       {cbModal && (
         <ChangeBenefit
           data={data}
-          onClose={() => {
+          onClose={async () => {
             closeCbModal();
-            action();
+            await action();
           }}
         />
       )}

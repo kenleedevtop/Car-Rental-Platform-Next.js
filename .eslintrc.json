@@ -50,6 +50,12 @@
     "jest/valid-expect": "error",
     "react/require-default-props": "off",
     "no-unused-vars": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["@mui/*/*/*/*/*"]
+      }
+    ],
     "@typescript-eslint/no-unused-vars": [
       "warn", // or "error"
       {

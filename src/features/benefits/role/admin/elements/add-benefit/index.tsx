@@ -9,20 +9,21 @@ import { useModal } from 'hooks';
 import { BenefitsAPI, CompanyAPI, LocationAPI } from 'api';
 
 const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
-  const [state, setState] = useState({
-    benefitPartnershipId: -1,
+  const [loading, setLoading] = useState(false);
+  const [state, setState] = useState<any>({
+    benefitPartnershipId: null,
     benefitCompanyLink: '',
     description: '',
-    benefitCategoryId: -1,
-    benefitLocations: [-1],
+    benefitCategoryId: null,
+    benefitLocations: [],
   });
 
   const [initialState, setInitialState] = useState({
-    benefitPartnershipId: -1,
+    benefitPartnershipId: null,
     benefitCompanyLink: '',
     description: '',
-    benefitCategoryId: -1,
-    benefitLocations: [-1],
+    benefitCategoryId: null,
+    benefitLocations: [],
   });
 
   const [search, setSearch] = useState('');
@@ -72,6 +73,19 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
     );
   };
 
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
+
+  const handleNewTag = (v: any) => {
+    setState({ ...state, benefitLocations: [...state.benefitLocations, v] });
+  };
+
   useEffect(() => {
     getCompanies();
     getCategories();
@@ -102,20 +116,20 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
             label="Company Name"
             placeholder="Please Enter"
             value={state.benefitPartnershipId}
-            // inputValue={search}
-            // onInputChange={(input: any) => handleSearch(input)}
-            onValue={({ value }) =>
+            onSearch={debounce(getCompanies, 1000)}
+            onValue={(value) =>
               setState({ ...state, benefitPartnershipId: value })
             }
             options={companies}
+            loading={loading}
           />
           <Input
             type="text"
             label="Company website"
             placeholder="Please Enter"
             value={state.benefitCompanyLink}
-            onValue={(benefitCompanyLink) =>
-              setState({ ...state, benefitCompanyLink })
+            onValue={(value) =>
+              setState({ ...state, benefitCompanyLink: value })
             }
           />
           <Input
@@ -123,23 +137,20 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
             label="Category"
             placeholder="Please Select"
             value={state.benefitCategoryId}
-            onValue={({ value }) =>
+            onSearch={debounce(getCategories, 1000)}
+            onValue={(value) =>
               setState({ ...state, benefitCategoryId: value })
             }
             options={categories}
+            loading={loading}
           />
           <Input
-            type="select"
+            type="multiselect"
             label="Location"
             placeholder="Please Select"
-            value={
-              state.benefitLocations
-                ? state.benefitLocations[state.benefitLocations.length - 1]
-                : null
-            }
-            onValue={({ value }) =>
-              setState({ ...state, benefitLocations: [value] })
-            }
+            value={state.benefitLocations}
+            onValue={(value) => setState({ ...state, benefitLocations: value })}
+            onNewTag={handleNewTag}
             options={locations}
           />
           <GridCell columnSpan={2}>
@@ -157,7 +168,13 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
       </Stack>
       {cabModal && (
         <ConfirmAddBenefitModal
-          value={state}
+          value={{
+            benefitCompanyLink: state.benefitCompanyLink,
+            description: state.description,
+            benefitPartnershipId: state.benefitPartnershipId.value,
+            benefitCategoryId: state.benefitCategoryId.value,
+            benefitLocations: state.benefitLocations.map((x: any) => x.value),
+          }}
           onClose={() => {
             closeCabModal();
             setState(initialState);

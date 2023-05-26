@@ -5,6 +5,7 @@ export type TRegisterAsClientParams = {
   password: string;
   companyId: number | null;
   companyTitleId: number | null;
+  commonLegalId: number;
 };
 
 export type TSingleClient = {

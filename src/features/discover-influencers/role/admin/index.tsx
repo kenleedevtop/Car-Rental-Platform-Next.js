@@ -64,7 +64,7 @@ const DiscoverInfluencersPage = () => {
   const [influencers, setInfluencers] = useState<any>([]);
 
   const getInfluencers = async () => {
-    const { result } = await InfluencerAPI.getInfluencers();
+    const { result } = await InfluencerAPI.getDInfluencers();
 
     setInfluencers(result);
   };
