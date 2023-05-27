@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { CUnprotectedRoutes, CProtectedRoutes } from 'constants/routes';
+import {
+  CUnprotectedRoutes,
+  CProtectedRoutes,
+  CMiscRoutes,
+} from 'constants/routes';
 import Project from 'constants/project';
 import { RequestCookie } from 'next/dist/server/web/spec-extension/cookies';
 
@@ -48,8 +52,9 @@ export const middleware = async (request: NextRequest) => {
 
   const isProtectedRoute = CProtectedRoutes.includes(pathname);
   const isUnprotectedRoute = CUnprotectedRoutes.includes(pathname);
+  const isMiscRoute = CMiscRoutes.includes(pathname);
 
-  if (loggedIn && !isProtectedRoute) {
+  if (loggedIn && !isProtectedRoute && !isMiscRoute) {
     return NextResponse.redirect(new URL(`${withLocale}/`, request.url));
   }
   if (!loggedIn && !isUnprotectedRoute) {

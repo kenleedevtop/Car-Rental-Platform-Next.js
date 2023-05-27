@@ -41,4 +41,10 @@ export const CUnprotectedRoutes = [
   '/email-confirmation',
 ];
 
-export const CAllRoutes = [...CProtectedRoutes, ...CUnprotectedRoutes];
+export const CMiscRoutes = ['/_/code'];
+
+export const CAllRoutes = [
+  ...CProtectedRoutes,
+  ...CUnprotectedRoutes,
+  ...CMiscRoutes,
+];

@@ -24,7 +24,11 @@ import {
 } from 'chart.js';
 import { useRouter } from 'next/router';
 import { SnackbarProvider } from 'notistack';
-import { CProtectedRoutes, CUnprotectedRoutes } from 'constants/routes';
+import {
+  CMiscRoutes,
+  CProtectedRoutes,
+  CUnprotectedRoutes,
+} from 'constants/routes';
 
 ChartJS.register(
   CategoryScale,
@@ -92,6 +96,7 @@ const MyApp = ({
                     <Component {...pageProps} />
                   </PageLayout>
                 )}
+                {CMiscRoutes.includes(pathname) && <Component {...pageProps} />}
               </AppContextProvider>
             </SnackbarProvider>
           </ThemeProvider>
