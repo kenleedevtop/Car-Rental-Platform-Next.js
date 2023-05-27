@@ -5,7 +5,7 @@ const Project = {
     baseUrl: 'http://localhost',
   },
   apis: {
-    v1: 'http://localhost:3000',
+    v1: 'https://api.patientsinfluence.com',
   },
   title: {
     prefix: '',

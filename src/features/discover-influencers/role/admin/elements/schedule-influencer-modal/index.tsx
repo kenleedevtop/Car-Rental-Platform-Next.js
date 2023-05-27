@@ -52,24 +52,6 @@ const ScheduleInfluencerModal = ({
           value={state.type}
           onValue={(type) => setState({ ...state, type })}
         />
-        <InputGroup
-          label="Date"
-          inputRatio="1fr 1fr"
-          elements={[
-            {
-              type: 'date',
-              placeholder: 'From',
-              value: state.startDate,
-              onValue: (startDate) => setState({ ...state, startDate }),
-            },
-            {
-              type: 'date',
-              placeholder: 'To',
-              value: state.endDate,
-              onValue: (endDate) => setState({ ...state, endDate }),
-            },
-          ]}
-        />
         {!state.allDay && (
           <InputGroup
             label="Time"

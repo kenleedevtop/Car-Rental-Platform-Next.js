@@ -43,7 +43,15 @@ const CreateSmlTabsModal = ({
 
   const firstTitle = (
     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-      Create SML Report <EditIcon onClick={handleDisabled} />
+      Create SML Report
+      <EditIcon
+        style={
+          disabled
+            ? { cursor: 'pointer', color: '#7E839F' }
+            : { cursor: 'pointer', color: '#448DC9' }
+        }
+        onClick={handleDisabled}
+      />
     </div>
   );
 

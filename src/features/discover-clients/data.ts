@@ -96,6 +96,11 @@ export const DClientsHeadIdentified = [
     label: 'Contacted At',
     visible: false,
   },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
+  },
 ];
 
 export const DClientsHeadContacted = [
@@ -179,6 +184,11 @@ export const DClientsHeadContacted = [
     label: 'Contacted At',
     visible: true,
   },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
+  },
 ];
 
 export const DClientsHeadRegistered = [
@@ -193,6 +203,16 @@ export const DClientsHeadRegistered = [
     visible: true,
   },
   {
+    reference: 'company',
+    label: 'Company',
+    visible: true,
+  },
+  {
+    reference: 'role',
+    label: 'Role',
+    visible: true,
+  },
+  {
     reference: 'email',
     label: 'Email',
     visible: false,
@@ -201,11 +221,6 @@ export const DClientsHeadRegistered = [
     reference: 'status',
     label: 'Status',
     visible: false,
-  },
-  {
-    reference: 'registeredAt',
-    label: 'Registered At',
-    visible: true,
   },
   {
     reference: 'updatedAt',
@@ -221,11 +236,6 @@ export const DClientsHeadRegistered = [
     reference: 'ambassador',
     label: 'Ambassador',
     visible: false,
-  },
-  {
-    reference: 'company',
-    label: 'Company',
-    visible: true,
   },
   {
     reference: 'industry',
@@ -253,14 +263,19 @@ export const DClientsHeadRegistered = [
     visible: true,
   },
   {
-    reference: 'role',
-    label: 'Role',
+    reference: 'registeredAt',
+    label: 'Registered At',
     visible: true,
   },
   {
     reference: 'contactedAt',
     label: 'Contacted At',
     visible: false,
+  },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
   },
 ];
 export const DClientsHeadScheduled = [
@@ -275,6 +290,26 @@ export const DClientsHeadScheduled = [
     visible: true,
   },
   {
+    reference: 'company',
+    label: 'Company',
+    visible: true,
+  },
+  {
+    reference: 'role',
+    label: 'Role',
+    visible: true,
+  },
+  {
+    reference: 'location',
+    label: 'Location',
+    visible: true,
+  },
+  {
+    reference: 'diseaseAreas',
+    label: 'Disease Areas',
+    visible: true,
+  },
+  {
     reference: 'email',
     label: 'Email',
     visible: false,
@@ -305,11 +340,6 @@ export const DClientsHeadScheduled = [
     visible: false,
   },
   {
-    reference: 'company',
-    label: 'Company',
-    visible: true,
-  },
-  {
     reference: 'industry',
     label: 'Industry',
     visible: false,
@@ -320,28 +350,18 @@ export const DClientsHeadScheduled = [
     visible: false,
   },
   {
-    reference: 'location',
-    label: 'Location',
-    visible: true,
-  },
-  {
     reference: 'market',
     label: 'Market',
     visible: false,
   },
   {
-    reference: 'diseaseAreas',
-    label: 'Disease Areas',
-    visible: true,
-  },
-  {
-    reference: 'role',
-    label: 'Role',
-    visible: true,
-  },
-  {
     reference: 'contactedAt',
     label: 'Contacted At',
     visible: false,
+  },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
   },
 ];

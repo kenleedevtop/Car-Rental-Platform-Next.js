@@ -1,15 +1,18 @@
 import styled from '@emotion/styled';
-import { IconButton, Theme } from '@mui/material';
-import { DragControls } from 'framer-motion';
+import { Theme } from '@mui/material';
+import { Stack } from 'components/system';
+
+export const TableContainer = styled(Stack)``;
 
 export const TableWrapper = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
+    min-height: 500px;
     border-radius: 4px;
     border: 1px solid ${theme.palette.common.black}20;
     background-color: ${theme.palette.common.white};
 
     overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: scroll;
   `}
 `;
 
@@ -54,24 +57,47 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
         ${
           action
             ? `
+          padding: ${theme.spacing(6)} ${theme.spacing(5)} ${theme.spacing(
+                6
+              )} ${theme.spacing(5)};
           min-width: 50px;
           width: 50px;
+          height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
           margin: 0;
+          padding-right: 0 !important;
         `
             : ''
         }
     `}
 `;
 
-export const TableBodyCell = styled.td<{ theme?: Theme }>`
-  ${({ theme }) => `
+export const TableBodyCell = styled.td<{ theme?: Theme; action?: boolean }>`
+  ${({ theme, action }) => `
         padding: ${theme.spacing(5)};
         text-align: left;
         color: ${theme.palette.common.gray[10]};
         white-space: nowrap; 
+
+                ${
+                  action
+                    ? `
+          padding: ${theme.spacing(8)} ${theme.spacing(5)} ${theme.spacing(
+                        8
+                      )} ${theme.spacing(5)};
+          min-width: 50px;
+          width: 50px;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+          padding-right: 0 !important;
+        `
+                    : ''
+                }
     `}
 `;
 
@@ -99,5 +125,4 @@ export const TableHeadCellAction = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0;
-  align-self: flex-end;
 `;

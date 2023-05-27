@@ -151,9 +151,6 @@ const DiscoverClientsPage = () => {
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
-          <Button color="default" variant="contained" onClick={() => {}}>
-            Import
-          </Button>,
           <Button color="primary" variant="contained" onClick={openAiModal}>
             Add Client
           </Button>,

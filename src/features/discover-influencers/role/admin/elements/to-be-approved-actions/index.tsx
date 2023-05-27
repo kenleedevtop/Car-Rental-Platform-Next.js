@@ -18,8 +18,13 @@ import {
   NoteInfluencer,
   ScheduleInfluencerModal,
 } from 'features/discover-influencers/role/admin/elements';
+import { TToBeApprovedProps } from 'features/discover-influencers/role/admin/elements/to-be-approved-actions/types';
 
-const ToBeApprovedActions = ({ ...props }) => {
+const ToBeApprovedActions = ({
+  data,
+  refreshInfluencers,
+  ...props
+}: TToBeApprovedProps) => {
   const [menu, open, setOpen] = useMenu(false);
 
   const handleMenu = () => {
@@ -78,13 +83,16 @@ const ToBeApprovedActions = ({ ...props }) => {
           ref={menu}
         />
       )}
-      {ciModal && <ContactInfluencerModal id="0" onClose={closeCiModal} />}
+      {ciModal && <ContactInfluencerModal id={data} onClose={closeCiModal} />}
       {niModal && <NoteInfluencer onClose={closeNiModal} />}
       {diModal && (
         <DeleteInfluencerModal
-          refreshInfluencers={() => {}}
-          id="0"
-          onClose={closeDiModal}
+          refreshInfluencers={refreshInfluencers}
+          id={data}
+          onClose={() => {
+            refreshInfluencers();
+            closeDiModal();
+          }}
         />
       )}
       {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}

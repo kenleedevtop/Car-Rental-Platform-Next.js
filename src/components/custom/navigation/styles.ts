@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Theme } from '@mui/material';
+import { Theme, Tooltip } from '@mui/material';
 import { Avatar, Search } from 'components/ui';
 import { Menu } from 'components/custom';
 
@@ -32,11 +32,30 @@ export const NavigationRouteName = styled.div<{ theme?: Theme }>`
         font-size: 18px;
         font-weight: 500;
         line-height: 1;
+        display: flex;
+        align-items: baseline;
+        gap: ${theme.spacing(2)};
 
         ${theme.breakpoints.down('sm')} {
             font-size: 14px;
         }
     `}
+`;
+
+export const NavigationSpan = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    text-transform: uppercase;
+    font-size: 10px;
+    color: ${theme.palette.common.white};    
+    display: flex;
+    align-items: center;
+    gap: ${theme.spacing(1)};
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  `}
 `;
 
 export const NavigationItems = styled.div<{ theme?: Theme }>`
@@ -47,6 +66,23 @@ export const NavigationItems = styled.div<{ theme?: Theme }>`
 
         ${theme.breakpoints.down('lg')} {
           gap: ${theme.spacing(2.5)};
+        }
+    `}
+`;
+
+export const NavigationTooltipContainer = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+        background: ${theme.palette.common.white};
+        color: #6D728E;
+        padding: ${theme.spacing(5)} ${theme.spacing(5)};
+        font-size: 14px;
+        margin: -10px;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+
+        span {
+          text-decoration: underline;
+          color: #6D728E;
         }
     `}
 `;
@@ -70,6 +106,7 @@ export const NavigationBalance = styled.div<{ theme?: Theme }>`
 export const NavigationNotification = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
       display: none;
+      cursor: pointer;
 
       ${theme.breakpoints.down('lg')} {
         display: grid;

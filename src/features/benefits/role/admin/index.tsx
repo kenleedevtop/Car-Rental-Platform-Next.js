@@ -419,6 +419,7 @@ const BenefitsPage = () => {
             </BenefitsPageFilter>
           </Collapse>
           <CheckboxTable
+            style={{ marginTop: '60px' }}
             head={DFinanceHead}
             items={benefits}
             renderItem={renderItem}

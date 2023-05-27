@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Chat, Modal, Tabs } from 'components/custom';
 import { TSurveyInfoModalProps } from 'features/surveys/role/admin/elements/survey-info-modal/types';
-import { SurveyInfoModalMain } from 'features/surveys/role/admin/elements/survey-info-modal/styles';
+import {
+  SurveyInfoModalMain,
+  SurveyTitle,
+} from 'features/surveys/role/admin/elements/survey-info-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
@@ -77,10 +80,17 @@ const SurveyInfoModal = ({ onClose, ...props }: TSurveyInfoModalProps) => {
     <Modal
       size="medium"
       title={
-        <div>
-          Survey Name{' '}
-          <EditIcon style={{ cursor: 'pointer' }} onClick={handleDisabled} />
-        </div>
+        <SurveyTitle>
+          Survey Name
+          <EditIcon
+            style={
+              disabled
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleDisabled}
+          />
+        </SurveyTitle>
       }
       actions={[
         <Button

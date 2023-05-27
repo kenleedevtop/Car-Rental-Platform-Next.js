@@ -15,6 +15,8 @@ const DeleteInfluencerModal = ({
   const { push } = useSnackbar();
 
   const handleDelete = async () => {
+    console.log(id);
+
     try {
       await InfluencerAPI.deleteInfluencer(id);
       push('Influencer successfully deleted!', { variant: 'success' });

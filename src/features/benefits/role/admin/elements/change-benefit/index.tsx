@@ -93,7 +93,15 @@ const ChangeBenefitModal = ({
       size="medium"
       title={
         <div>
-          Benefit #{data.id} <EditIcon onClick={handleDisabled} />
+          Benefit #{data.id}
+          <EditIcon
+            style={
+              disabled
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleDisabled}
+          />
         </div>
       }
       actions={[

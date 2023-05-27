@@ -14,7 +14,7 @@ export const ToBeApprovedActionsMain = styled.div<{ theme?: Theme }>`
 
 export const ToBeApprovedActionsMenu = styled(Menu)`
   position: absolute;
-  left: 0px;
+  left: -100%;
   top: 100%;
   z-index: 200;
   width: 120px;

@@ -8,6 +8,7 @@ export const DGenerateDiscoverInfluencersFilter = () => ({
   status: null,
   joinedFrom: null,
   joinedTo: null,
+  ethnicity: [],
   schedule: [],
   label: [],
   age: {

@@ -62,11 +62,22 @@ const DiscoverInfluencersPage = () => {
   };
 
   const [influencers, setInfluencers] = useState<any>([]);
+  const [registeredInfluencers, setRegisteredInfluencers] = useState<any>([]);
+  const [toBeApprovedInfluencers, setToBeApprovedInfluencers] = useState<any>(
+    []
+  );
 
   const getInfluencers = async () => {
-    const { result } = await InfluencerAPI.getDInfluencers();
+    const result = await InfluencerAPI.getDInfluencers();
 
-    setInfluencers(result);
+    setRegisteredInfluencers(
+      result.filter(
+        (data: any) => data.user.status === 2 || data.user.status === 3
+      )
+    );
+    setToBeApprovedInfluencers(
+      result.filter((data: any) => data.user.status === 4)
+    );
   };
 
   const [currentInfluencer, setCurrentInfluencer] = useState<any>();
@@ -75,45 +86,72 @@ const DiscoverInfluencersPage = () => {
     setCurrentInfluencer(value);
   };
 
-  const renderItem = ({
-    headItem,
-    cell,
-    row,
-    table,
-  }: TTableRenderItemObject) => {
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'firstName') {
       return (
         <DiscoverInfluencersAction
           onClick={() => {
-            getCurrentInfluencer(row.data.id);
+            getCurrentInfluencer(row.data.user.id);
             openIpModal();
           }}
         >
-          {cell.data}
+          {row.data.user.firstName}
         </DiscoverInfluencersAction>
       );
     }
     if (headItem.reference === 'lastName') {
-      return cell.data;
+      return row.data.user.lastName;
     }
     if (headItem.reference === 'email') {
-      return cell.data;
+      return row.data.user.email;
     }
     if (headItem.reference === 'status') {
-      return 'Registered';
+      switch (row.data.user.status) {
+        case 0:
+          return 'Identified';
+        case 1:
+          return 'Contacted';
+        case 2:
+          return 'Unconfirmed';
+        case 3:
+          return 'Confirmed';
+        case 4:
+          return 'To Be Approved';
+        case 5:
+          return 'Approved';
+        case 6:
+          return 'Do Not Contact';
+        case 7:
+          return 'Scheduled';
+        default:
+          return '';
+      }
     }
     if (headItem.reference === 'registeredAt') {
-      return row.data.createdAt.slice(0, 10);
+      return row.data.user.createdAt.slice(0, 10);
     }
 
     if (headItem.reference === 'invitedBy') {
-      return row.data.influencer.invitendByUserId;
+      return row.data.invitendByUser;
     }
 
     if (headItem.reference === 'actions') {
-      return (
-        <DiscoverActions data={row.data} refreshInfluencers={getInfluencers} />
-      );
+      switch (row.data.user.status) {
+        case 4:
+          return (
+            <ToBeApprovedActions
+              data={row.data.user.id}
+              refreshInfluencers={getInfluencers}
+            />
+          );
+        default:
+          return (
+            <DiscoverActions
+              data={row.data.user.id}
+              refreshInfluencers={getInfluencers}
+            />
+          );
+      }
     }
 
     return '';
@@ -185,7 +223,7 @@ const DiscoverInfluencersPage = () => {
       </DiscoverInfluencersPageCharts>
       <CardWithText
         title="Discovered Influencers"
-        description="More than 290+ new Influencers"
+        description="More than 290+ Influencers"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -215,17 +253,17 @@ const DiscoverInfluencersPage = () => {
                   type="select"
                   label="Disease Area"
                   placeholder="Please Select"
-                  value={filter.diseaseArea}
-                  onValue={(diseaseArea) =>
-                    setFilter({ ...filter, diseaseArea })
+                  value={filter.diseaseArea.label}
+                  onValue={(input) =>
+                    setFilter({ ...filter, diseaseArea: input })
                   }
                 />
                 <Input
                   type="select"
                   label="Location"
                   placeholder="Please Select"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
+                  value={filter.location.label}
+                  onValue={(input) => setFilter({ ...filter, location: input })}
                 />
                 <Input
                   type="min-max"
@@ -363,8 +401,8 @@ const DiscoverInfluencersPage = () => {
                   type="select"
                   label="Schedule"
                   placeholder="Please Select"
-                  value={filter.schedule}
-                  onValue={(schedule) => setFilter({ ...filter, schedule })}
+                  value={filter.schedule.label}
+                  onValue={(input) => setFilter({ ...filter, schedule: input })}
                   options={[
                     {
                       value: 0,
@@ -383,6 +421,16 @@ const DiscoverInfluencersPage = () => {
                       label: 'Without',
                     },
                   ]}
+                />
+                <Input
+                  type="select"
+                  label="Ethnicity"
+                  placeholder="Please Select"
+                  value={filter.ethnicity.label}
+                  onValue={(input) =>
+                    setFilter({ ...filter, ethnicity: input })
+                  }
+                  options={[]}
                 />
               </DiscoverInfluencersFilterContainer>
               <DiscoverInfluencersPageFilterActions direction="horizontal">
@@ -407,21 +455,18 @@ const DiscoverInfluencersPage = () => {
           {tabs === 0 && (
             <CheckboxTable
               head={DInfluencerHeadRegistered}
-              items={influencers}
+              items={registeredInfluencers}
               renderItem={renderItem}
             />
           )}
           {tabs === 1 && (
             <CheckboxTable
               head={DInfluencerHeadToBeApproved}
-              items={[]}
+              items={toBeApprovedInfluencers}
               renderItem={renderItem}
             />
           )}
           <Pagination count={1} />
-          <Stack direction="horizontal">
-            <ToBeApprovedActions />
-          </Stack>
         </Stack>
       </CardWithText>
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}

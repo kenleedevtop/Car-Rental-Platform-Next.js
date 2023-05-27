@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {
+  TableContainer,
   TableWrapper,
   TableMain,
   TableHead,
@@ -10,7 +11,7 @@ import {
   TableHeadRow,
   TableBodyRow,
   TableEmpty,
-} from 'components/custom/table/styles';
+} from 'components/custom/checkbox-table/styles';
 import { TTableProps, TTableHeadItem } from 'components/custom/table/types';
 import getObjectDynamicPath from 'utilities/extended-proto/index';
 import { BackupTableRounded } from '@mui/icons-material';
@@ -31,6 +32,7 @@ const Table = ({
   head = [],
   items = [],
   renderItem = (_b) => {},
+  ...props
 }: TTableProps) => {
   const [localHead, setLocalHead] = useState(head);
   const [tModal, openTModal, closeTModal] = useModal(false);
@@ -56,9 +58,12 @@ const Table = ({
   const { role } = useAppContext();
 
   return (
-    <>
+    <TableContainer {...props}>
       {['ADMIN', 'SUPERADMIN'].includes(role) && (
-        <Stack style={{ justifyContent: 'flex-end' }} direction="horizontal">
+        <Stack
+          style={{ justifyContent: 'flex-end', marginTop: '-60px' }}
+          direction="horizontal"
+        >
           <TableHeadCellAction color="primary" onClick={openTModal}>
             <ManageColumnsIcon />
           </TableHeadCellAction>
@@ -77,7 +82,7 @@ const Table = ({
         <TableMain>
           <TableHead>
             <TableHeadRow>
-              <TableHeadCell>
+              <TableHeadCell action>
                 <Checkbox value={headCheckbox} onValue={handleHeadCheckbox} />
               </TableHeadCell>
               {visibleItems.map((x: any) => (
@@ -89,7 +94,7 @@ const Table = ({
             <TableBody>
               {items.map((x: any, y: number) => (
                 <TableBodyRow>
-                  <TableBodyCell>
+                  <TableBodyCell action>
                     <Checkbox value={checkbox} onValue={handleCheckbox} />
                   </TableBodyCell>
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
@@ -152,7 +157,7 @@ const Table = ({
           </Reorder.Group>
         </Modal>
       )}
-    </>
+    </TableContainer>
   );
 };
 

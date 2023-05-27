@@ -91,7 +91,14 @@ const InfluencerProfile = ({
         <InfluencerTitle>
           First Name Last Name
           {state.firstName} {state.lastName}
-          <EditIcon style={{ cursor: 'pointer' }} onClick={handleDisabled} />
+          <EditIcon
+            style={
+              disabled
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleDisabled}
+          />
         </InfluencerTitle>
       }
       actions={[

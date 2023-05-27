@@ -17,7 +17,14 @@ export const InfluencerProfileChartContainer = styled.div`
   border-top: unset;
 `;
 
-export const InfluencerTitle = styled.div``;
+export const InfluencerTitle = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    align-items: center;
+    gap: ${theme.spacing(2.5)};
+  
+  `}
+`;
 
 export const InfluencerGrid = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `

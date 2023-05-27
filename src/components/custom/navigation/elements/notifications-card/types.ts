@@ -9,4 +9,6 @@ export type TNotification = {
   status: TNotificationStatus;
 };
 
-export type TNotificationsCardProps = React.HTMLAttributes<HTMLDivElement> & {};
+export type TNotificationsCardProps = React.HTMLAttributes<HTMLDivElement> & {
+  onClose: () => void;
+};

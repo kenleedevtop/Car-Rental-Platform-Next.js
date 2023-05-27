@@ -75,7 +75,9 @@ const InfluencersPage = () => {
   const [influencers, setInfluencers] = useState<any>([]);
 
   const getInfluencers = async () => {
-    const { result } = await InfluencerAPI.getInfluencers();
+    const result = await InfluencerAPI.getInfluencers();
+
+    console.log(result);
 
     setInfluencers(result);
   };
@@ -100,33 +102,66 @@ const InfluencersPage = () => {
     row,
     table,
   }: TTableRenderItemObject) => {
+    console.log(row);
+
     if (headItem.reference === 'firstName') {
       return (
         <InfluencerAction
           onClick={() => {
-            getCurrentInfluencer(row.data.id);
+            getCurrentInfluencer(row.data.user.id);
             openIpModal();
           }}
         >
-          {cell.data}
+          {row.data.user.firstName}
         </InfluencerAction>
       );
     }
+
+    if (headItem.reference === 'diseaseArea') {
+      return row.data.stakeholders[0].patientsCaregiverDiseaseAreas;
+    }
+    if (headItem.reference === 'location') {
+      return (
+        <>
+          {row.data.user.location.name}, {row.data.user.location.country.name}
+        </>
+      );
+    }
+    if (headItem.reference === 'age') {
+      const year: any = new Date().getFullYear();
+
+      return year - parseInt(row.data.dateOfBirth.slice(0, 4), 10);
+    }
+    if (headItem.reference === 'gender') {
+      if (row.data.stakeholders[0].gender === 1) {
+        return 'Male';
+      }
+      if (row.data.stakeholders[0].gender === 2) {
+        return 'Female';
+      }
+      if (row.data.stakeholders[0].gender === 3) {
+        return 'Other';
+      }
+    }
+    if (headItem.reference === 'followers') {
+      return row.data.stakeholders[0].followersCount;
+    }
+
     if (headItem.reference === 'lastName') {
-      return cell.data;
+      return row.data.user.lastName;
     }
     if (headItem.reference === 'email') {
-      return cell.data;
+      return row.data.user.email;
     }
     if (headItem.reference === 'status') {
-      return 'Registered';
+      return 'Approved';
     }
     if (headItem.reference === 'registeredAt') {
-      return row.data.createdAt.slice(0, 10);
+      return row.data.user.createdAt.slice(0, 10);
     }
 
     if (headItem.reference === 'invitedBy') {
-      return row.data.influencer.invitendByUserId;
+      return row.data.invitendByUser;
     }
 
     if (headItem.reference === 'actions') {
@@ -1087,7 +1122,6 @@ const InfluencersPage = () => {
             </InfluencersPageFilter>
           </Collapse>
           <InfluencersPageActions>
-            <Title title="Influencers" />
             <InfluencersPageButtons>
               <Button
                 variant="contained"
@@ -1101,7 +1135,7 @@ const InfluencersPage = () => {
           </InfluencersPageActions>
           <CheckboxTable
             head={DClientsHead}
-            items={[]}
+            items={influencers}
             renderItem={renderItem}
           />
           <Pagination count={32} />

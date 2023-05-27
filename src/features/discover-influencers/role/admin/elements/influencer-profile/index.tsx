@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'components/custom';
+import { Modal } from 'components/custom';
 import { TInfluencerProfileModalProps } from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
 import {
   InfluencerProfileModalMain,
@@ -8,9 +8,8 @@ import {
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { EditIcon } from 'components/svg';
-import { InfluencerAPI, LocationAPI } from 'api';
+import { InfluencerAPI, LocationAPI, DiseaseAreaAPI } from 'api';
 import { useSnackbar } from 'hooks';
-import DiseaseAreaAPI from 'api/diseaseArea';
 
 const InfluencerProfile = ({
   onClose,
@@ -108,6 +107,8 @@ const InfluencerProfile = ({
 
   useEffect(() => {
     if (influencer) {
+      console.log(influencer);
+
       setState({
         ...state,
         firstName: influencer.firstName,
@@ -137,7 +138,14 @@ const InfluencerProfile = ({
       title={
         <InfluencerTitle>
           {state.firstName} {state.lastName}
-          <EditIcon style={{ cursor: 'pointer' }} onClick={handleDisabled} />
+          <EditIcon
+            style={
+              disabled
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleDisabled}
+          />
         </InfluencerTitle>
       }
       actions={[
@@ -240,7 +248,7 @@ const InfluencerProfile = ({
             disabled={disabled}
             value={state.locationId}
             onSearch={debounce(getLocations, 1000)}
-            onValue={(locationId) => setState({ ...state, locationId })}
+            onValue={(input) => setState({ ...state, locationId: input })}
             loading={loading}
             options={locations}
           />

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TCreateFinanceModalProps } from 'features/finance/role/admin/elements/create-finance-modal/types';
-import { CreateFinanceModalMain } from 'features/finance/role/admin/elements/create-finance-modal/styles';
+import {
+  CreateFinanceModalMain,
+  RevenueTitle,
+} from 'features/finance/role/admin/elements/revenue-info-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
 import { Stack } from 'components/system';
 import { EditIcon } from 'components/svg';
@@ -43,9 +46,17 @@ const CreateFinanceModal = ({
     <Modal
       size="medium"
       title={
-        <div>
-          Revenue Name <EditIcon onClick={handleDisabled} />
-        </div>
+        <RevenueTitle>
+          Revenue Name
+          <EditIcon
+            style={
+              disabled
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleDisabled}
+          />
+        </RevenueTitle>
       }
       actions={[
         <Button

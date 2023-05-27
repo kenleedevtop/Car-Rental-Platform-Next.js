@@ -55,7 +55,15 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
       size="medium"
       title={
         <ClientTitle>
-          First Name Last Name <EditIcon onClick={handleEdit} />
+          First Name Last Name
+          <EditIcon
+            style={
+              editActive
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleEdit}
+          />
         </ClientTitle>
       }
       actions={[

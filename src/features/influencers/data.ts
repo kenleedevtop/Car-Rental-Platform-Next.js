@@ -692,4 +692,9 @@ export const DClientsHead = [
     label: 'Targeted Nurses Keywords %',
     visible: false,
   },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
+  },
 ];

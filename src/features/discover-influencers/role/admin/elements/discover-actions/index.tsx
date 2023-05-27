@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   DiscoverActionsMain,
   DiscoverActionsMenu,
@@ -34,6 +34,10 @@ const DiscoverActions = ({
   const [siModal, openSiModal, closeSiModal] = useModal(false);
   const [niModal, openNiModal, closeNiModal] = useModal(false);
   const [diModal, openDiModal, closeDiModal] = useModal(false);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <DiscoverActionsMain>
@@ -77,13 +81,11 @@ const DiscoverActions = ({
           ref={menu}
         />
       )}
-      {ciModal && (
-        <ContactInfluencerModal id={data.id} onClose={closeCiModal} />
-      )}
+      {ciModal && <ContactInfluencerModal id={data} onClose={closeCiModal} />}
       {niModal && <NoteInfluencer onClose={closeNiModal} />}
       {diModal && (
         <DeleteInfluencerModal
-          id={data.id}
+          id={data}
           refreshInfluencers={refreshInfluencers}
           onClose={() => {
             refreshInfluencers();

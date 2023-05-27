@@ -83,7 +83,15 @@ const AddInfluencerModal = ({
       size="medium"
       title={
         <CampaignsTitle>
-          Create Campaign <EditIcon onClick={handleDisabled} />
+          Create Campaign
+          <EditIcon
+            style={
+              disabled
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleDisabled}
+          />
         </CampaignsTitle>
       }
       actions={[

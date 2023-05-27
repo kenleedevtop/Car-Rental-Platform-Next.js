@@ -293,6 +293,7 @@ const AdminAmbassadorsPage = () => {
             </AmbassadorsPageFilter>
           </Collapse>
           <CheckboxTable
+            style={{ marginTop: '60px' }}
             head={DAmbassadorsHead}
             items={[]}
             renderItem={renderItem}
