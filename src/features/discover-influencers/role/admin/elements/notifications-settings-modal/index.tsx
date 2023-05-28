@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TNotificationsSettingsModalProps } from 'features/discover-influencers/role/admin/elements/notifications-settings-modal/types';
 import { NotificationsSettingsModalMain } from 'features/discover-influencers/role/admin/elements/notifications-settings-modal/styles';
-import { Button, Input, InputGroup, Switch } from 'components/ui';
+import { Button, Input, Switch } from 'components/ui';
 import { InputLabel } from 'components/ui/input/styles';
-import { GridCell, Stack } from 'components/system';
+import { Stack } from 'components/system';
 
 const NotificationsSettingsModal = ({
   onClose,

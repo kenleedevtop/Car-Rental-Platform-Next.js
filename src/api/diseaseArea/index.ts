@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Project from 'constants/project';
 import { TCreateDiseaseArea, TSingleDiseaseArea } from 'api/diseaseArea/types';
 

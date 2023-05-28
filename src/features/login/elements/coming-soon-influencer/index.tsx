@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Title } from 'components/custom';
+import { Modal } from 'components/custom';
 import { TMaintenanceModalProps } from 'features/login/elements/coming-soon-influencer/types';
 import {
   MaintenanceMain,

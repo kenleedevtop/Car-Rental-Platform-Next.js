@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal } from 'components/custom';
 import { TApproveReportsModalProps } from 'features/reports/role/admin/elements/approve-reports-modal/types';
 import {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   AmbassadorsPageMain,
   AmbassadorsPageCharts,
@@ -25,7 +25,7 @@ import {
   DAmbassadorsHead,
   DGenerateAmbassadorsFilter,
 } from 'features/ambassadors/data';
-import { useModal } from 'hooks';
+import { useModal, usePagination } from 'hooks';
 import {
   AmbassadorsProfile,
   ClientListAmbassadorModal,
@@ -50,8 +50,6 @@ const AdminAmbassadorsPage = () => {
     setFilter(DGenerateAmbassadorsFilter());
   };
 
-  const renderItem = ({ row, cell }: TTableRenderItemObject) => '';
-
   const [daModal, openDaModal, closeDaModal] = useModal(false);
   const [caModal, openCaModal, closeCaModal] = useModal(false);
   const [saModal, openSaModal, closeSaModal] = useModal(false);
@@ -62,15 +60,51 @@ const AdminAmbassadorsPage = () => {
 
   const [ambassadors, setAmbassadors] = useState<any>([]);
 
-  const getAmbassadors = async () => {
-    const { result } = await AmbassadorAPI.getAmbassadors();
+  const [filterParams, setFilterParams] = useState({});
 
-    console.log(result);
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await AmbassadorAPI.getAmbassadors({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+
+        setAmbassadors(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
+
+  const renderItem = ({
+    headItem,
+    row,
+    cell,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return row.data.firstName;
+    }
+    if (headItem.reference === 'lastName') {
+      return row.data.lastName;
+    }
+    if (headItem.reference === 'company') {
+      return row.data.ambassador.company.name;
+    }
+    if (headItem.reference === 'totalRegisteredClients') {
+      return 'Missing object property';
+    }
+    if (headItem.reference === 'totalBudget') {
+      return 'Missing object property';
+    }
+    if (headItem.reference === 'totalOngoingProjects') {
+      return 'Missing object property';
+    }
+
+    return '';
   };
-
-  useEffect(() => {
-    getAmbassadors();
-  }, []);
 
   return (
     <AmbassadorsPageMain>
@@ -295,10 +329,14 @@ const AdminAmbassadorsPage = () => {
           <CheckboxTable
             style={{ marginTop: '60px' }}
             head={DAmbassadorsHead}
-            items={[]}
+            items={ambassadors}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDaModal}>
               Delete Ambasador

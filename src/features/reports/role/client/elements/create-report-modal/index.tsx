@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TAddReportModalProps } from 'features/reports/role/admin/elements/create-report-modal/types';
 import { AddReportModalMain } from 'features/reports/role/admin/elements/create-report-modal/styles';
-import { Button, Input, Switch } from 'components/ui';
+import { Button, Input } from 'components/ui';
 import { GridCell } from 'components/system';
 
 const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {

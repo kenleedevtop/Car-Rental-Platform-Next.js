@@ -4,10 +4,7 @@ import { Stack } from 'components/system';
 import {
   StepContainer,
   StepStack,
-  StepTop,
   StepLeft,
-  StepFMiddle,
-  StepSMiddle,
   StepRight,
 } from 'components/custom/stepper/stepper-steps/step-4/style';
 import { Input } from 'components/ui';

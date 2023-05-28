@@ -33,7 +33,7 @@ import {
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Card, Input, InputGroup, Pagination } from 'components/ui';
-import { Collapse, Grid, GridCell, Stack } from 'components/system';
+import { Collapse, Stack } from 'components/system';
 import { useModal } from 'hooks';
 import {
   ExportIncomePModal,

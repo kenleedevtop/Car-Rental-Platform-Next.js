@@ -8,9 +8,7 @@ import React, {
 } from 'react';
 import { createInitialState } from 'context/app/data';
 import { TAppContextState } from 'context/app/types';
-import Cookies from 'js-cookie';
 import { TLoginParams } from 'api/authorization/types';
-import axios from 'axios';
 import { LoadingPage } from 'features';
 import { convertNumberToRole } from 'utilities/converters';
 

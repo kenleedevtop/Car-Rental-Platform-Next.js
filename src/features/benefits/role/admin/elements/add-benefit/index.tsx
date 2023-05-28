@@ -6,7 +6,7 @@ import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { ConfirmAddBenefitModal } from 'features/benefits/role/admin/elements';
 import { useModal } from 'hooks';
-import { BenefitsAPI, CompanyAPI, LocationAPI } from 'api';
+import { BenefitsAPI, LocationAPI } from 'api';
 
 const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
   const [loading, setLoading] = useState(false);

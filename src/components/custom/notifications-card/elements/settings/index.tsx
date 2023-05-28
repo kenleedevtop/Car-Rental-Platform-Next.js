@@ -42,9 +42,7 @@ const NotificationSettings = ({ onClose, ...props }: TNotificationSettings) => {
 
   const { pathname } = useRouter();
 
-  useEffect(() => {
-    console.log(pathname);
-  }, [pathname]);
+  useEffect(() => {}, [pathname]);
 
   return (
     <Modal

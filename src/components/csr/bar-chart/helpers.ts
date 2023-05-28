@@ -1,4 +1,3 @@
-import Theme from 'theme';
 import { TBarChartData } from 'components/csr/bar-chart/types';
 
 export const HChartDataGenerate = ({

@@ -14,7 +14,6 @@ import {
   Menu,
   CheckboxTable,
   Tabs,
-  Title,
 } from 'components/custom';
 import {
   ContactIcon,
@@ -76,8 +75,6 @@ const InfluencersPage = () => {
 
   const getInfluencers = async () => {
     const result = await InfluencerAPI.getInfluencers();
-
-    console.log(result);
 
     setInfluencers(result);
   };

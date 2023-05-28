@@ -28,7 +28,7 @@ const SingleComment = ({
   };
 
   return (
-    <SingleCommentMain>
+    <SingleCommentMain {...props}>
       <CommentText>
         <Input
           type="text"

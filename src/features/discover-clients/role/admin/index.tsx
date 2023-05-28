@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   DiscoverClientsPageMain,
   DiscoverClientsPageCharts,
@@ -46,6 +46,7 @@ import {
 } from 'features/discover-clients/role/admin/elements';
 import { useMenu, useModal } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
+import { ClientAPI } from 'api';
 
 const DiscoverClientsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateDiscoverClientsFilter());
@@ -83,6 +84,18 @@ const DiscoverClientsPage = () => {
     row,
     table,
   }: TTableRenderItemObject) => {};
+
+  const [clients, setClients] = useState<any>([]);
+
+  const getClients = async () => {
+    const data = await ClientAPI.getDClients();
+
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getClients();
+  }, []);
 
   return (
     <DiscoverClientsPageMain>

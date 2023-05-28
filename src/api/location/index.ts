@@ -1,5 +1,5 @@
 import Project from 'constants/project';
-import { TCreateLocation, TSingleLocation } from 'api/location/types';
+import { TCreateLocation } from 'api/location/types';
 
 import { client } from 'api/api-client';
 

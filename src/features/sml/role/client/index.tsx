@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import {
   SmlPageMain,
   SmlPageCharts,
-  SmlPageFilter,
-  SmlPageFilterActions,
-  SMLPageFilterContainer,
+  // SmlPageFilter,
+  // SmlPageFilterActions,
+  // SMLPageFilterContainer,
 } from 'features/sml/styles';
 import {
   CardWithChart,
@@ -27,9 +27,8 @@ import {
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, Pagination } from 'components/ui';
-import { Grid, Stack } from 'components/system';
-import { Collapse } from '@mui/material';
+import { Button, Pagination } from 'components/ui';
+import { Stack } from 'components/system';
 import { DGenerateSmlFilter } from 'features/sml/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {

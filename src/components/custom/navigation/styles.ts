@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Theme, Tooltip } from '@mui/material';
+import { Theme } from '@mui/material';
 import { Avatar, Search } from 'components/ui';
 import { Menu } from 'components/custom';
 

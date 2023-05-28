@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Project from 'constants/project';
 import { TCreateUser, TSingleUser, TAddComment } from 'api/users/types';
 import { client } from 'api/api-client';

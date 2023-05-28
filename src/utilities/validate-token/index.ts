@@ -1,4 +1,3 @@
-import { AuthorizationAPI } from 'api';
 import Project from 'constants/project';
 
 export const validateToken = async () => {

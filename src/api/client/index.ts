@@ -11,12 +11,35 @@ const ClientAPI = {
     return data;
   },
 
-  getClients: async (params: any) => {
+  getClients: async (params?: any) => {
     const { data } = await client.get(`${Project.apis.v1}/client`, {
       params,
     });
 
     return data;
+  },
+
+  getDClients: async (params?: any) => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/client/discoverClients`,
+      {
+        params,
+      }
+    );
+
+    return data;
+  },
+
+  addDClients: async (body: any) => {
+    await client.post(`${Project.apis.v1}/client/discoverClients`, body);
+  },
+
+  inviteDClients: async (id: any) => {
+    await client.put(`${Project.apis.v1}/client/discoverClients/${id}/invite`);
+  },
+
+  updateDClients: async (body: any, id: any) => {
+    await client.patch(`${Project.apis.v1}/client/discoverClients/${id}`, body);
   },
 
   getSingleClient: async (id: TSingleClient) => {

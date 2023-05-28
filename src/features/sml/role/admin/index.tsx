@@ -13,25 +13,19 @@ import {
   Tabs,
 } from 'components/custom';
 import {
-  ContactedIcon,
   ContactIcon,
-  CreateIcon,
   DeleteIcon,
   DeliverIcon,
   EditIcon,
   FinishedIcon,
-  IdentifiedIcon,
   InfoIcon,
   ManageIcon,
   OrderedIcon,
   ReadyIcon,
-  RegisteredIcon,
-  ReportSMLIcon,
   RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   SMLSmallIcon,
-  TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
@@ -44,7 +38,6 @@ import {
   CreateSmlModal,
   OrderSmlModal,
   CreateSmlTabsModal,
-  CreateSmlFinal,
 } from 'features/sml/role/admin/elements';
 import { useMenu, useModal } from 'hooks';
 import { useRouter } from 'next/router';

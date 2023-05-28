@@ -204,4 +204,9 @@ export const DClientsHead = [
     label: 'Total SML Last 30 Days',
     visible: false,
   },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
+  },
 ];

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  NotificationsCardMain,
-  NotificationsCardList,
-  NotificationCard,
-  NotificationTitle,
-} from 'components/custom/navigation/elements/notifications-card/styles';
+import { NotificationsCardList } from 'components/custom/navigation/elements/notifications-card/styles';
 
 import {
   Notification,

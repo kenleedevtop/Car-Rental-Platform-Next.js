@@ -48,8 +48,6 @@ const RegisterPage = () => {
   const getLegals = async () => {
     const data = await LegalsAPI.getLegals();
 
-    console.log(data);
-
     const common = data.find((r: any) => r.type === 0);
     const specific = data.find((r: any) => r.type === 1);
 

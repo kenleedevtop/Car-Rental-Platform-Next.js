@@ -30,8 +30,6 @@ const EmailConfirmation = () => {
   };
 
   useEffect(() => {
-    console.log(query);
-
     if (query.token) {
       handleChange();
     }

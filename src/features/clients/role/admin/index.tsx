@@ -29,7 +29,7 @@ import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import { DClientsHead, DGenerateClientsFilter } from 'features/clients/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import {
   ContactClientsModal,
   DeleteClientsModal,
@@ -38,6 +38,7 @@ import {
   NoteClients,
   NotificationsSettingsModal,
   ScheduleClientsModal,
+  ClientActions,
 } from 'features/clients/role/admin/elements';
 import { ClientAPI } from 'api';
 
@@ -53,8 +54,6 @@ const ClientsPage = () => {
   const clearFilters = () => {
     setFilter(DGenerateClientsFilter());
   };
-
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   const [menu, open, setOpen] = useMenu(false);
 
@@ -72,32 +71,68 @@ const ClientsPage = () => {
 
   const [clients, setClients] = useState([]);
 
-  const getClients = async () => {
-    const { result } = await ClientAPI.getClients({
-      pagination: {
-        skip: 0,
-        limit: 10,
-      },
-      columns: [
-        'firstName',
-        'lastName',
-        'company',
-        'product',
-        'markets',
-        'diseaseAreas',
-        'totalOngoingProjects',
-      ],
-      filters: {
-        search: '',
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 50,
+      page: 1,
+      onChange: async (params, setPage) => {
+        // const { result, meta } = await ClientAPI.getClients({
+        //   limit: params.limit,
+        //   skip: params.skip,
+        //   ...filterParams,
+        // });
+
+        const result = await ClientAPI.getClients({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+
+        setClients(result);
+        // setTotalResults(meta.countFiltered);
+        setTotalResults(50);
       },
     });
 
-    console.log(result);
-  };
+  const renderItem = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return row.data.firstName;
+    }
+    if (headItem.reference === 'lastName') {
+      return row.data.lastName;
+    }
+    if (headItem.reference === 'company') {
+      return row.data.company.name;
+    }
+    if (headItem.reference === 'product') {
+      return row.data.products;
+    }
+    if (headItem.reference === 'market') {
+      return row.data.markets.map((x: any, index: any) =>
+        index < row.data.markets.length - 1 ? `${x.name}, ` : x.name
+      );
+    }
+    if (headItem.reference === 'diseaseArea') {
+      return row.data.diseaseAreas.map((x: any, index: any) =>
+        index < row.data.diseaseAreas.length - 1 ? `${x.name}, ` : x.name
+      );
+    }
+    if (headItem.reference === 'totalOngoingProjects') {
+      return row.data.totalOngoingProjects;
+    }
+    if (headItem.reference === 'actions') {
+      return <ClientActions data={row.data} />;
+    }
 
-  useEffect(() => {
-    getClients();
-  }, []);
+    return '';
+  };
 
   return (
     <ClientsPageMain>
@@ -328,10 +363,14 @@ const ClientsPage = () => {
           <Title title="Clients" />
           <CheckboxTable
             head={DClientsHead}
-            items={[]}
+            items={clients}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
               Delete Client

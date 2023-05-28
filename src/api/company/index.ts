@@ -1,6 +1,5 @@
 import Project from 'constants/project';
 import {
-  TCreateCompany,
   TCreateCompanyTitle,
   TSingleCompany,
   TSingleCompanyTitle,

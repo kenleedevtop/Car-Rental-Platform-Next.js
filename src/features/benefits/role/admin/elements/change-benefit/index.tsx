@@ -4,7 +4,7 @@ import { TChangeBenefitModalProps } from 'features/benefits/role/admin/elements/
 import { ChangeBenefitModalMain } from 'features/benefits/role/admin/elements/change-benefit/styles';
 import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
-import { BenefitsAPI, CompanyAPI, LocationAPI } from 'api';
+import { BenefitsAPI, LocationAPI } from 'api';
 import { EditIcon } from 'components/svg';
 import { useModal } from 'hooks';
 import ConfirmChangeBenefitModal from '../confirm-change-benefit-modal';
@@ -21,10 +21,6 @@ const ChangeBenefitModal = ({
     benefitCategoryId: data.benefitCategoryId,
     benefitLocations: data.benefitsLocations,
   });
-
-  useEffect(() => {
-    console.log(data);
-  }, []);
 
   useEffect(() => {
     setState({

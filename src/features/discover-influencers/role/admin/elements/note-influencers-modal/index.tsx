@@ -67,12 +67,10 @@ const NoteInfluencersModal = ({
 
   const getAssigneeType = async () => {
     const { result } = await LabelsAPI.getAssigneeType();
-    console.log(result);
   };
 
   const getLabels = async () => {
     const { result } = await LabelsAPI.getLabels();
-    console.log(result);
   };
 
   useEffect(() => {

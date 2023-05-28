@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TConfirmRegistrationModalProps } from 'features/register/elements/confirm-registration-modal/types';
 import {
@@ -14,7 +14,6 @@ import { AuthorizationAPI } from 'api';
 import { TResendEmailConfirmation } from 'api/authorization/types';
 import { useSnackbar } from 'hooks';
 import { AxiosError } from 'axios';
-import { useRouter } from 'next/router';
 
 const ConfirmRegistrationModal = ({
   onClose,

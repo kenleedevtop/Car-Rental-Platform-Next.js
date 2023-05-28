@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Project from 'constants/project';
 import {
   TSingleAmbassador,
@@ -12,8 +11,10 @@ const AmbassadorAPI = {
     await client.post(`${Project.apis.v1}/ambassador/registration`, body);
   },
 
-  getAmbassadors: async () => {
-    const { data } = await client.get(`${Project.apis.v1}/ambassador`);
+  getAmbassadors: async (params?: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/ambassador`, {
+      params,
+    });
 
     return data;
   },

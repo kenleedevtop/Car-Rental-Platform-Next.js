@@ -1,12 +1,10 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 
-export const PageLayoutMain = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
-    display: flex;
-    width: 100%;
-    height: 100%;
-  `}
+export const PageLayoutMain = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
 `;
 
 export const PageLayoutContent = styled.div<{ theme?: Theme }>`

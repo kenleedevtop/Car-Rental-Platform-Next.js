@@ -6,3 +6,4 @@ export { default as ExportClientsModal } from 'features/clients/role/admin/eleme
 export { default as NotificationsSettingsModal } from 'features/clients/role/admin/elements/notifications-settings-modal';
 export { default as ClientsProfile } from 'features/clients/role/admin/elements/clients-profile';
 export { default as NoteClients } from 'features/clients/role/admin/elements/note-clients-modal';
+export { default as ClientActions } from 'features/clients/role/admin/elements/client-actions';

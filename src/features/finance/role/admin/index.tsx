@@ -13,7 +13,6 @@ import {
 } from 'features/finance/data';
 import {
   CardWithChart,
-  CardWithProgress,
   CardWithText,
   Menu,
   CheckboxTable,
@@ -21,24 +20,18 @@ import {
 } from 'components/custom';
 import {
   ApproveIcon,
-  BusinessmanIcon,
-  ContactedIcon,
   ContactIcon,
   CostIcon,
   DeclineIcon,
   DeleteIcon,
   EditIcon,
   FinanceSmallIcon,
-  IdentifiedIcon,
   MarginIcon,
   ProfitIcon,
   ReceivedIcon,
-  RedCrossIcon,
-  RegisteredIcon,
   RevenueIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
-  TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
