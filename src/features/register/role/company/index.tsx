@@ -47,13 +47,21 @@ const RegisterPage = () => {
     commonLegalId: null,
   });
 
+  const router = useRouter();
+
   const [legalsChecked, setLegalsChecked] = useState(false);
   const [commonLegal, setCommonLegals] = useState<any>(null);
 
   const getLegals = async () => {
     const data = await LegalsAPI.getLegals();
 
-    const common = data.find((r: any) => r.type === 0);
+    let common;
+
+    if (router.locale === 'en-US') {
+      common = data.find((x: any) => x.type === 0 && x.language === 'en');
+    } else {
+      common = data.find((x: any) => x.type === 0 && x.language === 'de');
+    }
 
     setState({
       ...state,
@@ -64,8 +72,6 @@ const RegisterPage = () => {
   };
 
   const [counter, setCounter] = useState(0);
-
-  const router = useRouter();
 
   const { push } = useSnackbar();
 
@@ -170,8 +176,8 @@ const RegisterPage = () => {
   }, []);
 
   useEffect(() => {
-    console.log(state);
-  }, [state]);
+    getLegals();
+  }, [router.locale]);
 
   return (
     <RegisterCompanyMain>

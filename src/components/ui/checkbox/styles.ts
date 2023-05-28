@@ -70,9 +70,5 @@ export const CheckboxLabel = styled(Label)<{ theme?: Theme }>`
       color: ${theme.palette.common.gray[8]};
       user-select: none;
       cursor: pointer;
-
-      a {
-        margin: 0 ${theme.spacing(1)};
-      }
     `}
 `;

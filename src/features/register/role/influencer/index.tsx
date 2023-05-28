@@ -48,8 +48,16 @@ const RegisterPage = () => {
   const getLegals = async () => {
     const data = await LegalsAPI.getLegals();
 
-    const common = data.find((r: any) => r.type === 0);
-    const specific = data.find((r: any) => r.type === 1);
+    let common;
+    let specific;
+
+    if (router.locale === 'en-US') {
+      common = data.find((x: any) => x.type === 0 && x.language === 'en');
+      specific = data.find((x: any) => x.type === 1 && x.language === 'en');
+    } else {
+      common = data.find((x: any) => x.type === 0 && x.language === 'de');
+      specific = data.find((x: any) => x.type === 1 && x.language === 'de');
+    }
 
     setState({
       ...state,
@@ -63,6 +71,10 @@ const RegisterPage = () => {
   useEffect(() => {
     getLegals();
   }, []);
+
+  useEffect(() => {
+    getLegals();
+  }, [router.locale]);
 
   const { t } = useTranslation('register');
 
