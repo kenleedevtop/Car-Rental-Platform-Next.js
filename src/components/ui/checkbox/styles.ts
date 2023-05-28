@@ -70,5 +70,10 @@ export const CheckboxLabel = styled(Label)<{ theme?: Theme }>`
       color: ${theme.palette.common.gray[8]};
       user-select: none;
       cursor: pointer;
+      pointer-events: none;
+
+      a {
+        pointer-events: all !important;
+      }
     `}
 `;

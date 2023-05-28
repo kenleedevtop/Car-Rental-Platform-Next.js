@@ -86,7 +86,6 @@ export const HelpPageIconWithTextContainer = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
             display: flex;
             flex-direction: column;
-            gap: ${theme.spacing(30)};
 
             ${theme.breakpoints.down('md')} {
                 align-items: center;

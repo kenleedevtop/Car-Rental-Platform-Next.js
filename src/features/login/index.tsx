@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   LoginTitle,
   LoginSubtitle,
@@ -25,40 +25,49 @@ const Login = () => {
     password: '',
   });
 
+  const [resendCount, setResendCount] = useState<any>(null);
+
   const { t } = useTranslation('login');
 
   const [lpModal, openLpModal, closeLpModal] = useModal(false);
   const [crModal, openCrModal, closeCrModal] = useModal(false);
 
-  const [link, setLink] = useState(window.location.href);
-  const [query, setQuery] = useState('de-DE');
-
-  const { push, pathname } = useRouter();
   const router = useRouter();
   const { push: pushSnackbar } = useSnackbar();
 
   const { login } = useAppContext();
 
-  // useEffect(() => {
-  //   link.includes('de-DE') ? setQuery('de-DE') : setQuery('');
-  //   console.log(query);
-  // }, [link]);
-
   const handleLogin = async () => {
     try {
       await login(state);
-      // debugger
 
-      push('/');
+      router.push('/');
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
         if (
           e.response.data.message ===
           'Please confirm your e-mail address in order to complete the sign-up process.'
         ) {
+          setResendCount(JSON.parse(e.response.data.error));
           openCrModal();
         } else {
-          pushSnackbar(e.response.data.message, { variant: 'error' });
+          if (router.locale === 'de-DE') {
+            if (
+              e.response.data.message ===
+              'The email address and password combination you entered is incorrect. Please try again or reset your password.'
+            ) {
+              pushSnackbar(
+                'Die eingegebene Kombination aus E-Mail-Adresse und Passwort ist falsch. Bitte versuchen Sie es erneut oder setzen Sie Ihr Passwort zurück.',
+                { variant: 'error' }
+              );
+            }
+            if (e.response.data.message === 'Too many requests') {
+              pushSnackbar('Zu viele Anfragen', { variant: 'error' });
+            }
+          }
+          if (router.locale === 'en-US') {
+            pushSnackbar(e.response.data.message, { variant: 'error' });
+          }
         }
       }
     }
@@ -104,7 +113,11 @@ const Login = () => {
       <LoginLocalization />
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
       {crModal && (
-        <ConfirmRegistrationModal email={state.email} onClose={closeCrModal} />
+        <ConfirmRegistrationModal
+          count={resendCount.emailResendTokens}
+          email={state.email}
+          onClose={closeCrModal}
+        />
       )}
     </Stack>
   );

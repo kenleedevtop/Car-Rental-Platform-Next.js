@@ -99,8 +99,8 @@ const RegisterPage = () => {
   const [companies, setCompanies] = useState<any>([]);
   const [titles, setTitles] = useState<any>([]);
 
-  const getCompanies = async () => {
-    const { result } = await CompanyAPI.getAll();
+  const getCompanies = async (s: string = '') => {
+    const { result } = await CompanyAPI.getAll(s);
 
     setCompanies(
       result.map((x: any) => ({

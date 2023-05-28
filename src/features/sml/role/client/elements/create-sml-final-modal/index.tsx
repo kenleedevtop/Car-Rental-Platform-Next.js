@@ -1,10 +1,22 @@
 import React from 'react';
 import { Modal } from 'components/custom';
-import { TCreateSmlFinalProps } from 'features/sml/role/admin/elements/create-sml-final-modal/types';
+import { TCreateSmlFinalProps } from 'features/sml/role/client/elements/create-sml-final-modal/types';
 import { Button } from 'components/ui';
+import { SMLApi } from 'api';
+import { useSnackbar } from 'hooks';
 
-const CreateSmlFinal = ({ onClose, ...props }: TCreateSmlFinalProps) => {
-  const bla = 0;
+const CreateSmlFinal = ({ onClose, data, ...props }: TCreateSmlFinalProps) => {
+  const { push } = useSnackbar();
+
+  const createSML = async () => {
+    try {
+      await SMLApi.createSML(data);
+      push('Successfully added SML report', { variant: 'success' });
+    } catch {
+      push('Something went wrong.', { variant: 'error' });
+    }
+  };
+
   return (
     <Modal
       size="small"
@@ -22,7 +34,10 @@ const CreateSmlFinal = ({ onClose, ...props }: TCreateSmlFinalProps) => {
           color="primary"
           size="large"
           variant="contained"
-          onClick={onClose}
+          onClick={() => {
+            createSML();
+            onClose();
+          }}
         >
           Yes
         </Button>,

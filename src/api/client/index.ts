@@ -3,10 +3,15 @@ import { TSingleClient, TRegisterAsClientParams } from 'api/client/types';
 import { client } from 'api/api-client';
 
 const ClientAPI = {
-  registration: async (body: any) => {
+  registration: async (body: any, locale: string) => {
     const { data } = await client.post(
       `${Project.apis.v1}/client/registration`,
-      body
+      body,
+      {
+        params: {
+          lang: locale,
+        },
+      }
     );
     return data;
   },

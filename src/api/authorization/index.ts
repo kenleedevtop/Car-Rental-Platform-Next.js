@@ -23,22 +23,31 @@ const AuthorizationAPI = {
     await client.post(`/auth/emailConfirmation`, body);
   },
 
-  resendEmailConfirmation: async (body: TResendEmailConfirmation) => {
-    await client.post(`/auth/resendEmailConfirmation`, body);
+  resendEmailConfirmation: async (
+    body: TResendEmailConfirmation,
+    locale: string
+  ) => {
+    await client.post(`/auth/resendEmailConfirmation`, body, {
+      params: {
+        lang: locale,
+      },
+    });
   },
 
-  resetPassword: async (body: TResetPassword) => {
-    const { data } = await client.post(`/auth/resetPassword`, { data: body });
-
-    return data;
+  resetPassword: async (body: any, locale: string) => {
+    await client.post(
+      `/auth/resetPassword`,
+      { email: body },
+      {
+        params: {
+          lang: locale,
+        },
+      }
+    );
   },
 
   confirmResetPassword: async (body: TConfirmResetPassword) => {
-    const { data } = await client.post(`/auth/resetPassword/confirm`, {
-      data: body,
-    });
-
-    return data;
+    await client.post(`/auth/resetPassword/confirm`, body);
   },
 
   me: async () => {

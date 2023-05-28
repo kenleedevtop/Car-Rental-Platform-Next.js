@@ -45,6 +45,7 @@ const Input = ({
   initialSearch = '',
   onSearch,
   loading = false,
+  noOptionsText,
   ...props
 }: TInputProps) => {
   const [search, setSearch] = useState(initialSearch);
@@ -244,6 +245,7 @@ const Input = ({
           disabled={disabled}
           onInputChange={(_a, b) => handleSearch(b)}
           loading={loading}
+          noOptionsText={noOptionsText}
           isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
           renderOption={(optionProps, option: any) => (
             <MenuItem key={option.value} {...optionProps}>

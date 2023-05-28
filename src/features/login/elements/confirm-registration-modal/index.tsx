@@ -20,6 +20,7 @@ const ConfirmRegistrationModal = ({
   onClose,
   email,
   role,
+  count,
   ...props
 }: TConfirmRegistrationModalProps) => {
   const { t } = useTranslation('login');
@@ -30,7 +31,8 @@ const ConfirmRegistrationModal = ({
 
   const resendVerification = async (body: TResendEmailConfirmation) => {
     try {
-      await AuthorizationAPI.resendEmailConfirmation(body);
+      const lang = locale ? locale.slice(0, 2) : '';
+      await AuthorizationAPI.resendEmailConfirmation(body, lang);
       setClicked(true);
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
@@ -40,10 +42,6 @@ const ConfirmRegistrationModal = ({
       }
     }
   };
-
-  useEffect(() => {
-    console.log('EMAIL', email);
-  }, [email]);
 
   const resentMessage = (
     <p>
@@ -68,6 +66,12 @@ const ConfirmRegistrationModal = ({
     </p>
   );
 
+  useEffect(() => {
+    if (count === 0) {
+      setClicked(true);
+    }
+  }, []);
+
   return (
     <Modal size="medium" onClose={onClose} {...props}>
       <SConfirmRegistrationModalMain columns={1}>
@@ -75,7 +79,7 @@ const ConfirmRegistrationModal = ({
           {t('Email Confirmation Required')}
         </SConfirmRegistrationModalTitle>
         <SConfirmRegistrationModalText>
-          {clicked ? resentMessage : initialMessage}
+          {clicked ? initialMessage : resentMessage}
         </SConfirmRegistrationModalText>
         <SConfirmRegistrationModalActions>
           <Button

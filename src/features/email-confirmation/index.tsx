@@ -14,18 +14,37 @@ const EmailConfirmation = () => {
   const { push } = useSnackbar();
   const [message, setMessage] = useState('');
 
-  const { query } = useRouter();
+  const { query, locale } = useRouter();
 
   const handleChange = async () => {
     try {
       await AuthorizationAPI.emailConfirmation({ token: query.token as any });
-      push('User has been confirmed successfully.', { variant: 'success' });
-      setMessage('User has been confirmed successfully.');
+      if (locale === 'de-DE') {
+        push('Willkommen bei Patients Influence!', { variant: 'success' });
+        setMessage('Willkommen bei Patients Influence!');
+      } else {
+        push('Welcome to Patients Influence!', { variant: 'success' });
+        setMessage('Welcome to Patients Influence!');
+      }
     } catch (e: any) {
-      push('User has not been confrimed. Please try again later.', {
-        variant: 'error',
-      });
-      setMessage('User has not been confrimed. Please try again later.');
+      if (locale === 'de-DE') {
+        push(
+          'Ihr Konto ist bereits aktiv. Bitte loggen Sie sich in Ihr Konto ein.',
+          {
+            variant: 'error',
+          }
+        );
+        setMessage(
+          'Ihr Konto ist bereits aktiv. Bitte loggen Sie sich in Ihr Konto ein.'
+        );
+      } else {
+        push('You account is already active. Please login to your account.', {
+          variant: 'error',
+        });
+        setMessage(
+          'You account is already active. Please login to your account.'
+        );
+      }
     }
   };
 
@@ -38,7 +57,9 @@ const EmailConfirmation = () => {
   return (
     <EmailConfirmationMain>
       <EmailConfirmationTitle>{message}</EmailConfirmationTitle>
-      <EmailButton href="/login">Go back</EmailButton>
+      <EmailButton href="/login">
+        {locale !== 'de-DE' ? 'Back' : 'Zurück'}
+      </EmailButton>
     </EmailConfirmationMain>
   );
 };

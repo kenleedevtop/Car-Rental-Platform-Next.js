@@ -40,6 +40,7 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   inputValue?: string | [];
   initialSearch?: string;
   loading?: boolean;
+  noOptionsText?: string;
   onInputChange?: (v: any) => void;
   errorCallback?: (e: boolean) => void;
   onNewTag?: (v: any) => void;

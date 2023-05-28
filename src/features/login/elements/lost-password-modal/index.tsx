@@ -24,14 +24,34 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
 
   const handleReset = async () => {
     try {
-      const { message } = await AuthorizationAPI.resetPassword(
-        { email }
-        // , locale
-      );
-      push('Password reset email sent successfully.', { variant: 'success' });
+      const lang = locale ? locale.slice(0, 2) : '';
+      await AuthorizationAPI.resetPassword(email, lang);
+      if (locale === 'de-DE') {
+        push(
+          'Wenn die von Ihnen eingegebene E-Mail-Adresse mit einem Konto verknüpft ist, sollten Sie bald eine E-Mail mit Schritten zum Zurücksetzen Ihres Passworts erhalten. ',
+          {
+            variant: 'success',
+          }
+        );
+      } else {
+        push(
+          'If the email address you entered is associated with an account, you will receive an email with instructions on how to reset your password.',
+          { variant: 'success' }
+        );
+      }
       onClose();
     } catch (e: any) {
-      push('Password reset unsuccessful', { variant: 'error' });
+      if (locale === 'de-DE') {
+        push(
+          'Wenn die von Ihnen eingegebene E-Mail-Adresse mit einem Konto verknüpft ist, sollten Sie bald eine E-Mail mit Schritten zum Zurücksetzen Ihres Passworts erhalten. ',
+          { variant: 'success' }
+        );
+      } else {
+        push(
+          'If the email address you entered is associated with an account, you will receive an email with instructions on how to reset your password.',
+          { variant: 'success' }
+        );
+      }
     }
   };
 

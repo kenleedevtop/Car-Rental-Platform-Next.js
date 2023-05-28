@@ -28,6 +28,8 @@ const AccountPage = ({ ...props }) => {
     email: '',
     password: '',
     colleagues: [],
+    product: null,
+    invitedBy: '',
   });
 
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
@@ -72,6 +74,22 @@ const AccountPage = ({ ...props }) => {
           <AccountStack direction="horizontal">
             <Input
               type="select"
+              label="Location"
+              placeholder="Please Select"
+              value={filter.location}
+              onValue={(location) => setFilter({ ...filter, location })}
+            />
+            <Input
+              type="select"
+              label="Industry"
+              placeholder="Please Select"
+              value={filter.industry}
+              onValue={(industry) => setFilter({ ...filter, industry })}
+            />
+          </AccountStack>
+          <AccountStack direction="horizontal">
+            <Input
+              type="select"
               label="Disease Areas"
               placeholder="Please Select"
               value={filter.diseaseArea}
@@ -85,20 +103,23 @@ const AccountPage = ({ ...props }) => {
               onValue={(markets) => setFilter({ ...filter, markets })}
             />
           </AccountStack>
-          <Input
-            type="select"
-            label="Location"
-            placeholder="Please Select"
-            value={filter.location}
-            onValue={(location) => setFilter({ ...filter, location })}
-          />
-          <Input
-            type="select"
-            label="Industry"
-            placeholder="Please Select"
-            value={filter.industry}
-            onValue={(industry) => setFilter({ ...filter, industry })}
-          />
+          <AccountStack direction="horizontal">
+            <Input
+              type="select"
+              label="Product"
+              placeholder="Please Select"
+              value={filter.product}
+              onValue={(product) => setFilter({ ...filter, product })}
+            />
+            <Input
+              type="text"
+              label="Invited By"
+              disabled
+              placeholder="Please Select"
+              value={filter.invitedBy}
+              onValue={(invitedBy) => setFilter({ ...filter, invitedBy })}
+            />
+          </AccountStack>
           <AccountChange>
             <Input
               type="text"

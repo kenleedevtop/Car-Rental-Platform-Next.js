@@ -34,7 +34,7 @@ const ChangePassword = () => {
   const handleChange = async () => {
     try {
       if (query.token && state.password === state.confirmPassword) {
-        const { message } = await AuthorizationAPI.confirmResetPassword(
+        await AuthorizationAPI.confirmResetPassword(
           {
             password: state.password,
             token: query.token as string,

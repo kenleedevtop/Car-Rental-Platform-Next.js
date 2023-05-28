@@ -2,7 +2,7 @@ import { TLoginParams } from 'api/authorization/types';
 import { TUser, TUserRole } from 'types/global';
 
 export type TAppContextState = {
-  user: null | TUser;
+  user: null | TUser | any;
   routeName: string;
   role: TUserRole;
   initialLoading: boolean;

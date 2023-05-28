@@ -5,6 +5,7 @@ import {
   StepContainer,
   StepForm,
   StepStack,
+  StepText,
 } from 'components/custom/stepper/stepper-steps/step-2/style';
 
 const Step = () => {
@@ -14,6 +15,7 @@ const Step = () => {
     gender: null,
     diseaseArea: null,
     experienceAs: null,
+    ethnicity: null,
   });
 
   return (
@@ -65,7 +67,14 @@ const Step = () => {
             onValue={(diseaseArea) => setFilter({ ...filter, diseaseArea })}
           />
         </StepStack>
-        <StepStack>
+        <StepStack direction="horizontal">
+          <Input
+            type="text"
+            label="Ethnicity"
+            placeholder="Please Select"
+            value={filter.ethnicity}
+            onValue={(ethnicity) => setFilter({ ...filter, ethnicity })}
+          />
           <Input
             type="select"
             label="Experience As"
@@ -84,6 +93,14 @@ const Step = () => {
             ]}
           />
         </StepStack>
+        <StepText>
+          *These details allows us to match you with fitting projects based on
+          the client-set criteria, boosting your opportunities and income.{' '}
+          <br />
+          Your profile and data will stay anonymised to others at all times,
+          unless you explicitly consent to share it to a specific client during
+          your campaign application (first name and username only).
+        </StepText>
       </StepForm>
     </StepContainer>
   );

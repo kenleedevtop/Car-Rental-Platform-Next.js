@@ -10,11 +10,12 @@ import { Card } from 'components/ui';
 
 export const StepperMain = styled(Card)<{ theme?: Theme }>`
   ${({ theme }) => `
-    height: 80vh;
+    height: 100%;
+    min-height: 80vh;
 
     ${theme.breakpoints.down('xl')} {
-      min-height: 80vh;
       height: 100%;
+      min-height: 80vh;
     }
   `}
 `;
@@ -25,6 +26,7 @@ export const StepperContainer = styled(Stepper)`
 
 export const StepHelper = styled(Stack)`
   height: 100%;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

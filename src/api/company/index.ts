@@ -14,8 +14,13 @@ const CompanyAPI = {
     return data;
   },
 
-  getAll: async () => {
-    const { data } = await client.get(`${Project.apis.v1}/companies`);
+  getAll: async (search: string) => {
+    const { data } = await client.get(`${Project.apis.v1}/companies`, {
+      params: {
+        search,
+        limit: 10,
+      },
+    });
 
     return data;
   },

@@ -47,7 +47,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
   return (
     <Modal
       size="medium"
-      title="Create"
+      title="Create Campaign"
       actions={[
         <Button
           color="primary"
@@ -55,13 +55,15 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
           size="large"
           onClick={onClose}
         >
-          Create Campaign
+          Create
         </Button>,
       ]}
       onClose={onClose}
       {...props}
     >
-      <Stack style={{ height: '650px' }}>
+      <Stack
+        style={{ height: '500px', overflowY: 'scroll', paddingRight: '10px' }}
+      >
         <Tabs
           tabs={['Info', 'Target', 'Instructions']}
           value={tab}
@@ -109,6 +111,16 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               placeholder="Please Select"
               value={state.report}
               onValue={(report) => setState({ ...state, report })}
+              options={[
+                {
+                  value: 0,
+                  label: 'Yes',
+                },
+                {
+                  value: 1,
+                  label: 'No',
+                },
+              ]}
             />
             <InputGroup
               label="Budget"
@@ -246,7 +258,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
             <GridCell columnSpan={2}>
               <Input
                 multiline
-                rows={5}
+                rows={4}
                 type="text"
                 label="Target Audience Info"
                 placeholder="Please Enter"

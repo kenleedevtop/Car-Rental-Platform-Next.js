@@ -396,7 +396,7 @@ export const DCampaignsClientHead = [
   },
   {
     reference: 'influencers',
-    label: 'Influencers (Number)',
+    label: 'Influencers',
     visible: true,
   },
   {

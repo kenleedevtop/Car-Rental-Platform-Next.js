@@ -14,6 +14,7 @@ import { AuthorizationAPI } from 'api';
 import { TResendEmailConfirmation } from 'api/authorization/types';
 import { useSnackbar } from 'hooks';
 import { AxiosError } from 'axios';
+import { useRouter } from 'next/router';
 
 const ConfirmRegistrationModal = ({
   onClose,
@@ -24,11 +25,16 @@ const ConfirmRegistrationModal = ({
 
   const [clicked, setClicked] = useState(false);
   const { push } = useSnackbar();
+  const { locale } = useRouter();
 
   const resendVerification = async (body: TResendEmailConfirmation) => {
     setClicked(true);
     try {
-      await AuthorizationAPI.resendEmailConfirmation(body);
+      let lang = '';
+      if (locale) {
+        lang = locale.slice(0, 2);
+      }
+      await AuthorizationAPI.resendEmailConfirmation(body, lang);
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
         push(e.response.data.message, {

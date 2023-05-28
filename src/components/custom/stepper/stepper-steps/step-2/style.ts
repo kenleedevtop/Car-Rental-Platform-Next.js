@@ -42,3 +42,8 @@ export const StepStack = styled(Stack)<{ theme?: Theme }>`
     }
   `}
 `;
+
+export const StepText = styled.div`
+  color: #7e839f;
+  font-size: 12px;
+`;

@@ -8,10 +8,15 @@ import {
 import { client } from 'api/api-client';
 
 const InfluencerAPI = {
-  registration: async (body: TRegisterAsInfluencerParams) => {
+  registration: async (body: TRegisterAsInfluencerParams, locale: string) => {
     const { data } = await client.post(
       `${Project.apis.v1}/influencer/registration`,
-      body
+      body,
+      {
+        params: {
+          lang: locale,
+        },
+      }
     );
     return data;
   },

@@ -47,21 +47,17 @@ const RegisterPage = () => {
     commonLegalId: null,
   });
 
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const [legalsChecked, setLegalsChecked] = useState(false);
   const [commonLegal, setCommonLegals] = useState<any>(null);
 
-  const getLegals = async () => {
-    const data = await LegalsAPI.getLegals();
+  const getLegals = async (lang: string) => {
+    const data = await LegalsAPI.getLegals(lang);
 
-    let common;
-
-    if (router.locale === 'en-US') {
-      common = data.find((x: any) => x.type === 0 && x.language === 'en');
-    } else {
-      common = data.find((x: any) => x.type === 0 && x.language === 'de');
-    }
+    const common = data.commonLegal;
 
     setState({
       ...state,
@@ -109,23 +105,21 @@ const RegisterPage = () => {
 
   const handleRegister = async () => {
     try {
-      await ClientAPI.registration({
-        ...state,
-        companyTitleId: state.companyTitleId.value,
-        company: {
-          name: state.company.label,
-          companyId: state.company.value,
+      const locale = router.locale ? router.locale?.slice(0, 2) : '';
+      await ClientAPI.registration(
+        {
+          ...state,
+          companyTitleId: state.companyTitleId.value,
+          company: {
+            name: state.company.label,
+            companyId: state.company.value,
+          },
         },
-      });
+        locale
+      );
       openCrModal();
     } catch (e: any) {
-      let step = 0;
-      step += 1;
-      setCounter(step);
       push(e.response.data.message, { variant: 'error' });
-      setTimeout(() => {
-        setCounter(0);
-      }, timeoutTime);
     }
   };
 
@@ -137,8 +131,9 @@ const RegisterPage = () => {
   const [companies, setCompanies] = useState<any>([]);
   const [titles, setTitles] = useState<any>([]);
 
-  const getCompanies = async () => {
-    const { result } = await CompanyAPI.getAll();
+  const getCompanies = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await CompanyAPI.getAll(s);
 
     setCompanies(
       result.map((x: any) => ({
@@ -146,6 +141,7 @@ const RegisterPage = () => {
         label: x.name,
       }))
     );
+    setLoading(false);
   };
 
   const getTitles = async () => {
@@ -166,17 +162,33 @@ const RegisterPage = () => {
         ...state,
         company: { ...state.company, label: event.target.value },
       });
+      event.target.blur();
     }
+  };
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
   };
 
   useEffect(() => {
     getCompanies();
     getTitles();
-    getLegals();
+    const lang = router.locale?.slice(0, 2);
+    if (lang) {
+      getLegals(lang);
+    }
   }, []);
 
   useEffect(() => {
-    getLegals();
+    const lang = router.locale?.slice(0, 2);
+    if (lang) {
+      getLegals(lang);
+    }
   }, [router.locale]);
 
   return (
@@ -256,9 +268,12 @@ const RegisterPage = () => {
           required
           placeholder={t('Please Enter your Company') as string}
           value={state.company.name ? state.company.name : state.company}
+          onSearch={debounce(getCompanies, 1000)}
           onValue={(value) => setState({ ...state, company: value })}
           options={companies}
           onKeyDown={handleKeyDown}
+          loading={loading}
+          noOptionsText="Press Enter to Add Yours"
           // errorCallback={handleErrors(2)}
           // validators={[
           //   {
@@ -354,6 +369,15 @@ const RegisterPage = () => {
           },
         ]}
       />
+      {router.query.token && (
+        <Input
+          type="text"
+          label={t('Invited By') as string}
+          disabled
+          value={router.query.token}
+          onValue={() => {}}
+        />
+      )}
       <RegisterCheckbox
         value={legalsChecked}
         onValue={(value) => setLegalsChecked(value)}

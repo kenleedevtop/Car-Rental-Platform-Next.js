@@ -23,6 +23,7 @@ import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import LegalsAPI from 'api/legals';
+import { AxiosError } from 'axios';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -45,19 +46,11 @@ const RegisterPage = () => {
   const [commonLegal, setCommonLegal] = useState<any>('');
   const [patientsSpecificLegal, setPatientsSpecificLegal] = useState<any>('');
 
-  const getLegals = async () => {
-    const data = await LegalsAPI.getLegals();
+  const getLegals = async (lang: string) => {
+    const data = await LegalsAPI.getLegals(lang);
 
-    let common;
-    let specific;
-
-    if (router.locale === 'en-US') {
-      common = data.find((x: any) => x.type === 0 && x.language === 'en');
-      specific = data.find((x: any) => x.type === 1 && x.language === 'en');
-    } else {
-      common = data.find((x: any) => x.type === 0 && x.language === 'de');
-      specific = data.find((x: any) => x.type === 1 && x.language === 'de');
-    }
+    const common = data.commonLegal;
+    const specific = data.patientSpecificLegal;
 
     setState({
       ...state,
@@ -69,11 +62,17 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    getLegals();
+    const lang = router.locale?.slice(0, 2);
+    if (lang) {
+      getLegals(lang);
+    }
   }, []);
 
   useEffect(() => {
-    getLegals();
+    const lang = router.locale?.slice(0, 2);
+    if (lang) {
+      getLegals(lang);
+    }
   }, [router.locale]);
 
   const { t } = useTranslation('register');
@@ -104,22 +103,24 @@ const RegisterPage = () => {
 
   const handleRegister = async () => {
     try {
-      await InfluencerAPI.registration({ ...state, ...legals });
+      const locale = router.locale ? router.locale?.slice(0, 2) : '';
+      await InfluencerAPI.registration({ ...state, ...legals }, locale);
       openCrModal();
-    } catch (e: any) {
-      if (
-        window.location.href.includes('de-DE') &&
-        e.response.data.message === 'Email already in use'
-      ) {
-        push(
-          'Die angegebene E-Mail-Adresse ist bereits mit einem Konto verknüpft.',
-          { variant: 'error' }
-        );
-      } else {
-        push(
-          'The provided email address is already associated with an account.',
-          { variant: 'error' }
-        );
+    } catch (e) {
+      if (e instanceof AxiosError && e.response) {
+        if (router.locale === 'de-DE') {
+          if (e.response.data.message === 'Email already in use') {
+            push(
+              'Die angegebene E-Mail-Adresse ist bereits mit einem Konto verknüpft.',
+              { variant: 'error' }
+            );
+          }
+          if (e.response.data.message === 'Too many requests') {
+            push('Zu viele Anfragen', { variant: 'error' });
+          }
+        } else {
+          push(e.response.data.message, { variant: 'error' });
+        }
       }
     }
   };
@@ -260,6 +261,15 @@ const RegisterPage = () => {
           ]}
         />
       </Stack>
+      {router.query.token && (
+        <Input
+          type="text"
+          label={t('Invited By') as string}
+          disabled
+          value={router.query.token}
+          onValue={() => {}}
+        />
+      )}
       <Stack>
         <RegisterCheckbox
           label={
