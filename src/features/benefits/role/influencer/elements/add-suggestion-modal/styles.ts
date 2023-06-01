@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
+import { Grid } from 'components/system';
 
-export const AddCampaignsModalMain = styled.div<{ theme?: Theme }>`
+export const AddSuggestionModalMain = styled(Grid)<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     display: grid;

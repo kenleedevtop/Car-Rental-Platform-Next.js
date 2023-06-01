@@ -39,8 +39,9 @@ import {
   CreateSurveysModal,
   SurveyInfoModal,
 } from 'features/surveys/role/admin/elements';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
+import { SurveyAPI } from 'api';
 
 const SurveyPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSurveyFilter());
@@ -65,7 +66,61 @@ const SurveyPage = () => {
     setFilter(DGenerateSurveyFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    console.log(row.data);
+
+    if (headItem.reference === 'survey') {
+      return row.data.name;
+    }
+
+    if (headItem.reference === 'diseaseArea') {
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
+        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea.name;
+      }
+    }
+
+    if (headItem.reference === 'date') {
+      return `${row.data.dateStart.slice(0, 10)} - ${row.data.dateEnd.slice(
+        0,
+        10
+      )}`;
+    }
+
+    if (headItem.reference === 'participants') {
+      return row.data.participantCount;
+    }
+
+    if (headItem.reference === 'questions') {
+      return '';
+    }
+
+    if (headItem.reference === 'budget') {
+      return `${row.data.platformProductOrder.budget} CHF`;
+    }
+
+    if (headItem.reference === 'language') {
+      switch (row.data.language) {
+        case 1:
+          return 'English';
+        case 2:
+          return 'French';
+        case 3:
+          return 'German';
+        case 4:
+          return 'Spanish';
+        case 5:
+          return 'Italian';
+        default:
+          return '';
+      }
+    }
+    if (headItem.reference === 'questions') {
+      return row.data.questionCount;
+    }
+
+    return '';
+  };
 
   const [menuIP, openIP, setOpenIP] = useMenu(false);
 
@@ -84,6 +139,25 @@ const SurveyPage = () => {
   const handleMenuF = () => {
     setOpenF(!openF);
   };
+
+  const [surveys, setSurveys] = useState<any>([]);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await SurveyAPI.getSurveys({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setSurveys(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
 
   return (
     <SurveysPageMain>
@@ -426,11 +500,15 @@ const SurveyPage = () => {
                 visible: true,
               },
             ]}
-            items={[]}
+            items={surveys}
             renderItem={renderItem}
           />
 
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
           <Stack direction="horizontal">
             <Button variant="contained" onClick={handleMenuIP}>
               In preparation

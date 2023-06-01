@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
 import { AddCampaignsModalMain } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
+import {
+  CampaignAPI,
+  DiseaseAreaAPI,
+  FileManagerApi,
+  LocationAPI,
+  ProductApi,
+} from 'api';
+import EnumsApi from 'api/enums';
+import { useSnackbar } from 'hooks';
+import { useAppContext } from 'context';
+import { pick, read } from '@costorgroup/file-manager';
 
 const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<any>({
     campaignName: '',
-    product: null,
+    product: [],
     influencers: null,
     startDate: null,
     endDate: null,
@@ -21,15 +32,15 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
     location: null,
     language: null,
     diseaseArea: null,
-    stakeholders: null,
-    gender: null,
+    stakeholders: [],
+    gender: [],
     age: {
       min: '',
       max: '',
     },
-    ethnicity: null,
-    struggles: null,
-    interests: null,
+    ethnicity: [],
+    struggles: [],
+    interests: [],
     influencerSize: null,
     targetAudienceInfo: '',
 
@@ -40,9 +51,228 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
     instructions: '',
   });
 
-  const handleFile = async () => {};
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
 
   const [tab, setTab] = useState(0);
+
+  const [loading, setLoading] = useState(false);
+
+  const handleNewStruggleTag = (v: any) => {
+    setState({ ...state, struggles: [...state.struggles, v] });
+  };
+  const handleNewStakeholderTag = (v: any) => {
+    setState({ ...state, stakeholders: [...state.stakeholders, v] });
+  };
+  const handleNewEthnicityTag = (v: any) => {
+    setState({ ...state, ethnicity: [...state.ethnicity, v] });
+  };
+  const handleNewInterestsTag = (v: any) => {
+    setState({ ...state, interests: [...state.interests, v] });
+  };
+
+  const handleNewProductTag = (v: any) => {
+    setState({ ...state, product: [...state.product, v] });
+  };
+
+  const handleNewGendersTag = (v: any) => {
+    setState({ ...state, gender: [...state.gender, v] });
+  };
+
+  const [product, setProduct] = useState<any>([]);
+  const [report, setReport] = useState<any>();
+  const [location, setLocation] = useState<any>();
+  const [language, setLanguage] = useState<any>();
+  const [diseaseAreas, setDiseaseAreas] = useState<any>();
+  const [stakeholders, setStakholders] = useState<any>();
+  const [gender, setGender] = useState<any>();
+  const [age, setAge] = useState<any>();
+  const [ethnicity, setEthnicity] = useState<any>();
+  const [struggles, setStruggles] = useState<any>();
+  const [interests, setInterests] = useState<any>();
+  const [influencerSize, setInfluencerSize] = useState<any>();
+  const [platform, setPlatform] = useState<any>();
+
+  const getProducts = async (s: string = '') => {
+    const { result } = await ProductApi.getProducts(s);
+
+    setProduct(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+  };
+
+  const getReportTypes = async () => {
+    const result = await EnumsApi.getReportTypes();
+
+    setReport(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getDiseaseAreas = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await DiseaseAreaAPI.getAll(s);
+
+    setDiseaseAreas(
+      result.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getLocations = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await LocationAPI.getAll(s);
+    setLocation(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getGenders = async () => {
+    const result = await EnumsApi.getGenders();
+
+    setGender(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getStakeholders = async () => {
+    const result = await EnumsApi.getStakeholderTypes();
+
+    setStakholders(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getEthnicities = async () => {
+    const result = await EnumsApi.getEthnicities();
+
+    setEthnicity(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getStruggles = async () => {
+    const result = await EnumsApi.getStruggles();
+
+    setStruggles(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+  const getInterests = async () => {
+    const result = await EnumsApi.getInterests();
+
+    setInterests(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getInfluencerSizes = async () => {
+    const { result } = await EnumsApi.getInfluencerSize();
+
+    setInfluencerSize(
+      result.map((x: any) => ({
+        value: x.id,
+        label: `${x.name}: ${x.from} | ${x.to}`,
+      }))
+    );
+  };
+
+  const [photo, setPhoto] = useState<any>([]);
+
+  const handlePhotos = async () => {
+    const file: any = await pick();
+
+    const { url } = await FileManagerApi.fileUpload(file);
+
+    setPhoto(url);
+  };
+
+  useEffect(() => {
+    getProducts();
+    getDiseaseAreas();
+    getLocations();
+    getReportTypes();
+    getGenders();
+    getStakeholders();
+    getEthnicities();
+    getStruggles();
+    getInterests();
+    getInfluencerSizes();
+  }, []);
+
+  const { push } = useSnackbar();
+
+  const createCampaign = async () => {
+    try {
+      const body = {
+        name: state.campaignName,
+        budget: parseInt(state.budget, 10) || null,
+        diseaseAreaId: state.diseaseArea.value || null,
+        strugglesIds: (state.struggles || []).map((x: any) => x.value),
+        locationId: state.location.value || null,
+        languageId: state.language.value || null,
+        ethnicityIds: (state.ethnicity || []).map((x: any) => x.value),
+        interestIds: (state.interests || []).map((x: any) => x.value),
+        productIds: (state.product || []).map((x: any) => x.value),
+        dateStart: state.startDate || null,
+        dateEnd: state.endDate || null,
+        description: state.campaignInfo || null,
+        influencersCount: 100 || null,
+        influencerSizeId: state.influencerSize.value || null,
+        ageMin: parseInt(state.age.min, 10) || null,
+        ageMax: parseInt(state.age.max, 10) || null,
+        genders: (state.gender || []).map((x: any) => x.value),
+        targetAudienceDescription: state.targetAudienceInfo || null,
+        socialPlatformId: state.platform.value || null,
+        postType: state.postType.value || null,
+        clientCompanyWebsite: state.website || '',
+        instructions: state.instructions || '',
+        report: state.report.value || null,
+        exampleImageUrls: [photo],
+      };
+
+      await CampaignAPI.addCampaign(body);
+
+      push('Campaign successfully added.', { variant: 'success' });
+    } catch (e) {
+      push('Campaign add failed.', { variant: 'error' });
+      console.error(e);
+    }
+  };
 
   return (
     <Modal
@@ -53,7 +283,10 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={() => {
+            createCampaign();
+            onClose();
+          }}
         >
           Create
         </Button>,
@@ -81,11 +314,15 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               />
             </GridCell>
             <Input
-              type="select"
+              type="multiselect"
               label="Product"
               placeholder="Please Select"
               value={state.product}
-              onValue={(product) => setState({ ...state, product })}
+              onValue={(input) => setState({ ...state, product: input })}
+              options={product}
+              onSearch={debounce(getProducts, 1000)}
+              onNewTag={handleNewProductTag}
+              loading={loading}
             />
             <InputGroup
               label="Start & Finish date"
@@ -110,17 +347,8 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               label="Report"
               placeholder="Please Select"
               value={state.report}
-              onValue={(report) => setState({ ...state, report })}
-              options={[
-                {
-                  value: 0,
-                  label: 'Yes',
-                },
-                {
-                  value: 1,
-                  label: 'No',
-                },
-              ]}
+              onValue={(input) => setState({ ...state, report: input })}
+              options={report}
             />
             <InputGroup
               label="Budget"
@@ -174,86 +402,109 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               label="Location"
               placeholder="Please Select"
               value={state.location}
-              onValue={(location) => setState({ ...state, location })}
+              onValue={(input) => setState({ ...state, location: input })}
+              onSearch={debounce(getLocations, 1000)}
+              loading={loading}
+              options={location}
             />
             <Input
               type="select"
               label="Language"
               placeholder="Please Select"
               value={state.language}
-              onValue={(language) => setState({ ...state, language })}
-            />
-            <Input
-              type="select"
-              label="Disease Area"
-              placeholder="Please Select"
-              value={state.diseaseArea}
-              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
-            />
-            <Input
-              type="select"
-              label="Stakeholders"
-              placeholder="Please Select"
-              value={state.stakeholders}
-              onValue={(stakeholders) => setState({ ...state, stakeholders })}
-            />
-            <Input
-              type="select"
-              label="Gender"
-              placeholder="Please Select"
-              value={state.gender}
-              onValue={(gender) => setState({ ...state, gender })}
+              onValue={(input) => setState({ ...state, language: input })}
               options={[
                 {
                   value: 0,
-                  label: 'Male',
+                  label: 'English',
                 },
                 {
                   value: 1,
-                  label: 'Female',
+                  label: 'French',
                 },
                 {
-                  value: 0,
-                  label: 'Other',
+                  value: 2,
+                  label: 'German',
+                },
+                {
+                  value: 3,
+                  label: 'Spanish',
+                },
+                {
+                  value: 4,
+                  label: 'Italian',
                 },
               ]}
+            />
+            <Input
+              type="select"
+              label="Disease Areas"
+              placeholder="Please Select"
+              value={state.diseaseArea}
+              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              onSearch={debounce(getDiseaseAreas, 1000)}
+              loading={loading}
+              options={diseaseAreas}
+            />
+            <Input
+              type="multiselect"
+              label="Stakeholders"
+              placeholder="Please Select"
+              value={state.stakeholders}
+              onValue={(input) => setState({ ...state, stakeholders: input })}
+              options={stakeholders}
+              onNewTag={handleNewStakeholderTag}
+            />
+            <Input
+              type="multiselect"
+              label="Gender"
+              placeholder="Please Select"
+              value={state.gender}
+              onValue={(input) => setState({ ...state, gender: input })}
+              options={gender}
+              onNewTag={handleNewGendersTag}
             />
             <Input
               type="min-max"
               label="Age"
               placeholder="Please Select"
               value={state.age}
-              onValue={(age) => setState({ ...state, age })}
+              onValue={(input) => setState({ ...state, age: input })}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Ethnicity"
               placeholder="Please Select"
               value={state.ethnicity}
-              onValue={(ethnicity) => setState({ ...state, ethnicity })}
+              onValue={(input) => setState({ ...state, ethnicity: input })}
+              options={ethnicity}
+              onNewTag={handleNewEthnicityTag}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Struggles"
               placeholder="Please Select"
               value={state.struggles}
-              onValue={(struggles) => setState({ ...state, struggles })}
+              onValue={(input) => setState({ ...state, struggles: input })}
+              options={struggles}
+              onNewTag={handleNewStruggleTag}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Interests"
               placeholder="Please Select"
               value={state.interests}
-              onValue={(interests) => setState({ ...state, interests })}
+              onValue={(input) => setState({ ...state, interests: input })}
+              options={interests}
+              onNewTag={handleNewInterestsTag}
             />
             <Input
               type="select"
               label="Influencer Size"
               placeholder="Please Select"
               value={state.influencerSize}
-              onValue={(influencerSize) =>
-                setState({ ...state, influencerSize })
-              }
+              onValue={(input) => setState({ ...state, influencerSize: input })}
+              options={influencerSize}
             />
             <GridCell columnSpan={2}>
               <Input
@@ -277,7 +528,13 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               label="Platform"
               placeholder="Please Select"
               value={state.platform}
-              onValue={(platform) => setState({ ...state, platform })}
+              onValue={(input) => setState({ ...state, platform: input })}
+              options={[
+                {
+                  value: 1,
+                  label: 'Instagram',
+                },
+              ]}
             />
             <Input
               type="select"
@@ -285,10 +542,28 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               placeholder="Please Select"
               value={state.postType}
               onValue={(postType) => setState({ ...state, postType })}
+              options={[
+                {
+                  value: 0,
+                  label: 'Story',
+                },
+                {
+                  value: 1,
+                  label: 'Post',
+                },
+                {
+                  value: 2,
+                  label: 'Reel',
+                },
+              ]}
             />
             <GridCell columnSpan={1}>
               <InputLabel>Image</InputLabel>
-              <Button color="default" variant="contained" onClick={handleFile}>
+              <Button
+                color="default"
+                variant="contained"
+                onClick={handlePhotos}
+              >
                 Upload
               </Button>
             </GridCell>
@@ -306,8 +581,8 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
                 type="text"
                 label="Instructions"
                 placeholder="Please Enter"
-                value={state.campaignInfo}
-                onValue={(campaignInfo) => setState({ ...state, campaignInfo })}
+                value={state.instructions}
+                onValue={(instructions) => setState({ ...state, instructions })}
               />
             </GridCell>
           </AddCampaignsModalMain>

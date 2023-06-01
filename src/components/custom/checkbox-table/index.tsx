@@ -82,9 +82,11 @@ const Table = ({
         <TableMain>
           <TableHead>
             <TableHeadRow>
-              <TableHeadCell action>
-                <Checkbox value={headCheckbox} onValue={handleHeadCheckbox} />
-              </TableHeadCell>
+              {['ADMIN', 'SUPERADMIN'].includes(role) && (
+                <TableHeadCell action>
+                  <Checkbox value={headCheckbox} onValue={handleHeadCheckbox} />
+                </TableHeadCell>
+              )}
               {visibleItems.map((x: any) => (
                 <TableHeadCell key={x.reference}>{x.label}</TableHeadCell>
               ))}
@@ -94,9 +96,11 @@ const Table = ({
             <TableBody>
               {items.map((x: any, y: number) => (
                 <TableBodyRow>
-                  <TableBodyCell action>
-                    <Checkbox value={checkbox} onValue={handleCheckbox} />
-                  </TableBodyCell>
+                  {['ADMIN', 'SUPERADMIN'].includes(role) && (
+                    <TableBodyCell action>
+                      <Checkbox value={checkbox} onValue={handleCheckbox} />
+                    </TableBodyCell>
+                  )}
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
                     <TableBodyCell>
                       {renderItem({

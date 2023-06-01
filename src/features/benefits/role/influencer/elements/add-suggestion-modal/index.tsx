@@ -1,17 +1,42 @@
 import React, { useState } from 'react';
 import { Modal } from 'components/custom';
-import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
-import { AddCampaignsModalMain } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
-import { Button, Checkbox, Input } from 'components/ui';
+import { TAddSuggestionModalProps } from 'features/benefits/role/influencer/elements/add-suggestion-modal/types';
+import { AddSuggestionModalMain } from 'features/benefits/role/influencer/elements/add-suggestion-modal/styles';
+import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
+import { BenefitsAPI } from 'api';
+import { useSnackbar } from 'hooks';
 
-const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
+const AddSuggestionModal = ({
+  onClose,
+  reload,
+  ...props
+}: TAddSuggestionModalProps) => {
   const [state, setState] = useState({
-    name: '',
-    website: '',
-    argument: '',
-    outcome: '',
+    partnershipName: '',
+    partnershipLink: '',
+    argumentDescription: '',
+    outcomeDescription: '',
   });
+
+  const [initialState, setInitialState] = useState({
+    partnershipName: '',
+    partnershipLink: '',
+    argumentDescription: '',
+    outcomeDescription: '',
+  });
+
+  const { push } = useSnackbar();
+
+  const handleAddSuggestion = async () => {
+    try {
+      await BenefitsAPI.addSuggestion(state);
+      push('Suggestion successfully added.', { variant: 'success' });
+      setState(initialState);
+    } catch {
+      push("Suggestion couldn't be added.", { variant: 'error' });
+    }
+  };
 
   return (
     <Modal
@@ -22,7 +47,11 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={async () => {
+            handleAddSuggestion();
+            reload();
+            onClose();
+          }}
         >
           Make Suggestion
         </Button>,
@@ -31,41 +60,49 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
       {...props}
     >
       <Stack>
-        <AddCampaignsModalMain>
+        <AddSuggestionModalMain columns={2}>
           <Input
             type="text"
             label="Company Name"
             placeholder="Please Enter"
-            value={state.name}
-            onValue={(name) => setState({ ...state, name })}
+            value={state.partnershipName}
+            onValue={(partnershipName) =>
+              setState({ ...state, partnershipName })
+            }
           />
           <Input
             type="text"
             label="Company website"
             placeholder="Please Enter"
-            value={state.website}
-            onValue={(website) => setState({ ...state, website })}
+            value={state.partnershipLink}
+            onValue={(partnershipLink) =>
+              setState({ ...state, partnershipLink })
+            }
           />
           <Input
             multiline
             rows={3}
             type="text"
             label="Argument"
-            value={state.argument}
-            onValue={(argument) => setState({ ...state, argument })}
+            value={state.argumentDescription}
+            onValue={(argumentDescription) =>
+              setState({ ...state, argumentDescription })
+            }
           />
           <Input
             multiline
             rows={3}
             type="text"
             label="Desired outcome"
-            value={state.outcome}
-            onValue={(outcome) => setState({ ...state, outcome })}
+            value={state.outcomeDescription}
+            onValue={(outcomeDescription) =>
+              setState({ ...state, outcomeDescription })
+            }
           />
-        </AddCampaignsModalMain>
+        </AddSuggestionModalMain>
       </Stack>
     </Modal>
   );
 };
 
-export default AddCampaignModal;
+export default AddSuggestionModal;

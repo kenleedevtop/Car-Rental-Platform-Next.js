@@ -32,13 +32,14 @@ import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import {
   AddCampaignModal,
   ExportCampaignsModal,
   CreatedCampaignModal,
 } from 'features/campaigns/role/client/elements';
 import { useRouter } from 'next/router';
+import { CampaignAPI } from 'api';
 
 const CampaignsPage = () => {
   const [acModal, openAcModal, closeAcModal] = useModal(false);
@@ -71,9 +72,69 @@ const CampaignsPage = () => {
     setOpenF(!openF);
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({
+    headItem,
+    row,
+    table,
+    cell,
+  }: TTableRenderItemObject) => {
+    console.log(row.data);
+
+    if (headItem.reference === 'campaignName') {
+      return row.data.name;
+    }
+
+    if (headItem.reference === 'budget') {
+      if (row.data.platformProductOrder.budget) {
+        return `${row.data.platformProductOrder.budget} CHF`;
+      }
+    }
+
+    if (headItem.reference === 'diseaseArea') {
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
+        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea.name;
+      }
+    }
+
+    if (headItem.reference === 'location') {
+      if (row.data.platformProductOrder.platformProductOrderLocations[0]) {
+        return row.data.platformProductOrder.platformProductOrderLocations[0]
+          .location.name;
+      }
+    }
+
+    if (headItem.reference === 'influencers') {
+      return row.data.influencersCount;
+    }
+
+    if (headItem.reference === 'report') {
+      return row.data.report === 1 ? 'Yes' : 'No';
+    }
+
+    return '';
+  };
 
   const router = useRouter();
+
+  const [campaigns, setCampaigns] = useState([]);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await CampaignAPI.getCampaigns({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setCampaigns(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
 
   return (
     <CampaignsPageMain>
@@ -510,10 +571,14 @@ const CampaignsPage = () => {
           />
           <CheckboxTable
             head={DCampaignsClientHead}
-            items={[]}
+            items={campaigns}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
         </Stack>
         <Stack direction="horizontal">
           <Button color="primary" variant="contained" onClick={openCcModal}>
@@ -589,7 +654,14 @@ const CampaignsPage = () => {
           />
         )}
       </CardWithText>
-      {acModal && <AddCampaignModal onClose={closeAcModal} />}
+      {acModal && (
+        <AddCampaignModal
+          onClose={() => {
+            reload();
+            closeAcModal();
+          }}
+        />
+      )}
       {ecModal && <ExportCampaignsModal onClose={closeEcModal} />}
       {ccModal && <CreatedCampaignModal onClose={closeCcModal} />}
     </CampaignsPageMain>

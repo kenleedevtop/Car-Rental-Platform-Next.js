@@ -47,6 +47,10 @@ const ClientAPI = {
     await client.patch(`${Project.apis.v1}/client/discoverClients/${id}`, body);
   },
 
+  updateClient: async (body: any, id: any) => {
+    await client.patch(`${Project.apis.v1}/client/${id}`, body);
+  },
+
   getSingleClient: async (id: TSingleClient) => {
     const { data } = await client.get(`${Project.apis.v1}/client/${id}`);
 

@@ -39,8 +39,9 @@ import {
   OrderSmlModal,
   CreateSmlTabsModal,
 } from 'features/sml/role/admin/elements';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
+import { SMLApi } from 'api';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateAdminSmlFilter());
@@ -61,8 +62,6 @@ const SmlPage = () => {
   const clearFilters = () => {
     setFilter(DGenerateAdminSmlFilter());
   };
-
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   const [menuTBC, openTBC, setOpenTBC] = useMenu(false);
   const [menuTBS, openTBS, setOpenTBS] = useMenu(false);
@@ -85,6 +84,67 @@ const SmlPage = () => {
   };
 
   const [tabs, setTabs] = useState(0);
+
+  const [sml, setSml] = useState<any>([]);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await SMLApi.getSMLs({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setSml(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
+
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'client') {
+      return '';
+    }
+
+    if (headItem.reference === 'budget') {
+      return `${row.data.platformProductOrder.budget} CHF`;
+    }
+
+    if (headItem.reference === 'diseaseArea') {
+      return row.data.platformProductOrder.platformProductOrderDiseaseAreas.map(
+        (x: any, index: any) =>
+          index <
+          row.data.platformProductOrder.platformProductOrderDiseaseAreas
+            .length -
+            1
+            ? `${x.diseaseArea.name}, `
+            : x.diseaseArea.name
+      );
+    }
+
+    if (headItem.reference === 'subscription') {
+      return `${row.data.subscriptionLength} Months`;
+    }
+
+    if (headItem.reference === 'tokens') {
+      return `${row.data.monthlyTokens} Tokens`;
+    }
+
+    if (headItem.reference === 'endDate') {
+      const originalDate = new Date(row.data.createdAt);
+      const newDate = new Date(row.data.createdAt);
+      const subLength = parseInt(row.data.subscriptionLength, 10);
+
+      newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
+
+      return newDate.toISOString().slice(0, 10);
+    }
+
+    return '';
+  };
 
   return (
     <SmlPageMain>
@@ -392,11 +452,15 @@ const SmlPage = () => {
                 visible: true,
               },
             ]}
-            items={[]}
+            items={sml}
             renderItem={renderItem}
           />
 
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
 
           <Stack direction="horizontal">
             <Button variant="contained" onClick={handleMenuTBS}>

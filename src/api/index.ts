@@ -11,3 +11,8 @@ export { default as LocationAPI } from 'api/location';
 export { default as LegalsAPI } from 'api/legals';
 export { default as DiseaseAreaAPI } from 'api/diseaseArea';
 export { default as SMLApi } from 'api/sml';
+export { default as ProductApi } from 'api/product';
+export { default as IndustryApi } from 'api/industry';
+export { default as EnumsApi } from 'api/enums';
+export { default as StakeholderApi } from 'api/stakeholders';
+export { default as FileManagerApi } from 'api/file-manager';

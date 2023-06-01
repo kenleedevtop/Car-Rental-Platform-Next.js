@@ -6,8 +6,12 @@ const SMLApi = {
     await client.post(`${Project.apis.v1}/sml`, body);
   },
 
-  getSMLs: async () => {
-    const { data } = await client.get(`${Project.apis.v1}/sml`);
+  getSMLs: async (filter: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/sml`, {
+      params: {
+        filter,
+      },
+    });
 
     return data;
   },

@@ -42,7 +42,7 @@ import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import {
   AddCampaignModal,
   CreatedCampaignModal,
@@ -50,6 +50,7 @@ import {
   NoteCampaignsModal,
   ScheduleCampaignModal,
 } from 'features/campaigns/role/admin/elements';
+import { CampaignAPI } from 'api';
 
 const CampaignsPage = () => {
   const [acModal, openAcModal, closeAcModal] = useModal(false);
@@ -73,7 +74,48 @@ const CampaignsPage = () => {
     setFilter(DGenerateCampaignsFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    console.log(row.data);
+
+    if (headItem.reference === 'campaignName') {
+      return row.data.name;
+    }
+
+    if (headItem.reference === 'client') {
+      return `
+        ${row.data.platformProductOrder.client.user.firstName} 
+        ${row.data.platformProductOrder.client.user.lastName}
+        `;
+    }
+
+    if (headItem.reference === 'budget') {
+      return row.data.platformProductOrder.budget;
+    }
+
+    if (headItem.reference === 'diseaseArea') {
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
+        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea.name;
+      }
+    }
+
+    if (headItem.reference === 'location') {
+      if (row.data.platformProductOrder.platformProductOrderLocations[0]) {
+        return row.data.platformProductOrder.platformProductOrderLocations[0]
+          .location.name;
+      }
+    }
+
+    if (headItem.reference === 'product') {
+      return '';
+    }
+
+    if (headItem.reference === 'influencers') {
+      return '';
+    }
+
+    return '';
+  };
 
   const [menuI, openI, setOpenI] = useMenu(false);
   const [menuO, openO, setOpenO] = useMenu(false);
@@ -96,6 +138,25 @@ const CampaignsPage = () => {
   const handleMenuIn = () => {
     setOpenIn(!openIn);
   };
+
+  const [campaigns, setCampaigns] = useState([]);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await CampaignAPI.getCampaigns({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setCampaigns(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
 
   return (
     <CampaignsPageMain>
@@ -486,10 +547,14 @@ const CampaignsPage = () => {
           />
           <CheckboxTable
             head={DCampaignsAdminHead}
-            items={[]}
+            items={campaigns}
             renderItem={renderItem}
           />
-          <Pagination count={10} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
           <Stack direction="horizontal">
             <Button variant="contained" color="primary" onClick={openNcModal}>
               Note Campaign

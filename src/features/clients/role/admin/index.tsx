@@ -75,24 +75,17 @@ const ClientsPage = () => {
 
   const { pagesCount, page, setTotalResults, handlePageChange, reload } =
     usePagination({
-      limit: 50,
+      limit: 10,
       page: 1,
       onChange: async (params, setPage) => {
-        // const { result, meta } = await ClientAPI.getClients({
-        //   limit: params.limit,
-        //   skip: params.skip,
-        //   ...filterParams,
-        // });
-
-        const result = await ClientAPI.getClients({
+        const { dataFormatted, pagination } = await ClientAPI.getClients({
           limit: params.limit,
           skip: params.skip,
           ...filterParams,
         });
 
-        setClients(result);
-        // setTotalResults(meta.countFiltered);
-        setTotalResults(50);
+        setClients(dataFormatted);
+        setTotalResults(pagination.totalFilteredItems);
       },
     });
 

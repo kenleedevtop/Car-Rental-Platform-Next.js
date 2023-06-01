@@ -35,8 +35,9 @@ import {
   CreateSurveysModal,
   CreatedSurveysModal,
 } from 'features/surveys/role/client/elements';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
+import { SurveyAPI } from 'api';
 
 const SurveyPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSurveyClientFilter());
@@ -57,7 +58,46 @@ const SurveyPage = () => {
     setFilter(DGenerateSurveyClientFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({ headItem, row, cell }: TTableRenderItemObject) => {
+    console.log(row.data);
+
+    if (headItem.reference === 'surveyName') {
+      return row.data.name;
+    }
+    if (headItem.reference === 'diseaseArea') {
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
+        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea.name;
+      }
+    }
+    if (headItem.reference === 'participants') {
+      return row.data.participantCount;
+    }
+    if (headItem.reference === 'language') {
+      switch (row.data.language) {
+        case 1:
+          return 'English';
+        case 2:
+          return 'French';
+        case 3:
+          return 'German';
+        case 4:
+          return 'Spanish';
+        case 5:
+          return 'Italian';
+        default:
+          return '';
+      }
+    }
+    if (headItem.reference === 'questions') {
+      return row.data.questionCount;
+    }
+    if (headItem.reference === 'actions') {
+      return '';
+    }
+
+    return '';
+  };
 
   const router = useRouter();
 
@@ -75,7 +115,26 @@ const SurveyPage = () => {
     setOpenF(!openF);
   };
 
+  const [surveys, setSurveys] = useState<any>([]);
+
   const [tabs, setTabs] = useState(0);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await SurveyAPI.getSurveys({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setSurveys(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
 
   return (
     <SurveysPageMain>
@@ -439,7 +498,7 @@ const SurveyPage = () => {
               },
               {
                 reference: 'participants',
-                label: 'Participants (Number)',
+                label: 'Participants',
                 visible: true,
               },
               {
@@ -464,7 +523,7 @@ const SurveyPage = () => {
               },
               {
                 reference: 'questions',
-                label: 'Questions (Number)',
+                label: 'Questions',
                 visible: true,
               },
               {
@@ -478,10 +537,14 @@ const SurveyPage = () => {
                 visible: true,
               },
             ]}
-            items={[]}
+            items={surveys}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={handleMenuIp}>
               {' '}
@@ -579,7 +642,14 @@ const SurveyPage = () => {
         )}
       </CardWithText>
       {esModal && <ExportSurveysModal onClose={closeEsModal} />}
-      {csModal && <CreateSurveysModal onClose={closeCsModal} />}
+      {csModal && (
+        <CreateSurveysModal
+          onClose={async () => {
+            reload();
+            closeCsModal();
+          }}
+        />
+      )}
       {cdModal && <CreatedSurveysModal onClose={closeCdModal} />}
     </SurveysPageMain>
   );

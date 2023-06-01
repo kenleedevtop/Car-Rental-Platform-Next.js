@@ -29,15 +29,19 @@ const InfluencerAPI = {
     return data;
   },
 
-  getInfluencers: async () => {
-    const { data } = await client.get(`${Project.apis.v1}/influencer?limit=50`);
+  getInfluencers: async (filters: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/influencer`, {
+      params: {
+        filters,
+      },
+    });
 
     return data;
   },
 
   getDInfluencers: async () => {
     const { data } = await client.get(
-      `${Project.apis.v1}/influencer/discoverInfluencers?limit=50`
+      `${Project.apis.v1}/influencer/discoverInfluencers`
     );
 
     return data;

@@ -36,7 +36,7 @@ import {
   DGenerateInfluencersFilter,
 } from 'features/influencers/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import {
   AddToInfluencerModal,
   DonateInfluencerModal,
@@ -71,14 +71,6 @@ const InfluencersPage = () => {
 
   const [tabs, setTabs] = useState(0);
 
-  const [influencers, setInfluencers] = useState<any>([]);
-
-  const getInfluencers = async () => {
-    const result = await InfluencerAPI.getInfluencers();
-
-    setInfluencers(result);
-  };
-
   const [currentInfluencer, setCurrentInfluencer] = useState<any>();
 
   const getCurrentInfluencer = (value: any) => {
@@ -99,56 +91,50 @@ const InfluencersPage = () => {
     row,
     table,
   }: TTableRenderItemObject) => {
-    console.log(row);
-
     if (headItem.reference === 'firstName') {
       return (
         <InfluencerAction
           onClick={() => {
-            getCurrentInfluencer(row.data.user.id);
-            openIpModal();
+            // getCurrentInfluencer(row.data.user.id);
+            // openIpModal();
           }}
         >
-          {row.data.user.firstName}
+          {row.data.firstName}
         </InfluencerAction>
       );
     }
 
     if (headItem.reference === 'diseaseArea') {
-      return row.data.stakeholders[0].patientsCaregiverDiseaseAreas;
+      if (row.data.diseaseAreas) {
+        return row.data.diseaseAreas.map((x: any) => x.name);
+      }
     }
     if (headItem.reference === 'location') {
-      return (
-        <>
-          {row.data.user.location.name}, {row.data.user.location.country.name}
-        </>
-      );
+      return row.data.location.name;
     }
     if (headItem.reference === 'age') {
-      const year: any = new Date().getFullYear();
-
-      return year - parseInt(row.data.dateOfBirth.slice(0, 4), 10);
+      return row.data.age;
     }
     if (headItem.reference === 'gender') {
-      if (row.data.stakeholders[0].gender === 1) {
+      if (row.data.gender === 1) {
         return 'Male';
       }
-      if (row.data.stakeholders[0].gender === 2) {
+      if (row.data.gender === 2) {
         return 'Female';
       }
-      if (row.data.stakeholders[0].gender === 3) {
+      if (row.data.gender === 3) {
         return 'Other';
       }
     }
     if (headItem.reference === 'followers') {
-      return row.data.stakeholders[0].followersCount;
+      return row.data.followers;
     }
 
     if (headItem.reference === 'lastName') {
-      return row.data.user.lastName;
+      return row.data.lastName;
     }
     if (headItem.reference === 'email') {
-      return row.data.user.email;
+      return row.data.email;
     }
     if (headItem.reference === 'status') {
       return 'Approved';
@@ -162,21 +148,32 @@ const InfluencersPage = () => {
     }
 
     if (headItem.reference === 'actions') {
-      return (
-        <DiscoverActions data={row.data} refreshInfluencers={getInfluencers} />
-      );
+      return <DiscoverActions data={row.data} refreshInfluencers={() => {}} />;
     }
 
     return '';
   };
 
-  useEffect(() => {
-    getInfluencers();
-  }, []);
+  const [influencers, setInfluencers] = useState([]);
 
-  useEffect(() => {
-    setInfluencers(influencers);
-  }, [influencers]);
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { dataFormatted, pagination } =
+          await InfluencerAPI.getInfluencers({
+            limit: params.limit,
+            skip: params.skip,
+            ...filterParams,
+          });
+
+        setInfluencers(dataFormatted);
+        setTotalResults(pagination.totalFilteredItems);
+      },
+    });
 
   const [menu, open, setOpen] = useMenu(false);
 
@@ -1135,7 +1132,11 @@ const InfluencersPage = () => {
             items={influencers}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>
               Delete Influencer

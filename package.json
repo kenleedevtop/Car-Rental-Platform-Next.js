@@ -17,6 +17,7 @@
     "cloc": "cloc --exclude-dir=node_modules,.next ."
   },
   "dependencies": {
+    "@costorgroup/file-manager": "^1.0.2",
     "@devexpress/dx-react-core": "^4.0.2",
     "@devexpress/dx-react-scheduler": "^4.0.2",
     "@devexpress/dx-react-scheduler-material-ui": "^4.0.2",

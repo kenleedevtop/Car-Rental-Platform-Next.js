@@ -1,10 +1,19 @@
-import axios from 'axios';
 import Project from 'constants/project';
 import { TCreateSurveyParams } from 'api/survey/types';
+import { client } from 'api/api-client';
 
 const SurveyAPI = {
-  registerAsInfluencer: async (body: TCreateSurveyParams) => {
-    const { data } = await axios.post(`${Project.apis.v1}/admin/surveys`, body);
+  createSurvey: async (body: any) => {
+    await client.post(`${Project.apis.v1}/surveys`, body);
+  },
+
+  getSurveys: async (filters: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/surveys`, {
+      params: {
+        filters,
+      },
+    });
+
     return data;
   },
 };

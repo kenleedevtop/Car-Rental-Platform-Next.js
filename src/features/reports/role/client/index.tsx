@@ -38,8 +38,9 @@ import {
   ExportReportsModal,
   CreateReportsModal,
 } from 'features/reports/role/client/elements';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
+import { CampaignAPI } from 'api';
 
 const ReportsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateReportsClientsFilter());
@@ -80,6 +81,23 @@ const ReportsPage = () => {
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
 
   const router = useRouter();
+
+  const [filterParams, setFilterParams] = useState({});
+
+  // const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+  //   usePagination({
+  //     limit: 10,
+  //     page: 1,
+  //     onChange: async (params, setPage) => {
+  //       const { result, meta } = await CampaignAPI.getReportForCampaign({
+  //         limit: params.limit,
+  //         skip: params.skip,
+  //         ...filterParams,
+  //       });
+  //       setCampaigns(result);
+  //       setTotalResults(meta.countFiltered);
+  //     },
+  //   });
 
   return (
     <ReportsPageMain>

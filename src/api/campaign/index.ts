@@ -20,8 +20,12 @@ const CampaignAPI = {
     return data;
   },
 
-  getCampaigns: async () => {
-    const { data } = await client.get(`${Project.apis.v1}/campaign`);
+  getCampaigns: async (filters: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/campaign`, {
+      params: {
+        filters,
+      },
+    });
     return data;
   },
 
@@ -93,11 +97,11 @@ const CampaignAPI = {
     await client.put(`${Project.apis.v1}/campaign/${id}/archiveCampaign`);
   },
 
-  createReportForCampaign: async (id: TSingleCampaign, body: TReport) => {
+  createReportForCampaign: async (id: any, body: any) => {
     await client.post(`${Project.apis.v1}/campaign/${id}/reports`, body);
   },
 
-  getReportForCampaign: async (id: TSingleCampaign) => {
+  getReportForCampaign: async (id: any) => {
     await client.get(`${Project.apis.v1}/campaign/${id}/reports`);
   },
 

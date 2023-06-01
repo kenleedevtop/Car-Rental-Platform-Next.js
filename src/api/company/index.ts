@@ -42,7 +42,7 @@ const CompanyAPI = {
     return data;
   },
 
-  getOneCompany: async (id: TSingleCompany) => {
+  getOneCompany: async (id: any) => {
     const { data } = await client.get(`${Project.apis.v1}/companies/${id}`);
 
     return data;

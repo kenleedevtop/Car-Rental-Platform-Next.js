@@ -114,7 +114,7 @@ export const DCampaignsAdminHead = [
   },
   {
     reference: 'influencersNumber',
-    label: 'Influencers (Number)',
+    label: 'Influencers',
     visible: true,
   },
   {

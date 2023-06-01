@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SmlPageMain,
   SmlPageCharts,
@@ -20,8 +20,10 @@ import {
   IdentifiedIcon,
   InfoIcon,
   ManageIcon,
+  OngoingIcon,
   OrderedIcon,
   RegisteredIcon,
+  SMLSmallIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
@@ -35,12 +37,16 @@ import {
   CreateSmlModal,
   CreateSmlTabsModal,
   ExportSmlModal,
+  OrderedActions,
   //   CreateSmlModal,
   //   OrderSmlModal,
   //   CreateSmlTabsModal,
   //   CreateSmlFinal,
 } from 'features/sml/role/client/elements';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
+import { DiseaseAreaAPI, SMLApi } from 'api';
+import SubscriptionIcon from 'components/svg/subscriptions';
+import ReccomendedIcon from 'components/svg/recommended';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
@@ -55,15 +61,13 @@ const SmlPage = () => {
   const [cstModal, openCstModal, closeCstModal] = useModal(false);
   //   const [csfModal, openCsfModal, closeCsfModal] = useModal(false);
 
-  const toggleFilter = () => {
-    setFilterOpen(!filterOpen);
-  };
+  // const toggleFilter = () => {
+  //   setFilterOpen(!filterOpen);
+  // };
 
-  const clearFilters = () => {
-    setFilter(DGenerateSmlFilter());
-  };
-
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  // const clearFilters = () => {
+  //   setFilter(DGenerateSmlFilter());
+  // };
 
   const [menuR, openR, setOpenR] = useMenu(false);
   const [menuO, openO, setOpenO] = useMenu(false);
@@ -83,12 +87,81 @@ const SmlPage = () => {
     setOpenS(!openS);
   };
 
+  const [sml, setSml] = useState<any>([]);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await SMLApi.getSMLs({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setSml(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
+
+  const renderItem = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'diseaseArea') {
+      return row.data.platformProductOrder.platformProductOrderDiseaseAreas.map(
+        (x: any, index: any) =>
+          index <
+          row.data.platformProductOrder.platformProductOrderDiseaseAreas
+            .length -
+            1
+            ? `${x.diseaseArea.name}, `
+            : x.diseaseArea.name
+      );
+    }
+
+    if (headItem.reference === 'subscription') {
+      return `${row.data.subscriptionLength} Months`;
+    }
+
+    if (headItem.reference === 'tokens') {
+      return `${row.data.monthlyTokens} Tokens`;
+    }
+
+    if (headItem.reference === 'socialMedia') {
+      if (row.data.SMLPlatforms[0].socialPlatformId === 1) {
+        return 'Instagram';
+      }
+    }
+
+    if (headItem.reference === 'endDate') {
+      const originalDate = new Date(row.data.createdAt);
+      const newDate = new Date(row.data.createdAt);
+      const subLength = parseInt(row.data.subscriptionLength, 10);
+
+      newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
+
+      return newDate.toISOString().slice(0, 10);
+    }
+
+    if (headItem.reference === 'actions') {
+      return <OrderedActions data={{}} refreshInfluencers={() => {}} />;
+    }
+
+    return '';
+  };
+
   return (
     <SmlPageMain>
       <SmlPageCharts>
         <CardWithChart
-          title="To Be Created"
-          icon={<IdentifiedIcon />}
+          title="Recommended"
+          icon={<ReccomendedIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -99,8 +172,9 @@ const SmlPage = () => {
           }}
         />
         <CardWithChart
-          title="Finished"
-          icon={<ContactedIcon />}
+          title="Ordered"
+          icon={<OrderedIcon />}
+          smallIcon={<SMLSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -111,9 +185,10 @@ const SmlPage = () => {
           }}
         />
         <CardWithChart
-          title="Delivered"
-          icon={<RegisteredIcon />}
-          percent={-6}
+          title="Ongoing"
+          icon={<OngoingIcon />}
+          smallIcon={<SMLSmallIcon />}
+          percent={2}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -123,9 +198,10 @@ const SmlPage = () => {
           }}
         />
         <CardWithChart
-          title="Revenue"
-          icon={<TotalIcon />}
-          percent={-6}
+          title="Subscriptions"
+          icon={<SubscriptionIcon />}
+          smallIcon={<SMLSmallIcon />}
+          percent={2}
           count={75}
           chartData={{
             values: Array.from(Array(20).keys()).map((_x) =>
@@ -144,19 +220,19 @@ const SmlPage = () => {
             : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
         }
         actions={[
-          <Button
-            color={filterOpen ? 'secondary' : 'default'}
-            variant="contained"
-            onClick={toggleFilter}
-            startIcon={<SlidersHorizontalIcon width="18" height="18" />}
-          >
-            Filters
-          </Button>,
+          // <Button
+          //   color={filterOpen ? 'secondary' : 'default'}
+          //   variant="contained"
+          //   onClick={toggleFilter}
+          //   startIcon={<SlidersHorizontalIcon width="18" height="18" />}
+          // >
+          //   Filters
+          // </Button>,
           <Button color="default" variant="contained" onClick={openEsModal}>
             Export
           </Button>,
           <Button color="primary" variant="contained" onClick={openCsModal}>
-            Get Report
+            Get SML Report
           </Button>,
         ]}
       >
@@ -233,11 +309,10 @@ const SmlPage = () => {
             </SmlPageFilter>
           </Collapse> */}
           <Tabs
-            tabs={['Of Interest', 'New', 'Archive', 'Subscriptions']}
+            tabs={['Recommended', 'Ongoing', 'Finished', 'Subscriptions']}
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <Title title="Of Interest" />
           <CheckboxTable
             head={[
               {
@@ -291,11 +366,15 @@ const SmlPage = () => {
                 visible: true,
               },
             ]}
-            items={[]}
+            items={sml}
             renderItem={renderItem}
           />
 
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
 
           <Stack direction="horizontal">
             <Button variant="contained" onClick={handleMenuR}>
@@ -314,7 +393,7 @@ const SmlPage = () => {
               Create SML Tabs
             </Button>
           </Stack>
-          {openR && (
+          {/* {openR && (
             <Menu
               items={[
                 {
@@ -335,7 +414,7 @@ const SmlPage = () => {
               ]}
               ref={menuR}
             />
-          )}
+          )} */}
           {openO && (
             <Menu
               items={[
@@ -410,7 +489,14 @@ const SmlPage = () => {
         </Stack>
       </CardWithText>
       {esModal && <ExportSmlModal onClose={closeEsModal} />}
-      {csModal && <CreateSmlModal onClose={closeCsModal} />}
+      {csModal && (
+        <CreateSmlModal
+          onClose={() => {
+            reload();
+            closeCsModal();
+          }}
+        />
+      )}
       {cstModal && <CreateSmlTabsModal onClose={closeCstModal} />}
     </SmlPageMain>
   );

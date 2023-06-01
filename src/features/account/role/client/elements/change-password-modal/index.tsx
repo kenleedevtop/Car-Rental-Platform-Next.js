@@ -4,16 +4,30 @@ import { TChangePasswordModalProps } from 'features/account/role/ambasador/eleme
 import { ChangePasswordModalMain } from 'features/account/role/ambasador/elements/change-password-modal/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
+import { useAppContext } from 'context';
+import { ClientAPI } from 'api';
+import { useSnackbar } from 'hooks';
 
 const ChangePasswordModal = ({
   onClose,
   ...props
 }: TChangePasswordModalProps) => {
   const [state, setState] = useState({
-    oldPassword: '',
     newPassword: '',
-    repeatNewPassword: '',
   });
+
+  const { user } = useAppContext();
+
+  const { push } = useSnackbar();
+
+  const changePassword = async () => {
+    try {
+      await ClientAPI.updateClient(state.newPassword, user.client.id);
+      push('Password successfully updated!', { variant: 'success' });
+    } catch {
+      push('Password change failed', { variant: 'error' });
+    }
+  };
 
   return (
     <Modal
@@ -24,7 +38,10 @@ const ChangePasswordModal = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={() => {
+            changePassword();
+            onClose();
+          }}
         >
           Change password
         </Button>,
@@ -36,26 +53,10 @@ const ChangePasswordModal = ({
         <ChangePasswordModalMain columns={1}>
           <Input
             type="text"
-            label="Enter old password"
-            placeholder="Please Enter"
-            value={state.oldPassword}
-            onValue={(oldPassword) => setState({ ...state, oldPassword })}
-          />
-          <Input
-            type="text"
             label="Enter new password"
             placeholder="Please Enter"
             value={state.newPassword}
             onValue={(newPassword) => setState({ ...state, newPassword })}
-          />
-          <Input
-            type="text"
-            label="Repeat new password"
-            placeholder="Please Enter"
-            value={state.repeatNewPassword}
-            onValue={(repeatNewPassword) =>
-              setState({ ...state, repeatNewPassword })
-            }
           />
         </ChangePasswordModalMain>
       </Stack>

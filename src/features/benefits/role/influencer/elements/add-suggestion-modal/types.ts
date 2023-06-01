@@ -1,5 +1,6 @@
 import React from 'react';
 
-export type TAddCampaignsModalProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TAddSuggestionModalProps = React.HTMLAttributes<HTMLDivElement> & {
   onClose: () => void;
+  reload: () => void;
 };

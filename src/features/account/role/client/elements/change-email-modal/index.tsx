@@ -4,13 +4,27 @@ import { TChangeEmailModalProps } from 'features/account/role/ambasador/elements
 import { ChangeEmailModalMain } from 'features/account/role/ambasador/elements/change-email-modal/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
+import { useAppContext } from 'context';
+import { useSnackbar } from 'hooks';
+import { ClientAPI } from 'api';
 
 const ChangeEmailModal = ({ onClose, ...props }: TChangeEmailModalProps) => {
   const [state, setState] = useState({
-    oldEmail: '',
     newEmail: '',
-    repeatNewEmail: '',
   });
+
+  const { user } = useAppContext();
+
+  const { push } = useSnackbar();
+
+  const changeEmail = async () => {
+    try {
+      await ClientAPI.updateClient(state.newEmail, user.client.id);
+      push('Email successfully updated!', { variant: 'success' });
+    } catch {
+      push('Email change failed', { variant: 'error' });
+    }
+  };
 
   return (
     <Modal
@@ -21,7 +35,10 @@ const ChangeEmailModal = ({ onClose, ...props }: TChangeEmailModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={() => {
+            changeEmail();
+            onClose();
+          }}
         >
           Change email
         </Button>,
@@ -33,24 +50,10 @@ const ChangeEmailModal = ({ onClose, ...props }: TChangeEmailModalProps) => {
         <ChangeEmailModalMain columns={1}>
           <Input
             type="text"
-            label="Enter old email"
-            placeholder="Please Enter"
-            value={state.oldEmail}
-            onValue={(oldEmail) => setState({ ...state, oldEmail })}
-          />
-          <Input
-            type="text"
             label="Enter new email"
             placeholder="Please Enter"
             value={state.newEmail}
             onValue={(newEmail) => setState({ ...state, newEmail })}
-          />
-          <Input
-            type="text"
-            label="Repeat new email"
-            placeholder="Please Enter"
-            value={state.repeatNewEmail}
-            onValue={(repeatNewEmail) => setState({ ...state, repeatNewEmail })}
           />
         </ChangeEmailModalMain>
       </Stack>

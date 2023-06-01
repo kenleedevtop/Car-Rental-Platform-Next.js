@@ -19,6 +19,7 @@ import {
   FurnitureIcon,
   HealthIcon,
   LeisureIcon,
+  LockIcon,
   NutritionIcon,
   PetCareIcon,
   ServicesBIcon,
@@ -30,12 +31,14 @@ import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
 import { Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useModal } from 'hooks';
+import { useModal, usePagination } from 'hooks';
 import {
   AddSuggestionModal,
   ExportBenefitsModal,
 } from 'features/benefits/role/influencer/elements';
 import AccesoriesIcon from 'components/svg/accessories';
+import Link from 'next/link';
+import { BenefitsAPI } from 'api';
 
 const BenefitsPage = () => {
   const [asModal, openAsModal, closeAsModal] = useModal(false);
@@ -53,7 +56,107 @@ const BenefitsPage = () => {
     setFilter(DGenerateFinanceFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const [benefits, setBenefits] = useState([]);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await BenefitsAPI.getBenefits({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setBenefits(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
+
+  const [suggestions, setSuggestions] = useState([]);
+
+  const [filterParamsS, setFilterParamsS] = useState({});
+
+  const {
+    pagesCount: sPageCount,
+    page: sPage,
+    setTotalResults: setTotalsResultsS,
+    handlePageChange: handlePageChangeS,
+    reload: reloadS,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { result, meta } = await BenefitsAPI.getSuggestions({
+        limit: params.limit,
+        skip: params.skip,
+        search: '',
+        ...filterParamsS,
+      });
+      setSuggestions(result);
+      setTotalResults(meta.countFiltered);
+    },
+  });
+
+  const renderItem = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'company') {
+      return row.data.benefitPartnership.name;
+    }
+    if (headItem.reference === 'category') {
+      return row.data.benefitCategory.name;
+    }
+    if (headItem.reference === 'location') {
+      row.data.benefitLocations.forEach((item: any) => {
+        row.data = item.location.name;
+      });
+
+      return row.data;
+    }
+    if (headItem.reference === 'link') {
+      return (
+        <Link href={row.data.benefitCompanyLink}>
+          <LockIcon />
+        </Link>
+      );
+      // return row.data.benefitCompanyLink;
+    }
+    if (headItem.reference === 'benefit') {
+      return row.data.description;
+    }
+
+    return '';
+  };
+
+  const renderItemSuggestions = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'company') {
+      return row.data.partnershipName;
+    }
+    if (headItem.reference === 'desiredOutcome') {
+      return row.data.outcomeDescription;
+    }
+
+    if (headItem.reference === 'link') {
+      return (
+        <Link href={row.data.partnershipLink}>
+          <LockIcon />
+        </Link>
+      );
+    }
+
+    return '';
+  };
 
   return (
     <BenefitsPageMain>
@@ -259,10 +362,14 @@ const BenefitsPage = () => {
           </Collapse>
           <CheckboxTable
             head={DBenefitsIHead}
-            items={[]}
+            items={benefits}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page}
+            count={pagesCount}
+          />
         </Stack>
       </CardWithText>
       <CardWithText
@@ -276,13 +383,25 @@ const BenefitsPage = () => {
         <Stack>
           <CheckboxTable
             head={DBenefitsIHead2}
-            items={[]}
-            renderItem={renderItem}
+            items={suggestions}
+            renderItem={renderItemSuggestions}
           />
-          <Pagination count={32} />
+          <Pagination
+            onChange={(_e, x) => handlePageChangeS(x)}
+            page={sPage}
+            count={sPageCount}
+          />
         </Stack>
       </CardWithText>
-      {asModal && <AddSuggestionModal onClose={closeAsModal} />}
+      {asModal && (
+        <AddSuggestionModal
+          reload={reloadS}
+          onClose={() => {
+            reloadS();
+            closeAsModal();
+          }}
+        />
+      )}
       {ebModal && <ExportBenefitsModal onClose={closeEbModal} />}
     </BenefitsPageMain>
   );
