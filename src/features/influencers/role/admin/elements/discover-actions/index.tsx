@@ -19,11 +19,7 @@ import {
 } from 'features/discover-influencers/role/admin/elements';
 import { TDiscoverActionsMenuProps } from 'features/discover-influencers/role/admin/elements/discover-actions/types';
 
-const DiscoverActions = ({
-  data,
-  refreshInfluencers,
-  ...props
-}: TDiscoverActionsMenuProps) => {
+const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
   const [menu, open, setOpen] = useMenu(false);
 
   const handleMenu = () => {
@@ -84,9 +80,7 @@ const DiscoverActions = ({
       {diModal && (
         <DeleteInfluencerModal
           id={data.id}
-          refreshInfluencers={refreshInfluencers}
           onClose={() => {
-            refreshInfluencers();
             closeDiModal();
           }}
         />

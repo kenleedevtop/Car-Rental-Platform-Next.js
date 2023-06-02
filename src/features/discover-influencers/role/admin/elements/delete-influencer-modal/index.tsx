@@ -8,7 +8,6 @@ import { useSnackbar } from 'hooks';
 
 const DeleteInfluencerModal = ({
   onClose,
-  refreshInfluencers,
   id,
   ...props
 }: TDeleteInfluencerModalProps) => {
@@ -44,7 +43,6 @@ const DeleteInfluencerModal = ({
           size="large"
           onClick={() => {
             handleDelete();
-            refreshInfluencers();
             onClose();
           }}
         >

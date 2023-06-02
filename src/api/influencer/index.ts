@@ -39,9 +39,27 @@ const InfluencerAPI = {
     return data;
   },
 
-  getDInfluencers: async () => {
+  getDInfluencersRegistered: async (filters: any) => {
     const { data } = await client.get(
-      `${Project.apis.v1}/influencer/discoverInfluencers`
+      `${Project.apis.v1}/influencer/discoverInfluencers?stage=registered`,
+      {
+        params: {
+          filters,
+        },
+      }
+    );
+
+    return data;
+  },
+
+  getDInfluencersToBeApproved: async (filters: any) => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/influencer/discoverInfluencers?stage=toBeApproved`,
+      {
+        params: {
+          filters,
+        },
+      }
     );
 
     return data;
@@ -59,7 +77,7 @@ const InfluencerAPI = {
     return data;
   },
 
-  updateInfluencer: async (body: TInfluencer, id: any) => {
+  updateInfluencer: async (body: any, id: any) => {
     await client.patch(`${Project.apis.v1}/influencer/${id}`, body);
   },
 

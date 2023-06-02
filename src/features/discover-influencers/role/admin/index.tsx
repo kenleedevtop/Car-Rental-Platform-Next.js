@@ -36,7 +36,7 @@ import {
   InfluencerProfile,
   ToBeApprovedActions,
 } from 'features/discover-influencers/role/admin/elements';
-import { useModal } from 'hooks';
+import { useModal, usePagination } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { InfluencerAPI } from 'api';
 
@@ -59,25 +59,6 @@ const DiscoverInfluencersPage = () => {
 
   const clearFilters = () => {
     setFilter(DGenerateDiscoverInfluencersFilter());
-  };
-
-  const [influencers, setInfluencers] = useState<any>([]);
-  const [registeredInfluencers, setRegisteredInfluencers] = useState<any>([]);
-  const [toBeApprovedInfluencers, setToBeApprovedInfluencers] = useState<any>(
-    []
-  );
-
-  const getInfluencers = async () => {
-    const result = await InfluencerAPI.getDInfluencers();
-
-    setRegisteredInfluencers(
-      result.filter(
-        (data: any) => data.user.status === 2 || data.user.status === 3
-      )
-    );
-    setToBeApprovedInfluencers(
-      result.filter((data: any) => data.user.status === 4)
-    );
   };
 
   const [currentInfluencer, setCurrentInfluencer] = useState<any>();
@@ -138,32 +119,59 @@ const DiscoverInfluencersPage = () => {
     if (headItem.reference === 'actions') {
       switch (row.data.user.status) {
         case 4:
-          return (
-            <ToBeApprovedActions
-              data={row.data.user.id}
-              refreshInfluencers={getInfluencers}
-            />
-          );
+          return <ToBeApprovedActions data={row.data.user.id} />;
         default:
-          return (
-            <DiscoverActions
-              data={row.data.user.id}
-              refreshInfluencers={getInfluencers}
-            />
-          );
+          return <DiscoverActions data={row.data.user.id} />;
       }
     }
 
     return '';
   };
 
-  useEffect(() => {
-    getInfluencers();
-  }, []);
+  const [registeredInfluencers, setRegisteredInfluencers] = useState([]);
 
-  useEffect(() => {
-    setInfluencers(influencers);
-  }, [influencers]);
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { data, pagination } =
+          await InfluencerAPI.getDInfluencersRegistered({
+            limit: params.limit,
+            skip: params.skip,
+            ...filterParams,
+          });
+
+        setRegisteredInfluencers(data);
+        setTotalResults(pagination.totalFilteredItems);
+      },
+    });
+
+  const [toBeApprovedInfluencers, setToBeApprovedInfluencers] = useState([]);
+
+  const {
+    pagesCount: pageCountTba,
+    page: pageTba,
+    setTotalResults: setTotalResultsTba,
+    handlePageChange: handlePageChangeTba,
+    reload: reloadTba,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { data, pagination } =
+        await InfluencerAPI.getDInfluencersToBeApproved({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+
+      setToBeApprovedInfluencers(data);
+      setTotalResultsTba(pagination.totalFilteredItems);
+    },
+  });
 
   return (
     <DiscoverInfluencersPageMain>
@@ -453,20 +461,33 @@ const DiscoverInfluencersPage = () => {
             tabs={['Registered', 'To Be Approved']}
           />
           {tabs === 0 && (
-            <CheckboxTable
-              head={DInfluencerHeadRegistered}
-              items={registeredInfluencers}
-              renderItem={renderItem}
-            />
+            <>
+              <CheckboxTable
+                head={DInfluencerHeadRegistered}
+                items={registeredInfluencers}
+                renderItem={renderItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChange(x)}
+                page={page}
+                count={pagesCount}
+              />
+            </>
           )}
           {tabs === 1 && (
-            <CheckboxTable
-              head={DInfluencerHeadToBeApproved}
-              items={toBeApprovedInfluencers}
-              renderItem={renderItem}
-            />
+            <>
+              <CheckboxTable
+                head={DInfluencerHeadToBeApproved}
+                items={toBeApprovedInfluencers}
+                renderItem={renderItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChangeTba(x)}
+                page={pageTba}
+                count={pageCountTba}
+              />
+            </>
           )}
-          <Pagination count={1} />
         </Stack>
       </CardWithText>
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}

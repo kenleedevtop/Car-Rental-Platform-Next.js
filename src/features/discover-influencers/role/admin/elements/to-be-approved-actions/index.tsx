@@ -20,11 +20,7 @@ import {
 } from 'features/discover-influencers/role/admin/elements';
 import { TToBeApprovedProps } from 'features/discover-influencers/role/admin/elements/to-be-approved-actions/types';
 
-const ToBeApprovedActions = ({
-  data,
-  refreshInfluencers,
-  ...props
-}: TToBeApprovedProps) => {
+const ToBeApprovedActions = ({ data, ...props }: TToBeApprovedProps) => {
   const [menu, open, setOpen] = useMenu(false);
 
   const handleMenu = () => {
@@ -87,10 +83,8 @@ const ToBeApprovedActions = ({
       {niModal && <NoteInfluencer onClose={closeNiModal} />}
       {diModal && (
         <DeleteInfluencerModal
-          refreshInfluencers={refreshInfluencers}
           id={data}
           onClose={() => {
-            refreshInfluencers();
             closeDiModal();
           }}
         />

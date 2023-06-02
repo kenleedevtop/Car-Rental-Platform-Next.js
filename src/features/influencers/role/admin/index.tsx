@@ -148,7 +148,7 @@ const InfluencersPage = () => {
     }
 
     if (headItem.reference === 'actions') {
-      return <DiscoverActions data={row.data} refreshInfluencers={() => {}} />;
+      return <DiscoverActions data={row.data} />;
     }
 
     return '';

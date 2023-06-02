@@ -1,6 +1,6 @@
 import { Input } from 'components/ui';
-import { useModal } from 'hooks';
-import React, { useState } from 'react';
+import { useModal, useSnackbar } from 'hooks';
+import React, { useEffect, useState } from 'react';
 
 import {
   StepChange,
@@ -15,37 +15,44 @@ import {
   ChangePasswordModal,
 } from 'components/custom/stepper/elements';
 import { CopyIcon } from 'components/svg';
+import { useAppContext } from 'context';
 
 const Step = () => {
-  const [filter, setFilter] = useState({
-    firstname: '',
-    lastName: '',
+  const { user } = useAppContext();
+
+  const [state, setState] = useState({
+    firstname: user.firstName,
+    lastName: user.lastName,
     company: '',
     role: '',
     diseaseArea: null,
     markets: '',
-    email: '',
+    email: user.email,
     password: '',
-    invitedBy: '',
-    affiliateFriends: [
-      {
-        value: 1,
-        label: '@ivanjurisic',
-      },
-      {
-        value: 2,
-        label: 'Affiliate friend 2',
-      },
-      {
-        value: 3,
-        label: 'Affiliate friend 3',
-      },
-    ],
-    affiliateLink: '',
+    invitedBy: user.influencer.invitendByUserId,
+    affiliateFriends: [],
+    affiliateLink: user.influencer.affiliateCode,
   });
 
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
+
+  console.log(user);
+
+  const { push } = useSnackbar();
+
+  const handleCopyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(state.affiliateLink);
+      push(`Successfully copied!`, {
+        variant: 'success',
+      });
+    } catch {
+      push('Something failed!', {
+        variant: 'error',
+      });
+    }
+  };
 
   return (
     <StepContainer>
@@ -55,15 +62,17 @@ const Step = () => {
             type="text"
             label="First Name"
             placeholder="John"
-            value={filter.firstname}
-            onValue={(firstname) => setFilter({ ...filter, firstname })}
+            disabled
+            value={state.firstname}
+            onValue={(firstname) => setState({ ...state, firstname })}
           />
           <Input
             type="text"
             label="Last Name"
             placeholder="Doe"
-            value={filter.lastName}
-            onValue={(lastName) => setFilter({ ...filter, lastName })}
+            disabled
+            value={state.lastName}
+            onValue={(lastName) => setState({ ...state, lastName })}
           />
         </StepStack>
         <StepChange>
@@ -71,8 +80,9 @@ const Step = () => {
             type="text"
             label="Email"
             placeholder="johndoe@gmail.com"
-            value={filter.email}
-            onValue={(email) => setFilter({ ...filter, email })}
+            disabled
+            value={state.email}
+            onValue={(email) => setState({ ...state, email })}
           />
           <StepSpan onClick={openCeModal}>Change Email</StepSpan>
         </StepChange>
@@ -80,35 +90,41 @@ const Step = () => {
           <Input
             type="text"
             label="Password"
+            disabled
             placeholder="**********"
-            value={filter.password}
-            onValue={(password) => setFilter({ ...filter, password })}
+            value={state.password}
+            onValue={(password) => setState({ ...state, password })}
           />
           <StepSpan onClick={openCpModal}>Change Password</StepSpan>
         </StepChange>
         <Input
           type="text"
           label="Invited by"
-          placeholder="Username1"
-          value={filter.invitedBy}
-          onValue={(invitedBy) => setFilter({ ...filter, invitedBy })}
+          disabled
+          value={state.invitedBy}
+          onValue={(invitedBy) => setState({ ...state, invitedBy })}
         />
         <Input
           type="multiselect"
           disabled
           label="Affiliate friends"
-          value={filter.affiliateFriends}
+          value={state.affiliateFriends}
           onValue={(affiliateFriends) =>
-            setFilter({ ...filter, affiliateFriends })
+            setState({ ...state, affiliateFriends })
           }
         />
         <Input
           type="text"
           label="Affiliate link"
           disabled
-          value={filter.affiliateLink}
-          endAdornment={<CopyIcon />}
-          onValue={(affiliateLink) => setFilter({ ...filter, affiliateLink })}
+          value={state.affiliateLink}
+          endAdornment={
+            <CopyIcon
+              style={{ cursor: 'pointer' }}
+              onClick={handleCopyToClipboard}
+            />
+          }
+          onValue={(affiliateLink) => setState({ ...state, affiliateLink })}
         />
       </StepForm>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}

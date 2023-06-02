@@ -10,13 +10,16 @@ import {
   SidebarItem,
   SidebarItemNested,
 } from 'components/custom/sidebar/elements';
-import { DSidebarItems } from 'components/custom/sidebar/data';
+import {
+  DSidebarItems,
+  DInfluencerSidebarItems,
+} from 'components/custom/sidebar/data';
 import { TSidebarProps } from 'components/custom/sidebar/types';
 import { useAppContext } from 'context';
 import { CancelIcon } from 'components/svg';
 
 const Sidebar = ({ ...props }: TSidebarProps) => {
-  const { role, handleMobileMenu, showMobileMenu } = useAppContext();
+  const { role, user, handleMobileMenu, showMobileMenu } = useAppContext();
 
   const handleSidebar = () => {
     if (window.innerWidth < 1200) {

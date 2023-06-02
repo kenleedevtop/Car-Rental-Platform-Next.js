@@ -24,7 +24,7 @@ import {
   SlidersHorizontalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
-import { Button, Input, InputGroup } from 'components/ui';
+import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import {
@@ -44,7 +44,7 @@ import {
   NotificationsSettingsModal,
   ScheduleClientsModal,
 } from 'features/discover-clients/role/admin/elements';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { ClientAPI } from 'api';
 
@@ -85,17 +85,205 @@ const DiscoverClientsPage = () => {
     table,
   }: TTableRenderItemObject) => {};
 
-  const [clients, setClients] = useState<any>([]);
+  const [clientsIdentified, setClientsIdentified] = useState<any>([]);
+  const [clientsContacted, setClientsContacted] = useState<any>([]);
+  const [clientsRegistered, setClientsRegistered] = useState<any>([]);
+  const [clientsScheduled, setClientsScheduled] = useState<any>([]);
 
-  const getClients = async () => {
-    const data = await ClientAPI.getDClients();
+  const [filterIParams, setFilterIParams] = useState({});
+  const [filterCParams, setFilterCParams] = useState({});
+  const [filterRParams, setFilterRParams] = useState({});
+  const [filterSParams, setFilterSParams] = useState({});
 
-    console.log(data);
+  const {
+    pagesCount: pageCountI,
+    page: pageI,
+    setTotalResults: setTotalResultsI,
+    handlePageChange: handlePageChangeI,
+    reload: reloadI,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { data, pagination } = await ClientAPI.getDClientsIdentified({
+        limit: params.limit,
+        skip: params.skip,
+        ...filterIParams,
+      });
+
+      setClientsIdentified(data);
+      setTotalResultsI(pagination.totalFilteredItems);
+    },
+  });
+
+  const {
+    pagesCount: pageCountC,
+    page: pageC,
+    setTotalResults: setTotalResultsC,
+    handlePageChange: handlePageChangeC,
+    reload: reloadC,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { data, pagination } = await ClientAPI.getDClientsContacted({
+        limit: params.limit,
+        skip: params.skip,
+        ...filterCParams,
+      });
+
+      setClientsContacted(data);
+      setTotalResultsC(pagination.totalFilteredItems);
+    },
+  });
+
+  const {
+    pagesCount: pageCountR,
+    page: pageR,
+    setTotalResults: setTotalResultsR,
+    handlePageChange: handlePageChangeR,
+    reload: reloadR,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { data, pagination } = await ClientAPI.getDClientsRegistered({
+        limit: params.limit,
+        skip: params.skip,
+        ...filterRParams,
+      });
+
+      setClientsRegistered(data);
+      setTotalResultsR(pagination.totalFilteredItems);
+    },
+  });
+
+  const {
+    pagesCount: pageCountS,
+    page: pageS,
+    setTotalResults: setTotalResultsS,
+    handlePageChange: handlePageChangeS,
+    reload: reloadS,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { data, pagination } = await ClientAPI.getDClientsScheduled({
+        limit: params.limit,
+        skip: params.skip,
+        ...filterSParams,
+      });
+
+      setClientsScheduled(data);
+      setTotalResultsS(pagination.totalFilteredItems);
+    },
+  });
+
+  const renderIdentifiedItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return row.data.firstName;
+    }
+    if (headItem.reference === 'lastName') {
+      return row.data.lastName;
+    }
+    if (headItem.reference === 'company') {
+      return row.data.company.name;
+    }
+    if (headItem.reference === 'product') {
+      return '';
+    }
+    if (headItem.reference === 'actions') {
+      return '';
+    }
+
+    return '';
   };
 
-  useEffect(() => {
-    getClients();
-  }, []);
+  const renderContactedItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return row.data.firstName;
+    }
+    if (headItem.reference === 'lastName') {
+      return row.data.lastName;
+    }
+    if (headItem.reference === 'company') {
+      return row.data.company.name;
+    }
+    if (headItem.reference === 'product') {
+      return '';
+    }
+    if (headItem.reference === 'contactedAt') {
+      return row.data.contactedAt;
+    }
+    if (headItem.reference === 'actions') {
+      return '';
+    }
+    return '';
+  };
+
+  const renderRegisteredItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return row.data.firstName;
+    }
+    if (headItem.reference === 'lastName') {
+      return row.data.lastName;
+    }
+    if (headItem.reference === 'company') {
+      return row.data.company.name;
+    }
+    if (headItem.reference === 'role') {
+      return row.data.companyTitle.name;
+    }
+    if (headItem.reference === 'location') {
+      return row.data.location.name;
+    }
+    if (headItem.reference === 'diseaseAreas') {
+      return row.data.discoverClientDiseaseAreas.map((x: any, index: any) =>
+        index < row.data.discoverClientDiseaseAreas.length - 1
+          ? `${x.name},`
+          : x.name
+      );
+    }
+    if (headItem.reference === 'registeredAt') {
+      return row.data.createAt.slice(0, 10);
+    }
+    if (headItem.reference === 'actions') {
+      return '';
+    }
+    return '';
+  };
+
+  const renderScheduledItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return row.data.firstName;
+    }
+    if (headItem.reference === 'lastName') {
+      return row.data.lastName;
+    }
+    if (headItem.reference === 'company') {
+      return row.data.company.name;
+    }
+    if (headItem.reference === 'role') {
+      return row.data.companyTitle.name;
+    }
+    if (headItem.reference === 'location') {
+      return row.data.location.name;
+    }
+    if (headItem.reference === 'diseaseAreas') {
+      return row.data.discoverClientDiseaseAreas.map((x: any, index: any) =>
+        index < row.data.discoverClientDiseaseAreas.length - 1
+          ? `${x.name},`
+          : x.name
+      );
+    }
+    if (headItem.reference === 'registeredAt') {
+      return row.data.createAt.slice(0, 10);
+    }
+    if (headItem.reference === 'actions') {
+      return '';
+    }
+    return '';
+  };
 
   return (
     <DiscoverClientsPageMain>
@@ -335,32 +523,60 @@ const DiscoverClientsPage = () => {
             tabs={['Identified', 'Contacted', 'Registered', 'Scheduled']}
           />
           {tabs === 0 && (
-            <CheckboxTable
-              head={DClientsHeadIdentified}
-              items={[]}
-              renderItem={() => {}}
-            />
+            <>
+              <CheckboxTable
+                head={DClientsHeadIdentified}
+                items={clientsIdentified}
+                renderItem={renderIdentifiedItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChangeI(x)}
+                page={pageI}
+                count={pageCountI}
+              />
+            </>
           )}
           {tabs === 1 && (
-            <CheckboxTable
-              head={DClientsHeadContacted}
-              items={[]}
-              renderItem={() => {}}
-            />
+            <>
+              <CheckboxTable
+                head={DClientsHeadContacted}
+                items={clientsContacted}
+                renderItem={renderContactedItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChangeC(x)}
+                page={pageC}
+                count={pageCountC}
+              />
+            </>
           )}
           {tabs === 2 && (
-            <CheckboxTable
-              head={DClientsHeadRegistered}
-              items={[]}
-              renderItem={() => {}}
-            />
+            <>
+              <CheckboxTable
+                head={DClientsHeadRegistered}
+                items={clientsRegistered}
+                renderItem={renderRegisteredItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChangeR(x)}
+                page={pageR}
+                count={pageCountR}
+              />
+            </>
           )}
           {tabs === 3 && (
-            <CheckboxTable
-              head={DClientsHeadScheduled}
-              items={[]}
-              renderItem={() => {}}
-            />
+            <>
+              <CheckboxTable
+                head={DClientsHeadScheduled}
+                items={clientsScheduled}
+                renderItem={renderScheduledItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChangeS(x)}
+                page={pageS}
+                count={pageCountS}
+              />
+            </>
           )}
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={openDiModal}>

@@ -175,3 +175,30 @@ export const DSidebarItems: Array<TSidebarItem> = [
     roles: ['INFLUENCER', 'CLIENT', 'AMBASSADOR'],
   },
 ];
+
+export const DInfluencerSidebarItems: Array<TSidebarItem> = [
+  {
+    id: 1,
+    type: 'route',
+    icon: <HomeIcon />,
+    label: 'Home',
+    location: '/',
+    roles: ['INFLUENCER'],
+  },
+  {
+    id: 2,
+    type: 'route',
+    icon: <HelpIcon />,
+    label: 'Help',
+    location: '/help',
+    roles: ['INFLUENCER'],
+  },
+  {
+    id: 3,
+    type: 'route',
+    icon: <AccountIcon />,
+    label: 'Account',
+    location: '/account',
+    roles: ['INFLUENCER'],
+  },
+];
