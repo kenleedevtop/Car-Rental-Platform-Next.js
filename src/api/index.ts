@@ -16,3 +16,4 @@ export { default as IndustryApi } from 'api/industry';
 export { default as EnumsApi } from 'api/enums';
 export { default as StakeholderApi } from 'api/stakeholders';
 export { default as FileManagerApi } from 'api/file-manager';
+export { default as InsightsAPI } from 'api/insights';
