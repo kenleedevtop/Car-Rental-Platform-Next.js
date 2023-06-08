@@ -59,15 +59,17 @@ export interface GetClientsClientSurveysOverTimeDataResponse
 // GetClientsClientSMLsOverTimeData
 export interface GetClientsClientSMLsOverTimeDataRequest
   extends BaseGraphRequest {
-    status?: SMLStatus
-  }
+  status?: SMLStatus;
+}
 
 export interface GetClientsClientSMLsOverTimeDataResponse
   extends BaseGraphResponse {}
 
 // GetClientsClientCampaignsOverTimeData
-export interface GetClientsClientCampaignsOverTimeDataRequest extends BaseGraphRequest {
+export interface GetClientsClientCampaignsOverTimeDataRequest
+  extends BaseGraphRequest {
   status?: CampaignAndSurveyStatus;
 }
 
-export interface GetClientsClientCampaignsOverTimeDataResponse extends BaseGraphResponse {}
+export interface GetClientsClientCampaignsOverTimeDataResponse
+  extends BaseGraphResponse {}

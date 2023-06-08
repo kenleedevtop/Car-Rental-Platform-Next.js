@@ -282,7 +282,6 @@ const CreatedCampaignModal = ({
                 type="text"
                 label="Campaign Name"
                 disabled
-                placeholder="Please Enter"
                 value={state.campaignName}
                 onValue={(campaignName) => setState({ ...state, campaignName })}
               />
@@ -291,7 +290,6 @@ const CreatedCampaignModal = ({
               type="multiselect"
               label="Product"
               disabled
-              placeholder="Please Select"
               value={state.product}
               onValue={(product) => setState({ ...state, product })}
             />
@@ -302,13 +300,11 @@ const CreatedCampaignModal = ({
               elements={[
                 {
                   type: 'date',
-                  placeholder: 'From',
                   value: state.startDate,
                   onValue: (startDate) => setState({ ...state, startDate }),
                 },
                 {
                   type: 'date',
-                  placeholder: 'To',
                   value: state.endDate,
                   onValue: (endDate) => setState({ ...state, endDate }),
                 },
@@ -318,7 +314,6 @@ const CreatedCampaignModal = ({
               type="select"
               label="Report"
               disabled
-              placeholder="Please Select"
               value={state.report}
               onValue={(report) => setState({ ...state, report })}
             />
@@ -351,7 +346,6 @@ const CreatedCampaignModal = ({
                   value: state.budget,
                   onValue: (budget) => setState({ ...state, budget }),
                   type: 'text',
-                  placeholder: 'Please Enter',
                 },
               ]}
             />
@@ -362,7 +356,6 @@ const CreatedCampaignModal = ({
                 rows={5}
                 type="text"
                 label="Campaign Info"
-                placeholder="Please Enter"
                 value={state.campaignInfo}
                 onValue={(campaignInfo) => setState({ ...state, campaignInfo })}
               />
@@ -375,7 +368,6 @@ const CreatedCampaignModal = ({
               type="select"
               label="Location"
               disabled
-              placeholder="Please Select"
               value={state.location}
               onValue={(location) => setState({ ...state, location })}
             />
@@ -383,7 +375,6 @@ const CreatedCampaignModal = ({
               type="select"
               label="Language"
               disabled
-              placeholder="Please Select"
               value={state.language}
               onValue={(language) => setState({ ...state, language })}
             />
@@ -391,7 +382,6 @@ const CreatedCampaignModal = ({
               type="select"
               label="Disease Area"
               disabled
-              placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
             />
@@ -399,7 +389,6 @@ const CreatedCampaignModal = ({
               type="multiselect"
               label="Stakeholders"
               disabled
-              placeholder="Please Select"
               value={state.stakeholders}
               onValue={(stakeholders) => setState({ ...state, stakeholders })}
             />
@@ -407,7 +396,6 @@ const CreatedCampaignModal = ({
               type="multiselect"
               label="Gender"
               disabled
-              placeholder="Please Select"
               value={state.gender}
               onValue={(gender) => setState({ ...state, gender })}
               options={[
@@ -429,7 +417,6 @@ const CreatedCampaignModal = ({
               type="min-max"
               label="Age"
               disabled
-              placeholder="Please Select"
               value={state.age}
               onValue={(age) => setState({ ...state, age })}
             />
@@ -437,7 +424,6 @@ const CreatedCampaignModal = ({
               type="multiselect"
               label="Ethnicity"
               disabled
-              placeholder="Please Select"
               value={state.ethnicity}
               onValue={(ethnicity) => setState({ ...state, ethnicity })}
             />
@@ -445,7 +431,6 @@ const CreatedCampaignModal = ({
               type="multiselect"
               label="Struggles"
               disabled
-              placeholder="Please Select"
               value={state.struggles}
               onValue={(struggles) => setState({ ...state, struggles })}
             />
@@ -453,7 +438,6 @@ const CreatedCampaignModal = ({
               type="multiselect"
               label="Interests"
               disabled
-              placeholder="Please Select"
               value={state.interests}
               onValue={(interests) => setState({ ...state, interests })}
             />
@@ -461,7 +445,6 @@ const CreatedCampaignModal = ({
               type="select"
               label="Influencer Size"
               disabled
-              placeholder="Please Select"
               value={state.influencerSize}
               onValue={(influencerSize) =>
                 setState({ ...state, influencerSize })
@@ -475,7 +458,6 @@ const CreatedCampaignModal = ({
                 disabled
                 style={{ marginBottom: '20px' }}
                 label="Target Audience Info"
-                placeholder="Please Enter"
                 value={state.targetAudienceInfo}
                 onValue={(targetAudienceInfo) =>
                   setState({ ...state, targetAudienceInfo })
@@ -490,7 +472,6 @@ const CreatedCampaignModal = ({
               type="select"
               label="Platform"
               disabled
-              placeholder="Please Select"
               value={state.platform}
               onValue={(platform) => setState({ ...state, platform })}
             />
@@ -498,7 +479,6 @@ const CreatedCampaignModal = ({
               type="select"
               label="Post Type"
               disabled
-              placeholder="Please Select"
               value={state.postType}
               onValue={(postType) => setState({ ...state, postType })}
             />
@@ -517,7 +497,6 @@ const CreatedCampaignModal = ({
               type="text"
               label="Website"
               disabled
-              placeholder="Please Enter"
               value={state.website}
               onValue={(website) => setState({ ...state, website })}
             />
@@ -528,7 +507,6 @@ const CreatedCampaignModal = ({
                 type="text"
                 disabled
                 label="Instructions"
-                placeholder="Please Enter"
                 value={state.instructions}
                 onValue={(instructions) => setState({ ...state, instructions })}
               />

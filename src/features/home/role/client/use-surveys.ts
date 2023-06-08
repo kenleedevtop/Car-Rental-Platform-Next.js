@@ -18,54 +18,58 @@ const useSurveys = (
   const [chartData, setChartData] = useState<TChartData | undefined>();
 
   useEffect(() => {
-    
-      if (user?.id) {
-        if (!count) {
-          InsightsAPI.getClientsClientSurveysOverTimeData(user.id, {
-            graphPeriod: 'daily',
-            graphType: 'cumulative',
-            maxResults: 1,
-            status,
-          }).then((result) => setCount(result.data?.[0].value || 0)).catch((error) => {
+    if (user?.id) {
+      if (!count) {
+        InsightsAPI.getClientsClientSurveysOverTimeData(user.id, {
+          graphPeriod: 'daily',
+          graphType: 'cumulative',
+          maxResults: 1,
+          status,
+        })
+          .then((result) => setCount(result.data?.[0].value || 0))
+          .catch((error) => {
             if (error instanceof Error)
               push(error.message, {
                 variant: 'error',
               });
           });
-        }
+      }
 
-        if (!percent) {
-          InsightsAPI.getClientsClientSurveysOverTimeData(user.id, {
-            graphPeriod: 'monthly',
-            graphType: 'cumulative',
-            maxResults: 2,
-            status,
-          }).then((result) => setPercent(result.changePercentage || 0)).catch((error) => {
+      if (!percent) {
+        InsightsAPI.getClientsClientSurveysOverTimeData(user.id, {
+          graphPeriod: 'monthly',
+          graphType: 'cumulative',
+          maxResults: 2,
+          status,
+        })
+          .then((result) => setPercent(result.changePercentage || 0))
+          .catch((error) => {
             if (error instanceof Error)
               push(error.message, {
                 variant: 'error',
               });
           });
-        }
+      }
 
-        if (!chartData) {
-          InsightsAPI.getClientsClientSurveysOverTimeData(user.id, {
-            graphPeriod: 'daily',
-            status,
-          }).then((result) =>
+      if (!chartData) {
+        InsightsAPI.getClientsClientSurveysOverTimeData(user.id, {
+          graphPeriod: 'daily',
+          status,
+        })
+          .then((result) =>
             setChartData({
               values: result.data?.map((point) => point.value) || [],
               labels: result.data?.map((point) => point.timestamp) || [],
             })
-          ).catch((error) => {
+          )
+          .catch((error) => {
             if (error instanceof Error)
               push(error.message, {
                 variant: 'error',
               });
           });
-        }
       }
-  
+    }
   }, [user?.id]);
 
   return {

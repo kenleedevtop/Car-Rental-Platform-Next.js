@@ -248,7 +248,6 @@ const CreateSurveysModal = ({
             <Input
               type="text"
               label="Survey name"
-              placeholder="Please Enter"
               value={state.surveyName}
               disabled
               onValue={(surveyName) => setState({ ...state, surveyName })}
@@ -256,7 +255,6 @@ const CreateSurveysModal = ({
             <Input
               type="multiselect"
               label="Product"
-              placeholder="Please Select"
               value={state.product}
               disabled
               onValue={(product) => setState({ ...state, product })}
@@ -264,7 +262,6 @@ const CreateSurveysModal = ({
             <Input
               type="number"
               label="Participants"
-              placeholder="Please Select"
               value={state.participants}
               disabled
               onValue={(participants) => setState({ ...state, participants })}
@@ -273,7 +270,6 @@ const CreateSurveysModal = ({
               type="number"
               label="Questions Count"
               disabled
-              placeholder="Please Enter"
               value={state.questionsCount}
               onValue={(questionsCount) =>
                 setState({ ...state, questionsCount })
@@ -282,7 +278,6 @@ const CreateSurveysModal = ({
             <Input
               type="number"
               label="Question Credits"
-              placeholder="Please Enter"
               disabled
               value={state.questionCredits}
               onValue={(questionCredits) =>
@@ -300,7 +295,6 @@ const CreateSurveysModal = ({
             <Input
               type="date"
               label="Start Date"
-              placeholder="Please Select"
               value={state.startDate}
               disabled
               onValue={(startDate) => setState({ ...state, startDate })}
@@ -308,7 +302,6 @@ const CreateSurveysModal = ({
             <Input
               type="date"
               label="End Date"
-              placeholder="Please Select"
               value={state.endDate}
               disabled
               onValue={(endDate) => setState({ ...state, endDate })}
@@ -316,7 +309,6 @@ const CreateSurveysModal = ({
             <Input
               type="select"
               label="Tokens"
-              placeholder="Please Select"
               value={state.tokens}
               disabled
               onValue={(tokens) => setState({ ...state, tokens })}
@@ -362,7 +354,6 @@ const CreateSurveysModal = ({
                 disabled
                 type="text"
                 label="Survey Info"
-                placeholder="Please Enter"
                 value={state.surveyInfo}
                 onValue={(surveyInfo) => setState({ ...state, surveyInfo })}
               />
@@ -375,7 +366,6 @@ const CreateSurveysModal = ({
               type="select"
               label="Location"
               disabled
-              placeholder="Please Select"
               value={state.location}
               onValue={(location) => setState({ ...state, location })}
             />
@@ -383,7 +373,6 @@ const CreateSurveysModal = ({
               type="select"
               label="Language"
               disabled
-              placeholder="Please Select"
               value={state.language}
               onValue={(language) => setState({ ...state, language })}
             />
@@ -391,7 +380,6 @@ const CreateSurveysModal = ({
               type="select"
               label="Disease area"
               disabled
-              placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
             />
@@ -399,7 +387,6 @@ const CreateSurveysModal = ({
               type="multiselect"
               label="Gender"
               disabled
-              placeholder="Please Select"
               value={state.gender}
               onValue={(gender) => setState({ ...state, gender })}
               options={[
@@ -421,7 +408,6 @@ const CreateSurveysModal = ({
               type="min-max"
               label="Age"
               disabled
-              placeholder="Please Select"
               value={state.ageRange}
               onValue={(ageRange) => setState({ ...state, ageRange })}
             />
@@ -429,7 +415,6 @@ const CreateSurveysModal = ({
               type="multiselect"
               label="Ethnicity"
               disabled
-              placeholder="Please Select"
               value={state.ethnicity}
               onValue={(ethnicity) => setState({ ...state, ethnicity })}
             />
@@ -437,7 +422,6 @@ const CreateSurveysModal = ({
               type="multiselect"
               label="Struggles"
               disabled
-              placeholder="Please Select"
               value={state.struggles}
               onValue={(struggles) => setState({ ...state, struggles })}
             />
@@ -445,7 +429,6 @@ const CreateSurveysModal = ({
               type="multiselect"
               label="Interests"
               disabled
-              placeholder="Please Select"
               value={state.interests}
               onValue={(interests) => setState({ ...state, interests })}
             />
@@ -456,7 +439,6 @@ const CreateSurveysModal = ({
                 disabled
                 type="text"
                 label="Target audience info"
-                placeholder="Please Enter"
                 value={state.targetAudInfo}
                 onValue={(targetAudInfo) =>
                   setState({ ...state, targetAudInfo })
@@ -471,7 +453,6 @@ const CreateSurveysModal = ({
               type="text"
               label="Link"
               disabled
-              placeholder="Please Enter"
               value={state.link}
               onValue={(link) => setState({ ...state, link })}
             />
@@ -492,7 +473,6 @@ const CreateSurveysModal = ({
               disabled
               type="text"
               label="Instructions"
-              placeholder="Please Enter"
               value={state.instructions}
               onValue={(instructions) => setState({ ...state, instructions })}
             />

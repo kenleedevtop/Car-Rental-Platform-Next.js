@@ -10,7 +10,6 @@ import {
 } from './types';
 
 const InsightsAPI = {
-
   getClientsClientCampaignsOverTimeData: async (
     userId: string,
     request: GetClientsClientCampaignsOverTimeDataRequest

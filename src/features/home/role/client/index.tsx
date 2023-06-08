@@ -28,9 +28,10 @@ import useCampaign from './use-campaign';
 import useSML from './use-sml';
 
 const HomePage = () => {
-
   // Campaigns
-  const campaignInPreparation = useCampaign(CampaignAndSurveyStatus.InPreparation);
+  const campaignInPreparation = useCampaign(
+    CampaignAndSurveyStatus.InPreparation
+  );
   const campaignOngoing = useCampaign(CampaignAndSurveyStatus.OnGoing);
   const campaignCompleted = useCampaign(CampaignAndSurveyStatus.Finished);
   const campaignTotal = useCampaign();
@@ -45,10 +46,12 @@ const HomePage = () => {
   const SMLSubscriptions = useSML();
 
   // Surveys
-  const surveysInPreparation = useSurveys(CampaignAndSurveyStatus.InPreparation)
-  const surveysOngoing = useSurveys(CampaignAndSurveyStatus.OnGoing)
-  const surveysCompleted = useSurveys(CampaignAndSurveyStatus.Finished)
-  const surveysTotal = useSurveys()
+  const surveysInPreparation = useSurveys(
+    CampaignAndSurveyStatus.InPreparation
+  );
+  const surveysOngoing = useSurveys(CampaignAndSurveyStatus.OnGoing);
+  const surveysCompleted = useSurveys(CampaignAndSurveyStatus.Finished);
+  const surveysTotal = useSurveys();
 
   return (
     <HomePageMain>
@@ -195,7 +198,6 @@ const HomePage = () => {
             icon={<TotalIcon />}
             smallIcon={<SurveysSmallIcon />}
             {...surveysTotal}
-
           />
         </HomePageChartsGrid>
       </HomePageCharts>
