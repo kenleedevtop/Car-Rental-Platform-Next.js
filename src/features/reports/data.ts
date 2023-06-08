@@ -163,6 +163,11 @@ export const DReportsClientHead = [
     label: 'Product',
     visible: false,
   },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
+  },
 ];
 
 export const DReportsHead = [

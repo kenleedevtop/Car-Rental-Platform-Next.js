@@ -4,16 +4,14 @@ import { Stack } from 'components/system';
 
 export const TableContainer = styled(Stack)``;
 
-export const TableWrapper = styled.div<{ theme?: Theme; filled: boolean }>`
-  ${({ theme, filled }) => `
+export const TableWrapper = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
     border-radius: 4px;
     border: 1px solid ${theme.palette.common.black}20;
     background-color: ${theme.palette.common.white};
 
     overflow-x: scroll;
-    overflow-y: hidden;
-
-    padding-bottom: ${filled ? '250px' : '0px'}
+    overflow-y: scroll;
   `}
 `;
 

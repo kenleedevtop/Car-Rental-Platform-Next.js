@@ -439,4 +439,9 @@ export const DCampaignsClientHead = [
     label: 'Language',
     visible: false,
   },
+  {
+    reference: 'actions',
+    label: 'Actions',
+    visible: true,
+  },
 ];

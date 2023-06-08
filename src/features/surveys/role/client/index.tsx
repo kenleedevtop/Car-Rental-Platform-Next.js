@@ -33,7 +33,7 @@ import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
   ExportSurveysModal,
   CreateSurveysModal,
-  CreatedSurveysModal,
+  InPreparationActions,
 } from 'features/surveys/role/client/elements';
 import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
@@ -48,7 +48,6 @@ const SurveyPage = () => {
 
   const [esModal, openEsModal, closeEsModal] = useModal(false);
   const [csModal, openCsModal, closeCsModal] = useModal(false);
-  const [cdModal, openCdModal, closeCdModal] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -58,9 +57,7 @@ const SurveyPage = () => {
     setFilter(DGenerateSurveyClientFilter());
   };
 
-  const renderItem = ({ headItem, row, cell }: TTableRenderItemObject) => {
-    console.log(row.data);
-
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'surveyName') {
       return row.data.name;
     }
@@ -93,7 +90,8 @@ const SurveyPage = () => {
       return row.data.questionCount;
     }
     if (headItem.reference === 'actions') {
-      return '';
+      // return '';
+      return <InPreparationActions data={row.data.id} />;
     }
 
     return '';
@@ -439,113 +437,330 @@ const SurveyPage = () => {
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <CheckboxTable
-            head={[
-              {
-                reference: 'surveyName',
-                label: 'Survey Name',
-                visible: true,
-              },
-              {
-                reference: 'budget',
-                label: 'Budget',
-                visible: false,
-              },
-              {
-                reference: 'diseaseArea',
-                label: 'Disease Area',
-                visible: true,
-              },
-              {
-                reference: 'struggles',
-                label: 'Struggles',
-                visible: false,
-              },
-              {
-                reference: 'location',
-                label: 'Location',
-                visible: false,
-              },
-              {
-                reference: 'company',
-                label: 'Company',
-                visible: false,
-              },
-              {
-                reference: 'ethnicity',
-                label: 'Ethnicity',
-                visible: false,
-              },
-              {
-                reference: 'interests',
-                label: 'Interests',
-                visible: false,
-              },
-              {
-                reference: 'product',
-                label: 'Product',
-                visible: false,
-              },
-              {
-                reference: 'startDate',
-                label: 'Start Date',
-                visible: false,
-              },
-              {
-                reference: 'endDate',
-                label: 'End Date',
-                visible: false,
-              },
-              {
-                reference: 'participants',
-                label: 'Participants',
-                visible: true,
-              },
-              {
-                reference: 'ageMin',
-                label: 'Age Min',
-                visible: false,
-              },
-              {
-                reference: 'ageMax',
-                label: 'Age Max',
-                visible: false,
-              },
-              {
-                reference: 'gender',
-                label: 'Gender',
-                visible: false,
-              },
-              {
-                reference: 'language',
-                label: 'Language',
-                visible: true,
-              },
-              {
-                reference: 'questions',
-                label: 'Questions',
-                visible: true,
-              },
-              {
-                reference: 'questionCredits',
-                label: 'Question Credits',
-                visible: false,
-              },
-              {
-                reference: 'actions',
-                label: 'Actions',
-                visible: true,
-              },
-            ]}
-            items={surveys}
-            renderItem={renderItem}
-          />
-          <Pagination
-            onChange={(_e, x) => handlePageChange(x)}
-            page={page}
-            count={pagesCount}
-          />
-          <Stack direction="horizontal">
+          {tabsValue === 0 && (
+            <>
+              <CheckboxTable
+                head={[
+                  {
+                    reference: 'surveyName',
+                    label: 'Survey Name',
+                    visible: true,
+                  },
+                  {
+                    reference: 'budget',
+                    label: 'Budget',
+                    visible: false,
+                  },
+                  {
+                    reference: 'diseaseArea',
+                    label: 'Disease Area',
+                    visible: true,
+                  },
+                  {
+                    reference: 'struggles',
+                    label: 'Struggles',
+                    visible: false,
+                  },
+                  {
+                    reference: 'location',
+                    label: 'Location',
+                    visible: false,
+                  },
+                  {
+                    reference: 'company',
+                    label: 'Company',
+                    visible: false,
+                  },
+                  {
+                    reference: 'ethnicity',
+                    label: 'Ethnicity',
+                    visible: false,
+                  },
+                  {
+                    reference: 'interests',
+                    label: 'Interests',
+                    visible: false,
+                  },
+                  {
+                    reference: 'product',
+                    label: 'Product',
+                    visible: false,
+                  },
+                  {
+                    reference: 'startDate',
+                    label: 'Start Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'endDate',
+                    label: 'End Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'participants',
+                    label: 'Participants',
+                    visible: true,
+                  },
+                  {
+                    reference: 'ageMin',
+                    label: 'Age Min',
+                    visible: false,
+                  },
+                  {
+                    reference: 'ageMax',
+                    label: 'Age Max',
+                    visible: false,
+                  },
+                  {
+                    reference: 'gender',
+                    label: 'Gender',
+                    visible: false,
+                  },
+                  {
+                    reference: 'language',
+                    label: 'Language',
+                    visible: true,
+                  },
+                  {
+                    reference: 'questions',
+                    label: 'Questions',
+                    visible: true,
+                  },
+                  {
+                    reference: 'questionCredits',
+                    label: 'Question Credits',
+                    visible: false,
+                  },
+                  {
+                    reference: 'actions',
+                    label: 'Actions',
+                    visible: true,
+                  },
+                ]}
+                items={surveys}
+                renderItem={renderItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChange(x)}
+                page={page}
+                count={pagesCount}
+              />
+            </>
+          )}
+          {tabsValue === 1 && (
+            <>
+              <CheckboxTable
+                head={[
+                  {
+                    reference: 'surveyName',
+                    label: 'Survey Name',
+                    visible: true,
+                  },
+                  {
+                    reference: 'budget',
+                    label: 'Budget',
+                    visible: false,
+                  },
+                  {
+                    reference: 'diseaseArea',
+                    label: 'Disease Area',
+                    visible: true,
+                  },
+                  {
+                    reference: 'struggles',
+                    label: 'Struggles',
+                    visible: false,
+                  },
+                  {
+                    reference: 'location',
+                    label: 'Location',
+                    visible: false,
+                  },
+                  {
+                    reference: 'company',
+                    label: 'Company',
+                    visible: false,
+                  },
+                  {
+                    reference: 'ethnicity',
+                    label: 'Ethnicity',
+                    visible: false,
+                  },
+                  {
+                    reference: 'interests',
+                    label: 'Interests',
+                    visible: false,
+                  },
+                  {
+                    reference: 'product',
+                    label: 'Product',
+                    visible: false,
+                  },
+                  {
+                    reference: 'startDate',
+                    label: 'Start Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'endDate',
+                    label: 'End Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'participants',
+                    label: 'Participants',
+                    visible: true,
+                  },
+                  {
+                    reference: 'ageMin',
+                    label: 'Age Min',
+                    visible: false,
+                  },
+                  {
+                    reference: 'ageMax',
+                    label: 'Age Max',
+                    visible: false,
+                  },
+                  {
+                    reference: 'gender',
+                    label: 'Gender',
+                    visible: false,
+                  },
+                  {
+                    reference: 'language',
+                    label: 'Language',
+                    visible: true,
+                  },
+                  {
+                    reference: 'questions',
+                    label: 'Questions',
+                    visible: true,
+                  },
+                  {
+                    reference: 'questionCredits',
+                    label: 'Question Credits',
+                    visible: false,
+                  },
+                  {
+                    reference: 'actions',
+                    label: 'Actions',
+                    visible: true,
+                  },
+                ]}
+                items={[]}
+                renderItem={() => {}}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+          {tabsValue === 2 && (
+            <>
+              <CheckboxTable
+                head={[
+                  {
+                    reference: 'surveyName',
+                    label: 'Survey Name',
+                    visible: true,
+                  },
+                  {
+                    reference: 'budget',
+                    label: 'Budget',
+                    visible: false,
+                  },
+                  {
+                    reference: 'diseaseArea',
+                    label: 'Disease Area',
+                    visible: true,
+                  },
+                  {
+                    reference: 'struggles',
+                    label: 'Struggles',
+                    visible: false,
+                  },
+                  {
+                    reference: 'location',
+                    label: 'Location',
+                    visible: false,
+                  },
+                  {
+                    reference: 'company',
+                    label: 'Company',
+                    visible: false,
+                  },
+                  {
+                    reference: 'ethnicity',
+                    label: 'Ethnicity',
+                    visible: false,
+                  },
+                  {
+                    reference: 'interests',
+                    label: 'Interests',
+                    visible: false,
+                  },
+                  {
+                    reference: 'product',
+                    label: 'Product',
+                    visible: false,
+                  },
+                  {
+                    reference: 'startDate',
+                    label: 'Start Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'endDate',
+                    label: 'End Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'participants',
+                    label: 'Participants',
+                    visible: true,
+                  },
+                  {
+                    reference: 'ageMin',
+                    label: 'Age Min',
+                    visible: false,
+                  },
+                  {
+                    reference: 'ageMax',
+                    label: 'Age Max',
+                    visible: false,
+                  },
+                  {
+                    reference: 'gender',
+                    label: 'Gender',
+                    visible: false,
+                  },
+                  {
+                    reference: 'language',
+                    label: 'Language',
+                    visible: true,
+                  },
+                  {
+                    reference: 'questions',
+                    label: 'Questions',
+                    visible: true,
+                  },
+                  {
+                    reference: 'questionCredits',
+                    label: 'Question Credits',
+                    visible: false,
+                  },
+                  {
+                    reference: 'actions',
+                    label: 'Actions',
+                    visible: true,
+                  },
+                ]}
+                items={[]}
+                renderItem={() => {}}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+
+          {/* <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={handleMenuIp}>
               {' '}
               In Preparation Action
@@ -562,7 +777,7 @@ const SurveyPage = () => {
               {' '}
               Created Survey
             </Button>
-          </Stack>
+          </Stack> */}
         </Stack>
         {openIp && (
           <Menu
@@ -644,13 +859,13 @@ const SurveyPage = () => {
       {esModal && <ExportSurveysModal onClose={closeEsModal} />}
       {csModal && (
         <CreateSurveysModal
+          refresh={reload}
           onClose={async () => {
             reload();
             closeCsModal();
           }}
         />
       )}
-      {cdModal && <CreatedSurveysModal onClose={closeCdModal} />}
     </SurveysPageMain>
   );
 };

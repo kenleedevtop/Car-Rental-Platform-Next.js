@@ -144,6 +144,8 @@ const DiscoverInfluencersPage = () => {
             ...filterParams,
           });
 
+        setPage(params.page);
+
         setRegisteredInfluencers(data);
         setTotalResults(pagination.totalFilteredItems);
       },
@@ -168,10 +170,16 @@ const DiscoverInfluencersPage = () => {
           ...filterParams,
         });
 
+      setPage(params.page);
+
       setToBeApprovedInfluencers(data);
       setTotalResultsTba(pagination.totalFilteredItems);
     },
   });
+
+  useEffect(() => {
+    console.log('KEYYYY', registeredInfluencers);
+  }, [registeredInfluencers]);
 
   return (
     <DiscoverInfluencersPageMain>

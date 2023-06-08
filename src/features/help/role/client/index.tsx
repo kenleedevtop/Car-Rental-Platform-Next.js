@@ -9,17 +9,44 @@ import {
 import { Button, Input } from 'components/ui';
 import { IconWithText, Tabs } from 'components/custom';
 import { Stack } from 'components/system';
-import { ArrowDownIcon, EnvelopeIcon, PhoneCallIcon } from 'components/svg';
+import {
+  ArrowDownIcon,
+  EnvelopeIcon,
+  LocationIcon,
+  PhoneCallIcon,
+} from 'components/svg';
 import { HelpCollapse } from 'features/help/elements';
+import UsersAPI from 'api/users';
+import { useSnackbar } from 'hooks';
 
 const HelpPage = () => {
   const [tab, setTab] = useState(0);
 
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<any>({
     topic: null,
     subject: '',
     message: '',
   });
+
+  const { push } = useSnackbar();
+
+  const contact = async () => {
+    try {
+      await UsersAPI.contactAdmin({
+        topic: filter.topic ? filter.topic.label : '',
+        subject: filter.subject,
+        message: filter.message,
+      });
+      push('Message sent successfully', { variant: 'success' });
+      setFilter({
+        topic: null,
+        subject: '',
+        message: '',
+      });
+    } catch {
+      push('Message send failed.', { variant: 'error' });
+    }
+  };
 
   return (
     <HelpPageMain>
@@ -105,6 +132,56 @@ const HelpPage = () => {
                   placeholder="Select Topic"
                   value={filter.topic}
                   onValue={(topic) => setFilter({ ...filter, topic })}
+                  options={[
+                    {
+                      value: 0,
+                      label: 'Platform Features and Usage',
+                    },
+                    {
+                      value: 1,
+                      label: 'Pricing and Subscription Options',
+                    },
+                    {
+                      value: 2,
+                      label: 'Troubleshooting and Technical Support',
+                    },
+                    {
+                      value: 3,
+                      label: 'Campaigns',
+                    },
+                    {
+                      value: 4,
+                      label: 'Social Media Listening',
+                    },
+                    {
+                      value: 5,
+                      label: 'Patient Surveys',
+                    },
+                    {
+                      value: 6,
+                      label: 'Collaborations and Partnerships',
+                    },
+                    {
+                      value: 7,
+                      label: 'Custom Solutions',
+                    },
+                    {
+                      value: 8,
+                      label: 'Scheduling a Demo',
+                    },
+                    {
+                      value: 9,
+                      label: 'GDPR and Data Privacy Queries',
+                    },
+                    {
+                      value: 10,
+                      label: 'Feedback and Suggestions',
+                    },
+                    {
+                      value: 11,
+                      label: 'Other Inquiries',
+                    },
+                  ]}
                 />
                 <Input
                   type="text"
@@ -120,8 +197,9 @@ const HelpPage = () => {
                   value={filter.message}
                   onValue={(message) => setFilter({ ...filter, message })}
                   multiline
+                  rows={5}
                 />
-                <Button color="primary" variant="contained">
+                <Button color="primary" variant="contained" onClick={contact}>
                   Send
                 </Button>
               </Stack>
@@ -131,18 +209,21 @@ const HelpPage = () => {
                 <h2>Get in touch</h2>
                 <Stack>
                   <IconWithText
+                    link="https://calendly.com/patientsinfluence-client/30min"
                     style={{ marginTop: '50px' }}
                     icon={<PhoneCallIcon />}
                     title="Talk with our founder"
                     text={['Schedule a call!']}
                   />
                   <IconWithText
+                    link="mailto:client@patientsinfluence.com"
                     icon={<EnvelopeIcon />}
                     title="Write to our founder"
                     text={['Send an email!']}
                   />
                   <IconWithText
-                    icon={<PhoneCallIcon />}
+                    link="https://goo.gl/maps/mbiouV7WZoXBwqJDA"
+                    icon={<LocationIcon />}
                     title="Visit Us"
                     text={['Riehenring 65, 4058 Basel Switzerland']}
                   />

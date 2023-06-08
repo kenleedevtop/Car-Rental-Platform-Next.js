@@ -2,12 +2,25 @@ import { useEffect, useRef, useState } from 'react';
 
 const useMenu = (initialState: boolean): any => {
   const menuRef = useRef<any>(null);
+  const buttonRef = useRef<any>(null);
 
   const [open, setOpen] = useState<boolean>(initialState);
+
+  const [position, setPosition] = useState<{ right: number; top: number }>({
+    right: 0,
+    top: 0,
+  });
   const openRef = useRef<boolean>(open);
 
   useEffect(() => {
     openRef.current = open;
+    if (open && buttonRef.current && typeof window !== 'undefined') {
+      const rect = buttonRef.current.getBoundingClientRect();
+      setPosition({
+        right: window.innerWidth - rect.right,
+        top: rect.top + rect.height,
+      });
+    }
   }, [open]);
 
   useEffect(() => {
@@ -31,7 +44,7 @@ const useMenu = (initialState: boolean): any => {
     };
   }, []);
 
-  return [menuRef, open, setOpen];
+  return [menuRef, open, setOpen, buttonRef, position];
 };
 
 export default useMenu;

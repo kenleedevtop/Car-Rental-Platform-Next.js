@@ -84,6 +84,8 @@ const ClientsPage = () => {
           ...filterParams,
         });
 
+        setPage(params.page);
+
         setClients(dataFormatted);
         setTotalResults(pagination.totalFilteredItems);
       },

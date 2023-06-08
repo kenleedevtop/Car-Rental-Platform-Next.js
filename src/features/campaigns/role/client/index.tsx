@@ -37,6 +37,7 @@ import {
   AddCampaignModal,
   ExportCampaignsModal,
   CreatedCampaignModal,
+  InPreparationActions,
 } from 'features/campaigns/role/client/elements';
 import { useRouter } from 'next/router';
 import { CampaignAPI } from 'api';
@@ -78,8 +79,6 @@ const CampaignsPage = () => {
     table,
     cell,
   }: TTableRenderItemObject) => {
-    console.log(row.data);
-
     if (headItem.reference === 'campaignName') {
       return row.data.name;
     }
@@ -110,6 +109,10 @@ const CampaignsPage = () => {
 
     if (headItem.reference === 'report') {
       return row.data.report === 1 ? 'Yes' : 'No';
+    }
+
+    if (headItem.reference === 'actions') {
+      return <InPreparationActions data={row.data.id} />;
     }
 
     return '';
@@ -340,7 +343,7 @@ const CampaignsPage = () => {
         description="20 new Affiliates"
         style={
           window.innerWidth < 600
-            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            ? { padding: '1.25rem', boxShadow: 'unset' }
             : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
         }
         actions={[
@@ -569,18 +572,52 @@ const CampaignsPage = () => {
             onValue={setTabs}
             tabs={['In Preparation', 'Ongoing', 'Finished', 'Report Received']}
           />
-          <CheckboxTable
-            head={DCampaignsClientHead}
-            items={campaigns}
-            renderItem={renderItem}
-          />
-          <Pagination
-            onChange={(_e, x) => handlePageChange(x)}
-            page={page}
-            count={pagesCount}
-          />
+          {tabs === 0 && (
+            <>
+              <CheckboxTable
+                head={DCampaignsClientHead}
+                items={campaigns}
+                renderItem={renderItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChange(x)}
+                page={page}
+                count={pagesCount}
+              />
+            </>
+          )}
+          {tabs === 1 && (
+            <>
+              <CheckboxTable
+                head={DCampaignsClientHead}
+                items={[]}
+                renderItem={() => {}}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+          {tabs === 2 && (
+            <>
+              <CheckboxTable
+                head={DCampaignsClientHead}
+                items={[]}
+                renderItem={() => {}}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+          {tabs === 3 && (
+            <>
+              <CheckboxTable
+                head={DCampaignsClientHead}
+                items={[]}
+                renderItem={() => {}}
+              />
+              <Pagination count={32} />
+            </>
+          )}
         </Stack>
-        <Stack direction="horizontal">
+        {/* <Stack direction="horizontal">
           <Button color="primary" variant="contained" onClick={openCcModal}>
             {' '}
             Created Campaign
@@ -593,7 +630,7 @@ const CampaignsPage = () => {
             {' '}
             Finished Action
           </Button>
-        </Stack>
+        </Stack> */}
         {openIp && (
           <Menu
             items={[
@@ -656,14 +693,15 @@ const CampaignsPage = () => {
       </CardWithText>
       {acModal && (
         <AddCampaignModal
-          onClose={() => {
-            reload();
+          refresh={reload}
+          onClose={async () => {
+            await reload();
             closeAcModal();
           }}
         />
       )}
       {ecModal && <ExportCampaignsModal onClose={closeEcModal} />}
-      {ccModal && <CreatedCampaignModal onClose={closeCcModal} />}
+      {/* {ccModal && <CreatedCampaignModal onClose={closeCcModal} />} */}
     </CampaignsPageMain>
   );
 };

@@ -14,10 +14,13 @@ import {
 } from 'api';
 import EnumsApi from 'api/enums';
 import { useSnackbar } from 'hooks';
-import { useAppContext } from 'context';
 import { pick, read } from '@costorgroup/file-manager';
 
-const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
+const AddCampaignModal = ({
+  onClose,
+  refresh,
+  ...props
+}: TAddCampaignsModalProps) => {
   const [state, setState] = useState<any>({
     campaignName: '',
     product: [],
@@ -42,6 +45,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
     struggles: [],
     interests: [],
     influencerSize: null,
+    influencerCount: null,
     targetAudienceInfo: '',
 
     platform: null,
@@ -211,7 +215,7 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
     );
   };
 
-  const [photo, setPhoto] = useState<any>([]);
+  const [photo, setPhoto] = useState<any>(undefined);
 
   const handlePhotos = async () => {
     const file: any = await pick();
@@ -240,29 +244,44 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
     try {
       const body = {
         name: state.campaignName,
-        budget: parseInt(state.budget, 10) || null,
-        diseaseAreaId: state.diseaseArea.value || null,
-        strugglesIds: (state.struggles || []).map((x: any) => x.value),
-        locationId: state.location.value || null,
-        languageId: state.language.value || null,
-        ethnicityIds: (state.ethnicity || []).map((x: any) => x.value),
-        interestIds: (state.interests || []).map((x: any) => x.value),
-        productIds: (state.product || []).map((x: any) => x.value),
-        dateStart: state.startDate || null,
-        dateEnd: state.endDate || null,
-        description: state.campaignInfo || null,
-        influencersCount: 100 || null,
-        influencerSizeId: state.influencerSize.value || null,
-        ageMin: parseInt(state.age.min, 10) || null,
-        ageMax: parseInt(state.age.max, 10) || null,
-        genders: (state.gender || []).map((x: any) => x.value),
-        targetAudienceDescription: state.targetAudienceInfo || null,
-        socialPlatformId: state.platform.value || null,
-        postType: state.postType.value || null,
-        clientCompanyWebsite: state.website || '',
-        instructions: state.instructions || '',
-        report: state.report.value || null,
-        exampleImageUrls: [photo],
+        budget: state.budget ? parseInt(state.budget, 10) : undefined,
+        diseaseAreaId: state.diseaseArea ? state.diseaseArea.value : undefined,
+        struggleIds: state.struggles
+          ? state.struggles.map((x: any) => x.value)
+          : null,
+        stakeholderTypes: state.stakeholders
+          ? state.stakeholders.map((x: any) => x.value)
+          : null,
+        locationId: state.location ? state.location.value : undefined,
+        languageId: state.languaged ? state.language.value : undefined,
+        ethnicityIds: state.ethnicity
+          ? state.ethnicity.map((x: any) => x.value)
+          : [],
+        interestIds: state.interests
+          ? state.interests.map((x: any) => x.value)
+          : [],
+        productIds: state.product ? state.product.map((x: any) => x.value) : [],
+        dateStart: state.startDate ? state.startDate : undefined,
+        dateEnd: state.endDate ? state.endDate : undefined,
+        description: state.campaignInfo ? state.campaignInfo : undefined,
+        influencersCount: state.influencerCount
+          ? state.influencerCount
+          : undefined,
+        influencersSizeId: state.influencerSize
+          ? state.influencerSize.value
+          : undefined,
+        ageMin: state.age.min ? parseInt(state.age.min, 10) : undefined,
+        ageMax: state.age.max ? parseInt(state.age.max, 10) : undefined,
+        genders: state.gender ? state.gender.map((x: any) => x.value) : [],
+        targetAudienceDescription: state.targetAudienceInfo
+          ? state.targetAudienceInfo
+          : undefined,
+        socialPlatformId: state.platform ? state.platform.value : undefined,
+        postType: state.postType ? state.postType.value : undefined,
+        clientCompanyWebsite: state.website ? state.website : '',
+        instructions: state.instructions ? state.instructions : '',
+        report: state.report ? state.report.value : undefined,
+        exampleImageUrls: photo !== undefined ? [photo] : [''],
       };
 
       await CampaignAPI.addCampaign(body);
@@ -283,8 +302,9 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={() => {
+          onClick={async () => {
             createCampaign();
+            refresh();
             onClose();
           }}
         >
@@ -505,6 +525,15 @@ const AddCampaignModal = ({ onClose, ...props }: TAddCampaignsModalProps) => {
               value={state.influencerSize}
               onValue={(input) => setState({ ...state, influencerSize: input })}
               options={influencerSize}
+            />
+            <Input
+              type="number"
+              label="Influencer Count"
+              placeholder="Please Select"
+              value={state.influencerCount}
+              onValue={(input) =>
+                setState({ ...state, influencerCount: input })
+              }
             />
             <GridCell columnSpan={2}>
               <Input

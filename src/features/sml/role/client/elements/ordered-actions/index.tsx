@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   OrderedActionsMain,
   OrderedActionsMenu,
+  ISpan,
 } from 'features/sml/role/client/elements/ordered-actions/styles';
 import { useMenu, useModal } from 'hooks';
 import {
@@ -17,13 +18,14 @@ import {
 //   ScheduleInfluencerModal,
 // } from 'features/sml/role/client/elements';
 import { TOrderedActionsMenuProps } from 'features/sml/role/client/elements/ordered-actions/types';
+import { useRouter } from 'next/router';
 
 const DiscoverActions = ({
   data,
   refreshInfluencers,
   ...props
 }: TOrderedActionsMenuProps) => {
-  const [menu, open, setOpen] = useMenu(false);
+  const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
@@ -34,30 +36,40 @@ const DiscoverActions = ({
   // const [niModal, openNiModal, closeNiModal] = useModal(false);
   // const [diModal, openDiModal, closeDiModal] = useModal(false);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  const router = useRouter();
 
   return (
-    <OrderedActionsMain>
-      <VerticalDotsIcon onClick={handleMenu} />
+    <OrderedActionsMain {...props}>
+      <ISpan onClick={handleMenu} ref={buttonRef}>
+        <VerticalDotsIcon />
+      </ISpan>
       {open && (
         <OrderedActionsMenu
+          position={position}
           items={[
-            {
-              icon: <OrderedIcon />,
-              label: 'Order',
-              action: () => {},
-            },
+            // {
+            //   icon: <OrderedIcon />,
+            //   label: 'Order',
+            //   action: () => {},
+            // },
             {
               icon: <ContactIcon />,
               label: 'Contact',
-              action: () => {},
+              action: () => {
+                router.push('mailto:client@patientsinfluence.com');
+                handleMenu();
+                // window.location.href = `mailto:client@patientsinfluence.com`;
+              },
             },
             {
               icon: <ScheduleIcon />,
               label: 'Schedule',
-              action: () => {},
+              action: () => {
+                router.push(
+                  'https://calendly.com/patientsinfluence-client/30min'
+                );
+                handleMenu();
+              },
             },
           ]}
           ref={menu}

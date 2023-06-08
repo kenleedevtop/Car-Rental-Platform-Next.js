@@ -111,6 +111,8 @@ const DiscoverClientsPage = () => {
         ...filterIParams,
       });
 
+      setPage(params.page);
+
       setClientsIdentified(data);
       setTotalResultsI(pagination.totalFilteredItems);
     },
@@ -131,6 +133,8 @@ const DiscoverClientsPage = () => {
         skip: params.skip,
         ...filterCParams,
       });
+
+      setPage(params.page);
 
       setClientsContacted(data);
       setTotalResultsC(pagination.totalFilteredItems);
@@ -153,6 +157,8 @@ const DiscoverClientsPage = () => {
         ...filterRParams,
       });
 
+      setPage(params.page);
+
       setClientsRegistered(data);
       setTotalResultsR(pagination.totalFilteredItems);
     },
@@ -173,6 +179,8 @@ const DiscoverClientsPage = () => {
         skip: params.skip,
         ...filterSParams,
       });
+
+      setPage(params.page);
 
       setClientsScheduled(data);
       setTotalResultsS(pagination.totalFilteredItems);

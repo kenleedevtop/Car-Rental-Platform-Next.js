@@ -78,7 +78,7 @@ const Table = ({
           </Button>
         </Stack>
       )}
-      <TableWrapper filled>
+      <TableWrapper>
         <TableMain>
           <TableHead>
             <TableHeadRow>

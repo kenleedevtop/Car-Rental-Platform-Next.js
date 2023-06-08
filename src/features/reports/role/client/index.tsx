@@ -37,6 +37,7 @@ import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
   ExportReportsModal,
   CreateReportsModal,
+  WithoutReportActions,
 } from 'features/reports/role/client/elements';
 import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
@@ -78,26 +79,49 @@ const ReportsPage = () => {
     setOpenD(!openD);
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'campaign') {
+      return row.data.campaign.name;
+    }
+    if (headItem.reference === 'type') {
+      return row.data.reportType === 1 ? 'Yes' : 'No';
+    }
+    if (headItem.reference === 'budget') {
+      return `${row.data.platformProductOrder.budget} CHF`;
+    }
+    if (headItem.reference === 'costPerClick') {
+      return row.data.costPerClick;
+    }
+    if (headItem.reference === 'costPerTarget') {
+      return row.data.costPerTarget;
+    }
+    if (headItem.reference === 'actions') {
+      return <WithoutReportActions />;
+    }
+
+    return '';
+  };
 
   const router = useRouter();
 
+  const [reports, setReports] = useState<any>([]);
+
   const [filterParams, setFilterParams] = useState({});
 
-  // const { pagesCount, page, setTotalResults, handlePageChange, reload } =
-  //   usePagination({
-  //     limit: 10,
-  //     page: 1,
-  //     onChange: async (params, setPage) => {
-  //       const { result, meta } = await CampaignAPI.getReportForCampaign({
-  //         limit: params.limit,
-  //         skip: params.skip,
-  //         ...filterParams,
-  //       });
-  //       setCampaigns(result);
-  //       setTotalResults(meta.countFiltered);
-  //     },
-  //   });
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await CampaignAPI.getReports({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setReports(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
 
   return (
     <ReportsPageMain>
@@ -352,13 +376,52 @@ const ReportsPage = () => {
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <CheckboxTable
-            head={DReportsClientHead}
-            items={[]}
-            renderItem={renderItem}
-          />
-          <Pagination count={32} />
-          <Stack direction="horizontal">
+
+          {tabsValue === 0 && (
+            <>
+              <CheckboxTable
+                head={DReportsClientHead}
+                items={reports}
+                renderItem={renderItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChange(x)}
+                page={page}
+                count={pagesCount}
+              />
+            </>
+          )}
+          {tabsValue === 1 && (
+            <>
+              <CheckboxTable
+                head={DReportsClientHead}
+                items={[]}
+                renderItem={() => {}}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+          {tabsValue === 2 && (
+            <>
+              <CheckboxTable
+                head={DReportsClientHead}
+                items={[]}
+                renderItem={() => {}}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+          {tabsValue === 3 && (
+            <>
+              <CheckboxTable
+                head={DReportsClientHead}
+                items={[]}
+                renderItem={() => {}}
+              />
+              <Pagination count={32} />
+            </>
+          )}
+          {/* <Stack direction="horizontal">
             <Button variant="contained" color="primary" onClick={handleMenuWr}>
               Without Report Action
             </Button>
@@ -371,7 +434,7 @@ const ReportsPage = () => {
             <Button variant="contained" color="primary" onClick={handleMenuD}>
               Delivered Action
             </Button>
-          </Stack>
+          </Stack> */}
         </Stack>
         {openWr && (
           <Menu
@@ -468,7 +531,15 @@ const ReportsPage = () => {
         )}
       </CardWithText>
       {erModal && <ExportReportsModal onClose={closeErModal} />}
-      {crModal && <CreateReportsModal onClose={closeCrModal} />}
+      {crModal && (
+        <CreateReportsModal
+          refresh={reload}
+          onClose={async () => {
+            reload();
+            closeCrModal();
+          }}
+        />
+      )}
     </ReportsPageMain>
   );
 };

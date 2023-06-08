@@ -8,6 +8,8 @@ export const MenuMain = styled(Card)<{ theme?: Theme }>`
     padding: ${theme.spacing(2.5)} 0;
     overflow: hidden;
     z-index: ${theme.zIndex.drawer};
+    user-select: none;
+    box-shadow: ${theme.shadows[1]};
   `}
 `;
 

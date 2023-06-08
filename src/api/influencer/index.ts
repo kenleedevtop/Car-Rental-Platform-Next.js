@@ -44,7 +44,7 @@ const InfluencerAPI = {
       `${Project.apis.v1}/influencer/discoverInfluencers?stage=registered`,
       {
         params: {
-          filters,
+          ...filters,
         },
       }
     );
@@ -57,7 +57,7 @@ const InfluencerAPI = {
       `${Project.apis.v1}/influencer/discoverInfluencers?stage=toBeApproved`,
       {
         params: {
-          filters,
+          ...filters,
         },
       }
     );

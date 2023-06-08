@@ -18,6 +18,7 @@ import { useSnackbar } from 'hooks';
 const ChangeInfoModal = ({
   onClose,
   data,
+  refresh,
   ...props
 }: TChangeInfoModalProps) => {
   const [state, setState] = useState<any>({
@@ -187,6 +188,7 @@ const ChangeInfoModal = ({
           size="large"
           onClick={() => {
             handleUpdate();
+            refresh();
             onClose();
           }}
         >

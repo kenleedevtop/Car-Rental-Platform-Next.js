@@ -18,6 +18,7 @@ import { useSnackbar } from 'hooks';
 
 const CreateSurveysModal = ({
   onClose,
+  refresh,
   ...props
 }: TCreateSurveysModalProps) => {
   const [state, setState] = useState<any>({
@@ -36,8 +37,8 @@ const CreateSurveysModal = ({
     diseaseArea: null,
     gender: [],
     ageRange: {
-      min: '',
-      max: '',
+      min: null,
+      max: null,
     },
     ethnicity: [],
     struggles: [],
@@ -207,33 +208,53 @@ const CreateSurveysModal = ({
     try {
       const body = {
         name: state.surveyName || '',
-        budget: parseInt(state.budget, 10) || null,
-        diseaseAreaId: state.diseaseArea.value || null,
-        struggleIds: (state.struggles || []).map((x: any) => x.value),
-        locationId: state.location.value || null,
-        languageId: state.language.value || null,
-        ethnicityIds: (state.ethnicity || []).map((x: any) => x.value),
-        interestIds: (state.interests || []).map((x: any) => x.value),
-        productIds: (state.product || []).map((x: any) => x.value),
-        dateStart: state.startDate || null,
-        dateEnd: state.endDate || null,
-        description: state.surveyInfo || null,
-        participantsCount: parseInt(state.participants, 10) || null,
-        questionsCount: parseInt(state.questionsCount, 10) || null,
-        ageMin: parseInt(state.ageRange.min, 10) || null,
-        ageMax: parseInt(state.ageRange.max, 10) || null,
-        genders: (state.gender || []).map((x: any) => x.value),
-        participantsDescription: state.targetAudInfo || '',
-        surveyType: state.surveyType.value || null,
-        exampleImageUrls: [photo] || state.materials,
-        instructions: state.instructions || '',
-        tokens: state.tokens.value || null,
-        questionCredits: parseInt(state.questionCredits, 10) || null,
+        budget: state.budget ? parseInt(state.budget, 10) : undefined,
+        diseaseAreaId: state.diseaseArea ? state.diseaseArea.value : undefined,
+        struggleIds: state.struggles
+          ? state.struggles.map((x: any) => x.value)
+          : [],
+        locationId: state.location ? state.location.value : undefined,
+        languageId: state.language ? state.language.value : undefined,
+        ethnicityIds: state.ethnicity
+          ? state.ethnicity.map((x: any) => x.value)
+          : [],
+        interestIds: state.interests
+          ? state.interests.map((x: any) => x.value)
+          : [],
+        productIds: state.product ? state.product.map((x: any) => x.value) : [],
+        dateStart: state.startDate ? state.startDate : undefined,
+        dateEnd: state.endDate ? state.endDate : undefined,
+        description: state.surveyInfo ? state.surveyInfo : '',
+        participantsCount: state.participants
+          ? parseInt(state.participants, 10)
+          : undefined,
+        questionsCount: state.questionCount
+          ? parseInt(state.questionsCount, 10)
+          : undefined,
+        ageMin: state.ageRange.min
+          ? parseInt(state.ageRange.min, 10)
+          : undefined,
+        ageMax: state.ageRange.max
+          ? parseInt(state.ageRange.max, 10)
+          : undefined,
+        genders: state.gender
+          ? state.gender.map((x: any) => x.value)
+          : undefined,
+        participantsDescription: state.targetAudInfo ? state.targetAudInfo : '',
+        surveyType: state.surveyType ? state.surveyType.value : undefined,
+        exampleImageUrls: [photo] || [''],
+        instructions: state.instructions ? state.instructions : '',
+        tokens: state.tokens ? state.tokens.value : undefined,
+        questionCredits: state.questionsCredit
+          ? parseInt(state.questionCredits, 10)
+          : undefined,
       };
       await SurveyAPI.createSurvey(body);
 
       push('Survey successfully added.', { variant: 'success' });
-    } catch {
+    } catch (e) {
+      console.error(e);
+
       push('Survey add failed.', { variant: 'error' });
     }
   };
@@ -247,8 +268,9 @@ const CreateSurveysModal = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={() => {
+          onClick={async () => {
             createSurvey();
+            refresh();
             onClose();
           }}
         >

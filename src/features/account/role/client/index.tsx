@@ -54,74 +54,6 @@ const AccountPage = ({ ...props }) => {
     getClient();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(data);
-
-  //   if (Object.keys(data).length > 0) {
-  //     setState({
-  //       ...state,
-  //       firstName: data.firstName,
-  //       lastName: data.lastName,
-  //       email: data.email,
-  //       company: {
-  //         value: data.client.company.id,
-  //         label: data.client.company.name,
-  //       },
-  //       role: {
-  //         value: data.client.companyTitle.id,
-  //         label: data.client.companyTitle.name,
-  //       },
-  //     });
-
-  //     if (data.client.clientDiseaseAreas) {
-  //       setState({
-  //         ...state,
-  //         diseaseArea: data.client.clientDiseaseAreas.map((x: any) => ({
-  //           value: x.diseaseArea.id,
-  //           label: x.diseaseArea.name,
-  //         })),
-  //       });
-  //     }
-
-  //     if (data.location) {
-  //       setState({
-  //         ...state,
-  //         location: { value: data.location.id, label: data.location.name },
-  //       });
-  //     }
-
-  //     if (data.client.industry) {
-  //       setState({
-  //         ...state,
-  //         industry: {
-  //           value: data.client.industry.id,
-  //           label: data.client.industry.name,
-  //         },
-  //       });
-  //     }
-
-  //     if (data.client.clientMarkets) {
-  //       setState({
-  //         ...state,
-  //         markets: data.client.clientMarkets.map((x: any) => ({
-  //           value: x.location.id,
-  //           label: x.location.name,
-  //         })),
-  //       });
-  //     }
-
-  //     if (data.client.clientProducts) {
-  //       setState({
-  //         ...state,
-  //         product: data.client.clientProducts.map((x: any) => ({
-  //           value: x.product.id,
-  //           label: x.product.name,
-  //         })),
-  //       });
-  //     }
-  //   }
-  // }, [data]);
-
   useEffect(() => {
     console.log(data);
 
@@ -193,7 +125,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="text"
               label="First Name"
-              placeholder="Please Enter"
               value={state.firstName}
               onValue={(firstName) => setState({ ...state, firstName })}
               disabled
@@ -201,7 +132,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="text"
               label="Last Name"
-              placeholder="Please Enter"
               value={state.lastName}
               onValue={(lastName) => setState({ ...state, lastName })}
               disabled
@@ -211,7 +141,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="select"
               label="Company"
-              placeholder="Please Select"
               value={state.company}
               onValue={(company) => setState({ ...state, company })}
               disabled
@@ -219,7 +148,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="select"
               label="Role"
-              placeholder="Please Select"
               value={state.role}
               onValue={(role) => setState({ ...state, role })}
               disabled
@@ -229,7 +157,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="select"
               label="Location"
-              placeholder="Please Select"
               value={state.location}
               onValue={(location) => setState({ ...state, location })}
               disabled
@@ -237,7 +164,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="select"
               label="Industry"
-              placeholder="Please Select"
               value={state.industry}
               onValue={(industry) => setState({ ...state, industry })}
               disabled
@@ -247,7 +173,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="multiselect"
               label="Disease Areas"
-              placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
               disabled
@@ -255,7 +180,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="multiselect"
               label="Markets"
-              placeholder="Please Select"
               value={state.markets}
               onValue={(markets) => setState({ ...state, markets })}
               disabled
@@ -265,7 +189,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="multiselect"
               label="Product"
-              placeholder="Please Select"
               value={state.product}
               onValue={(product) => setState({ ...state, product })}
               disabled
@@ -274,7 +197,6 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Invited By"
               disabled
-              placeholder="Please Select"
               value={state.invitedBy}
               onValue={(invitedBy) => setState({ ...state, invitedBy })}
             />
@@ -284,7 +206,6 @@ const AccountPage = ({ ...props }) => {
             <Input
               type="text"
               label="Email"
-              placeholder="johndoe@gmail.com"
               value={state.email}
               onValue={(email) => setState({ ...state, email })}
               disabled
@@ -312,6 +233,7 @@ const AccountPage = ({ ...props }) => {
       {ciModal && (
         <ChangeInfoModal
           data={state}
+          refresh={getClient}
           onClose={() => {
             getClient();
             closeCiModal();

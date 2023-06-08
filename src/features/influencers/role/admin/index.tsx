@@ -170,6 +170,8 @@ const InfluencersPage = () => {
             ...filterParams,
           });
 
+        setPage(params.page);
+
         setInfluencers(dataFormatted);
         setTotalResults(pagination.totalFilteredItems);
       },

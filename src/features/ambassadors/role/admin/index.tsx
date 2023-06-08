@@ -73,6 +73,8 @@ const AdminAmbassadorsPage = () => {
           ...filterParams,
         });
 
+        setPage(params.page);
+
         setAmbassadors(result);
         setTotalResults(meta.countFiltered);
       },

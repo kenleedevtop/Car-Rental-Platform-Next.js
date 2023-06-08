@@ -16,6 +16,12 @@ const SurveyAPI = {
 
     return data;
   },
+
+  getSurvey: async (id: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/surveys/${id}`);
+
+    return data;
+  },
 };
 
 export default SurveyAPI;

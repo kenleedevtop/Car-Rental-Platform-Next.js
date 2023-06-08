@@ -45,6 +45,10 @@ const UsersAPI = {
       body
     );
   },
+
+  contactAdmin: async (body: any) => {
+    await client.post(`${Project.apis.v1}/users/contactAdmins`, body);
+  },
 };
 
 export default UsersAPI;

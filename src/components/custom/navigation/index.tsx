@@ -39,8 +39,8 @@ import { useRouter } from 'next/router';
 import Tooltip from '../tooltip';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
-  const [menuRef, open, setOpen] = useMenu(false);
-  const [currencyRef, openR, setOpenR] = useMenu(false);
+  const [menuRef, open, setOpen, buttonRef, position] = useMenu(false);
+  const [currencyRef, openR, setOpenR, buttonRefC, positionC] = useMenu(false);
 
   // const [search, setSearch] = useState('');
 
@@ -123,13 +123,14 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           <>
             <NavigationCurrency onClick={handleCurrencyMenu}>
               Currency: {currency}{' '}
-              <BalanceIcon expanded={openR}>
+              <BalanceIcon ref={buttonRefC} expanded={openR}>
                 {' '}
                 <ArrowDownIcon />{' '}
               </BalanceIcon>{' '}
             </NavigationCurrency>
             {openR && (
               <NavigationBalanceDropdown
+                position={positionC}
                 items={[
                   {
                     icon: '€',
@@ -167,17 +168,18 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         <NavigationProfileOuter>
           <NavigationProfile onClick={handleMenu}>
             <NavigationProfileName>{`${user?.firstName} ${user?.lastName}`}</NavigationProfileName>
-            {['CLIENT', 'ADMIN'].includes(role) && (
+            {['ADMIN'].includes(role) && (
               <NavigationProfileImage image="https://static.intercomassets.com/avatars/5017590/square_128/NIX-1623671396.jpg">
                 IJ
               </NavigationProfileImage>
             )}
-            <NavigationProvileIcon expanded={open}>
+            <NavigationProvileIcon ref={buttonRef} expanded={open}>
               <ArrowDownIcon />
             </NavigationProvileIcon>
           </NavigationProfile>
           {open && ['ADMIN', 'SUPERADMIN'].includes(role) && (
             <NavigationProfileDropdown
+              position={position}
               items={[
                 {
                   icon: <AccountIcon />,
@@ -198,6 +200,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           )}
           {open && ['INFLUENCER', 'CLIENT', 'AMBASSADOR'].includes(role) && (
             <NavigationProfileDropdown
+              position={position}
               items={[
                 {
                   icon: <LogoutIcon />,

@@ -157,19 +157,16 @@ export const NavigationProfileImage = styled(Avatar)<{ theme?: Theme }>`
 
 export const NavigationSearch = styled(Search)<{ theme?: Theme }>``;
 
-export const NavigationProfileDropdown = styled(Menu)<{ theme?: Theme }>`
-  ${({ theme }) => `
-      position: absolute;
-      left: 0px;
-      top: 100%;
-      z-index: 200;
-      width: 100%;
-
-      ${theme.breakpoints.down('lg')} {
-        left: unset;
-        right: 0;
-        width: 120px;
-      }
+export const NavigationProfileDropdown = styled(Menu)<{
+  theme?: Theme;
+  position: { right: number; top: number };
+}>`
+  ${({ theme, position }) => `
+  position: fixed;
+  z-index: 200;
+  width: 120px;
+  right: ${position?.right}px;
+  top: ${position?.top}px;
   `}
 `;
 
@@ -234,19 +231,16 @@ export const NavigationMenuButton = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const NavigationBalanceDropdown = styled(Menu)<{ theme?: Theme }>`
-  ${({ theme }) => `
-      position: absolute;
-      right: 220px;
-      top: 60px;
-      z-index: 200;
-      width: 150px;
-
-      ${theme.breakpoints.down('lg')} {
-        left: unset;
-        right: 0;
-        width: 120px;
-      }
+export const NavigationBalanceDropdown = styled(Menu)<{
+  theme?: Theme;
+  position: { right: number; top: number };
+}>`
+  ${({ theme, position }) => `
+  position: fixed;
+  z-index: 200;
+  width: 120px;
+  right: ${position?.right}px;
+  top: ${position?.top}px;
   `}
 `;
 

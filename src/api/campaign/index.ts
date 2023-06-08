@@ -34,7 +34,7 @@ const CampaignAPI = {
   },
 
   getSingleCampaign: async (id: TSingleCampaign) => {
-    const { data } = await client.post(`${Project.apis.v1}/campaign/${id}`);
+    const { data } = await client.get(`${Project.apis.v1}/campaign/${id}`);
 
     return data;
   },
@@ -125,6 +125,20 @@ const CampaignAPI = {
     const { data } = await client.get(
       `${Project.apis.v1}/insight/campaigns/campaignsRevenueOverTimedata`
     );
+
+    return data;
+  },
+
+  createReport: async (body: any) => {
+    await client.post(`${Project.apis.v1}/campaign/reports`, body);
+  },
+
+  getReports: async (filter: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/campaign/reports`, {
+      params: {
+        filter,
+      },
+    });
 
     return data;
   },

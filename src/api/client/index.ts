@@ -24,44 +24,52 @@ const ClientAPI = {
     return data;
   },
 
-  getDClientsIdentified: async (params?: any) => {
+  getDClientsIdentified: async (filters?: any) => {
     const { data } = await client.get(
       `${Project.apis.v1}/client/discoverClients?stage=identified`,
       {
-        params,
+        params: {
+          ...filters,
+        },
       }
     );
 
     return data;
   },
 
-  getDClientsContacted: async (params?: any) => {
+  getDClientsContacted: async (filters?: any) => {
     const { data } = await client.get(
       `${Project.apis.v1}/client/discoverClients?stage=contacted`,
       {
-        params,
+        params: {
+          ...filters,
+        },
       }
     );
 
     return data;
   },
 
-  getDClientsRegistered: async (params?: any) => {
+  getDClientsRegistered: async (filters?: any) => {
     const { data } = await client.get(
       `${Project.apis.v1}/client/discoverClients?stage=registered`,
       {
-        params,
+        params: {
+          ...filters,
+        },
       }
     );
 
     return data;
   },
 
-  getDClientsScheduled: async (params?: any) => {
+  getDClientsScheduled: async (filters?: any) => {
     const { data } = await client.get(
       `${Project.apis.v1}/client/discoverClients?stage=scheduled`,
       {
-        params,
+        params: {
+          ...filters,
+        },
       }
     );
 

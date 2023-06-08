@@ -1,8 +1,16 @@
+import dynamic from 'next/dynamic';
+
 export { default as LocalizationSelect } from 'components/custom/localization-select';
 export { default as ProgressDisplay } from 'components/custom/progress-display';
 export { default as Note } from 'components/custom/note';
 export { default as HighlightedText } from 'components/custom/highlighted-text';
+
+// export const Menu = dynamic(() => import('components/custom/menu'), {
+//   ssr: false,
+// });
+
 export { default as Menu } from 'components/custom/menu';
+
 export { default as Modal } from 'components/custom/modal';
 export { default as Navigation } from 'components/custom/navigation';
 export { default as Sidebar } from 'components/custom/sidebar';

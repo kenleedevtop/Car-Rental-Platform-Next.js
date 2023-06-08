@@ -12,21 +12,15 @@ import {
   CheckboxTable,
   Menu,
   Tabs,
-  Title,
 } from 'components/custom';
 import {
   ContactIcon,
-  ContactedIcon,
-  IdentifiedIcon,
   InfoIcon,
   ManageIcon,
   OngoingIcon,
   OrderedIcon,
-  RegisteredIcon,
   SMLSmallIcon,
   ScheduleIcon,
-  SlidersHorizontalIcon,
-  TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Pagination } from 'components/ui';
@@ -38,13 +32,9 @@ import {
   CreateSmlTabsModal,
   ExportSmlModal,
   OrderedActions,
-  //   CreateSmlModal,
-  //   OrderSmlModal,
-  //   CreateSmlTabsModal,
-  //   CreateSmlFinal,
 } from 'features/sml/role/client/elements';
 import { useMenu, useModal, usePagination } from 'hooks';
-import { DiseaseAreaAPI, SMLApi } from 'api';
+import { SMLApi } from 'api';
 import SubscriptionIcon from 'components/svg/subscriptions';
 import ReccomendedIcon from 'components/svg/recommended';
 
@@ -313,69 +303,259 @@ const SmlPage = () => {
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <CheckboxTable
-            head={[
-              {
-                reference: 'diseaseArea',
-                label: 'Disease Area',
-                visible: true,
-              },
-              {
-                reference: 'subscription',
-                label: 'Subscription',
-                visible: true,
-              },
-              {
-                reference: 'tokens',
-                label: 'Tokens',
-                visible: true,
-              },
-              {
-                reference: 'budget',
-                label: 'Budget (Monthly)',
-                visible: false,
-              },
-              {
-                reference: 'socialMedia',
-                label: 'Social Media',
-                visible: true,
-              },
-              {
-                reference: 'totalTokensUsed',
-                label: 'Total Tokens Used',
-                visible: false,
-              },
-              {
-                reference: 'tokensUsedThisMonth',
-                label: 'Tokens Used This Month',
-                visible: false,
-              },
-              {
-                reference: 'startDate',
-                label: 'Start Date',
-                visible: false,
-              },
-              {
-                reference: 'endDate',
-                label: 'End Date',
-                visible: true,
-              },
-              {
-                reference: 'actions',
-                label: 'Actions',
-                visible: true,
-              },
-            ]}
-            items={sml}
-            renderItem={renderItem}
-          />
+          {tabsValue === 0 && (
+            <>
+              <CheckboxTable
+                head={[
+                  {
+                    reference: 'diseaseArea',
+                    label: 'Disease Area',
+                    visible: true,
+                  },
+                  {
+                    reference: 'subscription',
+                    label: 'Subscription',
+                    visible: true,
+                  },
+                  {
+                    reference: 'tokens',
+                    label: 'Tokens',
+                    visible: true,
+                  },
+                  {
+                    reference: 'budget',
+                    label: 'Budget (Monthly)',
+                    visible: false,
+                  },
+                  {
+                    reference: 'socialMedia',
+                    label: 'Social Media',
+                    visible: true,
+                  },
+                  {
+                    reference: 'totalTokensUsed',
+                    label: 'Total Tokens Used',
+                    visible: false,
+                  },
+                  {
+                    reference: 'tokensUsedThisMonth',
+                    label: 'Tokens Used This Month',
+                    visible: false,
+                  },
+                  {
+                    reference: 'startDate',
+                    label: 'Start Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'endDate',
+                    label: 'End Date',
+                    visible: true,
+                  },
+                  {
+                    reference: 'actions',
+                    label: 'Actions',
+                    visible: true,
+                  },
+                ]}
+                items={sml}
+                renderItem={renderItem}
+              />
 
-          <Pagination
-            onChange={(_e, x) => handlePageChange(x)}
-            page={page}
-            count={pagesCount}
-          />
+              <Pagination
+                onChange={(_e, x) => handlePageChange(x)}
+                page={page}
+                count={pagesCount}
+              />
+            </>
+          )}
+          {tabsValue === 1 && (
+            <>
+              <CheckboxTable
+                head={[
+                  {
+                    reference: 'diseaseArea',
+                    label: 'Disease Area',
+                    visible: true,
+                  },
+                  {
+                    reference: 'subscription',
+                    label: 'Subscription',
+                    visible: true,
+                  },
+                  {
+                    reference: 'tokens',
+                    label: 'Tokens',
+                    visible: true,
+                  },
+                  {
+                    reference: 'budget',
+                    label: 'Budget (Monthly)',
+                    visible: false,
+                  },
+                  {
+                    reference: 'socialMedia',
+                    label: 'Social Media',
+                    visible: true,
+                  },
+                  {
+                    reference: 'totalTokensUsed',
+                    label: 'Total Tokens Used',
+                    visible: false,
+                  },
+                  {
+                    reference: 'tokensUsedThisMonth',
+                    label: 'Tokens Used This Month',
+                    visible: false,
+                  },
+                  {
+                    reference: 'startDate',
+                    label: 'Start Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'endDate',
+                    label: 'End Date',
+                    visible: true,
+                  },
+                  {
+                    reference: 'actions',
+                    label: 'Actions',
+                    visible: true,
+                  },
+                ]}
+                items={[]}
+                renderItem={() => {}}
+              />
 
+              <Pagination count={32} />
+            </>
+          )}
+          {tabsValue === 2 && (
+            <>
+              <CheckboxTable
+                head={[
+                  {
+                    reference: 'diseaseArea',
+                    label: 'Disease Area',
+                    visible: true,
+                  },
+                  {
+                    reference: 'subscription',
+                    label: 'Subscription',
+                    visible: true,
+                  },
+                  {
+                    reference: 'tokens',
+                    label: 'Tokens',
+                    visible: true,
+                  },
+                  {
+                    reference: 'budget',
+                    label: 'Budget (Monthly)',
+                    visible: false,
+                  },
+                  {
+                    reference: 'socialMedia',
+                    label: 'Social Media',
+                    visible: true,
+                  },
+                  {
+                    reference: 'totalTokensUsed',
+                    label: 'Total Tokens Used',
+                    visible: false,
+                  },
+                  {
+                    reference: 'tokensUsedThisMonth',
+                    label: 'Tokens Used This Month',
+                    visible: false,
+                  },
+                  {
+                    reference: 'startDate',
+                    label: 'Start Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'endDate',
+                    label: 'End Date',
+                    visible: true,
+                  },
+                  {
+                    reference: 'actions',
+                    label: 'Actions',
+                    visible: true,
+                  },
+                ]}
+                items={[]}
+                renderItem={() => {}}
+              />
+
+              <Pagination count={32} />
+            </>
+          )}
+          {tabsValue === 3 && (
+            <>
+              <CheckboxTable
+                head={[
+                  {
+                    reference: 'diseaseArea',
+                    label: 'Disease Area',
+                    visible: true,
+                  },
+                  {
+                    reference: 'subscription',
+                    label: 'Subscription',
+                    visible: true,
+                  },
+                  {
+                    reference: 'tokens',
+                    label: 'Tokens',
+                    visible: true,
+                  },
+                  {
+                    reference: 'budget',
+                    label: 'Budget (Monthly)',
+                    visible: false,
+                  },
+                  {
+                    reference: 'socialMedia',
+                    label: 'Social Media',
+                    visible: true,
+                  },
+                  {
+                    reference: 'totalTokensUsed',
+                    label: 'Total Tokens Used',
+                    visible: false,
+                  },
+                  {
+                    reference: 'tokensUsedThisMonth',
+                    label: 'Tokens Used This Month',
+                    visible: false,
+                  },
+                  {
+                    reference: 'startDate',
+                    label: 'Start Date',
+                    visible: false,
+                  },
+                  {
+                    reference: 'endDate',
+                    label: 'End Date',
+                    visible: true,
+                  },
+                  {
+                    reference: 'actions',
+                    label: 'Actions',
+                    visible: true,
+                  },
+                ]}
+                items={[]}
+                renderItem={() => {}}
+              />
+
+              <Pagination count={32} />
+            </>
+          )}
+          {/* 
           <Stack direction="horizontal">
             <Button variant="contained" onClick={handleMenuR}>
               Reccomended actions
@@ -392,7 +572,7 @@ const SmlPage = () => {
             <Button variant="contained" onClick={openCstModal}>
               Create SML Tabs
             </Button>
-          </Stack>
+          </Stack> */}
           {/* {openR && (
             <Menu
               items={[
@@ -491,7 +671,7 @@ const SmlPage = () => {
       {esModal && <ExportSmlModal onClose={closeEsModal} />}
       {csModal && (
         <CreateSmlModal
-          onClose={() => {
+          onClose={async () => {
             reload();
             closeCsModal();
           }}
