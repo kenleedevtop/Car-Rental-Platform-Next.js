@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'components/custom';
+import { CurrencyFeedback, Modal, Note, Tabs } from 'components/custom';
 import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
 import { AddCampaignsModalMain } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
@@ -44,7 +44,7 @@ const AddCampaignModal = ({
     ethnicity: [],
     struggles: [],
     interests: [],
-    influencerSize: null,
+    influencerSize: [],
     influencerCount: null,
     targetAudienceInfo: '',
 
@@ -253,7 +253,7 @@ const AddCampaignModal = ({
           ? state.stakeholders.map((x: any) => x.value)
           : null,
         locationId: state.location ? state.location.value : undefined,
-        languageId: state.languaged ? state.language.value : undefined,
+        languageId: state.language ? state.language.value : undefined,
         ethnicityIds: state.ethnicity
           ? state.ethnicity.map((x: any) => x.value)
           : [],
@@ -281,7 +281,7 @@ const AddCampaignModal = ({
         clientCompanyWebsite: state.website ? state.website : '',
         instructions: state.instructions ? state.instructions : '',
         report: state.report ? state.report.value : undefined,
-        exampleImageUrls: photo !== undefined ? [photo] : [''],
+        exampleImageUrls: photo !== undefined ? [photo] : undefined,
       };
 
       await CampaignAPI.addCampaign(body);
@@ -302,7 +302,7 @@ const AddCampaignModal = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={async () => {
+          onClick={() => {
             createCampaign();
             refresh();
             onClose();
@@ -335,12 +335,12 @@ const AddCampaignModal = ({
             </GridCell>
             <Input
               type="multiselect"
-              label="Product"
+              label="Products"
               placeholder="Please Select"
               value={state.product}
               onValue={(input) => setState({ ...state, product: input })}
               options={product}
-              onSearch={debounce(getProducts, 1000)}
+              onSearch={debounce(getProducts, 250)}
               onNewTag={handleNewProductTag}
               loading={loading}
             />
@@ -370,38 +370,18 @@ const AddCampaignModal = ({
               onValue={(input) => setState({ ...state, report: input })}
               options={report}
             />
-            <InputGroup
-              label="Budget"
-              inputRatio="100px 1fr"
-              elements={[
-                {
-                  value: state.currency,
-                  onValue: (currency) => setState({ ...state, currency }),
-                  type: 'select',
-                  placeholder: 'CHF',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                    {
-                      value: 'chf',
-                      label: 'CHF',
-                    },
-                  ],
-                },
-                {
-                  value: state.budget,
-                  onValue: (budget) => setState({ ...state, budget }),
-                  type: 'text',
-                  placeholder: 'Please Enter',
-                },
-              ]}
-            />
+            <Stack>
+              <Input
+                label="Budget"
+                value={state.budget}
+                onValue={(budget) => setState({ ...state, budget })}
+                type="text"
+                placeholder="Please Enter"
+                startAdornment="CHF"
+              />
+              <CurrencyFeedback value={state.budget} />
+            </Stack>
+
             <GridCell columnSpan={2}>
               <Input
                 multiline
@@ -423,7 +403,7 @@ const AddCampaignModal = ({
               placeholder="Please Select"
               value={state.location}
               onValue={(input) => setState({ ...state, location: input })}
-              onSearch={debounce(getLocations, 1000)}
+              onSearch={debounce(getLocations, 250)}
               loading={loading}
               options={location}
             />
@@ -458,11 +438,11 @@ const AddCampaignModal = ({
             />
             <Input
               type="select"
-              label="Disease Areas"
+              label="Disease Area"
               placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
-              onSearch={debounce(getDiseaseAreas, 1000)}
+              onSearch={debounce(getDiseaseAreas, 250)}
               loading={loading}
               options={diseaseAreas}
             />
@@ -477,7 +457,7 @@ const AddCampaignModal = ({
             />
             <Input
               type="multiselect"
-              label="Gender"
+              label="Genders"
               placeholder="Please Select"
               value={state.gender}
               onValue={(input) => setState({ ...state, gender: input })}
@@ -493,7 +473,7 @@ const AddCampaignModal = ({
             />
             <Input
               type="multiselect"
-              label="Ethnicity"
+              label="Ethnicities"
               placeholder="Please Select"
               value={state.ethnicity}
               onValue={(input) => setState({ ...state, ethnicity: input })}
@@ -519,7 +499,7 @@ const AddCampaignModal = ({
               onNewTag={handleNewInterestsTag}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Influencer Size"
               placeholder="Please Select"
               value={state.influencerSize}

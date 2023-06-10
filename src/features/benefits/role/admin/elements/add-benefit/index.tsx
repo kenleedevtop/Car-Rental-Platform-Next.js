@@ -116,7 +116,7 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
             label="Company Name"
             placeholder="Please Enter"
             value={state.benefitPartnershipId}
-            onSearch={debounce(getCompanies, 1000)}
+            onSearch={debounce(getCompanies, 250)}
             onValue={(value) =>
               setState({ ...state, benefitPartnershipId: value })
             }
@@ -137,7 +137,7 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
             label="Category"
             placeholder="Please Select"
             value={state.benefitCategoryId}
-            onSearch={debounce(getCategories, 1000)}
+            onSearch={debounce(getCategories, 250)}
             onValue={(value) =>
               setState({ ...state, benefitCategoryId: value })
             }

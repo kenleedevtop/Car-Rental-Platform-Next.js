@@ -19,11 +19,10 @@ import {
   TimeTableCell,
   TimeScaleLabel,
 } from 'components/custom/calendar-card/elements';
-import { DTodayAppointments } from 'components/custom/calendar-card/elements/scheduler/data';
 
 const Scheduler = ({ date, onClose, ...props }: TSchedulerProps) => (
   <Modal
-    title="Scheduler"
+    title="Schedule"
     actions={[
       <Button
         onClick={onClose}
@@ -38,7 +37,7 @@ const Scheduler = ({ date, onClose, ...props }: TSchedulerProps) => (
     onClose={onClose}
     {...props}
   >
-    <SSchedulerMain data={DTodayAppointments} height={600}>
+    <SSchedulerMain data={[]} height={600}>
       <ViewState currentDate={date} />
       <SSchedulerWeekView
         startDayHour={5}

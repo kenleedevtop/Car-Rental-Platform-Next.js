@@ -47,8 +47,6 @@ const Navigation = ({ ...props }: TNavigationProps) => {
   const [ppModal, openPpModal, closePpModal] = useModal(false);
   const [nModal, openNModal, closeNModal] = useModal(false);
 
-  const [currency, setCurrency] = useState('CHF');
-
   const router = useRouter();
 
   // const handleEnter = () => {
@@ -61,8 +59,18 @@ const Navigation = ({ ...props }: TNavigationProps) => {
   //   }
   // };
 
-  const { logout, routeName, role, user, handleMobileMenu, showMobileMenu } =
-    useAppContext();
+  const {
+    logout,
+    routeName,
+    role,
+    user,
+    handleMobileMenu,
+    showMobileMenu,
+    handleCurrencyChange,
+    currency,
+  } = useAppContext();
+
+  const [currencyValue, setCurrency] = useState(currency);
 
   const handleMenu = () => {
     setOpen(!open);
@@ -137,6 +145,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
                     label: 'EUR',
                     action: () => {
                       setCurrency('EUR');
+                      handleCurrencyChange('EUR');
                       handleCurrencyMenu();
                     },
                   },
@@ -145,6 +154,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
                     label: 'USD',
                     action: () => {
                       setCurrency('USD');
+                      handleCurrencyChange('USD');
                       handleCurrencyMenu();
                     },
                   },

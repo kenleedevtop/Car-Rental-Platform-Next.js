@@ -307,7 +307,7 @@ export const DCampaignsInfluencerHead2 = [
 
 export const DGenerateCampaignsClientFilter = () => ({
   search: '',
-  product: null,
+  product: [],
   budget: {
     min: '',
     max: '',
@@ -320,22 +320,22 @@ export const DGenerateCampaignsClientFilter = () => ({
     min: '',
     max: '',
   },
-  influencerSize: null,
-  socialMediaPlatform: null,
-  postType: null,
-  report: null,
+  influencerSize: [],
+  socialMediaPlatform: [],
+  postType: [],
+  report: [],
 
-  diseaseArea: null,
-  struggles: null,
-  location: null,
-  ethnicity: null,
-  interests: null,
+  diseaseArea: [],
+  struggles: [],
+  location: [],
+  ethnicity: [],
+  interests: [],
   age: {
     min: '',
     max: '',
   },
-  gender: null,
-  language: null,
+  gender: [],
+  language: [],
 });
 
 export const DCampaignsClientHead = [

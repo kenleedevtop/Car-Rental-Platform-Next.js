@@ -136,7 +136,7 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
           label="Disease Area"
           placeholder="Please Select"
           value={state.diseaseArea}
-          onSearch={debounce(getDiseaseArea, 1000)}
+          onSearch={debounce(getDiseaseArea, 250)}
           onValue={(input) => {
             setState({ ...state, diseaseArea: input });
           }}

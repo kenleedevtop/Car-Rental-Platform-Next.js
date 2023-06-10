@@ -13,12 +13,16 @@ export const AccountSpan = styled.div<{ theme?: Theme }>`
     text-align: right;
     cursor: pointer;
     font-size: 12px;
+    display: inline;
+    width: 110px;
+    justify-self: flex-end;
  `}
 `;
 
 export const AccountChange = styled(Stack)<{ theme?: Theme }>`
   ${({ theme }) => `
-    gap: ${theme.spacing(2)}
+    gap: ${theme.spacing(2)};
+    align-items: flex-end
   `}
 `;
 

@@ -268,7 +268,7 @@ const CreateSurveysModal = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={async () => {
+          onClick={() => {
             createSurvey();
             refresh();
             onClose();
@@ -304,7 +304,7 @@ const CreateSurveysModal = ({
               value={state.product}
               onValue={(input) => setState({ ...state, product: input })}
               options={product}
-              onSearch={debounce(getProducts, 1000)}
+              onSearch={debounce(getProducts, 250)}
               onNewTag={handleNewProductTag}
               loading={loading}
             />
@@ -426,7 +426,7 @@ const CreateSurveysModal = ({
               placeholder="Please Select"
               value={state.location}
               onValue={(input) => setState({ ...state, location: input })}
-              onSearch={debounce(getLocations, 1000)}
+              onSearch={debounce(getLocations, 250)}
               loading={loading}
               options={location}
             />
@@ -465,7 +465,7 @@ const CreateSurveysModal = ({
               placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
-              onSearch={debounce(getDiseaseAreas, 1000)}
+              onSearch={debounce(getDiseaseAreas, 250)}
               loading={loading}
               options={diseaseAreas}
             />

@@ -31,3 +31,4 @@ export { default as CampaignsCard } from 'components/custom/campaigns-card';
 export { default as CheckboxTable } from 'components/custom/checkbox-table';
 export { default as Chat } from 'components/custom/chat';
 export { default as Tooltip } from 'components/custom/tooltip';
+export { default as CurrencyFeedback } from 'components/custom/currency-feedback';

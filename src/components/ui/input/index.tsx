@@ -316,7 +316,7 @@ const Input = ({
         </LocalizationProvider>
       )}
       {type === 'multiselect' && (
-        <MultiSelectInputContainer>
+        <MultiSelectInputContainer disabled={disabled}>
           <InputMultiSelect
             multiple
             filterSelectedOptions

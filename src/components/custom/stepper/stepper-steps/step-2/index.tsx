@@ -138,7 +138,7 @@ const Step = () => {
           <Input
             type="select"
             label="Location"
-            onSearch={debounce(getLocations, 1000)}
+            onSearch={debounce(getLocations, 250)}
             placeholder="Please Select"
             value={filter.location}
             loading={loading}
@@ -160,7 +160,7 @@ const Step = () => {
             label="Disease Area"
             placeholder="Please Select"
             value={filter.diseaseArea}
-            onSearch={debounce(getDiseaseArea, 1000)}
+            onSearch={debounce(getDiseaseArea, 250)}
             onValue={(input) => setFilter({ ...filter, diseaseArea: input })}
             onNewTag={handleNewTag}
             loading={loading}

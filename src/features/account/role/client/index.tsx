@@ -14,9 +14,16 @@ import {
   ChangeInfoModal,
   ChangePasswordModal,
 } from 'features/account/role/client/elements';
-import { useModal } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
 import { useAppContext } from 'context';
-import { ClientAPI, CompanyAPI, IndustryApi, LocationAPI } from 'api';
+import {
+  AuthorizationAPI,
+  ClientAPI,
+  CompanyAPI,
+  IndustryApi,
+  LocationAPI,
+} from 'api';
+import { useRouter } from 'next/router';
 
 const AccountPage = ({ ...props }) => {
   const { user } = useAppContext();
@@ -117,6 +124,17 @@ const AccountPage = ({ ...props }) => {
     }
   }, [data]);
 
+  const { push } = useSnackbar();
+
+  const resetPassword = async () => {
+    try {
+      await AuthorizationAPI.resetPassword(state.email, 'en');
+      push('Email for password reset has been sent.', { variant: 'success' });
+    } catch {
+      push('Email for password reset has not been sent.', { variant: 'error' });
+    }
+  };
+
   return (
     <AccountMain {...props}>
       <AccountContainer>
@@ -210,7 +228,7 @@ const AccountPage = ({ ...props }) => {
               onValue={(email) => setState({ ...state, email })}
               disabled
             />
-            <AccountSpan onClick={openCeModal}>Change Email</AccountSpan>
+            {/* <AccountSpan onClick={openCeModal}>Change Email</AccountSpan> */}
           </AccountChange>
           <AccountChange>
             <Input
@@ -221,7 +239,7 @@ const AccountPage = ({ ...props }) => {
               onValue={(password) => setState({ ...state, password })}
               disabled
             />
-            <AccountSpan onClick={openCpModal}>Change Password</AccountSpan>
+            <AccountSpan onClick={resetPassword}>Change Password</AccountSpan>
           </AccountChange>
           {/* <Button color="primary" variant="contained" onClick={() => {}}>
             Save

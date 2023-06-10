@@ -23,6 +23,7 @@ const AppContextProvider = ({ ...props }) => {
     role: 'CLIENT',
     initialLoading: true,
     showMobileMenu: false,
+    currency: 'CHF',
   });
 
   const handleMobileMenu = (value: boolean) => {
@@ -31,6 +32,10 @@ const AppContextProvider = ({ ...props }) => {
 
   const setRouteName = (routeName: string) => {
     setState((x) => ({ ...x, routeName }));
+  };
+
+  const handleCurrencyChange = (value: string) => {
+    setState((x) => ({ ...x, currency: value }));
   };
 
   const logout = async () => {
@@ -91,8 +96,17 @@ const AppContextProvider = ({ ...props }) => {
       login,
       logout,
       handleMobileMenu,
+      handleCurrencyChange,
     }),
-    [state, setRouteName, getMeData, login, logout, handleMobileMenu]
+    [
+      state,
+      setRouteName,
+      getMeData,
+      login,
+      logout,
+      handleMobileMenu,
+      handleCurrencyChange,
+    ]
   );
   return state.initialLoading ? (
     <LoadingPage />

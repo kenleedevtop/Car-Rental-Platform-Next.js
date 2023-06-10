@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ReportsPageMain,
   ReportsPageCharts,
@@ -41,7 +41,7 @@ import {
 } from 'features/reports/role/client/elements';
 import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
-import { CampaignAPI } from 'api';
+import { CampaignAPI, EnumsApi, ProductApi } from 'api';
 
 const ReportsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateReportsClientsFilter());
@@ -122,6 +122,51 @@ const ReportsPage = () => {
         setTotalResults(meta.countFiltered);
       },
     });
+
+  /* Filters */
+  const [loading, setLoading] = useState(false);
+  const [filtersProducts, setFilterProducts] = useState<any>([]);
+  const [filterReports, setFilterReport] = useState<any>([]);
+
+  const getProducts = async (s: string = '') => {
+    const { result } = await ProductApi.getProducts(s);
+
+    setFilterProducts(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+  };
+
+  const getReportTypes = async () => {
+    const result = await EnumsApi.getReportTypes();
+
+    setFilterReport(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  useEffect(() => {
+    getProducts();
+    getReportTypes();
+  }, []);
+
+  const handleNewProductTag = (v: any) => {
+    setFilter({ ...filter, product: [...filter.product, v] });
+  };
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
 
   return (
     <ReportsPageMain>
@@ -227,7 +272,7 @@ const ReportsPage = () => {
       </ReportsPageCharts>
       <CardWithText
         title="Reports"
-        description="2 New Reports This Month"
+        // description="2 New Reports This Month"
         style={
           window.innerWidth < 600
             ? { padding: '1.25rem 0', boxShadow: 'unset' }
@@ -242,9 +287,9 @@ const ReportsPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained" onClick={openErModal}>
-            Export
-          </Button>,
+          // <Button color="default" variant="contained" onClick={openErModal}>
+          //   Export
+          // </Button>,
           <Button color="primary" variant="contained" onClick={openCrModal}>
             Create Report
           </Button>,
@@ -262,18 +307,23 @@ const ReportsPage = () => {
                   onValue={(search) => setFilter({ ...filter, search })}
                 />
                 <Input
-                  type="select"
-                  label="Product"
+                  type="multiselect"
+                  label="Products"
                   placeholder="Please Select"
                   value={filter.product}
                   onValue={(product) => setFilter({ ...filter, product })}
+                  options={filtersProducts}
+                  onSearch={debounce(getProducts, 250)}
+                  onNewTag={handleNewProductTag}
+                  loading={loading}
                 />
                 <Input
-                  type="select"
-                  label="Type"
+                  type="multiselect"
+                  label="Types"
                   placeholder="Please Select"
                   value={filter.type}
                   onValue={(type) => setFilter({ ...filter, type })}
+                  options={filterReports}
                 />
                 <Input
                   type="min-max"
@@ -398,7 +448,7 @@ const ReportsPage = () => {
                 items={[]}
                 renderItem={() => {}}
               />
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {tabsValue === 2 && (
@@ -408,7 +458,7 @@ const ReportsPage = () => {
                 items={[]}
                 renderItem={() => {}}
               />
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {tabsValue === 3 && (
@@ -418,7 +468,7 @@ const ReportsPage = () => {
                 items={[]}
                 renderItem={() => {}}
               />
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {/* <Stack direction="horizontal">

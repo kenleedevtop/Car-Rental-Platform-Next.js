@@ -50,8 +50,8 @@ export const DGenerateReportsFilter = () => ({
 
 export const DGenerateReportsClientsFilter = () => ({
   search: '',
-  product: null,
-  type: null,
+  product: [],
+  type: [],
   budget: {
     min: '',
     max: '',

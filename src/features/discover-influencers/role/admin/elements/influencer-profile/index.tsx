@@ -233,7 +233,7 @@ const InfluencerProfile = ({
             placeholder="Please Enter"
             disabled={disabled}
             value={state.diseaseAreas}
-            onSearch={debounce(getDiseaseArea, 1000)}
+            onSearch={debounce(getDiseaseArea, 250)}
             onValue={(input) => {
               setState({ ...state, diseaseAreas: input });
             }}
@@ -247,7 +247,7 @@ const InfluencerProfile = ({
             placeholder="Please Enter"
             disabled={disabled}
             value={state.locationId}
-            onSearch={debounce(getLocations, 1000)}
+            onSearch={debounce(getLocations, 250)}
             onValue={(input) => setState({ ...state, locationId: input })}
             loading={loading}
             options={locations}

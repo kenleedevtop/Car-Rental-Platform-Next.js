@@ -128,7 +128,7 @@ const HelpPage = () => {
                 <h2>Write to us</h2>
                 <Input
                   type="select"
-                  label="Topic"
+                  label="Please Select"
                   placeholder="Select Topic"
                   value={filter.topic}
                   onValue={(topic) => setFilter({ ...filter, topic })}
@@ -185,7 +185,7 @@ const HelpPage = () => {
                 />
                 <Input
                   type="text"
-                  label="Subject"
+                  label="Please Enter"
                   placeholder="Subject"
                   value={filter.subject}
                   onValue={(subject) => setFilter({ ...filter, subject })}
@@ -193,7 +193,7 @@ const HelpPage = () => {
                 <Input
                   type="text"
                   label="Message"
-                  placeholder="St 6 Ft. Honey Park, NYC 100001"
+                  placeholder="Please Enter"
                   value={filter.message}
                   onValue={(message) => setFilter({ ...filter, message })}
                   multiline

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   CampaignsPageMain,
   CampaignsPageFilterContainer,
   CampaignsPageFilter,
   CampaignsPageFilterActions,
+  CampaignModalLink,
 } from 'features/campaigns/styles';
 import {
   DCampaignsClientHead,
@@ -40,7 +41,13 @@ import {
   InPreparationActions,
 } from 'features/campaigns/role/client/elements';
 import { useRouter } from 'next/router';
-import { CampaignAPI } from 'api';
+import {
+  CampaignAPI,
+  DiseaseAreaAPI,
+  EnumsApi,
+  LocationAPI,
+  ProductApi,
+} from 'api';
 
 const CampaignsPage = () => {
   const [acModal, openAcModal, closeAcModal] = useModal(false);
@@ -73,6 +80,8 @@ const CampaignsPage = () => {
     setOpenF(!openF);
   };
 
+  const [current, setCurrent] = useState(-1);
+
   const renderItem = ({
     headItem,
     row,
@@ -80,7 +89,16 @@ const CampaignsPage = () => {
     cell,
   }: TTableRenderItemObject) => {
     if (headItem.reference === 'campaignName') {
-      return row.data.name;
+      return (
+        <CampaignModalLink
+          onClick={() => {
+            setCurrent(row.data.id);
+            openCcModal();
+          }}
+        >
+          {row.data.name}
+        </CampaignModalLink>
+      );
     }
 
     if (headItem.reference === 'budget') {
@@ -107,9 +125,9 @@ const CampaignsPage = () => {
       return row.data.influencersCount;
     }
 
-    if (headItem.reference === 'report') {
-      return row.data.report === 1 ? 'Yes' : 'No';
-    }
+    // if (headItem.reference === 'report') {
+    //   return row.data.report === 1 ? 'Yes' : row.data.report ? 'No' : null;
+    // }
 
     if (headItem.reference === 'actions') {
       return <InPreparationActions data={row.data.id} />;
@@ -138,6 +156,157 @@ const CampaignsPage = () => {
         setTotalResults(meta.countFiltered);
       },
     });
+
+  /* Filters */
+  const [loading, setLoading] = useState(false);
+  const [filtersProducts, setFilterProducts] = useState<any>([]);
+  const [filterInfluencerSize, setFilterInfluencerSize] = useState<any>([]);
+  const [filterReports, setFilterReport] = useState<any>([]);
+  const [filterDiseaseAreas, setFilterDiseaseAreas] = useState<any>([]);
+  const [filterStruggles, setFilterStruggles] = useState<any>([]);
+  const [filterLocations, setFilterLocations] = useState<any>([]);
+  const [filterEthnicitys, setFilterEthnicity] = useState<any>([]);
+  const [filterInterests, setFilterInterests] = useState<any>([]);
+  const [filterGenders, setFilterGenders] = useState<any>([]);
+  const [filterLanguages, setFilterLanguages] = useState<any>([]);
+
+  const getProducts = async (s: string = '') => {
+    const { result } = await ProductApi.getProducts(s);
+
+    setFilterProducts(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+  };
+
+  const getReportTypes = async () => {
+    const result = await EnumsApi.getReportTypes();
+
+    setFilterReport(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getDiseaseAreas = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await DiseaseAreaAPI.getAll(s);
+
+    setFilterDiseaseAreas(
+      result.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getLocations = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await LocationAPI.getAll(s);
+    setFilterLocations(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getGenders = async () => {
+    const result = await EnumsApi.getGenders();
+
+    setFilterGenders(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getEthnicities = async () => {
+    const result = await EnumsApi.getEthnicities();
+
+    setFilterEthnicity(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getStruggles = async () => {
+    const result = await EnumsApi.getStruggles();
+
+    setFilterStruggles(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+  const getInterests = async () => {
+    const result = await EnumsApi.getInterests();
+
+    setFilterInterests(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getInfluencerSizes = async () => {
+    const { result } = await EnumsApi.getInfluencerSize();
+
+    setFilterInfluencerSize(
+      result.map((x: any) => ({
+        value: x.id,
+        label: `${x.name}: ${x.from} | ${x.to}`,
+      }))
+    );
+  };
+
+  const getLanguages = async () => {
+    const result = await EnumsApi.getLanguages();
+
+    setFilterLanguages(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  useEffect(() => {
+    getLanguages();
+    getProducts();
+    getReportTypes();
+    getDiseaseAreas();
+    getLocations();
+    getGenders();
+    getEthnicities();
+    getStruggles();
+    getInterests();
+    getInfluencerSizes();
+  }, []);
+
+  const handleNewProductTag = (v: any) => {
+    setFilter({ ...filter, product: [...filter.product, v] });
+  };
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
 
   return (
     <CampaignsPageMain>
@@ -191,156 +360,9 @@ const CampaignsPage = () => {
           }}
         />
       </CampaignsPageFilterContainer>
-
-      {/* <CampaignsPageFilterContainer>
-        <CardWithProgress
-          title="Influencers"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Platform"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Location"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Disease Area"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-            {
-              icon: <InstagramIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <TwitterIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <TiktokIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-      </CampaignsPageFilterContainer> */}
       <CardWithText
         title="Campaigns"
-        description="20 new Affiliates"
+        description=""
         style={
           window.innerWidth < 600
             ? { padding: '1.25rem', boxShadow: 'unset' }
@@ -355,9 +377,9 @@ const CampaignsPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained" onClick={openEcModal}>
-            Export
-          </Button>,
+          // <Button color="default" variant="contained" onClick={openEcModal}>
+          //   Export
+          // </Button>,
           <Button color="primary" variant="contained" onClick={openAcModal}>
             Create Campaign
           </Button>,
@@ -381,11 +403,15 @@ const CampaignsPage = () => {
                     onValue={(company) => setFilter({ ...filter, company })}
                   />
                   <Input
-                    type="select"
-                    label="Product"
+                    type="multiselect"
+                    label="Products"
                     placeholder="Please Select"
                     value={filter.product}
                     onValue={(product) => setFilter({ ...filter, product })}
+                    options={filtersProducts}
+                    onSearch={debounce(getProducts, 250)}
+                    onNewTag={handleNewProductTag}
+                    loading={loading}
                   />
                   <Input
                     type="min-max"
@@ -443,77 +469,108 @@ const CampaignsPage = () => {
                     }
                   />
                   <Input
-                    type="select"
-                    label="Influencer Size"
+                    type="multiselect"
+                    label="Influencer Sizes"
                     placeholder="Please Select"
                     value={filter.influencerSize}
                     onValue={(influencerSize) =>
                       setFilter({ ...filter, influencerSize })
                     }
+                    options={filterInfluencerSize}
                   />
                   <Input
-                    type="select"
-                    label="Social Media Platform"
+                    type="multiselect"
+                    label="Social Media Platforms"
                     placeholder="Please Select"
                     value={filter.socialMediaPlatform}
                     onValue={(socialMediaPlatform) =>
                       setFilter({ ...filter, socialMediaPlatform })
                     }
+                    options={[
+                      {
+                        value: 0,
+                        label: 'Instagram',
+                      },
+                    ]}
                   />
                   <Input
-                    type="select"
-                    label="Post Type"
+                    type="multiselect"
+                    label="Post Types"
                     placeholder="Please Select"
                     value={filter.postType}
                     onValue={(postType) => setFilter({ ...filter, postType })}
+                    options={[
+                      {
+                        value: 0,
+                        label: 'Story',
+                      },
+                      {
+                        value: 1,
+                        label: 'Post',
+                      },
+                      {
+                        value: 2,
+                        label: 'Reel',
+                      },
+                    ]}
                   />
                   <Input
-                    type="select"
-                    label="Report"
+                    type="multiselect"
+                    label="Reports"
                     placeholder="Please Select"
                     value={filter.report}
                     onValue={(report) => setFilter({ ...filter, report })}
+                    options={filterReports}
                   />
                 </CampaignsPageFilterContainer>
               )}
               {filterTabs === 1 && (
                 <CampaignsPageFilterContainer>
                   <Input
-                    type="select"
-                    label="Disease Area"
+                    type="multiselect"
+                    label="Disease Areas"
                     placeholder="Please Select"
                     value={filter.diseaseArea}
                     onValue={(diseaseArea) =>
                       setFilter({ ...filter, diseaseArea })
                     }
+                    options={filterDiseaseAreas}
+                    onSearch={debounce(getDiseaseAreas, 250)}
+                    loading={loading}
                   />
                   <Input
-                    type="select"
+                    type="multiselect"
                     label="Struggles"
                     placeholder="Please Select"
                     value={filter.struggles}
                     onValue={(struggles) => setFilter({ ...filter, struggles })}
+                    options={filterStruggles}
                   />
                   <Input
-                    type="select"
-                    label="Location"
+                    type="multiselect"
+                    label="Locations"
                     placeholder="Please Select"
                     value={filter.location}
                     onValue={(location) => setFilter({ ...filter, location })}
+                    options={filterLocations}
+                    onSearch={debounce(getLocations, 250)}
+                    loading={loading}
                   />
                   <Input
-                    type="select"
-                    label="Ethnicity"
+                    type="multiselect"
+                    label="Ethnicities"
                     placeholder="Please Select"
                     value={filter.ethnicity}
                     onValue={(ethnicity) => setFilter({ ...filter, ethnicity })}
+                    options={filterEthnicitys}
                   />
                   <Input
-                    type="select"
+                    type="multiselect"
                     label="Interests"
                     placeholder="Please Select"
                     value={filter.interests}
                     onValue={(interests) => setFilter({ ...filter, interests })}
+                    options={filterInterests}
                   />
                   <Input
                     type="min-max"
@@ -524,32 +581,20 @@ const CampaignsPage = () => {
                   />
 
                   <Input
-                    type="select"
-                    label="Gender"
+                    type="multiselect"
+                    label="Genders"
                     placeholder="Please Select"
                     value={filter.gender}
                     onValue={(gender) => setFilter({ ...filter, gender })}
-                    options={[
-                      {
-                        value: 0,
-                        label: 'Male',
-                      },
-                      {
-                        value: 1,
-                        label: 'Female',
-                      },
-                      {
-                        value: 2,
-                        label: 'Other',
-                      },
-                    ]}
+                    options={filterGenders}
                   />
                   <Input
-                    type="select"
-                    label="Language"
+                    type="multiselect"
+                    label="Languages"
                     placeholder="Please Select"
                     value={filter.language}
                     onValue={(language) => setFilter({ ...filter, language })}
+                    options={filterLanguages}
                   />
                 </CampaignsPageFilterContainer>
               )}
@@ -593,7 +638,7 @@ const CampaignsPage = () => {
                 items={[]}
                 renderItem={() => {}}
               />
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {tabs === 2 && (
@@ -603,7 +648,7 @@ const CampaignsPage = () => {
                 items={[]}
                 renderItem={() => {}}
               />
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {tabs === 3 && (
@@ -613,7 +658,7 @@ const CampaignsPage = () => {
                 items={[]}
                 renderItem={() => {}}
               />
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
         </Stack>
@@ -695,13 +740,15 @@ const CampaignsPage = () => {
         <AddCampaignModal
           refresh={reload}
           onClose={async () => {
-            await reload();
+            reload();
             closeAcModal();
           }}
         />
       )}
       {ecModal && <ExportCampaignsModal onClose={closeEcModal} />}
-      {/* {ccModal && <CreatedCampaignModal onClose={closeCcModal} />} */}
+      {ccModal && (
+        <CreatedCampaignModal id={current.toString()} onClose={closeCcModal} />
+      )}
     </CampaignsPageMain>
   );
 };

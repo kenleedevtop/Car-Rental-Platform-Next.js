@@ -53,6 +53,14 @@ const EnumsApi = {
 
     return data;
   },
+
+  getLanguages: async () => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/platformProduct/languages`
+    );
+
+    return data;
+  },
 };
 
 export default EnumsApi;

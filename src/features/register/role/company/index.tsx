@@ -268,7 +268,7 @@ const RegisterPage = () => {
           required
           placeholder={t('Please Enter your Company') as string}
           value={state.company.name ? state.company.name : state.company}
-          onSearch={debounce(getCompanies, 1000)}
+          onSearch={debounce(getCompanies, 250)}
           onValue={(value) => setState({ ...state, company: value })}
           options={companies}
           onKeyDown={handleKeyDown}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Chat, Modal, Tabs } from 'components/custom';
+import { Chat, CurrencyFeedback, Modal, Note, Tabs } from 'components/custom';
 import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/created-campaign-modal/types';
 import { AddCampaignsModalMain } from 'features/campaigns/role/client/elements/created-campaign-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
@@ -83,8 +83,15 @@ const CreatedCampaignModal = ({
       if (campaign.report) {
         newState.report = {
           value: campaign.report,
-          label: campaign.report === 1 ? 'No' : 'Yes',
+          label: campaign.report === 0 ? 'No' : 'Yes',
         };
+      }
+
+      if (campaign.stakeholderTypes) {
+        newState.stakeholders = campaign.stakeholderTypes.map((x: any) => ({
+          value: x.value,
+          label: x.name,
+        }));
       }
 
       if (campaign.influencersCount) {
@@ -317,38 +324,18 @@ const CreatedCampaignModal = ({
               value={state.report}
               onValue={(report) => setState({ ...state, report })}
             />
-            <InputGroup
-              label="Budget"
-              disabled
-              inputRatio="100px 1fr"
-              elements={[
-                {
-                  value: state.currency,
-                  onValue: (currency) => setState({ ...state, currency }),
-                  type: 'select',
-                  placeholder: 'CHF',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                    {
-                      value: 'chf',
-                      label: 'CHF',
-                    },
-                  ],
-                },
-                {
-                  value: state.budget,
-                  onValue: (budget) => setState({ ...state, budget }),
-                  type: 'text',
-                },
-              ]}
-            />
+            <Stack>
+              <Input
+                label="Budget"
+                disabled
+                value={state.budget}
+                onValue={(budget) => setState({ ...state, budget })}
+                type="text"
+                placeholder="Please Enter"
+                startAdornment="CHF"
+              />
+              <CurrencyFeedback value={state.budget} />
+            </Stack>
             <GridCell columnSpan={2}>
               <Input
                 multiline

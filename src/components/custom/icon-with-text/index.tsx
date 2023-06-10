@@ -14,9 +14,9 @@ import Link from 'next/link';
 const IconWithText = ({ link, icon, title, text, ...props }: TIconWithText) => (
   <IconWithTextMain {...props}>
     {link ? (
-      <Link href={link}>
+      <a target="_blank" rel="noreferrer" href={link}>
         <IconWithTextIcon>{icon}</IconWithTextIcon>
-      </Link>
+      </a>
     ) : (
       <IconWithTextIcon>{icon}</IconWithTextIcon>
     )}

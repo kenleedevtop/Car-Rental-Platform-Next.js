@@ -12,7 +12,10 @@ import {
   TableBodyRow,
   TableEmpty,
 } from 'components/custom/checkbox-table/styles';
-import { TTableProps, TTableHeadItem } from 'components/custom/table/types';
+import {
+  TTableProps,
+  TTableHeadItem,
+} from 'components/custom/checkbox-table/types';
 import getObjectDynamicPath from 'utilities/extended-proto/index';
 import { BackupTableRounded } from '@mui/icons-material';
 import { useModal } from 'hooks';

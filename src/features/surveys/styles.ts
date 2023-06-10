@@ -84,3 +84,7 @@ export const SurveysPageFilterContainer = styled.div<{ theme?: Theme }>`
     }
   `}
 `;
+
+export const SurveyLink = styled.div`
+  cursor: pointer;
+`;

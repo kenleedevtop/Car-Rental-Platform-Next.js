@@ -171,7 +171,7 @@ const ChangeInfoModal = ({
         id
       );
 
-      push('User successfully update.', { variant: 'success' });
+      push('User successfully updated.', { variant: 'success' });
     } catch {
       push('User update failed.', { variant: 'error' });
     }
@@ -206,7 +206,7 @@ const ChangeInfoModal = ({
             placeholder="Please Select"
             value={state.company}
             onValue={(input) => setState({ ...state, company: input })}
-            onSearch={debounce(getCompanies, 1000)}
+            onSearch={debounce(getCompanies, 250)}
             options={company}
             loading={loading}
           />
@@ -216,7 +216,7 @@ const ChangeInfoModal = ({
             placeholder="Please Select"
             value={state.role}
             onValue={(input) => setState({ ...state, role: input })}
-            onSearch={debounce(getTitles, 1000)}
+            onSearch={debounce(getTitles, 250)}
             options={role}
             loading={loading}
           />
@@ -226,7 +226,7 @@ const ChangeInfoModal = ({
             placeholder="Please Select"
             value={state.location}
             onValue={(input) => setState({ ...state, location: input })}
-            onSearch={debounce(getLocations, 1000)}
+            onSearch={debounce(getLocations, 250)}
             loading={loading}
             options={location}
           />
@@ -237,7 +237,7 @@ const ChangeInfoModal = ({
             value={state.industry}
             onValue={(input) => setState({ ...state, industry: input })}
             options={industry}
-            onSearch={debounce(getIndustry, 1000)}
+            onSearch={debounce(getIndustry, 250)}
             loading={loading}
           />
           <Input
@@ -246,7 +246,7 @@ const ChangeInfoModal = ({
             placeholder="Please Select"
             value={state.diseaseArea}
             onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
-            onSearch={debounce(getDiseaseAreas, 1000)}
+            onSearch={debounce(getDiseaseAreas, 250)}
             onNewTag={handleNewTag}
             loading={loading}
             options={diseaseAreas}
@@ -257,7 +257,7 @@ const ChangeInfoModal = ({
             placeholder="Please Select"
             value={state.markets}
             onValue={(input) => setState({ ...state, markets: input })}
-            onSearch={debounce(getMarkets, 1000)}
+            onSearch={debounce(getMarkets, 250)}
             loading={loading}
             onNewTag={handleNewMarketTag}
             options={markets}
@@ -269,7 +269,7 @@ const ChangeInfoModal = ({
             value={state.product}
             onValue={(input) => setState({ ...state, product: input })}
             options={product}
-            onSearch={debounce(getProducts, 1000)}
+            onSearch={debounce(getProducts, 250)}
             onNewTag={handleNewProductTag}
             loading={loading}
           />

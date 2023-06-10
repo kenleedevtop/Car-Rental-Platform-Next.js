@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SurveysPageMain,
   SurveysPageCharts,
   SurveysPageFilter,
   SurveysPageFilterActions,
   SurveysPageFilterContainer,
+  SurveyLink,
 } from 'features/surveys/styles';
 import {
   CardWithChart,
@@ -15,13 +16,14 @@ import {
 } from 'components/custom';
 import {
   ContactIcon,
-  ContactedIcon,
-  IdentifiedIcon,
+  FinishedIcon,
   InfoIcon,
+  InpreparationIcon,
   ManageIcon,
-  RegisteredIcon,
+  OngoingIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
+  SurveysSmallIcon,
   TotalIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
@@ -34,10 +36,17 @@ import {
   ExportSurveysModal,
   CreateSurveysModal,
   InPreparationActions,
+  CreatedSurveysModal,
 } from 'features/surveys/role/client/elements';
 import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
-import { SurveyAPI } from 'api';
+import {
+  SurveyAPI,
+  DiseaseAreaAPI,
+  EnumsApi,
+  LocationAPI,
+  ProductApi,
+} from 'api';
 
 const SurveyPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSurveyClientFilter());
@@ -48,6 +57,8 @@ const SurveyPage = () => {
 
   const [esModal, openEsModal, closeEsModal] = useModal(false);
   const [csModal, openCsModal, closeCsModal] = useModal(false);
+  const [createdSurveyModal, openCreatedSurveyModal, closeCreatedSurveyModal] =
+    useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -57,9 +68,20 @@ const SurveyPage = () => {
     setFilter(DGenerateSurveyClientFilter());
   };
 
+  const [current, setCurrent] = useState(-1);
+
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'surveyName') {
-      return row.data.name;
+      return (
+        <SurveyLink
+          onClick={() => {
+            setCurrent(row.data.id);
+            openCreatedSurveyModal();
+          }}
+        >
+          {row.data.name}
+        </SurveyLink>
+      );
     }
     if (headItem.reference === 'diseaseArea') {
       if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
@@ -134,12 +156,138 @@ const SurveyPage = () => {
       },
     });
 
+  /* Filters */
+  const [loading, setLoading] = useState(false);
+  const [filtersProducts, setFilterProducts] = useState<any>([]);
+  const [filterDiseaseAreas, setFilterDiseaseAreas] = useState<any>([]);
+  const [filterStruggles, setFilterStruggles] = useState<any>([]);
+  const [filterLocations, setFilterLocations] = useState<any>([]);
+  const [filterEthnicitys, setFilterEthnicity] = useState<any>([]);
+  const [filterInterests, setFilterInterests] = useState<any>([]);
+  const [filterGenders, setFilterGenders] = useState<any>([]);
+  const [filterLanguages, setFilterLanguages] = useState<any>([]);
+
+  const getProducts = async (s: string = '') => {
+    const { result } = await ProductApi.getProducts(s);
+
+    setFilterProducts(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+  };
+
+  const getDiseaseAreas = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await DiseaseAreaAPI.getAll(s);
+
+    setFilterDiseaseAreas(
+      result.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getLocations = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await LocationAPI.getAll(s);
+    setFilterLocations(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getGenders = async () => {
+    const result = await EnumsApi.getGenders();
+
+    setFilterGenders(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getEthnicities = async () => {
+    const result = await EnumsApi.getEthnicities();
+
+    setFilterEthnicity(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getStruggles = async () => {
+    const result = await EnumsApi.getStruggles();
+
+    setFilterStruggles(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+  const getInterests = async () => {
+    const result = await EnumsApi.getInterests();
+
+    setFilterInterests(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getLanguages = async () => {
+    const result = await EnumsApi.getLanguages();
+
+    setFilterLanguages(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  useEffect(() => {
+    getLanguages();
+    getProducts();
+    getDiseaseAreas();
+    getLocations();
+    getGenders();
+    getEthnicities();
+    getStruggles();
+    getInterests();
+  }, []);
+
+  const handleNewProductTag = (v: any) => {
+    setFilter({ ...filter, product: [...filter.product, v] });
+  };
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
+
   return (
     <SurveysPageMain>
       <SurveysPageCharts>
         <CardWithChart
           title="In Preparation"
-          icon={<IdentifiedIcon />}
+          icon={<InpreparationIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -151,7 +299,8 @@ const SurveyPage = () => {
         />
         <CardWithChart
           title="Ongoing"
-          icon={<ContactedIcon />}
+          icon={<OngoingIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -163,7 +312,8 @@ const SurveyPage = () => {
         />
         <CardWithChart
           title="Finished"
-          icon={<RegisteredIcon />}
+          icon={<FinishedIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={-6}
           count={75}
           chartData={{
@@ -176,6 +326,7 @@ const SurveyPage = () => {
         <CardWithChart
           title="Revenue"
           icon={<TotalIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={-6}
           count={75}
           chartData={{
@@ -188,7 +339,7 @@ const SurveyPage = () => {
       </SurveysPageCharts>
       <CardWithText
         title="Surveys"
-        description="More than 290+ new Reports"
+        // description="More than 290+ new Reports"
         style={
           window.innerWidth < 600
             ? { padding: '1.25rem 0', boxShadow: 'unset' }
@@ -203,9 +354,9 @@ const SurveyPage = () => {
           >
             Filters
           </Button>,
-          <Button color="default" variant="contained" onClick={openEsModal}>
-            Export
-          </Button>,
+          // <Button color="default" variant="contained" onClick={openEsModal}>
+          //   Export
+          // </Button>,
           <Button color="primary" variant="contained" onClick={openCsModal}>
             Create Survey
           </Button>,
@@ -230,11 +381,12 @@ const SurveyPage = () => {
                     onValue={(search) => setFilter({ ...filter, search })}
                   />
                   <Input
-                    type="select"
-                    label="Language"
+                    type="multiselect"
+                    label="Languages"
                     placeholder="Please Select"
                     value={filter.language}
                     onValue={(language) => setFilter({ ...filter, language })}
+                    options={filterLanguages}
                   />
                   <Input
                     type="min-max"
@@ -243,7 +395,7 @@ const SurveyPage = () => {
                     onValue={(budget) => setFilter({ ...filter, budget })}
                   />
                   <InputGroup
-                    label="Date Joined"
+                    label="Start Date"
                     inputRatio="1fr 1fr"
                     elements={[
                       {
@@ -263,7 +415,7 @@ const SurveyPage = () => {
                     ]}
                   />
                   <InputGroup
-                    label="Date Joined"
+                    label="End Date"
                     inputRatio="1fr 1fr"
                     elements={[
                       {
@@ -298,59 +450,72 @@ const SurveyPage = () => {
                   />
                   <Input
                     type="min-max"
-                    label="Questions Credits"
+                    label="Question Credits"
                     value={filter.questionCredits}
                     onValue={(questionCredits) =>
                       setFilter({ ...filter, questionCredits })
                     }
                   />
                   <Input
-                    type="select"
-                    label="Product"
+                    type="multiselect"
+                    label="Products"
                     placeholder="Please Select"
                     value={filter.product}
                     onValue={(product) => setFilter({ ...filter, product })}
+                    options={filtersProducts}
+                    onSearch={debounce(getProducts, 250)}
+                    onNewTag={handleNewProductTag}
+                    loading={loading}
                   />
                 </SurveysPageFilterContainer>
               )}
               {tabs === 1 && (
                 <SurveysPageFilterContainer>
                   <Input
-                    type="select"
-                    label="Disease Area"
+                    type="multiselect"
+                    label="Disease Areas"
                     placeholder="Please Select"
                     value={filter.diseaseArea}
                     onValue={(diseaseArea) =>
                       setFilter({ ...filter, diseaseArea })
                     }
+                    options={filterDiseaseAreas}
+                    onSearch={debounce(getDiseaseAreas, 250)}
+                    loading={loading}
                   />
                   <Input
-                    type="select"
+                    type="multiselect"
                     label="Struggles"
                     placeholder="Please Select"
                     value={filter.struggles}
                     onValue={(struggles) => setFilter({ ...filter, struggles })}
+                    options={filterStruggles}
                   />
                   <Input
-                    type="select"
-                    label="Location"
+                    type="multiselect"
+                    label="Locations"
                     placeholder="Please Select"
                     value={filter.location}
                     onValue={(location) => setFilter({ ...filter, location })}
+                    options={filterLocations}
+                    onSearch={debounce(getLocations, 250)}
+                    loading={loading}
                   />
                   <Input
-                    type="select"
-                    label="Ethnicity"
+                    type="multiselect"
+                    label="Ethnicities"
                     placeholder="Please Select"
                     value={filter.ethnicity}
                     onValue={(ethnicity) => setFilter({ ...filter, ethnicity })}
+                    options={filterEthnicitys}
                   />
                   <Input
-                    type="select"
+                    type="multiselect"
                     label="Interests"
                     placeholder="Please Select"
                     value={filter.interests}
                     onValue={(interests) => setFilter({ ...filter, interests })}
+                    options={filterInterests}
                   />
                   <Input
                     type="min-max"
@@ -359,65 +524,15 @@ const SurveyPage = () => {
                     onValue={(age) => setFilter({ ...filter, age })}
                   />
                   <Input
-                    type="select"
+                    type="multiselect"
                     label="Gender"
                     placeholder="Please Select"
                     value={filter.gender}
                     onValue={(gender) => setFilter({ ...filter, gender })}
+                    options={filterGenders}
                   />
                 </SurveysPageFilterContainer>
               )}
-
-              <SurveysPageFilterContainer>
-                <Input
-                  type="select"
-                  label="Location"
-                  placeholder="Please Select"
-                  value={filter.location}
-                  onValue={(location) => setFilter({ ...filter, location })}
-                />
-                <Input
-                  type="select"
-                  label="Disease Area"
-                  placeholder="Please Select"
-                  value={filter.diseaseArea}
-                  onValue={(diseaseArea) =>
-                    setFilter({ ...filter, diseaseArea })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Participants"
-                  value={filter.participants}
-                  onValue={(participants) =>
-                    setFilter({ ...filter, participants })
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Questions"
-                  value={filter.questions}
-                  onValue={(questions) => setFilter({ ...filter, questions })}
-                />
-                <Input
-                  type="text"
-                  label="Language"
-                  value={filter.language}
-                  onValue={(language) => setFilter({ ...filter, language })}
-                />
-                <Input
-                  type="text"
-                  label="Date Range"
-                  value={filter.dateRange}
-                  onValue={(dateRange) => setFilter({ ...filter, dateRange })}
-                />
-                <Input
-                  type="min-max"
-                  label="Budget"
-                  value={filter.budget}
-                  onValue={(budget) => setFilter({ ...filter, budget })}
-                />
-              </SurveysPageFilterContainer>
               <SurveysPageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -650,7 +765,7 @@ const SurveyPage = () => {
                 items={[]}
                 renderItem={() => {}}
               />
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {tabsValue === 2 && (
@@ -756,7 +871,7 @@ const SurveyPage = () => {
                 items={[]}
                 renderItem={() => {}}
               />
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
 
@@ -864,6 +979,12 @@ const SurveyPage = () => {
             reload();
             closeCsModal();
           }}
+        />
+      )}
+      {createdSurveyModal && (
+        <CreatedSurveysModal
+          id={current.toString()}
+          onClose={closeCreatedSurveyModal}
         />
       )}
     </SurveysPageMain>

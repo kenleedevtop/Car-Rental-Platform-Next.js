@@ -88,3 +88,7 @@ export const CampaignsPageFilterContainer = styled.div<{ theme?: Theme }>`
     }
   `}
 `;
+
+export const CampaignModalLink = styled.div`
+  cursor: pointer;
+`;

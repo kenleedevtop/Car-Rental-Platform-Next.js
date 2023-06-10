@@ -251,7 +251,7 @@ export const DSurveysInfluencerHead2 = [
 
 export const DGenerateSurveyClientFilter = () => ({
   search: '',
-  language: null,
+  language: [],
   budget: {
     min: '',
     max: '',
@@ -272,16 +272,16 @@ export const DGenerateSurveyClientFilter = () => ({
     min: '',
     max: '',
   },
-  product: null,
+  product: [],
 
-  diseaseArea: null,
-  struggles: null,
-  location: null,
-  ethnicity: null,
-  interests: null,
+  diseaseArea: [],
+  struggles: [],
+  location: [],
+  ethnicity: [],
+  interests: [],
   age: {
     min: '',
     max: '',
   },
-  gender: null,
+  gender: [],
 });

@@ -7,6 +7,7 @@ export type TAppContextState = {
   role: TUserRole;
   initialLoading: boolean;
   showMobileMenu: boolean;
+  currency: string;
 };
 
 export type TAppContext = TAppContextState & {
@@ -14,4 +15,5 @@ export type TAppContext = TAppContextState & {
   login: (body: TLoginParams, locale?: string) => Promise<any>;
   logout: () => void;
   handleMobileMenu: (value: boolean) => void;
+  handleCurrencyChange: (value: string) => void;
 };

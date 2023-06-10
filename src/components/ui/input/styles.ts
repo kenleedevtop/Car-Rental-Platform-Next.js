@@ -57,7 +57,7 @@ export const InputSelectItem = styled(MenuItem)``;
 export const InputText = styled(TextField)``;
 
 export const InputMultiSelect = styled(Autocomplete)`
-  border: none !important;
+  border-color: rgba(0, 0, 0, 0.26) !important;
 
   input,
   fieldset {
@@ -73,19 +73,36 @@ export const InputMultiSelect = styled(Autocomplete)`
   .MuiAutocomplete-endAdornment {
     top: 7.5px !important;
   }
+
+  &:disabled {
+    border: 1px solid rgba(0, 0, 0, 0.26) !important;
+  }
 `;
 
-export const MultiSelectInputContainer = styled.div<{ theme?: Theme }>`
-  border: 1px solid #2d377920;
+export const MultiSelectInputContainer = styled.div<{
+  theme?: Theme;
+  disabled?: boolean;
+}>`
+  ${({ theme, disabled }) => `
+  border: ${
+    disabled && disabled
+      ? '1px solid rgba(0, 0, 0, 0.26) !important'
+      : '1px solid #2d377920'
+  };
   border-radius: 5px;
 
   max-height: 42px;
   overflow-y: scroll;
 
+  &:disabled {
+    border: 1px solid rgba(0, 0, 0, 0.26) !important;
+  }
+
   &:active,
   &:focus {
     border-color: #448dc9ff;
   }
+  `}
 `;
 
 export const InputDatepicker = styled(DesktopDatePicker)<{ theme?: Theme }>``;

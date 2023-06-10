@@ -203,7 +203,7 @@ const SmlPage = () => {
       </SmlPageCharts>
       <CardWithText
         title="Social Media Listening"
-        description="2 New Reports This Month"
+        // description="2 New Reports This Month"
         style={
           window.innerWidth < 600
             ? { padding: '1.25rem 0', boxShadow: 'unset' }
@@ -218,9 +218,9 @@ const SmlPage = () => {
           // >
           //   Filters
           // </Button>,
-          <Button color="default" variant="contained" onClick={openEsModal}>
-            Export
-          </Button>,
+          // <Button color="default" variant="contained" onClick={openEsModal}>
+          //   Export
+          // </Button>,
           <Button color="primary" variant="contained" onClick={openCsModal}>
             Get SML Report
           </Button>,
@@ -428,7 +428,7 @@ const SmlPage = () => {
                 renderItem={() => {}}
               />
 
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {tabsValue === 2 && (
@@ -490,7 +490,7 @@ const SmlPage = () => {
                 renderItem={() => {}}
               />
 
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {tabsValue === 3 && (
@@ -552,7 +552,7 @@ const SmlPage = () => {
                 renderItem={() => {}}
               />
 
-              <Pagination count={32} />
+              <Pagination count={0} />
             </>
           )}
           {/* 
