@@ -3,35 +3,29 @@ import {
   InPreparationActionsMain,
   InPreparationActionsMenu,
   ISpan,
-} from 'features/reports/role/client/elements/without-report-actions/styles';
+} from 'features/reports/role/client/elements/ordered-actions/styles';
 import { useMenu, useModal } from 'hooks';
 import {
   ContactIcon,
+  InfoIcon,
   ReportIcon,
   ScheduleIcon,
   VerticalDotsIcon,
 } from 'components/svg';
-import { TInpreparationActionsMenuProps } from 'features/reports/role/client/elements/without-report-actions/types';
+import { TInpreparationActionsMenuProps } from 'features/reports/role/client/elements/ordered-actions/types';
+import { CreatedSurveysModal } from 'features/surveys/role/client/elements';
 import { useRouter } from 'next/router';
-import { CreateReportsModal } from 'features/reports/role/client/elements';
 
-const InPreparationActions = ({
-  data,
-  refresh,
-  ...props
-}: TInpreparationActionsMenuProps) => {
+const InPreparationActions = ({ ...props }: TInpreparationActionsMenuProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
   };
 
-  const [createReportModal, openCreateReportModal, closeCreateReportModal] =
-    useModal(false);
+  const [cdModal, openCdModal, closeCdModal] = useModal(false);
 
   const router = useRouter();
-
-  console.log(data);
 
   return (
     <InPreparationActionsMain {...props}>
@@ -43,9 +37,9 @@ const InPreparationActions = ({
           position={position}
           items={[
             {
-              icon: <ReportIcon />,
-              label: 'Report',
-              action: openCreateReportModal,
+              icon: <InfoIcon />,
+              label: 'Info',
+              action: () => {},
             },
             {
               icon: <ContactIcon />,
@@ -67,14 +61,7 @@ const InPreparationActions = ({
           ref={menu}
         />
       )}
-
-      {createReportModal && (
-        <CreateReportsModal
-          refresh={refresh}
-          campaign={data}
-          onClose={closeCreateReportModal}
-        />
-      )}
+      {/* {cdModal && <CreatedSurveysModal onClose={closeCdModal} />} */}
     </InPreparationActionsMain>
   );
 };

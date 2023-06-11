@@ -183,26 +183,10 @@ const CreatedCampaignModal = ({
       }
 
       if (campaign.language) {
-        switch (campaign.language) {
-          case 0:
-            newState.language = { value: 0, label: 'English' };
-            break;
-          case 1:
-            newState.language = { value: 1, label: 'French' };
-            break;
-          case 2:
-            newState.language = { value: 2, label: 'German' };
-            break;
-          case 3:
-            newState.language = { value: 3, label: 'Spanish' };
-            break;
-          case 4:
-            newState.language = { value: 4, label: 'Italian' };
-            break;
-          default:
-            newState.language = null;
-            break;
-        }
+        newState.language = {
+          value: campaign.language.value,
+          label: campaign.language.name,
+        };
       }
 
       if (campaign.instructions) {

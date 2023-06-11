@@ -125,9 +125,11 @@ const CampaignsPage = () => {
       return row.data.influencersCount;
     }
 
-    // if (headItem.reference === 'report') {
-    //   return row.data.report === 1 ? 'Yes' : row.data.report ? 'No' : null;
-    // }
+    if (headItem.reference === 'report') {
+      if (row.data.report) {
+        return row.data.report.name;
+      }
+    }
 
     if (headItem.reference === 'actions') {
       return <InPreparationActions data={row.data.id} />;

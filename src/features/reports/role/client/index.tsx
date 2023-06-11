@@ -38,6 +38,7 @@ import {
   ExportReportsModal,
   CreateReportsModal,
   WithoutReportActions,
+  OrderedActions,
 } from 'features/reports/role/client/elements';
 import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
@@ -96,7 +97,59 @@ const ReportsPage = () => {
       return row.data.costPerTarget;
     }
     if (headItem.reference === 'actions') {
-      return <WithoutReportActions />;
+      return <OrderedActions />;
+    }
+
+    return '';
+  };
+
+  const [campaigns, setCampaigns] = useState<any>([]);
+  const [filterParams, setFilterParams] = useState({});
+
+  const {
+    pagesCount: pagesCountWr,
+    page: pageWr,
+    setTotalResults: setTotalResultsWr,
+    handlePageChange: handlePageChangeWr,
+    reload: reloadWr,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { result, meta } = await CampaignAPI.getCampaigns({
+        limit: params.limit,
+        skip: params.skip,
+        ...filterParams,
+      });
+      setCampaigns(
+        result.filter((x: any) => !x.report || x.report.name === 'No')
+      );
+      setTotalResultsWr(meta.countFiltered);
+    },
+  });
+
+  const renderItemWithoutReport = ({
+    headItem,
+    row,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'campaign') {
+      return row.data.name;
+    }
+    if (headItem.reference === 'type') {
+      return row.data.report ? row.data.report.name : '';
+    }
+    if (headItem.reference === 'budget') {
+      return row.data.platformProductOrder.budget
+        ? `${row.data.platformProductOrder.budget} CHF`
+        : '';
+    }
+    if (headItem.reference === 'actions') {
+      return (
+        <WithoutReportActions
+          data={{ value: row.data.id, label: row.data.name }}
+          refresh={reloadWr}
+        />
+      );
     }
 
     return '';
@@ -105,8 +158,6 @@ const ReportsPage = () => {
   const router = useRouter();
 
   const [reports, setReports] = useState<any>([]);
-
-  const [filterParams, setFilterParams] = useState({});
 
   const { pagesCount, page, setTotalResults, handlePageChange, reload } =
     usePagination({
@@ -122,6 +173,10 @@ const ReportsPage = () => {
         setTotalResults(meta.countFiltered);
       },
     });
+
+  useEffect(() => {
+    console.log('CACACA', campaigns);
+  }, [campaigns]);
 
   /* Filters */
   const [loading, setLoading] = useState(false);
@@ -431,6 +486,16 @@ const ReportsPage = () => {
             <>
               <CheckboxTable
                 head={DReportsClientHead}
+                items={campaigns}
+                renderItem={renderItemWithoutReport}
+              />
+              <Pagination count={0} />
+            </>
+          )}
+          {tabsValue === 1 && (
+            <>
+              <CheckboxTable
+                head={DReportsClientHead}
                 items={reports}
                 renderItem={renderItem}
               />
@@ -439,16 +504,6 @@ const ReportsPage = () => {
                 page={page}
                 count={pagesCount}
               />
-            </>
-          )}
-          {tabsValue === 1 && (
-            <>
-              <CheckboxTable
-                head={DReportsClientHead}
-                items={[]}
-                renderItem={() => {}}
-              />
-              <Pagination count={0} />
             </>
           )}
           {tabsValue === 2 && (

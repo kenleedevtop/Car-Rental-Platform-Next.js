@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Modal } from 'components/custom';
+import { CurrencyFeedback, Modal } from 'components/custom';
 import { TAddReportModalProps } from 'features/reports/role/client/elements/create-report-modal/types';
 import { AddReportModalMain } from 'features/reports/role/client/elements/create-report-modal/styles';
 import { Button, Input } from 'components/ui';
-import { GridCell } from 'components/system';
+import { GridCell, Stack } from 'components/system';
 import { CampaignAPI, EnumsApi } from 'api';
 import { useSnackbar } from 'hooks';
 
 const AddReportModal = ({
+  campaign,
   onClose,
   refresh,
   ...props
 }: TAddReportModalProps) => {
   const [state, setState] = useState<any>({
-    campaign: null,
+    campaign: campaign || null,
     reportType: null,
     budget: '',
     additional: '',
   });
+
+  console.log(campaign);
 
   const [reportTypes, setReportTypes] = useState<any>([]);
   const [campaigns, setCampaigns] = useState<any>([]);
@@ -92,24 +95,28 @@ const AddReportModal = ({
           label="Campaign"
           placeholder="Please Select"
           value={state.campaign}
-          onValue={(campaign) => setState({ ...state, campaign })}
+          onValue={(input) => setState({ ...state, campaign: input })}
           options={campaigns}
         />
         <Input
           type="select"
           label="Report Type"
-          placeholder="Basic"
+          placeholder="Please Select"
           value={state.reportType}
           onValue={(reportType) => setState({ ...state, reportType })}
           options={reportTypes}
         />
-        <Input
-          type="number"
-          label="Budget"
-          placeholder="Please Enter"
-          value={state.budget}
-          onValue={(budget) => setState({ ...state, budget })}
-        />
+        <Stack>
+          <Input
+            type="number"
+            label="Budget"
+            startAdornment="CHF"
+            placeholder="Please Enter"
+            value={state.budget}
+            onValue={(budget) => setState({ ...state, budget })}
+          />
+          <CurrencyFeedback value={state.budget} />
+        </Stack>
 
         <GridCell columnSpan={2}>
           <Input

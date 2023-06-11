@@ -32,6 +32,7 @@ import {
   CreateSmlTabsModal,
   ExportSmlModal,
   OrderedActions,
+  RecommendedActions,
 } from 'features/sml/role/client/elements';
 import { useMenu, useModal, usePagination } from 'hooks';
 import { SMLApi } from 'api';
@@ -103,15 +104,13 @@ const SmlPage = () => {
     table,
   }: TTableRenderItemObject) => {
     if (headItem.reference === 'diseaseArea') {
-      return row.data.platformProductOrder.platformProductOrderDiseaseAreas.map(
-        (x: any, index: any) =>
-          index <
-          row.data.platformProductOrder.platformProductOrderDiseaseAreas
-            .length -
-            1
-            ? `${x.diseaseArea.name}, `
-            : x.diseaseArea.name
-      );
+      if (
+        row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea
+      ) {
+        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea.name;
+      }
     }
 
     if (headItem.reference === 'subscription') {
@@ -123,23 +122,66 @@ const SmlPage = () => {
     }
 
     if (headItem.reference === 'socialMedia') {
-      if (row.data.SMLPlatforms[0].socialPlatformId === 1) {
-        return 'Instagram';
-      }
+      return 'Instagram';
     }
 
-    if (headItem.reference === 'endDate') {
-      const originalDate = new Date(row.data.createdAt);
-      const newDate = new Date(row.data.createdAt);
-      const subLength = parseInt(row.data.subscriptionLength, 10);
+    // if (headItem.reference === 'endDate') {
+    //   const originalDate = new Date(row.data.createdAt);
+    //   const newDate = new Date(row.data.createdAt);
+    //   const subLength = parseInt(row.data.subscriptionLength, 10);
 
-      newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
+    //   newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
 
-      return newDate.toISOString().slice(0, 10);
-    }
+    //   return newDate.toISOString().slice(0, 10);
+    // }
 
     if (headItem.reference === 'actions') {
       return <OrderedActions data={{}} refreshInfluencers={() => {}} />;
+    }
+
+    return '';
+  };
+
+  const renderItemR = ({
+    headItem,
+    cell,
+    row,
+    table,
+  }: TTableRenderItemObject) => {
+    if (headItem.reference === 'diseaseArea') {
+      if (
+        row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea
+      ) {
+        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea.name;
+      }
+    }
+
+    if (headItem.reference === 'subscription') {
+      return `${row.data.subscriptionLength} Months`;
+    }
+
+    if (headItem.reference === 'tokens') {
+      return `${row.data.monthlyTokens} Tokens`;
+    }
+
+    if (headItem.reference === 'socialMedia') {
+      return 'Instagram';
+    }
+
+    // if (headItem.reference === 'endDate') {
+    //   const originalDate = new Date(row.data.createdAt);
+    //   const newDate = new Date(row.data.createdAt);
+    //   const subLength = parseInt(row.data.subscriptionLength, 10);
+
+    //   newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
+
+    //   return newDate.toISOString().slice(0, 10);
+    // }
+
+    if (headItem.reference === 'actions') {
+      return <RecommendedActions data={{}} refreshInfluencers={() => {}} />;
     }
 
     return '';
@@ -299,7 +341,7 @@ const SmlPage = () => {
             </SmlPageFilter>
           </Collapse> */}
           <Tabs
-            tabs={['Recommended', 'Ongoing', 'Finished', 'Subscriptions']}
+            tabs={['Recommended', 'Ordered', 'Ongoing', 'Subscriptions']}
             value={tabsValue}
             onValue={setTabsValue}
           />
@@ -350,7 +392,7 @@ const SmlPage = () => {
                   {
                     reference: 'endDate',
                     label: 'End Date',
-                    visible: true,
+                    visible: false,
                   },
                   {
                     reference: 'actions',
@@ -359,7 +401,7 @@ const SmlPage = () => {
                   },
                 ]}
                 items={sml}
-                renderItem={renderItem}
+                renderItem={renderItemR}
               />
 
               <Pagination
@@ -416,7 +458,7 @@ const SmlPage = () => {
                   {
                     reference: 'endDate',
                     label: 'End Date',
-                    visible: true,
+                    visible: false,
                   },
                   {
                     reference: 'actions',
@@ -424,11 +466,15 @@ const SmlPage = () => {
                     visible: true,
                   },
                 ]}
-                items={[]}
-                renderItem={() => {}}
+                items={sml}
+                renderItem={renderItem}
               />
 
-              <Pagination count={0} />
+              <Pagination
+                onChange={(_e, x) => handlePageChange(x)}
+                page={page}
+                count={pagesCount}
+              />
             </>
           )}
           {tabsValue === 2 && (
@@ -671,6 +717,7 @@ const SmlPage = () => {
       {esModal && <ExportSmlModal onClose={closeEsModal} />}
       {csModal && (
         <CreateSmlModal
+          refresh={reload}
           onClose={async () => {
             reload();
             closeCsModal();

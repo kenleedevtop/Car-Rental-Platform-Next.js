@@ -7,7 +7,6 @@ import {
 import { useMenu, useModal } from 'hooks';
 import {
   ContactIcon,
-  InfoIcon,
   OrderedIcon,
   ScheduleIcon,
   VerticalDotsIcon,
@@ -49,8 +48,8 @@ const DiscoverActions = ({
           position={position}
           items={[
             {
-              icon: <InfoIcon />,
-              label: 'Info',
+              icon: <OrderedIcon />,
+              label: 'Order',
               action: () => {},
             },
             {

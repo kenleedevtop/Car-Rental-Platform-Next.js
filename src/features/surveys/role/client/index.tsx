@@ -436,7 +436,7 @@ const SurveyPage = () => {
                   />
                   <Input
                     type="min-max"
-                    label="Participants (Number)"
+                    label="Participants"
                     value={filter.participants}
                     onValue={(participants) =>
                       setFilter({ ...filter, participants })
@@ -444,7 +444,7 @@ const SurveyPage = () => {
                   />
                   <Input
                     type="min-max"
-                    label="Questions (Number)"
+                    label="Questions"
                     value={filter.questions}
                     onValue={(questions) => setFilter({ ...filter, questions })}
                   />

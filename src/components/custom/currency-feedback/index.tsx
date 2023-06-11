@@ -30,7 +30,7 @@ const CurrencyFeedback = ({ value, children, ...props }: TNote) => {
         <>
           <InfoIcon />
           <NoteText>
-            {value} CHF is approximatelay
+            Approximatelay
             <HighlightText> {euroValue} EUR</HighlightText>.
           </NoteText>
         </>
@@ -39,7 +39,7 @@ const CurrencyFeedback = ({ value, children, ...props }: TNote) => {
         <>
           <InfoIcon />
           <NoteText>
-            {value} CHF is approximatelay
+            Approximatelay
             <HighlightText> {usdValue} USD</HighlightText>.
           </NoteText>
         </>

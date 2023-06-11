@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Tabs } from 'components/custom';
+import { CurrencyFeedback, Modal, Tabs } from 'components/custom';
 import { TCreateSurveysModalProps } from 'features/surveys/role/client/elements/created-surveys-modal/types';
 import { CreateSurveysModalMain } from 'features/surveys/role/client/elements/created-surveys-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
@@ -313,40 +313,17 @@ const CreateSurveysModal = ({
               disabled
               onValue={(tokens) => setState({ ...state, tokens })}
             />
-            <InputGroup
-              label="Budget"
-              inputRatio="100px 1fr"
-              disabled
-              elements={[
-                {
-                  value: state.currency,
-                  onValue: (currency) => setState({ ...state, currency }),
-                  type: 'select',
-
-                  placeholder: 'CHF',
-                  options: [
-                    {
-                      value: 'eur',
-                      label: 'EUR',
-                    },
-                    {
-                      value: 'usd',
-                      label: 'USD',
-                    },
-                    {
-                      value: 'chf',
-                      label: 'CHF',
-                    },
-                  ],
-                },
-                {
-                  value: state.budget,
-                  onValue: (budget) => setState({ ...state, budget }),
-                  type: 'text',
-                  placeholder: 'Please Enter',
-                },
-              ]}
-            />
+            <Stack>
+              <Input
+                type="number"
+                value={state.budget}
+                onValue={(budget) => setState({ ...state, budget })}
+                placeholder="Please Enter"
+                startAdornment="CHF"
+                label="Budget"
+              />
+              <CurrencyFeedback value={state.budget} />
+            </Stack>
             <GridCell columnSpan={2}>
               <Input
                 multiline

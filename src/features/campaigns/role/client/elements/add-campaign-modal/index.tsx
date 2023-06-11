@@ -92,7 +92,7 @@ const AddCampaignModal = ({
   const [product, setProduct] = useState<any>([]);
   const [report, setReport] = useState<any>();
   const [location, setLocation] = useState<any>();
-  const [language, setLanguage] = useState<any>();
+  const [languages, setLanguages] = useState<any>();
   const [diseaseAreas, setDiseaseAreas] = useState<any>();
   const [stakeholders, setStakholders] = useState<any>();
   const [gender, setGender] = useState<any>();
@@ -215,6 +215,17 @@ const AddCampaignModal = ({
     );
   };
 
+  const getLanguages = async () => {
+    const result = await EnumsApi.getLanguages();
+
+    setLanguages(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
   const [photo, setPhoto] = useState<any>(undefined);
 
   const handlePhotos = async () => {
@@ -236,9 +247,14 @@ const AddCampaignModal = ({
     getStruggles();
     getInterests();
     getInfluencerSizes();
+    getLanguages();
   }, []);
 
   const { push } = useSnackbar();
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   const createCampaign = async () => {
     try {
@@ -248,38 +264,42 @@ const AddCampaignModal = ({
         diseaseAreaId: state.diseaseArea ? state.diseaseArea.value : undefined,
         struggleIds: state.struggles
           ? state.struggles.map((x: any) => x.value)
-          : null,
+          : undefined,
         stakeholderTypes: state.stakeholders
           ? state.stakeholders.map((x: any) => x.value)
-          : null,
+          : undefined,
         locationId: state.location ? state.location.value : undefined,
         languageId: state.language ? state.language.value : undefined,
         ethnicityIds: state.ethnicity
           ? state.ethnicity.map((x: any) => x.value)
-          : [],
+          : undefined,
         interestIds: state.interests
           ? state.interests.map((x: any) => x.value)
-          : [],
-        productIds: state.product ? state.product.map((x: any) => x.value) : [],
+          : undefined,
+        productIds: state.product
+          ? state.product.map((x: any) => x.value)
+          : undefined,
         dateStart: state.startDate ? state.startDate : undefined,
         dateEnd: state.endDate ? state.endDate : undefined,
         description: state.campaignInfo ? state.campaignInfo : undefined,
         influencersCount: state.influencerCount
-          ? state.influencerCount
+          ? state.influencerCount.value
           : undefined,
         influencersSizeId: state.influencerSize
-          ? state.influencerSize.value
+          ? state.influencerSize.map((x: any) => x.value)
           : undefined,
         ageMin: state.age.min ? parseInt(state.age.min, 10) : undefined,
         ageMax: state.age.max ? parseInt(state.age.max, 10) : undefined,
-        genders: state.gender ? state.gender.map((x: any) => x.value) : [],
+        genders: state.gender
+          ? state.gender.map((x: any) => x.value)
+          : undefined,
         targetAudienceDescription: state.targetAudienceInfo
           ? state.targetAudienceInfo
           : undefined,
         socialPlatformId: state.platform ? state.platform.value : undefined,
         postType: state.postType ? state.postType.value : undefined,
-        clientCompanyWebsite: state.website ? state.website : '',
-        instructions: state.instructions ? state.instructions : '',
+        clientCompanyWebsite: state.website ? state.website : undefined,
+        instructions: state.instructions ? state.instructions : undefined,
         report: state.report ? state.report.value : undefined,
         exampleImageUrls: photo !== undefined ? [photo] : undefined,
       };
@@ -413,28 +433,7 @@ const AddCampaignModal = ({
               placeholder="Please Select"
               value={state.language}
               onValue={(input) => setState({ ...state, language: input })}
-              options={[
-                {
-                  value: 0,
-                  label: 'English',
-                },
-                {
-                  value: 1,
-                  label: 'French',
-                },
-                {
-                  value: 2,
-                  label: 'German',
-                },
-                {
-                  value: 3,
-                  label: 'Spanish',
-                },
-                {
-                  value: 4,
-                  label: 'Italian',
-                },
-              ]}
+              options={languages}
             />
             <Input
               type="select"
@@ -508,11 +507,12 @@ const AddCampaignModal = ({
             />
             <Input
               type="number"
+              min={0}
               label="Influencer Count"
               placeholder="Please Select"
               value={state.influencerCount}
               onValue={(input) =>
-                setState({ ...state, influencerCount: input })
+                setState({ ...state, influencerCount: input > 0 ? input : 0 })
               }
             />
             <GridCell columnSpan={2}>

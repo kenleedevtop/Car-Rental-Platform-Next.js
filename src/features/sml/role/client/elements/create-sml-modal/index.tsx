@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Modal } from 'components/custom';
-import { TAddSmlModalProps } from 'features/sml/role/admin/elements/create-sml-modal/types';
-import { AddSmlModalMain } from 'features/sml/role/admin/elements/create-sml-modal/styles';
+import { CurrencyFeedback, Modal } from 'components/custom';
+import { TAddSmlModalProps } from 'features/sml/role/client/elements/create-sml-modal/types';
+import { AddSmlModalMain } from 'features/sml/role/client/elements/create-sml-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
 import { useModal, useSnackbar } from 'hooks';
 import { CreateSmlFinal } from 'features/sml/role/client/elements';
-import { GridCell } from 'components/system';
+import { GridCell, Stack } from 'components/system';
 import { DiseaseAreaAPI, SMLApi } from 'api';
 import { useAppContext } from 'context';
 
-const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
+const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
   const [state, setState] = useState<any>({
     client: null,
     subscription: null,
     platform: null,
-    diseaseArea: [],
+    diseaseArea: null,
     aiAnalytics: null,
     currency: null,
     amount: '',
@@ -73,12 +73,23 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
         platforms: [state.platform.value] || [],
         subscriptionLength: state.subscription.value || null,
         monthlyTokens: state.aiAnalytics.value || null,
-        diseaseAreas: state.diseaseArea.map((x: any) => x.value) || [],
+        diseaseAreas: [state.diseaseArea.value],
         budget: state.amount || null,
         smlDescription: state.additional || '',
       });
     }
   }, [state]);
+
+  const { push } = useSnackbar();
+
+  const createSML = async () => {
+    try {
+      await SMLApi.createSML(data);
+      push('Successfully added SML report', { variant: 'success' });
+    } catch {
+      push('Something went wrong.', { variant: 'error' });
+    }
+  };
 
   return (
     <Modal
@@ -90,7 +101,9 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
           variant="contained"
           size="large"
           onClick={() => {
-            openCsfModal();
+            createSML();
+            refresh();
+            onClose();
           }}
         >
           Create
@@ -132,7 +145,7 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
           ]}
         />
         <Input
-          type="multiselect"
+          type="select"
           label="Disease Area"
           placeholder="Please Select"
           value={state.diseaseArea}
@@ -140,7 +153,7 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
           onValue={(input) => {
             setState({ ...state, diseaseArea: input });
           }}
-          onNewTag={handleNewTag}
+          // onNewTag={handleNewTag}
           loading={loading}
           options={diseaseArea}
         />
@@ -161,30 +174,17 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
             },
           ]}
         />
-        <InputGroup
-          label="Budget"
-          inputRatio="100px 1fr"
-          elements={[
-            {
-              value: state.currency,
-              onValue: (currency) => setState({ ...state, currency }),
-              type: 'select',
-              placeholder: 'CHF',
-              options: [
-                {
-                  value: 'chf',
-                  label: 'CHF',
-                },
-              ],
-            },
-            {
-              value: state.amount,
-              onValue: (amount) => setState({ ...state, amount }),
-              type: 'text',
-              placeholder: '18',
-            },
-          ]}
-        />
+        <Stack>
+          <Input
+            type="number"
+            label="Budget"
+            placeholder="Please Enter"
+            startAdornment="CHF"
+            value={state.amount}
+            onValue={(amount) => setState({ ...state, amount })}
+          />
+          <CurrencyFeedback value={state.amount} />
+        </Stack>
         <GridCell columnSpan={2}>
           <Input
             multiline
