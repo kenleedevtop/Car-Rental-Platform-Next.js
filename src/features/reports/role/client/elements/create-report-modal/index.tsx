@@ -20,8 +20,6 @@ const AddReportModal = ({
     additional: '',
   });
 
-  console.log(campaign);
-
   const [reportTypes, setReportTypes] = useState<any>([]);
   const [campaigns, setCampaigns] = useState<any>([]);
 

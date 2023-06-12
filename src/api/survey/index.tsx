@@ -22,6 +22,14 @@ const SurveyAPI = {
 
     return data;
   },
+
+  getTokens: async () => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/surveys/creditPackages`
+    );
+
+    return data;
+  },
 };
 
 export default SurveyAPI;

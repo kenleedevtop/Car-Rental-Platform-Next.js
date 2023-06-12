@@ -166,6 +166,7 @@ const SurveyPage = () => {
   const [filterInterests, setFilterInterests] = useState<any>([]);
   const [filterGenders, setFilterGenders] = useState<any>([]);
   const [filterLanguages, setFilterLanguages] = useState<any>([]);
+  const [filterSymptoms, setFilterSymptoms] = useState<any>([]);
 
   const getProducts = async (s: string = '') => {
     const { result } = await ProductApi.getProducts(s);
@@ -257,6 +258,17 @@ const SurveyPage = () => {
     );
   };
 
+  const getSymptoms = async () => {
+    const { result } = await EnumsApi.getSymptoms();
+
+    setFilterSymptoms(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
   useEffect(() => {
     getLanguages();
     getProducts();
@@ -266,6 +278,7 @@ const SurveyPage = () => {
     getEthnicities();
     getStruggles();
     getInterests();
+    getSymptoms();
   }, []);
 
   const handleNewProductTag = (v: any) => {
@@ -530,6 +543,14 @@ const SurveyPage = () => {
                     value={filter.gender}
                     onValue={(gender) => setFilter({ ...filter, gender })}
                     options={filterGenders}
+                  />
+                  <Input
+                    type="multiselect"
+                    label="Symptoms"
+                    placeholder="Please Select"
+                    value={filter.symptoms}
+                    onValue={(symptoms) => setFilter({ ...filter, symptoms })}
+                    options={filterSymptoms}
                   />
                 </SurveysPageFilterContainer>
               )}

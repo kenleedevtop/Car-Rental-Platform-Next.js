@@ -29,6 +29,12 @@ const SMLApi = {
   deleteSML: async (id: number) => {
     await client.delete(`${Project.apis.v1}/sml/${id}`);
   },
+
+  getTokens: async () => {
+    const { data } = await client.get(`${Project.apis.v1}/sml/creditPackages`);
+
+    return data;
+  },
 };
 
 export default SMLApi;

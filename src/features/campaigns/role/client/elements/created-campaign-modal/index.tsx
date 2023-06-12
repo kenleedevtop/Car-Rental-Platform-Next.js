@@ -35,7 +35,7 @@ const CreatedCampaignModal = ({
     ethnicity: [],
     struggles: [],
     interests: [],
-    influencerSize: null,
+    influencerSize: [],
     targetAudienceInfo: '',
 
     platform: null,
@@ -159,6 +159,15 @@ const CreatedCampaignModal = ({
         // campaign.platformProductOrder.platformProductOrderDiseaseAreas.map(
         //   (x: any) => ({ value: x.diseaseArea.id, label: x.diseaseArea.name })
         // );
+      }
+
+      if (campaign.campaignInfluencersSizes) {
+        newState.influencerSize = campaign.campaignInfluencersSizes.map(
+          (x: any) => ({
+            value: x.influencerSize.id,
+            label: `${x.influencerSize.name}: ${x.influencerSize.from} | ${x.influencerSize.to}`,
+          })
+        );
       }
 
       if (campaign.platformProductOrder.platformProductOrderEthnicities) {
@@ -413,7 +422,7 @@ const CreatedCampaignModal = ({
               onValue={(interests) => setState({ ...state, interests })}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Influencer Size"
               disabled
               value={state.influencerSize}

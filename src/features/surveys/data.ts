@@ -284,4 +284,5 @@ export const DGenerateSurveyClientFilter = () => ({
     max: '',
   },
   gender: [],
+  symptoms: [],
 });

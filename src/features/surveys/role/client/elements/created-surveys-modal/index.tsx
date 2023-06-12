@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal, Tabs } from 'components/custom';
 import { TCreateSurveysModalProps } from 'features/surveys/role/client/elements/created-surveys-modal/types';
-import { CreateSurveysModalMain } from 'features/surveys/role/client/elements/created-surveys-modal/styles';
+import {
+  CreateSurveysModalMain,
+  ImageUploadContainer,
+} from 'features/surveys/role/client/elements/created-surveys-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
@@ -317,6 +320,7 @@ const CreateSurveysModal = ({
               <Input
                 type="number"
                 value={state.budget}
+                disabled
                 onValue={(budget) => setState({ ...state, budget })}
                 placeholder="Please Enter"
                 startAdornment="CHF"

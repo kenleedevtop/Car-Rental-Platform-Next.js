@@ -61,6 +61,16 @@ const EnumsApi = {
 
     return data;
   },
+
+  getSymptoms: async () => {
+    const { data } = await client.get(`${Project.apis.v1}/symptoms`, {
+      params: {
+        limit: 16,
+      },
+    });
+
+    return data;
+  },
 };
 
 export default EnumsApi;

@@ -252,7 +252,7 @@ const AccountPage = ({ ...props }) => {
         <ChangeInfoModal
           data={state}
           refresh={getClient}
-          onClose={() => {
+          onClose={async () => {
             getClient();
             closeCiModal();
           }}

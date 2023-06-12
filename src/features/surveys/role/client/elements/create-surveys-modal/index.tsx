@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal, Tabs } from 'components/custom';
 import { TCreateSurveysModalProps } from 'features/surveys/role/client/elements/create-surveys-modal/types';
-import { CreateSurveysModalMain } from 'features/surveys/role/client/elements/create-surveys-modal/styles';
-import { Button, Input, InputGroup } from 'components/ui';
+import {
+  CreateSurveysModalMain,
+  ImageUploadContainer,
+  ImageUploadMainContainer,
+} from 'features/surveys/role/client/elements/create-surveys-modal/styles';
+import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 import {
@@ -72,6 +76,7 @@ const CreateSurveysModal = ({
   const [struggles, setStruggles] = useState<any>([]);
   const [interests, setInterests] = useState<any>([]);
   const [surveyTypes, setSurveyTypes] = useState<any>(null);
+  const [tokens, setTokens] = useState<any>(null);
 
   const handleNewStruggleTag = (v: any) => {
     setState({ ...state, struggles: [...state.struggles, v] });
@@ -171,9 +176,12 @@ const CreateSurveysModal = ({
   };
 
   const [photo, setPhoto] = useState<any>('');
+  const [photoName, setPhotoName] = useState('');
 
   const handlePhotos = async () => {
     const file: any = await pick();
+
+    setPhotoName(file.name);
 
     const { url } = await FileManagerApi.fileUpload(file);
 
@@ -191,6 +199,17 @@ const CreateSurveysModal = ({
     );
   };
 
+  const getSurveyTokens = async () => {
+    const result = await SurveyAPI.getTokens();
+
+    setTokens(
+      result.map((x: any) => ({
+        value: x.value,
+        label: `${x.value} Tokens`,
+      }))
+    );
+  };
+
   useEffect(() => {
     getProducts();
     getDiseaseAreas();
@@ -200,6 +219,7 @@ const CreateSurveysModal = ({
     getStruggles();
     getInterests();
     getSurveyTypes();
+    getSurveyTokens();
   }, []);
 
   const { push } = useSnackbar();
@@ -212,19 +232,21 @@ const CreateSurveysModal = ({
         diseaseAreaId: state.diseaseArea ? state.diseaseArea.value : undefined,
         struggleIds: state.struggles
           ? state.struggles.map((x: any) => x.value)
-          : [],
+          : undefined,
         locationId: state.location ? state.location.value : undefined,
         languageId: state.language ? state.language.value : undefined,
         ethnicityIds: state.ethnicity
           ? state.ethnicity.map((x: any) => x.value)
-          : [],
+          : undefined,
         interestIds: state.interests
           ? state.interests.map((x: any) => x.value)
-          : [],
-        productIds: state.product ? state.product.map((x: any) => x.value) : [],
+          : undefined,
+        productIds: state.product
+          ? state.product.map((x: any) => x.value)
+          : undefined,
         dateStart: state.startDate ? state.startDate : undefined,
         dateEnd: state.endDate ? state.endDate : undefined,
-        description: state.surveyInfo ? state.surveyInfo : '',
+        description: state.surveyInfo ? state.surveyInfo : undefined,
         participantsCount: state.participants
           ? parseInt(state.participants, 10)
           : undefined,
@@ -240,14 +262,16 @@ const CreateSurveysModal = ({
         genders: state.gender
           ? state.gender.map((x: any) => x.value)
           : undefined,
-        participantsDescription: state.targetAudInfo ? state.targetAudInfo : '',
-        surveyType: state.surveyType ? state.surveyType.value : undefined,
-        exampleImageUrls: [photo] || [''],
-        instructions: state.instructions ? state.instructions : '',
-        tokens: state.tokens ? state.tokens.value : undefined,
-        questionCredits: state.questionsCredit
-          ? parseInt(state.questionCredits, 10)
+        participantsDescription: state.targetAudInfo
+          ? state.targetAudInfo
           : undefined,
+        surveyType: state.surveyType ? state.surveyType.value : undefined,
+        exampleImageUrls: [photo] || undefined,
+        instructions: state.instructions ? state.instructions : undefined,
+        tokens: state.tokens ? state.tokens.value : null,
+        // questionCredits: state.questionsCredit
+        //   ? parseInt(state.questionCredits, 10)
+        //   : undefined,
       };
       await SurveyAPI.createSurvey(body);
 
@@ -324,7 +348,7 @@ const CreateSurveysModal = ({
                 setState({ ...state, questionsCount })
               }
             />
-            <Input
+            {/* <Input
               type="number"
               label="Question Credits"
               placeholder="Please Enter"
@@ -332,7 +356,7 @@ const CreateSurveysModal = ({
               onValue={(questionCredits) =>
                 setState({ ...state, questionCredits })
               }
-            />
+            /> */}
             <Input
               type="select"
               label="Survey Type"
@@ -360,17 +384,8 @@ const CreateSurveysModal = ({
               label="Tokens"
               placeholder="Please Select"
               value={state.tokens}
-              onValue={(tokens) => setState({ ...state, tokens })}
-              options={[
-                {
-                  value: 0,
-                  label: '25 Tokens',
-                },
-                {
-                  value: 1,
-                  label: '50 Tokens',
-                },
-              ]}
+              onValue={(input) => setState({ ...state, tokens: input })}
+              options={tokens}
             />
             <Stack>
               <Input
@@ -515,14 +530,19 @@ const CreateSurveysModal = ({
               onValue={(link) => setState({ ...state, link })}
             />
             <GridCell columnSpan={1}>
-              <InputLabel>Materials</InputLabel>
-              <Button
-                color="default"
-                variant="contained"
-                onClick={handlePhotos}
-              >
-                Upload
-              </Button>
+              <ImageUploadMainContainer>
+                <ImageUploadContainer>
+                  <InputLabel>Image</InputLabel>
+                  <Button
+                    color="default"
+                    variant="contained"
+                    onClick={handlePhotos}
+                  >
+                    Upload
+                  </Button>
+                </ImageUploadContainer>
+                {photoName}
+              </ImageUploadMainContainer>
             </GridCell>
             <Input
               multiline

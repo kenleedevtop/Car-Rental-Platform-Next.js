@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal, Note, Tabs } from 'components/custom';
 import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
-import { AddCampaignsModalMain } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
+import {
+  AddCampaignsModalMain,
+  ImageUploadContainer,
+  ImageUploadMainContainer,
+} from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
@@ -227,9 +231,12 @@ const AddCampaignModal = ({
   };
 
   const [photo, setPhoto] = useState<any>(undefined);
+  const [photoName, setPhotoName] = useState('');
 
   const handlePhotos = async () => {
     const file: any = await pick();
+
+    setPhotoName(file.name);
 
     const { url } = await FileManagerApi.fileUpload(file);
 
@@ -252,10 +259,6 @@ const AddCampaignModal = ({
 
   const { push } = useSnackbar();
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   const createCampaign = async () => {
     try {
       const body = {
@@ -269,7 +272,7 @@ const AddCampaignModal = ({
           ? state.stakeholders.map((x: any) => x.value)
           : undefined,
         locationId: state.location ? state.location.value : undefined,
-        languageId: state.language ? state.language.value : undefined,
+        language: state.language ? state.language.value : undefined,
         ethnicityIds: state.ethnicity
           ? state.ethnicity.map((x: any) => x.value)
           : undefined,
@@ -285,7 +288,7 @@ const AddCampaignModal = ({
         influencersCount: state.influencerCount
           ? state.influencerCount.value
           : undefined,
-        influencersSizeId: state.influencerSize
+        influencersSizeIds: state.influencerSize
           ? state.influencerSize.map((x: any) => x.value)
           : undefined,
         ageMin: state.age.min ? parseInt(state.age.min, 10) : undefined,
@@ -567,14 +570,19 @@ const AddCampaignModal = ({
               ]}
             />
             <GridCell columnSpan={1}>
-              <InputLabel>Image</InputLabel>
-              <Button
-                color="default"
-                variant="contained"
-                onClick={handlePhotos}
-              >
-                Upload
-              </Button>
+              <ImageUploadMainContainer>
+                <ImageUploadContainer>
+                  <InputLabel>Image</InputLabel>
+                  <Button
+                    color="default"
+                    variant="contained"
+                    onClick={handlePhotos}
+                  >
+                    Upload
+                  </Button>
+                </ImageUploadContainer>
+                {photoName}
+              </ImageUploadMainContainer>
             </GridCell>
             <Input
               type="text"
