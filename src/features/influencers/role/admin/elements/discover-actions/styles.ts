@@ -12,10 +12,16 @@ export const DiscoverActionsMain = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const DiscoverActionsMenu = styled(Menu)`
-  position: absolute;
-  left: -50px;
-  top: 100%;
+export const DiscoverActionsMenu = styled(Menu)<{
+  position: { right: number; top: number };
+}>`
+  ${({ position }) => `
+  position: fixed;
   z-index: 200;
   width: 120px;
+  right: ${position?.right}px;
+  top: ${position?.top}px;
+  `}
 `;
+
+export const ISpan = styled.div``;

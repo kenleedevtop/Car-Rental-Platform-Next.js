@@ -2,7 +2,8 @@ import React from 'react';
 import {
   DiscoverActionsMain,
   DiscoverActionsMenu,
-} from 'features/discover-influencers/role/admin/elements/discover-actions/styles';
+  ISpan,
+} from 'features/influencers/role/admin/elements/discover-actions/styles';
 import { useMenu, useModal } from 'hooks';
 import {
   ContactIcon,
@@ -16,11 +17,11 @@ import {
   DeleteInfluencerModal,
   NoteInfluencer,
   ScheduleInfluencerModal,
-} from 'features/discover-influencers/role/admin/elements';
-import { TDiscoverActionsMenuProps } from 'features/discover-influencers/role/admin/elements/discover-actions/types';
+} from 'features/influencers/role/admin/elements';
+import { TDiscoverActionsMenuProps } from 'features/influencers/role/admin/elements/discover-actions/types';
 
 const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
-  const [menu, open, setOpen] = useMenu(false);
+  const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
@@ -33,9 +34,12 @@ const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
 
   return (
     <DiscoverActionsMain>
-      <VerticalDotsIcon onClick={handleMenu} />
+      <ISpan onClick={handleMenu} ref={buttonRef}>
+        <VerticalDotsIcon onClick={handleMenu} />
+      </ISpan>
       {open && (
         <DiscoverActionsMenu
+          position={position}
           items={[
             {
               icon: <ContactIcon />,

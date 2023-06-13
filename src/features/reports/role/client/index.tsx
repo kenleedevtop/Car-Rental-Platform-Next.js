@@ -97,7 +97,7 @@ const ReportsPage = () => {
       return row.data.costPerTarget;
     }
     if (headItem.reference === 'actions') {
-      return <OrderedActions />;
+      return <OrderedActions data={row.data} />;
     }
 
     return '';
@@ -173,10 +173,6 @@ const ReportsPage = () => {
         setTotalResults(meta.countFiltered);
       },
     });
-
-  useEffect(() => {
-    console.log('CACACA', campaigns);
-  }, [campaigns]);
 
   /* Filters */
   const [loading, setLoading] = useState(false);

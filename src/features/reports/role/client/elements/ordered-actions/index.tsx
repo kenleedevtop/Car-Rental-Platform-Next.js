@@ -8,22 +8,28 @@ import { useMenu, useModal } from 'hooks';
 import {
   ContactIcon,
   InfoIcon,
-  ReportIcon,
   ScheduleIcon,
   VerticalDotsIcon,
 } from 'components/svg';
 import { TInpreparationActionsMenuProps } from 'features/reports/role/client/elements/ordered-actions/types';
-import { CreatedSurveysModal } from 'features/surveys/role/client/elements';
 import { useRouter } from 'next/router';
+import { CreatedReportsModal } from 'features/reports/role/client/elements';
 
-const InPreparationActions = ({ ...props }: TInpreparationActionsMenuProps) => {
+const InPreparationActions = ({
+  data,
+  ...props
+}: TInpreparationActionsMenuProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
   };
 
-  const [cdModal, openCdModal, closeCdModal] = useModal(false);
+  const [
+    createdReportsModal,
+    openCreatedReportsModal,
+    closeCreatedReportsModal,
+  ] = useModal(false);
 
   const router = useRouter();
 
@@ -39,7 +45,7 @@ const InPreparationActions = ({ ...props }: TInpreparationActionsMenuProps) => {
             {
               icon: <InfoIcon />,
               label: 'Info',
-              action: () => {},
+              action: openCreatedReportsModal,
             },
             {
               icon: <ContactIcon />,
@@ -61,7 +67,9 @@ const InPreparationActions = ({ ...props }: TInpreparationActionsMenuProps) => {
           ref={menu}
         />
       )}
-      {/* {cdModal && <CreatedSurveysModal onClose={closeCdModal} />} */}
+      {createdReportsModal && (
+        <CreatedReportsModal data={data} onClose={closeCreatedReportsModal} />
+      )}
     </InPreparationActionsMain>
   );
 };

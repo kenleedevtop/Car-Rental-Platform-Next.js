@@ -1,70 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal } from 'components/custom';
-import { TAddReportModalProps } from 'features/reports/role/client/elements/create-report-modal/types';
-import { AddReportModalMain } from 'features/reports/role/client/elements/create-report-modal/styles';
+import { TAddReportModalProps } from 'features/reports/role/client/elements/created-report-modal/types';
+import { AddReportModalMain } from 'features/reports/role/client/elements/created-report-modal/styles';
 import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
-import { CampaignAPI, EnumsApi } from 'api';
-import { useSnackbar } from 'hooks';
 
-const AddReportModal = ({
-  campaign,
-  onClose,
-  refresh,
-  ...props
-}: TAddReportModalProps) => {
+const AddReportModal = ({ data, onClose, ...props }: TAddReportModalProps) => {
   const [state, setState] = useState<any>({
-    campaign: campaign || null,
-    reportType: null,
-    budget: '',
-    additional: '',
+    campaign: {
+      value: data.campaign.id,
+      label: data.campaign.name,
+    },
+    reportType:
+      data.campaign.reportType === 1
+        ? { value: 1, label: 'Yes' }
+        : { value: 0, label: 'No' },
+    budget: data.platformProductOrder.budget,
+    additional: data.description,
   });
 
-  const [reportTypes, setReportTypes] = useState<any>([]);
-  const [campaigns, setCampaigns] = useState<any>([]);
-
-  const getReportTypes = async () => {
-    const result = await EnumsApi.getReportTypes();
-
-    setReportTypes(
-      result.map((x: any) => ({
-        value: x.value,
-        label: x.name,
-      }))
-    );
-  };
-
-  const getCampaigns = async (s: string = '') => {
-    const { result } = await CampaignAPI.getCampaigns(s);
-
-    setCampaigns(
-      result.map((x: any) => ({
-        value: x.id,
-        label: x.name,
-      }))
-    );
-  };
-
-  const { push } = useSnackbar();
-
   useEffect(() => {
-    getReportTypes();
-    getCampaigns();
+    console.log(data);
   }, []);
-
-  const createReport = async () => {
-    try {
-      await CampaignAPI.createReport({
-        campaignId: state.campaign.value,
-        budget: parseInt(state.budget, 10),
-        reportType: state.reportType.value,
-        description: state.additional,
-      });
-      push('Successfully createad a report.', { variant: 'success' });
-    } catch {
-      push('Report creation failed.', { variant: 'error' });
-    }
-  };
 
   return (
     <Modal
@@ -76,8 +33,6 @@ const AddReportModal = ({
           variant="contained"
           size="large"
           onClick={() => {
-            createReport();
-            refresh();
             onClose();
           }}
         >
@@ -94,7 +49,7 @@ const AddReportModal = ({
           placeholder="Please Select"
           value={state.campaign}
           onValue={(input) => setState({ ...state, campaign: input })}
-          options={campaigns}
+          disabled
         />
         <Input
           type="select"
@@ -102,7 +57,7 @@ const AddReportModal = ({
           placeholder="Please Select"
           value={state.reportType}
           onValue={(reportType) => setState({ ...state, reportType })}
-          options={reportTypes}
+          disabled
         />
         <Stack>
           <Input
@@ -112,6 +67,7 @@ const AddReportModal = ({
             placeholder="Please Enter"
             value={state.budget}
             onValue={(budget) => setState({ ...state, budget })}
+            disabled
           />
           <CurrencyFeedback value={state.budget} />
         </Stack>
@@ -124,6 +80,7 @@ const AddReportModal = ({
             onValue={(additional) => setState({ ...state, additional })}
             multiline
             rows={5}
+            disabled
           />
         </GridCell>
       </AddReportModalMain>

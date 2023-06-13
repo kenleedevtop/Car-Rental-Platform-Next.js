@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ToBeApprovedActionsMain,
   ToBeApprovedActionsMenu,
+  ISpan,
 } from 'features/discover-influencers/role/admin/elements/to-be-approved-actions/styles';
 import { useMenu, useModal } from 'hooks';
 import {
@@ -21,7 +22,7 @@ import {
 import { TToBeApprovedProps } from 'features/discover-influencers/role/admin/elements/to-be-approved-actions/types';
 
 const ToBeApprovedActions = ({ data, ...props }: TToBeApprovedProps) => {
-  const [menu, open, setOpen] = useMenu(false);
+  const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
@@ -34,9 +35,12 @@ const ToBeApprovedActions = ({ data, ...props }: TToBeApprovedProps) => {
 
   return (
     <ToBeApprovedActionsMain>
-      <VerticalDotsIcon onClick={handleMenu} />
+      <ISpan onClick={handleMenu} ref={buttonRef}>
+        <VerticalDotsIcon onClick={handleMenu} />
+      </ISpan>
       {open && (
         <ToBeApprovedActionsMenu
+          position={position}
           items={[
             {
               icon: <ApproveIcon />,

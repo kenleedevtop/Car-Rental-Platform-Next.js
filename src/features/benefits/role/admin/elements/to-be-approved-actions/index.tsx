@@ -2,7 +2,7 @@ import React from 'react';
 import {
   ToBeApprovedActionsMain,
   ToBeApprovedActionsMenu,
-} from 'features/discover-influencers/role/admin/elements/to-be-approved-actions/styles';
+} from 'features/benefits/role/admin/elements/to-be-approved-actions/styles';
 import { useMenu, useModal } from 'hooks';
 import {
   ApproveIcon,

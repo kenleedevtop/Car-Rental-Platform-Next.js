@@ -49,36 +49,13 @@ const DonateInfluencerModal = ({
             value={state.project}
             onValue={(project) => setState({ ...state, project })}
           />
-          <InputGroup
-            label="Desired amount to Donate"
-            inputRatio="100px 1fr"
-            elements={[
-              {
-                value: state.currency,
-                onValue: (currency) => setState({ ...state, currency }),
-                type: 'select',
-                placeholder: 'CHF',
-                options: [
-                  {
-                    value: 'eur',
-                    label: 'EUR',
-                  },
-                  {
-                    value: 'usd',
-                    label: 'USD',
-                  },
-                  {
-                    value: 'chf',
-                    label: 'CHF',
-                  },
-                ],
-              },
-              {
-                value: state.amount,
-                onValue: (amount) => setState({ ...state, amount }),
-                type: 'text',
-              },
-            ]}
+          <Input
+            type="number"
+            label="Desired Amount to Donate"
+            placeholder="Please Enter"
+            value={state.amount}
+            onValue={(value) => setState({ ...state, amount: value })}
+            startAdornment="CHF"
           />
           <Input
             type="text"

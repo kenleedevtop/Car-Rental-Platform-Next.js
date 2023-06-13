@@ -19,7 +19,7 @@ import {
   ChangePasswordModal,
 } from 'features/account/role/ambasador/elements';
 import { useModal } from 'hooks';
-// import { pick, read } from 'utilities/file-manager';
+import { pick, read } from '@costorgroup/file-manager';
 
 const ProfilePictureModal = ({ onClose, ...props }: TProfilePicture) => {
   const [picture, setPicture] = useState<any>(
@@ -27,9 +27,9 @@ const ProfilePictureModal = ({ onClose, ...props }: TProfilePicture) => {
   );
 
   const handleFile = async () => {
-    // const file = await pick({ multiple: false });
-    // const dataSource = await read(file as File, 'data-url');
-    // setPicture(dataSource);
+    const file = await pick();
+    const dataSource = await read(file as File, 'data-url');
+    setPicture(dataSource);
   };
 
   const [filter, setFilter] = useState({

@@ -1,4 +1,6 @@
 import React from 'react';
 
 export type TInpreparationActionsMenuProps =
-  React.HTMLAttributes<HTMLDivElement> & {};
+  React.HTMLAttributes<HTMLDivElement> & {
+    data: any;
+  };

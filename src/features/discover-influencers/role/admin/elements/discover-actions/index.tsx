@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   DiscoverActionsMain,
   DiscoverActionsMenu,
+  ISpan,
 } from 'features/discover-influencers/role/admin/elements/discover-actions/styles';
 import { useMenu, useModal } from 'hooks';
 import {
@@ -20,7 +21,7 @@ import {
 import { TDiscoverActionsMenuProps } from 'features/discover-influencers/role/admin/elements/discover-actions/types';
 
 const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
-  const [menu, open, setOpen] = useMenu(false);
+  const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
@@ -31,15 +32,14 @@ const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
   const [niModal, openNiModal, closeNiModal] = useModal(false);
   const [diModal, openDiModal, closeDiModal] = useModal(false);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
-    <DiscoverActionsMain>
-      <VerticalDotsIcon onClick={handleMenu} />
+    <DiscoverActionsMain {...props}>
+      <ISpan onClick={handleMenu} ref={buttonRef}>
+        <VerticalDotsIcon onClick={handleMenu} />
+      </ISpan>
       {open && (
         <DiscoverActionsMenu
+          position={position}
           items={[
             {
               icon: <ContactIcon />,

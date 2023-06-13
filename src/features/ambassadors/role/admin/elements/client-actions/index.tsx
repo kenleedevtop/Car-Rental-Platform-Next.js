@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   ClientActionsMain,
   ClientActionsMenu,
+  ISpan,
 } from 'features/clients/role/admin/elements/client-actions/styles';
 import { useMenu, useModal } from 'hooks';
 import {
@@ -20,7 +21,7 @@ import {
 import { TClientActionsMenuProps } from 'features/clients/role/admin/elements/client-actions/types';
 
 const ClientActions = ({ data, ...props }: TClientActionsMenuProps) => {
-  const [menu, open, setOpen] = useMenu(false);
+  const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
@@ -37,9 +38,12 @@ const ClientActions = ({ data, ...props }: TClientActionsMenuProps) => {
 
   return (
     <ClientActionsMain>
-      <VerticalDotsIcon onClick={handleMenu} />
+      <ISpan onClick={handleMenu} ref={buttonRef}>
+        <VerticalDotsIcon />
+      </ISpan>
       {open && (
         <ClientActionsMenu
+          position={position}
           items={[
             {
               icon: <ContactIcon />,

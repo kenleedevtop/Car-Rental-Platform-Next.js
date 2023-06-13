@@ -75,8 +75,14 @@ const Login = () => {
 
   const isDisabled = !state.email.trim() || !state.password.trim();
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter' && !isDisabled) {
+      handleLogin();
+    }
+  };
+
   return (
-    <Stack>
+    <Stack onKeyDown={handleKeyDown}>
       <LoginTitle>{t('Login Now')}</LoginTitle>
       <LoginSubtitle>
         {t(

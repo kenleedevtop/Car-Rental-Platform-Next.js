@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   SmlPageMain,
   SmlPageCharts,
@@ -38,6 +38,8 @@ import { useMenu, useModal, usePagination } from 'hooks';
 import { SMLApi } from 'api';
 import SubscriptionIcon from 'components/svg/subscriptions';
 import ReccomendedIcon from 'components/svg/recommended';
+import UsersAPI from 'api/users';
+import { useAppContext } from 'context';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
@@ -125,16 +127,6 @@ const SmlPage = () => {
       return 'Instagram';
     }
 
-    // if (headItem.reference === 'endDate') {
-    //   const originalDate = new Date(row.data.createdAt);
-    //   const newDate = new Date(row.data.createdAt);
-    //   const subLength = parseInt(row.data.subscriptionLength, 10);
-
-    //   newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
-
-    //   return newDate.toISOString().slice(0, 10);
-    // }
-
     if (headItem.reference === 'actions') {
       return <OrderedActions data={{}} refreshInfluencers={() => {}} />;
     }
@@ -170,22 +162,25 @@ const SmlPage = () => {
       return 'Instagram';
     }
 
-    // if (headItem.reference === 'endDate') {
-    //   const originalDate = new Date(row.data.createdAt);
-    //   const newDate = new Date(row.data.createdAt);
-    //   const subLength = parseInt(row.data.subscriptionLength, 10);
-
-    //   newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
-
-    //   return newDate.toISOString().slice(0, 10);
-    // }
-
     if (headItem.reference === 'actions') {
       return <RecommendedActions data={{}} refreshInfluencers={() => {}} />;
     }
 
     return '';
   };
+
+  const { user } = useAppContext();
+
+  const getUserData = async () => {
+    const result = await UsersAPI.getUser(user.id);
+
+    console.log(result);
+  };
+
+  useEffect(() => {
+    // getUserData();
+    console.log(user);
+  }, []);
 
   return (
     <SmlPageMain>
