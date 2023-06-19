@@ -1,112 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal } from 'components/custom';
-import { TAddSmlModalProps } from 'features/sml/role/client/elements/create-sml-modal/types';
-import { AddSmlModalMain } from 'features/sml/role/client/elements/create-sml-modal/styles';
-import { Button, Input, InputGroup } from 'components/ui';
-import { useModal, useSnackbar } from 'hooks';
-import { CreateSmlFinal } from 'features/sml/role/client/elements';
+import { TAddSmlModalProps } from 'features/sml/role/client/elements/created-sml-modal/types';
+import { AddSmlModalMain } from 'features/sml/role/client/elements/created-sml-modal/styles';
+import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
-import { DiseaseAreaAPI, SMLApi } from 'api';
-import { useAppContext } from 'context';
 
-const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
+const AddSmlModal = ({
+  data,
+  refresh,
+  onClose,
+  ...props
+}: TAddSmlModalProps) => {
   const [state, setState] = useState<any>({
     client: null,
-    subscription: null,
-    platform: null,
-    diseaseArea: null,
-    aiAnalytics: null,
+    subscription: data.subscriptionLength
+      ? { value: 0, label: `${data.subscriptionLength} Months` }
+      : null,
+    platform: data.SMLPlatforms ? { value: 0, label: 'Instagram' } : null,
+    diseaseArea: data.platformProductOrder.platformProductOrderDiseaseAreas
+      ? {
+          value:
+            data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+              .diseaseArea.id,
+          label:
+            data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+              .diseaseArea.name,
+        }
+      : null,
+    aiAnalytics: data.monthlyTokens
+      ? { value: 100, label: `${data.monthlyTokens} Tokens` }
+      : null,
     currency: null,
-    amount: '',
-    additional: '',
+    amount: data.platformProductOrder ? data.platformProductOrder.budget : '',
+    additional: data.smlDescription ? data.smlDescription : '',
   });
-  const [loading, setLoading] = useState(false);
-  const [diseaseArea, setDiseaseArea] = useState<any>([]);
-
-  const [csfModal, openCsfModal, closeCsfModal] = useModal(false);
-
-  const getDiseaseArea = async (s: string = '') => {
-    setLoading(true);
-    const { result } = await DiseaseAreaAPI.getAll(s);
-
-    setDiseaseArea(
-      result.map((item: any) => ({
-        value: item.id,
-        label: item.name,
-      }))
-    );
-    setLoading(false);
-  };
-
-  const debounce = (func: any, wait: any) => {
-    let timeout: any;
-
-    return (...args: any) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), wait);
-    };
-  };
-
-  const handleNewTag = (v: any) => {
-    setState({ ...state, diseaseAreas: [...state.diseaseAreas, v] });
-  };
-
-  useEffect(() => {
-    getDiseaseArea();
-  }, []);
-
-  const { user } = useAppContext();
-  const [data, setData] = useState<any>({});
-
-  useEffect(() => {
-    if (
-      user.client.id &&
-      state.platform &&
-      state.subscription &&
-      state.aiAnalytics &&
-      state.diseaseArea &&
-      state.amount &&
-      state.additional
-    ) {
-      setData({
-        clientId: user.client.id,
-        platforms: [state.platform.value] || [],
-        subscriptionLength: state.subscription.value || null,
-        monthlyTokens: state.aiAnalytics.value || null,
-        diseaseAreas: [state.diseaseArea.value],
-        budget: state.amount || null,
-        smlDescription: state.additional || '',
-      });
-    }
-  }, [state]);
-
-  const { push } = useSnackbar();
-
-  const createSML = async () => {
-    try {
-      await SMLApi.createSML(data);
-      push('Successfully added SML report', { variant: 'success' });
-    } catch {
-      push('Something went wrong.', { variant: 'error' });
-    }
-  };
 
   return (
     <Modal
       size="medium"
-      title="Create SML Report"
+      title="Created SML Report"
       actions={[
         <Button
           color="primary"
           variant="contained"
           size="large"
-          onClick={() => {
-            createSML();
-            refresh();
-            onClose();
-          }}
+          onClick={onClose}
         >
-          Create
+          Close
         </Button>,
       ]}
       onClose={onClose}
@@ -119,16 +59,7 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
           placeholder="Please Select"
           value={state.subscription}
           onValue={(subscription) => setState({ ...state, subscription })}
-          options={[
-            {
-              value: 6,
-              label: '6 Months',
-            },
-            {
-              value: 12,
-              label: '12 Months',
-            },
-          ]}
+          disabled
         />
 
         <Input
@@ -137,25 +68,17 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
           placeholder="Please Select"
           value={state.platform}
           onValue={(platform) => setState({ ...state, platform })}
-          options={[
-            {
-              value: 1,
-              label: 'Instagram',
-            },
-          ]}
+          disabled
         />
         <Input
           type="select"
           label="Disease Area"
           placeholder="Please Select"
           value={state.diseaseArea}
-          onSearch={debounce(getDiseaseArea, 250)}
           onValue={(input) => {
             setState({ ...state, diseaseArea: input });
           }}
-          // onNewTag={handleNewTag}
-          loading={loading}
-          options={diseaseArea}
+          disabled
         />
         <Input
           type="select"
@@ -163,16 +86,7 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
           placeholder="Please Select"
           value={state.aiAnalytics}
           onValue={(aiAnalytics) => setState({ ...state, aiAnalytics })}
-          options={[
-            {
-              value: 50,
-              label: '50 Tokens',
-            },
-            {
-              value: 100,
-              label: '100 Tokens',
-            },
-          ]}
+          disabled
         />
         <Stack>
           <Input
@@ -182,6 +96,7 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
             startAdornment="CHF"
             value={state.amount}
             onValue={(amount) => setState({ ...state, amount })}
+            disabled
           />
           <CurrencyFeedback value={state.amount} />
         </Stack>
@@ -193,10 +108,10 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
             label="Additional Information"
             value={state.additional}
             onValue={(additional) => setState({ ...state, additional })}
+            disabled
           />
         </GridCell>
       </AddSmlModalMain>
-      {csfModal && <CreateSmlFinal data={data} onClose={closeCsfModal} />}
     </Modal>
   );
 };

@@ -34,7 +34,9 @@ const Step = () => {
     setLocations(
       result.map((data: any) => ({
         value: data.id,
-        label: data.name,
+        label: `${
+          data.country ? `${(data.name, data.country.name)}` : data.name
+        }`,
       }))
     );
     setLoading(false);

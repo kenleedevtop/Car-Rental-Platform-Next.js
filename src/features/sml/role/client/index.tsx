@@ -35,11 +35,9 @@ import {
   RecommendedActions,
 } from 'features/sml/role/client/elements';
 import { useMenu, useModal, usePagination } from 'hooks';
-import { SMLApi } from 'api';
+import { ClientAPI, SMLApi } from 'api';
 import SubscriptionIcon from 'components/svg/subscriptions';
 import ReccomendedIcon from 'components/svg/recommended';
-import UsersAPI from 'api/users';
-import { useAppContext } from 'context';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSmlFilter());
@@ -80,6 +78,35 @@ const SmlPage = () => {
     setOpenS(!openS);
   };
 
+  const [recommendedDiseaseAreas, setRecommendedDiseaseAreas] = useState<any>(
+    []
+  );
+
+  const getUserData = async () => {
+    const result = await ClientAPI.clientRecommendedDiseaseAreas();
+
+    setRecommendedDiseaseAreas(
+      result.map((x: any) => ({
+        diseaseArea: {
+          value: x.id,
+          label: x.name,
+        },
+        subscription: {
+          value: 12,
+          label: '12 Months',
+        },
+        tokens: {
+          value: 100,
+          label: '100 Tokens',
+        },
+        socialMedia: {
+          value: 1,
+          label: 'Instagram',
+        },
+      }))
+    );
+  };
+
   const [sml, setSml] = useState<any>([]);
 
   const [filterParams, setFilterParams] = useState({});
@@ -99,12 +126,7 @@ const SmlPage = () => {
       },
     });
 
-  const renderItem = ({
-    headItem,
-    cell,
-    row,
-    table,
-  }: TTableRenderItemObject) => {
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'diseaseArea') {
       if (
         row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
@@ -128,7 +150,7 @@ const SmlPage = () => {
     }
 
     if (headItem.reference === 'actions') {
-      return <OrderedActions data={{}} refreshInfluencers={() => {}} />;
+      return <OrderedActions data={row.data} refreshInfluencers={() => {}} />;
     }
 
     return '';
@@ -141,45 +163,38 @@ const SmlPage = () => {
     table,
   }: TTableRenderItemObject) => {
     if (headItem.reference === 'diseaseArea') {
-      if (
-        row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea
-      ) {
-        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea.name;
-      }
+      return row.data.diseaseArea.label;
     }
 
     if (headItem.reference === 'subscription') {
-      return `${row.data.subscriptionLength} Months`;
+      return row.data.subscription.label;
     }
 
     if (headItem.reference === 'tokens') {
-      return `${row.data.monthlyTokens} Tokens`;
+      return row.data.tokens.label;
     }
 
     if (headItem.reference === 'socialMedia') {
-      return 'Instagram';
+      return row.data.socialMedia.label;
     }
 
     if (headItem.reference === 'actions') {
-      return <RecommendedActions data={{}} refreshInfluencers={() => {}} />;
+      return (
+        <RecommendedActions
+          data={row.data}
+          refreshInfluencers={() => {
+            getUserData();
+            reload();
+          }}
+        />
+      );
     }
 
     return '';
   };
 
-  const { user } = useAppContext();
-
-  const getUserData = async () => {
-    const result = await UsersAPI.getUser(user.id);
-
-    console.log(result);
-  };
-
   useEffect(() => {
-    // getUserData();
-    console.log(user);
+    getUserData();
   }, []);
 
   return (
@@ -189,52 +204,44 @@ const SmlPage = () => {
           title="Recommended"
           icon={<ReccomendedIcon />}
           smallIcon={<SMLSmallIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Ordered"
           icon={<OrderedIcon />}
           smallIcon={<SMLSmallIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Ongoing"
           icon={<OngoingIcon />}
           smallIcon={<SMLSmallIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Subscriptions"
           icon={<SubscriptionIcon />}
           smallIcon={<SMLSmallIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
       </SmlPageCharts>
@@ -395,7 +402,7 @@ const SmlPage = () => {
                     visible: true,
                   },
                 ]}
-                items={sml}
+                items={recommendedDiseaseAreas}
                 renderItem={renderItemR}
               />
 
@@ -712,9 +719,13 @@ const SmlPage = () => {
       {esModal && <ExportSmlModal onClose={closeEsModal} />}
       {csModal && (
         <CreateSmlModal
-          refresh={reload}
-          onClose={async () => {
+          refresh={() => {
             reload();
+            getUserData();
+          }}
+          onClose={() => {
+            reload();
+            getUserData();
             closeCsModal();
           }}
         />

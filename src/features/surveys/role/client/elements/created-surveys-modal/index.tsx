@@ -88,7 +88,18 @@ const CreateSurveysModal = ({
       }
 
       if (survey.questionCount) {
-        newState.questionCount = survey.questionCount;
+        newState.questionsCount = survey.questionCount;
+      }
+
+      if (survey.clientSurveyTokenBalances) {
+        newState.tokens = {
+          value: survey.clientSurveyTokenBalances[0].id,
+          label: `${survey.clientSurveyTokenBalances[0].tokenBalance} Tokens`,
+        };
+      }
+
+      if (survey.link) {
+        newState.link = survey.link;
       }
 
       if (survey.participantsDescription) {
@@ -278,7 +289,7 @@ const CreateSurveysModal = ({
                 setState({ ...state, questionsCount })
               }
             />
-            <Input
+            {/* <Input
               type="number"
               label="Question Credits"
               disabled
@@ -286,7 +297,7 @@ const CreateSurveysModal = ({
               onValue={(questionCredits) =>
                 setState({ ...state, questionCredits })
               }
-            />
+            /> */}
             <Input
               type="select"
               label="Survey Type"

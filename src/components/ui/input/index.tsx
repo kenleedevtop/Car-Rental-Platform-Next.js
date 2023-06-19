@@ -58,7 +58,7 @@ const Input = ({
   };
 
   const handleSelect = (_e: React.ChangeEvent<any>, v: any) => {
-    if (onValue && v) onValue(v);
+    if (onValue) onValue(v);
   };
 
   const handleMultiselect = (_e: React.ChangeEvent<any>, v: any) => {
@@ -329,6 +329,7 @@ const Input = ({
               // }
               // return opt.label;
             }
+            noOptionsText={noOptionsText}
             value={value}
             onChange={handleMultiselect}
             inputValue={search}

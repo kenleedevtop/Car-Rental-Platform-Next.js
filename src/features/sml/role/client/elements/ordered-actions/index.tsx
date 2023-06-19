@@ -20,6 +20,7 @@ import {
 // } from 'features/sml/role/client/elements';
 import { TOrderedActionsMenuProps } from 'features/sml/role/client/elements/ordered-actions/types';
 import { useRouter } from 'next/router';
+import { CreatedSMLModal } from '..';
 
 const DiscoverActions = ({
   data,
@@ -36,6 +37,8 @@ const DiscoverActions = ({
   // const [siModal, openSiModal, closeSiModal] = useModal(false);
   // const [niModal, openNiModal, closeNiModal] = useModal(false);
   // const [diModal, openDiModal, closeDiModal] = useModal(false);
+  const [createdSMLModal, openCreatedSMLModal, closeCreatedSMLModal] =
+    useModal(false);
 
   const router = useRouter();
 
@@ -51,7 +54,7 @@ const DiscoverActions = ({
             {
               icon: <InfoIcon />,
               label: 'Info',
-              action: () => {},
+              action: openCreatedSMLModal,
             },
             {
               icon: <ContactIcon />,
@@ -74,6 +77,13 @@ const DiscoverActions = ({
             },
           ]}
           ref={menu}
+        />
+      )}
+      {createdSMLModal && (
+        <CreatedSMLModal
+          refresh={refreshInfluencers}
+          onClose={closeCreatedSMLModal}
+          data={data}
         />
       )}
       {/* {ciModal && <ContactInfluencerModal id={data} onClose={closeCiModal} />}
