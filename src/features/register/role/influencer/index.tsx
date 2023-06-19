@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   RegisterTitle,
   RegisterSubtitle,
@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import LegalsAPI from 'api/legals';
 import { AxiosError } from 'axios';
+import { TAffiliatedInfluencer } from 'api/influencer/types';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -35,7 +36,18 @@ const RegisterPage = () => {
     patientSpecificLegalId: null,
   });
 
+  const isMounted = useRef(false);
+
+  const [affiliatedInfluencer, setAffiliatedInfluencer] = useState<
+    TAffiliatedInfluencer | undefined
+  >(undefined);
+
+  const [isAffiliated, setIsAffiliated] = useState(false);
+
   const router = useRouter();
+  const snackbar = useSnackbar();
+
+  const { affiliateCode } = router.query;
 
   const [legals, setLegals] = useState({});
   const [legalsChecked, setLegalsChecked] = useState({
@@ -61,11 +73,34 @@ const RegisterPage = () => {
     setPatientsSpecificLegal(specific);
   };
 
-  useEffect(() => {
-    const lang = router.locale?.slice(0, 2);
-    if (lang) {
-      getLegals(lang);
+  const setAffiliatedInfluencerCall = async () => {
+    if (affiliateCode) {
+      try {
+        const affiliateInfluencer = await InfluencerAPI.getAffiliateCodeOwner(
+          affiliateCode.toString()
+        );
+        setAffiliatedInfluencer(affiliateInfluencer);
+      } catch (error) {
+        router.push('/register?as=influencer');
+        snackbar.push('Invalid Affiliate Code', {
+          variant: 'error',
+        });
+      }
     }
+  };
+
+  useEffect(() => {
+    if (isMounted.current === true) {
+      setAffiliatedInfluencerCall();
+
+      if (affiliateCode) {
+        setIsAffiliated(true);
+      }
+    }
+
+    return () => {
+      isMounted.current = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -104,7 +139,19 @@ const RegisterPage = () => {
   const handleRegister = async () => {
     try {
       const locale = router.locale ? router.locale?.slice(0, 2) : '';
-      await InfluencerAPI.registration({ ...state, ...legals }, locale);
+      if (isAffiliated) {
+        const requestData = {
+          ...state,
+          affiliateCode: affiliateCode?.toString(),
+        };
+        await InfluencerAPI.registrationViaInvitation({
+          ...requestData,
+          ...legals,
+        });
+      } else {
+        await InfluencerAPI.registration({ ...state, ...legals }, locale);
+      }
+
       openCrModal();
     } catch (e) {
       if (e instanceof AxiosError && e.response) {
@@ -261,6 +308,25 @@ const RegisterPage = () => {
           ]}
         />
       </Stack>
+      {isAffiliated && affiliatedInfluencer ? (
+        <Stack direction="horizontal">
+          <Input
+            type="text"
+            label={t('Invited By') as string}
+            disabled
+            placeholder={
+              `${affiliatedInfluencer.user.firstName} ${affiliatedInfluencer.user.lastName}` as string
+            }
+            value={`${affiliatedInfluencer.user.firstName} ${affiliatedInfluencer.user.lastName}`}
+            onValue={() =>
+              setState((prevState) => ({
+                ...prevState,
+                affiliateCode: affiliatedInfluencer.affiliateCode,
+              }))
+            }
+          />
+        </Stack>
+      ) : null}
       {router.query.token && (
         <Input
           type="text"
