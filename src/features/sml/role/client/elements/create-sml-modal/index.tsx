@@ -9,7 +9,12 @@ import { GridCell, Stack } from 'components/system';
 import { DiseaseAreaAPI, SMLApi } from 'api';
 import { useAppContext } from 'context';
 
-const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
+const AddSmlModal = ({
+  sml,
+  refresh,
+  onClose,
+  ...props
+}: TAddSmlModalProps) => {
   const [state, setState] = useState<any>({
     client: null,
     subscription: null,
@@ -22,6 +27,7 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
   });
   const [loading, setLoading] = useState(false);
   const [diseaseArea, setDiseaseArea] = useState<any>([]);
+  const [tokens, setTokens] = useState<any>([]);
 
   const [csfModal, openCsfModal, closeCsfModal] = useModal(false);
 
@@ -36,6 +42,17 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
       }))
     );
     setLoading(false);
+  };
+
+  const getTokens = async () => {
+    const result = await SMLApi.getTokens();
+
+    setTokens(
+      result.map((item: any) => ({
+        value: item.value,
+        label: `${item.value} Tokens`,
+      }))
+    );
   };
 
   const debounce = (func: any, wait: any) => {
@@ -53,26 +70,37 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
 
   useEffect(() => {
     getDiseaseArea();
+    getTokens();
   }, []);
 
   const { user } = useAppContext();
   const [data, setData] = useState<any>({});
 
   useEffect(() => {
-    if (
-      user.client.id &&
-      state.platform &&
-      state.subscription &&
-      state.aiAnalytics &&
-      state.diseaseArea &&
-      state.amount &&
-      state.additional
-    ) {
+    if (sml) {
+      setState({
+        ...state,
+        subscription: sml.subscription,
+        platform: sml.socialMedia,
+        diseaseArea: sml.diseaseArea,
+        aiAnalytics: sml.tokens,
+      });
+      setData({
+        clientId: user.client.id,
+        platforms: [sml.socialMedia.value],
+        subscriptionLength: sml.subscription.value,
+        monthlyTokens: sml.tokens.value,
+        diseaseAreas: [sml.diseaseArea.value],
+        budget: state.amount,
+        smlDescription: state.additional,
+      });
+    } else {
       setData({
         clientId: user.client.id,
         platforms: [state.platform.value] || [],
         subscriptionLength: state.subscription.value || null,
-        monthlyTokens: state.aiAnalytics.value || null,
+        monthlyTokens:
+          state.aiAnalytics.value !== null ? state.aiAnalytics.value : null,
         diseaseAreas: [state.diseaseArea.value],
         budget: state.amount || null,
         smlDescription: state.additional || '',
@@ -91,6 +119,8 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
     }
   };
 
+  const disabled = !state.platform || !state.diseaseArea || !state.aiAnalytics;
+
   return (
     <Modal
       size="medium"
@@ -100,10 +130,11 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
           color="primary"
           variant="contained"
           size="large"
+          disabled={disabled}
           onClick={() => {
             createSML();
             refresh();
-            onClose();
+            setTimeout(onClose, 250);
           }}
         >
           Create
@@ -135,6 +166,7 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
           type="select"
           label="Platform"
           placeholder="Please Select"
+          required
           value={state.platform}
           onValue={(platform) => setState({ ...state, platform })}
           options={[
@@ -148,6 +180,7 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
           type="select"
           label="Disease Area"
           placeholder="Please Select"
+          required
           value={state.diseaseArea}
           onSearch={debounce(getDiseaseArea, 250)}
           onValue={(input) => {
@@ -160,19 +193,11 @@ const AddSmlModal = ({ refresh, onClose, ...props }: TAddSmlModalProps) => {
         <Input
           type="select"
           label="AI Analytics"
+          required
           placeholder="Please Select"
           value={state.aiAnalytics}
           onValue={(aiAnalytics) => setState({ ...state, aiAnalytics })}
-          options={[
-            {
-              value: 50,
-              label: '50 Tokens',
-            },
-            {
-              value: 100,
-              label: '100 Tokens',
-            },
-          ]}
+          options={tokens}
         />
         <Stack>
           <Input

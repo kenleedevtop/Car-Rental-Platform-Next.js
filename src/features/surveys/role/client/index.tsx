@@ -198,7 +198,9 @@ const SurveyPage = () => {
     setFilterLocations(
       result.map((data: any) => ({
         value: data.id,
-        label: data.name,
+        label: `${
+          data.country ? `${(data.name, data.country.name)}` : data.name
+        }`,
       }))
     );
     setLoading(false);
@@ -301,52 +303,44 @@ const SurveyPage = () => {
           title="In Preparation"
           icon={<InpreparationIcon />}
           smallIcon={<SurveysSmallIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Ongoing"
           icon={<OngoingIcon />}
           smallIcon={<SurveysSmallIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Finished"
           icon={<FinishedIcon />}
           smallIcon={<SurveysSmallIcon />}
-          percent={-6}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Revenue"
           icon={<TotalIcon />}
           smallIcon={<SurveysSmallIcon />}
-          percent={-6}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
       </SurveysPageCharts>
@@ -572,6 +566,7 @@ const SurveyPage = () => {
             tabs={['In Preparation', 'Ongoing', 'Finished']}
             value={tabsValue}
             onValue={setTabsValue}
+            style={{ marginTop: '-30px' }}
           />
           {tabsValue === 0 && (
             <>

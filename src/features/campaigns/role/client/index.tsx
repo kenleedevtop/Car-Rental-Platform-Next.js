@@ -213,7 +213,9 @@ const CampaignsPage = () => {
     setFilterLocations(
       result.map((data: any) => ({
         value: data.id,
-        label: data.name,
+        label: `${
+          data.country ? `${(data.name, data.country.name)}` : data.name
+        }`,
       }))
     );
     setLoading(false);
@@ -316,49 +318,41 @@ const CampaignsPage = () => {
         <CardWithChart
           title="In Preparation"
           icon={<InpreparationIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Ongoing"
           icon={<OngoingIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Finished"
           icon={<FinishedIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Influencers"
           icon={<TotalIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
       </CampaignsPageFilterContainer>
@@ -423,7 +417,7 @@ const CampaignsPage = () => {
                     onValue={(budget) => setFilter({ ...filter, budget })}
                   />
                   <InputGroup
-                    label="Date Joined"
+                    label="Start Date"
                     inputRatio="1fr 1fr"
                     elements={[
                       {
@@ -443,7 +437,7 @@ const CampaignsPage = () => {
                     ]}
                   />
                   <InputGroup
-                    label="Date Joined"
+                    label="End Date"
                     inputRatio="1fr 1fr"
                     elements={[
                       {

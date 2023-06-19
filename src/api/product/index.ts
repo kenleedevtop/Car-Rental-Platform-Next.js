@@ -11,6 +11,9 @@ const ProductApi = {
 
     return data;
   },
+  createProduct: async (body: any) => {
+    await client.post(`${Project.apis.v1}/products`, body);
+  },
 };
 
 export default ProductApi;

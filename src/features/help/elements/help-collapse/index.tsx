@@ -19,7 +19,7 @@ const HelpCollapse = ({ title, icon, text, ...props }: THelpCollapseProps) => {
 
   return (
     <HelpCollapseMain {...props}>
-      <Stack>
+      <Stack style={{ gap: '0px' }}>
         <HelpCollapseHeader onClick={openHelp}>
           <h2>{title}</h2>
           {icon}

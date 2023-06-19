@@ -88,7 +88,9 @@ const ReportsPage = () => {
       return row.data.reportType === 1 ? 'Yes' : 'No';
     }
     if (headItem.reference === 'budget') {
-      return `${row.data.platformProductOrder.budget} CHF`;
+      if (row.data.platformProductOrder.budget) {
+        return `${row.data.platformProductOrder.budget} CHF`;
+      }
     }
     if (headItem.reference === 'costPerClick') {
       return row.data.costPerClick;
@@ -225,49 +227,41 @@ const ReportsPage = () => {
         <CardWithChart
           title="Without report"
           icon={<IdentifiedIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="To Be Created"
           icon={<ContactedIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Received"
           icon={<RegisteredIcon />}
-          percent={-6}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Approved"
           icon={<TotalIcon />}
-          percent={-6}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
       </ReportsPageCharts>
@@ -275,49 +269,41 @@ const ReportsPage = () => {
         <CardWithChart
           title="Reach"
           icon={<IdentifiedIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Likes"
           icon={<ContactedIcon />}
-          percent={2}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Comments"
           icon={<RegisteredIcon />}
-          percent={-6}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
         <CardWithChart
           title="Website Clicks"
           icon={<TotalIcon />}
-          percent={-6}
-          count={75}
+          percent={0}
+          count={0}
           chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
+            values: [0, 0, 0],
+            labels: ['', '', ''],
           }}
         />
       </ReportsPageCharts>

@@ -103,6 +103,30 @@ const ClientAPI = {
 
     return data;
   },
+
+  clientDiseaseAreas: async () => {
+    const { data } = await client.get(`${Project.apis.v1}/client/diseaseAreas`);
+
+    return data;
+  },
+
+  clientRecommendedDiseaseAreas: async () => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/client/recommendedDiseaseAreas`
+    );
+
+    return data;
+  },
+
+  clientProducts: async () => {
+    const { data } = await client.get(`${Project.apis.v1}/client/products`);
+
+    return data;
+  },
+
+  addClientProduct: async (body: any) => {
+    await client.post(`${Project.apis.v1}/client/products`, body);
+  },
 };
 
 export default ClientAPI;

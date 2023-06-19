@@ -19,6 +19,7 @@ import {
 // } from 'features/sml/role/client/elements';
 import { TOrderedActionsMenuProps } from 'features/sml/role/client/elements/ordered-actions/types';
 import { useRouter } from 'next/router';
+import { CreateSmlModal } from 'features/sml/role/client/elements';
 
 const DiscoverActions = ({
   data,
@@ -30,6 +31,9 @@ const DiscoverActions = ({
   const handleMenu = () => {
     setOpen(!open);
   };
+
+  const [createSmlModal, openCreateSmlModal, closeCreateSmlModal] =
+    useModal(false);
 
   // const [ciModal, openCiModal, closeCiModal] = useModal(false);
   // const [siModal, openSiModal, closeSiModal] = useModal(false);
@@ -50,7 +54,7 @@ const DiscoverActions = ({
             {
               icon: <OrderedIcon />,
               label: 'Order',
-              action: () => {},
+              action: openCreateSmlModal,
             },
             {
               icon: <ContactIcon />,
@@ -75,6 +79,18 @@ const DiscoverActions = ({
           ref={menu}
         />
       )}
+
+      {createSmlModal && (
+        <CreateSmlModal
+          sml={data}
+          refresh={refreshInfluencers}
+          onClose={() => {
+            refreshInfluencers();
+            closeCreateSmlModal();
+          }}
+        />
+      )}
+
       {/* {ciModal && <ContactInfluencerModal id={data} onClose={closeCiModal} />}
       {niModal && <NoteInfluencer onClose={closeNiModal} />}
       {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />} */}
