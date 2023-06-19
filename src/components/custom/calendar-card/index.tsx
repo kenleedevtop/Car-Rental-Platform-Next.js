@@ -73,11 +73,13 @@ const CalendarCard = ({ ...props }: TCalendarCardProps) => {
         <CalendarCardDay weekend>SAT</CalendarCardDay>
       </CalendarCardDays>
       <CalendarCardGrid columns={7}>
-        {days.map((x) => {
+        {days.map((x, index) => {
           const isHighlighted = x.date.toISOString() === date.toISOString();
 
           return (
             <CalendarCardCell
+              // eslint-disable-next-line react/no-array-index-key
+              key={index}
               onClick={handleClick(x)}
               isHighlighted={isHighlighted}
             >
