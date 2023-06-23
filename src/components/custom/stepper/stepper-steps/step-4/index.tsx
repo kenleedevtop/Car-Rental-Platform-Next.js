@@ -19,7 +19,6 @@ type Step4FormProps = {
 };
 
 const Step = ({ formData, setFormData }: Step4FormProps) => {
-
   const {
     instaP,
     instaR,

@@ -20,7 +20,6 @@ type Step2FormProps = {
 };
 
 const Step = ({ formData, setFormData }: Step2FormProps) => {
-
   const { birthDate, location, gender, diseaseAreas, experienceAs, ethnicity } =
     formData;
 
