@@ -1,3 +1,5 @@
+/* eslint-disable no-shadow */
+// eslint-disable-next-line import/named
 import { Input } from 'components/ui';
 import React, { useEffect, useState } from 'react';
 
@@ -11,21 +13,31 @@ import { DiseaseAreaAPI, EnumsApi, InfluencerAPI, LocationAPI } from 'api';
 import { useAppContext } from 'context';
 import { useDebounce } from 'hooks';
 
-const Step = () => {
-  const [filter, setFilter] = useState<any>({
-    birthDate: null,
-    location: null,
-    gender: null,
-    diseaseArea: [],
-    experienceAs: null,
-    ethnicity: null,
-  });
+import { FormData } from '../..';
+
+type Step2FormProps = {
+  formData: FormData;
+  setFormData: any;
+};
+
+const Step = ({ formData, setFormData }: Step2FormProps) => {
+  // const [filter, setFilter] = useState<any>({
+  //   birthDate: null,
+  //   location: null,
+  //   gender: null,
+  //   diseaseArea: [],
+  //   experienceAs: null,
+  //   ethnicity: null,
+  // });
+
+  const { birthDate, location, gender, diseaseAreas, experienceAs, ethnicity } =
+    formData;
 
   const [loading, setLoading] = useState(false);
 
   const [locations, setLocations] = useState([]);
-  const [diseaseArea, setDiseaseArea] = useState([]);
-  const [ethnicity, setEthnicity] = useState([]);
+  const [diseaseAreas2, setDiseaseAreas] = useState([]);
+  const [ethnicities, setEthnicities] = useState([]);
   const [stakeholder, setStakeholders] = useState([]);
   const [genders, setGenders] = useState([]);
 
@@ -54,7 +66,7 @@ const Step = () => {
     setLoading(true);
     const { result } = await DiseaseAreaAPI.getAll(s);
 
-    setDiseaseArea(
+    setDiseaseAreas(
       result.map((item: any) => ({
         value: item.id,
         label: item.name,
@@ -66,7 +78,7 @@ const Step = () => {
   const getEthnicity = async () => {
     const result = await EnumsApi.getEthnicities();
 
-    setEthnicity(
+    setEthnicities(
       result.map((x: any) => ({
         value: x.id,
         label: x.name,
@@ -107,9 +119,9 @@ const Step = () => {
 
   const debouncedLocation = useDebounce(getLocations, 250);
 
-  const handleNewTag = (v: any) => {
-    setFilter({ ...filter, diseaseAreas: [...filter.diseaseAreas, v] });
-  };
+  // const handleNewTag = (v: any) => {
+  //   setFilter({ ...filter, diseaseAreas: [...filter.diseaseAreas, v] });
+  // };
 
   useEffect(() => {
     getLocations();
@@ -123,18 +135,18 @@ const Step = () => {
 
   const [id, setId] = useState(user.influencer.id);
 
-  const updateInfluencer = async () => {
-    await InfluencerAPI.updateInfluencer(
-      {
-        locationId: filter.location.value || undefined,
-        gender: filter.gender.value || undefined,
-        dateOfBirth: filter.birthDate || undefined,
-        ethnicityId: filter.ethnicity.value || undefined,
-        diseaseAreas: filter.diseaseArea.map((x: any) => x.value) || [],
-      },
-      id
-    );
-  };
+  // const updateInfluencer = async () => {
+  //   await InfluencerAPI.updateInfluencer(
+  //     {
+  //       locationId: filter.location.value || undefined,
+  //       gender: filter.gender.value || undefined,
+  //       dateOfBirth: filter.birthDate || undefined,
+  //       ethnicityId: filter.ethnicity.value || undefined,
+  //       diseaseAreas: filter.diseaseArea.map((x: any) => x.value) || [],
+  //     },
+  //     id
+  //   );
+  // };
 
   return (
     <StepContainer>
@@ -144,18 +156,22 @@ const Step = () => {
             type="date"
             label="Date of Birth"
             placeholder="Please Select"
-            value={filter.birthDate}
-            onValue={(birthDate) => setFilter({ ...filter, birthDate })}
+            required
+            value={birthDate}
+            // onValue={(birthDate) => setFilter({ ...filter, birthDate })}
+            onValue={(birthDate) => setFormData({ ...formData, birthDate })}
           />
           <Input
             type="select"
             label="Location"
             onSearch={debouncedLocation}
             placeholder="Please Select"
-            value={filter.location}
+            value={location}
+            required
             loading={loading}
             options={locations}
-            onValue={(location) => setFilter({ ...filter, location })}
+            // onValue={(location) => setFilter({ ...filter, location })}
+            onValue={(location) => setFormData({ ...formData, location })}
           />
         </StepStack>
         <StepStack direction="horizontal">
@@ -163,20 +179,26 @@ const Step = () => {
             type="select"
             label="Gender"
             placeholder="Please Select"
-            value={filter.gender}
-            onValue={(gender) => setFilter({ ...filter, gender })}
+            value={gender}
+            required
+            // onValue={(gender) => setFilter({ ...filter, gender })}
+            onValue={(gender) => setFormData({ ...formData, gender })}
             options={genders}
           />
           <Input
             type="multiselect"
             label="Disease Area"
             placeholder="Please Select"
-            value={filter.diseaseArea}
+            value={diseaseAreas}
+            required
             onSearch={debounce(getDiseaseArea, 250)}
-            onValue={(input) => setFilter({ ...filter, diseaseArea: input })}
-            onNewTag={handleNewTag}
+            onValue={(diseaseAreas) =>
+              setFormData({ ...formData, diseaseAreas })
+            }
+            // onValue={(input) => setFilter({ ...filter, diseaseArea: input })}
+            // onNewTag={handleNewTag}
             loading={loading}
-            options={diseaseArea}
+            options={diseaseAreas2}
           />
         </StepStack>
         <StepStack direction="horizontal">
@@ -184,16 +206,22 @@ const Step = () => {
             type="select"
             label="Ethnicity"
             placeholder="Please Select"
-            value={filter.ethnicity}
-            onValue={(input) => setFilter({ ...filter, ethnicity: input })}
-            options={ethnicity}
+            value={ethnicity}
+            required
+            onValue={(ethnicity) => setFormData({ ...formData, ethnicity })}
+            // onValue={(input) => setFilter({ ...filter, ethnicity: input })}
+            options={ethnicities}
           />
           <Input
             type="select"
             label="Experience As"
             placeholder="Please Select"
-            value={filter.experienceAs}
-            onValue={(experienceAs) => setFilter({ ...filter, experienceAs })}
+            value={experienceAs}
+            required
+            // onValue={(experienceAs) => setFilter({ ...filter, experienceAs })}
+            onValue={(experienceAs) =>
+              setFormData({ ...formData, experienceAs })
+            }
             options={stakeholder}
           />
         </StepStack>

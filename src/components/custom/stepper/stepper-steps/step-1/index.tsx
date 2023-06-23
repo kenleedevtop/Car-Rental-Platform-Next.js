@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { Input } from 'components/ui';
 import { useModal, useSnackbar } from 'hooks';
 import React, { useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ import { useAppContext } from 'context';
 import Project from 'constants/project';
 import { InfluencerAPI } from 'api';
 import { TFormData } from './types';
+import { FormData } from '../..';
 
 const generateRegisterAffiliateLink = (affiliateCode: string) => {
   const { environment, baseUrl: baseDevUrl, baseProdUrl } = Project.app;
@@ -27,22 +29,41 @@ const generateRegisterAffiliateLink = (affiliateCode: string) => {
   return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`;
 };
 
-const Step = () => {
+type Step1FormProps = {
+  formData: FormData;
+  setFormData: any;
+};
+
+const Step = ({ formData, setFormData }: Step1FormProps) => {
   const { user } = useAppContext();
 
-  const [formData, setFormData] = useState<TFormData>({
-    firstname: user.firstName,
-    lastName: user.lastName,
-    company: '',
-    role: '',
-    diseaseArea: null,
-    markets: '',
-    email: user.email,
-    password: '',
-    invitedBy: '',
-    affiliateFriends: [],
-    affiliateLink: generateRegisterAffiliateLink(user.influencer.affiliateCode),
-  });
+  const {
+    firstName,
+    lastName,
+    company,
+    role,
+    diseaseAreas,
+    markets,
+    email,
+    // password,
+    invitedBy,
+    affiliateFriends,
+    affiliateLink,
+  } = formData;
+
+  // const [state, setState] = useState({
+  //   firstname: user.firstName,
+  //   lastName: user.lastName,
+  //   company: '',
+  //   role: '',
+  //   diseaseArea: null,
+  //   markets: '',
+  //   email: user.email,
+  //   password: '',
+  //   invitedBy: user.influencer.invitendByUserId,
+  //   affiliateFriends: [],
+  //   affiliateLink: user.influencer.affiliateCode,
+  // });
 
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
@@ -51,7 +72,7 @@ const Step = () => {
 
   const handleCopyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(formData.affiliateLink);
+      await navigator.clipboard.writeText(affiliateLink);
       push(`Successfully copied!`, {
         variant: 'success',
       });
@@ -70,7 +91,7 @@ const Step = () => {
   useEffect(() => {
     getInfluencerData(user.id)
       .then((data) =>
-        setFormData((prevState) => {
+        setFormData((prevState: any) => {
           const affiliatedFriends = data.invitedInfluencers.map(
             (influencer: { user: any }) => {
               const { id, firstName, lastName } = influencer.user;
@@ -97,7 +118,7 @@ const Step = () => {
     if (user.influencer.invitendByUserId) {
       getInfluencerData(user.influencer.invitendByUserId)
         .then((influencer) => {
-          setFormData((prevState) => ({
+          setFormData((prevState: any) => ({
             ...prevState,
             invitedBy: `${influencer.firstName} ${influencer.lastName}`,
           }));
@@ -115,15 +136,19 @@ const Step = () => {
             label="First Name"
             placeholder="John"
             disabled
-            value={formData.firstname}
+            required
+            value={firstName}
             onValue={(firstname) => setFormData({ ...formData, firstname })}
+            // onValue={(firstName) => updateFields(firstName, firstName)}
           />
           <Input
             type="text"
             label="Last Name"
             placeholder="Doe"
             disabled
-            value={formData.lastName}
+            required
+            value={lastName}
+            // onValue={(lastName) => setState({ ...state, lastName })}
             onValue={(lastName) => setFormData({ ...formData, lastName })}
           />
         </StepStack>
@@ -133,53 +158,56 @@ const Step = () => {
             label="Email"
             placeholder="johndoe@gmail.com"
             disabled
-            value={formData.email}
+            required
+            value={email}
+            // onValue={(email) => setState({ ...state, email })}
             onValue={(email) => setFormData({ ...formData, email })}
           />
           <StepSpan onClick={openCeModal}>Change Email</StepSpan>
         </StepChange>
         <StepChange>
-          <Input
+          {/* <Input
             type="text"
             label="Password"
             disabled
             placeholder="**********"
-            value={formData.password}
-            onValue={(password) => setFormData({ ...formData, password })}
-          />
-          <StepSpan onClick={openCpModal}>Change Password</StepSpan>
+            value={password}
+            // onValue={(password) => setState({ ...state, password })}
+            onValue={password => setFormData({ ...formData, password })}
+          /> 
+          <StepSpan onClick={openCpModal}>Change Password</StepSpan> */}
         </StepChange>
         <Input
           type="text"
           label="Invited by"
           disabled
-          value={formData.invitedBy}
+          // required
+          value={invitedBy}
+          // onValue={(invitedBy) => setState({ ...state, invitedBy })}
           onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
         />
         <Input
           type="select"
           label="Affiliate friends"
-          placeholder={`Affiliate friends (${formData.affiliateFriends.length})`}
-          disabled={!formData.affiliateFriends.length}
-          value={
-            formData.affiliateFriends.length
-              ? formData.affiliateFriends[0]
-              : undefined
+          value={affiliateFriends.length ? affiliateFriends[0] : undefined}
+          onValue={(affiliateFriends) =>
+            setFormData({ ...formData, affiliateFriends })
           }
-          onValue={() => setFormData({ ...formData })}
           options={formData.affiliateFriends}
         />
         <Input
           type="text"
           label="Affiliate link"
           disabled
-          value={formData.affiliateLink}
+          required
+          value={affiliateLink}
           endAdornment={
             <CopyIcon
               style={{ cursor: 'pointer' }}
               onClick={handleCopyToClipboard}
             />
           }
+          // onValue={(affiliateLink) => setState({ ...state, affiliateLink })}
           onValue={(affiliateLink) =>
             setFormData({ ...formData, affiliateLink })
           }

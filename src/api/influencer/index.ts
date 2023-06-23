@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
 import {
   TSingleInfluencer,
@@ -97,8 +98,11 @@ const InfluencerAPI = {
     return data;
   },
 
-  verifyInfluencer: async (id: TSingleInfluencer) => {
-    await client.patch(`${Project.apis.v1}/influencer/${id}/verify`);
+  verifyInfluencer: async (body: any, id: TSingleInfluencer) => {
+    const { data } = await client.patch(
+      `${Project.apis.v1}/influencer/${id}/verify`,
+      body
+    );
   },
 
   influencerGetPostTypes: async (id: TSingleInfluencer) => {
