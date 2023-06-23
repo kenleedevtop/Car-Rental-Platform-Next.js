@@ -2,17 +2,15 @@
 // eslint-disable-next-line import/named
 import { Input } from 'components/ui';
 import React, { useEffect, useState } from 'react';
-
 import {
   StepContainer,
   StepForm,
   StepStack,
   StepText,
 } from 'components/custom/stepper/stepper-steps/step-2/style';
-import { DiseaseAreaAPI, EnumsApi, InfluencerAPI, LocationAPI } from 'api';
+import { DiseaseAreaAPI, EnumsApi, LocationAPI } from 'api';
 import { useAppContext } from 'context';
 import { useDebounce } from 'hooks';
-
 import { FormData } from '../..';
 
 type Step2FormProps = {
@@ -21,15 +19,6 @@ type Step2FormProps = {
 };
 
 const Step = ({ formData, setFormData }: Step2FormProps) => {
-  // const [filter, setFilter] = useState<any>({
-  //   birthDate: null,
-  //   location: null,
-  //   gender: null,
-  //   diseaseArea: [],
-  //   experienceAs: null,
-  //   ethnicity: null,
-  // });
-
   const { birthDate, location, gender, diseaseAreas, experienceAs, ethnicity } =
     formData;
 
@@ -119,9 +108,9 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
 
   const debouncedLocation = useDebounce(getLocations, 250);
 
-  // const handleNewTag = (v: any) => {
-  //   setFilter({ ...filter, diseaseAreas: [...filter.diseaseAreas, v] });
-  // };
+  // // const handleNewTag = (v: any) => {
+  // //   setFilter({ ...filter, diseaseAreas: [...filter.diseaseAreas, v] });
+  // // };
 
   useEffect(() => {
     getLocations();

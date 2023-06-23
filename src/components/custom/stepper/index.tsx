@@ -24,6 +24,7 @@ import { useAppContext } from 'context';
 import { type } from 'os';
 import { InfluencerAPI } from 'api';
 import { number } from 'yup';
+// eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
 
 const steps = [
@@ -84,39 +85,7 @@ const Stepper = () => {
     return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`;
   };
 
-  const [errors, setErrors] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-
-  const initialFormData: FormData = {
+  const INITIAL_DATA: FormData = {
     firstName: user.firstName,
     lastName: user.lastName,
     company: '',
@@ -149,19 +118,6 @@ const Stepper = () => {
     // currency: null
   };
 
-  const [formData, setFormData] = useState(initialFormData);
-
-  const isDisabled =
-    !formData.firstName ||
-    !formData.lastName ||
-    !formData.email ||
-    !formData.password ||
-    !!errors.find((x) => x);
-
-  const handleErrors = (index: number) => (value: boolean) => {
-    setErrors((x) => x.map((a, b) => (b === index ? value : a)));
-  };
-
   const addStep = () => {
     setActiveStep((prev) => prev + 1);
   };
@@ -186,7 +142,6 @@ const Stepper = () => {
           'test test test',
           formData.gender.value === 0 || formData.gender.value
         );
-        // TODO disease area map
 
         formData.diseaseAreas.map(async (disease: any) =>
           diseaseValueArray.push(disease.value)
@@ -249,9 +204,6 @@ const Stepper = () => {
             email: formData.email || undefined,
             dateOfBirth: formData.birthDate || undefined,
             ethnicityId: formData.ethnicity.value || undefined,
-            // instaP: formData.instaP,
-            // instaS: formData.instaS,
-            // instaR: formData.instaR,
             // currency: currency,
             diseaseAreas: diseaseValueArray || undefined,
             password: formData.password,
@@ -284,6 +236,8 @@ const Stepper = () => {
       console.log('error with submit', error);
     }
   };
+
+  const [formData, setFormData] = useState(INITIAL_DATA);
 
   return (
     <StepperMain onSubmit={onSubmit}>
