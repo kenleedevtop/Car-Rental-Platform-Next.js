@@ -20,14 +20,6 @@ type Step2FormProps = {
 };
 
 const Step = ({ formData, setFormData }: Step2FormProps) => {
-  // const [filter, setFilter] = useState<any>({
-  //   birthDate: null,
-  //   location: null,
-  //   gender: null,
-  //   diseaseArea: [],
-  //   experienceAs: null,
-  //   ethnicity: null,
-  // });
 
   const { birthDate, location, gender, diseaseAreas, experienceAs, ethnicity } =
     formData;

@@ -51,20 +51,6 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
     affiliateLink,
   } = formData;
 
-  // const [state, setState] = useState({
-  //   firstname: user.firstName,
-  //   lastName: user.lastName,
-  //   company: '',
-  //   role: '',
-  //   diseaseArea: null,
-  //   markets: '',
-  //   email: user.email,
-  //   password: '',
-  //   invitedBy: user.influencer.invitendByUserId,
-  //   affiliateFriends: [],
-  //   affiliateLink: user.influencer.affiliateCode,
-  // });
-
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
 

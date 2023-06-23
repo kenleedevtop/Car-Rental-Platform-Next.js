@@ -141,7 +141,6 @@ const Stepper = () => {
           'test test test',
           formData.gender.value === 0 || formData.gender.value
         );
-        // TODO disease area map
 
         formData.diseaseAreas.map(async (disease: any) =>
           diseaseValueArray.push(disease.value)
@@ -204,9 +203,6 @@ const Stepper = () => {
             email: formData.email || undefined,
             dateOfBirth: formData.birthDate || undefined,
             ethnicityId: formData.ethnicity.value || undefined,
-            // instaP: formData.instaP,
-            // instaS: formData.instaS,
-            // instaR: formData.instaR,
             // currency: currency,
             diseaseAreas: diseaseValueArray || undefined,
             password: formData.password,

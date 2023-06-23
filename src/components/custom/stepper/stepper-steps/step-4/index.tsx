@@ -19,24 +19,6 @@ type Step4FormProps = {
 };
 
 const Step = ({ formData, setFormData }: Step4FormProps) => {
-  // const [filter, setFilter] = useState({
-  //   currency: any,
-
-  //   instaP: any,
-  //   instaS: any,
-  //   instaR: any,
-
-  //   yVideoS: any,
-  //   yVideoM: any,
-  //   yVideoL: any,
-
-  //   ttPost: any,
-
-  //   questionCredit: '',
-  //   averageQuestionSurvey: '',
-  //   interviewShort: '',
-  //   interviewLong: '',
-  // });
 
   const {
     instaP,
@@ -175,9 +157,6 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               type="text"
               placeholder="Please Enter Amount"
               value={questionCredit}
-              // onValue={(questionCredit) =>
-              //   setFilter({ ...filter, questionCredit })
-              // }
               onValue={(questionCredit) =>
                 setFormData({ ...formData, questionCredit })
               }
@@ -189,9 +168,6 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               label="Average 20 Question Survey"
               placeholder="Calculation"
               value={averageQuestionSurvey}
-              // onValue={(averageQuestionSurvey) =>
-              //   setFilter({ ...filter, questionCredit })
-              // }
               onValue={(averageQuestionSurvey) =>
                 setFormData({ ...formData, averageQuestionSurvey })
               }
@@ -202,9 +178,6 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               label="Interview: 30min"
               placeholder="Please Enter Amount"
               value={interviewShort}
-              // onValue={(interviewShort) =>
-              //   setFilter({ ...filter, interviewShort })
-              // }
               onValue={(interviewShort) =>
                 setFormData({ ...formData, interviewShort })
               }
@@ -214,9 +187,6 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               label="Interview: 60min"
               placeholder="Please Enter Amount"
               value={interviewLong}
-              // onValue={(interviewLong) =>
-              //   setFilter({ ...filter, interviewLong })
-              // }
               onValue={(interviewLong) =>
                 setFormData({ ...formData, interviewLong })
               }
