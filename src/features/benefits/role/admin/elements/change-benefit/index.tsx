@@ -52,7 +52,7 @@ const ChangeBenefitModal = ({
     setLocations(
       result.map((x: any) => ({
         value: x.id,
-        label: x.name,
+        label: `${x.country ? `${(x.name, x.country.name)}` : x.name}`,
       }))
     );
   };

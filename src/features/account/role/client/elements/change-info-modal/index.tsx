@@ -52,7 +52,14 @@ const ChangeInfoModal = ({
     setState({ ...state, markets: [...state.markets, v] });
   };
 
-  const handleNewProductTag = (v: any) => {
+  const addProducts = async (v: any) => {
+    await ProductApi.createProduct(v);
+  };
+
+  const handleNewProductTag = async (v: any) => {
+    addProducts({
+      name: v.label,
+    });
     setState({ ...state, product: [...state.product, v] });
   };
 
@@ -106,7 +113,7 @@ const ChangeInfoModal = ({
     setLocation(
       result.map((x: any) => ({
         value: x.id,
-        label: x.name,
+        label: `${x.country ? `${(x.name, x.country.name)}` : x.name}`,
       }))
     );
     setLoading(false);
@@ -118,7 +125,7 @@ const ChangeInfoModal = ({
     setMarkets(
       result.map((x: any) => ({
         value: x.id,
-        label: x.name,
+        label: `${x.name}, ${x.country ? x.country.name : null}`,
       }))
     );
     setLoading(false);
@@ -158,15 +165,21 @@ const ChangeInfoModal = ({
       await ClientAPI.updateClient(
         {
           company: {
-            name: state.company.label,
-            companyId: state.company.value,
+            name: state.company ? state.company.label : undefined,
+            companyId: state.company ? state.company.value : undefined,
           },
-          companyTitleId: state.role.value,
-          productIds: state.product.map((x: any) => x.value),
-          industryId: state.industry.value,
-          locationId: state.location.value,
-          marketIds: state.markets.map((x: any) => x.value),
-          diseaseAreaIds: state.diseaseArea.map((x: any) => x.value),
+          companyTitleId: state.role ? state.role.value : undefined,
+          productIds: state.product
+            ? state.product.map((x: any) => x.value)
+            : undefined,
+          industryId: state.industry ? state.industry.value : undefined,
+          locationId: state.location ? state.location.value : undefined,
+          marketIds: state.markets
+            ? state.markets.map((x: any) => x.value)
+            : undefined,
+          diseaseAreaIds: state.diseaseArea
+            ? state.diseaseArea.map((x: any) => x.value)
+            : undefined,
         },
         id
       );
@@ -188,8 +201,8 @@ const ChangeInfoModal = ({
           size="large"
           onClick={() => {
             handleUpdate();
-            refresh();
-            onClose();
+            // refresh();
+            setTimeout(onClose, 250);
           }}
         >
           Change info
@@ -272,6 +285,7 @@ const ChangeInfoModal = ({
             onSearch={debounce(getProducts, 250)}
             onNewTag={handleNewProductTag}
             loading={loading}
+            noOptionsText="Press Enter to Add Yours"
           />
         </ChangeInfoModalMain>
       </Stack>

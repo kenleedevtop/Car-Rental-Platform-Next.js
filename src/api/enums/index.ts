@@ -37,7 +37,11 @@ const EnumsApi = {
   },
 
   getInterests: async () => {
-    const { data } = await client.get(`${Project.apis.v1}/interests`);
+    const { data } = await client.get(`${Project.apis.v1}/interests`, {
+      params: {
+        limit: 15,
+      },
+    });
 
     return data;
   },

@@ -133,53 +133,20 @@ const HelpPage = () => {
                   value={filter.topic}
                   onValue={(topic) => setFilter({ ...filter, topic })}
                   options={[
-                    {
-                      value: 0,
-                      label: 'Platform Features and Usage',
-                    },
-                    {
-                      value: 1,
-                      label: 'Pricing and Subscription Options',
-                    },
-                    {
-                      value: 2,
-                      label: 'Troubleshooting and Technical Support',
-                    },
-                    {
-                      value: 3,
-                      label: 'Campaigns',
-                    },
-                    {
-                      value: 4,
-                      label: 'Social Media Listening',
-                    },
-                    {
-                      value: 5,
-                      label: 'Patient Surveys',
-                    },
-                    {
-                      value: 6,
-                      label: 'Collaborations and Partnerships',
-                    },
-                    {
-                      value: 7,
-                      label: 'Custom Solutions',
-                    },
-                    {
-                      value: 8,
-                      label: 'Scheduling a Demo',
-                    },
-                    {
-                      value: 9,
-                      label: 'GDPR and Data Privacy Queries',
-                    },
-                    {
-                      value: 10,
-                      label: 'Feedback and Suggestions',
-                    },
+                    { value: 0, label: 'Collaborations and Partnerships' },
+                    { value: 1, label: 'Campaigns' },
+                    { value: 2, label: 'Custom Solutions' },
+                    { value: 3, label: 'Feedback and Suggestions' },
+                    { value: 4, label: 'GDPR and Data Privacy Queries' },
+                    { value: 5, label: 'Other Inquiries' },
+                    { value: 6, label: 'Patient Surveys' },
+                    { value: 7, label: 'Platform Features and Usage' },
+                    { value: 8, label: 'Pricing and Subscription Options' },
+                    { value: 9, label: 'Scheduling a Demo' },
+                    { value: 10, label: 'Social Media Listening' },
                     {
                       value: 11,
-                      label: 'Other Inquiries',
+                      label: 'Troubleshooting and Technical Support',
                     },
                   ]}
                 />

@@ -21,6 +21,7 @@ export type TInfluencer = {
   dateOfBirth?: string;
   ethnicityId?: number;
   diseaseAreas?: Array<number>;
+  invitedInfluencers: TAffiliatedInfluencer[];
   socialPlatforms: Array<{
     socialPlatformId: number;
     authorizationCode: string;
@@ -33,4 +34,23 @@ export type TInfluencer = {
     desiredAmount: number;
     surveyType: number;
   }>;
+};
+
+export type TAffiliatedInfluencer = {
+  id: number;
+  stakeholderId: number;
+  affiliateCode: string;
+  gender: number;
+  dateOfBirth: Date;
+  userId: number;
+  ethnicityId: number;
+  type: number;
+  createdAt: Date;
+  updatedAt: Date;
+  invitendByUserId: number;
+  user: {
+    firstName: string;
+    lastName: string;
+    id: number;
+  };
 };

@@ -26,7 +26,7 @@ const AddReportModal = ({ data, onClose, ...props }: TAddReportModalProps) => {
   return (
     <Modal
       size="medium"
-      title="Create Report"
+      title="Created Report"
       actions={[
         <Button
           color="primary"
@@ -36,7 +36,7 @@ const AddReportModal = ({ data, onClose, ...props }: TAddReportModalProps) => {
             onClose();
           }}
         >
-          Create Report
+          Close
         </Button>,
       ]}
       onClose={onClose}

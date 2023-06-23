@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   HomePageMain,
   HomePageCharts,
@@ -18,40 +18,23 @@ import {
   TotalIcon,
   WithoutReportIcon,
 } from 'components/svg';
-import { faker } from '@faker-js/faker';
 import SubscriptionIcon from 'components/svg/subscriptions';
 import ReccomendedIcon from 'components/svg/recommended';
-
-import { CampaignAndSurveyStatus, SMLStatus } from 'api/insights/types';
-import useSurveys from './use-surveys';
-import useCampaign from './use-campaign';
-import useSML from './use-sml';
+import { useAppContext } from 'context';
+import GraphsAPI from 'api/graphs';
 
 const HomePage = () => {
-  // Campaigns
-  const campaignInPreparation = useCampaign(
-    CampaignAndSurveyStatus.InPreparation
-  );
-  const campaignOngoing = useCampaign(CampaignAndSurveyStatus.OnGoing);
-  const campaignCompleted = useCampaign(CampaignAndSurveyStatus.Finished);
-  const campaignTotal = useCampaign();
+  const { user } = useAppContext();
 
-  // Reports
-  // TODO: After backend is finished
+  const getGraphData = async () => {
+    const result = await GraphsAPI.getGraphs(user.id);
 
-  // Social Media Listening (SML)
-  const SMLNew = useSML(SMLStatus.Ordered);
-  const SMLToBeCreated = useSML(SMLStatus.Ordered);
-  const SMLFinished = useSML(SMLStatus.Delivered);
-  const SMLSubscriptions = useSML();
+    console.log(result);
+  };
 
-  // Surveys
-  const surveysInPreparation = useSurveys(
-    CampaignAndSurveyStatus.InPreparation
-  );
-  const surveysOngoing = useSurveys(CampaignAndSurveyStatus.OnGoing);
-  const surveysCompleted = useSurveys(CampaignAndSurveyStatus.Finished);
-  const surveysTotal = useSurveys();
+  useEffect(() => {
+    getGraphData();
+  }, []);
 
   return (
     <HomePageMain>
@@ -62,27 +45,47 @@ const HomePage = () => {
             title="In preparation"
             icon={<InpreparationIcon />}
             smallIcon={<CampaignsSmallIcon />}
-            {...campaignInPreparation}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
 
           <CardWithChart
             title="Ongoing"
             icon={<OngoingIcon />}
             smallIcon={<CampaignsSmallIcon />}
-            {...campaignOngoing}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
 
           <CardWithChart
-            title="Completed"
+            title="Finished"
             icon={<FinishedIcon />}
             smallIcon={<CampaignsSmallIcon />}
-            {...campaignCompleted}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
           <CardWithChart
-            title="Total"
+            title="Influencers"
             icon={<TotalIcon />}
             smallIcon={<CampaignsSmallIcon />}
-            {...campaignTotal}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
         </HomePageChartsGrid>
       </HomePageCharts>
@@ -93,52 +96,44 @@ const HomePage = () => {
             title="Without Report"
             icon={<WithoutReportIcon />}
             smallIcon={<ReportsSmallIcon />}
-            percent={2}
-            count={75}
+            percent={0}
+            count={0}
             chartData={{
-              values: Array.from(Array(20).keys()).map((_x) =>
-                faker.datatype.number({ min: 10, max: 30 })
-              ),
-              labels: Array.from(Array(20).keys()).map((_x) => ''),
+              values: [0, 0, 0],
+              labels: ['', '', ''],
             }}
           />
           <CardWithChart
             title="Ordered"
             icon={<OrderedIcon />}
             smallIcon={<ReportsSmallIcon />}
-            percent={2}
-            count={75}
+            percent={0}
+            count={0}
             chartData={{
-              values: Array.from(Array(20).keys()).map((_x) =>
-                faker.datatype.number({ min: 10, max: 30 })
-              ),
-              labels: Array.from(Array(20).keys()).map((_x) => ''),
+              values: [0, 0, 0],
+              labels: ['', '', ''],
             }}
           />
           <CardWithChart
             title="Ongoing"
             icon={<OngoingIcon />}
             smallIcon={<ReportsSmallIcon />}
-            percent={2}
-            count={75}
+            percent={0}
+            count={0}
             chartData={{
-              values: Array.from(Array(20).keys()).map((_x) =>
-                faker.datatype.number({ min: 10, max: 30 })
-              ),
-              labels: Array.from(Array(20).keys()).map((_x) => ''),
+              values: [0, 0, 0],
+              labels: ['', '', ''],
             }}
           />
           <CardWithChart
             title="Delivered"
             icon={<FinishedIcon />}
             smallIcon={<ReportsSmallIcon />}
-            percent={2}
-            count={75}
+            percent={0}
+            count={0}
             chartData={{
-              values: Array.from(Array(20).keys()).map((_x) =>
-                faker.datatype.number({ min: 10, max: 30 })
-              ),
-              labels: Array.from(Array(20).keys()).map((_x) => ''),
+              values: [0, 0, 0],
+              labels: ['', '', ''],
             }}
           />
         </HomePageChartsGrid>
@@ -147,28 +142,48 @@ const HomePage = () => {
         <HomePageChartsLabel>Social Media Listening </HomePageChartsLabel>
         <HomePageChartsGrid>
           <CardWithChart
-            title="New"
+            title="Recommended"
             icon={<ReccomendedIcon />}
             smallIcon={<SMLSmallIcon />}
-            {...SMLNew}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
           <CardWithChart
-            title="To Be Created"
+            title="Ordered"
             icon={<OrderedIcon />}
             smallIcon={<SMLSmallIcon />}
-            {...SMLToBeCreated}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
           <CardWithChart
-            title="Finished"
+            title="Ongoing"
             icon={<OngoingIcon />}
             smallIcon={<SMLSmallIcon />}
-            {...SMLFinished}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
           <CardWithChart
             title="Subscriptions"
             icon={<SubscriptionIcon />}
             smallIcon={<SMLSmallIcon />}
-            {...SMLSubscriptions}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
         </HomePageChartsGrid>
       </HomePageCharts>
@@ -179,25 +194,45 @@ const HomePage = () => {
             title="In Preparation"
             icon={<InpreparationIcon />}
             smallIcon={<SurveysSmallIcon />}
-            {...surveysInPreparation}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
           <CardWithChart
             title="Ongoing"
             icon={<OngoingIcon />}
             smallIcon={<SurveysSmallIcon />}
-            {...surveysOngoing}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
           <CardWithChart
             title="Completed"
             icon={<FinishedIcon />}
             smallIcon={<SurveysSmallIcon />}
-            {...surveysCompleted}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
           <CardWithChart
-            title="Total"
+            title="Participants"
             icon={<TotalIcon />}
             smallIcon={<SurveysSmallIcon />}
-            {...surveysTotal}
+            percent={0}
+            count={0}
+            chartData={{
+              values: [0, 0, 0],
+              labels: ['', '', ''],
+            }}
           />
         </HomePageChartsGrid>
       </HomePageCharts>

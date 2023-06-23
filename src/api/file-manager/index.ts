@@ -18,6 +18,10 @@ const FileManagerApi = {
 
     return data;
   },
+
+  fileDelete: async (id: number) => {
+    await client.delete(`${Project.apis.v1}/fileManager/${id}`);
+  },
 };
 
 export default FileManagerApi;

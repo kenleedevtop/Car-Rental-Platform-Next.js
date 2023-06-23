@@ -331,6 +331,7 @@ const Input = ({
               // }
               // return opt.label;
             }
+            noOptionsText={noOptionsText}
             value={value}
             onChange={handleMultiselect}
             inputValue={search}

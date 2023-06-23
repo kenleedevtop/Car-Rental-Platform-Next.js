@@ -95,7 +95,11 @@ const AccountPage = ({ ...props }) => {
       if (data.location) {
         newState.location = {
           value: data.location.id,
-          label: data.location.name,
+          label: `${
+            data.location.country
+              ? `${(data.location.name, data.location.country.name)}`
+              : data.location.name
+          }`,
         };
       }
 
@@ -109,7 +113,11 @@ const AccountPage = ({ ...props }) => {
       if (data.client.clientMarkets) {
         newState.markets = data.client.clientMarkets.map((x: any) => ({
           value: x.location.id,
-          label: x.location.name,
+          label: `${
+            data.location.country
+              ? `${(data.location.name, data.location.country.name)}`
+              : data.location.name
+          }`,
         }));
       }
 
@@ -252,7 +260,7 @@ const AccountPage = ({ ...props }) => {
         <ChangeInfoModal
           data={state}
           refresh={getClient}
-          onClose={async () => {
+          onClose={() => {
             getClient();
             closeCiModal();
           }}

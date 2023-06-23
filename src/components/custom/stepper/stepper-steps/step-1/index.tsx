@@ -17,8 +17,17 @@ import {
 } from 'components/custom/stepper/elements';
 import { CopyIcon } from 'components/svg';
 import { useAppContext } from 'context';
-
+import Project from 'constants/project';
+import { InfluencerAPI } from 'api';
+import { TFormData } from './types';
 import { FormData } from '../..';
+
+const generateRegisterAffiliateLink = (affiliateCode: string) => {
+  const { environment, baseUrl: baseDevUrl, baseProdUrl } = Project.app;
+  const baseUrl = environment === 'development' ? baseDevUrl : baseProdUrl;
+
+  return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`;
+};
 
 type Step1FormProps = {
   formData: FormData;
@@ -73,6 +82,50 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
       });
     }
   };
+
+  const getInfluencerData = async (influencerId: number) => {
+    const influencer = await InfluencerAPI.getSingleInfluencer(influencerId);
+    return influencer;
+  };
+
+  useEffect(() => {
+    getInfluencerData(user.id)
+      .then((data) =>
+        setFormData((prevState: any) => {
+          const affiliatedFriends = data.invitedInfluencers.map(
+            (influencer: { user: any }) => {
+              const { id, firstName, lastName } = influencer.user;
+
+              const label = `${firstName} ${lastName}`;
+
+              return { value: id, label };
+            }
+          );
+          return {
+            ...prevState,
+            affiliateFriends: affiliatedFriends,
+          };
+        })
+      )
+      .catch(() => {
+        push('Something failed!', {
+          variant: 'error',
+        });
+      });
+  }, []);
+
+  useEffect(() => {
+    if (user.influencer.invitendByUserId) {
+      getInfluencerData(user.influencer.invitendByUserId)
+        .then((influencer) => {
+          setFormData((prevState: any) => ({
+            ...prevState,
+            invitedBy: `${influencer.firstName} ${influencer.lastName}`,
+          }));
+        })
+        .catch(() => push('Wrong influencer', { variant: 'error' }));
+    }
+  }, [user]);
 
   return (
     <StepContainer>
@@ -134,8 +187,7 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
           onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
         />
         <Input
-          type="multiselect"
-          disabled
+          type="select"
           label="Affiliate friends"
           value={affiliateFriends}
           // onValue={(affiliateFriends) =>
@@ -144,6 +196,7 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
           onValue={(affiliateFriends) =>
             setFormData({ ...formData, affiliateFriends })
           }
+          options={formData.affiliateFriends}
         />
         <Input
           type="text"

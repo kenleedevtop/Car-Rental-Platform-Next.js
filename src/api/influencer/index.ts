@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
 import {
   TSingleInfluencer,
@@ -8,6 +9,14 @@ import {
 import { client } from 'api/api-client';
 
 const InfluencerAPI = {
+  getAffiliateCodeOwner: async (affiliateCode: string) => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/influencer/affiliateCodeOwner/${affiliateCode}`
+    );
+
+    return data;
+  },
+
   registration: async (body: TRegisterAsInfluencerParams, locale: string) => {
     const { data } = await client.post(
       `${Project.apis.v1}/influencer/registration`,
@@ -23,7 +32,7 @@ const InfluencerAPI = {
 
   registrationViaInvitation: async (body: TRegisterAsInfluencerParams) => {
     const { data } = await client.post(
-      `${Project.apis.v1}/influencer/registration`,
+      `${Project.apis.v1}/influencer/registrationViaInvitation`,
       body
     );
     return data;
@@ -65,7 +74,7 @@ const InfluencerAPI = {
     return data;
   },
 
-  getSingleInfluencer: async (id: any) => {
+  getSingleInfluencer: async (id: any): Promise<TInfluencer> => {
     const { data } = await client.get(`${Project.apis.v1}/influencer/${id}`);
 
     return data;

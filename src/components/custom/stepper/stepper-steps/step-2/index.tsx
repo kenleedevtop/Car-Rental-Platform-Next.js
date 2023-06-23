@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+// eslint-disable-next-line import/named
 import { Input } from 'components/ui';
 import React, { useEffect, useState } from 'react';
 
@@ -45,7 +46,9 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
     setLocations(
       result.map((data: any) => ({
         value: data.id,
-        label: data.name,
+        label: `${
+          data.country ? `${(data.name, data.country.name)}` : data.name
+        }`,
       }))
     );
     setLoading(false);

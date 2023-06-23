@@ -15,24 +15,27 @@ const AddReportModal = ({
 }: TAddReportModalProps) => {
   const [state, setState] = useState<any>({
     campaign: campaign || null,
-    reportType: null,
+    reportType: {
+      label: 'Yes',
+      value: 1,
+    },
     budget: '',
     additional: '',
   });
 
-  const [reportTypes, setReportTypes] = useState<any>([]);
+  // const [reportTypes, setReportTypes] = useState<any>([]);
   const [campaigns, setCampaigns] = useState<any>([]);
 
-  const getReportTypes = async () => {
-    const result = await EnumsApi.getReportTypes();
+  // const getReportTypes = async () => {
+  //   const result = await EnumsApi.getReportTypes();
 
-    setReportTypes(
-      result.map((x: any) => ({
-        value: x.value,
-        label: x.name,
-      }))
-    );
-  };
+  //   setReportTypes(
+  //     result.map((x: any) => ({
+  //       value: x.value,
+  //       label: x.name,
+  //     }))
+  //   );
+  // };
 
   const getCampaigns = async (s: string = '') => {
     const { result } = await CampaignAPI.getCampaigns(s);
@@ -48,7 +51,7 @@ const AddReportModal = ({
   const { push } = useSnackbar();
 
   useEffect(() => {
-    getReportTypes();
+    // getReportTypes();
     getCampaigns();
   }, []);
 
@@ -66,6 +69,8 @@ const AddReportModal = ({
     }
   };
 
+  const disabled = !state.campaign;
+
   return (
     <Modal
       size="medium"
@@ -75,6 +80,7 @@ const AddReportModal = ({
           color="primary"
           variant="contained"
           size="large"
+          disabled={disabled}
           onClick={() => {
             createReport();
             refresh();
@@ -95,14 +101,16 @@ const AddReportModal = ({
           value={state.campaign}
           onValue={(input) => setState({ ...state, campaign: input })}
           options={campaigns}
+          required
         />
         <Input
           type="select"
           label="Report Type"
           placeholder="Please Select"
+          disabled
           value={state.reportType}
           onValue={(reportType) => setState({ ...state, reportType })}
-          options={reportTypes}
+          // options={reportTypes}
         />
         <Stack>
           <Input

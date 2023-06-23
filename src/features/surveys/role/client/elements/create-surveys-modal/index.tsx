@@ -126,7 +126,9 @@ const CreateSurveysModal = ({
     setLocation(
       result.map((data: any) => ({
         value: data.id,
-        label: data.name,
+        label: `${
+          data.country ? `${(data.name, data.country.name)}` : data.name
+        }`,
       }))
     );
     setLoading(false);
@@ -224,6 +226,8 @@ const CreateSurveysModal = ({
 
   const { push } = useSnackbar();
 
+  const disabled = !state.surveyName || !state.tokens;
+
   const createSurvey = async () => {
     try {
       const body = {
@@ -250,7 +254,7 @@ const CreateSurveysModal = ({
         participantsCount: state.participants
           ? parseInt(state.participants, 10)
           : undefined,
-        questionsCount: state.questionCount
+        questionsCount: state.questionsCount
           ? parseInt(state.questionsCount, 10)
           : undefined,
         ageMin: state.ageRange.min
@@ -269,6 +273,7 @@ const CreateSurveysModal = ({
         exampleImageUrls: [photo] || undefined,
         instructions: state.instructions ? state.instructions : undefined,
         tokens: state.tokens ? state.tokens.value : null,
+        link: state.link ? state.link : undefined,
         // questionCredits: state.questionsCredit
         //   ? parseInt(state.questionCredits, 10)
         //   : undefined,
@@ -292,6 +297,7 @@ const CreateSurveysModal = ({
           color="primary"
           variant="contained"
           size="large"
+          disabled={disabled}
           onClick={() => {
             createSurvey();
             refresh();
@@ -317,6 +323,7 @@ const CreateSurveysModal = ({
             <Input
               type="text"
               label="Survey name"
+              required
               placeholder="Please Enter"
               value={state.surveyName}
               onValue={(surveyName) => setState({ ...state, surveyName })}
@@ -383,6 +390,7 @@ const CreateSurveysModal = ({
               type="select"
               label="Tokens"
               placeholder="Please Select"
+              required
               value={state.tokens}
               onValue={(input) => setState({ ...state, tokens: input })}
               options={tokens}

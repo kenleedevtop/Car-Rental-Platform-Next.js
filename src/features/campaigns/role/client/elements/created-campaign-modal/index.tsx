@@ -277,38 +277,33 @@ const CreatedCampaignModal = ({
         />
         {tab === 0 && (
           <AddCampaignsModalMain columns={2}>
-            <GridCell columnSpan={2}>
-              <Input
-                type="text"
-                label="Campaign Name"
-                disabled
-                value={state.campaignName}
-                onValue={(campaignName) => setState({ ...state, campaignName })}
-              />
-            </GridCell>
+            <Input
+              type="text"
+              label="Campaign Name"
+              disabled
+              value={state.campaignName}
+              onValue={(campaignName) => setState({ ...state, campaignName })}
+            />
             <Input
               type="multiselect"
-              label="Product"
+              label="Products"
               disabled
               value={state.product}
               onValue={(product) => setState({ ...state, product })}
             />
-            <InputGroup
-              label="Start & Finish date"
-              inputRatio="1fr 1fr"
-              disabled
-              elements={[
-                {
-                  type: 'date',
-                  value: state.startDate,
-                  onValue: (startDate) => setState({ ...state, startDate }),
-                },
-                {
-                  type: 'date',
-                  value: state.endDate,
-                  onValue: (endDate) => setState({ ...state, endDate }),
-                },
-              ]}
+            <Input
+              label="Start Date"
+              type="date"
+              placeholder="From"
+              value={state.startdate}
+              onValue={(startDate) => setState({ ...state, startDate })}
+            />
+            <Input
+              label="End Date"
+              type="date"
+              placeholder="To"
+              value={state.endDate}
+              onValue={(endDate) => setState({ ...state, endDate })}
             />
             <Input
               type="select"
@@ -316,6 +311,16 @@ const CreatedCampaignModal = ({
               disabled
               value={state.report}
               onValue={(report) => setState({ ...state, report })}
+            />
+            <Input
+              type="number"
+              min={0}
+              label="Influencer Count"
+              placeholder="Please Select"
+              value={state.influencerCount}
+              onValue={(input) =>
+                setState({ ...state, influencerCount: input > 0 ? input : 0 })
+              }
             />
             <Stack>
               <Input

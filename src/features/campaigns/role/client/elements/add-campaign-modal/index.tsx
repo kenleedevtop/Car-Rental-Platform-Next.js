@@ -11,6 +11,7 @@ import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 import {
   CampaignAPI,
+  ClientAPI,
   DiseaseAreaAPI,
   FileManagerApi,
   LocationAPI,
@@ -85,7 +86,12 @@ const AddCampaignModal = ({
     setState({ ...state, interests: [...state.interests, v] });
   };
 
+  // const addNewProduct = async (arr: any) => {
+  //   await ClientAPI.addClientProduct(arr);
+  // };
+
   const handleNewProductTag = (v: any) => {
+    // addNewProduct({ clientProducts: [{ name: v.label }] });
     setState({ ...state, product: [...state.product, v] });
   };
 
@@ -107,13 +113,13 @@ const AddCampaignModal = ({
   const [influencerSize, setInfluencerSize] = useState<any>();
   const [platform, setPlatform] = useState<any>();
 
-  const getProducts = async (s: string = '') => {
-    const { result } = await ProductApi.getProducts(s);
+  const getProducts = async () => {
+    const { result } = await ClientAPI.clientProducts();
 
     setProduct(
       result.map((data: any) => ({
-        value: data.id,
-        label: data.name,
+        value: data.product.id,
+        label: data.product.name,
       }))
     );
   };
@@ -148,7 +154,9 @@ const AddCampaignModal = ({
     setLocation(
       result.map((data: any) => ({
         value: data.id,
-        label: data.name,
+        label: `${
+          data.country ? `${(data.name, data.country.name)}` : data.name
+        }`,
       }))
     );
     setLoading(false);
@@ -316,6 +324,8 @@ const AddCampaignModal = ({
     }
   };
 
+  const disabled = !state.campaignName;
+
   return (
     <Modal
       size="medium"
@@ -325,6 +335,7 @@ const AddCampaignModal = ({
           color="primary"
           variant="contained"
           size="large"
+          disabled={disabled}
           onClick={() => {
             createCampaign();
             refresh();
@@ -347,15 +358,14 @@ const AddCampaignModal = ({
         />
         {tab === 0 && (
           <AddCampaignsModalMain columns={2}>
-            <GridCell columnSpan={2}>
-              <Input
-                type="text"
-                label="Campaign Name"
-                placeholder="Please Enter"
-                value={state.campaignName}
-                onValue={(campaignName) => setState({ ...state, campaignName })}
-              />
-            </GridCell>
+            <Input
+              type="text"
+              label="Campaign Name"
+              required
+              placeholder="Please Enter"
+              value={state.campaignName}
+              onValue={(campaignName) => setState({ ...state, campaignName })}
+            />
             <Input
               type="multiselect"
               label="Products"
@@ -367,23 +377,19 @@ const AddCampaignModal = ({
               onNewTag={handleNewProductTag}
               loading={loading}
             />
-            <InputGroup
-              label="Start & Finish date"
-              inputRatio="1fr 1fr"
-              elements={[
-                {
-                  type: 'date',
-                  placeholder: 'From',
-                  value: state.startDate,
-                  onValue: (startDate) => setState({ ...state, startDate }),
-                },
-                {
-                  type: 'date',
-                  placeholder: 'To',
-                  value: state.endDate,
-                  onValue: (endDate) => setState({ ...state, endDate }),
-                },
-              ]}
+            <Input
+              label="Start Date"
+              type="date"
+              placeholder="From"
+              value={state.startDate}
+              onValue={(startDate) => setState({ ...state, startDate })}
+            />
+            <Input
+              label="End Date"
+              type="date"
+              placeholder="To"
+              value={state.endDate}
+              onValue={(endDate) => setState({ ...state, endDate })}
             />
             <Input
               type="select"
@@ -392,6 +398,16 @@ const AddCampaignModal = ({
               value={state.report}
               onValue={(input) => setState({ ...state, report: input })}
               options={report}
+            />
+            <Input
+              type="number"
+              min={0}
+              label="Influencer Count"
+              placeholder="Please Select"
+              value={state.influencerCount}
+              onValue={(input) =>
+                setState({ ...state, influencerCount: input > 0 ? input : 0 })
+              }
             />
             <Stack>
               <Input
@@ -404,7 +420,6 @@ const AddCampaignModal = ({
               />
               <CurrencyFeedback value={state.budget} />
             </Stack>
-
             <GridCell columnSpan={2}>
               <Input
                 multiline
@@ -507,16 +522,6 @@ const AddCampaignModal = ({
               value={state.influencerSize}
               onValue={(input) => setState({ ...state, influencerSize: input })}
               options={influencerSize}
-            />
-            <Input
-              type="number"
-              min={0}
-              label="Influencer Count"
-              placeholder="Please Select"
-              value={state.influencerCount}
-              onValue={(input) =>
-                setState({ ...state, influencerCount: input > 0 ? input : 0 })
-              }
             />
             <GridCell columnSpan={2}>
               <Input
