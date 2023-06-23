@@ -79,9 +79,9 @@ const Stepper = () => {
 
   const generateRegisterAffiliateLink = (affiliateCode: string) => {
     const { environment, baseUrl: baseDevUrl, baseProdUrl } = Project.app;
-    const baseUrl = environment === 'development' ? baseDevUrl: baseProdUrl;
+    const baseUrl = environment === 'development' ? baseDevUrl : baseProdUrl;
 
-    return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`
+    return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`;
   };
 
   const INITIAL_DATA: FormData = {
