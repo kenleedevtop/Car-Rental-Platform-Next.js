@@ -49,6 +49,10 @@ const UsersAPI = {
   contactAdmin: async (body: any) => {
     await client.post(`${Project.apis.v1}/users/contactAdmins`, body);
   },
+
+  updateSingleUser: async (id: number, body: any) => {
+    await client.patch(`${Project.apis.v1}/users/${id}`, body);
+  },
 };
 
 export default UsersAPI;

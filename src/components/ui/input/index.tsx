@@ -46,6 +46,7 @@ const Input = ({
   onSearch,
   loading = false,
   noOptionsText,
+  customDateFormat,
   ...props
 }: TInputProps) => {
   const [search, setSearch] = useState(initialSearch);
@@ -277,7 +278,7 @@ const Input = ({
       {type === 'date' && (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <InputDatepicker
-            inputFormat="MM/DD/YYYY"
+            inputFormat={customDateFormat || 'MM/DD/YYYY'}
             value={value}
             onChange={handleDate}
             disabled={disabled}

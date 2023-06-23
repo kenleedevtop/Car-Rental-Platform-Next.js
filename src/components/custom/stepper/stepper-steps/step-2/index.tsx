@@ -9,6 +9,7 @@ import {
 } from 'components/custom/stepper/stepper-steps/step-2/style';
 import { DiseaseAreaAPI, EnumsApi, InfluencerAPI, LocationAPI } from 'api';
 import { useAppContext } from 'context';
+import { useDebounce } from 'hooks';
 
 const Step = () => {
   const [filter, setFilter] = useState<any>({
@@ -28,16 +29,23 @@ const Step = () => {
   const [stakeholder, setStakeholders] = useState([]);
   const [genders, setGenders] = useState([]);
 
-  const getLocations = async (s: string = '') => {
+  const getLocations = async (searchTerm: string = '') => {
     setLoading(true);
-    const { result } = await LocationAPI.getAll(s);
+    const { result } = await LocationAPI.getAll(searchTerm);
     setLocations(
-      result.map((data: any) => ({
-        value: data.id,
-        label: `${
-          data.country ? `${(data.name, data.country.name)}` : data.name
-        }`,
-      }))
+      result.map((data: any) => {
+        const checkNotInitial = data.countryId
+          ? `${data.name}, ${data.country.name}`
+          : data.name;
+        const label = !searchTerm.length
+          ? `${data.name}, ${data.country.name}`
+          : checkNotInitial;
+
+        return {
+          value: data.id,
+          label,
+        };
+      })
     );
     setLoading(false);
   };
@@ -97,6 +105,8 @@ const Step = () => {
     };
   };
 
+  const debouncedLocation = useDebounce(getLocations, 250);
+
   const handleNewTag = (v: any) => {
     setFilter({ ...filter, diseaseAreas: [...filter.diseaseAreas, v] });
   };
@@ -140,7 +150,7 @@ const Step = () => {
           <Input
             type="select"
             label="Location"
-            onSearch={debounce(getLocations, 250)}
+            onSearch={debouncedLocation}
             placeholder="Please Select"
             value={filter.location}
             loading={loading}

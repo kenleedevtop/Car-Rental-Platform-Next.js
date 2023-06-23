@@ -40,7 +40,7 @@ const DashboardLayout = ({ children, ...props }: TDashboardLayoutProps) => {
               : { transform: 'translateX(-100%)' }
           }
         />
-        <DashboardLayoutContainerOuter>
+        <DashboardLayoutContainerOuter className="overflow-y-hidden">
           <DashboardLayoutContainer>
             <DashboardLayoutContent>{children}</DashboardLayoutContent>
             <DashboardLayoutWidgets>

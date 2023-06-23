@@ -16,9 +16,14 @@ const EnumsApi = {
     return data;
   },
 
-  getStakeholderTypes: async () => {
+  getStakeholderTypes: async (influencerType: boolean = false) => {
     const { data } = await client.get(
-      `${Project.apis.v1}/stakeholders/stakeholderTypes`
+      `${Project.apis.v1}/stakeholders/stakeholderTypes`,
+      {
+        params: {
+          influencerType,
+        },
+      }
     );
 
     return data;
@@ -54,6 +59,14 @@ const EnumsApi = {
 
   getSurveyTypes: async () => {
     const { data } = await client.get(`${Project.apis.v1}/surveys/surveyTypes`);
+
+    return data;
+  },
+
+  getPostTypes: async (userId: number) => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/influencer/${userId}/desiredIncome/campaign/postTypes`
+    );
 
     return data;
   },
