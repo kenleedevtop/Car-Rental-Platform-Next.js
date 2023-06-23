@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { Tooltip } from '@mui/material';
 import { InfoIcon } from 'components/svg';
 import { Stack } from 'components/system';
@@ -10,25 +11,24 @@ import {
 import { Input } from 'components/ui';
 import React, { useState } from 'react';
 
-const Step = () => {
-  const [filter, setFilter] = useState({
-    currency: null,
+import { FormData } from '../..';
 
-    instaP: null,
-    instaS: null,
-    instaR: null,
+type Step4FormProps = {
+  formData: FormData;
+  setFormData: any;
+};
 
-    yVideoS: null,
-    yVideoM: null,
-    yVideoL: null,
+const Step = ({ formData, setFormData }: Step4FormProps) => {
+  const {
+    instaP,
+    instaR,
+    instaS,
+    questionCredit,
+    averageQuestionSurvey,
+    interviewShort,
+    interviewLong,
+  } = formData;
 
-    ttPost: null,
-
-    questionCredit: '',
-    averageQuestionSurvey: '',
-    interviewShort: '',
-    interviewLong: '',
-  });
   return (
     <StepStack>
       <StepContainer>
@@ -39,22 +39,25 @@ const Step = () => {
               type="text"
               label="Post"
               placeholder="Please Enter Amount"
-              value={filter.instaP}
-              onValue={(instaP) => setFilter({ ...filter, instaP })}
+              value={instaP}
+              // onValue={(instaP) => setFilter({ ...filter, instaP })}
+              onValue={(instaP) => setFormData({ ...formData, instaP })}
             />
             <Input
               type="text"
               label="Story"
               placeholder="Please Enter Amount"
-              value={filter.instaP}
-              onValue={(instaP) => setFilter({ ...filter, instaP })}
+              value={instaS}
+              // onValue={(instaP) => setFilter({ ...filter, instaP })}
+              onValue={(instaS) => setFormData({ ...formData, instaS })}
             />
             <Input
               type="text"
               label="Reel"
               placeholder="Please Enter Amount"
-              value={filter.instaP}
-              onValue={(instaP) => setFilter({ ...filter, instaP })}
+              value={instaR}
+              // onValue={(instaP) => setFilter({ ...filter, instaP })}
+              onValue={(instaR) => setFormData({ ...formData, instaR })}
             />
           </Stack>
         </StepLeft>
@@ -152,9 +155,9 @@ const Step = () => {
             <Input
               type="text"
               placeholder="Please Enter Amount"
-              value={filter.questionCredit}
+              value={questionCredit}
               onValue={(questionCredit) =>
-                setFilter({ ...filter, questionCredit })
+                setFormData({ ...formData, questionCredit })
               }
               style={{ marginTop: '-15px' }}
             />
@@ -163,9 +166,9 @@ const Step = () => {
               type="text"
               label="Average 20 Question Survey"
               placeholder="Calculation"
-              value={filter.questionCredit}
-              onValue={(questionCredit) =>
-                setFilter({ ...filter, questionCredit })
+              value={averageQuestionSurvey}
+              onValue={(averageQuestionSurvey) =>
+                setFormData({ ...formData, averageQuestionSurvey })
               }
             />
             <p style={{ color: '#6f6f6f' }}>Interview</p>
@@ -173,18 +176,18 @@ const Step = () => {
               type="text"
               label="Interview: 30min"
               placeholder="Please Enter Amount"
-              value={filter.interviewShort}
+              value={interviewShort}
               onValue={(interviewShort) =>
-                setFilter({ ...filter, interviewShort })
+                setFormData({ ...formData, interviewShort })
               }
             />
             <Input
               type="text"
               label="Interview: 60min"
               placeholder="Please Enter Amount"
-              value={filter.interviewLong}
+              value={interviewLong}
               onValue={(interviewLong) =>
-                setFilter({ ...filter, interviewLong })
+                setFormData({ ...formData, interviewLong })
               }
             />
           </Stack>

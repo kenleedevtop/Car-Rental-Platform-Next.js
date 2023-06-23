@@ -41,6 +41,7 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   initialSearch?: string;
   loading?: boolean;
   noOptionsText?: string;
+  customDateFormat?: string;
   onInputChange?: (v: any) => void;
   errorCallback?: (e: boolean) => void;
   onNewTag?: (v: any) => void;

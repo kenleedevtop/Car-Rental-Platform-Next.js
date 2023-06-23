@@ -1,3 +1,9 @@
+import {
+  IInfluencer,
+  ILocation,
+  TAffiliatedInfluencer,
+} from 'api/influencer/types';
+
 export type TCreateUser = {
   id: string;
   firstName: string;
@@ -20,3 +26,23 @@ export type TSingleUser = {
 export type TAddComment = {
   comment: string;
 };
+
+export interface IUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  emailResendTokens: number;
+  locationId: number | null;
+  role: number;
+  status: number;
+  currency: number;
+  createdAt: string;
+  updatedAt: string;
+  assigneeUserLabels: any[];
+  productOrderChatRoomMember: any[];
+  notificationUsers: any[];
+  invitedInfluencers: TAffiliatedInfluencer[];
+  influencer: IInfluencer;
+  location?: ILocation;
+}

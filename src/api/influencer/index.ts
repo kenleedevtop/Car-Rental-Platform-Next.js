@@ -1,13 +1,23 @@
+// eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
 import {
   TSingleInfluencer,
   TRegisterAsInfluencerParams,
-  TInfluencer,
+  IPaginatedResults,
 } from 'api/influencer/types';
 
 import { client } from 'api/api-client';
+import { IUser } from 'api/users/types';
 
 const InfluencerAPI = {
+  getAffiliateCodeOwner: async (affiliateCode: string) => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/influencer/affiliateCodeOwner/${affiliateCode}`
+    );
+
+    return data;
+  },
+
   registration: async (body: TRegisterAsInfluencerParams, locale: string) => {
     const { data } = await client.post(
       `${Project.apis.v1}/influencer/registration`,
@@ -23,7 +33,7 @@ const InfluencerAPI = {
 
   registrationViaInvitation: async (body: TRegisterAsInfluencerParams) => {
     const { data } = await client.post(
-      `${Project.apis.v1}/influencer/registration`,
+      `${Project.apis.v1}/influencer/registrationViaInvitation`,
       body
     );
     return data;
@@ -39,7 +49,9 @@ const InfluencerAPI = {
     return data;
   },
 
-  getDInfluencersRegistered: async (filters: any) => {
+  getDInfluencersRegistered: async (
+    filters: any
+  ): Promise<IPaginatedResults> => {
     const { data } = await client.get(
       `${Project.apis.v1}/influencer/discoverInfluencers?stage=registered`,
       {
@@ -65,7 +77,7 @@ const InfluencerAPI = {
     return data;
   },
 
-  getSingleInfluencer: async (id: any) => {
+  getSingleInfluencer: async (id: any): Promise<IUser> => {
     const { data } = await client.get(`${Project.apis.v1}/influencer/${id}`);
 
     return data;
@@ -78,11 +90,19 @@ const InfluencerAPI = {
   },
 
   updateInfluencer: async (body: any, id: any) => {
-    await client.patch(`${Project.apis.v1}/influencer/${id}`, body);
+    const { data } = await client.patch(
+      `${Project.apis.v1}/influencer/${id}`,
+      body
+    );
+
+    return data;
   },
 
-  verifyInfluencer: async (id: TSingleInfluencer) => {
-    await client.patch(`${Project.apis.v1}/influencer/${id}/verify`);
+  verifyInfluencer: async (body: any, id: TSingleInfluencer) => {
+    const { data } = await client.patch(
+      `${Project.apis.v1}/influencer/${id}/verify`,
+      body
+    );
   },
 
   influencerGetPostTypes: async (id: TSingleInfluencer) => {

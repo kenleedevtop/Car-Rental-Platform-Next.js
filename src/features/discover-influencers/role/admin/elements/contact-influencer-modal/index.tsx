@@ -19,8 +19,6 @@ const ContactInfluencerModal = ({
     userId: id.toString(),
   });
 
-  console.log('influencer id:', id);
-
   const { push } = useSnackbar();
 
   const handleContact = async () => {

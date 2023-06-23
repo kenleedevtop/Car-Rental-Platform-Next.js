@@ -5,6 +5,7 @@ import { Menu } from 'components/custom';
 export const DiscoverActionsMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
         display: grid;
+        position: relative;
         place-items: center;
         position: relative;
         padding: ${theme.spacing(2)};

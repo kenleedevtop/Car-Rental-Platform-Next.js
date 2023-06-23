@@ -19,6 +19,7 @@ export const ClientActionsMenu = styled(Menu)<{
   position: fixed;
   z-index: 200;
   width: 120px;
+  background: red !important;
   right: ${position?.right}px;
   top: ${position?.top}px;
   `}

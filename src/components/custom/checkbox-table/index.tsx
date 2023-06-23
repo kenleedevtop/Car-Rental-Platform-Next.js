@@ -35,6 +35,7 @@ const Table = ({
   head = [],
   items = [],
   renderItem = (_b) => {},
+  checkedRows,
   ...props
 }: TTableProps) => {
   const [localHead, setLocalHead] = useState(head);
@@ -63,6 +64,8 @@ const Table = ({
   return (
     <TableContainer {...props}>
       {['ADMIN', 'SUPERADMIN'].includes(role) && (
+        // TODO Remove Bulk actions
+        // TODO transfer this to header
         <Stack
           style={{ justifyContent: 'flex-end', marginTop: '-60px' }}
           direction="horizontal"
@@ -97,11 +100,14 @@ const Table = ({
           </TableHead>
           {!!items.length && (
             <TableBody>
-              {items.map((x: any, y: number) => (
+              {items.map((rowData: any, rowIndex: number) => (
                 <TableBodyRow>
                   {['ADMIN', 'SUPERADMIN'].includes(role) && (
                     <TableBodyCell action>
-                      <Checkbox value={checkbox} onValue={handleCheckbox} />
+                      <Checkbox
+                        value={checkedRows?.includes(rowData.id)}
+                        onValue={handleCheckbox}
+                      />
                     </TableBodyCell>
                   )}
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
@@ -110,11 +116,11 @@ const Table = ({
                         headItem: a,
                         cell: {
                           index: b,
-                          data: getObjectDynamicPath(x, a.reference),
+                          data: getObjectDynamicPath(rowData, a.reference),
                         },
                         row: {
-                          index: y,
-                          data: x,
+                          index: rowIndex,
+                          data: rowData,
                         },
                         table: items,
                       })}
