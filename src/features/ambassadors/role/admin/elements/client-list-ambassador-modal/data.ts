@@ -31,7 +31,7 @@ export const DClientListHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

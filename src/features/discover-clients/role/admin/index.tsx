@@ -18,10 +18,15 @@ import {
   ClientRegisteredIcon,
   ClientScheduledIcon,
   ContactIcon,
+  DailyIcon,
   DeleteIcon,
   EditIcon,
+  MonthlyIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
+  UserIcon,
+  WeeklyIcon,
+  YearlyIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
@@ -297,8 +302,9 @@ const DiscoverClientsPage = () => {
     <DiscoverClientsPageMain>
       <DiscoverClientsPageCharts>
         <CardWithChart
-          title="Identified"
-          icon={<ClientIdentifiedIcon />}
+          title="Daily"
+          icon={<DailyIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -309,8 +315,9 @@ const DiscoverClientsPage = () => {
           }}
         />
         <CardWithChart
-          title="Contacted"
-          icon={<ClientContactedIcon />}
+          title="Weekly"
+          icon={<WeeklyIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -321,8 +328,9 @@ const DiscoverClientsPage = () => {
           }}
         />
         <CardWithChart
-          title="Registered"
-          icon={<ClientRegisteredIcon />}
+          title="Monthly"
+          icon={<MonthlyIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -333,8 +341,9 @@ const DiscoverClientsPage = () => {
           }}
         />
         <CardWithChart
-          title="Scheduled"
-          icon={<ClientScheduledIcon />}
+          title="Yearly"
+          icon={<YearlyIcon />}
+          smallIcon={<UserIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -347,7 +356,6 @@ const DiscoverClientsPage = () => {
       </DiscoverClientsPageCharts>
       <CardWithText
         title="Discovered Clients"
-        description="More than 290+ new Clients"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -359,9 +367,6 @@ const DiscoverClientsPage = () => {
           </Button>,
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
-          </Button>,
-          <Button color="primary" variant="contained" onClick={openAiModal}>
-            Add Client
           </Button>,
         ]}
       >

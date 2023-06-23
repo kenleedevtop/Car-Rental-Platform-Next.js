@@ -694,7 +694,7 @@ export const DClientsHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

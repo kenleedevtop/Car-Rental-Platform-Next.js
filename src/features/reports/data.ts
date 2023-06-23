@@ -165,7 +165,7 @@ export const DReportsClientHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -268,7 +268,7 @@ export const DReportsHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: false,
   },
 ];

@@ -393,7 +393,7 @@ const CreateSurveyPage = () => {
                 },
                 {
                   reference: 'actions',
-                  label: 'Actions',
+                  label: '',
                   visible: true,
                 },
               ]}

@@ -192,7 +192,7 @@ export const DCampaignsHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -258,7 +258,7 @@ export const DCampaignsInfluencerHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -300,7 +300,7 @@ export const DCampaignsInfluencerHead2 = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -441,7 +441,7 @@ export const DCampaignsClientHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

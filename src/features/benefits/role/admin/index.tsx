@@ -360,7 +360,6 @@ const BenefitsPage = () => {
       </BenefitsPageCharts>
       <CardWithText
         title="Benefits"
-        description="20 new Benefits"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}

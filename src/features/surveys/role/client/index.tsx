@@ -198,9 +198,7 @@ const SurveyPage = () => {
     setFilterLocations(
       result.map((data: any) => ({
         value: data.id,
-        label: `${
-          data.country ? `${(data.name, data.country.name)}` : data.name
-        }`,
+        label: data.country ? `${data.name}, ${data.country.name}` : data.name,
       }))
     );
     setLoading(false);
@@ -664,7 +662,7 @@ const SurveyPage = () => {
                   },
                   {
                     reference: 'actions',
-                    label: 'Actions',
+                    label: '',
                     visible: true,
                   },
                 ]}
@@ -774,7 +772,7 @@ const SurveyPage = () => {
                   },
                   {
                     reference: 'actions',
-                    label: 'Actions',
+                    label: '',
                     visible: true,
                   },
                 ]}
@@ -880,7 +878,7 @@ const SurveyPage = () => {
                   },
                   {
                     reference: 'actions',
-                    label: 'Actions',
+                    label: '',
                     visible: true,
                   },
                 ]}

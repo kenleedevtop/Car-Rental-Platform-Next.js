@@ -239,7 +239,6 @@ const DiscoverInfluencersPage = () => {
       </DiscoverInfluencersPageCharts>
       <CardWithText
         title="Discovered Influencers"
-        description="More than 290+ Influencers"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}

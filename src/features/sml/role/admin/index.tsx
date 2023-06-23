@@ -204,7 +204,6 @@ const SmlPage = () => {
       </SmlPageCharts>
       <CardWithText
         title="Social Media Listening"
-        description="More than 290+ new Reports"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -448,7 +447,7 @@ const SmlPage = () => {
               },
               {
                 reference: 'actions',
-                label: 'Actions',
+                label: '',
                 visible: true,
               },
             ]}

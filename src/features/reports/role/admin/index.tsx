@@ -137,7 +137,6 @@ const ReportsPage = () => {
       </ReportsPageCharts>
       <CardWithText
         title="Reports"
-        description="More than 290+ new Reports"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}

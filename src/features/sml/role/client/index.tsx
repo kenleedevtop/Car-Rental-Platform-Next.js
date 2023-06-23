@@ -398,7 +398,7 @@ const SmlPage = () => {
                   },
                   {
                     reference: 'actions',
-                    label: 'Actions',
+                    label: '',
                     visible: true,
                   },
                 ]}
@@ -464,7 +464,7 @@ const SmlPage = () => {
                   },
                   {
                     reference: 'actions',
-                    label: 'Actions',
+                    label: '',
                     visible: true,
                   },
                 ]}
@@ -530,7 +530,7 @@ const SmlPage = () => {
                   },
                   {
                     reference: 'actions',
-                    label: 'Actions',
+                    label: '',
                     visible: true,
                   },
                 ]}
@@ -592,7 +592,7 @@ const SmlPage = () => {
                   },
                   {
                     reference: 'actions',
-                    label: 'Actions',
+                    label: '',
                     visible: true,
                   },
                 ]}
