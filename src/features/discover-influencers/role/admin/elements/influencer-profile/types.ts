@@ -5,3 +5,6 @@ export type TInfluencerProfileModalProps =
     onClose: () => void;
     influencerId: number;
   };
+
+export type TPostTypeResult = { name: string; value: number };
+export type TSelectFieldType = { label: string; value: number };

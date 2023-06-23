@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 import React, { useState } from 'react';
 import {
   InputMain,
@@ -37,7 +36,6 @@ const Input = ({
   errorCallback,
   onBlur,
   onFocus,
-  onChange,
   startAdornment,
   endAdornment,
   disabled,
@@ -48,6 +46,7 @@ const Input = ({
   onSearch,
   loading = false,
   noOptionsText,
+  customDateFormat,
   ...props
 }: TInputProps) => {
   const [search, setSearch] = useState(initialSearch);
@@ -59,12 +58,12 @@ const Input = ({
     if (onValue) onValue(e.target.value);
   };
 
-  const handleSelect = (_e: React.ChangeEvent<any>, value: any) => {
-    if (onValue && value) onValue(value);
+  const handleSelect = (_e: React.ChangeEvent<any>, v: any) => {
+    if (onValue) onValue(v);
   };
 
-  const handleMultiselect = (_e: React.ChangeEvent<any>, value: any) => {
-    if (onValue) onValue(value);
+  const handleMultiselect = (_e: React.ChangeEvent<any>, v: any) => {
+    if (onValue) onValue(v);
   };
 
   const handleDate = (newValue: any) => {
@@ -77,9 +76,9 @@ const Input = ({
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     for (let i = 0; i < validators.length; i += 1) {
-      const value = validators[i];
-      if (!value.validator(value)) {
-        setErrorMessage(value.message);
+      const v = validators[i];
+      if (!v.validator(value)) {
+        setErrorMessage(v.message);
         setError(true);
         if (errorCallback) errorCallback(true);
         if (onBlur) onBlur(e);
@@ -279,7 +278,7 @@ const Input = ({
       {type === 'date' && (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <InputDatepicker
-            inputFormat="MM/DD/YYYY"
+            inputFormat={customDateFormat || 'MM/DD/YYYY'}
             value={value}
             onChange={handleDate}
             disabled={disabled}
@@ -339,8 +338,8 @@ const Input = ({
             onInputChange={(_a, b) => handleSearch(b)}
             loading={loading}
             isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
-            renderTags={(value: any[], getTagProps) =>
-              value.map((option: any, index: number) => (
+            renderTags={(v: any[], getTagProps) =>
+              v.map((option: any, index: number) => (
                 <InputChip
                   label={option.label}
                   color="info"

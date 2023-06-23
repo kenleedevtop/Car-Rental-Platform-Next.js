@@ -3,10 +3,11 @@ import Project from 'constants/project';
 import {
   TSingleInfluencer,
   TRegisterAsInfluencerParams,
-  TInfluencer,
+  IPaginatedResults,
 } from 'api/influencer/types';
 
 import { client } from 'api/api-client';
+import { IUser } from 'api/users/types';
 
 const InfluencerAPI = {
   getAffiliateCodeOwner: async (affiliateCode: string) => {
@@ -48,7 +49,9 @@ const InfluencerAPI = {
     return data;
   },
 
-  getDInfluencersRegistered: async (filters: any) => {
+  getDInfluencersRegistered: async (
+    filters: any
+  ): Promise<IPaginatedResults> => {
     const { data } = await client.get(
       `${Project.apis.v1}/influencer/discoverInfluencers?stage=registered`,
       {
@@ -74,7 +77,7 @@ const InfluencerAPI = {
     return data;
   },
 
-  getSingleInfluencer: async (id: any): Promise<TInfluencer> => {
+  getSingleInfluencer: async (id: any): Promise<IUser> => {
     const { data } = await client.get(`${Project.apis.v1}/influencer/${id}`);
 
     return data;
@@ -87,7 +90,12 @@ const InfluencerAPI = {
   },
 
   updateInfluencer: async (body: any, id: any) => {
-    await client.patch(`${Project.apis.v1}/influencer/${id}`, body);
+    const { data } = await client.patch(
+      `${Project.apis.v1}/influencer/${id}`,
+      body
+    );
+
+    return data;
   },
 
   verifyInfluencer: async (body: any, id: TSingleInfluencer) => {

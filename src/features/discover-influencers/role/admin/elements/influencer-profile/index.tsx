@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'components/custom';
-import { TInfluencerProfileModalProps } from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
+import {
+  TInfluencerProfileModalProps,
+  TPostTypeResult,
+  TSelectFieldType,
+} from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
 import {
   InfluencerProfileModalMain,
   InfluencerTitle,
@@ -8,33 +12,41 @@ import {
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { EditIcon } from 'components/svg';
-import { InfluencerAPI, LocationAPI, DiseaseAreaAPI } from 'api';
-import { useSnackbar } from 'hooks';
+import { InfluencerAPI, DiseaseAreaAPI, EnumsApi } from 'api';
+import { useDebounce, useLocationSearch, useSnackbar } from 'hooks';
+import { IUser } from 'api/users/types';
+import { IInfluencer } from 'api/influencer/types';
+import { calculateAge, formatCurrencyIdToObject } from './helpers';
 
 const InfluencerProfile = ({
   onClose,
   influencerId,
   ...props
 }: TInfluencerProfileModalProps) => {
-  const [influencer, setInfluencer] = useState<any>();
-  const [locations, setLocations] = useState<any>([]);
+  const {
+    locations,
+    getLocations,
+    loading: locationLoading,
+  } = useLocationSearch();
+
+  const [influencer, setInfluencer] = useState<IUser>();
   const [diseaseArea, setDiseaseArea] = useState<any>([]);
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [genderOptions, setGenderOptions] = useState();
+  const [stakeholders, setStakholders] = useState<TSelectFieldType[]>([]);
+  const [postAmounts, setPostAmounts] = useState<TSelectFieldType[]>();
   const [state, setState] = useState<any>({
-    firstName: '',
-    lastName: '',
     email: '',
     username: '',
-    locationId: null,
+    location: null,
     followers: null,
+    gender: null,
+    dateOfBirth: '',
+    age: '',
     diseaseAreas: [],
-    socialPlatforms: [
-      {
-        socialPlatformId: null,
-        authorizationCode: '',
-      },
-    ],
+    socialPlatforms: [],
+    experience: null,
   });
 
   const { push } = useSnackbar();
@@ -44,18 +56,38 @@ const InfluencerProfile = ({
     setInfluencer(data);
   };
 
-  const getLocations = async (s: string = '') => {
-    setLoading(true);
-    const { result } = await LocationAPI.getAll(s);
-    setLocations(
-      result.map((data: any) => ({
-        value: data.id,
-        label: `${
-          data.country ? `${(data.name, data.country.name)}` : data.name
-        }`,
+  const getStakeholders = async () => {
+    const result = await EnumsApi.getStakeholderTypes(true);
+
+    setStakholders(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
       }))
     );
-    setLoading(false);
+  };
+
+  const getGenderOptions = async () => {
+    const result = await EnumsApi.getGenders();
+
+    setGenderOptions(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getPostTypes = async (userId: number) => {
+    const postResults = await EnumsApi.getPostTypes(userId);
+
+    return postResults;
+  };
+
+  const getSurveyTypes = async () => {
+    const surveyResults = await EnumsApi.getSurveyTypes();
+
+    return surveyResults;
   };
 
   const getDiseaseArea = async (s: string = '') => {
@@ -71,24 +103,27 @@ const InfluencerProfile = ({
     setLoading(false);
   };
 
+  const debouncedLocation = useDebounce(getLocations, 250);
+
   const updateInfluencer = async (body: any, id: any) => {
     if (!disabled) {
-      const { locationId, diseaseAreas, socialPlatforms, ...rest } = body;
+      const { email, location, gender, dateOfBirth, experience, diseaseAreas } =
+        body;
 
-      const newBody = {
-        ...rest,
-        locationId: locationId.value,
-        diseaseAreas: diseaseAreas.map((x: any) => x.value),
-        socialPlatforms: [
-          {
-            authorizationCode: socialPlatforms[0].authorizationCode,
-            socialPlatformId: socialPlatforms[0].socialPlatformId.value,
-          },
-        ],
+      const formData = {
+        email: email || '',
+        locationId: location ? location.value : undefined,
+        gender: gender ? gender.value : undefined,
+        dateOfBirth: dateOfBirth || undefined,
+        type: experience ? experience.value : undefined,
+        diseaseAreas: diseaseAreas.map(
+          (disease: TSelectFieldType) => disease.value
+        ),
+        socialPlatforms: [],
       };
 
       try {
-        await InfluencerAPI.updateInfluencer(newBody, id);
+        await InfluencerAPI.updateInfluencer(formData, id);
         push('Successfully updated Influencer', { variant: 'success' });
         onClose();
       } catch {
@@ -105,21 +140,146 @@ const InfluencerProfile = ({
     getInfluencer();
     getLocations();
     getDiseaseArea();
+    getStakeholders();
+    getGenderOptions();
   }, []);
 
-  useEffect(() => {
-    if (influencer) {
-      console.log(influencer);
+  const formatPostAmounts = (
+    influencerData: IInfluencer,
+    postTypes: TPostTypeResult[],
+    surveyTypes: TPostTypeResult[]
+  ) => {
+    const { influencerCampaignAmounts, influencerSurveyAmounts } =
+      influencerData;
 
-      setState({
-        ...state,
-        firstName: influencer.firstName,
-        lastName: influencer.lastName,
-        email: influencer.email,
-        locationId: influencer.locationId,
+    const frankShortName = formatCurrencyIdToObject(2)?.short;
+
+    const postAmountsResults: TSelectFieldType[] = [];
+    influencerCampaignAmounts.map((campaign) =>
+      postAmountsResults.push({
+        label: `${postTypes[campaign.postType].name}: ${frankShortName} ${
+          campaign.desiredAmount
+        }`,
+        value: campaign.id,
+      })
+    );
+
+    influencerSurveyAmounts.map((survey) =>
+      postAmountsResults.push({
+        label: `${
+          surveyTypes[survey.surveyType].name === 'Questionnaire'
+            ? 'Question Credit'
+            : surveyTypes[survey.surveyType].name
+        }: ${frankShortName} ${survey.desiredAmount}
+        `,
+        value: survey.id,
+      })
+    );
+
+    setPostAmounts(postAmountsResults);
+  };
+
+  useEffect(() => {
+    if (influencer && genderOptions) {
+      const postTypes = getPostTypes(influencer.id);
+      const surveyTypes = getSurveyTypes();
+
+      Promise.allSettled([postTypes, surveyTypes]).then((typesResults) => {
+        const postTypesResult = typesResults[0] as PromiseSettledResult<
+          TPostTypeResult[]
+        >;
+        const surveyTypesResult = typesResults[1] as PromiseSettledResult<
+          TPostTypeResult[]
+        >;
+
+        if (
+          postTypesResult.status === 'fulfilled' &&
+          surveyTypesResult.status === 'fulfilled'
+        ) {
+          setState((prevState: any) => {
+            let location;
+            let age;
+            let dateOfBirth;
+
+            let socialPlatforms: {
+              socialPlatformId: number;
+              authorizationCode: string;
+            }[] = [];
+
+            if (influencer.influencer.stakeholders) {
+              socialPlatforms = influencer.influencer.stakeholders.map(
+                (stakeholder) => ({
+                  socialPlatformId: stakeholder.socialPlatformId,
+                  authorizationCode: stakeholder.socialPlatformUserId,
+                })
+              );
+            }
+
+            if (influencer.location) {
+              const label =
+                influencer.location.countryId && influencer.location.country
+                  ? `${influencer.location.name}, ${influencer.location.country.name}`
+                  : influencer.location.name;
+
+              location = {
+                label,
+                value: influencer.location.id,
+              };
+            }
+
+            if (influencer.influencer.dateOfBirth) {
+              dateOfBirth = new Date(influencer.influencer.dateOfBirth);
+              age = calculateAge(dateOfBirth);
+            }
+
+            const gender =
+              influencer.influencer.gender === 0 || influencer.influencer.gender
+                ? genderOptions[influencer.influencer.gender]
+                : null;
+
+            const diseaseAreas = influencer.influencer.influencerDiseaseAreas
+              ? influencer.influencer.influencerDiseaseAreas.map((area) => {
+                  const label = area.diseaseArea.name;
+                  const value = area.diseaseArea.id;
+                  return {
+                    label,
+                    value,
+                  };
+                })
+              : [];
+
+            formatPostAmounts(
+              influencer.influencer,
+              postTypesResult.value,
+              surveyTypesResult.value
+            );
+
+            const experience =
+              influencer.influencer.type === 0 || influencer.influencer.type
+                ? stakeholders.find(
+                    (item: TSelectFieldType) =>
+                      item.value === influencer.influencer.type
+                  )
+                : null;
+
+            return {
+              ...prevState,
+              firstName: influencer.firstName,
+              lastName: influencer.lastName,
+              email: influencer.email,
+              location: location || null,
+              dateOfBirth,
+              gender,
+              age,
+              experience,
+              diseaseAreas,
+              socialPlatforms,
+            };
+          });
+        }
       });
     }
-  }, [influencer]);
+  }, [influencer, genderOptions]);
 
   const debounce = (func: any, wait: any) => {
     let timeout: any;
@@ -155,7 +315,9 @@ const InfluencerProfile = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={() => updateInfluencer(state, influencerId)}
+          onClick={() =>
+            disabled ? onClose() : updateInfluencer(state, influencerId)
+          }
         >
           {disabled ? 'Close' : 'Save'}
         </Button>,
@@ -167,22 +329,6 @@ const InfluencerProfile = ({
         <InfluencerProfileModalMain columns={2}>
           <Input
             type="text"
-            label="First Name"
-            placeholder="Please Enter"
-            disabled={disabled}
-            value={state.firstName}
-            onValue={(firstName) => setState({ ...state, firstName })}
-          />
-          <Input
-            type="text"
-            label="Last Name"
-            placeholder="Please Enter"
-            disabled={disabled}
-            value={state.lastName}
-            onValue={(lastName) => setState({ ...state, lastName })}
-          />
-          <Input
-            type="text"
             label="Email"
             placeholder="Please Enter"
             disabled={disabled}
@@ -190,11 +336,78 @@ const InfluencerProfile = ({
             onValue={(email) => setState({ ...state, email })}
           />
           <Input
+            type="multiselect"
+            label="Disease Area"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.diseaseAreas}
+            onSearch={debounce(getDiseaseArea, 250)}
+            onValue={(input) => {
+              setState({ ...state, diseaseAreas: input });
+            }}
+            onNewTag={handleNewTag}
+            loading={loading}
+            options={diseaseArea}
+          />
+          <Input
+            type="select"
+            label="Location"
+            placeholder="Please Enter"
+            disabled={disabled}
+            value={state.location}
+            onSearch={debouncedLocation}
+            onValue={(location) => setState({ ...state, location })}
+            loading={locationLoading}
+            options={locations}
+          />
+          <Input
+            type="select"
+            label="Experience"
+            placeholder="Please Select"
+            disabled={disabled}
+            value={state.experience}
+            onValue={(input) => setState({ ...state, experience: input })}
+            options={stakeholders}
+          />
+          <Input
+            type="select"
+            label="Gender"
+            placeholder="Please Select"
+            disabled={disabled}
+            value={state.gender}
+            onValue={(gender) => setState({ ...state, gender })}
+            options={genderOptions}
+          />
+          {disabled ? (
+            <Input
+              type="text"
+              label="Age"
+              placeholder="Please Select"
+              disabled={disabled}
+              value={state.age}
+              onValue={(age) => setState({ ...state, age })}
+            />
+          ) : (
+            <Input
+              type="date"
+              customDateFormat="DD.MM.YYYY"
+              label="Date Of Birth"
+              placeholder="Please Select"
+              disabled={disabled}
+              value={state.dateOfBirth || ''}
+              onValue={(dateOfBirth) => setState({ ...state, dateOfBirth })}
+            />
+          )}
+          <Input
             type="select"
             label="Social Media"
             placeholder="Please Enter"
             disabled={disabled}
-            value={state.socialPlatforms[0].socialPlatformId}
+            value={
+              state.socialPlatforms.length
+                ? state.socialPlatforms[0].socialPlatformId
+                : undefined
+            }
             onValue={(socialMedia) => {
               setState({
                 ...state,
@@ -230,37 +443,22 @@ const InfluencerProfile = ({
             onValue={(username) => setState({ ...state, username })}
           />
           <Input
-            type="multiselect"
-            label="Disease Area"
-            placeholder="Please Enter"
-            disabled={disabled}
-            value={state.diseaseAreas}
-            onSearch={debounce(getDiseaseArea, 250)}
-            onValue={(input) => {
-              setState({ ...state, diseaseAreas: input });
-            }}
-            onNewTag={handleNewTag}
-            loading={loading}
-            options={diseaseArea}
-          />
-          <Input
-            type="select"
-            label="Location"
-            placeholder="Please Enter"
-            disabled={disabled}
-            value={state.locationId}
-            onSearch={debounce(getLocations, 250)}
-            onValue={(input) => setState({ ...state, locationId: input })}
-            loading={loading}
-            options={locations}
-          />
-          <Input
             type="number"
             label="Followers"
             placeholder="Please Enter"
             disabled={disabled}
             value={state.followers}
             onValue={(followers) => setState({ ...state, followers })}
+          />
+          <Input
+            type="select"
+            label="Amount"
+            placeholder="Please Enter"
+            value=""
+            onValue={(postAmount) =>
+              setState({ ...state, postAmounts: postAmount })
+            }
+            options={postAmounts}
           />
         </InfluencerProfileModalMain>
       </Stack>

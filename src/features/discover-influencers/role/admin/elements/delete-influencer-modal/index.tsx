@@ -5,6 +5,7 @@ import { DeleteInfluencerModalMain } from 'features/discover-influencers/role/ad
 import { Button } from 'components/ui';
 import { AdminAPI, InfluencerAPI } from 'api';
 import { useSnackbar } from 'hooks';
+import { useRouter } from 'next/router';
 
 const DeleteInfluencerModal = ({
   onClose,
@@ -12,12 +13,14 @@ const DeleteInfluencerModal = ({
   ...props
 }: TDeleteInfluencerModalProps) => {
   const { push } = useSnackbar();
+  const router = useRouter();
 
   const handleDelete = async () => {
     console.log(id);
 
     try {
       await InfluencerAPI.deleteInfluencer(id);
+      router.push(window.location.pathname);
       push('Influencer successfully deleted!', { variant: 'success' });
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });

@@ -21,6 +21,16 @@ const DiseaseAreaAPI = {
     return data;
   },
 
+  getAllUnlimited: async (search?: string) => {
+    const { data } = await client.get(`${Project.apis.v1}/diseaseAreas`, {
+      params: {
+        search,
+      },
+    });
+
+    return data;
+  },
+
   getOne: async (id: TSingleDiseaseArea) => {
     const { data } = await client.get(`${Project.apis.v1}/diseaseAreas/${id}`);
 

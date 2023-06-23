@@ -160,8 +160,8 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             value={password}
             // onValue={(password) => setState({ ...state, password })}
             onValue={password => setFormData({ ...formData, password })}
-          /> */}
-          <StepSpan onClick={openCpModal}>Change Password</StepSpan>
+          /> 
+          <StepSpan onClick={openCpModal}>Change Password</StepSpan> */}
         </StepChange>
         <Input
           type="text"
@@ -175,10 +175,7 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
         <Input
           type="select"
           label="Affiliate friends"
-          value={affiliateFriends}
-          // onValue={(affiliateFriends) =>
-          //   setState({ ...state, affiliateFriends })
-          // }
+          value={affiliateFriends.length ? affiliateFriends[0] : undefined}
           onValue={(affiliateFriends) =>
             setFormData({ ...formData, affiliateFriends })
           }

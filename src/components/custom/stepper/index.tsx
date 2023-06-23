@@ -24,6 +24,7 @@ import { useAppContext } from 'context';
 import { type } from 'os';
 import { InfluencerAPI } from 'api';
 import { number } from 'yup';
+// eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
 
 const steps = [
@@ -49,8 +50,8 @@ export type FormData = {
   email: string;
   password: any;
   invitedBy: string;
-  affiliateFriends: [];
-  socialPlatforms: [];
+  affiliateFriends: any[];
+  socialPlatforms: any[];
   affiliateLink: string;
   birthDate: null;
   location: any;

@@ -16,10 +16,28 @@ const useMenu = (initialState: boolean): any => {
     openRef.current = open;
     if (open && buttonRef.current && typeof window !== 'undefined') {
       const rect = buttonRef.current.getBoundingClientRect();
+
       setPosition({
         right: window.innerWidth - rect.right,
         top: rect.top + rect.height,
       });
+    }
+  }, [open]);
+
+  useEffect(() => {
+    const overflowHiddenElement = Array.from(
+      document.getElementsByClassName(
+        'overflow-y-hidden'
+        // eslint-disable-next-line no-undef
+      ) as HTMLCollectionOf<HTMLElement>
+    );
+
+    if (open) {
+      overflowHiddenElement[0].style.overflowY = 'hidden';
+      overflowHiddenElement[0].style.paddingRight = '10px';
+    } else {
+      overflowHiddenElement[0].style.overflowY = 'auto';
+      overflowHiddenElement[0].style.paddingRight = '0';
     }
   }, [open]);
 

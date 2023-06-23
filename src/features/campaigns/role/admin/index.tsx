@@ -75,8 +75,6 @@ const CampaignsPage = () => {
   };
 
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
-    console.log(row.data);
-
     if (headItem.reference === 'campaignName') {
       return row.data.name;
     }

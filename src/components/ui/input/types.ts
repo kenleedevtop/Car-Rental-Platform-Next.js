@@ -5,11 +5,6 @@ export type TInputPropsOption = {
   label: string;
 };
 
-export type TInputTextProps = {
-  postType: number;
-  desiredAmount: any;
-};
-
 export type TInputValidator = {
   message: string;
   validator: (v: any) => boolean;
@@ -26,12 +21,11 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
     | 'time'
     | 'min-max';
   value: any;
-  onValue: (value: any) => void;
+  onValue: (v: any) => void;
   label?: string;
   min?: number;
   max?: number;
   options?: Array<TInputPropsOption>;
-  onInput?: Array<TInputTextProps>;
   multiline?: boolean;
   rows?: number;
   required?: boolean;
@@ -47,6 +41,7 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   initialSearch?: string;
   loading?: boolean;
   noOptionsText?: string;
+  customDateFormat?: string;
   onInputChange?: (v: any) => void;
   errorCallback?: (e: boolean) => void;
   onNewTag?: (v: any) => void;

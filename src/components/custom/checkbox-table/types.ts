@@ -27,5 +27,6 @@ export type TTableProps = React.HTMLAttributes<HTMLDivElement> & {
   head: Array<TTableHeadItem>;
   items: Array<any>;
   renderItem: (x: TTableRenderItemObject) => any;
+  checkedRows?: number[];
   emptyActions?: Array<ReactNode>;
 };

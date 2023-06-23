@@ -39,11 +39,27 @@ import {
 import { useModal, usePagination } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { InfluencerAPI } from 'api';
+import { IPaginatedUser } from 'api/influencer/types';
 
 const DiscoverInfluencersPage = () => {
   // Modals
   const [eModal, openEModal, closeEModal] = useModal(false);
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
+
+  const genderOptions = [
+    {
+      value: 0,
+      label: 'Male',
+    },
+    {
+      value: 1,
+      label: 'Female',
+    },
+    {
+      value: 2,
+      label: 'Other',
+    },
+  ];
 
   const [tabs, setTabs] = useState(0);
 
@@ -66,6 +82,56 @@ const DiscoverInfluencersPage = () => {
   const getCurrentInfluencer = (value: any) => {
     setCurrentInfluencer(value);
   };
+
+  const [filterParams, setFilterParams] = useState({});
+  const [registeredInfluencers, setRegisteredInfluencers] = useState<
+    IPaginatedUser[]
+  >([]);
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { data, pagination } =
+          await InfluencerAPI.getDInfluencersRegistered({
+            limit: params.limit,
+            skip: params.skip,
+            ...filterParams,
+          });
+
+        setPage(params.page);
+
+        setRegisteredInfluencers(data);
+        setTotalResults(pagination.totalFilteredItems);
+      },
+    });
+
+  const [toBeApprovedInfluencers, setToBeApprovedInfluencers] = useState([]);
+
+  const {
+    pagesCount: pageCountTba,
+    page: pageTba,
+    setTotalResults: setTotalResultsTba,
+    handlePageChange: handlePageChangeTba,
+    reload: reloadTba,
+  } = usePagination({
+    limit: 10,
+    page: 1,
+    onChange: async (params, setPage) => {
+      const { data, pagination } =
+        await InfluencerAPI.getDInfluencersToBeApproved({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+
+      setPage(params.page);
+
+      setToBeApprovedInfluencers(data);
+      setTotalResultsTba(pagination.totalFilteredItems);
+    },
+  });
 
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'firstName') {
@@ -113,69 +179,24 @@ const DiscoverInfluencersPage = () => {
     }
 
     if (headItem.reference === 'invitedBy') {
-      return row.data.invitendByUser;
+      return row.data.invitedByUser
+        ? `${row.data.invitedByUser.firstName} ${row.data.invitedByUser.lastName}`
+        : '';
     }
 
     if (headItem.reference === 'actions') {
       switch (row.data.user.status) {
         case 4:
-          return <ToBeApprovedActions data={row.data.user.id} />;
+          return (
+            <ToBeApprovedActions data={row.data.user.id} reload={reloadTba} />
+          );
         default:
-          return <DiscoverActions data={row.data.user.id} />;
+          return <DiscoverActions data={row.data.user.id} reload={reload} />;
       }
     }
 
     return '';
   };
-
-  const [registeredInfluencers, setRegisteredInfluencers] = useState([]);
-
-  const [filterParams, setFilterParams] = useState({});
-
-  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
-    usePagination({
-      limit: 10,
-      page: 1,
-      onChange: async (params, setPage) => {
-        const { data, pagination } =
-          await InfluencerAPI.getDInfluencersRegistered({
-            limit: params.limit,
-            skip: params.skip,
-            ...filterParams,
-          });
-
-        setPage(params.page);
-
-        setRegisteredInfluencers(data);
-        setTotalResults(pagination.totalFilteredItems);
-      },
-    });
-
-  const [toBeApprovedInfluencers, setToBeApprovedInfluencers] = useState([]);
-
-  const {
-    pagesCount: pageCountTba,
-    page: pageTba,
-    setTotalResults: setTotalResultsTba,
-    handlePageChange: handlePageChangeTba,
-    reload: reloadTba,
-  } = usePagination({
-    limit: 10,
-    page: 1,
-    onChange: async (params, setPage) => {
-      const { data, pagination } =
-        await InfluencerAPI.getDInfluencersToBeApproved({
-          limit: params.limit,
-          skip: params.skip,
-          ...filterParams,
-        });
-
-      setPage(params.page);
-
-      setToBeApprovedInfluencers(data);
-      setTotalResultsTba(pagination.totalFilteredItems);
-    },
-  });
 
   useEffect(() => {
     console.log('KEYYYY', registeredInfluencers);
@@ -293,20 +314,7 @@ const DiscoverInfluencersPage = () => {
                   placeholder="Please Select"
                   value={filter.gender}
                   onValue={(gender) => setFilter({ ...filter, gender })}
-                  options={[
-                    {
-                      value: 0,
-                      label: 'Male',
-                    },
-                    {
-                      value: 1,
-                      label: 'Female',
-                    },
-                    {
-                      value: 2,
-                      label: 'Other',
-                    },
-                  ]}
+                  options={genderOptions}
                 />
                 <Input
                   type="select"

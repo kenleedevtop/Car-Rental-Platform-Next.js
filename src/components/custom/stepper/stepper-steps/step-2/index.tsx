@@ -2,16 +2,15 @@
 // eslint-disable-next-line import/named
 import { Input } from 'components/ui';
 import React, { useEffect, useState } from 'react';
-
 import {
   StepContainer,
   StepForm,
   StepStack,
   StepText,
 } from 'components/custom/stepper/stepper-steps/step-2/style';
-import { DiseaseAreaAPI, EnumsApi, InfluencerAPI, LocationAPI } from 'api';
+import { DiseaseAreaAPI, EnumsApi, LocationAPI } from 'api';
 import { useAppContext } from 'context';
-
+import { useDebounce } from 'hooks';
 import { FormData } from '../..';
 
 type Step2FormProps = {
@@ -31,16 +30,23 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
   const [stakeholder, setStakeholders] = useState([]);
   const [genders, setGenders] = useState([]);
 
-  const getLocations = async (s: string = '') => {
+  const getLocations = async (searchTerm: string = '') => {
     setLoading(true);
-    const { result } = await LocationAPI.getAll(s);
+    const { result } = await LocationAPI.getAll(searchTerm);
     setLocations(
-      result.map((data: any) => ({
-        value: data.id,
-        label: `${
-          data.country ? `${(data.name, data.country.name)}` : data.name
-        }`,
-      }))
+      result.map((data: any) => {
+        const checkNotInitial = data.countryId
+          ? `${data.name}, ${data.country.name}`
+          : data.name;
+        const label = !searchTerm.length
+          ? `${data.name}, ${data.country.name}`
+          : checkNotInitial;
+
+        return {
+          value: data.id,
+          label,
+        };
+      })
     );
     setLoading(false);
   };
@@ -100,9 +106,11 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
     };
   };
 
-  // const handleNewTag = (v: any) => {
-  //   setFilter({ ...filter, diseaseAreas: [...filter.diseaseAreas, v] });
-  // };
+  const debouncedLocation = useDebounce(getLocations, 250);
+
+  // // const handleNewTag = (v: any) => {
+  // //   setFilter({ ...filter, diseaseAreas: [...filter.diseaseAreas, v] });
+  // // };
 
   useEffect(() => {
     getLocations();
@@ -145,7 +153,7 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
           <Input
             type="select"
             label="Location"
-            onSearch={debounce(getLocations, 250)}
+            onSearch={debouncedLocation}
             placeholder="Please Select"
             value={location}
             required
