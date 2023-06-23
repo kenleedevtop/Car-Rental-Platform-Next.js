@@ -24,6 +24,7 @@ import { useAppContext } from 'context';
 import { type } from 'os';
 import { InfluencerAPI } from 'api';
 import { number } from 'yup';
+import Project from 'constants/project';
 
 const steps = [
   'Login Info',
@@ -74,7 +75,14 @@ export type FormData = {
 const Stepper = () => {
   const [activeStep, setActiveStep] = useState(0);
 
-  const { user, currency } = useAppContext();
+  const { user } = useAppContext();
+
+  const generateRegisterAffiliateLink = (affiliateCode: string) => {
+    const { environment, baseUrl: baseDevUrl, baseProdUrl } = Project.app;
+    const baseUrl = environment === 'development' ? baseDevUrl: baseProdUrl;
+
+    return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`
+  };
 
   const INITIAL_DATA: FormData = {
     firstName: user.firstName,
@@ -87,7 +95,7 @@ const Stepper = () => {
     password: user.password,
     invitedBy: user.influencer.invitendByUserId,
     affiliateFriends: [],
-    affiliateLink: user.influencer.affiliateCode,
+    affiliateLink: generateRegisterAffiliateLink(user.influencer.affiliateCode),
     birthDate: user.influencer.dateOfBirth,
     location: null,
     gender: null,
