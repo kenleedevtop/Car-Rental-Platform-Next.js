@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { InstagramIcon, TiktokIcon, TwitterIcon } from 'components/svg';
 import {
   StepContainer,
@@ -64,6 +65,7 @@ const instagramAuth = ({
   });
 
 const Step = () => {
+  let instagramCode: any;
   const handleInstagramAuth = async () => {
     try {
       const code = await instagramAuth({
@@ -72,6 +74,10 @@ const Step = () => {
         redirectUri: `${Project.app.baseUrl}/_/code`,
       });
       console.log('Code is:', code);
+
+      instagramCode = code;
+
+      return code;
     } catch {
       console.log('User closed');
     }
@@ -81,15 +87,28 @@ const Step = () => {
     <StepContainer>
       <StepForm>
         <StepStack direction="horizontal">
-          <Button
-            endIcon={<InstagramIcon width="18" height="18" />}
-            size="large"
-            variant="contained"
-            color="primary"
-            onClick={handleInstagramAuth}
-          >
-            Link
-          </Button>
+          {instagramCode === undefined ? (
+            <Button
+              endIcon={<InstagramIcon width="18" height="18" />}
+              size="large"
+              variant="contained"
+              color="primary"
+              onClick={handleInstagramAuth}
+            >
+              Link
+            </Button>
+          ) : (
+            <Button
+              endIcon={<InstagramIcon width="18" height="18" />}
+              size="large"
+              variant="contained"
+              color="default"
+              onClick={handleInstagramAuth}
+            >
+              Linked
+            </Button>
+          )}
+
           <Button
             endIcon={<TwitterIcon width="18" height="18" />}
             size="large"

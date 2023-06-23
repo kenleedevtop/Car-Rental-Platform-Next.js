@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { useState } from 'react';
 import {
   InputMain,
@@ -36,6 +37,7 @@ const Input = ({
   errorCallback,
   onBlur,
   onFocus,
+  onChange,
   startAdornment,
   endAdornment,
   disabled,
@@ -57,12 +59,12 @@ const Input = ({
     if (onValue) onValue(e.target.value);
   };
 
-  const handleSelect = (_e: React.ChangeEvent<any>, v: any) => {
-    if (onValue && v) onValue(v);
+  const handleSelect = (_e: React.ChangeEvent<any>, value: any) => {
+    if (onValue && value) onValue(value);
   };
 
-  const handleMultiselect = (_e: React.ChangeEvent<any>, v: any) => {
-    if (onValue) onValue(v);
+  const handleMultiselect = (_e: React.ChangeEvent<any>, value: any) => {
+    if (onValue) onValue(value);
   };
 
   const handleDate = (newValue: any) => {
@@ -75,9 +77,9 @@ const Input = ({
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     for (let i = 0; i < validators.length; i += 1) {
-      const v = validators[i];
-      if (!v.validator(value)) {
-        setErrorMessage(v.message);
+      const value = validators[i];
+      if (!value.validator(value)) {
+        setErrorMessage(value.message);
         setError(true);
         if (errorCallback) errorCallback(true);
         if (onBlur) onBlur(e);
@@ -336,8 +338,8 @@ const Input = ({
             onInputChange={(_a, b) => handleSearch(b)}
             loading={loading}
             isOptionEqualToValue={(a: any, b: any) => a.value === b.value}
-            renderTags={(v: any[], getTagProps) =>
-              v.map((option: any, index: number) => (
+            renderTags={(value: any[], getTagProps) =>
+              value.map((option: any, index: number) => (
                 <InputChip
                   label={option.label}
                   color="info"

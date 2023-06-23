@@ -81,8 +81,11 @@ const InfluencerAPI = {
     await client.patch(`${Project.apis.v1}/influencer/${id}`, body);
   },
 
-  verifyInfluencer: async (id: TSingleInfluencer) => {
-    await client.patch(`${Project.apis.v1}/influencer/${id}/verify`);
+  verifyInfluencer: async (body: any, id: TSingleInfluencer) => {
+    const { data } = await client.patch(
+      `${Project.apis.v1}/influencer/${id}/verify`,
+      body
+    );
   },
 
   influencerGetPostTypes: async (id: TSingleInfluencer) => {
