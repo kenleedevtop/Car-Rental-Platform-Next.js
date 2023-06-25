@@ -28,5 +28,8 @@ export type TTableProps = React.HTMLAttributes<HTMLDivElement> & {
   items: Array<any>;
   renderItem: (x: TTableRenderItemObject) => any;
   checkedRows?: number[];
+  toggleAllRows?: () => void;
+  toggleSingleRow?: (uniqueRow: number) => void;
   emptyActions?: Array<ReactNode>;
+  currentPage?: number;
 };

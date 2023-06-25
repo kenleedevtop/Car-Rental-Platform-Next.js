@@ -88,6 +88,10 @@ const DiscoverInfluencersPage = () => {
     IPaginatedUser[]
   >([]);
 
+  const [checkedRegInfluencers, setCheckedRegInfluencers] = useState<number[]>(
+    []
+  );
+
   const { pagesCount, page, setTotalResults, handlePageChange, reload } =
     usePagination({
       limit: 10,
@@ -106,6 +110,48 @@ const DiscoverInfluencersPage = () => {
         setTotalResults(pagination.totalFilteredItems);
       },
     });
+
+  const toggleAllCheckedRegInfluencers = () => {
+    // if (registeredInfluencers.length === checkedRegInfluencers.length) {
+    //   setCheckedRegInfluencers([]);
+    // } else {
+    //   setCheckedRegInfluencers(
+    //     registeredInfluencers.map((user) => user.user.id)
+    //   );
+    // }
+
+    const currentPageData = registeredInfluencers.slice(
+      (page - 1) * 10,
+      page * 10
+    );
+    const currentPageIds = currentPageData.map((row) => row.id);
+
+    const isAllSelected = currentPageIds.every((id) =>
+      checkedRegInfluencers.includes(id)
+    );
+
+    if (isAllSelected) {
+      setCheckedRegInfluencers(
+        checkedRegInfluencers.filter((id) => !currentPageIds.includes(id))
+      );
+    } else {
+      setCheckedRegInfluencers([...checkedRegInfluencers, ...currentPageIds]);
+    }
+  };
+
+  const toggleUser = (userId: number) => {
+    if (checkedRegInfluencers.includes(userId)) {
+      setCheckedRegInfluencers(
+        checkedRegInfluencers.filter((id) => id !== userId)
+      );
+    } else {
+      setCheckedRegInfluencers([...checkedRegInfluencers, userId]);
+    }
+  };
+
+  useEffect(() => {
+    console.log(checkedRegInfluencers);
+  }, [checkedRegInfluencers]);
 
   const [toBeApprovedInfluencers, setToBeApprovedInfluencers] = useState([]);
 
@@ -199,8 +245,8 @@ const DiscoverInfluencersPage = () => {
   };
 
   useEffect(() => {
-    console.log('KEYYYY', registeredInfluencers);
-  }, [registeredInfluencers]);
+    console.log('KEYYYY', registeredInfluencers, checkedRegInfluencers);
+  }, [registeredInfluencers, checkedRegInfluencers]);
 
   return (
     <DiscoverInfluencersPageMain>
@@ -481,6 +527,10 @@ const DiscoverInfluencersPage = () => {
               <CheckboxTable
                 head={DInfluencerHeadRegistered}
                 items={registeredInfluencers}
+                checkedRows={checkedRegInfluencers}
+                toggleSingleRow={toggleUser}
+                toggleAllRows={toggleAllCheckedRegInfluencers}
+                currentPage={page}
                 renderItem={renderItem}
               />
               <Pagination

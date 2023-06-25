@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   TableContainer,
   TableWrapper,
@@ -36,6 +36,9 @@ const Table = ({
   items = [],
   renderItem = (_b) => {},
   checkedRows,
+  toggleSingleRow,
+  toggleAllRows,
+  currentPage,
   ...props
 }: TTableProps) => {
   const [localHead, setLocalHead] = useState(head);
@@ -46,20 +49,50 @@ const Table = ({
   const [headCheckbox, setHeadCheckbox] = useState(false);
 
   const handleHeadCheckbox = () => {
-    setHeadCheckbox(!headCheckbox);
+    console.log('HeadCheckbox clicked');
+    if (toggleAllRows) {
+      toggleAllRows();
+    } else {
+      setHeadCheckbox(!headCheckbox);
+    }
   };
 
-  const [checkbox, setCheckbox] = useState(false);
-
-  const handleCheckbox = () => {
+  const handleRowCheckbox = (rowData: any) => {
+    console.log(rowData);
     if (headCheckbox) {
-      setCheckbox(!headCheckbox);
-    } else {
-      setCheckbox(!checkbox);
+      setHeadCheckbox(!headCheckbox);
+    }
+    if (toggleSingleRow) toggleSingleRow(rowData.id);
+
+    if (!toggleSingleRow) {
+      // Rest of apps need to implement their logic for checking fields
+      // toggleSingleRow(rowData.id);
     }
   };
 
   const { role } = useAppContext();
+
+  useEffect(() => {
+    if (toggleAllRows) {
+      const containsAllElements =
+        checkedRows!.length > 0 &&
+        items.every((item) =>
+          checkedRows?.some((number) => number === item.id)
+        );
+      console.log(containsAllElements);
+      if (containsAllElements) {
+        console.log('THis happened somehow?');
+        setHeadCheckbox(true);
+      } else {
+        console.log('Denied Idiot');
+        setHeadCheckbox(false);
+      }
+    }
+
+    // console.log('Items: ', items);
+    // console.log('Checked Rows: ', checkedRows);
+    // console.log('test');
+  }, [checkedRows, items, currentPage]);
 
   return (
     <TableContainer {...props}>
@@ -100,34 +133,37 @@ const Table = ({
           </TableHead>
           {!!items.length && (
             <TableBody>
-              {items.map((rowData: any, rowIndex: number) => (
-                <TableBodyRow>
-                  {['ADMIN', 'SUPERADMIN'].includes(role) && (
-                    <TableBodyCell action>
-                      <Checkbox
-                        value={checkedRows?.includes(rowData.id)}
-                        onValue={handleCheckbox}
-                      />
-                    </TableBodyCell>
-                  )}
-                  {visibleItems.map((a: TTableHeadItem, b: number) => (
-                    <TableBodyCell>
-                      {renderItem({
-                        headItem: a,
-                        cell: {
-                          index: b,
-                          data: getObjectDynamicPath(rowData, a.reference),
-                        },
-                        row: {
-                          index: rowIndex,
-                          data: rowData,
-                        },
-                        table: items,
-                      })}
-                    </TableBodyCell>
-                  ))}
-                </TableBodyRow>
-              ))}
+              {/* eslint-disable-next-line arrow-body-style */}
+              {items.map((rowData: any, rowIndex: number) => {
+                return (
+                  <TableBodyRow>
+                    {['ADMIN', 'SUPERADMIN'].includes(role) && (
+                      <TableBodyCell action>
+                        <Checkbox
+                          value={checkedRows?.includes(rowData.id)}
+                          onValue={() => handleRowCheckbox(rowData)}
+                        />
+                      </TableBodyCell>
+                    )}
+                    {visibleItems.map((a: TTableHeadItem, b: number) => (
+                      <TableBodyCell>
+                        {renderItem({
+                          headItem: a,
+                          cell: {
+                            index: b,
+                            data: getObjectDynamicPath(rowData, a.reference),
+                          },
+                          row: {
+                            index: rowIndex,
+                            data: rowData,
+                          },
+                          table: items,
+                        })}
+                      </TableBodyCell>
+                    ))}
+                  </TableBodyRow>
+                );
+              })}
             </TableBody>
           )}
         </TableMain>
