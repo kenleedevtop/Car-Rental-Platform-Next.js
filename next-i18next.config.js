@@ -3,7 +3,4 @@ module.exports = {
     locales: ['en-US', 'de-DE'],
     defaultLocale: 'en-US',
   },
-  head: {
-    favicon: '/assets/favicon.ico',
-  },
 };

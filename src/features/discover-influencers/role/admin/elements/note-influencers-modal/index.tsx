@@ -4,6 +4,9 @@ import { TNoteInfluencersModalProps } from 'features/discover-influencers/role/a
 import {
   NoteInfluencersModalMain,
   CommentSection,
+  LabelSectionContainer,
+  LabelSection,
+  LabelLabel,
 } from 'features/discover-influencers/role/admin/elements/note-influencers-modal/styles';
 import { Button, Input } from 'components/ui';
 import { InputLabel } from 'components/ui/input/styles';
@@ -55,14 +58,14 @@ const NoteInfluencersModal = ({
 
   const handleNewTag = (v: any) => {
     setOptions((x) => [...x, v]);
-    setLabel((x: any) => [...x, v]);
+    // setLabel((x: any) => [...x, v]);
 
-    try {
-      postLabels({ name: v.label, assigneeType: 0 });
-      push('Label added', { variant: 'success' });
-    } catch {
-      push('Something failed. Label not added.', { variant: 'error' });
-    }
+    // try {
+    //   postLabels({ name: v.label, assigneeType: 0 });
+    //   push('Label added', { variant: 'success' });
+    // } catch {
+    //   push('Something failed. Label not added.', { variant: 'error' });
+    // }
   };
 
   const getAssigneeType = async () => {
@@ -124,17 +127,31 @@ const NoteInfluencersModal = ({
         )}
 
         {tabs === 1 && (
-          <Input
-            type="multiselect"
-            label="Label"
-            multiline
-            rows={3}
-            placeholder="Please Select"
-            value={label}
-            onValue={handleLabel}
-            onNewTag={handleNewTag}
-            options={options}
-          />
+          <>
+            <Input
+              type="multiselect"
+              label="Label"
+              multiline
+              rows={3}
+              placeholder="Please Select"
+              value={label}
+              onValue={handleLabel}
+              onNewTag={handleNewTag}
+              options={options}
+            />
+            <LabelSectionContainer>
+              Existing labels:
+              <LabelSection>
+                {options.map((x: any, index: number) =>
+                  index < options.length - 1 ? (
+                    <LabelLabel>{x.label}, </LabelLabel>
+                  ) : (
+                    <LabelLabel> {x.label}</LabelLabel>
+                  )
+                )}
+              </LabelSection>
+            </LabelSectionContainer>
+          </>
         )}
       </NoteInfluencersModalMain>
     </Modal>

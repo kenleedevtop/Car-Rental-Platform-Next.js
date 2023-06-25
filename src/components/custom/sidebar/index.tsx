@@ -49,12 +49,13 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
 
     helper.map((x: any) => {
       if (x.id === id) {
+        if (x.state) return;
         x.state = !x.state;
       } else {
         x.state = false;
       }
 
-      return '';
+      return;
     });
 
     setNested(helper);

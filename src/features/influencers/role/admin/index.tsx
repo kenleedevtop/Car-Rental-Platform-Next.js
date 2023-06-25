@@ -449,7 +449,7 @@ const InfluencersPage = () => {
               )}
 
               {tabs === 1 && (
-                <Grid columns={2}>
+                <Grid columns={3}>
                   <Input
                     type="select"
                     label="Stakeholders"
@@ -479,7 +479,7 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Gender"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
                         type: 'select',
@@ -504,21 +504,21 @@ const InfluencersPage = () => {
                       },
                       {
                         type: 'number',
-                        placeholder: 'Please Enter',
+                        placeholder: 'Number',
                         value: filter.patientsGenderCount,
                         onValue: (patientsGenderCount) =>
                           setFilter({ ...filter, patientsGenderCount }),
                       },
                       {
                         type: 'select',
-                        placeholder: 'Please Select',
+                        placeholder: 'Units',
                         value: filter.patientsGender,
                         onValue: (patientsGender) =>
                           setFilter({ ...filter, patientsGender }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -530,32 +530,32 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Age"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
-                        type: 'number',
+                        type: 'min-max',
                         placeholder: 'Please Enter',
-                        value: filter.patientsAgeCount,
+                        value: filter.patients.patientsAgeCount,
                         onValue: (patientsAgeCount) =>
                           setFilter({ ...filter, patientsAgeCount }),
                       },
                       {
                         type: 'number',
-                        placeholder: 'Please Enter',
-                        value: filter.patientsAgeCount,
-                        onValue: (patientsAgeCount) =>
-                          setFilter({ ...filter, patientsAgeCount }),
-                      },
-                      {
-                        type: 'select',
-                        placeholder: 'Please Select',
+                        placeholder: 'Number',
                         value: filter.patientsAge,
                         onValue: (patientsAge) =>
                           setFilter({ ...filter, patientsAge }),
+                      },
+                      {
+                        type: 'select',
+                        placeholder: 'Units',
+                        value: filter.patientsAgeUnit,
+                        onValue: (patientsAgeUnit) =>
+                          setFilter({ ...filter, patientsAgeUnit }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -567,7 +567,7 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Ethnicity"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
                         type: 'select',
@@ -579,21 +579,21 @@ const InfluencersPage = () => {
                       },
                       {
                         type: 'number',
-                        placeholder: 'Please Enter',
+                        placeholder: 'Number',
                         value: filter.patientsEthnicityCount,
                         onValue: (patientsEthnicityCount) =>
                           setFilter({ ...filter, patientsEthnicityCount }),
                       },
                       {
                         type: 'select',
-                        placeholder: 'Please Select',
+                        placeholder: 'Units',
                         value: filter.patientsEthnicity,
                         onValue: (patientsEthnicity) =>
                           setFilter({ ...filter, patientsEthnicity }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -605,7 +605,7 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Location"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
                         type: 'select',
@@ -613,34 +613,25 @@ const InfluencersPage = () => {
                         value: filter.patientsGender,
                         onValue: (patientsGender) =>
                           setFilter({ ...filter, patientsGender }),
-                        options: [
-                          {
-                            value: 0,
-                            label: 'Number',
-                          },
-                          {
-                            value: 1,
-                            label: '%',
-                          },
-                        ],
+                        options: [],
                       },
                       {
                         type: 'number',
-                        placeholder: 'Please Enter',
+                        placeholder: 'Number',
                         value: filter.patientsLocationCount,
                         onValue: (patientsLocationCount) =>
                           setFilter({ ...filter, patientsLocationCount }),
                       },
                       {
                         type: 'select',
-                        placeholder: 'Please Select',
+                        placeholder: 'Units',
                         value: filter.patientsLocation,
                         onValue: (patientsLocation) =>
                           setFilter({ ...filter, patientsLocation }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -652,7 +643,7 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Disease Area"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
                         type: 'select',
@@ -660,20 +651,11 @@ const InfluencersPage = () => {
                         value: filter.patientsGender,
                         onValue: (patientsGender) =>
                           setFilter({ ...filter, patientsGender }),
-                        options: [
-                          {
-                            value: 0,
-                            label: 'Number',
-                          },
-                          {
-                            value: 1,
-                            label: '%',
-                          },
-                        ],
+                        options: [],
                       },
                       {
                         type: 'number',
-                        placeholder: 'Please Enter',
+                        placeholder: 'Number',
                         value: filter.patientsDiseaseAreaCount,
                         onValue: (patientsDiseaseAreaCount) =>
                           setFilter({
@@ -683,14 +665,14 @@ const InfluencersPage = () => {
                       },
                       {
                         type: 'select',
-                        placeholder: 'Please Select',
+                        placeholder: 'Units',
                         value: filter.patientsDiseaseArea,
                         onValue: (patientsDiseaseArea) =>
                           setFilter({ ...filter, patientsDiseaseArea }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -702,7 +684,7 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Struggles"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
                         type: 'select',
@@ -710,34 +692,25 @@ const InfluencersPage = () => {
                         value: filter.patientsGender,
                         onValue: (patientsGender) =>
                           setFilter({ ...filter, patientsGender }),
-                        options: [
-                          {
-                            value: 0,
-                            label: 'Number',
-                          },
-                          {
-                            value: 1,
-                            label: '%',
-                          },
-                        ],
+                        options: [],
                       },
                       {
                         type: 'number',
-                        placeholder: 'Please Enter',
+                        placeholder: 'Number',
                         value: filter.patientsStrugglesCount,
                         onValue: (patientsStrugglesCount) =>
                           setFilter({ ...filter, patientsStrugglesCount }),
                       },
                       {
                         type: 'select',
-                        placeholder: 'Please Select',
+                        placeholder: 'Units',
                         value: filter.patientsStruggles,
                         onValue: (patientsStruggles) =>
                           setFilter({ ...filter, patientsStruggles }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -749,7 +722,7 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Interests"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
                         type: 'select',
@@ -760,7 +733,7 @@ const InfluencersPage = () => {
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -770,21 +743,21 @@ const InfluencersPage = () => {
                       },
                       {
                         type: 'number',
-                        placeholder: 'Please Enter',
+                        placeholder: 'Number',
                         value: filter.patientsInterestsCount,
                         onValue: (patientsInterestsCount) =>
                           setFilter({ ...filter, patientsInterestsCount }),
                       },
                       {
                         type: 'select',
-                        placeholder: 'Please Select',
+                        placeholder: 'Units',
                         value: filter.patientsInterests,
                         onValue: (patientsInterests) =>
                           setFilter({ ...filter, patientsInterests }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: 'Nu#mber',
                           },
                           {
                             value: 1,
@@ -796,7 +769,7 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Brands"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
                         type: 'select',
@@ -804,34 +777,25 @@ const InfluencersPage = () => {
                         value: filter.patientsGender,
                         onValue: (patientsGender) =>
                           setFilter({ ...filter, patientsGender }),
-                        options: [
-                          {
-                            value: 0,
-                            label: 'Number',
-                          },
-                          {
-                            value: 1,
-                            label: '%',
-                          },
-                        ],
+                        options: [],
                       },
                       {
                         type: 'number',
-                        placeholder: 'Please Enter',
+                        placeholder: 'Number',
                         value: filter.patientsBrandsCount,
                         onValue: (patientsBrandsCount) =>
                           setFilter({ ...filter, patientsBrandsCount }),
                       },
                       {
                         type: 'select',
-                        placeholder: 'Please Select',
+                        placeholder: 'Units',
                         value: filter.patientsBrands,
                         onValue: (patientsBrands) =>
                           setFilter({ ...filter, patientsBrands }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -843,7 +807,7 @@ const InfluencersPage = () => {
                   />
                   <InputGroup
                     label="Products"
-                    inputRatio="1fr 1fr 1fr"
+                    inputRatio="1fr 100px 75px"
                     elements={[
                       {
                         type: 'select',
@@ -851,10 +815,25 @@ const InfluencersPage = () => {
                         value: filter.patientsGender,
                         onValue: (patientsGender) =>
                           setFilter({ ...filter, patientsGender }),
+                        options: [],
+                      },
+                      {
+                        type: 'number',
+                        placeholder: 'Number',
+                        value: filter.patientsProductsCount,
+                        onValue: (patientsProductsCount) =>
+                          setFilter({ ...filter, patientsProductsCount }),
+                      },
+                      {
+                        type: 'select',
+                        placeholder: 'Units',
+                        value: filter.patientsProducts,
+                        onValue: (patientsProducts) =>
+                          setFilter({ ...filter, patientsProducts }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -862,23 +841,37 @@ const InfluencersPage = () => {
                           },
                         ],
                       },
-                      {
-                        type: 'number',
-                        placeholder: 'Please Enter',
-                        value: filter.patientsProductsCount,
-                        onValue: (patientsProductsCount) =>
-                          setFilter({ ...filter, patientsProductsCount }),
-                      },
+                    ]}
+                  />
+                  <InputGroup
+                    label="Language"
+                    inputRatio="1fr 100px 75px"
+                    elements={[
                       {
                         type: 'select',
                         placeholder: 'Please Select',
-                        value: filter.patientsProducts,
-                        onValue: (patientsProducts) =>
-                          setFilter({ ...filter, patientsProducts }),
+                        value: filter.patientsGender,
+                        onValue: (patientsGender) =>
+                          setFilter({ ...filter, patientsGender }),
+                        options: [],
+                      },
+                      {
+                        type: 'number',
+                        placeholder: 'Number',
+                        value: filter.patientsLanguageCount,
+                        onValue: (patientsLanguageCount) =>
+                          setFilter({ ...filter, patientsLanguageCount }),
+                      },
+                      {
+                        type: 'select',
+                        placeholder: 'Units',
+                        value: filter.patientsLanguage,
+                        onValue: (patientsLanguage) =>
+                          setFilter({ ...filter, patientsLanguage }),
                         options: [
                           {
                             value: 0,
-                            label: 'Number',
+                            label: '#',
                           },
                           {
                             value: 1,
@@ -896,53 +889,6 @@ const InfluencersPage = () => {
                     onValue={(patientsKeywords) =>
                       setFilter({ ...filter, patientsKeywords })
                     }
-                  />
-                  <InputGroup
-                    label="Language"
-                    inputRatio="1fr 1fr 1fr"
-                    elements={[
-                      {
-                        type: 'select',
-                        placeholder: 'Please Select',
-                        value: filter.patientsGender,
-                        onValue: (patientsGender) =>
-                          setFilter({ ...filter, patientsGender }),
-                        options: [
-                          {
-                            value: 0,
-                            label: 'Number',
-                          },
-                          {
-                            value: 1,
-                            label: '%',
-                          },
-                        ],
-                      },
-                      {
-                        type: 'number',
-                        placeholder: 'Please Enter',
-                        value: filter.patientsLanguageCount,
-                        onValue: (patientsLanguageCount) =>
-                          setFilter({ ...filter, patientsLanguageCount }),
-                      },
-                      {
-                        type: 'select',
-                        placeholder: 'Please Select',
-                        value: filter.patientsLanguage,
-                        onValue: (patientsLanguage) =>
-                          setFilter({ ...filter, patientsLanguage }),
-                        options: [
-                          {
-                            value: 0,
-                            label: 'Number',
-                          },
-                          {
-                            value: 1,
-                            label: '%',
-                          },
-                        ],
-                      },
-                    ]}
                   />
                 </Grid>
               )}

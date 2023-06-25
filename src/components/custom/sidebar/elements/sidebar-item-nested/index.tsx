@@ -41,7 +41,7 @@ const SidebarItemNested = ({
           <SidebarItemNestedDropDownSubItem
             href={x.location}
             key={x.id}
-            onClick={action}
+            // onClick={action}
           >
             <SidebarItemNestedDropDownSubItemLabel
               active={x.location === router.pathname}

@@ -21,6 +21,7 @@ import {
   CardWithChart,
   CardWithText,
   CheckboxTable,
+  CurrencyFeedback,
   Tabs,
 } from 'components/custom';
 import {
@@ -30,6 +31,7 @@ import {
   SurveysAIcon,
   DonationsIcon,
   AffiliateIcon,
+  IncomeSmallIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Card, Input, InputGroup, Pagination } from 'components/ui';
@@ -66,7 +68,7 @@ const IncomePage = () => {
           <CardWithChart
             title="Campaigns"
             icon={<CampaignsIcon />}
-            smallIcon={<UserFocusIcon />}
+            smallIcon={<IncomeSmallIcon />}
             percent={5}
             count={90.56}
             chartData={{
@@ -79,6 +81,7 @@ const IncomePage = () => {
           <CardWithChart
             title="Surveys"
             icon={<SurveysAIcon />}
+            smallIcon={<IncomeSmallIcon />}
             percent={5}
             count={90.56}
             chartData={{
@@ -91,6 +94,7 @@ const IncomePage = () => {
           <CardWithChart
             title="Affiliate program"
             icon={<AffiliateIcon />}
+            smallIcon={<IncomeSmallIcon />}
             percent={5}
             count={90.56}
             chartData={{
@@ -103,6 +107,7 @@ const IncomePage = () => {
           <CardWithChart
             title="Donations"
             icon={<DonationsIcon />}
+            smallIcon={<IncomeSmallIcon />}
             percent={5}
             count={90.56}
             chartData={{
@@ -395,45 +400,16 @@ const IncomePage = () => {
                 </WithdrawGridLeft>
                 <WithdrawGridRight>
                   <Stack>
-                    <InputGroup
-                      label="Enter Amount (Available amount is $499.00)"
-                      inputRatio="100px 1fr"
-                      elements={[
-                        {
-                          value: filter.currency,
-                          onValue: (currency) =>
-                            setFilter({ ...filter, currency }),
-                          type: 'select',
-                          placeholder: 'CHF',
-                          options: [
-                            {
-                              value: 'chf',
-                              label: 'CHF',
-                            },
-                            {
-                              value: 'usd',
-                              label: 'USD',
-                            },
-                            {
-                              value: 'eur',
-                              label: 'EUR',
-                            },
-                          ],
-                        },
-                        {
-                          value: filter.amountW,
-                          onValue: (amountW) =>
-                            setFilter({ ...filter, amountW }),
-                          type: 'text',
-                          placeholder: '420',
-                        },
-                      ]}
+                    <Input
+                      label="Enter Amount (Available amount is 0.00)"
+                      type="number"
+                      startAdornment="CHF"
+                      value={filter.amountW}
+                      onValue={(amount) =>
+                        setFilter({ ...filter, amountW: amount })
+                      }
                     />
-                    <Note showIcon>
-                      55 CHF is approximatelay{' '}
-                      <span style={{ color: '#448DC9' }}>60 USD</span>, but a
-                      minor currency exchange fee (%) from a bank is expected.
-                    </Note>
+                    <CurrencyFeedback value={filter.amountW} />
                     <Input
                       type="text"
                       label="Confirm Password"

@@ -7,8 +7,8 @@ const Project = {
     baseProdUrl: 'https://patientsinfluence.com',
   },
   apis: {
-    // v1: 'https://api.patientsinfluence.com',
-    v1: 'http://localhost:3000',
+    v1: 'https://api.patientsinfluence.com',
+    // v1: 'http://localhost:3000',
   },
   title: {
     prefix: '',

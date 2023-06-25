@@ -21,6 +21,7 @@ import {
   CardWithChart,
   CardWithText,
   CheckboxTable,
+  CurrencyFeedback,
   Tabs,
 } from 'components/custom';
 import {
@@ -29,6 +30,7 @@ import {
   SMLAIcon,
   SurveysAIcon,
   ReportsAIcon,
+  IncomeSmallIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Card, Input, InputGroup, Pagination } from 'components/ui';
@@ -61,6 +63,7 @@ const IncomePage = () => {
           <CardWithChart
             title="Campaigns"
             icon={<CampaignsIcon />}
+            smallIcon={<IncomeSmallIcon />}
             percent={2}
             count={75}
             chartData={{
@@ -73,6 +76,7 @@ const IncomePage = () => {
           <CardWithChart
             title="SML"
             icon={<SMLAIcon />}
+            smallIcon={<IncomeSmallIcon />}
             percent={2}
             count={75}
             chartData={{
@@ -85,6 +89,7 @@ const IncomePage = () => {
           <CardWithChart
             title="Surveys"
             icon={<SurveysAIcon />}
+            smallIcon={<IncomeSmallIcon />}
             percent={2}
             count={75}
             chartData={{
@@ -97,6 +102,7 @@ const IncomePage = () => {
           <CardWithChart
             title="Reports"
             icon={<ReportsAIcon />}
+            smallIcon={<IncomeSmallIcon />}
             percent={2}
             count={75}
             chartData={{
@@ -230,7 +236,7 @@ const IncomePage = () => {
                 renderItem={() => {}}
               />
 
-              <Pagination count={32} />
+              <Pagination count={0} />
             </Stack>
           </CardWithText>
         ) : (
@@ -286,45 +292,17 @@ const IncomePage = () => {
                 </WithdrawGridLeft>
                 <WithdrawGridRight>
                   <Stack>
-                    <InputGroup
-                      label="Enter Amount (Available amount is $499.00)"
-                      inputRatio="100px 1fr"
-                      elements={[
-                        {
-                          value: filter.currency,
-                          onValue: (currency) =>
-                            setFilter({ ...filter, currency }),
-                          type: 'select',
-                          placeholder: 'CHF',
-                          options: [
-                            {
-                              value: 'eur',
-                              label: 'EUR',
-                            },
-                            {
-                              value: 'usd',
-                              label: 'USD',
-                            },
-                            {
-                              value: 'chf',
-                              label: 'CHF',
-                            },
-                          ],
-                        },
-                        {
-                          value: filter.amountW,
-                          onValue: (amountW) =>
-                            setFilter({ ...filter, amountW }),
-                          type: 'text',
-                          placeholder: '420',
-                        },
-                      ]}
+                    <Input
+                      label="Enter Amount (Available amount is 0.00)"
+                      type="number"
+                      startAdornment="CHF"
+                      value={filter.amountW}
+                      onValue={(amount) =>
+                        setFilter({ ...filter, amountW: amount })
+                      }
                     />
-                    <Note showIcon>
-                      55 CHF is approximatelay{' '}
-                      <span style={{ color: '#448DC9' }}>60 USD</span>, but a
-                      minor currency exchange fee (%) from a bank is expected.
-                    </Note>
+                    <CurrencyFeedback value={filter.amountW} />
+
                     <Input
                       type="text"
                       label="Confirm Password"

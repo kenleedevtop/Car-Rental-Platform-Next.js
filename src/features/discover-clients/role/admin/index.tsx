@@ -90,61 +90,61 @@ const DiscoverClientsPage = () => {
     table,
   }: TTableRenderItemObject) => {};
 
-  const [clientsIdentified, setClientsIdentified] = useState<any>([]);
-  const [clientsContacted, setClientsContacted] = useState<any>([]);
+  // const [clientsIdentified, setClientsIdentified] = useState<any>([]);
+  // const [clientsContacted, setClientsContacted] = useState<any>([]);
   const [clientsRegistered, setClientsRegistered] = useState<any>([]);
   const [clientsScheduled, setClientsScheduled] = useState<any>([]);
 
-  const [filterIParams, setFilterIParams] = useState({});
-  const [filterCParams, setFilterCParams] = useState({});
+  // const [filterIParams, setFilterIParams] = useState({});
+  // const [filterCParams, setFilterCParams] = useState({});
   const [filterRParams, setFilterRParams] = useState({});
   const [filterSParams, setFilterSParams] = useState({});
 
-  const {
-    pagesCount: pageCountI,
-    page: pageI,
-    setTotalResults: setTotalResultsI,
-    handlePageChange: handlePageChangeI,
-    reload: reloadI,
-  } = usePagination({
-    limit: 10,
-    page: 1,
-    onChange: async (params, setPage) => {
-      const { data, pagination } = await ClientAPI.getDClientsIdentified({
-        limit: params.limit,
-        skip: params.skip,
-        ...filterIParams,
-      });
+  // const {
+  //   pagesCount: pageCountI,
+  //   page: pageI,
+  //   setTotalResults: setTotalResultsI,
+  //   handlePageChange: handlePageChangeI,
+  //   reload: reloadI,
+  // } = usePagination({
+  //   limit: 10,
+  //   page: 1,
+  //   onChange: async (params, setPage) => {
+  //     const { data, pagination } = await ClientAPI.getDClientsIdentified({
+  //       limit: params.limit,
+  //       skip: params.skip,
+  //       ...filterIParams,
+  //     });
 
-      setPage(params.page);
+  //     setPage(params.page);
 
-      setClientsIdentified(data);
-      setTotalResultsI(pagination.totalFilteredItems);
-    },
-  });
+  //     setClientsIdentified(data);
+  //     setTotalResultsI(pagination.totalFilteredItems);
+  //   },
+  // });
 
-  const {
-    pagesCount: pageCountC,
-    page: pageC,
-    setTotalResults: setTotalResultsC,
-    handlePageChange: handlePageChangeC,
-    reload: reloadC,
-  } = usePagination({
-    limit: 10,
-    page: 1,
-    onChange: async (params, setPage) => {
-      const { data, pagination } = await ClientAPI.getDClientsContacted({
-        limit: params.limit,
-        skip: params.skip,
-        ...filterCParams,
-      });
+  // const {
+  //   pagesCount: pageCountC,
+  //   page: pageC,
+  //   setTotalResults: setTotalResultsC,
+  //   handlePageChange: handlePageChangeC,
+  //   reload: reloadC,
+  // } = usePagination({
+  //   limit: 10,
+  //   page: 1,
+  //   onChange: async (params, setPage) => {
+  //     const { data, pagination } = await ClientAPI.getDClientsContacted({
+  //       limit: params.limit,
+  //       skip: params.skip,
+  //       ...filterCParams,
+  //     });
 
-      setPage(params.page);
+  //     setPage(params.page);
 
-      setClientsContacted(data);
-      setTotalResultsC(pagination.totalFilteredItems);
-    },
-  });
+  //     setClientsContacted(data);
+  //     setTotalResultsC(pagination.totalFilteredItems);
+  //   },
+  // });
 
   const {
     pagesCount: pageCountR,
@@ -192,47 +192,47 @@ const DiscoverClientsPage = () => {
     },
   });
 
-  const renderIdentifiedItem = ({ headItem, row }: TTableRenderItemObject) => {
-    if (headItem.reference === 'firstName') {
-      return row.data.firstName;
-    }
-    if (headItem.reference === 'lastName') {
-      return row.data.lastName;
-    }
-    if (headItem.reference === 'company') {
-      return row.data.company.name;
-    }
-    if (headItem.reference === 'product') {
-      return '';
-    }
-    if (headItem.reference === 'actions') {
-      return '';
-    }
+  // const renderIdentifiedItem = ({ headItem, row }: TTableRenderItemObject) => {
+  //   if (headItem.reference === 'firstName') {
+  //     return row.data.firstName;
+  //   }
+  //   if (headItem.reference === 'lastName') {
+  //     return row.data.lastName;
+  //   }
+  //   if (headItem.reference === 'company') {
+  //     return row.data.company.name;
+  //   }
+  //   if (headItem.reference === 'product') {
+  //     return '';
+  //   }
+  //   if (headItem.reference === 'actions') {
+  //     return '';
+  //   }
 
-    return '';
-  };
+  //   return '';
+  // };
 
-  const renderContactedItem = ({ headItem, row }: TTableRenderItemObject) => {
-    if (headItem.reference === 'firstName') {
-      return row.data.firstName;
-    }
-    if (headItem.reference === 'lastName') {
-      return row.data.lastName;
-    }
-    if (headItem.reference === 'company') {
-      return row.data.company.name;
-    }
-    if (headItem.reference === 'product') {
-      return '';
-    }
-    if (headItem.reference === 'contactedAt') {
-      return row.data.contactedAt;
-    }
-    if (headItem.reference === 'actions') {
-      return '';
-    }
-    return '';
-  };
+  // const renderContactedItem = ({ headItem, row }: TTableRenderItemObject) => {
+  //   if (headItem.reference === 'firstName') {
+  //     return row.data.firstName;
+  //   }
+  //   if (headItem.reference === 'lastName') {
+  //     return row.data.lastName;
+  //   }
+  //   if (headItem.reference === 'company') {
+  //     return row.data.company.name;
+  //   }
+  //   if (headItem.reference === 'product') {
+  //     return '';
+  //   }
+  //   if (headItem.reference === 'contactedAt') {
+  //     return row.data.contactedAt;
+  //   }
+  //   if (headItem.reference === 'actions') {
+  //     return '';
+  //   }
+  //   return '';
+  // };
 
   const renderRegisteredItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'firstName') {
@@ -247,18 +247,18 @@ const DiscoverClientsPage = () => {
     if (headItem.reference === 'role') {
       return row.data.companyTitle.name;
     }
-    if (headItem.reference === 'location') {
-      return row.data.location.name;
-    }
-    if (headItem.reference === 'diseaseAreas') {
-      return row.data.discoverClientDiseaseAreas.map((x: any, index: any) =>
-        index < row.data.discoverClientDiseaseAreas.length - 1
-          ? `${x.name},`
-          : x.name
-      );
-    }
+    // if (headItem.reference === 'location') {
+    //   return row.data.location.name;
+    // }
+    // if (headItem.reference === 'diseaseAreas') {
+    //   return row.data['_client'].clientDiseaseAreas.map((x: any, index: any) =>
+    //     index < row.data['_client'].clientDiseaseAreas.length - 1
+    //       ? `${x.name},`
+    //       : x.name
+    //   );
+    // }
     if (headItem.reference === 'registeredAt') {
-      return row.data.createAt.slice(0, 10);
+      return row.data.createdAt.slice(0, 10);
     }
     if (headItem.reference === 'actions') {
       return '';
@@ -533,9 +533,9 @@ const DiscoverClientsPage = () => {
           <Tabs
             value={tabs}
             onValue={setTabs}
-            tabs={['Identified', 'Contacted', 'Registered', 'Scheduled']}
+            tabs={['Registered', 'Scheduled']}
           />
-          {tabs === 0 && (
+          {/* {tabs === 0 && (
             <>
               <CheckboxTable
                 head={DClientsHeadIdentified}
@@ -562,8 +562,8 @@ const DiscoverClientsPage = () => {
                 count={pageCountC}
               />
             </>
-          )}
-          {tabs === 2 && (
+          )} */}
+          {tabs === 0 && (
             <>
               <CheckboxTable
                 head={DClientsHeadRegistered}
@@ -577,7 +577,7 @@ const DiscoverClientsPage = () => {
               />
             </>
           )}
-          {tabs === 3 && (
+          {tabs === 1 && (
             <>
               <CheckboxTable
                 head={DClientsHeadScheduled}

@@ -13,7 +13,12 @@ import {
   CheckboxTable,
   Tabs,
 } from 'components/custom';
-import { FinishedIcon, InpreparationIcon, OngoingIcon } from 'components/svg';
+import {
+  FinishedIcon,
+  InpreparationIcon,
+  OngoingIcon,
+  SurveysSmallIcon,
+} from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Pagination } from 'components/ui';
 import { Stack } from 'components/system';
@@ -42,6 +47,7 @@ const SurveysPage = () => {
         <CardWithChart
           title="Available"
           icon={<InpreparationIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -54,6 +60,7 @@ const SurveysPage = () => {
         <CardWithChart
           title="Ongoing"
           icon={<OngoingIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -66,6 +73,7 @@ const SurveysPage = () => {
         <CardWithChart
           title="Finished"
           icon={<FinishedIcon />}
+          smallIcon={<SurveysSmallIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -78,7 +86,6 @@ const SurveysPage = () => {
       </SurveysInfluencerPageCharts>
       <CardWithText
         title="Available Surveys"
-        description="20 new Surveys"
         style={
           window.innerWidth < 600
             ? { padding: '1.25rem 0', boxShadow: 'unset' }
@@ -148,7 +155,7 @@ const SurveysPage = () => {
             items={[]}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination count={0} />
         </Stack>
       </CardWithText>
       <CardWithText
@@ -160,17 +167,12 @@ const SurveysPage = () => {
         }
       >
         <Stack>
-          <Tabs
-            value={tabs}
-            onValue={setTabs}
-            tabs={['To Be Answered', 'To Be Approved', 'Approved']}
-          />
           <CheckboxTable
             head={DSurveysInfluencerHead}
             items={[]}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination count={0} />
         </Stack>
       </CardWithText>
     </SurveysPageMain>

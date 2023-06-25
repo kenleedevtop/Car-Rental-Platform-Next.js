@@ -149,7 +149,6 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             // onValue={(email) => setState({ ...state, email })}
             onValue={(email) => setFormData({ ...formData, email })}
           />
-          <StepSpan onClick={openCeModal}>Change Email</StepSpan>
         </StepChange>
         <StepChange>
           {/* <Input

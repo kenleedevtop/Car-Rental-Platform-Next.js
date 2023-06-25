@@ -123,9 +123,9 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         </NavigationRouteName>
       </NavigationMenu>
       <NavigationItems>
-        {/* {['AMBASSADOR', 'INFLUENCER'].includes(role) && (
-          <NavigationBalance>Balance: $499.00</NavigationBalance>
-        )} */}
+        {['AMBASSADOR', 'INFLUENCER'].includes(role) && (
+          <NavigationBalance>Balance: CHF 0.00</NavigationBalance>
+        )}
 
         {['AMBASSADOR', 'INFLUENCER', 'CLIENT'].includes(role) && (
           <>
@@ -189,7 +189,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           </NavigationProfile>
           {open && ['ADMIN', 'SUPERADMIN'].includes(role) && (
             <NavigationProfileDropdown
-              position={position}
+              // position={position}
               items={[
                 {
                   icon: <AccountIcon />,
@@ -210,7 +210,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           )}
           {open && ['INFLUENCER', 'CLIENT', 'AMBASSADOR'].includes(role) && (
             <NavigationProfileDropdown
-              position={position}
+              // position={position}
               items={[
                 {
                   icon: <LogoutIcon />,

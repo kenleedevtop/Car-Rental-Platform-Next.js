@@ -40,6 +40,7 @@ export const CardWithChartIcon = styled.div<{ theme?: Theme }>`
             width: 24px;
             height: 24px;
         }
+        aspect-ratio: 1/1;
     `}
 `;
 
