@@ -28,7 +28,7 @@ export const CardText = styled.div``;
 
 export const CardTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-      font-size: 16px;
+      font-size: 20px;
       color: ${theme.palette.primary.main};
       font-weight: 500;
   `}

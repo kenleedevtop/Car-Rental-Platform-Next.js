@@ -113,3 +113,4 @@ export { default as WithoutReportIcon } from 'components/svg/without-report';
 export { default as RecommendedIcon } from 'components/svg/recommended';
 export { default as SubscriptionsIcon } from 'components/svg/subscriptions';
 export { default as AccesoriesIcon } from 'components/svg/accessories';
+export { default as IncomeSmallIcon } from 'components/svg/income-small';

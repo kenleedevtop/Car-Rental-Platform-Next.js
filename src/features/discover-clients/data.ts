@@ -98,7 +98,7 @@ export const DClientsHeadIdentified = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -186,7 +186,7 @@ export const DClientsHeadContacted = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -274,7 +274,7 @@ export const DClientsHeadRegistered = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -361,7 +361,7 @@ export const DClientsHeadScheduled = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

@@ -217,7 +217,6 @@ const SurveyPage = () => {
       </SurveysPageCharts>
       <CardWithText
         title="Surveys"
-        description="More than 290+ new Reports"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -496,7 +495,7 @@ const SurveyPage = () => {
               },
               {
                 reference: 'actions',
-                label: 'Actions',
+                label: '',
                 visible: true,
               },
             ]}

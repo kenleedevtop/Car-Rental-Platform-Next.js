@@ -14,3 +14,21 @@ export const CommentSection = styled.div<{ theme?: Theme }>`
     overflow-y: scroll;
   `}
 `;
+
+export const LabelSectionContainer = styled.div`
+  width: 100%;
+  display: inline-flex;
+  gap: 5px;
+`;
+
+export const LabelSection = styled.span<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  `}
+`;
+
+export const LabelLabel = styled.span`
+  color: #448dc9;
+`;

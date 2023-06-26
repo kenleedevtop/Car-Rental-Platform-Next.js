@@ -50,7 +50,10 @@ export const DGenerateInfluencersFilter = () => ({
     patientsGenderCount: null,
     patientsGenderUnit: null,
     patientsAge: null,
-    patientsAgeCount: null,
+    patientsAgeCount: {
+      min: '',
+      max: '',
+    },
     patientsAgeUnit: null,
     patientsEthnicity: null,
     patientsEthnicityCount: null,
@@ -694,7 +697,7 @@ export const DClientsHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

@@ -108,7 +108,6 @@ const AccountPage = ({ ...props }) => {
                 value={filter.email}
                 onValue={(email) => setFilter({ ...filter, email })}
               />
-              <AccountSpan onClick={openCeModal}>Change Email</AccountSpan>
             </AccountChange>
             <AccountChange>
               <Input

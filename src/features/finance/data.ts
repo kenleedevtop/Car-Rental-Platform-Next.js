@@ -130,7 +130,7 @@ export const DFinanceHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -158,7 +158,7 @@ export const DFinanceHead2 = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -186,7 +186,7 @@ export const DFinanceHead3 = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

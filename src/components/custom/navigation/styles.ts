@@ -159,14 +159,14 @@ export const NavigationSearch = styled(Search)<{ theme?: Theme }>``;
 
 export const NavigationProfileDropdown = styled(Menu)<{
   theme?: Theme;
-  position: { right: number; top: number };
+  position?: { right: number; top: number };
 }>`
   ${({ theme, position }) => `
   position: fixed;
   z-index: 200;
   width: 120px;
-  right: ${position?.right}px;
-  top: ${position?.top}px;
+  right: 35px;
+  top: 80px;
   `}
 `;
 

@@ -95,7 +95,7 @@ export const DInfluencerHeadRegistered = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -178,7 +178,7 @@ export const DInfluencerHeadToBeApproved = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

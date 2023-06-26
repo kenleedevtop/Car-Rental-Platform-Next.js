@@ -68,7 +68,7 @@ const AddBenefitModal = ({ onClose, ...props }: TAddBenefitModalProps) => {
     setLocations(
       result.map((x: any) => ({
         value: x.id,
-        label: `${x.country ? `${(x.name, x.country.name)}` : x.name}`,
+        label: x.country ? `${x.name}, ${x.country.name}` : x.name,
       }))
     );
   };

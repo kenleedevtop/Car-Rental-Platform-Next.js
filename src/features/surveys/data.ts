@@ -150,7 +150,7 @@ export const DSurveysHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: false,
   },
 ];
@@ -207,7 +207,7 @@ export const DSurveysInfluencerHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
@@ -244,7 +244,7 @@ export const DSurveysInfluencerHead2 = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

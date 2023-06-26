@@ -311,7 +311,6 @@ const CampaignsPage = () => {
       </CampaignsPageCharts>
       <CardWithText
         title="Campaigns"
-        description="More than 290+ new Campaigns"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}

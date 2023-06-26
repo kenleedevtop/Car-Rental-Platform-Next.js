@@ -113,7 +113,7 @@ const ChangeInfoModal = ({
     setLocation(
       result.map((x: any) => ({
         value: x.id,
-        label: `${x.country ? `${(x.name, x.country.name)}` : x.name}`,
+        label: x.country ? `${x.name}, ${x.country.name}` : x.name,
       }))
     );
     setLoading(false);
@@ -125,7 +125,7 @@ const ChangeInfoModal = ({
     setMarkets(
       result.map((x: any) => ({
         value: x.id,
-        label: `${x.name}, ${x.country ? x.country.name : null}`,
+        label: x.country ? `${x.name}, ${x.country.name}` : x.name,
       }))
     );
     setLoading(false);

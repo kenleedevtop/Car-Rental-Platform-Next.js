@@ -150,7 +150,6 @@ const AdminAmbassadorsPage = () => {
       </AmbassadorsPageCharts>
       <CardWithText
         title="Ambassadors"
-        description="3 new Ambassadors"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}

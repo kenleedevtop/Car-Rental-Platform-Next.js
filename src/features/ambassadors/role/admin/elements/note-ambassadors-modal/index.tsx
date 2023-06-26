@@ -4,6 +4,9 @@ import { TNoteAmbassadorsModalProps } from 'features/ambassadors/role/admin/elem
 import {
   NoteAmbassadorsModalMain,
   CommentSection,
+  LabelSectionContainer,
+  LabelSection,
+  LabelLabel,
 } from 'features/ambassadors/role/admin/elements/note-ambassadors-modal/styles';
 import { Button, Input } from 'components/ui';
 import { InputLabel } from 'components/ui/input/styles';
@@ -47,7 +50,7 @@ const NoteAmbassadorsModal = ({
 
   const handleNewTag = (v: any) => {
     setOptions((x) => [...x, v]);
-    setLabel((x: any) => [...x, v]);
+    // setLabel((x: any) => [...x, v]);
   };
 
   return (
@@ -96,17 +99,31 @@ const NoteAmbassadorsModal = ({
         )}
 
         {tabs === 1 && (
-          <Input
-            type="multiselect"
-            label="Label"
-            multiline
-            rows={3}
-            placeholder="Please Select"
-            value={label}
-            onValue={handleLabel}
-            onNewTag={handleNewTag}
-            options={options}
-          />
+          <>
+            <Input
+              type="multiselect"
+              label="Label"
+              multiline
+              rows={3}
+              placeholder="Please Select"
+              value={label}
+              onValue={handleLabel}
+              onNewTag={handleNewTag}
+              options={options}
+            />
+            <LabelSectionContainer>
+              Existing labels:
+              <LabelSection>
+                {options.map((x: any, index: number) =>
+                  index < options.length - 1 ? (
+                    <LabelLabel>{x.label}, </LabelLabel>
+                  ) : (
+                    <LabelLabel> {x.label}</LabelLabel>
+                  )
+                )}
+              </LabelSection>
+            </LabelSectionContainer>
+          </>
         )}
       </NoteAmbassadorsModalMain>
     </Modal>

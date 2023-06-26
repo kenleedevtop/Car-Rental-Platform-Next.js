@@ -9,7 +9,12 @@ import {
   DGenerateCampaignsFilter,
 } from 'features/campaigns/data';
 import { CardWithChart, CardWithText, CheckboxTable } from 'components/custom';
-import { FinishedIcon, InpreparationIcon, OngoingIcon } from 'components/svg';
+import {
+  CampaignsSmallIcon,
+  FinishedIcon,
+  InpreparationIcon,
+  OngoingIcon,
+} from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Pagination } from 'components/ui';
 import { Stack } from 'components/system';
@@ -36,8 +41,9 @@ const CampaignsPage = () => {
     <CampaignsPageMain>
       <CampaignsInfluencerPageCharts>
         <CardWithChart
-          title="Available Campaigns"
+          title="Available"
           icon={<InpreparationIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -48,8 +54,9 @@ const CampaignsPage = () => {
           }}
         />
         <CardWithChart
-          title="Campaigns in Progress"
+          title="Ongoing"
           icon={<OngoingIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -60,8 +67,9 @@ const CampaignsPage = () => {
           }}
         />
         <CardWithChart
-          title="Finished Campaigns"
+          title="Finished"
           icon={<FinishedIcon />}
+          smallIcon={<CampaignsSmallIcon />}
           percent={5}
           count={51245}
           chartData={{
@@ -74,7 +82,6 @@ const CampaignsPage = () => {
       </CampaignsInfluencerPageCharts>
       <CardWithText
         title="Available Campaigns"
-        description="20 new Campaigns"
         style={
           window.innerWidth < 600
             ? { padding: '1.25rem 0', boxShadow: 'unset' }

@@ -133,7 +133,7 @@ const ClientsPage = () => {
     <ClientsPageMain>
       <ClientsPageCharts>
         <CardWithChart
-          title="Identified"
+          title="Biotech"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -145,7 +145,7 @@ const ClientsPage = () => {
           }}
         />
         <CardWithChart
-          title="Contacted"
+          title="Healthtech"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -157,7 +157,7 @@ const ClientsPage = () => {
           }}
         />
         <CardWithChart
-          title="Registered"
+          title="Medtech"
           icon={<RegisteredIcon />}
           percent={2}
           count={75}
@@ -169,7 +169,7 @@ const ClientsPage = () => {
           }}
         />
         <CardWithChart
-          title="Total"
+          title="Hospitals"
           icon={<HospitalIcon />}
           percent={2}
           count={75}
@@ -183,7 +183,6 @@ const ClientsPage = () => {
       </ClientsPageCharts>
       <CardWithText
         title="Clients"
-        description="More than 290+ new Clients"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
