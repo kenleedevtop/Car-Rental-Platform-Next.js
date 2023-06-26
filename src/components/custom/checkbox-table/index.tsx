@@ -36,9 +36,8 @@ const Table = ({
   items = [],
   renderItem = (_b) => {},
   checkedRows,
-  toggleSingleRow,
-  toggleAllRows,
-  currentPage,
+  onSingleSelect,
+  onSelectAll,
   ...props
 }: TTableProps) => {
   const [localHead, setLocalHead] = useState(head);
@@ -46,53 +45,20 @@ const Table = ({
 
   const visibleItems = localHead.filter((x) => x.visible);
 
-  const [headCheckbox, setHeadCheckbox] = useState(false);
+  const isChecked =
+    items.length > 0 && items.every((row) => checkedRows!.includes(row.id));
 
-  const handleHeadCheckbox = () => {
-    console.log('HeadCheckbox clicked');
-    if (toggleAllRows) {
-      toggleAllRows();
-    } else {
-      setHeadCheckbox(!headCheckbox);
-    }
+  const handleRowSelection = (rowId: number, checked: boolean) => {
+    if (onSingleSelect) onSingleSelect(rowId, checked);
   };
 
-  const handleRowCheckbox = (rowData: any) => {
-    console.log(rowData);
-    if (headCheckbox) {
-      setHeadCheckbox(!headCheckbox);
-    }
-    if (toggleSingleRow) toggleSingleRow(rowData.id);
-
-    if (!toggleSingleRow) {
-      // Rest of apps need to implement their logic for checking fields
-      // toggleSingleRow(rowData.id);
+  const handleSelectAll = (checked: boolean) => {
+    if (onSelectAll) {
+      onSelectAll(checked);
     }
   };
 
   const { role } = useAppContext();
-
-  useEffect(() => {
-    if (toggleAllRows) {
-      const containsAllElements =
-        checkedRows!.length > 0 &&
-        items.every((item) =>
-          checkedRows?.some((number) => number === item.id)
-        );
-      console.log(containsAllElements);
-      if (containsAllElements) {
-        console.log('THis happened somehow?');
-        setHeadCheckbox(true);
-      } else {
-        console.log('Denied Idiot');
-        setHeadCheckbox(false);
-      }
-    }
-
-    // console.log('Items: ', items);
-    // console.log('Checked Rows: ', checkedRows);
-    // console.log('test');
-  }, [checkedRows, items, currentPage]);
 
   return (
     <TableContainer {...props}>
@@ -123,7 +89,10 @@ const Table = ({
             <TableHeadRow>
               {['ADMIN', 'SUPERADMIN'].includes(role) && (
                 <TableHeadCell action>
-                  <Checkbox value={headCheckbox} onValue={handleHeadCheckbox} />
+                  <Checkbox
+                    value={isChecked}
+                    onValue={(value) => handleSelectAll(value)}
+                  />
                 </TableHeadCell>
               )}
               {visibleItems.map((x: any) => (
@@ -141,7 +110,9 @@ const Table = ({
                       <TableBodyCell action>
                         <Checkbox
                           value={checkedRows?.includes(rowData.id)}
-                          onValue={() => handleRowCheckbox(rowData)}
+                          onValue={(checked) =>
+                            handleRowSelection(rowData.id, checked)
+                          }
                         />
                       </TableBodyCell>
                     )}

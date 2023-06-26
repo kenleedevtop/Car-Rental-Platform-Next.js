@@ -111,41 +111,30 @@ const DiscoverInfluencersPage = () => {
       },
     });
 
-  const toggleAllCheckedRegInfluencers = () => {
-    // if (registeredInfluencers.length === checkedRegInfluencers.length) {
-    //   setCheckedRegInfluencers([]);
-    // } else {
-    //   setCheckedRegInfluencers(
-    //     registeredInfluencers.map((user) => user.user.id)
-    //   );
-    // }
-
-    const currentPageData = registeredInfluencers.slice(
-      (page - 1) * 10,
-      page * 10
-    );
-    const currentPageIds = currentPageData.map((row) => row.id);
-
-    const isAllSelected = currentPageIds.every((id) =>
-      checkedRegInfluencers.includes(id)
-    );
-
-    if (isAllSelected) {
-      setCheckedRegInfluencers(
-        checkedRegInfluencers.filter((id) => !currentPageIds.includes(id))
+  const toggleAllCheckedRegInfluencers = (checked: boolean) => {
+    if (checked) {
+      const currentPageIds = registeredInfluencers.map((row) => row.id);
+      const newSelectedRows = Array.from(
+        new Set([...checkedRegInfluencers, ...currentPageIds])
       );
+      setCheckedRegInfluencers(newSelectedRows);
     } else {
-      setCheckedRegInfluencers([...checkedRegInfluencers, ...currentPageIds]);
+      // Deselect all rows on the current page
+      const currentPageIds = registeredInfluencers.map((row) => row.id);
+      const newSelectedRows = checkedRegInfluencers.filter(
+        (rowId) => !currentPageIds.includes(rowId)
+      );
+      setCheckedRegInfluencers(newSelectedRows);
     }
   };
 
-  const toggleUser = (userId: number) => {
-    if (checkedRegInfluencers.includes(userId)) {
-      setCheckedRegInfluencers(
-        checkedRegInfluencers.filter((id) => id !== userId)
-      );
+  const toggleUser = (rowId: number, checked: boolean) => {
+    if (checked) {
+      setCheckedRegInfluencers([...checkedRegInfluencers, rowId]);
     } else {
-      setCheckedRegInfluencers([...checkedRegInfluencers, userId]);
+      setCheckedRegInfluencers(
+        checkedRegInfluencers.filter((id) => id !== rowId)
+      );
     }
   };
 
@@ -245,8 +234,8 @@ const DiscoverInfluencersPage = () => {
   };
 
   useEffect(() => {
-    console.log('KEYYYY', registeredInfluencers, checkedRegInfluencers);
-  }, [registeredInfluencers, checkedRegInfluencers]);
+    console.log('KEYYYY', registeredInfluencers);
+  }, [registeredInfluencers]);
 
   return (
     <DiscoverInfluencersPageMain>
@@ -528,9 +517,8 @@ const DiscoverInfluencersPage = () => {
                 head={DInfluencerHeadRegistered}
                 items={registeredInfluencers}
                 checkedRows={checkedRegInfluencers}
-                toggleSingleRow={toggleUser}
-                toggleAllRows={toggleAllCheckedRegInfluencers}
-                currentPage={page}
+                onSingleSelect={toggleUser}
+                onSelectAll={toggleAllCheckedRegInfluencers}
                 renderItem={renderItem}
               />
               <Pagination
