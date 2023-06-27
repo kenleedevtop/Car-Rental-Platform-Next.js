@@ -8,7 +8,7 @@ const Project = {
   },
   apis: {
     // v1: 'https://api.patientsinfluence.com',
-    v1: 'https://api.patientsinfluence.com',
+    v1: 'http://localhost:3000',
   },
   title: {
     prefix: '',

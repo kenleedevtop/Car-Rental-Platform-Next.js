@@ -26,6 +26,8 @@ import { InfluencerAPI } from 'api';
 import { number } from 'yup';
 // eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
+import { useTranslation } from 'react-i18next';
+import { notifyManager } from 'react-query';
 
 const steps = [
   'Login Info',
@@ -66,7 +68,7 @@ export type FormData = {
   yVideoM: any;
   yVideoL: any;
   ttPost: any;
-  // currency: any,
+  currency: number;
   questionCredit: '';
   averageQuestionSurvey: '';
   interviewShort: '';
@@ -76,7 +78,15 @@ export type FormData = {
 const Stepper = () => {
   const [activeStep, setActiveStep] = useState(0);
 
-  const { user } = useAppContext();
+  const { user, currency } = useAppContext();
+
+  const { t } = useTranslation('register');
+
+  const [errors, setErrors] = useState([false, false, false, false, false]);
+
+  const handleErrors = (index: number) => (value: boolean) => {
+    setErrors((x) => x.map((a, b) => (b === index ? value : a)));
+  };
 
   const generateRegisterAffiliateLink = (affiliateCode: string) => {
     const { environment, baseUrl: baseDevUrl, baseProdUrl } = Project.app;
@@ -115,7 +125,7 @@ const Stepper = () => {
     interviewShort: '',
     interviewLong: '',
     socialPlatforms: [],
-    // currency: null
+    currency: 2,
   };
 
   const addStep = () => {
@@ -125,6 +135,8 @@ const Stepper = () => {
   const decreaseStep = () => {
     setActiveStep((prev) => prev - 1);
   };
+
+  let currencyToSend: number;
 
   // eslint-disable-next-line consistent-return
   const onSubmit = async (e: FormEvent) => {
@@ -137,12 +149,17 @@ const Stepper = () => {
 
       const surveyDesiredIncome: object[] = [];
 
-      if (activeStep === 3) {
-        console.log(
-          'test test test',
-          formData.gender.value === 0 || formData.gender.value
-        );
+      console.log('FORM DATA', formData);
 
+      // const isFormDataValid = Object.values(formData).every(value => !!value);
+
+      // if (activeStep === 3 && !isFormDataValid) {
+      //   console.log('Some fields in the form are missing values. Please fill out required fields!');
+
+      //   return;
+      // }
+
+      if (activeStep === 3) {
         formData.diseaseAreas.map(async (disease: any) =>
           diseaseValueArray.push(disease.value)
         );
@@ -204,7 +221,7 @@ const Stepper = () => {
             email: formData.email || undefined,
             dateOfBirth: formData.birthDate || undefined,
             ethnicityId: formData.ethnicity.value || undefined,
-            // currency: currency,
+            currency: currencyToSend,
             diseaseAreas: diseaseValueArray || undefined,
             password: formData.password,
             // experienceAs: formData.experienceAs.value || undefined,
@@ -227,6 +244,7 @@ const Stepper = () => {
           user.id
         );
 
+        // eslint-disable-next-line consistent-return
         return submitResponse;
         // eslint-disable-next-line no-else-return
       } else {
@@ -264,14 +282,26 @@ const Stepper = () => {
             )}
           </StepperContainer>
           {activeStep === 0 && (
-            <Step1 formData={formData} setFormData={setFormData} />
+            <Step1
+              formData={formData}
+              setFormData={setFormData}
+              handleErrors={handleErrors}
+            />
           )}
           {activeStep === 1 && (
-            <Step2 formData={formData} setFormData={setFormData} />
+            <Step2
+              formData={formData}
+              setFormData={setFormData}
+              handleErrors={handleErrors}
+            />
           )}
           {activeStep === 2 && <Step3 />}
           {activeStep === 3 && (
-            <Step4 formData={formData} setFormData={setFormData} />
+            <Step4
+              formData={formData}
+              setFormData={setFormData}
+              handleErrors={handleErrors}
+            />
           )}
           {activeStep === 4 && <StepV />}
         </StepContainer>

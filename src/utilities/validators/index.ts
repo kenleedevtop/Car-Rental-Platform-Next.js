@@ -1,4 +1,4 @@
-import { object, string } from 'yup';
+import { array, number, object, string, date } from 'yup';
 
 export const emailSchema = object().shape({
   email: string().email(),
@@ -15,6 +15,42 @@ export const passwordSchema = object().shape({
 
 export const firstNameSchema = object().shape({
   firstName: string().min(2),
+});
+
+export const locationSchema = object().shape({
+  location: object(),
+});
+
+export const genderSchema = object().shape({
+  gender: object(),
+});
+
+export const experienceAsSchema = object().shape({
+  experienceAs: object(),
+});
+
+export const diseaseAreaSchema = object().shape({
+  diseaseArea: array(),
+});
+
+export const ethnicitySchema = object().shape({
+  ethnicity: object(),
+});
+
+export const instagramPostSchema = object().shape({
+  instaP: string(),
+});
+
+export const instagramStorySchema = object().shape({
+  instaS: string(),
+});
+
+export const instagramReelSchema = object().shape({
+  instaR: string(),
+});
+
+export const birthDateSchema = object().shape({
+  birthDate: date(),
 });
 
 export const lastNameSchema = object().shape({

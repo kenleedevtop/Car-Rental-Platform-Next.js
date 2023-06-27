@@ -11,14 +11,23 @@ import {
 import { Input } from 'components/ui';
 import React, { useState } from 'react';
 
+import { useTranslation } from 'react-i18next';
+import {
+  instagramPostSchema,
+  instagramReelSchema,
+  instagramStorySchema,
+  lastNameSchema,
+} from 'utilities/validators';
+import { useAppContext } from 'context';
 import { FormData } from '../..';
 
 type Step4FormProps = {
   formData: FormData;
   setFormData: any;
+  handleErrors: (index: number) => (value: boolean) => void;
 };
 
-const Step = ({ formData, setFormData }: Step4FormProps) => {
+const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
   const {
     instaP,
     instaR,
@@ -28,6 +37,36 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
     interviewShort,
     interviewLong,
   } = formData;
+
+  const { t } = useTranslation('register');
+
+  const { currency } = useAppContext();
+
+  const [errors, setErrors] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  let currencyToSend: number;
+
+  if (currency === 'CHF') {
+    console.log('a');
+
+    currencyToSend = 2;
+  }
+
+  if (currency === 'EUR') {
+    console.log('b');
+    currencyToSend = 0;
+  }
+
+  if (currency === 'USD') {
+    console.log('c');
+  }
 
   return (
     <StepStack>
@@ -40,24 +79,99 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               label="Post"
               placeholder="Please Enter Amount"
               value={instaP}
+              required
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaP) => setFormData({ ...formData, instaP })}
+              errorCallback={handleErrors(10)}
+              validators={[
+                {
+                  message: t('Last name is required'),
+                  validator: (instaP) => {
+                    const v = instaP as string;
+                    if (v.trim()) return true;
+                    return false;
+                  },
+                },
+                {
+                  message: t(
+                    'Last name needs to be at least 2 characters long'
+                  ),
+                  validator: (instaP) => {
+                    try {
+                      instagramPostSchema.validateSync({ instaP });
+                      return true;
+                    } catch {
+                      return false;
+                    }
+                  },
+                },
+              ]}
             />
             <Input
               type="text"
               label="Story"
               placeholder="Please Enter Amount"
               value={instaS}
+              required
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaS) => setFormData({ ...formData, instaS })}
+              errorCallback={handleErrors(11)}
+              validators={[
+                {
+                  message: t('Last name is required'),
+                  validator: (instaS) => {
+                    const v = instaS as string;
+                    if (v.trim()) return true;
+                    return false;
+                  },
+                },
+                {
+                  message: t(
+                    'Last name needs to be at least 2 characters long'
+                  ),
+                  validator: (instaS) => {
+                    try {
+                      instagramStorySchema.validateSync({ instaS });
+                      return true;
+                    } catch {
+                      return false;
+                    }
+                  },
+                },
+              ]}
             />
             <Input
               type="text"
               label="Reel"
               placeholder="Please Enter Amount"
               value={instaR}
+              required
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaR) => setFormData({ ...formData, instaR })}
+              errorCallback={handleErrors(12)}
+              validators={[
+                {
+                  message: t('Last name is required'),
+                  validator: (instaR) => {
+                    const v = instaR as string;
+                    if (v.trim()) return true;
+                    return false;
+                  },
+                },
+                {
+                  message: t(
+                    'Last name needs to be at least 2 characters long'
+                  ),
+                  validator: (instaR) => {
+                    try {
+                      instagramReelSchema.validateSync({ instaR });
+                      return true;
+                    } catch {
+                      return false;
+                    }
+                  },
+                },
+              ]}
             />
           </Stack>
         </StepLeft>
@@ -156,10 +270,35 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               type="text"
               placeholder="Please Enter Amount"
               value={questionCredit}
+              required
               onValue={(questionCredit) =>
                 setFormData({ ...formData, questionCredit })
               }
               style={{ marginTop: '-15px' }}
+              errorCallback={handleErrors(13)}
+              validators={[
+                {
+                  message: t('Last name is required'),
+                  validator: (lastName) => {
+                    const v = lastName as string;
+                    if (v.trim()) return true;
+                    return false;
+                  },
+                },
+                {
+                  message: t(
+                    'Last name needs to be at least 2 characters long'
+                  ),
+                  validator: (lastName) => {
+                    try {
+                      lastNameSchema.validateSync({ lastName });
+                      return true;
+                    } catch {
+                      return false;
+                    }
+                  },
+                },
+              ]}
             />
 
             <Input
@@ -167,9 +306,34 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               label="Average 20 Question Survey"
               placeholder="Calculation"
               value={averageQuestionSurvey}
+              required
               onValue={(averageQuestionSurvey) =>
                 setFormData({ ...formData, averageQuestionSurvey })
               }
+              errorCallback={handleErrors(14)}
+              validators={[
+                {
+                  message: t('Last name is required'),
+                  validator: (lastName) => {
+                    const v = lastName as string;
+                    if (v.trim()) return true;
+                    return false;
+                  },
+                },
+                {
+                  message: t(
+                    'Last name needs to be at least 2 characters long'
+                  ),
+                  validator: (lastName) => {
+                    try {
+                      lastNameSchema.validateSync({ lastName });
+                      return true;
+                    } catch {
+                      return false;
+                    }
+                  },
+                },
+              ]}
             />
             <p style={{ color: '#6f6f6f' }}>Interview</p>
             <Input
@@ -177,18 +341,68 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               label="Interview: 30min"
               placeholder="Please Enter Amount"
               value={interviewShort}
+              required
               onValue={(interviewShort) =>
                 setFormData({ ...formData, interviewShort })
               }
+              errorCallback={handleErrors(14)}
+              validators={[
+                {
+                  message: t('Last name is required'),
+                  validator: (lastName) => {
+                    const v = lastName as string;
+                    if (v.trim()) return true;
+                    return false;
+                  },
+                },
+                {
+                  message: t(
+                    'Last name needs to be at least 2 characters long'
+                  ),
+                  validator: (lastName) => {
+                    try {
+                      lastNameSchema.validateSync({ lastName });
+                      return true;
+                    } catch {
+                      return false;
+                    }
+                  },
+                },
+              ]}
             />
             <Input
               type="text"
               label="Interview: 60min"
               placeholder="Please Enter Amount"
               value={interviewLong}
+              required
               onValue={(interviewLong) =>
                 setFormData({ ...formData, interviewLong })
               }
+              errorCallback={handleErrors(15)}
+              validators={[
+                {
+                  message: t('Last name is required'),
+                  validator: (lastName) => {
+                    const v = lastName as string;
+                    if (v.trim()) return true;
+                    return false;
+                  },
+                },
+                {
+                  message: t(
+                    'Last name needs to be at least 2 characters long'
+                  ),
+                  validator: (lastName) => {
+                    try {
+                      lastNameSchema.validateSync({ lastName });
+                      return true;
+                    } catch {
+                      return false;
+                    }
+                  },
+                },
+              ]}
             />
           </Stack>
         </StepRight>
