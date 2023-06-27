@@ -63,56 +63,58 @@ const ToBeApprovedActions = ({
     }
   };
 
+  const toBeApprovedActions = [
+    {
+      icon: <ApproveIcon />,
+      label: 'Approve',
+      action: () => {
+        openApproveModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <ContactIcon />,
+      label: 'Contact',
+      action: () => {
+        openCiModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <EditIcon />,
+      label: 'Note',
+      action: () => {
+        openNiModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <ScheduleIcon />,
+      label: 'Schedule',
+      action: () => {
+        openSiModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <DeleteIcon />,
+      label: 'Remove',
+      action: () => {
+        openDiModal();
+        handleMenu();
+      },
+    },
+  ];
+
   return (
     <ToBeApprovedActionsMain>
-      <ISpan onClick={handleMenu} ref={buttonRef}>
+      <ISpan ref={buttonRef}>
         <VerticalDotsIcon onClick={handleMenu} />
       </ISpan>
       {open && (
         <ToBeApprovedActionsMenu
           position={position}
-          items={[
-            {
-              icon: <ApproveIcon />,
-              label: 'Approve',
-              action: () => {
-                openApproveModal();
-                handleMenu();
-              },
-            },
-            {
-              icon: <ContactIcon />,
-              label: 'Contact',
-              action: () => {
-                openCiModal();
-                handleMenu();
-              },
-            },
-            {
-              icon: <EditIcon />,
-              label: 'Note',
-              action: () => {
-                openNiModal();
-                handleMenu();
-              },
-            },
-            {
-              icon: <ScheduleIcon />,
-              label: 'Schedule',
-              action: () => {
-                openSiModal();
-                handleMenu();
-              },
-            },
-            {
-              icon: <DeleteIcon />,
-              label: 'Remove',
-              action: () => {
-                openDiModal();
-                handleMenu();
-              },
-            },
-          ]}
+          items={toBeApprovedActions}
           ref={menu}
         />
       )}

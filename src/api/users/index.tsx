@@ -53,6 +53,10 @@ const UsersAPI = {
   updateSingleUser: async (id: number, body: any) => {
     await client.patch(`${Project.apis.v1}/users/${id}`, body);
   },
+
+  updateSelectedUsersStatus: async (userIds: number[], status: number) => {
+    await client.patch(`${Project.apis.v1}/users/status`, { userIds, status });
+  },
 };
 
 export default UsersAPI;

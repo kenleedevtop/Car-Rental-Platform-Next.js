@@ -8,40 +8,47 @@ const PromptModal = ({
   onClose,
   handleAction,
   type = 'delete',
+  plural = false,
   ...props
-}: TPromptInfluencerModalProps) => (
-  <Modal
-    size="small"
-    title={`${type === 'delete' ? 'Delete Influencer' : 'Approve Influencer'}`}
-    actions={[
-      <Button
-        color="default"
-        variant="contained"
-        size="large"
-        onClick={onClose}
-      >
-        No
-      </Button>,
-      <Button
-        color="primary"
-        variant="contained"
-        size="large"
-        onClick={() => {
-          handleAction();
-          onClose();
-        }}
-      >
-        Yes
-      </Button>,
-    ]}
-    onClose={onClose}
-    {...props}
-  >
-    <DeleteInfluencerModalMain>
-      Are you sure that you want to {type === 'delete' ? 'remove' : 'approve'}{' '}
-      influencer? <br /> Operation cannot be undone.
-    </DeleteInfluencerModalMain>
-  </Modal>
-);
+}: TPromptInfluencerModalProps) => {
+  const action = type === 'delete' ? 'Delete' : 'Approve';
+  const entity = plural ? 'Influencers' : 'Influencer';
+  return (
+    <Modal
+      size="small"
+      title={`${action} ${entity}`}
+      actions={[
+        <Button
+          color="default"
+          variant="contained"
+          size="large"
+          onClick={onClose}
+        >
+          No
+        </Button>,
+        <Button
+          color="primary"
+          variant="contained"
+          size="large"
+          onClick={() => {
+            handleAction().then(() => {
+              onClose();
+            });
+          }}
+        >
+          Yes
+        </Button>,
+      ]}
+      onClose={onClose}
+      {...props}
+    >
+      <DeleteInfluencerModalMain>
+        Are you sure that you want to {action.toLowerCase()}{' '}
+        {plural ? 'selected influencers' : 'selected influencer'}? <br />{' '}
+        Operation cannot be undone.
+      </DeleteInfluencerModalMain>
+    </Modal>
+  );
+};
 
 export default PromptModal;
