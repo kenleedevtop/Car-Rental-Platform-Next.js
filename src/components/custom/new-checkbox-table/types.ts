@@ -38,7 +38,7 @@ export type TTableProps = React.HTMLAttributes<HTMLDivElement> & {
   checkedRows?: number[];
   onSingleSelect?: (rowId: number, checked: boolean) => void;
   onSelectAll?: (checked: boolean) => void;
-  bulkActions?: () => void[];
-  bulkType?: 'TBA' | 'registered';
-  emptyActions?: Array<ReactNode>;
+  tableColModal?: any;
+  closeTableColModal?: any;
+  renderElements?: ReactNode;
 };

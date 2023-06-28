@@ -8,16 +8,26 @@ import {
   DiscoverInfluencersFilterContainer,
 } from 'features/discover-influencers/styles';
 import {
+  ToBeApprovedActionsMenu as CustomActionsMenu,
+  ISpan,
+} from 'features/discover-influencers/role/admin/elements/to-be-approved-actions/styles';
+import {
   CardWithChart,
   CardWithText,
-  CheckboxTable,
+  NewCheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
+  ApproveIcon,
+  ContactIcon,
   DailyIcon,
+  DeleteIcon,
+  EditIcon,
   MonthlyIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
   UserIcon,
+  VerticalDotsIcon,
   WeeklyIcon,
   YearlyIcon,
 } from 'components/svg';
@@ -36,10 +46,14 @@ import {
   InfluencerProfile,
   ToBeApprovedActions,
 } from 'features/discover-influencers/role/admin/elements';
-import { useModal, usePagination } from 'hooks';
+import { useMenu, useModal, usePagination, useSnackbar } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { InfluencerAPI } from 'api';
 import { IPaginatedUser } from 'api/influencer/types';
+import { ToBeApprovedActionsMenu } from 'features/benefits/role/admin/elements/to-be-approved-actions/styles';
+import { BackupTableRounded } from '@mui/icons-material';
+import UsersAPI from 'api/users';
+import PromptModal from './elements/approve-influencer-modal';
 
 const DiscoverInfluencersPage = () => {
   // Modals
@@ -88,6 +102,10 @@ const DiscoverInfluencersPage = () => {
     IPaginatedUser[]
   >([]);
 
+  const [checkedRegInfluencers, setCheckedRegInfluencers] = useState<number[]>(
+    []
+  );
+
   const { pagesCount, page, setTotalResults, handlePageChange, reload } =
     usePagination({
       limit: 10,
@@ -107,7 +125,38 @@ const DiscoverInfluencersPage = () => {
       },
     });
 
-  const [toBeApprovedInfluencers, setToBeApprovedInfluencers] = useState([]);
+  const toggleAllCheckedRegInfluencers = (checked: boolean) => {
+    if (checked) {
+      const currentPageIds = registeredInfluencers.map((row) => row.id);
+      const newSelectedRows = Array.from(
+        new Set([...checkedRegInfluencers, ...currentPageIds])
+      );
+      setCheckedRegInfluencers(newSelectedRows);
+    } else {
+      // Deselect all rows on the current page
+      const currentPageIds = registeredInfluencers.map((row) => row.id);
+      const newSelectedRows = checkedRegInfluencers.filter(
+        (rowId) => !currentPageIds.includes(rowId)
+      );
+      setCheckedRegInfluencers(newSelectedRows);
+    }
+  };
+
+  const toggleRegInfluencer = (rowId: number, checked: boolean) => {
+    if (checked) {
+      setCheckedRegInfluencers([...checkedRegInfluencers, rowId]);
+    } else {
+      setCheckedRegInfluencers(
+        checkedRegInfluencers.filter((id) => id !== rowId)
+      );
+    }
+  };
+
+  const [toBeApprovedInfluencers, setToBeApprovedInfluencers] = useState<
+    IPaginatedUser[]
+  >([]);
+  const [checkedToBeApprovedInfluencers, setCheckedToBeApprovedInfluencers] =
+    useState<number[]>([]);
 
   const {
     pagesCount: pageCountTba,
@@ -132,6 +181,210 @@ const DiscoverInfluencersPage = () => {
       setTotalResultsTba(pagination.totalFilteredItems);
     },
   });
+
+  const toggleAllCheckedTBAInfluencers = (checked: boolean) => {
+    if (checked) {
+      const currentPageIds = toBeApprovedInfluencers.map((row) => row.id);
+      const newSelectedRows = Array.from(
+        new Set([...checkedToBeApprovedInfluencers, ...currentPageIds])
+      );
+      setCheckedToBeApprovedInfluencers(newSelectedRows);
+    } else {
+      // Deselect all rows on the current page
+      const currentPageIds = toBeApprovedInfluencers.map((row) => row.id);
+      const newSelectedRows = checkedToBeApprovedInfluencers.filter(
+        (rowId) => !currentPageIds.includes(rowId)
+      );
+      setCheckedToBeApprovedInfluencers(newSelectedRows);
+    }
+  };
+
+  const toggleTBAInfluencer = (rowId: number, checked: boolean) => {
+    if (checked) {
+      setCheckedToBeApprovedInfluencers([
+        ...checkedToBeApprovedInfluencers,
+        rowId,
+      ]);
+    } else {
+      setCheckedToBeApprovedInfluencers(
+        checkedToBeApprovedInfluencers.filter((id) => id !== rowId)
+      );
+    }
+  };
+
+  // Table New Checkbox Modal controlls
+  const [tRegModal, openTRegModal, closeTRegModal] = useModal(false);
+  const [tTBAModal, openTTBAModal, closeTTBAModal] = useModal(false);
+
+  // Table Menu List Modal
+  const [menu, open, setOpen, buttonRegRef, position] = useMenu(false);
+  const [tbaMenu, openTba, setOpenTba, buttonTBARef, tbaPosition] =
+    useMenu(false);
+
+  const handleMenu = () => {
+    setOpen(!open);
+  };
+
+  const handleTBAMenu = () => {
+    setOpenTba(!openTba);
+  };
+
+  // placeholder items
+  const [contactModal, openContactModal, closeContactModal] = useModal(false);
+  const [noteModal, openNoteModal, closeNoteModal] = useModal(false);
+  const [scheduleModal, openScheduleModal, closeScheduleModal] =
+    useModal(false);
+
+  const { push } = useSnackbar();
+
+  // modals for bulk actions
+  const [approveModal, openApproveModal, closeApproveModal] = useModal(false);
+  const [
+    removeBulkRegInfModal,
+    openRemoveBulkRegInfModal,
+    closeRemoveBulkRegInfModal,
+  ] = useModal(false);
+  const [removeBulkTBAModal, openRemoveBulkTBAModal, closeRemoveBulkTBAModal] =
+    useModal(false);
+
+  const registeredBulkActions = [
+    {
+      icon: <ContactIcon />,
+      label: 'Contact',
+      action: () => {
+        openContactModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <EditIcon />,
+      label: 'Note',
+      action: () => {
+        openNoteModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <ScheduleIcon />,
+      label: 'Schedule',
+      action: () => {
+        openScheduleModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <BackupTableRounded />,
+      label: 'Columns',
+      action: () => {
+        openTRegModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <DeleteIcon />,
+      label: 'Remove',
+      action: () => {
+        openRemoveBulkRegInfModal();
+        handleMenu();
+      },
+    },
+  ];
+
+  const toBeApprovedBulkActions = [
+    {
+      icon: <ApproveIcon />,
+      label: 'Approve',
+      action: () => {
+        openApproveModal();
+        handleTBAMenu();
+      },
+    },
+    {
+      icon: <ContactIcon />,
+      label: 'Contact',
+      action: () => {
+        openContactModal();
+        handleTBAMenu();
+      },
+    },
+    {
+      icon: <EditIcon />,
+      label: 'Note',
+      action: () => {
+        openNoteModal();
+        handleTBAMenu();
+      },
+    },
+    {
+      icon: <ScheduleIcon />,
+      label: 'Schedule',
+      action: () => {
+        openScheduleModal();
+        handleTBAMenu();
+      },
+    },
+    {
+      icon: <BackupTableRounded />,
+      label: 'Columns',
+      action: () => {
+        openTTBAModal();
+        handleTBAMenu();
+      },
+    },
+    {
+      icon: <DeleteIcon />,
+      label: 'Remove',
+      action: () => {
+        openRemoveBulkTBAModal();
+        handleTBAMenu();
+      },
+    },
+  ];
+
+  const handleBulkRegInfApproval = async () => {
+    try {
+      await UsersAPI.updateSelectedUsersStatus(
+        checkedToBeApprovedInfluencers,
+        5
+      );
+      reloadTba();
+      setCheckedToBeApprovedInfluencers([]);
+
+      push('Influencer successfully approved!', { variant: 'success' });
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
+    }
+  };
+
+  const handleBulkRegInfRemoval = async () => {
+    try {
+      await InfluencerAPI.deleteManyInfluencers({
+        userIds: checkedRegInfluencers,
+      });
+      reload();
+      setCheckedRegInfluencers([]);
+
+      push('Influencers successfully removed!', { variant: 'success' });
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
+    }
+  };
+  const handleBulkTBARemoval = async () => {
+    // InfluencerAPI.deleteManyInfluencers({
+    //   userIds: checkedToBeApprovedInfluencers,
+    // });
+    try {
+      await InfluencerAPI.deleteManyInfluencers({
+        userIds: checkedToBeApprovedInfluencers,
+      });
+      reloadTba();
+      setCheckedToBeApprovedInfluencers([]);
+
+      push('Influencers successfully removed!', { variant: 'success' });
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
+    }
+  };
 
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'firstName') {
@@ -197,10 +450,6 @@ const DiscoverInfluencersPage = () => {
 
     return '';
   };
-
-  useEffect(() => {
-    console.log('KEYYYY', registeredInfluencers);
-  }, [registeredInfluencers]);
 
   return (
     <DiscoverInfluencersPageMain>
@@ -477,10 +726,29 @@ const DiscoverInfluencersPage = () => {
           />
           {tabs === 0 && (
             <>
-              <CheckboxTable
+              <NewCheckboxTable
                 head={DInfluencerHeadRegistered}
                 items={registeredInfluencers}
                 renderItem={renderItem}
+                checkedRows={checkedRegInfluencers}
+                onSingleSelect={toggleRegInfluencer}
+                onSelectAll={toggleAllCheckedRegInfluencers}
+                tableColModal={tRegModal}
+                closeTableColModal={closeTRegModal}
+                renderElements={
+                  <>
+                    <ISpan onClick={handleMenu} ref={buttonRegRef}>
+                      <VerticalDotsIcon />
+                    </ISpan>
+                    {open && (
+                      <CustomActionsMenu
+                        position={position}
+                        items={registeredBulkActions}
+                        ref={menu}
+                      />
+                    )}
+                  </>
+                }
               />
               <Pagination
                 onChange={(_e, x) => handlePageChange(x)}
@@ -491,10 +759,29 @@ const DiscoverInfluencersPage = () => {
           )}
           {tabs === 1 && (
             <>
-              <CheckboxTable
+              <NewCheckboxTable
                 head={DInfluencerHeadToBeApproved}
                 items={toBeApprovedInfluencers}
+                checkedRows={checkedToBeApprovedInfluencers}
+                onSingleSelect={toggleTBAInfluencer}
+                onSelectAll={toggleAllCheckedTBAInfluencers}
                 renderItem={renderItem}
+                tableColModal={tTBAModal}
+                closeTableColModal={closeTTBAModal}
+                renderElements={
+                  <>
+                    <ISpan onClick={handleTBAMenu} ref={buttonTBARef}>
+                      <VerticalDotsIcon />
+                    </ISpan>
+                    {openTba && (
+                      <CustomActionsMenu
+                        position={tbaPosition}
+                        items={toBeApprovedBulkActions}
+                        ref={tbaMenu}
+                      />
+                    )}
+                  </>
+                }
               />
               <Pagination
                 onChange={(_e, x) => handlePageChangeTba(x)}
@@ -505,6 +792,33 @@ const DiscoverInfluencersPage = () => {
           )}
         </Stack>
       </CardWithText>
+      {approveModal && (
+        <PromptModal
+          type="approve"
+          onClose={() => {
+            closeApproveModal();
+          }}
+          handleAction={handleBulkRegInfApproval}
+        />
+      )}
+      {removeBulkRegInfModal && (
+        <PromptModal
+          plural
+          onClose={() => {
+            closeRemoveBulkRegInfModal();
+          }}
+          handleAction={handleBulkRegInfRemoval}
+        />
+      )}
+      {removeBulkTBAModal && (
+        <PromptModal
+          plural
+          onClose={() => {
+            closeRemoveBulkTBAModal();
+          }}
+          handleAction={handleBulkTBARemoval}
+        />
+      )}
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}
       {ipModal && (
         <InfluencerProfile
