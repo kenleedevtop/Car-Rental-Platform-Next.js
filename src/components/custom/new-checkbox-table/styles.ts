@@ -9,7 +9,6 @@ export const TableWrapper = styled.div<{ theme?: Theme }>`
     border-radius: 4px;
     border: 1px solid ${theme.palette.common.black}20;
     background-color: ${theme.palette.common.white};
-
     overflow-x: scroll;
     overflow-y: hidden;
   `}
@@ -66,6 +65,7 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
           align-items: center;
           justify-content: center;
           margin: 0;
+          // padding-right: 0 !important;
           padding-right: unset;
           margin: unset;
           width: unset;

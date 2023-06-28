@@ -133,6 +133,7 @@ export interface IPaginatedResults {
 }
 
 export interface IPaginatedUser {
+  id: number;
   user: User;
   invitedByUser?: IInvitedByUser;
   gender?: number;

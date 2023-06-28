@@ -12,17 +12,16 @@ import {
   TableBodyRow,
   TableEmpty,
 } from 'components/custom/checkbox-table/styles';
+
 import {
   TTableProps,
   TTableHeadItem,
-} from 'components/custom/checkbox-table/types';
+} from 'components/custom/new-checkbox-table/types';
 import getObjectDynamicPath from 'utilities/extended-proto/index';
-import { useModal } from 'hooks';
 import { Modal } from 'components/custom';
 import { Button, Checkbox } from 'components/ui';
 import { Reorder } from 'framer-motion';
-import { Stack } from 'components/system';
-import { CarretDownIcon, ManageColumnsIcon } from 'components/svg';
+
 import { useAppContext } from 'context';
 import { OrderListDraggable } from './elements';
 
@@ -33,10 +32,12 @@ const Table = ({
   checkedRows,
   onSingleSelect,
   onSelectAll,
+  renderElements,
+  tableColModal,
+  closeTableColModal,
   ...props
 }: TTableProps) => {
   const [localHead, setLocalHead] = useState(head);
-  const [tModal, openTModal, closeTModal] = useModal(false);
 
   const visibleItems = localHead.filter((x) => x.visible);
 
@@ -59,25 +60,6 @@ const Table = ({
 
   return (
     <TableContainer {...props}>
-      {['ADMIN', 'SUPERADMIN'].includes(role) && (
-        <Stack
-          style={{ justifyContent: 'flex-end', marginTop: '-60px' }}
-          direction="horizontal"
-        >
-          <TableHeadCellAction color="primary" onClick={openTModal}>
-            <ManageColumnsIcon />
-          </TableHeadCellAction>
-          <Button
-            style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
-            color="default"
-            variant="contained"
-            size="large"
-            onClick={() => {}}
-          >
-            Bulk Action <CarretDownIcon />
-          </Button>
-        </Stack>
-      )}
       <TableWrapper>
         <TableMain>
           <TableHead>
@@ -90,9 +72,23 @@ const Table = ({
                   />
                 </TableHeadCell>
               )}
-              {visibleItems.map((x: any) => (
-                <TableHeadCell key={x.reference}>{x.label}</TableHeadCell>
-              ))}
+              {visibleItems.map((x: any, index: number) => {
+                if (
+                  visibleItems.length - 1 === index &&
+                  ['ADMIN', 'SUPERADMIN'].includes(role)
+                ) {
+                  return (
+                    <TableHeadCell action>
+                      <TableHeadCellAction color="primary">
+                        {renderElements || undefined}
+                      </TableHeadCellAction>
+                    </TableHeadCell>
+                  );
+                }
+                return (
+                  <TableHeadCell key={x.reference}>{x.label}</TableHeadCell>
+                );
+              })}
             </TableHeadRow>
           </TableHead>
           {!!items.length && (
@@ -132,13 +128,17 @@ const Table = ({
         </TableMain>
         {!items.length && <TableEmpty>No records</TableEmpty>}
       </TableWrapper>
-      {tModal && (
+      {tableColModal && (
         <Modal
           title="Manage columns"
-          onClose={closeTModal}
+          onClose={closeTableColModal}
           size="small"
           actions={[
-            <Button color="primary" variant="contained" onClick={closeTModal}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={closeTableColModal}
+            >
               Close
             </Button>,
           ]}

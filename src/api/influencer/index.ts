@@ -89,6 +89,15 @@ const InfluencerAPI = {
     return data;
   },
 
+  deleteManyInfluencers: async (body: any) => {
+    const users = await client.patch(
+      `${Project.apis.v1}/influencer/deleteSelectedUsers`,
+      body
+    );
+
+    return users;
+  },
+
   updateInfluencer: async (body: any, id: any) => {
     const { data } = await client.patch(
       `${Project.apis.v1}/influencer/${id}`,
