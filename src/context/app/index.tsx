@@ -22,7 +22,7 @@ const AppContextProvider = ({ ...props }) => {
     user: null,
     role: 'CLIENT',
     initialLoading: true,
-    showMobileMenu: false,
+    showMobileMenu: true,
     currency: 'CHF',
   });
 
@@ -79,6 +79,11 @@ const AppContextProvider = ({ ...props }) => {
         setState({ ...state, initialLoading: false });
       }
     })();
+    if (window.innerWidth >= 1200) {
+      handleMobileMenu(true);
+    } else {
+      handleMobileMenu(false);
+    }
     // const token = Cookies.get('Authorization');
     // if (token) {
     //   axios.defaults.headers.common.Authorization = `Bearer ${token}`;

@@ -13,6 +13,7 @@ export type TSidebarItem =
       label: string;
       icon: ReactNode;
       location: string;
+      influencerStatus?: number[];
       roles: Array<string>;
     }
   | {

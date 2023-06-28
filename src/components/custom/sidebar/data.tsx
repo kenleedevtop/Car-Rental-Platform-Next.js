@@ -23,6 +23,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     label: 'Home',
     location: '/',
     roles: ['ADMIN', 'SUPERADMIN', 'INFLUENCER', 'CLIENT', 'AMBASSADOR'],
+    influencerStatus: [5, 6, 7],
   },
   {
     id: 2,
@@ -74,6 +75,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     label: 'Campaigns',
     location: '/campaigns',
     roles: ['INFLUENCER', 'CLIENT'],
+    influencerStatus: [5, 6, 7],
   },
   {
     id: 5,
@@ -98,6 +100,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     label: 'Surveys',
     location: '/surveys',
     roles: ['INFLUENCER', 'CLIENT'],
+    influencerStatus: [5, 6, 7],
   },
   {
     id: 8,
@@ -106,6 +109,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     label: 'Income',
     location: '/income',
     roles: ['INFLUENCER', 'AMBASSADOR'],
+    influencerStatus: [5, 6, 7],
   },
   {
     id: 9,
@@ -148,6 +152,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     label: 'Benefits',
     location: '/benefits',
     roles: ['INFLUENCER'],
+    influencerStatus: [5, 6, 7],
   },
 
   {
@@ -165,6 +170,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     label: 'Help',
     location: '/help',
     roles: ['INFLUENCER', 'CLIENT', 'AMBASSADOR'],
+    influencerStatus: [0, 1, 2, 3, 4, 5, 6, 7],
   },
   {
     id: 13,
@@ -173,6 +179,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     label: 'Account',
     location: '/account',
     roles: ['INFLUENCER', 'CLIENT', 'AMBASSADOR'],
+    influencerStatus: [0, 1, 2, 3, 4, 5, 6, 7],
   },
 ];
 
