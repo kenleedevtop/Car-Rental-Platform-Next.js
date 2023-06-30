@@ -21,9 +21,7 @@ import {
 } from 'components/custom/stepper/stepper-steps';
 import { VerifiedIcon } from 'components/svg';
 import { useAppContext } from 'context';
-import { type } from 'os';
 import { InfluencerAPI } from 'api';
-import { number } from 'yup';
 // eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
 
@@ -50,7 +48,7 @@ export type FormData = {
   email: string;
   password: any;
   invitedBy: string;
-  affiliateFriends: any[];
+  affiliateFriends: null;
   socialPlatforms: any[];
   affiliateLink: string;
   birthDate: null;
@@ -95,7 +93,7 @@ const Stepper = () => {
     email: user.email,
     password: user.password,
     invitedBy: user.influencer.invitendByUserId,
-    affiliateFriends: [],
+    affiliateFriends: null,
     affiliateLink: generateRegisterAffiliateLink(user.influencer.affiliateCode),
     birthDate: user.influencer.dateOfBirth,
     location: null,
@@ -209,7 +207,7 @@ const Stepper = () => {
             password: formData.password,
             // experienceAs: formData.experienceAs.value || undefined,
             affiliateLink: formData.affiliateLink || undefined,
-            affiliateFriends: formData.affiliateFriends || undefined,
+            affiliateFriends: formData.affiliateFriends || null,
             questionCredit: formData.questionCredit || undefined,
             averageQuestionSurvey: formData.averageQuestionSurvey,
             interviewShort: formData.interviewShort || undefined,

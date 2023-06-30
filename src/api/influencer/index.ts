@@ -42,7 +42,7 @@ const InfluencerAPI = {
   getInfluencers: async (filters: any) => {
     const { data } = await client.get(`${Project.apis.v1}/influencer`, {
       params: {
-        filters,
+        ...filters,
       },
     });
 

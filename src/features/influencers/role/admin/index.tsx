@@ -14,8 +14,14 @@ import {
   Menu,
   CheckboxTable,
   Tabs,
+  NewCheckboxTable,
 } from 'components/custom';
 import {
+  ToBeApprovedActionsMenu as CustomActionsMenu,
+  ISpan,
+} from 'features/discover-influencers/role/admin/elements/to-be-approved-actions/styles';
+import {
+  ArrowDownIcon,
   ContactIcon,
   DeleteIcon,
   EditIcon,
@@ -26,17 +32,28 @@ import {
   TotalIcon,
   TwitterIcon,
   UserIcon,
+  VerticalDotsIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
-import { Collapse } from '@mui/material';
+import {
+  ButtonGroup,
+  ClickAwayListener,
+  Collapse,
+  Grow,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+  Tooltip,
+} from '@mui/material';
 import {
   DClientsHead,
   DGenerateInfluencersFilter,
 } from 'features/influencers/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
-import { useMenu, useModal, usePagination } from 'hooks';
+import { useMenu, useModal, usePagination, useSnackbar } from 'hooks';
 import {
   AddToInfluencerModal,
   DonateInfluencerModal,
@@ -51,6 +68,20 @@ import {
   DiscoverActions,
 } from 'features/influencers/role/admin/elements';
 import { InfluencerAPI } from 'api';
+import { IPaginatedUser } from 'api/influencer/types';
+import { BackupTableRounded } from '@mui/icons-material';
+import PromptModal from 'features/discover-influencers/role/admin/elements/approve-influencer-modal';
+import { ButtonGroupContainer, TableTooltip } from './styles';
+
+const getDiseasesAsCommaSeparatedString = (diseases: any[]): string =>
+  diseases.map((disease) => disease.name).join(', ');
+
+const formatLongString = (longText: string, length: number): string => {
+  if (longText.length >= length) {
+    return `${longText.slice(0, length)}...`;
+  }
+  return longText;
+};
 
 const InfluencersPage = () => {
   // Modals
@@ -64,6 +95,10 @@ const InfluencersPage = () => {
   const [ipModal, openIpModal, closeIpModal] = useModal(false);
   const [niModal, openNiModal, closeNiModal] = useModal(false);
   const [cfrmModal, openCfrmModal, closeCfrmModal] = useModal(false);
+
+  const [addMenuOpen, setAddMenuOpen] = useState(false);
+
+  const anchorRef = React.useRef<HTMLDivElement>(null);
 
   const [filter, setFilter] = useState<any>(DGenerateInfluencersFilter());
 
@@ -85,76 +120,28 @@ const InfluencersPage = () => {
     setFilter(DGenerateInfluencersFilter());
   };
 
-  const renderItem = ({
-    headItem,
-    cell,
-    row,
-    table,
-  }: TTableRenderItemObject) => {
-    if (headItem.reference === 'firstName') {
-      return (
-        <InfluencerAction
-          onClick={() => {
-            // getCurrentInfluencer(row.data.user.id);
-            // openIpModal();
-          }}
-        >
-          {row.data.firstName}
-        </InfluencerAction>
-      );
-    }
-
-    if (headItem.reference === 'diseaseArea') {
-      if (row.data.diseaseAreas) {
-        return row.data.diseaseAreas.map((x: any) => x.name);
-      }
-    }
-    if (headItem.reference === 'location') {
-      return row.data.location.name;
-    }
-    if (headItem.reference === 'age') {
-      return row.data.age;
-    }
-    if (headItem.reference === 'gender') {
-      if (row.data.gender === 1) {
-        return 'Male';
-      }
-      if (row.data.gender === 2) {
-        return 'Female';
-      }
-      if (row.data.gender === 3) {
-        return 'Other';
-      }
-    }
-    if (headItem.reference === 'followers') {
-      return row.data.followers;
-    }
-
-    if (headItem.reference === 'lastName') {
-      return row.data.lastName;
-    }
-    if (headItem.reference === 'email') {
-      return row.data.email;
-    }
-    if (headItem.reference === 'status') {
-      return 'Approved';
-    }
-    if (headItem.reference === 'registeredAt') {
-      return row.data.user.createdAt.slice(0, 10);
-    }
-
-    if (headItem.reference === 'invitedBy') {
-      return row.data.invitendByUser;
-    }
-
-    if (headItem.reference === 'actions') {
-      return <DiscoverActions data={row.data} />;
-    }
-
-    return '';
+  const handleDonateModal = () => {
+    openDonateiModal();
+    setAddMenuOpen(false);
   };
 
-  const [influencers, setInfluencers] = useState([]);
+  const handleToggleAddMenu = () => {
+    setAddMenuOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleCloseAddMenu = (event: Event) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
+
+    setAddMenuOpen(false);
+  };
+
+  const [influencers, setInfluencers] = useState<IPaginatedUser[]>([]);
+  const [checkedInfluencers, setCheckedInfluencers] = useState<number[]>([]);
 
   const [filterParams, setFilterParams] = useState({});
 
@@ -177,10 +164,184 @@ const InfluencersPage = () => {
       },
     });
 
-  const [menu, open, setOpen] = useMenu(false);
+  const toggleAllCheckedInfluencers = (checked: boolean) => {
+    if (checked) {
+      const currentPageIds = influencers.map((row) => row.id);
+      const newSelectedRows = Array.from(
+        new Set([...checkedInfluencers, ...currentPageIds])
+      );
+      setCheckedInfluencers(newSelectedRows);
+    } else {
+      // Deselect all rows on the current page
+      const currentPageIds = influencers.map((row) => row.id);
+      const newSelectedRows = checkedInfluencers.filter(
+        (rowId) => !currentPageIds.includes(rowId)
+      );
+      setCheckedInfluencers(newSelectedRows);
+    }
+  };
+
+  const toggleInfluencer = (rowId: number, checked: boolean) => {
+    console.log(rowId);
+    if (checked) {
+      setCheckedInfluencers([...checkedInfluencers, rowId]);
+    } else {
+      setCheckedInfluencers(checkedInfluencers.filter((id) => id !== rowId));
+    }
+  };
+
+  // Table New Checkbox Modal controlls
+  const [tableModal, openTableModal, closeTableModal] = useModal(false);
+
+  // Table Menu List Modal
+  const [menu, open, setOpen, buttonRegRef, position] = useMenu(false);
+
+  const { push } = useSnackbar();
+
+  // placeholder items
+  const [contactModal, openContactModal, closeContactModal] = useModal(false);
+  const [noteModal, openNoteModal, closeNoteModal] = useModal(false);
+  const [scheduleModal, openScheduleModal, closeScheduleModal] =
+    useModal(false);
+
+  const [removeBulkInfModal, openRemoveBulkInfModal, closeRemoveBulkInfModal] =
+    useModal(false);
 
   const handleMenu = () => {
     setOpen(!open);
+  };
+
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'firstName') {
+      return (
+        <InfluencerAction
+          onClick={() => {
+            getCurrentInfluencer(row.data.user.id);
+            openIpModal();
+          }}
+        >
+          {row.data.user.firstName}
+        </InfluencerAction>
+      );
+    }
+
+    if (headItem.reference === 'diseaseArea') {
+      if (row.data.diseaseAreas) {
+        const formattedDiseases = getDiseasesAsCommaSeparatedString(
+          row.data.diseaseAreas
+        );
+
+        const formattedElipsisString = formatLongString(formattedDiseases, 50);
+        return (
+          <Tooltip
+            style={{ cursor: 'pointer' }}
+            title={<TableTooltip>{formattedDiseases}</TableTooltip>}
+          >
+            <span>{formattedElipsisString}</span>
+          </Tooltip>
+        );
+      }
+    }
+    if (headItem.reference === 'location') {
+      return row.data.location.name;
+    }
+    if (headItem.reference === 'age') {
+      return row.data.user.age;
+    }
+    if (headItem.reference === 'gender') {
+      if (row.data.user.gender === 1) {
+        return 'Male';
+      }
+      if (row.data.user.gender === 2) {
+        return 'Female';
+      }
+      if (row.data.user.gender === 3) {
+        return 'Other';
+      }
+    }
+    if (headItem.reference === 'followers') {
+      return row.data.followers;
+    }
+
+    if (headItem.reference === 'lastName') {
+      return row.data.user.lastName;
+    }
+    if (headItem.reference === 'email') {
+      return row.data.user.email;
+    }
+    if (headItem.reference === 'status') {
+      return 'Approved';
+    }
+    if (headItem.reference === 'registeredAt') {
+      return row.data.user.createdAt.slice(0, 10);
+    }
+
+    if (headItem.reference === 'invitedBy') {
+      return row.data.invitendByUser;
+    }
+
+    if (headItem.reference === 'actions') {
+      return <DiscoverActions data={row.data.user.id} reload={reload} />;
+    }
+
+    return '';
+  };
+
+  const influencerBulkActions = [
+    {
+      icon: <ContactIcon />,
+      label: 'Contact',
+      action: () => {
+        openContactModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <EditIcon />,
+      label: 'Note',
+      action: () => {
+        openNoteModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <ScheduleIcon />,
+      label: 'Schedule',
+      action: () => {
+        openScheduleModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <BackupTableRounded />,
+      label: 'Columns',
+      action: () => {
+        openTableModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <DeleteIcon />,
+      label: 'Remove',
+      action: () => {
+        openRemoveBulkInfModal();
+        handleMenu();
+      },
+    },
+  ];
+
+  const handleBulkInfRemoval = async () => {
+    try {
+      await InfluencerAPI.deleteManyInfluencers({
+        userIds: checkedInfluencers,
+      });
+      reload();
+      setCheckedInfluencers([]);
+
+      push('Influencers successfully removed!', { variant: 'success' });
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
+    }
   };
 
   return (
@@ -253,9 +414,46 @@ const InfluencersPage = () => {
           <Button color="default" variant="contained" onClick={openEModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained" onClick={openAiModal}>
-            Add To
-          </Button>,
+          <ButtonGroupContainer>
+            <ButtonGroup>
+              <Button color="primary" variant="contained" onClick={openAiModal}>
+                Add To
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={handleToggleAddMenu}
+              >
+                <ArrowDownIcon />
+              </Button>
+            </ButtonGroup>
+            <Popper
+              open={addMenuOpen}
+              anchorEl={anchorRef.current}
+              role={undefined}
+              style={{ position: 'absolute', top: '37px', right: '0px' }}
+              transition
+              disablePortal
+            >
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  style={{
+                    transformOrigin:
+                      placement === 'bottom' ? 'center top' : 'center bottom',
+                  }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={handleCloseAddMenu}>
+                      <MenuList id="split-button-menu" autoFocusItem>
+                        <MenuItem onClick={handleDonateModal}>Donate</MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
+          </ButtonGroupContainer>,
         ]}
       >
         <Stack>
@@ -280,6 +478,7 @@ const InfluencersPage = () => {
                     type="select"
                     label="Social Media"
                     placeholder="Please Select"
+                    disabled
                     value={filter.socialMedia}
                     onValue={(socialMedia) =>
                       setFilter({ ...filter, socialMedia })
@@ -1062,80 +1261,48 @@ const InfluencersPage = () => {
               </InfluencersPageFilterActions>
             </InfluencersPageFilter>
           </Collapse>
-          <InfluencersPageActions>
-            <InfluencersPageButtons>
-              <Button
-                variant="contained"
-                size="medium"
-                color="primary"
-                onClick={openDonateiModal}
-              >
-                Donate
-              </Button>
-            </InfluencersPageButtons>
-          </InfluencersPageActions>
-          <CheckboxTable
-            head={DClientsHead}
-            items={influencers}
-            renderItem={renderItem}
-          />
-          <Pagination
-            onChange={(_e, x) => handlePageChange(x)}
-            page={page}
-            count={pagesCount}
-          />
-          <Stack direction="horizontal">
-            <Button color="primary" variant="contained" onClick={openDiModal}>
-              Delete Influencer
-            </Button>
-            <Button color="primary" variant="contained" onClick={openCiModal}>
-              Contact Influencer
-            </Button>
-            <Button color="primary" variant="contained" onClick={openSiModal}>
-              Schedule Influencer
-            </Button>
-            <Button color="primary" variant="contained" onClick={openNsModal}>
-              Notifications Settings
-            </Button>
-            <Button color="primary" variant="contained" onClick={openIpModal}>
-              Influencer Profile
-            </Button>
-            <Button color="primary" variant="contained" onClick={openNiModal}>
-              Note Influencer
-            </Button>
-            <Button color="primary" variant="contained" onClick={handleMenu}>
-              Actions
-            </Button>
-          </Stack>
-          {open && (
-            <Menu
-              items={[
-                {
-                  icon: <ContactIcon />,
-                  label: 'Contact',
-                  action: () => {},
-                },
-                {
-                  icon: <EditIcon />,
-                  label: 'Note',
-                  action: () => {},
-                },
-                {
-                  icon: <ScheduleIcon />,
-                  label: 'Schedule',
-                  action: () => {},
-                },
-                {
-                  icon: <DeleteIcon />,
-                  label: 'Remove',
-                  action: () => {},
-                },
-              ]}
-              ref={menu}
+          <>
+            <NewCheckboxTable
+              head={DClientsHead}
+              items={influencers}
+              renderItem={renderItem}
+              checkedRows={checkedInfluencers}
+              onSingleSelect={toggleInfluencer}
+              onSelectAll={toggleAllCheckedInfluencers}
+              tableColModal={tableModal}
+              closeTableColModal={closeTableModal}
+              renderElements={
+                <>
+                  <ISpan onClick={handleMenu} ref={buttonRegRef}>
+                    <VerticalDotsIcon />
+                  </ISpan>
+                  {open && (
+                    <CustomActionsMenu
+                      position={position}
+                      items={influencerBulkActions}
+                      ref={menu}
+                    />
+                  )}
+                </>
+              }
             />
-          )}
+            <Pagination
+              onChange={(_e, x) => handlePageChange(x)}
+              page={page}
+              count={pagesCount}
+            />
+          </>
         </Stack>
       </CardWithText>
+      {removeBulkInfModal && (
+        <PromptModal
+          plural
+          onClose={() => {
+            closeRemoveBulkInfModal();
+          }}
+          handleAction={handleBulkInfRemoval}
+        />
+      )}
       {aiModal && <AddToInfluencerModal onClose={closeAiModal} />}
       {donateiModal && <DonateInfluencerModal onClose={closeDonateiModal} />}
       {eModal && <ExportInfluencersModal onClose={closeEModal} />}
@@ -1143,7 +1310,9 @@ const InfluencersPage = () => {
       {ciModal && <ContactInfluencerModal onClose={closeCiModal} />}
       {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}
       {nsModal && <NotificationsSettingsModal onClose={closeNsModal} />}
-      {ipModal && <InfluencerProfile onClose={closeIpModal} />}
+      {ipModal && (
+        <InfluencerProfile onClose={closeIpModal} userId={currentInfluencer} />
+      )}
       {niModal && <NoteInfluencer onClose={closeNiModal} />}
       {cfrmModal && <ConfirmInfluencerModal onClose={closeCfrmModal} />}
     </InfluencersPageMain>

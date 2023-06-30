@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chat, Modal, ProgressDisplay, Tabs, Title } from 'components/custom';
 import { TInfluencerProfileModalProps } from 'features/influencers/role/admin/elements/influencer-profile/types';
 import {
@@ -14,25 +14,61 @@ import { BarChart, BubbleChart, PieChart } from 'components/csr';
 import Theme from 'theme';
 import { InputLabel } from 'components/ui/input/styles';
 import { CopyIcon, EditIcon } from 'components/svg';
-import { useSnackbar } from 'hooks';
+import { useDebounce, useLocationSearch, useSnackbar } from 'hooks';
+import { DiseaseAreaAPI, EnumsApi, InfluencerAPI } from 'api';
+import { IUser } from 'api/users/types';
+import { calculateAge } from 'features/discover-influencers/role/admin/elements/influencer-profile/helpers';
+import { TSelectFieldType } from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
 
 const InfluencerProfile = ({
   onClose,
+  userId,
   ...props
 }: TInfluencerProfileModalProps) => {
-  const [state, setState] = useState({
+  const {
+    locations,
+    getLocations,
+    loading: locationLoading,
+  } = useLocationSearch();
+
+  const availableSocialPlatforms = [
+    {
+      value: 1,
+      label: 'Instagram',
+    },
+    {
+      value: 2,
+      label: 'Twitter',
+    },
+    {
+      value: 3,
+      label: 'Facebook',
+    },
+  ];
+
+  const [influencer, setInfluencer] = useState<IUser>();
+  const [genderOptions, setGenderOptions] = useState();
+  const [loading, setLoading] = useState(false);
+  const [diseaseAreas, setDiseaseAreas] = useState<any>([]);
+  const [stakeholders, setStakholders] = useState<TSelectFieldType[]>([]);
+  const [affiliateFriends, setAffiliateFriends] = useState<TSelectFieldType[]>(
+    []
+  );
+  const [postAmounts, setPostAmounts] = useState<TSelectFieldType[]>();
+
+  const [state, setState] = useState<any>({
     firstName: '',
     lastName: '',
-    experienceAs: '',
+    experience: null,
     email: '',
-    platform: '',
+    socialPlatform: '',
     username: '',
-    diseaseArea: '',
-    location: '',
+    diseaseAreas: [],
+    location: null,
     age: '',
     gender: '',
     invitedBy: '',
-    invited: '',
+    invited: null,
 
     ethnicity: '',
     brands: '',
@@ -67,7 +103,9 @@ const InfluencerProfile = ({
   const handleDisabled = () => {
     setDisabled(!disabled);
   };
+
   const { push } = useSnackbar();
+
   const [link, setLink] = useState('dsadsadsada');
   const handleCopyToClipboard = async () => {
     try {
@@ -82,14 +120,220 @@ const InfluencerProfile = ({
     }
   };
 
-  // const handleFile = async () => {};
+  const getUserData = async () => {
+    const results = await InfluencerAPI.getSingleInfluencer(userId);
+    setInfluencer(results);
+  };
+
+  const getGenderOptions = async () => {
+    const result = await EnumsApi.getGenders();
+
+    setGenderOptions(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getDiseaseArea = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await DiseaseAreaAPI.getAll(s);
+
+    setDiseaseAreas(
+      result.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getStakeholders = async () => {
+    const result = await EnumsApi.getStakeholderTypes(true);
+
+    setStakholders(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const debouncedLocation = useDebounce(getLocations, 250);
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
+
+  const handleNewTag = (v: any) => {
+    setState({ ...state, diseaseAreas: [...state.diseaseAreas, v] });
+  };
+
+  const updateInfluencer = async (body: any, id: any) => {
+    if (!disabled) {
+      const {
+        email,
+        location,
+        gender,
+        dateOfBirth,
+        experience,
+        diseaseAreas: diseaseAreasList,
+      } = body;
+
+      const formData = {
+        email: email || '',
+        locationId: location ? location.value : undefined,
+        gender: gender ? gender.value : undefined,
+        dateOfBirth: dateOfBirth || undefined,
+        type: experience ? experience.value : undefined,
+        diseaseAreas: diseaseAreasList.map(
+          (disease: TSelectFieldType) => disease.value
+        ),
+        socialPlatforms: [],
+      };
+
+      try {
+        await InfluencerAPI.updateInfluencer(formData, id);
+        push('Successfully updated Influencer', { variant: 'success' });
+        onClose();
+      } catch {
+        push('Something went wrong.', { variant: 'error' });
+      }
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+    getLocations();
+    getDiseaseArea();
+    getStakeholders();
+    getGenderOptions();
+  }, []);
+
+  useEffect(() => {
+    if (influencer && genderOptions) {
+      setState((prevState: any) => {
+        let location;
+        let age;
+        let dateOfBirth;
+        let username;
+        let socialPlatform;
+        let invitedBy;
+
+        let socialPlatforms: {
+          socialPlatformId: number;
+          authorizationCode: string;
+        }[] = [];
+
+        if (influencer.influencer.stakeholders.length) {
+          socialPlatforms = influencer.influencer.stakeholders.map(
+            (stakeholder) => ({
+              socialPlatformId: stakeholder.socialPlatformId,
+              authorizationCode: stakeholder.socialPlatformUserId,
+            })
+          );
+
+          const socialPlatformObj = influencer.influencer.stakeholders.find(
+            (obj) => obj.socialPlatformId === 1
+          );
+
+          username = socialPlatformObj
+            ? socialPlatformObj.socialPlatformUsername
+            : '';
+          socialPlatform = socialPlatformObj
+            ? availableSocialPlatforms[socialPlatformObj!.socialPlatformId - 1]
+                .label
+            : '';
+        }
+
+        if (influencer.location) {
+          const label =
+            influencer.location.countryId && influencer.location.country
+              ? `${influencer.location.name}, ${influencer.location.country.name}`
+              : influencer.location.name;
+
+          location = {
+            label,
+            value: influencer.location.id,
+          };
+        }
+
+        if (influencer.influencer.dateOfBirth) {
+          dateOfBirth = new Date(influencer.influencer.dateOfBirth);
+          age = calculateAge(dateOfBirth);
+        }
+
+        if (influencer.influencer.invitendByUserId) {
+          invitedBy = `${influencer.influencer.invitedByUser.firstName} ${influencer.influencer.invitedByUser.lastName}`;
+        }
+
+        const gender =
+          influencer.influencer.gender === 0 || influencer.influencer.gender
+            ? genderOptions[influencer.influencer.gender]
+            : null;
+
+        const diseaseAreasFormatted = influencer.influencer
+          .influencerDiseaseAreas
+          ? influencer.influencer.influencerDiseaseAreas.map((area) => {
+              const label = area.diseaseArea.name;
+              const value = area.diseaseArea.id;
+              return {
+                label,
+                value,
+              };
+            })
+          : [];
+
+        const affiliatedFriends = influencer.invitedInfluencers.map(
+          (influencerElement: { user: any }) => {
+            const { id, firstName, lastName } = influencerElement.user;
+
+            const label = `${firstName} ${lastName}`;
+
+            return { value: id, label };
+          }
+        );
+
+        setAffiliateFriends(affiliatedFriends);
+
+        const experience =
+          influencer.influencer.type === 0 || influencer.influencer.type
+            ? stakeholders.find(
+                (item: TSelectFieldType) =>
+                  item.value === influencer.influencer.type
+              )
+            : null;
+
+        return {
+          ...prevState,
+          firstName: influencer.firstName,
+          lastName: influencer.lastName,
+          email: influencer.email,
+          location: location || null,
+          dateOfBirth,
+          gender,
+          age,
+          experience,
+          username,
+          invitedBy,
+          diseaseAreas: diseaseAreasFormatted,
+          socialPlatform,
+        };
+      });
+    }
+  }, [influencer, genderOptions]);
 
   return (
     <Modal
       size="medium"
       title={
         <InfluencerTitle>
-          First Name Last Name
           {state.firstName} {state.lastName}
           <EditIcon
             style={
@@ -106,9 +350,11 @@ const InfluencerProfile = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={() =>
+            disabled ? onClose() : updateInfluencer(state, userId)
+          }
         >
-          Close
+          {disabled ? 'Close' : 'Save'}
         </Button>,
       ]}
       onClose={onClose}
@@ -133,12 +379,13 @@ const InfluencerProfile = ({
           <InfluencerProfileModalMain columns={1}>
             <Stack direction="horizontal">
               <Input
-                type="text"
-                label="Experience As"
-                placeholder="Please Enter"
-                value={state.experienceAs}
+                type="select"
+                label="Experience"
+                placeholder="Please Select"
                 disabled={disabled}
-                onValue={(experienceAs) => setState({ ...state, experienceAs })}
+                value={state.experience}
+                onValue={(input) => setState({ ...state, experience: input })}
+                options={stakeholders}
               />
               <Input
                 type="text"
@@ -154,53 +401,77 @@ const InfluencerProfile = ({
                 type="text"
                 label="Platform"
                 placeholder="Please Enter"
-                value={state.platform}
-                disabled={disabled}
-                onValue={(platform) => setState({ ...state, platform })}
+                value={state.socialPlatform}
+                disabled
+                onValue={(socialPlatform) =>
+                  setState({ ...state, socialPlatform })
+                }
               />
               <Input
                 type="text"
                 label="Username"
                 placeholder="Please Enter"
                 value={state.username}
-                disabled={disabled}
+                disabled
                 onValue={(username) => setState({ ...state, username })}
               />
             </Stack>
             <Stack direction="horizontal">
               <Input
-                type="text"
+                type="multiselect"
                 label="Disease Area"
                 placeholder="Please Enter"
-                value={state.diseaseArea}
                 disabled={disabled}
-                onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+                value={state.diseaseAreas}
+                onSearch={debounce(getDiseaseArea, 250)}
+                onValue={(input) => {
+                  setState({ ...state, diseaseAreas: input });
+                }}
+                onNewTag={handleNewTag}
+                loading={loading}
+                options={diseaseAreas}
               />
               <Input
-                type="text"
+                type="select"
                 label="Location"
                 placeholder="Please Enter"
-                value={state.location}
                 disabled={disabled}
+                value={state.location}
+                onSearch={debouncedLocation}
                 onValue={(location) => setState({ ...state, location })}
+                loading={locationLoading}
+                options={locations}
               />
             </Stack>
             <Stack direction="horizontal">
+              {disabled ? (
+                <Input
+                  type="text"
+                  label="Age"
+                  placeholder="Please Select"
+                  disabled={disabled}
+                  value={state.age}
+                  onValue={(age) => setState({ ...state, age })}
+                />
+              ) : (
+                <Input
+                  type="date"
+                  customDateFormat="DD.MM.YYYY"
+                  label="Date Of Birth"
+                  placeholder="Please Select"
+                  disabled={disabled}
+                  value={state.dateOfBirth || ''}
+                  onValue={(dateOfBirth) => setState({ ...state, dateOfBirth })}
+                />
+              )}
               <Input
-                type="text"
-                label="Age"
-                placeholder="Please Enter"
-                value={state.age}
-                disabled={disabled}
-                onValue={(age) => setState({ ...state, age })}
-              />
-              <Input
-                type="text"
+                type="select"
                 label="Gender"
-                placeholder="Please Enter"
-                value={state.gender}
+                placeholder="Please Select"
                 disabled={disabled}
+                value={state.gender}
                 onValue={(gender) => setState({ ...state, gender })}
+                options={genderOptions}
               />
             </Stack>
             <Stack direction="horizontal">
@@ -213,12 +484,16 @@ const InfluencerProfile = ({
                 onValue={(invitedBy) => setState({ ...state, invitedBy })}
               />
               <Input
-                type="text"
+                type="select"
                 label="Invited"
-                placeholder="Please Enter"
+                placeholder={
+                  affiliateFriends.length
+                    ? 'See Invited people'
+                    : 'No Invited People'
+                }
                 value={state.invited}
-                disabled={disabled}
                 onValue={(invited) => setState({ ...state, invited })}
+                options={affiliateFriends}
               />
             </Stack>
           </InfluencerProfileModalMain>
