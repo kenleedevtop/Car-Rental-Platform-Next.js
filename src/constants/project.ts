@@ -4,7 +4,6 @@ const Project = {
   app: {
     environment: 'production',
     // environment: 'development',
-
     baseUrl: 'http://localhost',
     baseProdUrl: 'https://patientsinfluence.com',
   },

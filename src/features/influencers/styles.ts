@@ -46,4 +46,6 @@ export const InfluencersPageButtons = styled.div<{ theme?: Theme }>`
   `}
 `;
 
-export const InfluencerAction = styled.div``;
+export const InfluencerAction = styled.div`
+  cursor: pointer;
+`;
