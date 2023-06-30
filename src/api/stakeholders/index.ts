@@ -1,5 +1,6 @@
 import Project from 'constants/project';
 import { client } from 'api/api-client';
+import { TCreateStakeholderParams } from './types';
 
 const StakeholderApi = {
   getReportTypes: async () => {
@@ -8,6 +9,16 @@ const StakeholderApi = {
     );
 
     return data;
+  },
+  createStakeholder: async (body: TCreateStakeholderParams) => {
+    const { authorizationCode, userId } = body;
+
+    const response = await client.post(`${Project.apis.v1}/stakeholders`, {
+      authorizationCode,
+      userId,
+    });
+
+    return response;
   },
 };
 
