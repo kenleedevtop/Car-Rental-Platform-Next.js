@@ -14,12 +14,9 @@ import { DSidebarItems } from 'components/custom/sidebar/data';
 import { TSidebarProps } from 'components/custom/sidebar/types';
 import { useAppContext } from 'context';
 import { CancelIcon } from 'components/svg';
-import { useRouter } from 'next/router';
 
 const Sidebar = ({ ...props }: TSidebarProps) => {
   const { role, user, handleMobileMenu, showMobileMenu } = useAppContext();
-
-  const router = useRouter();
 
   const handleSidebar = () => {
     if (window.innerWidth < 1200) {
@@ -60,15 +57,6 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
 
     setNested(helper);
   };
-
-  // React.useEffect(() => {
-  //   if (role === 'INFLUENCER') {
-  //     const allowedIllegalPaths = ['/account', '/help'];
-  //     if (user.status >= 5 && !allowedIllegalPaths.includes(router.pathname)) {
-  //       router.push('/account');
-  //     }
-  //   }
-  // }, [router, user, role]);
 
   return (
     <SidebarMain {...props}>
