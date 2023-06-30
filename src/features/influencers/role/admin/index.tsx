@@ -211,6 +211,10 @@ const InfluencersPage = () => {
     setOpen(!open);
   };
 
+  useEffect(() => {
+    console.log(influencers);
+  }, [influencers]);
+
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'firstName') {
       return (

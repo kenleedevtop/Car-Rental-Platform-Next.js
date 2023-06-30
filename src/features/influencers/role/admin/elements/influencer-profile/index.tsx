@@ -232,6 +232,7 @@ const InfluencerProfile = ({
         }[] = [];
 
         if (influencer.influencer.stakeholders.length) {
+          // Placeholder for when instagram starts working
           socialPlatforms = influencer.influencer.stakeholders.map(
             (stakeholder) => ({
               socialPlatformId: stakeholder.socialPlatformId,
