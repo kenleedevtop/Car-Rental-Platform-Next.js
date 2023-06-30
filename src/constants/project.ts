@@ -2,7 +2,9 @@ const Project = {
   name: 'Patients Influence',
   version: '1.0.0',
   app: {
-    environment: 'development',
+    environment: 'production',
+    // environment: 'development',
+
     baseUrl: 'http://localhost',
     baseProdUrl: 'https://patientsinfluence.com',
   },

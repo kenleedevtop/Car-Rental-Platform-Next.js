@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
 import {
@@ -6,11 +6,38 @@ import {
   ClientHomePage,
   AmbasadorHomePage,
   InfluencerHomePage,
+  LoadingPage,
 } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
 
 const Home = () => {
-  const { role, setRouteName } = useAppContext();
+  const { user, role, setRouteName } = useAppContext();
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  const routes = useRouter();
+
+  useEffect(() => {
+    const checkAuthorization = async () => {
+      if (
+        role === 'INFLUENCER' &&
+        user.status < 5 &&
+        !['/account', '/help'].includes(routes.pathname)
+      ) {
+        setIsLoading(true);
+        await routes.replace('/account');
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuthorization();
+
+    return () => {
+      setIsLoading(false);
+    };
+  }, [role, user, routes]);
 
   useEffect(() => {
     setRouteName('Home');
@@ -22,7 +49,8 @@ const Home = () => {
       {role === 'ADMIN' && <AdminHomePage />}
       {role === 'SUPERADMIN' && <AdminHomePage />}
       {role === 'CLIENT' && <ClientHomePage />}
-      {role === 'INFLUENCER' && <InfluencerHomePage />}
+      {role === 'INFLUENCER' && isLoading && <LoadingPage />}
+      {role === 'INFLUENCER' && !isLoading && <InfluencerHomePage />}
       {role === 'AMBASSADOR' && <AmbasadorHomePage />}
     </>
   );

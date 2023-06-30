@@ -10,10 +10,7 @@ import {
   SidebarItem,
   SidebarItemNested,
 } from 'components/custom/sidebar/elements';
-import {
-  DSidebarItems,
-  DInfluencerSidebarItems,
-} from 'components/custom/sidebar/data';
+import { DSidebarItems } from 'components/custom/sidebar/data';
 import { TSidebarProps } from 'components/custom/sidebar/types';
 import { useAppContext } from 'context';
 import { CancelIcon } from 'components/svg';
@@ -89,6 +86,11 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
               icon={x.icon}
               location={x.location}
               key={x.id}
+              isDisabled={
+                x.influencerStatus
+                  ? !x.influencerStatus?.includes(user.status)
+                  : false
+              }
               onClick={handleSidebar}
             />
           )
