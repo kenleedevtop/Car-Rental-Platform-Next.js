@@ -13,3 +13,8 @@ export type TUser = {
   email: string;
   role: Array<TUserRole>;
 };
+
+export type TInstagramAccount = {
+  id: string;
+  username: string;
+};

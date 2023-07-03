@@ -4,7 +4,7 @@ import {
   DiscoverActionsMenu,
   ISpan,
 } from 'features/influencers/role/admin/elements/discover-actions/styles';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, useSnackbar } from 'hooks';
 import {
   ContactIcon,
   DeleteIcon,
@@ -14,17 +14,35 @@ import {
 } from 'components/svg';
 import {
   ContactInfluencerModal,
-  DeleteInfluencerModal,
   NoteInfluencer,
   ScheduleInfluencerModal,
 } from 'features/influencers/role/admin/elements';
 import { TDiscoverActionsMenuProps } from 'features/influencers/role/admin/elements/discover-actions/types';
+import { InfluencerAPI } from 'api';
+import PromptModal from 'features/discover-influencers/role/admin/elements/approve-influencer-modal';
 
-const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
+const DiscoverActions = ({
+  data,
+  reload,
+  ...props
+}: TDiscoverActionsMenuProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
+  };
+
+  const { push } = useSnackbar();
+
+  const handleDelete = async () => {
+    try {
+      await InfluencerAPI.deleteInfluencer(data);
+      reload();
+
+      push('Influencer successfully deleted!', { variant: 'success' });
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
+    }
   };
 
   const [ciModal, openCiModal, closeCiModal] = useModal(false);
@@ -82,11 +100,12 @@ const DiscoverActions = ({ data, ...props }: TDiscoverActionsMenuProps) => {
       )}
       {niModal && <NoteInfluencer onClose={closeNiModal} />}
       {diModal && (
-        <DeleteInfluencerModal
+        <PromptModal
           id={data.id}
           onClose={() => {
             closeDiModal();
           }}
+          handleAction={handleDelete}
         />
       )}
       {siModal && <ScheduleInfluencerModal onClose={closeSiModal} />}

@@ -10,11 +10,13 @@ export { default as HighlightedText } from 'components/custom/highlighted-text';
 // });
 
 export { default as Menu } from 'components/custom/menu';
+export { default as MenuNoPortal } from 'components/custom/menu-no-portal';
 
 export { default as Modal } from 'components/custom/modal';
 export { default as Navigation } from 'components/custom/navigation';
 export { default as Sidebar } from 'components/custom/sidebar';
 export { default as CardWithText } from 'components/custom/card-with-text';
+export { default as CardWithTextNew } from 'components/custom/card-with-text-new';
 export { default as CardWithChart } from 'components/custom/card-with-chart';
 export { default as CardWithProgress } from 'components/custom/card-with-progress';
 export { default as NotificationsCard } from 'components/custom/notifications-card';

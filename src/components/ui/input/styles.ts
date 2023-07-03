@@ -54,7 +54,15 @@ export const InputSelect = styled(Autocomplete)`
 
 export const InputSelectItem = styled(MenuItem)``;
 
-export const InputText = styled(TextField)``;
+export const InputText = styled(TextField)`
+  & .MuiInputBase-root.Mui-disabled {
+    & .MuiOutlinedInput-input.Mui-disabled {
+      opacity: 1;
+      color: rgba(0, 0, 0, 0.55) !important;
+      -webkit-text-fill-color: rgba(0, 0, 0, 0.55) !important; !important;
+    }
+  }
+`;
 
 export const InputMultiSelect = styled(Autocomplete)`
   border-color: rgba(0, 0, 0, 0.26) !important;
