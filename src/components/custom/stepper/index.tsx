@@ -27,6 +27,8 @@ import { number } from 'yup';
 // eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
 
+// ...
+
 const steps = [
   'Login Info',
   'Influencer Info',
@@ -124,6 +126,28 @@ const Stepper = () => {
 
   const decreaseStep = () => {
     setActiveStep((prev) => prev - 1);
+  };
+
+  const handleStepClick = (idx:any) => {
+    setActiveStep(idx)
+  };
+
+  const renderStepContent = (step:number) => {
+    // Render specific content based on the step
+    switch (step) {
+      case 0:
+        return <Step1 formData={formData} setFormData={setFormData} />;
+      case 1:
+        return <Step2 formData={formData} setFormData={setFormData}/>;
+      case 2:
+        return <Step3 />;
+      case 3:
+        return <Step4 formData={formData} setFormData={setFormData}/>;
+      case 4:
+        return <StepV />;
+      default:
+        return null;
+    }
   };
 
   // eslint-disable-next-line consistent-return
@@ -251,11 +275,11 @@ const Stepper = () => {
           >
             {steps.map((label, index) =>
               index !== 4 ? (
-                <Step key={label}>
+                <Step key={label} onClick={() => handleStepClick(index)}>
                   <StepLabel>{label}</StepLabel>
                 </Step>
               ) : (
-                <Step key={label}>
+                <Step key={label} onClick={() => handleStepClick(index)}>
                   <StepLabel StepIconComponent={StepIconComponent}>
                     {label}
                   </StepLabel>
@@ -293,7 +317,17 @@ const Stepper = () => {
             color="primary"
             onClick={onSubmit}
           >
-            {activeStep === 3 ? 'Submit' : 'Next'}
+          {
+            //Check if user submitted the form and is on last page
+            (activeStep === 4 && user.status === 3)
+              ? 'Submitted'
+              //Check if user is approved and on last page
+              : (activeStep === 4 && user.status > 4)
+                ? 'Verified'
+                : (activeStep === 3)
+                  ? 'Submit'
+                  : 'Next'
+          }
           </Button>
         </ButtonsMain>
       </StepHelper>

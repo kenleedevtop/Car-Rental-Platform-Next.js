@@ -145,7 +145,6 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             type="date"
             label="Date of Birth"
             placeholder="Please Select"
-            required
             value={birthDate}
             // onValue={(birthDate) => setFilter({ ...filter, birthDate })}
             onValue={(birthDate) => setFormData({ ...formData, birthDate })}
@@ -156,7 +155,6 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             onSearch={debouncedLocation}
             placeholder="Please Select"
             value={location}
-            required
             loading={loading}
             options={locations}
             // onValue={(location) => setFilter({ ...filter, location })}
@@ -169,7 +167,6 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             label="Gender"
             placeholder="Please Select"
             value={gender}
-            required
             // onValue={(gender) => setFilter({ ...filter, gender })}
             onValue={(gender) => setFormData({ ...formData, gender })}
             options={genders}
@@ -179,7 +176,6 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             label="Disease Area"
             placeholder="Please Select"
             value={diseaseAreas}
-            required
             onSearch={debounce(getDiseaseArea, 250)}
             onValue={(diseaseAreas) =>
               setFormData({ ...formData, diseaseAreas })
@@ -196,7 +192,6 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             label="Ethnicity"
             placeholder="Please Select"
             value={ethnicity}
-            required
             onValue={(ethnicity) => setFormData({ ...formData, ethnicity })}
             // onValue={(input) => setFilter({ ...filter, ethnicity: input })}
             options={ethnicities}
@@ -206,7 +201,6 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             label="Experience As"
             placeholder="Please Select"
             value={experienceAs}
-            required
             // onValue={(experienceAs) => setFilter({ ...filter, experienceAs })}
             onValue={(experienceAs) =>
               setFormData({ ...formData, experienceAs })

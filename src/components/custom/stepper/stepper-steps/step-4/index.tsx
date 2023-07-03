@@ -34,7 +34,7 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
       <StepContainer>
         <StepLeft>
           <Stack>
-            <p style={{ color: '#2D3779' }}>Instagram</p>
+            <p style={{ color: '#7E839F' , font: 'inter', fontWeight:'600'}}>Instagram</p>
             <Input
               type="text"
               label="Post"
@@ -42,6 +42,7 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               value={instaP}
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaP) => setFormData({ ...formData, instaP })}
+              style={{ color: 'red' , font: 'inter', fontWeight:'500'}}
             />
             <Input
               type="text"
@@ -101,7 +102,7 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
       </StepSMiddle> */}
         <StepRight>
           <Stack>
-            <p style={{ color: '#2D3779' }}>Questionnaire</p>
+            <p style={{ color: '#7E839F' , font: 'inter', fontWeight:'600'}}>Questionnaire</p>
             <p
               style={{
                 color: '#6f6f6f',
@@ -110,7 +111,8 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
                 fontSize: '14px',
               }}
             >
-              Question Credit
+              <p style={{ font: 'inter', fontWeight:'500'}}>Question Credit</p>
+
               <Tooltip
                 title={
                   <div
@@ -174,7 +176,7 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
             <p style={{ color: '#6f6f6f' }}>Interview</p>
             <Input
               type="text"
-              label="Interview: 30min"
+              label="30min"
               placeholder="Please Enter Amount"
               value={interviewShort}
               onValue={(interviewShort) =>
@@ -183,7 +185,7 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
             />
             <Input
               type="text"
-              label="Interview: 60min"
+              label="60min"
               placeholder="Please Enter Amount"
               value={interviewLong}
               onValue={(interviewLong) =>

@@ -132,7 +132,6 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             label="Last Name"
             placeholder="Doe"
             disabled
-            required
             value={lastName}
             // onValue={(lastName) => setState({ ...state, lastName })}
             onValue={(lastName) => setFormData({ ...formData, lastName })}
@@ -144,7 +143,6 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             label="Email"
             placeholder="johndoe@gmail.com"
             disabled
-            required
             value={email}
             // onValue={(email) => setState({ ...state, email })}
             onValue={(email) => setFormData({ ...formData, email })}
@@ -163,15 +161,6 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
           <StepSpan onClick={openCpModal}>Change Password</StepSpan> */}
         </StepChange>
         <Input
-          type="text"
-          label="Invited by"
-          disabled
-          // required
-          value={invitedBy}
-          // onValue={(invitedBy) => setState({ ...state, invitedBy })}
-          onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
-        />
-        <Input
           type="select"
           label="Affiliate friends"
           value={affiliateFriends.length ? affiliateFriends[0] : undefined}
@@ -184,7 +173,6 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
           type="text"
           label="Affiliate link"
           disabled
-          required
           value={affiliateLink}
           endAdornment={
             <CopyIcon
@@ -196,6 +184,15 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
           onValue={(affiliateLink) =>
             setFormData({ ...formData, affiliateLink })
           }
+        />
+        <Input
+          type="text"
+          label="Invited by"
+          disabled
+          // required
+          value={invitedBy}
+          // onValue={(invitedBy) => setState({ ...state, invitedBy })}
+          onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
         />
       </StepForm>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
