@@ -13,12 +13,9 @@ export const passwordSchema = object().shape({
     .matches(/[^\w]/),
 });
 
-export const firstNameSchema = object().shape({
-  firstName: string().min(2),
-});
-
-export const lastNameSchema = object().shape({
-  lastName: string().min(2),
+export const nameSchema = object().shape({
+  length: string().min(2).max(15),
+  pattern: string().matches(/^[a-zA-Z]+$/),
 });
 
 export const usernameSchema = object().shape({

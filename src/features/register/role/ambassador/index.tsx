@@ -12,12 +12,7 @@ import {
   RegisterCheckbox,
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
-import {
-  emailSchema,
-  firstNameSchema,
-  lastNameSchema,
-  passwordSchema,
-} from 'utilities/validators';
+import { emailSchema, nameSchema, passwordSchema } from 'utilities/validators';
 import { AmbassadorAPI, CompanyAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
@@ -152,10 +147,23 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'First name needs to be at least 2 characters long',
+              message: t(
+                'First name needs to be between 2 and 15 characters in length'
+              ),
               validator: (firstName) => {
                 try {
-                  firstNameSchema.validateSync({ firstName });
+                  nameSchema.validateSync({ length: firstName });
+                  return true;
+                } catch {
+                  return false;
+                }
+              },
+            },
+            {
+              message: t('First name must contain only letters'),
+              validator: (firstName) => {
+                try {
+                  nameSchema.validateSync({ pattern: firstName });
                   return true;
                 } catch {
                   return false;
@@ -182,10 +190,23 @@ const RegisterPage = () => {
               },
             },
             {
-              message: 'Last name needs to be at least 2 characters long',
+              message: t(
+                'Last name needs to be between 2 and 15 characters in length'
+              ),
               validator: (lastName) => {
                 try {
-                  lastNameSchema.validateSync({ lastName });
+                  nameSchema.validateSync({ length: lastName });
+                  return true;
+                } catch {
+                  return false;
+                }
+              },
+            },
+            {
+              message: t('Last name must contain only letters'),
+              validator: (lastName) => {
+                try {
+                  nameSchema.validateSync({ pattern: lastName });
                   return true;
                 } catch {
                   return false;
