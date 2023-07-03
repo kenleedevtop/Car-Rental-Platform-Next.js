@@ -6,25 +6,16 @@ import {
   StepStack,
 } from 'components/custom/stepper/stepper-steps/step-3/style';
 import { Button } from 'components/ui';
-import React from 'react';
-import Project from 'constants/project';
+import React, { useEffect, useState } from 'react';
+import { useAppContext } from 'context';
 
-const instagramAuth = ({
-  title,
-  clientId,
-  redirectUri,
-  scope = ['user_profile'],
-  type = 'code',
-  onClose,
-}: any) =>
+const instagramAuth = (title: string, onClose: () => void) =>
   new Promise((resolve, reject) => {
     const top = (window.innerHeight - 600) / 2 + window.screenY;
     const left = (window.innerWidth - 600) / 2 + window.screenX;
 
     const dialog = window.open(
-      `https://api.instagram.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope.join(
-        ','
-      )}&response_type=${type}`,
+      `https://api.instagram.com/oauth/authorize?client_id=192566817106120&redirect_uri=https://app.patientsinfluence.com/_/code&scope=user_profile&response_type=code`,
       title,
       `top=${top}px,left=${left},width=${600}px,height=${600}px`
     );
@@ -65,29 +56,38 @@ const instagramAuth = ({
   });
 
 const Step = () => {
-  let instagramCode: any;
+  const { influencer } = useAppContext();
+  const [hasInstagramLinked, setHasInstagramLinked] = useState(false);
   const handleInstagramAuth = async () => {
     try {
-      const code = await instagramAuth({
-        title: 'Patients Influence',
-        clientId: '1205628540116010',
-        redirectUri: `${Project.app.baseUrl}/_/code`,
-      });
-      console.log('Code is:', code);
-
-      instagramCode = code;
-
-      return code;
+      return await instagramAuth('Patients Influence', () => {});
     } catch {
       console.log('User closed');
     }
   };
 
+  const findInstagramAccount = influencer?.influencer.stakeholders.find(
+    (x) => x.socialPlatformId === 1
+  );
+
+  useEffect(() => {
+    if (
+      findInstagramAccount &&
+      findInstagramAccount.socialPlatformUsername &&
+      findInstagramAccount.socialPlatformId &&
+      findInstagramAccount.socialPlatformUserId
+    ) {
+      setHasInstagramLinked(true);
+    } else {
+      setHasInstagramLinked(false);
+    }
+  }, [findInstagramAccount]);
+
   return (
     <StepContainer>
       <StepForm>
         <StepStack direction="horizontal">
-          {instagramCode === undefined ? (
+          {!hasInstagramLinked ? (
             <Button
               endIcon={<InstagramIcon width="18" height="18" />}
               size="large"
@@ -103,7 +103,6 @@ const Step = () => {
               size="large"
               variant="contained"
               color="default"
-              onClick={handleInstagramAuth}
             >
               Linked
             </Button>
