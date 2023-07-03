@@ -19,24 +19,16 @@ import {
 } from 'components/custom/stepper/elements';
 import { CopyIcon } from 'components/svg';
 import { useAppContext } from 'context';
-import Project from 'constants/project';
 import { InfluencerAPI } from 'api';
 import { t } from 'i18next';
 import {
   emailSchema,
-  firstNameSchema,
+  firstNameSchema, // potential gazenje
   lastNameSchema,
   passwordSchema,
 } from 'utilities/validators';
-import { TFormData } from './types';
+import { TSelectFieldType } from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
 import { FormData } from '../..';
-
-const generateRegisterAffiliateLink = (affiliateCode: string) => {
-  const { environment, baseUrl: baseDevUrl, baseProdUrl } = Project.app;
-  const baseUrl = environment === 'development' ? baseDevUrl : baseProdUrl;
-
-  return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`;
-};
 
 type Step1FormProps = {
   formData: FormData;
@@ -45,7 +37,7 @@ type Step1FormProps = {
 };
 
 const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
-  const { user } = useAppContext();
+  const { user, handleInfluencer } = useAppContext();
 
   const { t } = useTranslation('register');
 
@@ -79,6 +71,9 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
 
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
+  const [affiliateFriendsList, setAffiliateFriendsList] = useState<
+    TSelectFieldType[]
+  >([]);
 
   const { push } = useSnackbar();
 
@@ -97,28 +92,24 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
 
   const getInfluencerData = async (influencerId: number) => {
     const influencer = await InfluencerAPI.getSingleInfluencer(influencerId);
+    handleInfluencer(influencer);
     return influencer;
   };
 
   useEffect(() => {
     getInfluencerData(user.id)
-      .then((data) =>
-        setFormData((prevState: any) => {
-          const affiliatedFriends = data.invitedInfluencers.map(
-            (influencer: { user: any }) => {
-              const { id, firstName, lastName } = influencer.user;
+      .then((data) => {
+        const affiliatedFriends = data.invitedInfluencers.map(
+          (influencer: { user: any }) => {
+            const { id, firstName, lastName } = influencer.user;
 
-              const label = `${firstName} ${lastName}`;
+            const label = `${firstName} ${lastName}`;
 
-              return { value: id, label };
-            }
-          );
-          return {
-            ...prevState,
-            affiliateFriends: affiliatedFriends,
-          };
-        })
-      )
+            return { value: id, label };
+          }
+        );
+        setAffiliateFriendsList(affiliatedFriends);
+      })
       .catch(() => {
         push('Something failed!', {
           variant: 'error',
@@ -299,11 +290,12 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
         <Input
           type="select"
           label="Affiliate friends"
-          value={affiliateFriends.length ? affiliateFriends[0] : undefined}
+          placeholder="Affiliate friends"
+          value={affiliateFriends}
           onValue={(affiliateFriends) =>
             setFormData({ ...formData, affiliateFriends })
           }
-          options={formData.affiliateFriends}
+          options={affiliateFriendsList}
         />
         <Input
           type="text"

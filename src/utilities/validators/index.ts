@@ -17,6 +17,10 @@ export const firstNameSchema = object().shape({
   firstName: string().min(2),
 });
 
+export const lastNameSchema = object().shape({
+  lastName: string().min(2),
+});
+
 export const locationSchema = object().shape({
   location: object(),
 });
@@ -53,8 +57,9 @@ export const birthDateSchema = object().shape({
   birthDate: date(),
 });
 
-export const lastNameSchema = object().shape({
-  lastName: string().min(2),
+export const nameSchema = object().shape({
+  length: string().min(2).max(15),
+  pattern: string().matches(/^[a-zA-Z]+$/),
 });
 
 export const usernameSchema = object().shape({

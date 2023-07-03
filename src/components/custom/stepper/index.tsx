@@ -21,13 +21,12 @@ import {
 } from 'components/custom/stepper/stepper-steps';
 import { VerifiedIcon } from 'components/svg';
 import { useAppContext } from 'context';
-import { type } from 'os';
 import { InfluencerAPI } from 'api';
-import { number } from 'yup';
 // eslint-disable-next-line import/no-named-as-default
 import Project from 'constants/project';
 import { useTranslation } from 'react-i18next';
 import { notifyManager } from 'react-query';
+import { useSnackbar } from 'hooks';
 
 const steps = [
   'Login Info',
@@ -52,7 +51,7 @@ export type FormData = {
   email: string;
   password: any;
   invitedBy: string;
-  affiliateFriends: any[];
+  affiliateFriends: null;
   socialPlatforms: any[];
   affiliateLink: string;
   birthDate: null;
@@ -84,6 +83,8 @@ const Stepper = () => {
 
   const [errors, setErrors] = useState([false, false, false, false, false]);
 
+  const { push } = useSnackbar();
+
   const handleErrors = (index: number) => (value: boolean) => {
     setErrors((x) => x.map((a, b) => (b === index ? value : a)));
   };
@@ -105,7 +106,7 @@ const Stepper = () => {
     email: user.email,
     password: user.password,
     invitedBy: user.influencer.invitendByUserId,
-    affiliateFriends: [],
+    affiliateFriends: null,
     affiliateLink: generateRegisterAffiliateLink(user.influencer.affiliateCode),
     birthDate: user.influencer.dateOfBirth,
     location: null,
@@ -158,6 +159,9 @@ const Stepper = () => {
 
       //   return;
       // }
+
+      // push('Email for password reset has been sent.', { variant: 'success' });
+      // push('Email for password reset has not been sent.', { variant: 'error' });
 
       if (activeStep === 3) {
         formData.diseaseAreas.map(async (disease: any) =>
@@ -214,7 +218,8 @@ const Stepper = () => {
         }
 
         addStep();
-        const submitResponse = await InfluencerAPI.updateInfluencer(
+
+        await InfluencerAPI.updateInfluencer(
           {
             firstName: formData.firstName || undefined,
             lastName: formData.lastName || undefined,
@@ -226,7 +231,7 @@ const Stepper = () => {
             password: formData.password,
             // experienceAs: formData.experienceAs.value || undefined,
             affiliateLink: formData.affiliateLink || undefined,
-            affiliateFriends: formData.affiliateFriends || undefined,
+            affiliateFriends: formData.affiliateFriends || null,
             questionCredit: formData.questionCredit || undefined,
             averageQuestionSurvey: formData.averageQuestionSurvey,
             interviewShort: formData.interviewShort || undefined,
@@ -243,15 +248,19 @@ const Stepper = () => {
           },
           user.id
         );
+        push('Form submitted.', {
+          variant: 'success',
+        });
 
         // eslint-disable-next-line consistent-return
-        return submitResponse;
+
         // eslint-disable-next-line no-else-return
       } else {
         addStep();
       }
     } catch (error) {
       console.log('error with submit', error);
+      push('Form did not submit', { variant: 'error' });
     }
   };
 

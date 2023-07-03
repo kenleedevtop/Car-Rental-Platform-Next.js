@@ -42,7 +42,7 @@ const InfluencerAPI = {
   getInfluencers: async (filters: any) => {
     const { data } = await client.get(`${Project.apis.v1}/influencer`, {
       params: {
-        filters,
+        ...filters,
       },
     });
 
@@ -87,6 +87,15 @@ const InfluencerAPI = {
     const { data } = await client.delete(`${Project.apis.v1}/influencer/${id}`);
 
     return data;
+  },
+
+  deleteManyInfluencers: async (body: any) => {
+    const users = await client.patch(
+      `${Project.apis.v1}/influencer/deleteSelectedUsers`,
+      body
+    );
+
+    return users;
   },
 
   updateInfluencer: async (body: any, id: any) => {

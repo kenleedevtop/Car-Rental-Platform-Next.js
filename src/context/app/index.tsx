@@ -11,6 +11,7 @@ import { TAppContextState } from 'context/app/types';
 import { TLoginParams } from 'api/authorization/types';
 import { LoadingPage } from 'features';
 import { convertNumberToRole } from 'utilities/converters';
+import { IUser } from 'api/users/types';
 
 const AppContext = createContext(createInitialState());
 
@@ -22,8 +23,9 @@ const AppContextProvider = ({ ...props }) => {
     user: null,
     role: 'CLIENT',
     initialLoading: true,
-    showMobileMenu: false,
+    showMobileMenu: true,
     currency: 'CHF',
+    influencer: null,
   });
 
   const handleMobileMenu = (value: boolean) => {
@@ -36,6 +38,10 @@ const AppContextProvider = ({ ...props }) => {
 
   const handleCurrencyChange = (value: string) => {
     setState((x) => ({ ...x, currency: value }));
+  };
+
+  const handleInfluencer = (body: IUser) => {
+    setState((x) => ({ ...x, influencer: body }));
   };
 
   const logout = async () => {
@@ -79,6 +85,11 @@ const AppContextProvider = ({ ...props }) => {
         setState({ ...state, initialLoading: false });
       }
     })();
+    if (window.innerWidth >= 1200) {
+      handleMobileMenu(true);
+    } else {
+      handleMobileMenu(false);
+    }
     // const token = Cookies.get('Authorization');
     // if (token) {
     //   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -97,6 +108,7 @@ const AppContextProvider = ({ ...props }) => {
       logout,
       handleMobileMenu,
       handleCurrencyChange,
+      handleInfluencer,
     }),
     [
       state,
@@ -106,6 +118,7 @@ const AppContextProvider = ({ ...props }) => {
       logout,
       handleMobileMenu,
       handleCurrencyChange,
+      handleInfluencer,
     ]
   );
   return state.initialLoading ? (

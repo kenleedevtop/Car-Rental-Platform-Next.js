@@ -1,4 +1,5 @@
 import { TLoginParams } from 'api/authorization/types';
+import { IUser } from 'api/users/types';
 import { TUser, TUserRole } from 'types/global';
 
 export type TAppContextState = {
@@ -8,6 +9,7 @@ export type TAppContextState = {
   initialLoading: boolean;
   showMobileMenu: boolean;
   currency: string;
+  influencer: null | IUser;
 };
 
 export type TAppContext = TAppContextState & {
@@ -16,4 +18,5 @@ export type TAppContext = TAppContextState & {
   logout: () => void;
   handleMobileMenu: (value: boolean) => void;
   handleCurrencyChange: (value: string) => void;
+  handleInfluencer: (value: IUser) => void;
 };
