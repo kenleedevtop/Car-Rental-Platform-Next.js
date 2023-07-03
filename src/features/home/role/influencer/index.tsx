@@ -10,6 +10,7 @@ import {
   CampaignsCard,
   Title,
   Table,
+  CardWithTextNew,
 } from 'components/custom';
 import { HomeInfluencerPageGrid } from 'features/home/styles';
 import { TColor } from 'components/custom/status/types';
@@ -81,9 +82,11 @@ const HomePage = () => {
   return (
     <Stack>
       <HomeInfluencerPageGrid>
-        <GridCell columnSpan={2}>
-          <CardWithText title="Campaigns" actions={[<DotsIcon />]}>
-            <Stack direction="horizontal">
+        <GridCell columnSpan={2} style={{ gap: '20px' }}>
+          <CardWithTextNew
+            title="Campaigns"
+            // actions={[<DotsIcon />]}
+            headerColumnTable={
               <Stack>
                 <Tabs
                   tabs={['Available', 'In Progress']}
@@ -128,92 +131,100 @@ const HomePage = () => {
                   </>
                 )}
               </Stack>
-              <Stack>
-                <Title title="Competitive Analysis" />
-                <Tabs
-                  tabs={['Instagram', 'Twitter', 'Tiktok']}
-                  value={tabsSM}
-                  onValue={setTabsSM}
+            }
+          >
+            <Stack>
+              <Title
+                title="Competitive Analysis"
+                style={{
+                  fontSize: ' 20px',
+                  color: '#37428A',
+                  fontWeight: '500',
+                }}
+              />
+              <Tabs tabs={['Instagram']} value={tabsSM} onValue={setTabsSM} />
+              <Note showIcon={false}>
+                Influencers with an audience your size, asks for 21-25 USD per
+                Post on average.
+              </Note>
+              <div style={{ width: 500, height: 300, margin: '50px 0px 0px' }}>
+                <BarChart
+                  labels={[
+                    '0-5',
+                    '6-10',
+                    '11-15',
+                    '16-20',
+                    '21-25',
+                    '26-30',
+                    '31-35',
+                    '36-40',
+                    '41-45',
+                    '46-50',
+                  ]}
+                  data={[
+                    {
+                      color: `${Theme.palette.secondary.main}40`,
+                      values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                    },
+                  ]}
+                  verticalLabel="Number of Influencers"
+                  horizontalLabel="Amount Per Post"
                 />
-                <Note showIcon={false}>
-                  Influencers with an audience your size, asks for 21-25 USD per
-                  Post on average.
-                </Note>
-                <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
-                  <BarChart
-                    labels={[
-                      '0-5',
-                      '6-10',
-                      '11-15',
-                      '16-20',
-                      '21-25',
-                      '26-30',
-                      '31-35',
-                      '36-40',
-                      '41-45',
-                      '46-50',
-                    ]}
-                    data={[
-                      {
-                        color: `${Theme.palette.secondary.main}40`,
-                        values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
-                      },
-                    ]}
-                    verticalLabel="Number of Influencers"
-                    horizontalLabel="Amount Per Post"
-                  />
-                </div>
-                <GridCell
-                  columnSpan={4}
-                  style={{ display: 'flex', alignItems: 'flex-end' }}
+              </div>
+              <GridCell
+                columnSpan={4}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  marginBottom: '25px',
+                }}
+              >
+                <InputGroup
+                  label="Desired amount per Post"
+                  inputRatio="150px 150px"
+                  elements={[
+                    {
+                      value: state.amount,
+                      onValue: (amount) => setState({ ...state, amount }),
+                      type: 'text',
+                      placeholder: '18',
+                    },
+                    {
+                      value: state.currency,
+                      onValue: (currency) => setState({ ...state, currency }),
+                      type: 'select',
+                      placeholder: 'CHF',
+                      options: [
+                        {
+                          value: 'eur',
+                          label: 'EUR',
+                        },
+                        {
+                          value: 'usd',
+                          label: 'USD',
+                        },
+                        {
+                          value: 'chf',
+                          label: 'CHF',
+                        },
+                      ],
+                    },
+                  ]}
+                />
+                <Button
+                  style={{
+                    width: '150px',
+                    height: '39px',
+                    marginLeft: '10px',
+                  }}
+                  variant="contained"
+                  color="primary"
                 >
-                  <InputGroup
-                    label="Desired amount per Post"
-                    inputRatio="150px 150px"
-                    elements={[
-                      {
-                        value: state.amount,
-                        onValue: (amount) => setState({ ...state, amount }),
-                        type: 'text',
-                        placeholder: '18',
-                      },
-                      {
-                        value: state.currency,
-                        onValue: (currency) => setState({ ...state, currency }),
-                        type: 'select',
-                        placeholder: 'CHF',
-                        options: [
-                          {
-                            value: 'eur',
-                            label: 'EUR',
-                          },
-                          {
-                            value: 'usd',
-                            label: 'USD',
-                          },
-                          {
-                            value: 'chf',
-                            label: 'CHF',
-                          },
-                        ],
-                      },
-                    ]}
-                  />
-                  <Button
-                    style={{
-                      width: '150px',
-                      height: '39px',
-                      marginLeft: '10px',
-                    }}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Save
-                  </Button>
-                </GridCell>
-              </Stack>
+                  Save
+                </Button>
+              </GridCell>
             </Stack>
-          </CardWithText>
+          </CardWithTextNew>
         </GridCell>
         <GridCell columnSpan={2}>
           <CardWithText title="Surveys" actions={[<DotsIcon />]}>

@@ -5,9 +5,9 @@ import { Card } from 'components/ui';
 export const CardMain = styled(Card)<{ theme?: Theme }>`
   ${({ theme }) => `
         position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: ${theme.spacing(5)};
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: ${theme.spacing(20)};
     `}
 `;
 
@@ -16,6 +16,9 @@ export const CardHead = styled.div<{ theme?: Theme }>`
     display: flex;
     align-items: center;
     width: fit-content;
+    flex-direction: column;
+    width: 100%;
+    gap: 1.25rem;
 
     ${theme.breakpoints.down('sm')} {
       display: grid;
@@ -25,7 +28,9 @@ export const CardHead = styled.div<{ theme?: Theme }>`
   `}
 `;
 
-export const CardText = styled.div``;
+export const CardText = styled.div`
+  margin-right: auto;
+`;
 
 export const CardTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `

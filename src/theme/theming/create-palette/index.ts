@@ -1,7 +1,8 @@
 const createPalette = () => ({
   primary: {
     dark: '#28316c',
-    main: '#2D3779',
+    main: '#37428A',
+    // 37428A
     light: '#364292',
     contrastText: '#ffffff',
   },
