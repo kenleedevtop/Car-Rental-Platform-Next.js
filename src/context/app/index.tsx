@@ -11,6 +11,8 @@ import { TAppContextState } from 'context/app/types';
 import { TLoginParams } from 'api/authorization/types';
 import { LoadingPage } from 'features';
 import { convertNumberToRole } from 'utilities/converters';
+import { TInstagramAccount } from 'types/global';
+import { IUser } from 'api/users/types';
 
 const AppContext = createContext(createInitialState());
 
@@ -24,6 +26,8 @@ const AppContextProvider = ({ ...props }) => {
     initialLoading: true,
     showMobileMenu: true,
     currency: 'CHF',
+    instagramAccount: null,
+    influencer: null,
   });
 
   const handleMobileMenu = (value: boolean) => {
@@ -36,6 +40,16 @@ const AppContextProvider = ({ ...props }) => {
 
   const handleCurrencyChange = (value: string) => {
     setState((x) => ({ ...x, currency: value }));
+  };
+
+  const handleInstagramAccount = (body: TInstagramAccount) => {
+    const { id, username } = body;
+
+    setState((x) => ({ ...x, instagramAccount: { id, username } }));
+  };
+
+  const handleInfluencer = (body: IUser) => {
+    setState((x) => ({ ...x, influencer: body }));
   };
 
   const logout = async () => {
@@ -102,6 +116,8 @@ const AppContextProvider = ({ ...props }) => {
       logout,
       handleMobileMenu,
       handleCurrencyChange,
+      handleInstagramAccount,
+      handleInfluencer,
     }),
     [
       state,
@@ -111,6 +127,8 @@ const AppContextProvider = ({ ...props }) => {
       logout,
       handleMobileMenu,
       handleCurrencyChange,
+      handleInstagramAccount,
+      handleInfluencer,
     ]
   );
   return state.initialLoading ? (
