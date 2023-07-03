@@ -87,7 +87,7 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
               location={x.location}
               key={x.id}
               isDisabled={
-                x.influencerStatus
+                role === 'INFLUENCER' && x.influencerStatus
                   ? !x.influencerStatus?.includes(user.status)
                   : false
               }
