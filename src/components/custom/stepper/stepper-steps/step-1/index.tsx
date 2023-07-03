@@ -27,7 +27,7 @@ type Step1FormProps = {
 };
 
 const Step = ({ formData, setFormData }: Step1FormProps) => {
-  const { user } = useAppContext();
+  const { user, handleInfluencer } = useAppContext();
 
   const {
     firstName,
@@ -66,6 +66,7 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
 
   const getInfluencerData = async (influencerId: number) => {
     const influencer = await InfluencerAPI.getSingleInfluencer(influencerId);
+    handleInfluencer(influencer);
     return influencer;
   };
 
