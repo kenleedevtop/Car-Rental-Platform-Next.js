@@ -233,10 +233,10 @@ const HomePage = () => {
               <Stack>
                 <Tabs
                   tabs={['Available', 'In Progress']}
-                  value={tabsC}
-                  onValue={setTabsC}
+                  value={tabsS}
+                  onValue={setTabsS}
                 />
-                {tabsC === 0 && (
+                {tabsS === 0 && (
                   <>
                     <Table
                       head={[
@@ -252,7 +252,7 @@ const HomePage = () => {
                     <Pagination count={32} />
                   </>
                 )}
-                {tabsC === 1 && (
+                {tabsS === 1 && (
                   <>
                     <Table
                       head={[

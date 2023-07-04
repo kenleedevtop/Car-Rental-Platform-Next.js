@@ -26,13 +26,13 @@ const createPalette = () => ({
   },
   warning: {
     dark: '#e65100',
-    main: '#ED6C02',
+    main: '#FFA800',
     light: '#ff9800',
     contrastText: '#ffffff',
   },
   success: {
     dark: '#1b5e20',
-    main: '#2e7d32',
+    main: '#1DAC2B',
     light: '#4caf50',
     contrastText: '#ffffff',
   },
