@@ -8,6 +8,7 @@ import {
 import { Button } from 'components/ui';
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from 'context';
+import { InfluencerAPI } from 'api';
 
 const instagramAuth = (title: string, onClose: () => void) =>
   new Promise((resolve, reject) => {
@@ -27,6 +28,7 @@ const instagramAuth = (title: string, onClose: () => void) =>
       const { type: eventType, data } = event.data;
       if (eventType === 'code') {
         resolve(data);
+        onClose();
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         cleanup();
       }
@@ -40,12 +42,6 @@ const instagramAuth = (title: string, onClose: () => void) =>
       if (dialog.close) dialog.close();
     };
 
-    dialog.addEventListener('message', receiveMessage, false);
-
-    if (onClose && typeof onClose === 'function') {
-      dialog.addEventListener('beforeunload', onClose);
-    }
-
     const checkClosed = setInterval(() => {
       if (dialog.closed) {
         clearInterval(checkClosed);
@@ -56,13 +52,24 @@ const instagramAuth = (title: string, onClose: () => void) =>
   });
 
 const Step = () => {
-  const { influencer } = useAppContext();
+  const { user, influencer, handleInfluencer } = useAppContext();
   const [hasInstagramLinked, setHasInstagramLinked] = useState(false);
+
+  const getInfluencerData = async (influencerId: number) => {
+    const response = await InfluencerAPI.getSingleInfluencer(influencerId);
+    handleInfluencer(response);
+  };
+
+  const onClose = () => {
+    getInfluencerData(user.id);
+    window.location.reload();
+  };
+
   const handleInstagramAuth = async () => {
     try {
-      return await instagramAuth('Patients Influence', () => {});
-    } catch {
-      console.log('User closed');
+      return await instagramAuth('Patients Influence', onClose);
+    } catch (error: any) {
+      console.error(error.message);
     }
   };
 
