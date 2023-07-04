@@ -32,10 +32,6 @@ const ClientActions = ({ data, ...props }: TClientActionsMenuProps) => {
   const [niModal, openNiModal, closeNiModal] = useModal(false);
   const [diModal, openDiModal, closeDiModal] = useModal(false);
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   return (
     <ClientActionsMain>
       <ISpan onClick={handleMenu} ref={buttonRef}>

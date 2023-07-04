@@ -19,10 +19,6 @@ const AddReportModal = ({ data, onClose, ...props }: TAddReportModalProps) => {
     additional: data.description,
   });
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
   return (
     <Modal
       size="medium"

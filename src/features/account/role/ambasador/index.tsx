@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import {
   AccountMain,
@@ -16,35 +16,31 @@ import {
 } from 'features/account/role/ambasador/elements';
 import { useModal, useSnackbar } from 'hooks';
 import { CopyIcon } from 'components/svg';
-import { AdminAPI } from 'api';
+import { AmbassadorAPI, AuthorizationAPI, CompanyAPI } from 'api';
+import { useAppContext } from 'context';
+import { ISingleAmbassadorResponse } from 'api/ambassador/types';
+import { IUserAmbassador } from './types';
 
 const AccountPage = ({ ...props }) => {
+  const { user }: { user: IUserAmbassador } = useAppContext();
+
   const [filter, setFilter] = useState({
-    firstname: '',
-    lastName: '',
+    firstname: user.firstName,
+    lastName: user.lastName,
     company: '',
     role: '',
-    email: '',
-    password: '',
+    email: user.email,
+    password: '************',
     link: '',
     list: [],
   });
+
+  const isMounted = useRef(false);
 
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
 
   const { push } = useSnackbar();
-
-  const handleInviteLink = async () => {
-    try {
-      const { link } = await AdminAPI.createAmbassadorInviteLink();
-      setFilter({ ...filter, link });
-    } catch {
-      push('Something failed!', {
-        variant: 'error',
-      });
-    }
-  };
 
   const handleCopyToClipboard = async () => {
     try {
@@ -59,8 +55,46 @@ const AccountPage = ({ ...props }) => {
     }
   };
 
+  const getAffiliateLink = async () => {
+    const { affiliateLink } = await AuthorizationAPI.getAffiliateLink(user.id);
+    return affiliateLink;
+  };
+
+  const getAmbassador = async () => {
+    const data = await AmbassadorAPI.getSingleAmbassador(user.id);
+
+    return data;
+  };
+
   useEffect(() => {
-    handleInviteLink();
+    if (isMounted.current === true) {
+      Promise.allSettled([getAffiliateLink(), getAmbassador()]).then(
+        (results) => {
+          let affiliateLink: string | null = null;
+          let ambassadorUser: ISingleAmbassadorResponse | null = null;
+
+          const [affiliateLinkResult, ambassadorResult] = results;
+
+          if (affiliateLinkResult.status === 'fulfilled') {
+            affiliateLink = affiliateLinkResult.value;
+          }
+
+          if (ambassadorResult.status === 'fulfilled') {
+            ambassadorUser = ambassadorResult.value;
+          }
+
+          setFilter((prevState: any) => ({
+            ...prevState,
+            link: affiliateLink || '',
+            company: ambassadorUser?.ambassador.company.name || '',
+            role: ambassadorUser?.ambassador.companyTitle.name || '',
+          }));
+        }
+      );
+    }
+    return () => {
+      isMounted.current = true;
+    };
   }, []);
 
   return (
@@ -70,6 +104,7 @@ const AccountPage = ({ ...props }) => {
           <Stack>
             <AccountStack direction="horizontal">
               <Input
+                disabled
                 type="text"
                 label="First Name"
                 placeholder="Please Enter"
@@ -77,6 +112,7 @@ const AccountPage = ({ ...props }) => {
                 onValue={(firstname) => setFilter({ ...filter, firstname })}
               />
               <Input
+                disabled
                 type="text"
                 label="Last Name"
                 placeholder="Please Enter"
@@ -86,6 +122,7 @@ const AccountPage = ({ ...props }) => {
             </AccountStack>
             <AccountStack direction="horizontal">
               <Input
+                disabled
                 type="text"
                 label="Company"
                 placeholder="Please Enter"
@@ -93,6 +130,7 @@ const AccountPage = ({ ...props }) => {
                 onValue={(company) => setFilter({ ...filter, company })}
               />
               <Input
+                disabled
                 type="text"
                 label="Role"
                 placeholder="Please Enter"
@@ -102,6 +140,7 @@ const AccountPage = ({ ...props }) => {
             </AccountStack>
             <AccountChange>
               <Input
+                disabled
                 type="text"
                 label="Email"
                 placeholder="Please Enter"
@@ -111,6 +150,7 @@ const AccountPage = ({ ...props }) => {
             </AccountChange>
             <AccountChange>
               <Input
+                disabled
                 type="text"
                 label="Password"
                 placeholder="Please Enter"

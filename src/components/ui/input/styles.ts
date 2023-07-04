@@ -56,10 +56,16 @@ export const InputSelectItem = styled(MenuItem)``;
 
 export const InputText = styled(TextField)`
   & .MuiInputBase-root.Mui-disabled {
+    & svg {
+      cursor: pointer;
+    }
+    
     & .MuiOutlinedInput-input.Mui-disabled {
       opacity: 1;
       color: rgba(0, 0, 0, 0.55) !important;
       -webkit-text-fill-color: rgba(0, 0, 0, 0.55) !important; !important;
+
+      
     }
   }
 `;
