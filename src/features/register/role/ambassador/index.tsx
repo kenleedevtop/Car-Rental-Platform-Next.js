@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   RegisterTitle,
   RegisterSubtitle,
@@ -10,33 +10,59 @@ import {
   RegisterCompanyCompany,
   RegisterCompanyRole,
   RegisterCheckbox,
+  RegisterLocalization,
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import { emailSchema, nameSchema, passwordSchema } from 'utilities/validators';
-import { AmbassadorAPI, CompanyAPI } from 'api';
+import { AmbassadorAPI, CompanyAPI, LegalsAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+type TSelect = {
+  value: number;
+  label: string;
+};
+
+interface IFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  invCode: string;
+  company: TSelect | null;
+  role: TSelect | null;
+  commonLegalId: number | null;
+}
+
 const RegisterPage = () => {
-  const [state, setState] = useState({
+  const [state, setState] = useState<IFormData>({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
-    companyTitleId: '',
-    invCode: 'dsadsadsqedq2131',
-    company: {
-      name: '',
-      companyId: '',
-    },
+    // companyTitleId: '',
+    invCode: '',
+    company: null,
+    role: null,
+    commonLegalId: null,
   });
+
+  const [legalsChecked, setLegalsChecked] = useState({
+    commonLegal: false,
+  });
+
+  const [commonLegal, setCommonLegal] = useState<any>('');
+
+  const isMounted = useRef(false);
 
   const [counter, setCounter] = useState(0);
 
   const router = useRouter();
+
+  const { token } = router.query;
 
   const { push } = useSnackbar();
 
@@ -47,7 +73,7 @@ const RegisterPage = () => {
     false,
     false,
     // false,
-    // false,
+    false,
     false,
     false,
   ]);
@@ -56,6 +82,18 @@ const RegisterPage = () => {
     setErrors((x) => x.map((a, b) => (b === index ? value : a)));
   };
 
+  const getLegals = async (lang: string) => {
+    const data = await LegalsAPI.getLegals(lang);
+    console.log(data);
+
+    const common = data.commonLegal;
+
+    setState({
+      ...state,
+      commonLegalId: common.id,
+    });
+    setCommonLegal(common);
+  };
   const [crModal, openCrModal, closeCrModal] = useModal(false);
 
   const timeoutTime = 10000;
@@ -65,24 +103,49 @@ const RegisterPage = () => {
     !state.lastName ||
     !state.email ||
     !state.password ||
-    // !state.companyTitleId ||
-    // !state.company.name ||
-    // !state.company.companyId ||
+    !state.company ||
+    !state.role ||
+    !legalsChecked.commonLegal ||
     !!errors.find((x) => x) ||
     counter === 1;
 
   const handleRegister = async () => {
-    try {
-      await AmbassadorAPI.registration(state);
-      openCrModal();
-    } catch (e: any) {
-      let step = 0;
-      step += 1;
-      setCounter(step);
-      push(e.response.data.message, { variant: 'error' });
-      setTimeout(() => {
-        setCounter(0);
-      }, timeoutTime);
+    const {
+      firstName,
+      lastName,
+      company,
+      email,
+      password,
+      role,
+      commonLegalId,
+    } = state;
+
+    if (role && company && commonLegalId && token) {
+      const formData = {
+        firstName,
+        lastName,
+        email,
+        companyTitleId: role.value,
+        commonLegalId,
+        company: {
+          companyId: company.value,
+          name: company.label,
+        },
+        password,
+      };
+      try {
+        const locale = router.locale ? router.locale?.slice(0, 2) : '';
+        await AmbassadorAPI.registration(formData, token?.toString(), locale);
+        openCrModal();
+      } catch (e: any) {
+        let step = 0;
+        step += 1;
+        setCounter(step);
+        push(e.response.data.message, { variant: 'error' });
+        setTimeout(() => {
+          setCounter(0);
+        }, timeoutTime);
+      }
     }
   };
 
@@ -117,8 +180,24 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    getCompanies();
-    getTitles();
+    const lang = router.locale?.slice(0, 2);
+    if (lang) {
+      getLegals(lang);
+    }
+  }, [router.locale]);
+
+  useEffect(() => {
+    if (isMounted.current === true) {
+      getCompanies();
+      getTitles();
+      if (token) {
+        setState((prevState) => ({ ...prevState, invCode: token.toString() }));
+      }
+    }
+
+    return () => {
+      isMounted.current = true;
+    };
   }, []);
 
   return (
@@ -221,45 +300,51 @@ const RegisterPage = () => {
           type="select"
           label="Company"
           placeholder="Please Enter your Company"
-          value={state.company.companyId}
-          onValue={({ value, label }) =>
+          required
+          value={state.company}
+          onValue={(company) =>
             setState({
               ...state,
-              company: { name: label, companyId: value },
+              company,
             })
           }
           options={companies}
-          // errorCallback={handleErrors(2)}
-          // validators={[
-          //   {
-          //     message: 'Company is required',
-          //     validator: (company) => {
-          //       const v = company as string;
-          //       if (v.trim()) return true;
-          //       return false;
-          //     },
-          //   },
-          // ]}
+          errorCallback={handleErrors(2)}
+          validators={[
+            {
+              message: 'Company is required',
+              validator: (company) => {
+                const v = company as object;
+                if (v) return true;
+                return false;
+              },
+            },
+          ]}
         />
         <RegisterCompanyRole
           type="select"
           label="Role"
-          // required
+          required
           placeholder="Please Enter your Role"
-          value={state.companyTitleId}
-          onValue={({ value }) => setState({ ...state, companyTitleId: value })}
+          value={state.role}
+          onValue={(role) =>
+            setState({
+              ...state,
+              role,
+            })
+          }
           options={titles}
-          // errorCallback={handleErrors(3)}
-          // validators={[
-          //   {
-          //     message: 'Role is required',
-          //     validator: (role) => {
-          //       const v = role as string;
-          //       if (v.trim()) return true;
-          //       return false;
-          //     },
-          //   },
-          // ]}
+          errorCallback={handleErrors(3)}
+          validators={[
+            {
+              message: 'Role is required',
+              validator: (role) => {
+                const v = role as object;
+                if (v) return true;
+                return false;
+              },
+            },
+          ]}
         />
       </RegisterCompanyBottomStack>
       <Input
@@ -327,11 +412,20 @@ const RegisterPage = () => {
         label={
           <>
             {t('I agree to the')}
-            <Link href="https://patientsinfluence.com/terms-of-use/">
+            <Link
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://patientsinfluence.com/terms-of-use/"
+            >
+              {' '}
               {t('Terms of Service')}
-            </Link>
-            {t('and')}
-            <Link href="https://patientsinfluence.com/privacy-statement/">
+            </Link>{' '}
+            {t('and')}{' '}
+            <Link
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://patientsinfluence.com/privacy-statement/"
+            >
               {t('Privacy Policy')}
             </Link>
             .
@@ -339,6 +433,8 @@ const RegisterPage = () => {
         }
         size="small"
         color="primary"
+        value={legalsChecked.commonLegal}
+        onValue={(v) => setLegalsChecked({ ...legalsChecked, commonLegal: v })}
       />
       <Button
         variant="contained"
@@ -349,6 +445,7 @@ const RegisterPage = () => {
       >
         SIGN UP NOW
       </Button>
+      <RegisterLocalization />
       {crModal && (
         <ConfirmRegistrationModal email={state.email} onClose={handleClose} />
       )}

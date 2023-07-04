@@ -8,6 +8,7 @@ import {
 } from 'api/authorization/types';
 
 import { client } from 'api/api-client';
+import Project from 'constants/project';
 
 const AuthorizationAPI = {
   login: async (body: TLoginParams) => {
@@ -57,6 +58,13 @@ const AuthorizationAPI = {
   },
 
   pingAuth: () => client.get(`/pingAuth`),
+
+  getAffiliateLink: async (userId: number) => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/auth/affiliateLink/${userId}`
+    );
+    return data;
+  },
 };
 
 export default AuthorizationAPI;
