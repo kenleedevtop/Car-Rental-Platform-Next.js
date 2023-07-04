@@ -54,18 +54,15 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
   let currencyToSend: number;
 
   if (currency === 'CHF') {
-    console.log('a');
-
     currencyToSend = 2;
   }
 
   if (currency === 'EUR') {
-    console.log('b');
     currencyToSend = 0;
   }
 
   if (currency === 'USD') {
-    console.log('c');
+    currencyToSend=1
   }
 
   return (
@@ -85,7 +82,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               errorCallback={handleErrors(10)}
               validators={[
                 {
-                  message: t('Last name is required'),
+                  message: t('Post amount is required'),
                   validator: (instaP) => {
                     const v = instaP as string;
                     if (v.trim()) return true;
@@ -94,7 +91,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 },
                 {
                   message: t(
-                    'Last name needs to be at least 2 characters long'
+                    'Please enter post amount!'
                   ),
                   validator: (instaP) => {
                     try {
@@ -118,7 +115,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               errorCallback={handleErrors(11)}
               validators={[
                 {
-                  message: t('Last name is required'),
+                  message: t('Story amount is required'),
                   validator: (instaS) => {
                     const v = instaS as string;
                     if (v.trim()) return true;
@@ -127,7 +124,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 },
                 {
                   message: t(
-                    'Last name needs to be at least 2 characters long'
+                    'Please enter story amount!'
                   ),
                   validator: (instaS) => {
                     try {
@@ -151,7 +148,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               errorCallback={handleErrors(12)}
               validators={[
                 {
-                  message: t('Last name is required'),
+                  message: t('Reel amount is required'),
                   validator: (instaR) => {
                     const v = instaR as string;
                     if (v.trim()) return true;
@@ -160,7 +157,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 },
                 {
                   message: t(
-                    'Last name needs to be at least 2 characters long'
+                    'Please enter reel amount!'
                   ),
                   validator: (instaR) => {
                     try {
@@ -278,7 +275,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               errorCallback={handleErrors(13)}
               validators={[
                 {
-                  message: t('Last name is required'),
+                  message: t('Question credit amount is required'),
                   validator: (lastName) => {
                     const v = lastName as string;
                     if (v.trim()) return true;
@@ -287,7 +284,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 },
                 {
                   message: t(
-                    'Last name needs to be at least 2 characters long'
+                    'Please enter question credit amount!'
                   ),
                   validator: (lastName) => {
                     try {
@@ -313,7 +310,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               errorCallback={handleErrors(14)}
               validators={[
                 {
-                  message: t('Last name is required'),
+                  message: t('Question survey amount is required'),
                   validator: (lastName) => {
                     const v = lastName as string;
                     if (v.trim()) return true;
@@ -322,7 +319,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 },
                 {
                   message: t(
-                    'Last name needs to be at least 2 characters long'
+                    'Please enter question survey amount!'
                   ),
                   validator: (lastName) => {
                     try {
@@ -348,7 +345,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               errorCallback={handleErrors(14)}
               validators={[
                 {
-                  message: t('Last name is required'),
+                  message: t('Interview amount is required'),
                   validator: (lastName) => {
                     const v = lastName as string;
                     if (v.trim()) return true;
@@ -357,7 +354,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 },
                 {
                   message: t(
-                    'Last name needs to be at least 2 characters long'
+                    'Please enter interview amount!'
                   ),
                   validator: (lastName) => {
                     try {
@@ -382,7 +379,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               errorCallback={handleErrors(15)}
               validators={[
                 {
-                  message: t('Last name is required'),
+                  message: t('Interview amount is required'),
                   validator: (lastName) => {
                     const v = lastName as string;
                     if (v.trim()) return true;
@@ -391,7 +388,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 },
                 {
                   message: t(
-                    'Last name needs to be at least 2 characters long'
+                    'Please enter interview amount!'
                   ),
                   validator: (lastName) => {
                     try {

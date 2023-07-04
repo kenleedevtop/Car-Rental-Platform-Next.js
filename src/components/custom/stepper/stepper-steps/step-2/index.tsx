@@ -46,10 +46,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
     false,
   ]);
 
-  // const handleErrors = (index: number) => (value: boolean) => {
-  //   setErrors((x) => x.map((a, b) => (b === index ? value : a)));
-  // };
-
   const [locations, setLocations] = useState([]);
   const [diseaseAreas2, setDiseaseAreas] = useState([]);
   const [ethnicities, setEthnicities] = useState([]);
@@ -267,7 +263,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             options={diseaseAreas2}
             validators={[
               {
-                message: t('Location is required'),
+                message: t('Disease area is required'),
                 validator: (diseaseArea) => {
                   const v = diseaseArea as [];
 
@@ -276,7 +272,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
                 },
               },
               {
-                message: t('Please choose location!'),
+                message: t('Please choose disease areas!'),
                 validator: (diseaseArea) => {
                   try {
                     diseaseAreaSchema.validateSync({ diseaseArea });
@@ -342,7 +338,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
                 },
               },
               {
-                message: t('Please choose Experience As!'),
+                message: t('Please choose type of profile!'),
                 validator: (experienceAs) => {
                   try {
                     experienceAsSchema.validateSync({ experienceAs });

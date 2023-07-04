@@ -60,10 +60,10 @@ export type FormData = {
   diseaseAreas: any;
   experienceAs: any;
   ethnicity: any;
-  instaP: null;
-  instaR: null;
-  instaS: null;
-  yVideoS: any;
+  instaP: string;
+  instaR: string;
+  instaS: string;
+  yVideoS: null;
   yVideoM: any;
   yVideoL: any;
   ttPost: any;
@@ -71,7 +71,7 @@ export type FormData = {
   questionCredit: '';
   averageQuestionSurvey: '';
   interviewShort: '';
-  interviewLong: any;
+  interviewLong: '';
 };
 
 const Stepper = () => {
@@ -82,6 +82,8 @@ const Stepper = () => {
   const { t } = useTranslation('register');
 
   const [errors, setErrors] = useState([false, false, false, false, false]);
+
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const { push } = useSnackbar();
 
@@ -114,9 +116,9 @@ const Stepper = () => {
     diseaseAreas: undefined,
     experienceAs: null,
     ethnicity: null,
-    instaP: null,
-    instaR: null,
-    instaS: null,
+    instaP: '',
+    instaR: '',
+    instaS: '',
     yVideoS: null,
     yVideoM: null,
     yVideoL: null,
@@ -144,24 +146,12 @@ const Stepper = () => {
     e.preventDefault();
 
     try {
+      
       const diseaseValueArray: object[] = [];
 
       const campaignDesiredIncome: object[] = [];
 
       const surveyDesiredIncome: object[] = [];
-
-      console.log('FORM DATA', formData);
-
-      // const isFormDataValid = Object.values(formData).every(value => !!value);
-
-      // if (activeStep === 3 && !isFormDataValid) {
-      //   console.log('Some fields in the form are missing values. Please fill out required fields!');
-
-      //   return;
-      // }
-
-      // push('Email for password reset has been sent.', { variant: 'success' });
-      // push('Email for password reset has not been sent.', { variant: 'error' });
 
       if (activeStep === 3) {
         formData.diseaseAreas.map(async (disease: any) =>
@@ -217,7 +207,36 @@ const Stepper = () => {
           });
         }
 
-        addStep();
+        const data = {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          location: formData.location,
+          gender: formData.gender,
+          dateOfBirth: formData.birthDate,
+          diseaseArea: formData.diseaseAreas,
+          instaP: formData.instaP,
+          instR: formData.instaR,
+          instaS: formData.instaS,
+          experienceAs: formData.experienceAs,
+          ethnicity: formData.ethnicity,
+          interviewShort: formData.interviewShort,
+          interviewLong: formData.interviewLong,
+          questionCredit: formData.questionCredit,
+          averageQuestionSurvey: formData.averageQuestionSurvey,
+          currency: formData.currency
+        }
+        
+
+        const isFormDataValid = Object.values(data).every((value) => !!value);
+
+        
+        if (!isFormDataValid) {
+          push('Unable to submit form. Please fill out all required fields!', { variant: 'error' });
+        } else if (isFormDataValid) {
+          addStep();
+          push('Form submitted.', { variant: 'success' });
+        }
+    
 
         await InfluencerAPI.updateInfluencer(
           {
@@ -248,9 +267,9 @@ const Stepper = () => {
           },
           user.id
         );
-        push('Form submitted.', {
-          variant: 'success',
-        });
+        // push('Form submitted.', {
+        //   variant: 'success',
+        // });
 
         // eslint-disable-next-line consistent-return
 
@@ -260,7 +279,7 @@ const Stepper = () => {
       }
     } catch (error) {
       console.log('error with submit', error);
-      push('Form did not submit', { variant: 'error' });
+      push('Unable to submit form. Please fill out all required fields!', { variant: 'error' });
     }
   };
 
