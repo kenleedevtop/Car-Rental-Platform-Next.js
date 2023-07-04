@@ -160,6 +160,19 @@ const ChangeInfoModal = ({
 
   const { push } = useSnackbar();
 
+  const formatedProducts = state.product.map(
+    (item: { value: number | string; label: string }) => {
+      if (typeof item.value === 'string') {
+        return {
+          name: item.value,
+        };
+      }
+      return {
+        productId: item.value,
+      };
+    }
+  );
+
   const handleUpdate = async () => {
     try {
       await ClientAPI.updateClient(
@@ -169,9 +182,7 @@ const ChangeInfoModal = ({
             companyId: state.company ? state.company.value : undefined,
           },
           companyTitleId: state.role ? state.role.value : undefined,
-          productIds: state.product
-            ? state.product.map((x: any) => x.value)
-            : undefined,
+          clientProducts: state.product ? formatedProducts : undefined,
           industryId: state.industry ? state.industry.value : undefined,
           locationId: state.location ? state.location.value : undefined,
           marketIds: state.markets
