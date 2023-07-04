@@ -227,15 +227,16 @@ const HomePage = () => {
           </CardWithTextNew>
         </GridCell>
         <GridCell columnSpan={2}>
-          <CardWithText title="Surveys" actions={[<DotsIcon />]}>
-            <Stack direction="horizontal">
+          <CardWithTextNew title="Surveys"
+            // actions={[<DotsIcon />]}
+            headerColumnTable={
               <Stack>
                 <Tabs
                   tabs={['Available', 'In Progress']}
-                  value={tabsS}
-                  onValue={setTabsS}
+                  value={tabsC}
+                  onValue={setTabsC}
                 />
-                {tabsS === 0 && (
+                {tabsC === 0 && (
                   <>
                     <Table
                       head={[
@@ -251,7 +252,7 @@ const HomePage = () => {
                     <Pagination count={32} />
                   </>
                 )}
-                {tabsS === 1 && (
+                {tabsC === 1 && (
                   <>
                     <Table
                       head={[
@@ -273,8 +274,16 @@ const HomePage = () => {
                   </>
                 )}
               </Stack>
+            }
+          >
+            <Stack direction="horizontal">
               <Stack>
-                <Title title="Competitive Analysis" />
+                <Title title="Competitive Analysis" 
+                style={{
+                  fontSize: ' 20px',
+                  color: '#37428A',
+                  fontWeight: '500',
+                }}/>
                 <Tabs
                   tabs={['Questionnaire', 'Interview']}
                   value={tabsCA}
@@ -357,7 +366,7 @@ const HomePage = () => {
                 </GridCell>
               </Stack>
             </Stack>
-          </CardWithText>
+          </CardWithTextNew>
         </GridCell>
       </HomeInfluencerPageGrid>
     </Stack>

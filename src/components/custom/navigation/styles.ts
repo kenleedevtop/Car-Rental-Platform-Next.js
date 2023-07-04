@@ -254,7 +254,7 @@ export const NavigationCurrency = styled.div<{ theme?: Theme }>`
       gap: 5px;
       color: white;
       background-color: ${theme.palette.common.white}10;
-      color: #a7a9b6;
+      color: #ffffff;
       padding: ${theme.spacing(2.5)} ${theme.spacing(5)};
       border-radius: 100vw;
       font-size: 14px;

@@ -257,7 +257,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           </NavigationCurrency>
         )}
 
-        {['AMBASSADOR', 'INFLUENCER', 'CLIENT'].includes(role) && (
+        {['AMBASSADOR', 'CLIENT'].includes(role) && (
           <NavigationCurrency onClick={() => setOpenR(!openR)}>
             Currency: {currency}{' '}
             <BalanceIcon ref={buttonRefC} expanded={openR}>

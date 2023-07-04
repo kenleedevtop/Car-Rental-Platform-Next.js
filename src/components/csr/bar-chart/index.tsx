@@ -23,7 +23,8 @@ const BarChart = ({
     horizontalLabel,
     verticalLabel,
   });
-
+  generatedOptions.responsive = true;
+  generatedOptions.maintainAspectRatio = false;
   return (
     <BarChartMain {...props}>
       <Bar height={50} data={generatedData} options={generatedOptions} />
