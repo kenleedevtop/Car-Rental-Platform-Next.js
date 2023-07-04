@@ -228,8 +228,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
                 message: t('Gender is required'),
                 validator: (gender) => {
                   const v = gender as object;
-                  console.log('v', v);
-
                   if (v !== undefined) return true;
                   return false;
                 },

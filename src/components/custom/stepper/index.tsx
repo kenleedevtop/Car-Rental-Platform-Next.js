@@ -146,7 +146,6 @@ const Stepper = () => {
     e.preventDefault();
 
     try {
-      
       const diseaseValueArray: object[] = [];
 
       const campaignDesiredIncome: object[] = [];
@@ -223,20 +222,19 @@ const Stepper = () => {
           interviewLong: formData.interviewLong,
           questionCredit: formData.questionCredit,
           averageQuestionSurvey: formData.averageQuestionSurvey,
-          currency: formData.currency
-        }
-        
+          currency: formData.currency,
+        };
 
         const isFormDataValid = Object.values(data).every((value) => !!value);
 
-        
         if (!isFormDataValid) {
-          push('Unable to submit form. Please fill out all required fields!', { variant: 'error' });
+          push('Unable to submit form. Please fill out all required fields!', {
+            variant: 'error',
+          });
         } else if (isFormDataValid) {
           addStep();
           push('Form submitted.', { variant: 'success' });
         }
-    
 
         await InfluencerAPI.updateInfluencer(
           {
@@ -279,7 +277,9 @@ const Stepper = () => {
       }
     } catch (error) {
       console.log('error with submit', error);
-      push('Unable to submit form. Please fill out all required fields!', { variant: 'error' });
+      push('Unable to submit form. Please fill out all required fields!', {
+        variant: 'error',
+      });
     }
   };
 

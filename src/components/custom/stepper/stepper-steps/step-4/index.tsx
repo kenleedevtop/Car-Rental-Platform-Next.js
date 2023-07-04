@@ -62,7 +62,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
   }
 
   if (currency === 'USD') {
-    currencyToSend=1
+    currencyToSend = 1;
   }
 
   return (
@@ -90,9 +90,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   },
                 },
                 {
-                  message: t(
-                    'Please enter post amount!'
-                  ),
+                  message: t('Please enter post amount!'),
                   validator: (instaP) => {
                     try {
                       instagramPostSchema.validateSync({ instaP });
@@ -123,9 +121,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   },
                 },
                 {
-                  message: t(
-                    'Please enter story amount!'
-                  ),
+                  message: t('Please enter story amount!'),
                   validator: (instaS) => {
                     try {
                       instagramStorySchema.validateSync({ instaS });
@@ -156,9 +152,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   },
                 },
                 {
-                  message: t(
-                    'Please enter reel amount!'
-                  ),
+                  message: t('Please enter reel amount!'),
                   validator: (instaR) => {
                     try {
                       instagramReelSchema.validateSync({ instaR });
@@ -283,9 +277,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   },
                 },
                 {
-                  message: t(
-                    'Please enter question credit amount!'
-                  ),
+                  message: t('Please enter question credit amount!'),
                   validator: (lastName) => {
                     try {
                       lastNameSchema.validateSync({ lastName });
@@ -318,9 +310,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   },
                 },
                 {
-                  message: t(
-                    'Please enter question survey amount!'
-                  ),
+                  message: t('Please enter question survey amount!'),
                   validator: (lastName) => {
                     try {
                       lastNameSchema.validateSync({ lastName });
@@ -353,9 +343,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   },
                 },
                 {
-                  message: t(
-                    'Please enter interview amount!'
-                  ),
+                  message: t('Please enter interview amount!'),
                   validator: (lastName) => {
                     try {
                       lastNameSchema.validateSync({ lastName });
@@ -387,9 +375,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   },
                 },
                 {
-                  message: t(
-                    'Please enter interview amount!'
-                  ),
+                  message: t('Please enter interview amount!'),
                   validator: (lastName) => {
                     try {
                       lastNameSchema.validateSync({ lastName });
