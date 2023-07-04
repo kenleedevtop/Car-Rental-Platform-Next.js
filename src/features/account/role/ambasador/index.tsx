@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import {
   AccountMain,
@@ -35,6 +35,8 @@ const AccountPage = ({ ...props }) => {
     list: [],
   });
 
+  const isMounted = useRef(false);
+
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
 
@@ -65,30 +67,35 @@ const AccountPage = ({ ...props }) => {
   };
 
   useEffect(() => {
-    Promise.allSettled([getAffiliateLink(), getAmbassador()]).then(
-      (results) => {
-        let affiliateLink: string | null = null;
-        let ambassadorUser: ISingleAmbassadorResponse | null = null;
+    if (isMounted.current === true) {
+      Promise.allSettled([getAffiliateLink(), getAmbassador()]).then(
+        (results) => {
+          let affiliateLink: string | null = null;
+          let ambassadorUser: ISingleAmbassadorResponse | null = null;
 
-        const [affiliateLinkResult, ambassadorResult] = results;
+          const [affiliateLinkResult, ambassadorResult] = results;
 
-        if (affiliateLinkResult.status === 'fulfilled') {
-          affiliateLink = affiliateLinkResult.value;
+          if (affiliateLinkResult.status === 'fulfilled') {
+            affiliateLink = affiliateLinkResult.value;
+          }
+
+          if (ambassadorResult.status === 'fulfilled') {
+            ambassadorUser = ambassadorResult.value;
+          }
+
+          setFilter((prevState: any) => ({
+            ...prevState,
+            link: affiliateLink || '',
+            company: ambassadorUser?.ambassador.company.name || '',
+            role: ambassadorUser?.ambassador.companyTitle.name || '',
+          }));
         }
-
-        if (ambassadorResult.status === 'fulfilled') {
-          ambassadorUser = ambassadorResult.value;
-        }
-
-        setFilter((prevState: any) => ({
-          ...prevState,
-          link: affiliateLink || '',
-          company: ambassadorUser?.ambassador.company.name || '',
-          role: ambassadorUser?.ambassador.companyTitle.name || '',
-        }));
-      }
-    );
-  }, [user]);
+      );
+    }
+    return () => {
+      isMounted.current = true;
+    };
+  }, []);
 
   return (
     <AccountMain {...props}>

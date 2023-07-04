@@ -17,8 +17,6 @@ const WelcomeModal = ({
 }: TWelcomeModalProps) => {
   const { t } = useTranslation('login');
 
-  console.log(role);
-
   return error ? (
     <Modal size="medium" onClose={onClose} {...props}>
       <SWelcomeModalMain columns={1}>

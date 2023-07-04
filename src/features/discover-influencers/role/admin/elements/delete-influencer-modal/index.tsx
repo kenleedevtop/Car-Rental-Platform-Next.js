@@ -16,8 +16,6 @@ const DeleteInfluencerModal = ({
   const router = useRouter();
 
   const handleDelete = async () => {
-    console.log(id);
-
     try {
       await InfluencerAPI.deleteInfluencer(id);
       router.push(window.location.pathname);

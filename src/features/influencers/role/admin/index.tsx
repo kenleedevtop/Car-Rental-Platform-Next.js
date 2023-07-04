@@ -182,7 +182,6 @@ const InfluencersPage = () => {
   };
 
   const toggleInfluencer = (rowId: number, checked: boolean) => {
-    console.log(rowId);
     if (checked) {
       setCheckedInfluencers([...checkedInfluencers, rowId]);
     } else {
@@ -210,10 +209,6 @@ const InfluencersPage = () => {
   const handleMenu = () => {
     setOpen(!open);
   };
-
-  useEffect(() => {
-    console.log(influencers);
-  }, [influencers]);
 
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'firstName') {

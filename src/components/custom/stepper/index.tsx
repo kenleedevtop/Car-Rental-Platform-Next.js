@@ -136,11 +136,6 @@ const Stepper = () => {
       const surveyDesiredIncome: object[] = [];
 
       if (activeStep === 3) {
-        console.log(
-          'test test test',
-          formData.gender.value === 0 || formData.gender.value
-        );
-
         formData.diseaseAreas.map(async (disease: any) =>
           diseaseValueArray.push(disease.value)
         );

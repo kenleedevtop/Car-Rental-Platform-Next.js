@@ -62,8 +62,6 @@ const AddInfluencerModal = ({
 
   useEffect(() => {
     getReportTypes();
-
-    console.log(reports);
   }, []);
 
   return (

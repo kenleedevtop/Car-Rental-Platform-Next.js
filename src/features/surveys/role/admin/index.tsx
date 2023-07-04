@@ -67,8 +67,6 @@ const SurveyPage = () => {
   };
 
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
-    console.log(row.data);
-
     if (headItem.reference === 'survey') {
       return row.data.name;
     }

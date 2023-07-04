@@ -84,7 +84,6 @@ const RegisterPage = () => {
 
   const getLegals = async (lang: string) => {
     const data = await LegalsAPI.getLegals(lang);
-    console.log(data);
 
     const common = data.commonLegal;
 
