@@ -24,3 +24,8 @@ export interface IAmbassador {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ISelectFieldType {
+  value: number;
+  label: string;
+}

@@ -28,8 +28,6 @@ const HomePage = () => {
 
   const getGraphData = async () => {
     const result = await GraphsAPI.getGraphs(user.id);
-
-    console.log(result);
   };
 
   useEffect(() => {

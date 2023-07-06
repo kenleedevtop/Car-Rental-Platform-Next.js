@@ -8,14 +8,18 @@ import {
 import {
   CardWithChart,
   CardWithText,
-  CheckboxTable,
-  Tabs,
+  NewCheckboxTable,
 } from 'components/custom';
 import {
+  ContactIcon,
   ContactedIcon,
+  DeleteIcon,
+  EditIcon,
   IdentifiedIcon,
   RegisteredIcon,
+  ScheduleIcon,
   SlidersHorizontalIcon,
+  VerticalDotsIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
@@ -25,7 +29,7 @@ import {
   DAmbassadorsHead,
   DGenerateAmbassadorsFilter,
 } from 'features/ambassadors/data';
-import { useModal, usePagination } from 'hooks';
+import { useMenu, useModal, usePagination, useSnackbar } from 'hooks';
 import {
   AmbassadorsProfile,
   ClientListAmbassadorModal,
@@ -34,8 +38,25 @@ import {
   InviteAmbassadors,
   NoteAmbassadors,
   ScheduleAmbassadorsModal,
+  SingleAmbassadorActions,
 } from 'features/ambassadors/role/admin/elements';
-import { AmbassadorAPI } from 'api';
+import { AmbassadorAPI, InfluencerAPI } from 'api';
+import { BackupTableRounded } from '@mui/icons-material';
+import PromptModal from 'features/discover-influencers/role/admin/elements/approve-influencer-modal';
+import { IPagClient, IResult } from 'api/ambassador/types';
+import { formatLongString } from 'utilities/string-converter';
+import { Tooltip } from '@mui/material';
+import { AmbassadorAction } from 'features/influencers/role/admin/styles';
+import {
+  ISpan,
+  ToBeApprovedActionsMenu as CustomActionsMenu,
+  TableTooltip,
+} from './style';
+
+const getClientsAsCommaSeparatedString = (clients: IPagClient[]): string =>
+  clients
+    .map((client) => `${client.user.firstName} ${client.user.lastName}`)
+    .join(', ');
 
 const AdminAmbassadorsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateAmbassadorsFilter());
@@ -59,8 +80,16 @@ const AdminAmbassadorsPage = () => {
   const [claModal, openClaModal, closeClaModal] = useModal(false);
 
   const [ambassadors, setAmbassadors] = useState<any>([]);
+  const [currentAmbassador, setCurrentAmbassador] = useState<number>();
+
+  const getCurrentAmbassador = (value: any) => {
+    setCurrentAmbassador(value);
+  };
+  const [checkedAmbassadors, setCheckedAmbassadors] = useState<number[]>([]);
 
   const [filterParams, setFilterParams] = useState({});
+
+  const { push } = useSnackbar();
 
   const { pagesCount, page, setTotalResults, handlePageChange, reload } =
     usePagination({
@@ -80,32 +109,168 @@ const AdminAmbassadorsPage = () => {
       },
     });
 
+  const toggleAllCheckedAmassadors = (checked: boolean) => {
+    if (checked) {
+      const currentPageIds = ambassadors.map((row: any) => row.id);
+      const newSelectedRows = Array.from(
+        new Set([...checkedAmbassadors, ...currentPageIds])
+      );
+      setCheckedAmbassadors(newSelectedRows);
+    } else {
+      // Deselect all rows on the current page
+      const currentPageIds = ambassadors.map((row: any) => row.id);
+      const newSelectedRows = checkedAmbassadors.filter(
+        (rowId) => !currentPageIds.includes(rowId)
+      );
+      setCheckedAmbassadors(newSelectedRows);
+    }
+  };
+
+  const toggleAmbassador = (rowId: number, checked: boolean) => {
+    if (checked) {
+      setCheckedAmbassadors([...checkedAmbassadors, rowId]);
+    } else {
+      setCheckedAmbassadors(checkedAmbassadors.filter((id) => id !== rowId));
+    }
+  };
+
+  // Table New Checkbox Modal controlls
+  const [tableModal, openTableModal, closeTableModal] = useModal(false);
+
+  // Table Menu List Modal
+  const [menu, open, setOpen, buttonRegRef, position] = useMenu(false);
+
+  // placeholder items
+  const [contactModal, openContactModal, closeContactModal] = useModal(false);
+  const [noteModal, openNoteModal, closeNoteModal] = useModal(false);
+  const [scheduleModal, openScheduleModal, closeScheduleModal] =
+    useModal(false);
+
+  const [
+    removeBulkAmbassadorModal,
+    openRemoveBulkAmbassadorModal,
+    closeRemoveBulkAmbassadorModal,
+  ] = useModal(false);
+
+  const handleMenu = () => {
+    setOpen(!open);
+  };
+
+  const ambassadorBulkActions = [
+    {
+      icon: <ContactIcon />,
+      label: 'Contact',
+      action: () => {
+        openContactModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <EditIcon />,
+      label: 'Note',
+      action: () => {
+        openNoteModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <ScheduleIcon />,
+      label: 'Schedule',
+      action: () => {
+        openScheduleModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <BackupTableRounded />,
+      label: 'Columns',
+      action: () => {
+        openTableModal();
+        handleMenu();
+      },
+    },
+    {
+      icon: <DeleteIcon />,
+      label: 'Remove',
+      action: () => {
+        openRemoveBulkAmbassadorModal();
+        handleMenu();
+      },
+    },
+  ];
+
   const renderItem = ({
     headItem,
     row,
     cell,
     table,
   }: TTableRenderItemObject) => {
+    const rowData = row.data as IResult;
     if (headItem.reference === 'firstName') {
-      return row.data.firstName;
+      return (
+        <AmbassadorAction
+          onClick={() => {
+            getCurrentAmbassador(rowData.ambassador.userId);
+            openApModal();
+          }}
+        >
+          {rowData.firstName}
+        </AmbassadorAction>
+      );
     }
     if (headItem.reference === 'lastName') {
-      return row.data.lastName;
+      return rowData.lastName;
+    }
+    if (headItem.reference === 'email') {
+      return rowData.email;
     }
     if (headItem.reference === 'company') {
-      return row.data.ambassador.company.name;
+      return rowData.ambassador.company.name;
     }
-    if (headItem.reference === 'totalRegisteredClients') {
-      return 'Missing object property';
+    if (headItem.reference === 'role') {
+      return rowData.ambassador.companyTitle.name;
     }
-    if (headItem.reference === 'totalBudget') {
-      return 'Missing object property';
+    if (headItem.reference === 'invited') {
+      if (rowData.ambassador.clients) {
+        const formattedDiseases = getClientsAsCommaSeparatedString(
+          rowData.ambassador.clients
+        );
+
+        const formattedElipsisString = formatLongString(formattedDiseases, 50);
+        return (
+          <Tooltip
+            style={{ cursor: 'pointer' }}
+            title={<TableTooltip>{formattedDiseases}</TableTooltip>}
+          >
+            <span>{formattedElipsisString}</span>
+          </Tooltip>
+        );
+      }
     }
-    if (headItem.reference === 'totalOngoingProjects') {
-      return 'Missing object property';
+    if (headItem.reference === 'invitedCount') {
+      return rowData.ambassador.clients
+        ? rowData.ambassador.clients.length
+        : '0';
+    }
+    if (headItem.reference === 'actions') {
+      return <SingleAmbassadorActions data={rowData.id} reload={reload} />;
     }
 
     return '';
+  };
+
+  const handleBulkAmbassadorRemoval = async () => {
+    try {
+      await InfluencerAPI.deleteManyInfluencers({
+        userIds: checkedAmbassadors,
+      });
+      reload();
+      setCheckedAmbassadors([]);
+
+      push('Ambassadors successfully removed!', { variant: 'success' });
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
+    }
   };
 
   return (
@@ -327,46 +492,68 @@ const AdminAmbassadorsPage = () => {
               </AmbassadorsPageFilterActions>
             </AmbassadorsPageFilter>
           </Collapse>
-          <CheckboxTable
-            style={{ marginTop: '60px' }}
-            head={DAmbassadorsHead}
-            items={ambassadors}
-            renderItem={renderItem}
-          />
-          <Pagination
-            onChange={(_e, x) => handlePageChange(x)}
-            page={page}
-            count={pagesCount}
-          />
+          <>
+            <NewCheckboxTable
+              head={DAmbassadorsHead}
+              items={ambassadors}
+              renderItem={renderItem}
+              checkedRows={checkedAmbassadors}
+              onSingleSelect={toggleAmbassador}
+              onSelectAll={toggleAllCheckedAmassadors}
+              tableColModal={tableModal}
+              closeTableColModal={closeTableModal}
+              renderElements={
+                <>
+                  <ISpan onClick={handleMenu} ref={buttonRegRef}>
+                    <VerticalDotsIcon />
+                  </ISpan>
+                  {open && (
+                    <CustomActionsMenu
+                      position={position}
+                      items={ambassadorBulkActions}
+                      ref={menu}
+                    />
+                  )}
+                </>
+              }
+            />
+            <Pagination
+              onChange={(_e, x) => handlePageChange(x)}
+              page={page}
+              count={pagesCount}
+            />
+          </>
+
           <Stack direction="horizontal">
-            <Button color="primary" variant="contained" onClick={openDaModal}>
-              Delete Ambasador
-            </Button>
-            <Button color="primary" variant="contained" onClick={openCaModal}>
-              Contact Ambasador
-            </Button>
-            <Button color="primary" variant="contained" onClick={openSaModal}>
-              Schedule Ambasador
-            </Button>
-            <Button color="primary" variant="contained" onClick={openApModal}>
-              Ambasador Profile
-            </Button>
-            <Button color="primary" variant="contained" onClick={openNaModal}>
-              Note Ambasador
-            </Button>
-            <Button color="primary" variant="contained" onClick={openClaModal}>
+            {/* Client list example modal for future feature */}
+            {/* <Button color="primary" variant="contained" onClick={openClaModal}>
               Client List
-            </Button>
+            </Button> */}
           </Stack>
         </Stack>
       </CardWithText>
       {daModal && <DeleteAmbassadorsModal onClose={closeDaModal} />}
       {caModal && <ContactAmbassadorsModal onClose={closeCaModal} />}
       {saModal && <ScheduleAmbassadorsModal onClose={closeSaModal} />}
-      {apModal && <AmbassadorsProfile onClose={closeApModal} />}
+      {apModal && (
+        <AmbassadorsProfile
+          ambassadorId={currentAmbassador!}
+          onClose={closeApModal}
+        />
+      )}
       {naModal && <NoteAmbassadors onClose={closeNaModal} />}
       {iaModal && <InviteAmbassadors onClose={closeIaModal} />}
       {claModal && <ClientListAmbassadorModal onClose={closeClaModal} />}
+      {removeBulkAmbassadorModal && (
+        <PromptModal
+          plural
+          target="ambassador"
+          onClose={() => {
+            closeRemoveBulkAmbassadorModal();
+          }}
+          handleAction={handleBulkAmbassadorRemoval}
+        />
+      )}
     </AmbassadorsPageMain>
   );
 };

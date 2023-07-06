@@ -119,7 +119,7 @@ const ChangePassword = () => {
         variant="contained"
         size="large"
         color="secondary"
-        onClick={handleChange}
+        onClick={() => handleChange()}
         disabled={isDisabled}
       >
         {t('Change Password')}

@@ -3,11 +3,23 @@ import {
   TSingleAmbassador,
   TRegisterAsAmbassadorParams,
   ISingleAmbassadorResponse,
+  IPagintatedAmbassadors,
+  IAffiliatedAmbassador,
 } from 'api/ambassador/types';
 
 import { client } from 'api/api-client';
 
 const AmbassadorAPI = {
+  getAffiliateCodeOwner: async (
+    affiliateCode: string
+  ): Promise<IAffiliatedAmbassador> => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/ambassador/affiliateCodeOwner/${affiliateCode}`
+    );
+
+    return data;
+  },
+
   registration: async (
     body: TRegisterAsAmbassadorParams,
     token: string,
@@ -24,7 +36,7 @@ const AmbassadorAPI = {
     );
   },
 
-  getAmbassadors: async (params?: any) => {
+  getAmbassadors: async (params?: any): Promise<IPagintatedAmbassadors> => {
     const { data } = await client.get(`${Project.apis.v1}/ambassador`, {
       params,
     });
@@ -42,6 +54,10 @@ const AmbassadorAPI = {
 
   deleteAmbassador: async (id: TSingleAmbassador) => {
     await client.delete(`${Project.apis.v1}/ambassador/${id}`);
+  },
+
+  updateSingleAmbassador: async (body: any, id: number) => {
+    await client.patch(`${Project.apis.v1}/ambassador/${id}`, body);
   },
 };
 

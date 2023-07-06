@@ -11,6 +11,7 @@ import {
 import { Stack } from 'components/system';
 import { Input } from 'components/ui';
 import {
+  ChangeAmbassadorInfoModal,
   ChangeEmailModal,
   ChangePasswordModal,
 } from 'features/account/role/ambasador/elements';
@@ -19,12 +20,14 @@ import { CopyIcon } from 'components/svg';
 import { AmbassadorAPI, AuthorizationAPI, CompanyAPI } from 'api';
 import { useAppContext } from 'context';
 import { ISingleAmbassadorResponse } from 'api/ambassador/types';
-import { IUserAmbassador } from './types';
+import { useRouter } from 'next/router';
+import { ISelectFieldType, IUserAmbassador } from './types';
 
 const AccountPage = ({ ...props }) => {
-  const { user }: { user: IUserAmbassador } = useAppContext();
+  const { user, logout }: { user: IUserAmbassador; logout: () => void } =
+    useAppContext();
 
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<any>({
     firstname: user.firstName,
     lastName: user.lastName,
     company: '',
@@ -32,15 +35,30 @@ const AccountPage = ({ ...props }) => {
     email: user.email,
     password: '************',
     link: '',
-    list: [],
+    invitedClient: null,
   });
+
+  const [companyRole, setCompanyRole] = useState<any>({
+    company: {
+      value: undefined,
+      label: '',
+      name: '',
+    },
+    role: null,
+  });
+
+  const [invitedClients, setInvitedClients] = useState<ISelectFieldType[]>([]);
 
   const isMounted = useRef(false);
 
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
+  const [aiModal, openAiModal, closeAiModal] = useModal(false);
+
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
 
   const { push } = useSnackbar();
+
+  const router = useRouter();
 
   const handleCopyToClipboard = async () => {
     try {
@@ -66,12 +84,25 @@ const AccountPage = ({ ...props }) => {
     return data;
   };
 
+  const resetPassword = async () => {
+    try {
+      await AuthorizationAPI.resetPassword(filter.email, 'en').then(() => {
+        logout();
+        router.push('/login');
+      });
+      push('Email for password reset has been sent.', { variant: 'success' });
+    } catch {
+      push('Email for password reset has not been sent.', { variant: 'error' });
+    }
+  };
+
   useEffect(() => {
     if (isMounted.current === true) {
       Promise.allSettled([getAffiliateLink(), getAmbassador()]).then(
         (results) => {
           let affiliateLink: string | null = null;
           let ambassadorUser: ISingleAmbassadorResponse | null = null;
+          let invitedClientsList: ISelectFieldType[] = [];
 
           const [affiliateLinkResult, ambassadorResult] = results;
 
@@ -81,6 +112,15 @@ const AccountPage = ({ ...props }) => {
 
           if (ambassadorResult.status === 'fulfilled') {
             ambassadorUser = ambassadorResult.value;
+            invitedClientsList = ambassadorResult.value.ambassador.clients.map(
+              (client) => {
+                const { id } = client;
+                const { firstName, lastName } = client.user;
+
+                return { value: id, label: `${firstName} ${lastName}` };
+              }
+            );
+            setInvitedClients(invitedClientsList);
           }
 
           setFilter((prevState: any) => ({
@@ -88,7 +128,28 @@ const AccountPage = ({ ...props }) => {
             link: affiliateLink || '',
             company: ambassadorUser?.ambassador.company.name || '',
             role: ambassadorUser?.ambassador.companyTitle.name || '',
+            list: invitedClientsList,
           }));
+
+          let company = null;
+          let role = null;
+          if (ambassadorUser?.ambassador.company) {
+            company = {
+              value: ambassadorUser?.ambassador.company.id,
+              label: ambassadorUser?.ambassador.company.name,
+            };
+          }
+
+          if (ambassadorUser?.ambassador.companyTitle) {
+            role = {
+              value: ambassadorUser?.ambassador.companyTitle.id,
+              label: ambassadorUser?.ambassador.companyTitle.name,
+            };
+          }
+
+          if (company && role) {
+            setCompanyRole({ company, role });
+          }
         }
       );
     }
@@ -138,6 +199,7 @@ const AccountPage = ({ ...props }) => {
                 onValue={(role) => setFilter({ ...filter, role })}
               />
             </AccountStack>
+            <AccountSpan onClick={openAiModal}>Change Info</AccountSpan>
             <AccountChange>
               <Input
                 disabled
@@ -157,7 +219,7 @@ const AccountPage = ({ ...props }) => {
                 value={filter.password}
                 onValue={(password) => setFilter({ ...filter, password })}
               />
-              <AccountSpan onClick={openCpModal}>Change Password</AccountSpan>
+              <AccountSpan onClick={resetPassword}>Change Password</AccountSpan>
             </AccountChange>
             <Input
               disabled
@@ -169,18 +231,32 @@ const AccountPage = ({ ...props }) => {
               onValue={(link) => setFilter({ ...filter, link })}
             />
             <Input
-              disabled
-              type="multiselect"
+              disabled={!invitedClients.length}
+              type="select"
               label="Invited List"
               placeholder="Please Select"
-              value={filter.list}
-              onValue={(list) => setFilter({ ...filter, list })}
+              value={filter.invitedClient}
+              onValue={(invitedClient) =>
+                setFilter({ ...filter, invitedClient })
+              }
+              options={invitedClients}
             />
           </Stack>
         </AccountForm>
       </AccountContainer>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
       {cpModal && <ChangePasswordModal onClose={closeCpModal} />}
+      {aiModal && (
+        <ChangeAmbassadorInfoModal
+          data={companyRole}
+          setParentFilter={setFilter}
+          setCompanyRole={setCompanyRole}
+          onClose={() => {
+            getAmbassador();
+            closeAiModal();
+          }}
+        />
+      )}
     </AccountMain>
   );
 };

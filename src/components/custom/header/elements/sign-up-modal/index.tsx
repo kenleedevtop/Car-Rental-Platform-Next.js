@@ -24,7 +24,7 @@ const SignUpModal = ({ onClose, ...props }: TSignUpProps) => {
           )}
         </SignUpText>
         <SignUpActions direction="horizontal">
-          <SignUpAction href="/register?as=company">
+          <SignUpAction href="/register?as=client">
             <Button
               variant="outlined"
               size="large"

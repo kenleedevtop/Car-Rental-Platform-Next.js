@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   RegisterTitle,
   RegisterSubtitle,
@@ -14,11 +14,12 @@ import {
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import { emailSchema, nameSchema, passwordSchema } from 'utilities/validators';
-import { ClientAPI, LegalsAPI, CompanyAPI } from 'api';
+import { ClientAPI, LegalsAPI, CompanyAPI, AmbassadorAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { IAffiliatedAmbassador } from 'api/ambassador/types';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
@@ -42,12 +43,22 @@ const RegisterPage = () => {
     commonLegalId: null,
   });
 
+  const [affiliatedAmbassador, setAffiliatedAmbassador] = useState<
+    IAffiliatedAmbassador | undefined
+  >(undefined);
+  const [isAffiliated, setIsAffiliated] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+  const snackbar = useSnackbar();
+
+  const { affiliateCode } = router.query;
 
   const [legalsChecked, setLegalsChecked] = useState(false);
   const [commonLegal, setCommonLegals] = useState<any>(null);
+
+  const isMounted = useRef(false);
 
   const getLegals = async (lang: string) => {
     const data = await LegalsAPI.getLegals(lang);
@@ -101,17 +112,33 @@ const RegisterPage = () => {
   const handleRegister = async () => {
     try {
       const locale = router.locale ? router.locale?.slice(0, 2) : '';
-      await ClientAPI.registration(
-        {
+
+      if (isAffiliated) {
+        const requestData = {
           ...state,
-          companyTitleId: state.companyTitleId.value,
           company: {
             name: state.company.label,
             companyId: state.company.value,
           },
-        },
-        locale
-      );
+          companyTitleId: state.companyTitleId.value,
+          affiliateCode: affiliateCode?.toString(),
+        };
+        await ClientAPI.registrationViaInvitation({
+          ...requestData,
+        });
+      } else {
+        await ClientAPI.registration(
+          {
+            ...state,
+            companyTitleId: state.companyTitleId.value,
+            company: {
+              name: state.company.label,
+              companyId: state.company.value,
+            },
+          },
+          locale
+        );
+      }
       openCrModal();
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
@@ -170,13 +197,39 @@ const RegisterPage = () => {
     };
   };
 
-  useEffect(() => {
-    getCompanies();
-    getTitles();
-    const lang = router.locale?.slice(0, 2);
-    if (lang) {
-      getLegals(lang);
+  const setAffiliatedInfluencerCall = async () => {
+    if (affiliateCode) {
+      try {
+        const affiliateAmbassador = await AmbassadorAPI.getAffiliateCodeOwner(
+          affiliateCode.toString()
+        );
+        setAffiliatedAmbassador(affiliateAmbassador);
+      } catch (error) {
+        router.push('/register?as=influencer');
+        snackbar.push('Invalid Affiliate Code', {
+          variant: 'error',
+        });
+      }
     }
+  };
+
+  useEffect(() => {
+    if (isMounted.current === true) {
+      setAffiliatedInfluencerCall();
+      getCompanies();
+      getTitles();
+      const lang = router.locale?.slice(0, 2);
+      if (lang) {
+        getLegals(lang);
+      }
+      if (affiliateCode) {
+        setIsAffiliated(true);
+      }
+    }
+
+    return () => {
+      isMounted.current = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -390,15 +443,25 @@ const RegisterPage = () => {
           },
         ]}
       />
-      {router.query.token && (
-        <Input
-          type="text"
-          label={t('Invited By') as string}
-          disabled
-          value={router.query.token}
-          onValue={() => {}}
-        />
-      )}
+      {router.query.affiliateCode &&
+        router.query.affiliateCode.toString().length &&
+        affiliatedAmbassador && (
+          <Input
+            type="text"
+            label={t('Invited By') as string}
+            disabled
+            placeholder={
+              `${affiliatedAmbassador.user.firstName} ${affiliatedAmbassador.user.lastName}` as string
+            }
+            value={`${affiliatedAmbassador.user.firstName} ${affiliatedAmbassador.user.lastName}`}
+            onValue={() =>
+              setState((prevState) => ({
+                ...prevState,
+                affiliateCode: affiliatedAmbassador.affiliateCode,
+              }))
+            }
+          />
+        )}
       <RegisterCheckbox
         value={legalsChecked}
         onValue={(value) => setLegalsChecked(value)}

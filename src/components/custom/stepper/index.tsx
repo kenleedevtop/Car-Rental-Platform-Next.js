@@ -342,7 +342,6 @@ const Stepper = () => {
         addStep();
       }
     } catch (error) {
-      console.log('error with submit', error);
       push('Unable to submit form. Please fill out all required fields!', {
         variant: 'error',
       });

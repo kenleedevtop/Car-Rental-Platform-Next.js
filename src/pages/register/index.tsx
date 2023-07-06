@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <>
       <Title>{t('Sign Up')}</Title>
-      {query.as === 'company' && <RegisterCompanyPage />}
+      {query.as === 'client' && <RegisterCompanyPage />}
       {query.as === 'influencer' && <RegisterInfluencerPage />}
       {query.as === 'ambassador' && <RegisterAmbassadorPage />}
     </>

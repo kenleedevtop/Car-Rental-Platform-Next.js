@@ -44,6 +44,7 @@ export interface IAmbassador {
   company: ICompany;
   companyTitle: ICompanyTitle;
   industry: any;
+  clients: IClient[];
 }
 
 export interface ICompany {
@@ -61,4 +62,139 @@ export interface ICompanyTitle {
   name: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IClient {
+  id: number;
+  userId: number;
+  companyId: number;
+  companyTitleId: number;
+  industryId: any;
+  ambassadorId: number;
+  createdAt: string;
+  updatedAt: string;
+  user: IUser;
+}
+
+export interface IUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  emailResendTokens: number;
+  password: string;
+  locationId: number;
+  role: number;
+  status: number;
+  isDeleted: boolean;
+  currency: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPagintatedAmbassadors {
+  meta: IMeta;
+  result: IResult[];
+}
+
+export interface IMeta {
+  skip: number;
+  limit: number;
+  countTotal: number;
+  countFiltered: number;
+}
+
+export interface IResult {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  emailResendTokens: number;
+  locationId?: number;
+  role: number;
+  status: number;
+  currency: number;
+  createdAt: string;
+  updatedAt: string;
+  ambassador: IPagAmbassador;
+}
+
+export interface IPagAmbassador {
+  id: number;
+  userId: number;
+  companyId: number;
+  companyTitleId: number;
+  affiliateCode: string;
+  invitedByAdminId: number;
+  industryId: any;
+  createdAt: string;
+  updatedAt: string;
+  company: IPagCompany;
+  companyTitle: IPagCompanyTitle;
+  industry: any;
+  clients: IPagClient[];
+}
+
+export interface IPagCompany {
+  id: number;
+  name: string;
+  createdByUserId: any;
+  isCommon: boolean;
+  isApproved: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPagCompanyTitle {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPagClient {
+  id: number;
+  userId: number;
+  companyId: number;
+  companyTitleId: number;
+  industryId: any;
+  ambassadorId: number;
+  createdAt: string;
+  updatedAt: string;
+  user: IPagUser;
+}
+
+export interface IPagUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  emailResendTokens: number;
+  password: string;
+  locationId: number;
+  role: number;
+  status: number;
+  isDeleted: boolean;
+  currency: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IAffiliatedAmbassador {
+  id: number;
+  userId: number;
+  companyId: number;
+  companyTitleId: number;
+  affiliateCode: string;
+  invitedByAdminId: number;
+  industryId: any;
+  createdAt: string;
+  updatedAt: string;
+  user: IPartUserUser;
+}
+
+export interface IPartUserUser {
+  id: number;
+  firstName: string;
+  lastName: string;
 }
