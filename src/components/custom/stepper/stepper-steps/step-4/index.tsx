@@ -364,7 +364,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
         </StepRight>
       </StepContainer>
       <StepText>
-          *It&apos;s enough to fill out only one field for the submit form.
+        *It&apos;s enough to fill out only one field for the submit form.
       </StepText>
     </StepStack>
   );

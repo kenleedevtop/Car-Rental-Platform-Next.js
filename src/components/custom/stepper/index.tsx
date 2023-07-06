@@ -102,8 +102,6 @@ const Stepper = () => {
     return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`;
   };
 
-  
-
   const INITIAL_DATA: FormData = {
     firstName: user.firstName,
     lastName: user.lastName,
@@ -150,9 +148,8 @@ const Stepper = () => {
 
   // eslint-disable-next-line consistent-return
   const handleSubmit = async (e: FormEvent) => {
-
     console.log('modal handle ');
-    
+
     e.preventDefault();
 
     try {
@@ -216,8 +213,8 @@ const Stepper = () => {
 
         if (findInstagramAccount) {
           socialPlatforms.push({
-            socialPlatformid: findInstagramAccount.socialPlatformId
-          })
+            socialPlatformid: findInstagramAccount.socialPlatformId,
+          });
         }
 
         const data = {
@@ -242,36 +239,42 @@ const Stepper = () => {
           interviewShort: formData?.interviewShort,
           interviewLong: formData?.interviewLong,
           questionCredit: formData?.questionCredit,
-        }
-        
+        };
 
-        const hasValue = Object.values(lastStepData).some(value => !!value);
+        const hasValue = Object.values(lastStepData).some((value) => !!value);
 
-        const lastEveryValue = Object.values(lastStepData).every(value => !!value);
-        
+        const lastEveryValue = Object.values(lastStepData).every(
+          (value) => !!value
+        );
+
         // debugger;
 
         if (hasValue && !lastEveryValue && !formModal) {
-          
           openFormModal();
-
-  
         } else {
           // eslint-disable-next-line no-lonely-if
           if (!isFormDataValid && !hasValue) {
-            push('Unable to submit form. Please fill out all required fields!', {
-              variant: 'error',
-            });
+            push(
+              'Unable to submit form. Please fill out all required fields!',
+              {
+                variant: 'error',
+              }
+            );
           } else if (!isFormDataValid && hasValue) {
-            push('Unable to submit form. Please fill out all required fields!', {
-              variant: 'error',
-            });
+            push(
+              'Unable to submit form. Please fill out all required fields!',
+              {
+                variant: 'error',
+              }
+            );
           } else if (isFormDataValid && !hasValue) {
-            push('Unable to submit form. Please fill out at least one of the fields in this step!', {
-              variant: 'error',
-            });
+            push(
+              'Unable to submit form. Please fill out at least one of the fields in this step!',
+              {
+                variant: 'error',
+              }
+            );
           } else if (isFormDataValid && hasValue) {
-            
             await InfluencerAPI.updateInfluencer(
               {
                 firstName: formData.firstName || undefined,
@@ -333,9 +336,8 @@ const Stepper = () => {
             push('Form submited!', {
               variant: 'success',
             });
-          }      
+          }
         }
-    
       } else {
         addStep();
       }
@@ -348,8 +350,6 @@ const Stepper = () => {
   };
 
   const [formData, setFormData] = useState(INITIAL_DATA);
-
-  
 
   return (
     <StepperMain>
@@ -399,7 +399,10 @@ const Stepper = () => {
           )}
           {activeStep === 4 && <StepV />}
           {formModal && (
-            <PromptFormSubmitModal onClose={closeFormModal} onSubmit={handleSubmit} />
+            <PromptFormSubmitModal
+              onClose={closeFormModal}
+              onSubmit={handleSubmit}
+            />
           )}
         </StepContainer>
         <ButtonsMain>
@@ -423,7 +426,7 @@ const Stepper = () => {
             {activeStep === 3 ? 'Submit' : 'Next'}
           </Button>
         </ButtonsMain>
-      </StepHelper>  
+      </StepHelper>
     </StepperMain>
   );
 };

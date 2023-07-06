@@ -142,8 +142,9 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
     getGenders();
   }, []);
 
-  const filteredStakeholdres = stakeholder.filter((element: { value: any }) => element.value === 1 || element.value === 2);
-  
+  const filteredStakeholdres = stakeholder.filter(
+    (element: { value: any }) => element.value === 1 || element.value === 2
+  );
 
   const { user } = useAppContext();
 
