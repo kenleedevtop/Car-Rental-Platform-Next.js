@@ -108,16 +108,29 @@ const CampaignsPage = () => {
     }
 
     if (headItem.reference === 'diseaseArea') {
-      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
-        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea.name;
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas) {
+        const diseases =
+          row.data.platformProductOrder.platformProductOrderDiseaseAreas.map(
+            (item: any) => item.diseaseArea.name
+          );
+
+        return diseases.join(', ');
       }
     }
 
     if (headItem.reference === 'location') {
-      if (row.data.platformProductOrder.platformProductOrderLocations[0]) {
-        return row.data.platformProductOrder.platformProductOrderLocations[0]
-          .location.name;
+      if (row.data.platformProductOrder.platformProductOrderLocations) {
+        const locations =
+          row.data.platformProductOrder.platformProductOrderLocations.map(
+            (item: any) => {
+              if (item.location.country && item.location.country.name) {
+                return `${item.location.name} (${item.location.country.name})`;
+              }
+              return item.location.name;
+            }
+          );
+
+        return locations.join(', ');
       }
     }
 
@@ -268,7 +281,7 @@ const CampaignsPage = () => {
     setFilterInfluencerSize(
       result.map((x: any) => ({
         value: x.id,
-        label: `${x.name}: ${x.from} | ${x.to}`,
+        label: `${x.name}: ${x.from} - ${x.to}`,
       }))
     );
   };

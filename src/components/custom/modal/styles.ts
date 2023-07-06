@@ -73,6 +73,8 @@ export const ModalTitle = styled.div<{ theme?: Theme }>`
     font-size: 24px;
     font-weight: 600;
     color: ${theme.palette.primary.main};
+    text-overflow: ellipsis;
+    overflow: hidden;
   `}
 `;
 

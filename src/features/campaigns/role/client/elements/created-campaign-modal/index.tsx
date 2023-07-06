@@ -23,9 +23,10 @@ const CreatedCampaignModal = ({
     budget: null,
     campaignInfo: '',
 
-    location: null,
-    language: null,
-    diseaseArea: null,
+    location: [],
+    language: [],
+    diseaseArea: [],
+    symptoms: [],
     stakeholders: [],
     gender: null,
     age: {
@@ -133,32 +134,23 @@ const CreatedCampaignModal = ({
         }));
       }
 
-      if (campaign.platformProductOrder.platformProductOrderLocations?.[0]) {
-        newState.location = {
-          value:
-            campaign.platformProductOrder.platformProductOrderLocations?.[0]
-              .location.id,
-          label:
-            campaign.platformProductOrder.platformProductOrderLocations?.[0]
-              .location.name,
-        };
-        // campaign.platformProductOrder.platformProductOrderLocations.map(
-        //   (x: any) => ({ value: x.location.id, label: x.location.name })
-        // );
+      if (campaign.platformProductOrder.platformProductOrderLocations) {
+        newState.location =
+          campaign.platformProductOrder.platformProductOrderLocations.map(
+            (x: any) => ({
+              value: x.location.id,
+              label: x.location.country
+                ? `${x.location.name}, ${x.location.country.name}`
+                : x.location.name,
+            })
+          );
       }
 
-      if (campaign.platformProductOrder.platformProductOrderDiseaseAreas?.[0]) {
-        newState.diseaseArea = {
-          value:
-            campaign.platformProductOrder.platformProductOrderDiseaseAreas?.[0]
-              .diseaseArea.id,
-          label:
-            campaign.platformProductOrder.platformProductOrderDiseaseAreas?.[0]
-              .diseaseArea.name,
-        };
-        // campaign.platformProductOrder.platformProductOrderDiseaseAreas.map(
-        //   (x: any) => ({ value: x.diseaseArea.id, label: x.diseaseArea.name })
-        // );
+      if (campaign.platformProductOrder.platformProductOrderDiseaseAreas) {
+        newState.diseaseArea =
+          campaign.platformProductOrder.platformProductOrderDiseaseAreas.map(
+            (x: any) => ({ value: x.diseaseArea.id, label: x.diseaseArea.name })
+          );
       }
 
       if (campaign.campaignInfluencersSizes) {
@@ -191,11 +183,18 @@ const CreatedCampaignModal = ({
           );
       }
 
-      if (campaign.language) {
-        newState.language = {
-          value: campaign.language.value,
-          label: campaign.language.name,
-        };
+      if (campaign.platformProductOrder.platformProductOrderLanguages) {
+        newState.language =
+          campaign.platformProductOrder.platformProductOrderLanguages.map(
+            (x: any) => ({ value: x.value, label: x.name })
+          );
+      }
+
+      if (campaign.platformProductOrder.platformProductOrderSymptoms) {
+        newState.symptoms =
+          campaign.platformProductOrder.platformProductOrderSymptoms.map(
+            (x: any) => ({ value: x.symptom.id, label: x.symptom.name })
+          );
       }
 
       if (campaign.instructions) {
@@ -315,7 +314,7 @@ const CreatedCampaignModal = ({
             <Input
               type="number"
               min={0}
-              label="Influencer Count"
+              label="Influencers"
               placeholder="Please Select"
               value={state.influencerCount}
               onValue={(input) =>
@@ -350,21 +349,21 @@ const CreatedCampaignModal = ({
         {tab === 1 && (
           <AddCampaignsModalMain columns={2}>
             <Input
-              type="select"
+              type="multiselect"
               label="Location"
               disabled
               value={state.location}
               onValue={(location) => setState({ ...state, location })}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Language"
               disabled
               value={state.language}
               onValue={(language) => setState({ ...state, language })}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Disease Area"
               disabled
               value={state.diseaseArea}
@@ -372,7 +371,7 @@ const CreatedCampaignModal = ({
             />
             <Input
               type="multiselect"
-              label="Stakeholders"
+              label="Stakeholder"
               disabled
               value={state.stakeholders}
               onValue={(stakeholders) => setState({ ...state, stakeholders })}
@@ -414,14 +413,14 @@ const CreatedCampaignModal = ({
             />
             <Input
               type="multiselect"
-              label="Struggles"
+              label="Struggle"
               disabled
               value={state.struggles}
               onValue={(struggles) => setState({ ...state, struggles })}
             />
             <Input
               type="multiselect"
-              label="Interests"
+              label="Interest"
               disabled
               value={state.interests}
               onValue={(interests) => setState({ ...state, interests })}
@@ -434,6 +433,13 @@ const CreatedCampaignModal = ({
               onValue={(influencerSize) =>
                 setState({ ...state, influencerSize })
               }
+            />
+            <Input
+              type="multiselect"
+              label="Symptom"
+              disabled
+              value={state.symptoms}
+              onValue={(symptoms) => setState({ ...state, symptoms })}
             />
             <GridCell columnSpan={2}>
               <Input
