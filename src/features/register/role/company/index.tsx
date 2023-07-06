@@ -138,7 +138,17 @@ const RegisterPage = () => {
           ...requestData,
         });
       } else {
-        await ClientAPI.registration({ ...state }, locale);
+        await ClientAPI.registration(
+          {
+            ...state,
+            companyTitleId: state.companyTitleId.value,
+            company: {
+              name: state.company.label,
+              companyId: state.company.value,
+            },
+          },
+          locale
+        );
       }
       openCrModal();
     } catch (e: any) {
