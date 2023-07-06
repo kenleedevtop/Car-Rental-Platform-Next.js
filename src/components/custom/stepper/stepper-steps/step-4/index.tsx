@@ -215,7 +215,8 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 fontSize: '14px',
               }}
             >
-              Question Credit
+              Question Credit{' '}
+              <span style={{ color: 'red', marginLeft: '5px' }}>*</span>
               <Tooltip
                 title={
                   <div
@@ -270,17 +271,17 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               validators={[
                 {
                   message: t('Question credit amount is required'),
-                  validator: (lastName) => {
-                    const v = lastName as string;
+                  validator: (questionCredit) => {
+                    const v = questionCredit as string;
                     if (v.trim()) return true;
                     return false;
                   },
                 },
                 {
                   message: t('Please enter question credit amount!'),
-                  validator: (lastName) => {
+                  validator: (questionCredit) => {
                     try {
-                      lastNameSchema.validateSync({ lastName });
+                      lastNameSchema.validateSync({ questionCredit });
                       return true;
                     } catch {
                       return false;
@@ -294,33 +295,11 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               type="text"
               label="Average 20 Question Survey"
               placeholder="Calculation"
-              value={averageQuestionSurvey}
-              required
+              value={Number(formData.questionCredit) * 40}
+              disabled
               onValue={(averageQuestionSurvey) =>
                 setFormData({ ...formData, averageQuestionSurvey })
               }
-              errorCallback={handleErrors(14)}
-              validators={[
-                {
-                  message: t('Question survey amount is required'),
-                  validator: (lastName) => {
-                    const v = lastName as string;
-                    if (v.trim()) return true;
-                    return false;
-                  },
-                },
-                {
-                  message: t('Please enter question survey amount!'),
-                  validator: (lastName) => {
-                    try {
-                      lastNameSchema.validateSync({ lastName });
-                      return true;
-                    } catch {
-                      return false;
-                    }
-                  },
-                },
-              ]}
             />
             <p style={{ color: '#6f6f6f' }}>Interview</p>
             <Input
