@@ -26,7 +26,9 @@ import { InfluencerAPI } from 'api';
 import Project from 'constants/project';
 import { useTranslation } from 'react-i18next';
 import { notifyManager } from 'react-query';
-import { useSnackbar } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
+import { Dialog, Modal } from '@mui/material';
+import PromptFormSubmitModal from './elements/form-submit-modal';
 
 const steps = [
   'Login Info',
@@ -78,13 +80,14 @@ export type FormData = {
 const Stepper = () => {
   const [activeStep, setActiveStep] = useState(0);
 
-  const { user, currency } = useAppContext();
+  const { user, currency, influencer } = useAppContext();
 
   const { t } = useTranslation('register');
 
   const [errors, setErrors] = useState([false, false, false, false, false]);
 
   const [isButtonDisabled, setButtonDisabled] = useState(false);
+  const [formModal, openFormModal, closeFormModal] = useModal(false);
 
   const { push } = useSnackbar();
 
@@ -98,6 +101,8 @@ const Stepper = () => {
 
     return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`;
   };
+
+  
 
   const INITIAL_DATA: FormData = {
     firstName: user.firstName,
@@ -144,7 +149,10 @@ const Stepper = () => {
   let currencyToSend: number;
 
   // eslint-disable-next-line consistent-return
-  const onSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
+
+    console.log('modal handle ');
+    
     e.preventDefault();
 
     try {
@@ -153,6 +161,7 @@ const Stepper = () => {
       const campaignDesiredIncome: object[] = [];
 
       const surveyDesiredIncome: object[] = [];
+      const socialPlatforms: object[] = [];
 
       if (activeStep === 3) {
         formData.diseaseAreas.map(async (disease: any) =>
@@ -201,6 +210,16 @@ const Stepper = () => {
           });
         }
 
+        const findInstagramAccount = influencer?.influencer.stakeholders.find(
+          (x) => x.socialPlatformId === 1
+        );
+
+        if (findInstagramAccount) {
+          socialPlatforms.push({
+            socialPlatformid: findInstagramAccount.socialPlatformId
+          })
+        }
+
         const data = {
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -208,61 +227,115 @@ const Stepper = () => {
           gender: formData.gender,
           dateOfBirth: formData.birthDate,
           diseaseArea: formData.diseaseAreas,
-          instaP: formData.instaP,
-          instR: formData.instaR,
-          instaS: formData.instaS,
           experienceAs: formData.experienceAs,
           ethnicity: formData.ethnicity,
-          interviewShort: formData.interviewShort,
-          interviewLong: formData.interviewLong,
-          questionCredit: formData.questionCredit,
           currency: formData.currency,
+          findInstagramAccount,
         };
 
         const isFormDataValid = Object.values(data).every((value) => !!value);
 
-        if (!isFormDataValid) {
-          push('Unable to submit form. Please fill out all required fields!', {
-            variant: 'error',
-          });
-        } else if (isFormDataValid) {
-          addStep();
-          push('Form submitted.', { variant: 'success' });
+        const lastStepData = {
+          instaP: formData?.instaP,
+          instR: formData?.instaR,
+          instaS: formData?.instaS,
+          interviewShort: formData?.interviewShort,
+          interviewLong: formData?.interviewLong,
+          questionCredit: formData?.questionCredit,
         }
+        
 
-        await InfluencerAPI.updateInfluencer(
-          {
-            firstName: formData.firstName || undefined,
-            lastName: formData.lastName || undefined,
-            email: formData.email || undefined,
-            dateOfBirth: formData.birthDate || undefined,
-            ethnicityId: formData.ethnicity.value || undefined,
-            currency: currencyToSend,
-            diseaseAreas: diseaseValueArray || undefined,
-            password: formData.password,
-            // experienceAs: formData.experienceAs.value || undefined,
-            affiliateLink: formData.affiliateLink || undefined,
-            affiliateFriends: formData.affiliateFriends || null,
-            locationId: formData.location.value || undefined,
-            campaignDesiredIncome: campaignDesiredIncome || undefined,
-            surveyDesiredIncome: surveyDesiredIncome || undefined,
-            gender:
-              formData.gender.value === 0 || formData.gender.value
-                ? formData.gender.value
-                : undefined,
-            socialPlatforms: formData.socialPlatforms || undefined,
-            type: formData.experienceAs.value || undefined,
-            status: 4,
-          },
-          user.id
-        );
-        // push('Form submitted.', {
-        //   variant: 'success',
-        // });
+        const hasValue = Object.values(lastStepData).some(value => !!value);
 
-        // eslint-disable-next-line consistent-return
+        const lastEveryValue = Object.values(lastStepData).every(value => !!value);
+        
+        // debugger;
 
-        // eslint-disable-next-line no-else-return
+        if (hasValue && !lastEveryValue && !formModal) {
+          
+          openFormModal();
+
+  
+        } else {
+          // eslint-disable-next-line no-lonely-if
+          if (!isFormDataValid && !hasValue) {
+            push('Unable to submit form. Please fill out all required fields!', {
+              variant: 'error',
+            });
+          } else if (!isFormDataValid && hasValue) {
+            push('Unable to submit form. Please fill out all required fields!', {
+              variant: 'error',
+            });
+          } else if (isFormDataValid && !hasValue) {
+            push('Unable to submit form. Please fill out at least one of the fields in this step!', {
+              variant: 'error',
+            });
+          } else if (isFormDataValid && hasValue) {
+            
+            await InfluencerAPI.updateInfluencer(
+              {
+                firstName: formData.firstName || undefined,
+                lastName: formData.lastName || undefined,
+                email: formData.email || undefined,
+                dateOfBirth: formData.birthDate || undefined,
+                ethnicityId: formData.ethnicity.value || undefined,
+                currency: currencyToSend,
+                diseaseAreas: diseaseValueArray || undefined,
+                password: formData.password,
+                // experienceAs: formData.experienceAs.value || undefined,
+                affiliateLink: formData.affiliateLink || undefined,
+                affiliateFriends: formData.affiliateFriends || null,
+                locationId: formData.location.value || undefined,
+                campaignDesiredIncome: campaignDesiredIncome || undefined,
+                surveyDesiredIncome: surveyDesiredIncome || undefined,
+                gender:
+                  formData.gender.value === 0 || formData.gender.value
+                    ? formData.gender.value
+                    : undefined,
+                socialPlatforms: socialPlatforms || undefined,
+                type: formData.experienceAs.value || undefined,
+                status: 4,
+              },
+              user.id
+            );
+            addStep();
+            push('Form submited!', {
+              variant: 'success',
+            });
+          } else if (isFormDataValid && lastEveryValue) {
+            await InfluencerAPI.updateInfluencer(
+              {
+                firstName: formData.firstName || undefined,
+                lastName: formData.lastName || undefined,
+                email: formData.email || undefined,
+                dateOfBirth: formData.birthDate || undefined,
+                ethnicityId: formData.ethnicity.value || undefined,
+                currency: currencyToSend,
+                diseaseAreas: diseaseValueArray || undefined,
+                password: formData.password,
+                // experienceAs: formData.experienceAs.value || undefined,
+                affiliateLink: formData.affiliateLink || undefined,
+                affiliateFriends: formData.affiliateFriends || null,
+                locationId: formData.location.value || undefined,
+                campaignDesiredIncome: campaignDesiredIncome || undefined,
+                surveyDesiredIncome: surveyDesiredIncome || undefined,
+                gender:
+                  formData.gender.value === 0 || formData.gender.value
+                    ? formData.gender.value
+                    : undefined,
+                socialPlatforms: socialPlatforms || undefined,
+                type: formData.experienceAs.value || undefined,
+                status: 4,
+              },
+              user.id
+            );
+            addStep();
+            push('Form submited!', {
+              variant: 'success',
+            });
+          }      
+        }
+    
       } else {
         addStep();
       }
@@ -276,8 +349,10 @@ const Stepper = () => {
 
   const [formData, setFormData] = useState(INITIAL_DATA);
 
+  
+
   return (
-    <StepperMain onSubmit={onSubmit}>
+    <StepperMain>
       <StepHelper>
         <StepContainer>
           <StepperContainer
@@ -323,6 +398,9 @@ const Stepper = () => {
             />
           )}
           {activeStep === 4 && <StepV />}
+          {formModal && (
+            <PromptFormSubmitModal onClose={closeFormModal} onSubmit={handleSubmit} />
+          )}
         </StepContainer>
         <ButtonsMain>
           <Button
@@ -340,12 +418,12 @@ const Stepper = () => {
             variant="contained"
             size="large"
             color="primary"
-            onClick={onSubmit}
+            onClick={handleSubmit}
           >
             {activeStep === 3 ? 'Submit' : 'Next'}
           </Button>
         </ButtonsMain>
-      </StepHelper>
+      </StepHelper>  
     </StepperMain>
   );
 };

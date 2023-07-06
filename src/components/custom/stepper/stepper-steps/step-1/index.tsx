@@ -139,7 +139,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
             label="First Name"
             placeholder="John"
             disabled
-            required
             errorCallback={handleErrors(0)}
             validators={[
               {
@@ -171,7 +170,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
             label="Last Name"
             placeholder="Doe"
             disabled
-            required
             errorCallback={handleErrors(1)}
             validators={[
               {
@@ -205,7 +203,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
             label="Email"
             placeholder="johndoe@gmail.com"
             disabled
-            required
             errorCallback={handleErrors(3)}
             validators={[
               {
@@ -237,7 +234,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
           <Input
             type="password"
             label={t('Password') as string}
-            required
             disabled
             placeholder={t('***************') as string}
             value={formData.password}
@@ -282,7 +278,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
           type="text"
           label="Invited by"
           disabled
-          // required
           value={invitedBy}
           // onValue={(invitedBy) => setState({ ...state, invitedBy })}
           onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
@@ -301,7 +296,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
           type="text"
           label="Affiliate link"
           disabled
-          required
           value={affiliateLink}
           endAdornment={
             <CopyIcon
