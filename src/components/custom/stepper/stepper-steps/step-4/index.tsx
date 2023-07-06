@@ -20,6 +20,7 @@ import {
 } from 'utilities/validators';
 import { useAppContext } from 'context';
 import { FormData } from '../..';
+import { StepText } from '../step-2/style';
 
 type Step4FormProps = {
   formData: FormData;
@@ -76,7 +77,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               label="Post"
               placeholder="Please Enter Amount"
               value={instaP}
-              required
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaP) => setFormData({ ...formData, instaP })}
               errorCallback={handleErrors(10)}
@@ -107,7 +107,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               label="Story"
               placeholder="Please Enter Amount"
               value={instaS}
-              required
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaS) => setFormData({ ...formData, instaS })}
               errorCallback={handleErrors(11)}
@@ -138,7 +137,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               label="Reel"
               placeholder="Please Enter Amount"
               value={instaR}
-              required
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaR) => setFormData({ ...formData, instaR })}
               errorCallback={handleErrors(12)}
@@ -216,7 +214,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               }}
             >
               Question Credit{' '}
-              <span style={{ color: 'red', marginLeft: '5px' }}>*</span>
               <Tooltip
                 title={
                   <div
@@ -262,7 +259,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               type="text"
               placeholder="Please Enter Amount"
               value={questionCredit}
-              required
               onValue={(questionCredit) =>
                 setFormData({ ...formData, questionCredit })
               }
@@ -307,7 +303,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               label="Interview: 30min"
               placeholder="Please Enter Amount"
               value={interviewShort}
-              required
               onValue={(interviewShort) =>
                 setFormData({ ...formData, interviewShort })
               }
@@ -339,7 +334,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               label="Interview: 60min"
               placeholder="Please Enter Amount"
               value={interviewLong}
-              required
               onValue={(interviewLong) =>
                 setFormData({ ...formData, interviewLong })
               }
@@ -369,6 +363,9 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
           </Stack>
         </StepRight>
       </StepContainer>
+      <StepText>
+        *It&apos;s enough to fill out only one field for the submit form.
+      </StepText>
     </StepStack>
   );
 };

@@ -142,6 +142,10 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
     getGenders();
   }, []);
 
+  const filteredStakeholdres = stakeholder.filter(
+    (element: { value: any }) => element.value === 1 || element.value === 2
+  );
+
   const { user } = useAppContext();
 
   const [id, setId] = useState(user.influencer.id);
@@ -154,7 +158,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             type="date"
             label="Date of Birth"
             placeholder="Please Select"
-            required
             value={birthDate}
             onValue={(birthDate) => setFormData({ ...formData, birthDate })}
             validators={[
@@ -185,7 +188,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             onSearch={debouncedLocation}
             placeholder="Please Select"
             value={location}
-            required
             loading={loading}
             options={locations}
             onValue={(location) => setFormData({ ...formData, location })}
@@ -219,7 +221,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             label="Gender"
             placeholder="Please Select"
             value={gender}
-            required
             onValue={(gender) => setFormData({ ...formData, gender })}
             options={genders}
             errorCallback={handleErrors(6)}
@@ -250,7 +251,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             label="Disease Area"
             placeholder="Please Select"
             value={diseaseAreas}
-            required
             onSearch={debounce(getDiseaseArea, 250)}
             errorCallback={handleErrors(7)}
             onValue={(diseaseAreas) =>
@@ -289,7 +289,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             label="Ethnicity"
             placeholder="Please Select"
             value={ethnicity}
-            required
             onValue={(ethnicity) => setFormData({ ...formData, ethnicity })}
             errorCallback={handleErrors(8)}
             validators={[
@@ -320,11 +319,10 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             label="Experience As"
             placeholder="Please Select"
             value={experienceAs}
-            required
             onValue={(experienceAs) =>
               setFormData({ ...formData, experienceAs })
             }
-            options={stakeholder}
+            options={filteredStakeholdres}
             errorCallback={handleErrors(9)}
             validators={[
               {
