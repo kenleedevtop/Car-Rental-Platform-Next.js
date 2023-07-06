@@ -32,7 +32,7 @@ interface IFormData {
   email: string;
   password: string;
   invCode: string;
-  company: TSelect | null;
+  company: any | null;
   role: TSelect | null;
   commonLegalId: number | null;
 }
@@ -45,7 +45,11 @@ const RegisterPage = () => {
     password: '',
     // companyTitleId: '',
     invCode: '',
-    company: null,
+    company: {
+      value: undefined,
+      label: '',
+      name: '',
+    },
     role: null,
     commonLegalId: null,
   });
@@ -181,6 +185,17 @@ const RegisterPage = () => {
   const debounceCompanies = useDebounce(getCompanies, 300);
   const debounceRoles = useDebounce(getTitles, 300);
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setState({
+        ...state,
+        company: { ...state.company, label: event.target.value },
+      });
+      event.target.blur();
+    }
+  };
+
   useEffect(() => {
     const lang = router.locale?.slice(0, 2);
     if (lang) {
@@ -304,6 +319,7 @@ const RegisterPage = () => {
           placeholder="Please Enter your Company"
           required
           onSearch={debounceCompanies}
+          onKeyDown={handleKeyDown}
           value={state.company}
           onValue={(company) =>
             setState({

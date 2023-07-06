@@ -267,7 +267,7 @@ const AdminAmbassadorsPage = () => {
       reload();
       setCheckedAmbassadors([]);
 
-      push('Influencers successfully removed!', { variant: 'success' });
+      push('Ambassadors successfully removed!', { variant: 'success' });
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
     }

@@ -38,6 +38,17 @@ const ChangeAmbassadorInfoModal = ({
   const [role, setRole] = useState<any>();
   const [loading, setLoading] = useState(false);
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      setState({
+        ...state,
+        company: { ...state.company, label: event.target.value },
+      });
+      event.target.blur();
+    }
+  };
+
   const getCompanies = async (s: string = '') => {
     setLoading(true);
     const { result } = await CompanyAPI.getAll(s);
@@ -80,7 +91,7 @@ const ChangeAmbassadorInfoModal = ({
         },
         id
       ).finally(() => {
-        if (setParentFilter && setCompanyRole) {
+        if (setParentFilter && setCompanyRole && state.company && state.role) {
           setParentFilter((prevState: any) => ({
             ...prevState,
             company: state.company.label,
@@ -136,6 +147,7 @@ const ChangeAmbassadorInfoModal = ({
             value={state.company}
             onValue={(input) => setState({ ...state, company: input })}
             onSearch={debounce(getCompanies, 250)}
+            onKeyDown={handleKeyDown}
             options={company}
             loading={loading}
           />

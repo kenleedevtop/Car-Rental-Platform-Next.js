@@ -37,7 +37,7 @@ const SingleAmbassadorActions = ({
       await InfluencerAPI.deleteInfluencer(data);
       reload();
 
-      push('Influencer successfully deleted!', { variant: 'success' });
+      push('Ambassador successfully deleted!', { variant: 'success' });
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
     }

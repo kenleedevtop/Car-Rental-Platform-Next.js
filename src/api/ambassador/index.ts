@@ -4,11 +4,22 @@ import {
   TRegisterAsAmbassadorParams,
   ISingleAmbassadorResponse,
   IPagintatedAmbassadors,
+  IAffiliatedAmbassador,
 } from 'api/ambassador/types';
 
 import { client } from 'api/api-client';
 
 const AmbassadorAPI = {
+  getAffiliateCodeOwner: async (
+    affiliateCode: string
+  ): Promise<IAffiliatedAmbassador> => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/ambassador/affiliateCodeOwner/${affiliateCode}`
+    );
+
+    return data;
+  },
+
   registration: async (
     body: TRegisterAsAmbassadorParams,
     token: string,

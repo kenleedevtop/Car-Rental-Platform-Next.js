@@ -179,3 +179,22 @@ export interface IPagUser {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IAffiliatedAmbassador {
+  id: number;
+  userId: number;
+  companyId: number;
+  companyTitleId: number;
+  affiliateCode: string;
+  invitedByAdminId: number;
+  industryId: any;
+  createdAt: string;
+  updatedAt: string;
+  user: IPartUserUser;
+}
+
+export interface IPartUserUser {
+  id: number;
+  firstName: string;
+  lastName: string;
+}

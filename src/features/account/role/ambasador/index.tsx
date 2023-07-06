@@ -39,7 +39,11 @@ const AccountPage = ({ ...props }) => {
   });
 
   const [companyRole, setCompanyRole] = useState<any>({
-    company: null,
+    company: {
+      value: undefined,
+      label: '',
+      name: '',
+    },
     role: null,
   });
 
