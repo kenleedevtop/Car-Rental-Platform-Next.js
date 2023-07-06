@@ -112,17 +112,6 @@ const RegisterPage = () => {
   const handleRegister = async () => {
     try {
       const locale = router.locale ? router.locale?.slice(0, 2) : '';
-      // await ClientAPI.registration(
-      //   {
-      //     ...state,
-      //     companyTitleId: state.companyTitleId.value,
-      //     company: {
-      //       name: state.company.label,
-      //       companyId: state.company.value,
-      //     },
-      //   },
-      //   locale
-      // );
 
       if (isAffiliated) {
         const requestData = {
