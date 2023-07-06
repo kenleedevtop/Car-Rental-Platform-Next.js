@@ -204,7 +204,6 @@ const RegisterPage = () => {
         const affiliateAmbassador = await AmbassadorAPI.getAffiliateCodeOwner(
           affiliateCode.toString()
         );
-        console.log(affiliateAmbassador);
         setAffiliatedAmbassador(affiliateAmbassador);
       } catch (error) {
         // router.push('/register?as=influencer');
