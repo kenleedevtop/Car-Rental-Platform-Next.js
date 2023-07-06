@@ -206,7 +206,7 @@ const RegisterPage = () => {
         );
         setAffiliatedAmbassador(affiliateAmbassador);
       } catch (error) {
-        // router.push('/register?as=influencer');
+        router.push('/register?as=influencer');
         snackbar.push('Invalid Affiliate Code', {
           variant: 'error',
         });
