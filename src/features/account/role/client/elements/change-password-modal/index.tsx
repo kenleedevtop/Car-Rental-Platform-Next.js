@@ -22,7 +22,10 @@ const ChangePasswordModal = ({
 
   const changePassword = async () => {
     try {
-      await ClientAPI.updateClient(state.newPassword, user.client.id);
+      await ClientAPI.updateClient(
+        { password: state.newPassword },
+        user.client.id
+      );
       push('Password successfully updated!', { variant: 'success' });
     } catch {
       push('Password change failed', { variant: 'error' });

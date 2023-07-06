@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TAmbasadorProfileModalProps } from 'features/ambassadors/role/admin/elements/ambassadors-profile/types';
 import {
@@ -8,12 +8,16 @@ import {
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { EditIcon } from 'components/svg';
+import { AmbassadorAPI } from 'api';
 
 const AmbasadorProfile = ({
   onClose,
+  ambassadorId,
   ...props
 }: TAmbasadorProfileModalProps) => {
   const [state, setState] = useState({
+    firstName: '',
+    lastName: '',
     clientName: '',
     email: '',
     company: null,
@@ -49,6 +53,30 @@ const AmbasadorProfile = ({
 
   const [editActive, setEditActive] = useState(true);
 
+  const getAmbassador = async (id: number) => {
+    const data = await AmbassadorAPI.getSingleAmbassador(id);
+
+    return data;
+  };
+
+  useEffect(() => {
+    getAmbassador(ambassadorId).then((data) => {
+      setState((prevState) => ({
+        ...prevState,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        company: null,
+        role: data.ambassador.companyTitle.name,
+        product: null,
+        industry: null,
+        diseaseArea: null,
+        location: null,
+        market: null,
+      }));
+    });
+  }, []);
+
   const handleEdit = () => {
     setEditActive((prev) => !prev);
   };
@@ -58,7 +86,7 @@ const AmbasadorProfile = ({
       size="medium"
       title={
         <ClientTitle>
-          First Name Last Name{' '}
+          {state.firstName} {state.lastName}{' '}
           <EditIcon
             style={
               editActive

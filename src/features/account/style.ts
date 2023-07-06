@@ -15,7 +15,7 @@ export const AccountSpan = styled.div<{ theme?: Theme }>`
     font-size: 12px;
     display: inline;
     width: 110px;
-    justify-self: flex-end;
+    margin-left: auto;
  `}
 `;
 

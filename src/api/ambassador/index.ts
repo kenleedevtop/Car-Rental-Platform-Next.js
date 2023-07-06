@@ -3,6 +3,7 @@ import {
   TSingleAmbassador,
   TRegisterAsAmbassadorParams,
   ISingleAmbassadorResponse,
+  IPagintatedAmbassadors,
 } from 'api/ambassador/types';
 
 import { client } from 'api/api-client';
@@ -24,7 +25,7 @@ const AmbassadorAPI = {
     );
   },
 
-  getAmbassadors: async (params?: any) => {
+  getAmbassadors: async (params?: any): Promise<IPagintatedAmbassadors> => {
     const { data } = await client.get(`${Project.apis.v1}/ambassador`, {
       params,
     });
@@ -42,6 +43,10 @@ const AmbassadorAPI = {
 
   deleteAmbassador: async (id: TSingleAmbassador) => {
     await client.delete(`${Project.apis.v1}/ambassador/${id}`);
+  },
+
+  updateSingleAmbassador: async (body: any, id: number) => {
+    await client.patch(`${Project.apis.v1}/ambassador/${id}`, body);
   },
 };
 

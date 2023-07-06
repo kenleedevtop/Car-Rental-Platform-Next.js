@@ -72,6 +72,7 @@ export type FormData = {
   averageQuestionSurvey: '';
   interviewShort: '';
   interviewLong: '';
+  status: number;
 };
 
 const Stepper = () => {
@@ -129,6 +130,7 @@ const Stepper = () => {
     interviewLong: '',
     socialPlatforms: [],
     currency: 2,
+    status: user.status,
   };
 
   const addStep = () => {
@@ -185,23 +187,16 @@ const Stepper = () => {
           });
         }
 
-        if (formData.averageQuestionSurvey) {
-          surveyDesiredIncome.push({
-            surveyType: 1,
-            desiredAmount: parseFloat(formData.averageQuestionSurvey),
-          });
-        }
-
         if (formData.interviewShort) {
           surveyDesiredIncome.push({
-            surveyType: 2,
+            surveyType: 1,
             desiredAmount: parseFloat(formData.interviewShort),
           });
         }
 
         if (formData.interviewLong) {
           surveyDesiredIncome.push({
-            surveyType: 3,
+            surveyType: 2,
             desiredAmount: parseFloat(formData.interviewLong),
           });
         }
@@ -221,7 +216,6 @@ const Stepper = () => {
           interviewShort: formData.interviewShort,
           interviewLong: formData.interviewLong,
           questionCredit: formData.questionCredit,
-          averageQuestionSurvey: formData.averageQuestionSurvey,
           currency: formData.currency,
         };
 
@@ -249,10 +243,6 @@ const Stepper = () => {
             // experienceAs: formData.experienceAs.value || undefined,
             affiliateLink: formData.affiliateLink || undefined,
             affiliateFriends: formData.affiliateFriends || null,
-            questionCredit: formData.questionCredit || undefined,
-            averageQuestionSurvey: formData.averageQuestionSurvey,
-            interviewShort: formData.interviewShort || undefined,
-            interviewLong: formData.interviewLong || undefined,
             locationId: formData.location.value || undefined,
             campaignDesiredIncome: campaignDesiredIncome || undefined,
             surveyDesiredIncome: surveyDesiredIncome || undefined,
@@ -262,6 +252,7 @@ const Stepper = () => {
                 : undefined,
             socialPlatforms: formData.socialPlatforms || undefined,
             type: formData.experienceAs.value || undefined,
+            status: 4,
           },
           user.id
         );
@@ -276,7 +267,6 @@ const Stepper = () => {
         addStep();
       }
     } catch (error) {
-      console.log('error with submit', error);
       push('Unable to submit form. Please fill out all required fields!', {
         variant: 'error',
       });

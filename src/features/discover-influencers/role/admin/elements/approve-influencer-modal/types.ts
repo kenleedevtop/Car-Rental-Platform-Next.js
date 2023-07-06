@@ -5,5 +5,6 @@ export type TPromptInfluencerModalProps =
     onClose: () => void;
     type?: 'approve' | 'delete';
     handleAction: () => Promise<void>;
+    target?: 'influencer' | 'client' | 'ambassador';
     plural?: boolean;
   };

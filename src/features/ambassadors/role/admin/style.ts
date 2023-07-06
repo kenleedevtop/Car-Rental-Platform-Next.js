@@ -1,5 +1,20 @@
 import styled from '@emotion/styled';
+import { Menu } from 'components/custom';
 import { Theme } from '@mui/material';
+
+export const ISpan = styled.div``;
+
+export const ToBeApprovedActionsMenu = styled(Menu)<{
+  position: { right: number; top: number };
+}>`
+  ${({ position }) => `
+    position: fixed;
+    z-index: 200;
+    width: 120px;
+    right: ${position?.right}px;
+    top: ${position?.top}px;
+    `}
+`;
 
 export const TableTooltip = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -19,14 +34,4 @@ export const TableTooltip = styled.div<{ theme?: Theme }>`
           color: #4f4f4f;
         }
     `}
-`;
-
-export const ButtonGroupContainer = styled.div`
-  ${({ theme }) => `
-        position: relative;
-    `}
-`;
-
-export const AmbassadorAction = styled.div`
-  cursor: pointer;
 `;

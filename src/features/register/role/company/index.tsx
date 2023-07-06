@@ -390,15 +390,16 @@ const RegisterPage = () => {
           },
         ]}
       />
-      {router.query.token && (
-        <Input
-          type="text"
-          label={t('Invited By') as string}
-          disabled
-          value={router.query.token}
-          onValue={() => {}}
-        />
-      )}
+      {router.query.affiliateCode &&
+        router.query.affiliateCode.toString().length && (
+          <Input
+            type="text"
+            label={t('Invited By') as string}
+            disabled
+            value={router.query.affiliateCode}
+            onValue={() => {}}
+          />
+        )}
       <RegisterCheckbox
         value={legalsChecked}
         onValue={(value) => setLegalsChecked(value)}
