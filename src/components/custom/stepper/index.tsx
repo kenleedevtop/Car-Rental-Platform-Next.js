@@ -207,15 +207,15 @@ const Stepper = () => {
           });
         }
 
-        const findInstagramAccount = influencer?.influencer.stakeholders.find(
-          (x) => x.socialPlatformId === 1
-        );
+        // const findInstagramAccount = influencer?.influencer.stakeholders.find(
+        //   (x) => x.socialPlatformId === 1
+        // );
 
-        if (findInstagramAccount) {
-          socialPlatforms.push({
-            socialPlatformid: findInstagramAccount.socialPlatformId,
-          });
-        }
+        // if (findInstagramAccount) {
+        //   socialPlatforms.push({
+        //     socialPlatformid: findInstagramAccount.socialPlatformId,
+        //   });
+        // }
 
         const data = {
           firstName: formData.firstName,
@@ -227,7 +227,7 @@ const Stepper = () => {
           experienceAs: formData.experienceAs,
           ethnicity: formData.ethnicity,
           currency: formData.currency,
-          findInstagramAccount,
+          // findInstagramAccount,
         };
 
         const isFormDataValid = Object.values(data).every((value) => !!value);
