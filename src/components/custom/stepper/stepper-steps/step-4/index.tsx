@@ -80,27 +80,27 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaP) => setFormData({ ...formData, instaP })}
               errorCallback={handleErrors(10)}
-              validators={[
-                {
-                  message: t('Post amount is required'),
-                  validator: (instaP) => {
-                    const v = instaP as string;
-                    if (v.trim()) return true;
-                    return false;
-                  },
-                },
-                {
-                  message: t('Please enter post amount!'),
-                  validator: (instaP) => {
-                    try {
-                      instagramPostSchema.validateSync({ instaP });
-                      return true;
-                    } catch {
-                      return false;
-                    }
-                  },
-                },
-              ]}
+              // validators={[
+              //   {
+              //     message: t('Post amount is required'),
+              //     validator: (instaP) => {
+              //       const v = instaP as string;
+              //       if (v.trim()) return true;
+              //       return false;
+              //     },
+              //   },
+              //   {
+              //     message: t('Please enter post amount!'),
+              //     validator: (instaP) => {
+              //       try {
+              //         instagramPostSchema.validateSync({ instaP });
+              //         return true;
+              //       } catch {
+              //         return false;
+              //       }
+              //     },
+              //   },
+              // ]}
             />
             <Input
               type="text"
@@ -110,27 +110,27 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaS) => setFormData({ ...formData, instaS })}
               errorCallback={handleErrors(11)}
-              validators={[
-                {
-                  message: t('Story amount is required'),
-                  validator: (instaS) => {
-                    const v = instaS as string;
-                    if (v.trim()) return true;
-                    return false;
-                  },
-                },
-                {
-                  message: t('Please enter story amount!'),
-                  validator: (instaS) => {
-                    try {
-                      instagramStorySchema.validateSync({ instaS });
-                      return true;
-                    } catch {
-                      return false;
-                    }
-                  },
-                },
-              ]}
+              // validators={[
+              //   {
+              //     message: t('Story amount is required'),
+              //     validator: (instaS) => {
+              //       const v = instaS as string;
+              //       if (v.trim()) return true;
+              //       return false;
+              //     },
+              //   },
+              //   {
+              //     message: t('Please enter story amount!'),
+              //     validator: (instaS) => {
+              //       try {
+              //         instagramStorySchema.validateSync({ instaS });
+              //         return true;
+              //       } catch {
+              //         return false;
+              //       }
+              //     },
+              //   },
+              // ]}
             />
             <Input
               type="text"
@@ -140,27 +140,27 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaR) => setFormData({ ...formData, instaR })}
               errorCallback={handleErrors(12)}
-              validators={[
-                {
-                  message: t('Reel amount is required'),
-                  validator: (instaR) => {
-                    const v = instaR as string;
-                    if (v.trim()) return true;
-                    return false;
-                  },
-                },
-                {
-                  message: t('Please enter reel amount!'),
-                  validator: (instaR) => {
-                    try {
-                      instagramReelSchema.validateSync({ instaR });
-                      return true;
-                    } catch {
-                      return false;
-                    }
-                  },
-                },
-              ]}
+              // validators={[
+              //   {
+              //     message: t('Reel amount is required'),
+              //     validator: (instaR) => {
+              //       const v = instaR as string;
+              //       if (v.trim()) return true;
+              //       return false;
+              //     },
+              //   },
+              //   {
+              //     message: t('Please enter reel amount!'),
+              //     validator: (instaR) => {
+              //       try {
+              //         instagramReelSchema.validateSync({ instaR });
+              //         return true;
+              //       } catch {
+              //         return false;
+              //       }
+              //     },
+              //   },
+              // ]}
             />
           </Stack>
         </StepLeft>
@@ -264,27 +264,27 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               }
               style={{ marginTop: '-15px' }}
               errorCallback={handleErrors(13)}
-              validators={[
-                {
-                  message: t('Question credit amount is required'),
-                  validator: (questionCredit) => {
-                    const v = questionCredit as string;
-                    if (v.trim()) return true;
-                    return false;
-                  },
-                },
-                {
-                  message: t('Please enter question credit amount!'),
-                  validator: (questionCredit) => {
-                    try {
-                      lastNameSchema.validateSync({ questionCredit });
-                      return true;
-                    } catch {
-                      return false;
-                    }
-                  },
-                },
-              ]}
+              // validators={[
+              //   {
+              //     message: t('Question credit amount is required'),
+              //     validator: (questionCredit) => {
+              //       const v = questionCredit as string;
+              //       if (v.trim()) return true;
+              //       return false;
+              //     },
+              //   },
+              //   {
+              //     message: t('Please enter question credit amount!'),
+              //     validator: (questionCredit) => {
+              //       try {
+              //         lastNameSchema.validateSync({ questionCredit });
+              //         return true;
+              //       } catch {
+              //         return false;
+              //       }
+              //     },
+              //   },
+              // ]}
             />
 
             <Input
@@ -307,27 +307,27 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 setFormData({ ...formData, interviewShort })
               }
               errorCallback={handleErrors(14)}
-              validators={[
-                {
-                  message: t('Interview amount is required'),
-                  validator: (lastName) => {
-                    const v = lastName as string;
-                    if (v.trim()) return true;
-                    return false;
-                  },
-                },
-                {
-                  message: t('Please enter interview amount!'),
-                  validator: (lastName) => {
-                    try {
-                      lastNameSchema.validateSync({ lastName });
-                      return true;
-                    } catch {
-                      return false;
-                    }
-                  },
-                },
-              ]}
+              // validators={[
+              //   {
+              //     message: t('Interview amount is required'),
+              //     validator: (lastName) => {
+              //       const v = lastName as string;
+              //       if (v.trim()) return true;
+              //       return false;
+              //     },
+              //   },
+              //   {
+              //     message: t('Please enter interview amount!'),
+              //     validator: (lastName) => {
+              //       try {
+              //         lastNameSchema.validateSync({ lastName });
+              //         return true;
+              //       } catch {
+              //         return false;
+              //       }
+              //     },
+              //   },
+              // ]}
             />
             <Input
               type="text"
@@ -338,27 +338,27 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 setFormData({ ...formData, interviewLong })
               }
               errorCallback={handleErrors(15)}
-              validators={[
-                {
-                  message: t('Interview amount is required'),
-                  validator: (lastName) => {
-                    const v = lastName as string;
-                    if (v.trim()) return true;
-                    return false;
-                  },
-                },
-                {
-                  message: t('Please enter interview amount!'),
-                  validator: (lastName) => {
-                    try {
-                      lastNameSchema.validateSync({ lastName });
-                      return true;
-                    } catch {
-                      return false;
-                    }
-                  },
-                },
-              ]}
+              // validators={[
+              //   {
+              //     message: t('Interview amount is required'),
+              //     validator: (lastName) => {
+              //       const v = lastName as string;
+              //       if (v.trim()) return true;
+              //       return false;
+              //     },
+              //   },
+              //   {
+              //     message: t('Please enter interview amount!'),
+              //     validator: (lastName) => {
+              //       try {
+              //         lastNameSchema.validateSync({ lastName });
+              //         return true;
+              //       } catch {
+              //         return false;
+              //       }
+              //     },
+              //   },
+              // ]}
             />
           </Stack>
         </StepRight>
