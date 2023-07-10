@@ -150,7 +150,7 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination count={32} />
+                    <Pagination count={32}/>
                   </>
                 )}
                 {tabsC === 1 && (
@@ -171,13 +171,13 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination count={32} />
+                    <Pagination count={32} style={{paddingTop:'15%'}}/>
                   </>
                 )}
               </Stack>
             }
           >
-            <Stack>
+            <Stack style={{gap:'0'}}>
               <Title
                 title="Competitive Analysis"
                 style={{
@@ -278,7 +278,7 @@ const HomePage = () => {
             title="Surveys"
             // actions={[<DotsIcon />]}
             headerColumnTable={
-              <Stack>
+              <Stack style={{gap:'0'}}>
                 <Tabs
                   tabs={['Available', 'In Progress']}
                   value={tabsS}
@@ -297,7 +297,7 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination count={32} />
+                    <Pagination count={32} style={{paddingTop:'20%'}}/>
                   </>
                 )}
                 {tabsS === 1 && (
@@ -318,14 +318,14 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination count={32} />
+                    <Pagination count={32} style={{paddingTop:'20%', width:'400px'}}/>
                   </>
                 )}
               </Stack>
             }
           >
             <Stack direction="horizontal">
-              <Stack>
+              <Stack style={{gap:'0'}}>
                 <Title
                   title="Competitive Analysis"
                   style={{

@@ -49,6 +49,12 @@ export const TableBodyRow = styled.tr<{ theme?: Theme }>`
     &:not(:last-child) {
         border-bottom: 1px solid ${theme.palette.common.black}20;
     }
+    td:last-child {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      top: 50%;
+  }
   `}
 `;
 
