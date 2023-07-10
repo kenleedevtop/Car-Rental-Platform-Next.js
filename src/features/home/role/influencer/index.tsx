@@ -379,7 +379,7 @@ const HomePage = () => {
                     inputRatio="150px 79px"
                     elements={[
                       {
-                        value: state.amount,
+                        value: amountQuestion.amount,
                         onValue: (amount) => setState({ ...state, amount }),
                         type: 'select',	
                         placeholder: 'Question Credit',
