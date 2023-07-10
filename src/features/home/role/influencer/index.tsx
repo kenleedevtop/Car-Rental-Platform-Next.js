@@ -23,20 +23,60 @@ import { DCampaignItems } from 'features/home/role/influencer/data';
 import Theme from 'theme';
 import { ChartWrapper, GridCellCustom } from './styles';
 import InfluencerHomeActions from './elements/actions';
+import { useAppContext } from 'context';
 
 const HomePage = () => {
-  const [state, setState] = useState({
-    currency: null,
-    amount: '',
-    start: null,
-    end: null,
-    save: null,
+
+  const [state, setState] = useState({	
+    currency: 'CHF',	
+    amount: '',	
+    start: null,	
+    end: null,	
+    save: null,	
   });
+		
+  const [amountQuestion, setAmountQuestion] = useState({	
+    currency: 'CHF',	
+    amount: '',	
+    start: null,	
+    end: null,	
+    save: null,	
+  });	
+  const [amountInterview, setAmountInterview] = useState({	
+    currency: 'CHF',	
+    amount: {value:'30min', label:'30 min interview'},	
+    start: null,	
+    end: null,	
+    save: null,	
+  });	
+  const handleCurrencyCalculation = (	
+    amount: number,	
+    currency: 'EUR' | 'USD' | 'CHF' = 'CHF'	
+  ): number => {	
+    let formattedAmount = 0;	
+  	
+    if (currency === 'EUR') {	
+      formattedAmount = amount * 1.03;	
+    }	
+    if (currency === 'USD') {	
+      formattedAmount = amount * 1.11;	
+    }	
+  	
+    if (currency === 'CHF') {	
+      formattedAmount = amount; // Assumes the amount is already in euros for other currencies	
+    }	
+  	
+    return +formattedAmount.toFixed(0);	
+  };	
+  let cost = 55;
 
   const [tabsC, setTabsC] = useState(0);
   const [tabsSM, setTabsSM] = useState(0);
   const [tabsS, setTabsS] = useState(0);
   const [tabsCA, setTabsCA] = useState(0);
+  const [tabsI, setTabIS] = useState(0);	
+  const [tabsIA, setTabsIA] = useState(0);	
+  const { currency } = useAppContext();
 
   const renderItem = ({ headItem, cell }: TTableRenderItemObject) => {
     if (headItem.reference === 'campaign') {
@@ -81,8 +121,6 @@ const HomePage = () => {
     if (headItem.reference === 'actions') {
       return <InfluencerHomeActions data={cell.data.user.id} />;
     }
-
-    return '';
   };
 
   return (
@@ -180,34 +218,35 @@ const HomePage = () => {
               <GridCellCustom columnSpan={4}>
                 <InputGroup
                   label="Desired amount per Post"
-                  inputRatio="150px 150px"
-                  elements={[
-                    {
-                      value: state.amount,
-                      onValue: (amount) => setState({ ...state, amount }),
-                      type: 'text',
-                      placeholder: '18',
-                    },
-                    {
-                      value: state.currency,
-                      onValue: (currency) => setState({ ...state, currency }),
-                      type: 'select',
-                      placeholder: 'CHF',
-                      options: [
-                        {
-                          value: 'eur',
-                          label: 'EUR',
-                        },
-                        {
-                          value: 'usd',
-                          label: 'USD',
-                        },
-                        {
-                          value: 'chf',
-                          label: 'CHF',
-                        },
-                      ],
-                    },
+                  inputRatio="150px 79px"
+                  elements={[	
+                    {	
+                      value: state.amount,	
+                      onValue: (amount) => setState({ ...state, amount }),	
+                      type: 'select',	
+                      placeholder: 'Post',	
+                      options: [	
+                        {	
+                          value: 'post',	
+                          label: 'Post',	
+                        },	
+                        {	
+                          value: 'reel',	
+                          label: 'Reel',	
+                        },	
+                        {	
+                          value: 'story',	
+                          label: 'Story',	
+                        },	
+                      ],	
+                    },	
+                    {	
+                      value: cost + ' ' + state.currency,	
+                      onValue: (currency) => setState({ ...state, currency }),	
+                      type: 'text',	
+                      placeholder: 'CHF',	
+                      disabled: true,
+                    },	
                   ]}
                 />
                 <Button
@@ -222,6 +261,15 @@ const HomePage = () => {
                   Save
                 </Button>
               </GridCellCustom>
+              <div style={{display:'flex',font:'IBM Plex Sans', color:'#7E839F', fontSize:'11px', marginBottom: '12px'}}>	
+                <div style={{width:'13px', height:'13px',alignContent:'center', justifyContent:'center', paddingTop:'2px'}}>	
+                  <InfoIcon />	
+                </div>	
+                <p style={{paddingLeft:'3px'}}>	
+                  {cost}{' '}{state.currency} is approximately 	
+                </p>	
+                <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(55,'USD')} USD.</p>	
+              </div>
             </Stack>
           </CardWithTextNew>
         </GridCell>
@@ -288,9 +336,10 @@ const HomePage = () => {
                 />
                 <Tabs
                   tabs={['Questionnaire', 'Interview']}
-                  value={tabsCA}
-                  onValue={setTabsCA}
+                  value={tabsIA}
+                  onValue={setTabsIA}
                 />
+                {tabsIA === 0 && (<>
                 <Note showIcon={false}>
                   Patients asks for 1-2.5 USD per Question Credit on average.
                 </Note>
@@ -320,34 +369,22 @@ const HomePage = () => {
                 </ChartWrapper>
                 <GridCellCustom columnSpan={4}>
                   <InputGroup
-                    label="Desired amount per Post"
-                    inputRatio="150px 150px"
+                    label="Desired amount per Question credit"
+                    inputRatio="150px 79px"
                     elements={[
                       {
                         value: state.amount,
                         onValue: (amount) => setState({ ...state, amount }),
-                        type: 'text',
-                        placeholder: '18',
+                        type: 'select',	
+                        placeholder: 'Question Credit',
+                        disabled:true,
                       },
                       {
-                        value: state.currency,
+                        value: cost + ' ' + state.currency,
                         onValue: (currency) => setState({ ...state, currency }),
-                        type: 'select',
+                        type: 'text',
                         placeholder: 'CHF',
-                        options: [
-                          {
-                            value: 'eur',
-                            label: 'EUR',
-                          },
-                          {
-                            value: 'usd',
-                            label: 'USD',
-                          },
-                          {
-                            value: 'chf',
-                            label: 'CHF',
-                          },
-                        ],
+                        disabled: true,
                       },
                     ]}
                   />
@@ -363,6 +400,101 @@ const HomePage = () => {
                     Save
                   </Button>
                 </GridCellCustom>
+                <div style={{display:'flex',font:'IBM Plex Sans', color:'#7E839F', fontSize:'11px'}}>	
+                  <div style={{width:'13px', height:'13px',alignContent:'center', justifyContent:'center', paddingTop:'2px'}}>	
+                    <InfoIcon />	
+                  </div>	
+                  <p style={{paddingLeft:'3px'}}>	
+                    {cost}{' '}{state.currency} is approximately 	
+                  </p>	
+                  <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(55,'USD')} USD.</p>	
+                </div>
+                </>)}
+
+                {tabsIA === 1 && (<>	
+                  <Note showIcon={false}>	
+                    Participants asks for 23-25 USD per 30 min Interview on average.	
+                  </Note>	
+                    <ChartWrapper>	
+                    <BarChart	
+                      labels={[	
+                        '0-5',	
+                        '6-10',	
+                        '11-15',	
+                        '16-20',	
+                        '21-25',	
+                        '26-30',	
+                        '31-35',	
+                        '36-40',	
+                        '41-45',	
+                        '46-50',	
+                      ]}	
+                      data={[	
+                        {	
+                          color: `${Theme.palette.secondary.main}40`,	
+                          values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],	
+                        },	
+                      ]}	
+                      verticalLabel="Number of Influencers"	
+                      horizontalLabel="Amount Per Post"	
+                    />	
+                  </ChartWrapper>	
+                  <GridCellCustom	columnSpan={4}>	
+                    <InputGroup	
+                      label={`Desired amount per ${	
+                        amountInterview.amount.value === '30min' ? '30 min Interview' : '60 min interview'	
+                      }`}	
+                      inputRatio="185px 79px"	
+                      elements={[	
+                        {	
+                          value: amountInterview.amount,	
+                          onValue: (amount) => setAmountInterview({...state, amount }),	
+                          type: 'select',	
+                          placeholder: '30 min Interviews',	
+                          options: [	
+                            {	
+                              value: '30min',	
+                              label: '30 min Interview',	
+                            },	
+                            {	
+                              value: '60',	
+                              label: '60 min interview',	
+                            },	
+                          ]	
+                        },	
+                        {	
+                          value: cost + ' ' + state.currency,	
+                          onValue: (currency)=> setState({ ...state, currency }),	
+                          type: 'text',	
+                          placeholder: 'CHF',	
+                          disabled: true,
+                        },	
+                        	
+                      ]}	
+                      	
+                    />	
+                    <Button	
+                      style={{	
+                        width: '150px',	
+                        height: '39px',	
+                        marginLeft: '10px',	
+                      }}	
+                      variant="contained"	
+                      color="primary"	
+                    >	
+                      Save	
+                    </Button>	
+                  </GridCellCustom>	
+                  <div style={{display:'flex',font:'IBM Plex Sans', color:'#7E839F', fontSize:'11px'}}>	
+                    <div style={{width:'13px', height:'13px',alignContent:'center', justifyContent:'center', paddingTop:'2px'}}>	
+                      <InfoIcon />	
+                    </div>	
+                    <p style={{paddingLeft:'3px'}}>	
+                      {cost} {' '}{state.currency} is approximately 	
+                    </p>	
+                    <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(55,'USD')} USD.</p>	
+                  </div>	
+                </>)}
               </Stack>
             </Stack>
           </CardWithTextNew>

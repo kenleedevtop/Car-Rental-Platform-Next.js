@@ -113,7 +113,6 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             label="First Name"
             placeholder="John"
             disabled
-            required
             value={firstName}
             onValue={(firstname) => setFormData({ ...formData, firstname })}
             // onValue={(firstName) => updateFields(firstName, firstName)}

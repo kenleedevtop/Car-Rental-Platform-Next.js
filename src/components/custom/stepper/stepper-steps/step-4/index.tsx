@@ -44,14 +44,15 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
           color: '#2D3779',
           font: 'inter',
           fontWeight: '600',
-          display: 'flex',
+          display: 'grid',
+          gridTemplateColumns:'repeat(8, 1fr)',
           justifyContent: 'space-between',
         }}
       >
         <div>
           <p>Campaigns</p>
         </div>
-        <div style={{ justifyContent: 'left' }}>
+        <div style={{ justifyContent: 'center', gridColumn:'7'}}>
           <p>Surveys</p>
         </div>
       </div>

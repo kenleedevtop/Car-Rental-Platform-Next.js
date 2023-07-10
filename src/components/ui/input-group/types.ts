@@ -20,6 +20,7 @@ export type TInputGroupElement = {
   placeholder?: string;
   startAdornment?: string | ReactNode;
   endAdornment?: string | ReactNode;
+  disabled?: boolean;
 };
 
 export type TInputGroupProps = React.HTMLAttributes<HTMLInputElement> & {
