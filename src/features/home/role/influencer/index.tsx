@@ -29,7 +29,7 @@ const HomePage = () => {
 
   const [state, setState] = useState({	
     currency: 'CHF',	
-    amount: '',	
+    amount: {value:'post', label:'Post'},		
     start: null,	
     end: null,	
     save: null,	
@@ -68,6 +68,17 @@ const HomePage = () => {
   	
     return +formattedAmount.toFixed(0);	
   };	
+  let selectedOption = {value:'post', label: 'Post'}
+  if(state.amount.value === '' || state.amount.value === null || state.amount.value === undefined)
+  {
+    selectedOption.label = 'Post'
+  } else{
+    selectedOption.label = state.amount.label
+  }
+
+
+  const label = `Desired amount per ${selectedOption.label}`;
+
   let cost = 55;
 
   const [tabsC, setTabsC] = useState(0);
@@ -192,7 +203,7 @@ const HomePage = () => {
                   {' '}Participants asks{' '}
                 Influencers with an audience your size, asks for {' '}
                 <b style={{color:'#448DC9', display:'inline-flex'}}>21-25 USD{' '}</b> per {' '}
-                <b style={{color:'#448DC9', display:'inline-flex'}}>Post</b>{' '}on average.
+                <b style={{color:'#448DC9', display:'inline-flex'}}>{selectedOption.label}</b>{' '}on average.
               </Note>
               <ChartWrapper>
                 <BarChart
@@ -220,7 +231,7 @@ const HomePage = () => {
               </ChartWrapper>
               <GridCellCustom columnSpan={4}>
                 <InputGroup
-                  label="Desired amount per Post"
+                  label={label}
                   inputRatio="150px 79px"
                   elements={[	
                     {	
