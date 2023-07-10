@@ -188,8 +188,11 @@ const HomePage = () => {
               />
               <Tabs tabs={['Instagram']} value={tabsSM} onValue={setTabsSM} />
               <Note showIcon={false}>
-                Influencers with an audience your size, asks for 21-25 USD per
-                Post on average.
+                <InfoIcon style={{paddingTop: '4px',width:'17px', height:'17px', alignContent: 'center', display: 'inline-flex'}}></InfoIcon>
+                  {' '}Participants asks{' '}
+                Influencers with an audience your size, asks for {' '}
+                <b style={{color:'#448DC9', display:'inline-flex'}}>21-25 USD{' '}</b> per {' '}
+                <b style={{color:'#448DC9', display:'inline-flex'}}>Post</b>{' '}on average.
               </Note>
               <ChartWrapper>
                 <BarChart
@@ -341,7 +344,10 @@ const HomePage = () => {
                 />
                 {tabsIA === 0 && (<>
                 <Note showIcon={false}>
-                  Patients asks for 1-2.5 USD per Question Credit on average.
+                <InfoIcon style={{paddingTop: '4px',width:'17px', height:'17px', alignContent: 'center', display: 'inline-flex'}}></InfoIcon>
+                  Patients asks for{' '}
+                  <b style={{color:'#448DC9', display:'inline-flex'}}>1-2.5 USD</b> per {' '}
+                  <b style={{color:'#448DC9', display:'inline-flex'}}>Question Credit</b>{' '}on average.
                 </Note>
                 <ChartWrapper>
                   <BarChart
@@ -412,8 +418,12 @@ const HomePage = () => {
                 </>)}
 
                 {tabsIA === 1 && (<>	
+                  
                   <Note showIcon={false}>	
-                    Participants asks for 23-25 USD per 30 min Interview on average.	
+                  <InfoIcon style={{paddingTop: '4px',width:'17px', height:'17px', alignContent: 'center', display: 'inline-flex'}}></InfoIcon>
+                  {' '}Participants asks{' '}
+                    <b style={{color:'#448DC9', display:'inline-flex'}}>23-25 USD{' '}</b> per {' '}
+                    <b style={{color:'#448DC9', display:'inline-flex'}}>{amountInterview.amount.value === '30min' ? '30 min Interview' : '60 min interview'}</b>{' '}on average.
                   </Note>	
                     <ChartWrapper>	
                     <BarChart	
@@ -486,9 +496,7 @@ const HomePage = () => {
                     </Button>	
                   </GridCellCustom>	
                   <div style={{display:'flex',font:'IBM Plex Sans', color:'#7E839F', fontSize:'11px'}}>	
-                    <div style={{width:'13px', height:'13px',alignContent:'center', justifyContent:'center', paddingTop:'2px'}}>	
-                      <InfoIcon />	
-                    </div>	
+
                     <p style={{paddingLeft:'3px'}}>	
                       {cost} {' '}{state.currency} is approximately 	
                     </p>	
