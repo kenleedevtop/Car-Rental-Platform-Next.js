@@ -16,15 +16,54 @@ import {
   PhoneCallIcon,
 } from 'components/svg';
 import { HelpCollapse } from 'features/help/elements';
+import { useSnackbar } from 'hooks';
+import UsersAPI from 'api/users';
 
 const HelpPage = () => {
   const [tab, setTab] = useState(0);
 
-  const [filter, setFilter] = useState({
+  const initialHelpFormData = {
     topic: null,
     subject: '',
     message: '',
-  });
+  };
+
+  const [helpFormData, setHelpFormData] = useState<any>(initialHelpFormData);
+
+  const { push } = useSnackbar();
+
+  const topicOptions = [
+    { value: 0, label: 'Account and Verification' },
+    { value: 1, label: 'Payments and Earnings' },
+    { value: 2, label: 'Campaigns and Surveys' },
+    { value: 3, label: 'Technical Support' },
+    { value: 4, label: 'Privacy and Compliance' },
+    { value: 5, label: 'Donations & Affiliate Program' },
+    { value: 6, label: 'Benefits' },
+    { value: 7, label: 'General Inquiry' },
+  ];
+
+  const sendSupportEmail = async () => {
+    const { topic, subject, message } = helpFormData;
+
+    const trimmedSubject = subject.trim();
+    const trimmedMessage = message.trim();
+    try {
+      if (topic && trimmedSubject.length && trimmedMessage.length) {
+        const formBody = {
+          subject: trimmedSubject,
+          message: trimmedMessage,
+          topic: topic.label,
+        };
+        await UsersAPI.contactAdmin(formBody);
+        push('Sucess submitting form');
+
+        setHelpFormData(initialHelpFormData);
+      }
+    } catch (error) {
+      push('Error sending form', { variant: 'error' });
+    }
+  };
 
   return (
     <HelpPageMain>
@@ -138,25 +177,36 @@ const HelpPage = () => {
                   type="select"
                   label="Topic"
                   placeholder="Please Select"
-                  value={filter.topic}
-                  onValue={(topic) => setFilter({ ...filter, topic })}
+                  value={helpFormData.topic}
+                  onValue={(topic) =>
+                    setHelpFormData({ ...helpFormData, topic })
+                  }
+                  options={topicOptions}
                 />
                 <Input
                   type="text"
                   label="Subject"
                   placeholder="Please Enter"
-                  value={filter.subject}
-                  onValue={(subject) => setFilter({ ...filter, subject })}
+                  value={helpFormData.subject}
+                  onValue={(subject) =>
+                    setHelpFormData({ ...helpFormData, subject })
+                  }
                 />
                 <Input
                   type="text"
                   label="Message"
                   placeholder="Please Enter"
-                  value={filter.message}
-                  onValue={(message) => setFilter({ ...filter, message })}
+                  value={helpFormData.message}
+                  onValue={(message) =>
+                    setHelpFormData({ ...helpFormData, message })
+                  }
                   multiline
                 />
-                <Button color="primary" variant="contained">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={sendSupportEmail}
+                >
                   Send
                 </Button>
               </Stack>
@@ -167,11 +217,13 @@ const HelpPage = () => {
                 <Stack>
                   <IconWithText
                     icon={<PhoneCallIcon />}
+                    link="https://calendly.com/patientsinfluence-influencer/15min"
                     title="Talk with our founder"
                     text={['Schedule a call!']}
                   />
                   <IconWithText
                     icon={<EnvelopeIcon />}
+                    link="mailto:ivan@patientsinfluence.com"
                     title="Write to our founder"
                     text={['Send an email!']}
                   />
@@ -179,6 +231,7 @@ const HelpPage = () => {
                     icon={<LocationIcon />}
                     title="Visit Us"
                     text={['Riehenring 65, 4058 Basel Switzerland']}
+                    link="https://goo.gl/maps/mbiouV7WZoXBwqJDA"
                   />
                 </Stack>
               </HelpPageIconWithTextIContainer>

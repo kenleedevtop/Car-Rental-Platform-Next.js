@@ -14,7 +14,12 @@ import Link from 'next/link';
 const IconWithText = ({ link, icon, title, text, ...props }: TIconWithText) => (
   <IconWithTextMain {...props}>
     {link ? (
-      <a target="_blank" rel="noreferrer" href={link}>
+      <a
+        target="_blank"
+        rel="noreferrer"
+        href={link}
+        style={{ cursor: 'pointer' }}
+      >
         <IconWithTextIcon>{icon}</IconWithTextIcon>
       </a>
     ) : (
