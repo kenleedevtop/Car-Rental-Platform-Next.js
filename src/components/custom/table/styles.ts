@@ -9,7 +9,15 @@ export const TableWrapper = styled.div<{ theme?: Theme }>`
     background-color: ${theme.palette.common.white};
 
     overflow-x: scroll;
-    overflow-y: scroll;
+    overflow-y: auto;
+
+    ${theme.breakpoints.down('sm')} {
+      width: 78vw;
+    }
+
+    ${theme.breakpoints.down('xs')} {
+      width: 74vw;
+    }
   `}
 `;
 

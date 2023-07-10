@@ -8,6 +8,10 @@ export const CardMain = styled(Card)<{ theme?: Theme }>`
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: ${theme.spacing(20)};
+
+        ${theme.breakpoints.down('xl')} {
+          grid-template-columns: 1fr;
+        }
     `}
 `;
 
@@ -19,6 +23,10 @@ export const CardHead = styled.div<{ theme?: Theme }>`
     flex-direction: column;
     width: 100%;
     gap: 1.25rem;
+    
+    ${theme.breakpoints.down('md')} {
+      width: 82vw;
+    }
 
     ${theme.breakpoints.down('sm')} {
       display: grid;
@@ -63,6 +71,12 @@ export const CardActions = styled.div<{ theme?: Theme }>`
 `}
 `;
 
-export const CardBody = styled.div`
-  width: 100%;
+export const CardBody = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    width: 100%;
+
+    ${theme.breakpoints.down('sm')} {
+      width: 80vw;
+    }
+  `}
 `;

@@ -11,9 +11,9 @@ export const createInitialState = (): TAppContext => ({
   role: 'CLIENT',
   initialLoading: true,
   showMobileMenu: false,
-  instagramAccount: null,
+  // instagramAccount: null,
   handleMobileMenu: () => {},
   handleCurrencyChange: () => {},
-  handleInstagramAccount() {},
+  // handleInstagramAccount() {},
   handleInfluencer() {},
 });

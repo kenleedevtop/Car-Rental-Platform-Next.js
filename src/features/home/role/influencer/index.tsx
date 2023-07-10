@@ -21,6 +21,8 @@ import { Button, InputGroup, Pagination } from 'components/ui';
 import React, { useState } from 'react';
 import { DCampaignItems } from 'features/home/role/influencer/data';
 import Theme from 'theme';
+import { ChartWrapper, GridCellCustom } from './styles';
+import InfluencerHomeActions from './elements/actions';
 
 const HomePage = () => {
   const [state, setState] = useState({
@@ -74,6 +76,10 @@ const HomePage = () => {
       return (
         <Status color={statusData.color as TColor} text={statusData.text} />
       );
+    }
+
+    if (headItem.reference === 'actions') {
+      return <InfluencerHomeActions data={cell.data.user.id} />;
     }
 
     return '';
@@ -147,7 +153,7 @@ const HomePage = () => {
                 Influencers with an audience your size, asks for 21-25 USD per
                 Post on average.
               </Note>
-              <div style={{ width: 500, height: 300, margin: '50px 0px 0px' }}>
+              <ChartWrapper>
                 <BarChart
                   labels={[
                     '0-5',
@@ -170,15 +176,8 @@ const HomePage = () => {
                   verticalLabel="Number of Influencers"
                   horizontalLabel="Amount Per Post"
                 />
-              </div>
-              <GridCell
-                columnSpan={4}
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  marginBottom: '25px',
-                }}
-              >
+              </ChartWrapper>
+              <GridCellCustom columnSpan={4}>
                 <InputGroup
                   label="Desired amount per Post"
                   inputRatio="150px 150px"
@@ -222,12 +221,13 @@ const HomePage = () => {
                 >
                   Save
                 </Button>
-              </GridCell>
+              </GridCellCustom>
             </Stack>
           </CardWithTextNew>
         </GridCell>
         <GridCell columnSpan={2}>
-          <CardWithTextNew title="Surveys"
+          <CardWithTextNew
+            title="Surveys"
             // actions={[<DotsIcon />]}
             headerColumnTable={
               <Stack>
@@ -278,12 +278,14 @@ const HomePage = () => {
           >
             <Stack direction="horizontal">
               <Stack>
-                <Title title="Competitive Analysis" 
-                style={{
-                  fontSize: ' 20px',
-                  color: '#37428A',
-                  fontWeight: '500',
-                }}/>
+                <Title
+                  title="Competitive Analysis"
+                  style={{
+                    fontSize: ' 20px',
+                    color: '#37428A',
+                    fontWeight: '500',
+                  }}
+                />
                 <Tabs
                   tabs={['Questionnaire', 'Interview']}
                   value={tabsCA}
@@ -292,7 +294,7 @@ const HomePage = () => {
                 <Note showIcon={false}>
                   Patients asks for 1-2.5 USD per Question Credit on average.
                 </Note>
-                <div style={{ width: 500, height: 300, margin: '50px 0px' }}>
+                <ChartWrapper>
                   <BarChart
                     labels={[
                       '0-5',
@@ -315,11 +317,8 @@ const HomePage = () => {
                     verticalLabel="Number of Influencers"
                     horizontalLabel="Amount Per Post"
                   />
-                </div>
-                <GridCell
-                  columnSpan={4}
-                  style={{ display: 'flex', alignItems: 'flex-end' }}
-                >
+                </ChartWrapper>
+                <GridCellCustom columnSpan={4}>
                   <InputGroup
                     label="Desired amount per Post"
                     inputRatio="150px 150px"
@@ -363,7 +362,7 @@ const HomePage = () => {
                   >
                     Save
                   </Button>
-                </GridCell>
+                </GridCellCustom>
               </Stack>
             </Stack>
           </CardWithTextNew>

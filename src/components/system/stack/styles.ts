@@ -10,5 +10,6 @@ export const StackMain = styled.div<{
         display: flex;
         flex-direction: ${direction === 'horizontal' ? 'row' : 'column'};
         gap: ${theme.spacing(5)};
+        width: 100%;
     `}
 `;

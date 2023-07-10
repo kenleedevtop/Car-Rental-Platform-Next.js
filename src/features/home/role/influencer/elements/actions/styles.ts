@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Menu } from 'components/custom';
 
-export const ClientActionsMain = styled.div<{ theme?: Theme }>`
+export const HomeActionsMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
         display: grid;
         place-items: center;
@@ -12,7 +12,7 @@ export const ClientActionsMain = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const ClientActionsMenu = styled(Menu)<{
+export const HomeActionsMenu = styled(Menu)<{
   position: { right: number; top: number };
 }>`
   ${({ position }) => `

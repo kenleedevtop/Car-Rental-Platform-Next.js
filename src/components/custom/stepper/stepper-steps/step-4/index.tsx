@@ -20,7 +20,6 @@ type Step4FormProps = {
   setFormData: any;
 };
 
-
 const Step = ({ formData, setFormData }: Step4FormProps) => {
   const {
     instaP,
@@ -38,21 +37,30 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
 
   return (
     <StepStack>
-        <div style={{ height:'25px', width:'100%', color: '#2D3779' , font: 'inter', fontWeight:'600', display:'flex', justifyContent:'space-between'}}>
-          <div>
-            <p>Campaigns</p>
-          </div>
-          <div></div>
-          <div></div>
-          <div style={{ justifyContent:'left'}}>          
-            <p >Surveys</p>
-          </div>
-
+      <div
+        style={{
+          height: '25px',
+          width: '100%',
+          color: '#2D3779',
+          font: 'inter',
+          fontWeight: '600',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div>
+          <p>Campaigns</p>
         </div>
-      <StepContainer style={{display:'flex'}}>
+        <div style={{ justifyContent: 'left' }}>
+          <p>Surveys</p>
+        </div>
+      </div>
+      <StepContainer style={{ display: 'flex' }}>
         <StepLeft>
           <Stack>
-            <p style={{ color: '#7E839F' , font: 'inter', fontWeight:'600'}}>Instagram</p>
+            <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
+              Instagram
+            </p>
             <Input
               type="text"
               label="Post"
@@ -60,7 +68,7 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
               value={instaP}
               // onValue={(instaP) => setFilter({ ...filter, instaP })}
               onValue={(instaP) => setFormData({ ...formData, instaP })}
-              style={{ color: 'red' , font: 'inter', fontWeight:'500'}}
+              style={{ color: 'red', font: 'inter', fontWeight: '500' }}
             />
             <Input
               type="text"
@@ -82,7 +90,9 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
         </StepLeft>
         <StepFMiddle>
           <Stack>
-            <p style={{ color: '#7E839F' , font: 'inter', fontWeight:'600'}}>Youtube</p>
+            <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
+              Youtube
+            </p>
             <Input
               type="text"
               label="Video - 10sec"
@@ -107,10 +117,11 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
           </Stack>
         </StepFMiddle>
         <StepSMiddle>
-          <Stack >
-            <p style={{ color: '#7E839F' , font: 'inter', fontWeight:'600'}}>TikTok</p>
+          <Stack>
+            <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
+              TikTok
+            </p>
             <Input
-            
               type="text"
               label="Post"
               placeholder="Please Enter Amount"
@@ -121,7 +132,9 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
         </StepSMiddle>
         <StepRight>
           <Stack>
-            <p style={{ color: '#7E839F' , font: 'inter', fontWeight:'600'}}>Questionnaire</p>
+            <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
+              Questionnaire
+            </p>
             <p
               style={{
                 color: '#6f6f6f',
@@ -130,7 +143,9 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
                 fontSize: '14px',
               }}
             >
-              <p style={{ font: 'inter', fontWeight:'500'}}>Question Credit</p>
+              <p style={{ font: 'inter', fontWeight: '500' }}>
+                Question Credit
+              </p>
 
               <Tooltip
                 componentsProps={{
@@ -153,19 +168,53 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
                       boxShadow: '2px',
                     }}
                   >
-                    <p style={{ font: 'inter', fontWeight:'600', color:'#7E839F', fontSize:'11px', lineHeight: '13.31px'}}>Question Credit</p>
-                    <p style={{ font: 'inter', fontWeight:'500', color:'#9F9FB0', fontSize:'11px', lineHeight: '13.31px'}}>
+                    <p
+                      style={{
+                        font: 'inter',
+                        fontWeight: '600',
+                        color: '#7E839F',
+                        fontSize: '11px',
+                        lineHeight: '13.31px',
+                      }}
+                    >
+                      Question Credit
+                    </p>
+                    <p
+                      style={{
+                        font: 'inter',
+                        fontWeight: '500',
+                        color: '#9F9FB0',
+                        fontSize: '11px',
+                        lineHeight: '13.31px',
+                      }}
+                    >
                       Question Credit is determined by the complexity of the
                       question. If the question is taking more time for
                       participant to answer it will be worth more credits.
                     </p>
-                    <p style={{ font: 'inter', fontWeight:'500', color:'#9F9FB0', fontSize:'11px', lineHeight: '13.31px'}}>
+                    <p
+                      style={{
+                        font: 'inter',
+                        fontWeight: '500',
+                        color: '#9F9FB0',
+                        fontSize: '11px',
+                        lineHeight: '13.31px',
+                      }}
+                    >
                       <p>Example:</p>
                       <p>Yes or No = 1 credit</p>
                       <p>Multiple Choice = 1 credit</p>
                       <p>Open-ended Question = 2 credits</p>
                     </p>
-                    <p style={{ font: 'inter', fontWeight:'500', color:'#9F9FB0', fontSize:'11px', lineHeight: '13.31px'}}>
+                    <p
+                      style={{
+                        font: 'inter',
+                        fontWeight: '500',
+                        color: '#9F9FB0',
+                        fontSize: '11px',
+                        lineHeight: '13.31px',
+                      }}
+                    >
                       Additional credits will be assigned to the questions that
                       require more time e.g. watching a short video.
                     </p>
@@ -203,7 +252,9 @@ const Step = ({ formData, setFormData }: Step4FormProps) => {
                 setFormData({ ...formData, averageQuestionSurvey })
               }
             />
-            <p style={{ color: '#7E839F', fontWeight:'600', font:'inter' }}>Interview</p>
+            <p style={{ color: '#7E839F', fontWeight: '600', font: 'inter' }}>
+              Interview
+            </p>
             <Input
               type="text"
               label="30min"
