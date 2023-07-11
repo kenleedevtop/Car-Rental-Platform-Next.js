@@ -3,7 +3,7 @@ import { Modal } from 'components/custom';
 import { TDeleteInfluencerModalProps } from 'features/discover-influencers/role/admin/elements/delete-influencer-modal/types';
 import { DeleteInfluencerModalMain } from 'features/discover-influencers/role/admin/elements/delete-influencer-modal/styles';
 import { Button } from 'components/ui';
-import { AdminAPI, InfluencerAPI } from 'api';
+import { InfluencerAPI } from 'api';
 import { useSnackbar } from 'hooks';
 import { useRouter } from 'next/router';
 
