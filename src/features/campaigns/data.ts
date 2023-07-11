@@ -162,6 +162,11 @@ export const DCampaignsAdminHead = [
     label: 'Language',
     visible: false,
   },
+  {
+    reference: 'actions',
+    label: '',
+    visible: true,
+  },
 ];
 
 export const DCampaignsHead = [
