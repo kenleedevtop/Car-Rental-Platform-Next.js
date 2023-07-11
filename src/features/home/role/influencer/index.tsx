@@ -70,7 +70,10 @@ const HomePage = () => {
     return +formattedAmount.toFixed(0);	
   };	
   let selectedOption = {value:'post', label: 'Post'}
-  if(state.amount.value === '' || state.amount.value === null || state.amount.value === undefined)
+  if(state.amount === null){
+    state.amount = {value:'post', label: 'Post'}
+  }
+  else if(state.amount.value === '' || state.amount.value === null || state.amount.value === undefined)
   {
     selectedOption.label = 'Post'
   } else{
