@@ -31,8 +31,6 @@ const InPreparationActions = ({
 
   const router = useRouter();
 
-  console.log(data);
-
   return (
     <InPreparationActionsMain {...props}>
       <ISpan onClick={handleMenu} ref={buttonRef}>

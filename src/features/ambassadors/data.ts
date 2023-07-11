@@ -45,7 +45,7 @@ export const DAmbassadorsHead = [
   {
     reference: 'email',
     label: 'Email',
-    visible: false,
+    visible: true,
   },
   {
     reference: 'registeredAt',
@@ -90,12 +90,22 @@ export const DAmbassadorsHead = [
   {
     reference: 'role',
     label: 'Role',
-    visible: false,
+    visible: true,
+  },
+  {
+    reference: 'invited',
+    label: 'Invited',
+    visible: true,
+  },
+  {
+    reference: 'invitedCount',
+    label: 'Invited (count)',
+    visible: true,
   },
   {
     reference: 'totalRegisteredClients',
     label: 'Total Registered Clients',
-    visible: true,
+    visible: false,
   },
   {
     reference: 'totalRegisteredClientsLast30Days',
@@ -115,7 +125,7 @@ export const DAmbassadorsHead = [
   {
     reference: 'totalBudget',
     label: 'Total Budget',
-    visible: true,
+    visible: false,
   },
   {
     reference: 'totalBudgetLast30Days',
@@ -130,7 +140,7 @@ export const DAmbassadorsHead = [
   {
     reference: 'totalOngoingProjects',
     label: 'Total Ongoing Projects',
-    visible: true,
+    visible: false,
   },
   {
     reference: 'totalProjectsLast30Days',
@@ -211,5 +221,10 @@ export const DAmbassadorsHead = [
     reference: 'totalSmlLast30Days',
     label: 'Total SML Last 30 Days',
     visible: false,
+  },
+  {
+    reference: 'actions',
+    label: '',
+    visible: true,
   },
 ];

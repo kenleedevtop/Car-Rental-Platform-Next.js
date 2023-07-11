@@ -1,3 +1,4 @@
+import { IResult } from 'api/ambassador/types';
 import React, { ReactNode } from 'react';
 
 export type TTableHeadItem = {
@@ -13,7 +14,7 @@ export type TTableColumnData = {
 
 export type TTableRowData = {
   index: number;
-  data: any;
+  data: any | IResult;
 };
 
 export type TTableRenderItemObject = {

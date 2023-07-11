@@ -17,7 +17,7 @@ const PageLayout = ({ children, ...props }: TPageLayoutProps) => {
   useEffect(() => {
     if (pathname === '/login') {
       setImage('/static/assets/images/login.jpg');
-    } else if (pathname === '/register' && query.as === 'company') {
+    } else if (pathname === '/register' && query.as === 'client') {
       setImage('/static/assets/images/register-company.jpg');
     } else if (pathname === '/register' && query.as?.includes('ambassador')) {
       setImage('/static/assets/images/register-company.jpg');

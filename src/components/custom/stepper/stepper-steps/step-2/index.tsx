@@ -11,18 +11,40 @@ import {
 import { DiseaseAreaAPI, EnumsApi, LocationAPI } from 'api';
 import { useAppContext } from 'context';
 import { useDebounce } from 'hooks';
+import { useTranslation } from 'react-i18next';
+import {
+  birthDateSchema,
+  diseaseAreaSchema,
+  emailSchema,
+  ethnicitySchema,
+  experienceAsSchema,
+  genderSchema,
+  locationSchema,
+} from 'utilities/validators';
 import { FormData } from '../..';
 
 type Step2FormProps = {
   formData: FormData;
   setFormData: any;
+  handleErrors: (index: number) => (value: boolean) => void;
 };
 
-const Step = ({ formData, setFormData }: Step2FormProps) => {
+const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
   const { birthDate, location, gender, diseaseAreas, experienceAs, ethnicity } =
     formData;
 
   const [loading, setLoading] = useState(false);
+
+  const { t } = useTranslation('register');
+
+  const [errors, setErrors] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const [locations, setLocations] = useState([]);
   const [diseaseAreas2, setDiseaseAreas] = useState([]);
@@ -108,9 +130,9 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
 
   const debouncedLocation = useDebounce(getLocations, 250);
 
-  // // const handleNewTag = (v: any) => {
-  // //   setFilter({ ...filter, diseaseAreas: [...filter.diseaseAreas, v] });
-  // // };
+  const handleNewTag = (v: any) => {
+    setFormData({ ...formData, diseaseAreas: [...formData.diseaseAreas, v] });
+  };
 
   useEffect(() => {
     getLocations();
@@ -120,22 +142,13 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
     getGenders();
   }, []);
 
+  const filteredStakeholdres = stakeholder.filter(
+    (element: { value: any }) => element.value === 1 || element.value === 2
+  );
+
   const { user } = useAppContext();
 
   const [id, setId] = useState(user.influencer.id);
-
-  // const updateInfluencer = async () => {
-  //   await InfluencerAPI.updateInfluencer(
-  //     {
-  //       locationId: filter.location.value || undefined,
-  //       gender: filter.gender.value || undefined,
-  //       dateOfBirth: filter.birthDate || undefined,
-  //       ethnicityId: filter.ethnicity.value || undefined,
-  //       diseaseAreas: filter.diseaseArea.map((x: any) => x.value) || [],
-  //     },
-  //     id
-  //   );
-  // };
 
   return (
     <StepContainer>
@@ -146,8 +159,28 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             label="Date of Birth"
             placeholder="Please Select"
             value={birthDate}
-            // onValue={(birthDate) => setFilter({ ...filter, birthDate })}
             onValue={(birthDate) => setFormData({ ...formData, birthDate })}
+            validators={[
+              {
+                message: t('Birth date is required'),
+                validator: (birthDate) => {
+                  const v = birthDate as string;
+                  if (v) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('Please add date of birth!'),
+                validator: (birthDate) => {
+                  try {
+                    birthDateSchema.validateSync({ birthDate });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
           />
           <Input
             type="select"
@@ -157,8 +190,29 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             value={location}
             loading={loading}
             options={locations}
-            // onValue={(location) => setFilter({ ...filter, location })}
             onValue={(location) => setFormData({ ...formData, location })}
+            errorCallback={handleErrors(5)}
+            validators={[
+              {
+                message: t('Location is required'),
+                validator: (location) => {
+                  const v = location as object;
+                  if (v) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('Please choose location!'),
+                validator: (location) => {
+                  try {
+                    locationSchema.validateSync({ location });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
           />
         </StepStack>
         <StepStack direction="horizontal">
@@ -167,9 +221,30 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             label="Gender"
             placeholder="Please Select"
             value={gender}
-            // onValue={(gender) => setFilter({ ...filter, gender })}
             onValue={(gender) => setFormData({ ...formData, gender })}
             options={genders}
+            errorCallback={handleErrors(6)}
+            validators={[
+              {
+                message: t('Gender is required'),
+                validator: (gender) => {
+                  const v = gender as object;
+                  if (v !== undefined) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('Please select gender!'),
+                validator: (gender) => {
+                  try {
+                    genderSchema.validateSync({ gender });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
           />
           <Input
             type="multiselect"
@@ -177,13 +252,35 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             placeholder="Please Select"
             value={diseaseAreas}
             onSearch={debounce(getDiseaseArea, 250)}
+            errorCallback={handleErrors(7)}
             onValue={(diseaseAreas) =>
               setFormData({ ...formData, diseaseAreas })
             }
-            // onValue={(input) => setFilter({ ...filter, diseaseArea: input })}
-            // onNewTag={handleNewTag}
+            onNewTag={handleNewTag}
             loading={loading}
             options={diseaseAreas2}
+            validators={[
+              {
+                message: t('Disease area is required'),
+                validator: (diseaseArea) => {
+                  const v = diseaseArea as [];
+
+                  if (v) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('Please choose disease areas!'),
+                validator: (diseaseArea) => {
+                  try {
+                    diseaseAreaSchema.validateSync({ diseaseArea });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
           />
         </StepStack>
         <StepStack direction="horizontal">
@@ -193,7 +290,28 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             placeholder="Please Select"
             value={ethnicity}
             onValue={(ethnicity) => setFormData({ ...formData, ethnicity })}
-            // onValue={(input) => setFilter({ ...filter, ethnicity: input })}
+            errorCallback={handleErrors(8)}
+            validators={[
+              {
+                message: t('Ethnicity is required'),
+                validator: (ethnicity) => {
+                  const v = ethnicity as object;
+                  if (v) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('Please choose ethnicity!'),
+                validator: (ethnicity) => {
+                  try {
+                    ethnicitySchema.validateSync({ ethnicity });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
             options={ethnicities}
           />
           <Input
@@ -201,11 +319,32 @@ const Step = ({ formData, setFormData }: Step2FormProps) => {
             label="Experience As"
             placeholder="Please Select"
             value={experienceAs}
-            // onValue={(experienceAs) => setFilter({ ...filter, experienceAs })}
             onValue={(experienceAs) =>
               setFormData({ ...formData, experienceAs })
             }
-            options={stakeholder}
+            options={filteredStakeholdres}
+            errorCallback={handleErrors(9)}
+            validators={[
+              {
+                message: t('Experience As is required'),
+                validator: (experienceAs) => {
+                  const v = experienceAs as object;
+                  if (v) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('Please choose type of profile!'),
+                validator: (experienceAs) => {
+                  try {
+                    experienceAsSchema.validateSync({ experienceAs });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
           />
         </StepStack>
         <StepText>

@@ -8,11 +8,29 @@ const PromptModal = ({
   onClose,
   handleAction,
   type = 'delete',
+  target = 'influencer',
   plural = false,
   ...props
 }: TPromptInfluencerModalProps) => {
   const action = type === 'delete' ? 'Delete' : 'Approve';
-  const entity = plural ? 'Influencers' : 'Influencer';
+
+  const termMapping = {
+    influencer: {
+      singular: 'influencer',
+      plural: 'influencers',
+    },
+    client: {
+      singular: 'client',
+      plural: 'clients',
+    },
+    ambassador: {
+      singular: 'ambassador',
+      plural: 'ambassadors',
+    },
+  };
+
+  const entity = termMapping[target][plural ? 'plural' : 'singular'];
+
   return (
     <Modal
       size="small"
@@ -43,9 +61,8 @@ const PromptModal = ({
       {...props}
     >
       <DeleteInfluencerModalMain>
-        Are you sure that you want to {action.toLowerCase()}{' '}
-        {plural ? 'selected influencers' : 'selected influencer'}? <br />{' '}
-        Operation cannot be undone.
+        Are you sure that you want to {action.toLowerCase()} selected {entity}?{' '}
+        <br /> Operation cannot be undone.
       </DeleteInfluencerModalMain>
     </Modal>
   );

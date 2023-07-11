@@ -11,6 +11,8 @@ import {
   StepStack,
 } from 'components/custom/stepper/stepper-steps/step-1/style';
 
+import { useTranslation } from 'react-i18next';
+
 import {
   ChangeEmailModal,
   ChangePasswordModal,
@@ -18,16 +20,40 @@ import {
 import { CopyIcon } from 'components/svg';
 import { useAppContext } from 'context';
 import { InfluencerAPI } from 'api';
+import { t } from 'i18next';
+import {
+  emailSchema,
+  firstNameSchema, // potential gazenje
+  lastNameSchema,
+  passwordSchema,
+} from 'utilities/validators';
 import { TSelectFieldType } from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
 import { FormData } from '../..';
 
 type Step1FormProps = {
   formData: FormData;
   setFormData: any;
+  handleErrors: (index: number) => (value: boolean) => void;
 };
 
-const Step = ({ formData, setFormData }: Step1FormProps) => {
+const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
   const { user, handleInfluencer } = useAppContext();
+
+  const { t } = useTranslation('register');
+
+  const [errors, setErrors] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  // const handleErrors = (index: number) => (value: boolean) => {
+  //   setErrors((x) => x.map((a, b) => (b === index ? value : a)));
+  // };
 
   const {
     firstName,
@@ -37,7 +63,7 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
     diseaseAreas,
     markets,
     email,
-    // password,
+    password,
     invitedBy,
     affiliateFriends,
     affiliateLink,
@@ -113,6 +139,28 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             label="First Name"
             placeholder="John"
             disabled
+            errorCallback={handleErrors(0)}
+            validators={[
+              {
+                message: t('First name is required'),
+                validator: (firstName) => {
+                  const v = firstName as string;
+                  if (v.trim()) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('First name needs to be at least 2 characters long'),
+                validator: (firstName) => {
+                  try {
+                    firstNameSchema.validateSync({ firstName });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
             value={firstName}
             onValue={(firstname) => setFormData({ ...formData, firstname })}
             // onValue={(firstName) => updateFields(firstName, firstName)}
@@ -122,6 +170,28 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             label="Last Name"
             placeholder="Doe"
             disabled
+            errorCallback={handleErrors(1)}
+            validators={[
+              {
+                message: t('Last name is required'),
+                validator: (lastName) => {
+                  const v = lastName as string;
+                  if (v.trim()) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('Last name needs to be at least 2 characters long'),
+                validator: (lastName) => {
+                  try {
+                    lastNameSchema.validateSync({ lastName });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
             value={lastName}
             // onValue={(lastName) => setState({ ...state, lastName })}
             onValue={(lastName) => setFormData({ ...formData, lastName })}
@@ -133,12 +203,66 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             label="Email"
             placeholder="johndoe@gmail.com"
             disabled
+            errorCallback={handleErrors(3)}
+            validators={[
+              {
+                message: t('Email is required'),
+                validator: (email) => {
+                  const v = email as string;
+                  if (v.trim()) return true;
+                  return false;
+                },
+              },
+              {
+                message: t('Not a valid email format'),
+                validator: (email) => {
+                  try {
+                    emailSchema.validateSync({ email });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
             value={email}
             // onValue={(email) => setState({ ...state, email })}
             onValue={(email) => setFormData({ ...formData, email })}
           />
         </StepChange>
         <StepChange>
+          <Input
+            type="password"
+            label={t('Password') as string}
+            disabled
+            placeholder={t('***************') as string}
+            value={formData.password}
+            onValue={(password) => setFormData({ ...formData, password })}
+            errorCallback={handleErrors(4)}
+            validators={[
+              {
+                message: t('Password is required'),
+                validator: (password) => {
+                  const v = password as string;
+                  if (v.trim()) return true;
+                  return false;
+                },
+              },
+              {
+                message: t(
+                  'Password must have at least one uppercase, lowercase letter, number and symbol'
+                ),
+                validator: (password) => {
+                  try {
+                    passwordSchema.validateSync({ password });
+                    return true;
+                  } catch {
+                    return false;
+                  }
+                },
+              },
+            ]}
+          />
           {/* <Input
             type="text"
             label="Password"
@@ -147,9 +271,17 @@ const Step = ({ formData, setFormData }: Step1FormProps) => {
             value={password}
             // onValue={(password) => setState({ ...state, password })}
             onValue={password => setFormData({ ...formData, password })}
-          /> 
-          <StepSpan onClick={openCpModal}>Change Password</StepSpan> */}
+        /> */}
+          <StepSpan onClick={openCpModal}>Change Password</StepSpan>
         </StepChange>
+        <Input
+          type="text"
+          label="Invited by"
+          disabled
+          value={invitedBy}
+          // onValue={(invitedBy) => setState({ ...state, invitedBy })}
+          onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
+        />
         <Input
           type="select"
           label="Affiliate friends"

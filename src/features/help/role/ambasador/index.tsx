@@ -11,15 +11,54 @@ import { IconWithText, Tabs } from 'components/custom';
 import { Stack } from 'components/system';
 import { ArrowDownIcon, EnvelopeIcon, PhoneCallIcon } from 'components/svg';
 import { HelpCollapse } from 'features/help/elements';
+import UsersAPI from 'api/users';
+import { useSnackbar } from 'hooks';
 
 const HelpPage = () => {
   const [tab, setTab] = useState(0);
 
-  const [filter, setFilter] = useState({
+  const initialHelpFormData = {
     topic: null,
     subject: '',
     message: '',
-  });
+  };
+
+  const [helpFormData, setHelpFormData] = useState<any>(initialHelpFormData);
+
+  const { push } = useSnackbar();
+
+  const topicOptions = [
+    { value: 0, label: 'Acquisition Strategy' },
+    { value: 1, label: 'Commission Queries' },
+    { value: 2, label: 'Payment Withdrawal' },
+    { value: 3, label: 'Client Activity Tracking' },
+    { value: 4, label: 'Account Management' },
+    { value: 5, label: 'Ambassador Program' },
+    { value: 6, label: 'Privacy & Compliance' },
+    { value: 7, label: 'Technical Support' },
+  ];
+
+  const sendSupportEmail = async () => {
+    const { topic, subject, message } = helpFormData;
+
+    const trimmedSubject = subject.trim();
+    const trimmedMessage = message.trim();
+    try {
+      if (topic && trimmedSubject.length && trimmedMessage.length) {
+        const formBody = {
+          subject: trimmedSubject,
+          message: trimmedMessage,
+          topic: topic.label,
+        };
+        await UsersAPI.contactAdmin(formBody);
+        push('Sucess submitting form');
+
+        setHelpFormData(initialHelpFormData);
+      }
+    } catch (error) {
+      push('Error sending form', { variant: 'error' });
+    }
+  };
 
   return (
     <HelpPageMain>
@@ -103,48 +142,65 @@ const HelpPage = () => {
                   type="select"
                   label="Topic"
                   placeholder="Select Topic"
-                  value={filter.topic}
-                  onValue={(topic) => setFilter({ ...filter, topic })}
+                  value={helpFormData.topic}
+                  onValue={(topic) =>
+                    setHelpFormData({ ...helpFormData, topic })
+                  }
+                  options={topicOptions}
                 />
                 <Input
                   type="text"
                   label="Subject"
                   placeholder="Subject"
-                  value={filter.subject}
-                  onValue={(subject) => setFilter({ ...filter, subject })}
+                  value={helpFormData.subject}
+                  onValue={(subject) =>
+                    setHelpFormData({ ...helpFormData, subject })
+                  }
                 />
                 <Input
                   type="text"
                   label="Message"
-                  placeholder="St 6 Ft. Honey Park, NYC 100001"
-                  value={filter.message}
-                  onValue={(message) => setFilter({ ...filter, message })}
+                  placeholder="Please enter a message"
+                  value={helpFormData.message}
+                  onValue={(message) =>
+                    setHelpFormData({ ...helpFormData, message })
+                  }
                   multiline
                   rows={5}
                 />
-                <Button color="primary" variant="contained">
+                <Button
+                  color="primary"
+                  variant="contained"
+                  onClick={sendSupportEmail}
+                >
                   Send
                 </Button>
               </Stack>
             </HelpPageContactContainer>
             <HelpPageContactContainer>
               <HelpPageIconWithTextContainer>
-                <h2>Get in touch</h2>
+                <h2 style={{ marginBottom: '2rem' }}>Get in touch</h2>
                 <Stack>
                   <IconWithText
                     icon={<PhoneCallIcon />}
+                    link="https://calendly.com/patientsinfluence-client/30min"
                     title="Talk with our founder"
                     text={['Schedule a call!']}
+                    style={{ cursor: 'pointer' }}
                   />
                   <IconWithText
                     icon={<EnvelopeIcon />}
+                    link="mailto:client@patientsinfluence.com"
                     title="Write to our founder"
                     text={['Send an email!']}
+                    style={{ cursor: 'pointer' }}
                   />
                   <IconWithText
                     icon={<PhoneCallIcon />}
                     title="Visit Us"
                     text={['Riehenring 65, 4058 Basel Switzerland']}
+                    link="https://goo.gl/maps/mbiouV7WZoXBwqJDA"
+                    style={{ cursor: 'pointer' }}
                   />
                 </Stack>
               </HelpPageIconWithTextContainer>

@@ -9,7 +9,10 @@ import {
 const AdminAPI = {
   createAmbassadorInviteLink: async () => {
     const { data } = await axios.get(
-      `${Project.apis.v1}/admin/users/ambassador-invite-link`
+      `${Project.apis.v1}/admin/ambassador-link`,
+      {
+        withCredentials: true,
+      }
     );
     return data;
   },

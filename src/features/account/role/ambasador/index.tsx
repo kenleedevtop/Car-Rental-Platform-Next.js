@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 import {
   AccountMain,
@@ -11,40 +11,54 @@ import {
 import { Stack } from 'components/system';
 import { Input } from 'components/ui';
 import {
+  ChangeAmbassadorInfoModal,
   ChangeEmailModal,
   ChangePasswordModal,
 } from 'features/account/role/ambasador/elements';
 import { useModal, useSnackbar } from 'hooks';
 import { CopyIcon } from 'components/svg';
-import { AdminAPI } from 'api';
+import { AmbassadorAPI, AuthorizationAPI, CompanyAPI } from 'api';
+import { useAppContext } from 'context';
+import { ISingleAmbassadorResponse } from 'api/ambassador/types';
+import { useRouter } from 'next/router';
+import { ISelectFieldType, IUserAmbassador } from './types';
 
 const AccountPage = ({ ...props }) => {
-  const [filter, setFilter] = useState({
-    firstname: '',
-    lastName: '',
+  const { user, logout }: { user: IUserAmbassador; logout: () => void } =
+    useAppContext();
+
+  const [filter, setFilter] = useState<any>({
+    firstname: user.firstName,
+    lastName: user.lastName,
     company: '',
     role: '',
-    email: '',
-    password: '',
+    email: user.email,
+    password: '************',
     link: '',
-    list: [],
+    invitedClient: null,
   });
 
+  const [companyRole, setCompanyRole] = useState<any>({
+    company: {
+      value: undefined,
+      label: '',
+      name: '',
+    },
+    role: null,
+  });
+
+  const [invitedClients, setInvitedClients] = useState<ISelectFieldType[]>([]);
+
+  const isMounted = useRef(false);
+
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
+  const [aiModal, openAiModal, closeAiModal] = useModal(false);
+
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
 
   const { push } = useSnackbar();
 
-  const handleInviteLink = async () => {
-    try {
-      const { link } = await AdminAPI.createAmbassadorInviteLink();
-      setFilter({ ...filter, link });
-    } catch {
-      push('Something failed!', {
-        variant: 'error',
-      });
-    }
-  };
+  const router = useRouter();
 
   const handleCopyToClipboard = async () => {
     try {
@@ -59,8 +73,89 @@ const AccountPage = ({ ...props }) => {
     }
   };
 
+  const getAffiliateLink = async () => {
+    const { affiliateLink } = await AuthorizationAPI.getAffiliateLink(user.id);
+    return affiliateLink;
+  };
+
+  const getAmbassador = async () => {
+    const data = await AmbassadorAPI.getSingleAmbassador(user.id);
+
+    return data;
+  };
+
+  const resetPassword = async () => {
+    try {
+      await AuthorizationAPI.resetPassword(filter.email, 'en').then(() => {
+        logout();
+        router.push('/login');
+      });
+      push('Email for password reset has been sent.', { variant: 'success' });
+    } catch {
+      push('Email for password reset has not been sent.', { variant: 'error' });
+    }
+  };
+
   useEffect(() => {
-    handleInviteLink();
+    if (isMounted.current === true) {
+      Promise.allSettled([getAffiliateLink(), getAmbassador()]).then(
+        (results) => {
+          let affiliateLink: string | null = null;
+          let ambassadorUser: ISingleAmbassadorResponse | null = null;
+          let invitedClientsList: ISelectFieldType[] = [];
+
+          const [affiliateLinkResult, ambassadorResult] = results;
+
+          if (affiliateLinkResult.status === 'fulfilled') {
+            affiliateLink = affiliateLinkResult.value;
+          }
+
+          if (ambassadorResult.status === 'fulfilled') {
+            ambassadorUser = ambassadorResult.value;
+            invitedClientsList = ambassadorResult.value.ambassador.clients.map(
+              (client) => {
+                const { id } = client;
+                const { firstName, lastName } = client.user;
+
+                return { value: id, label: `${firstName} ${lastName}` };
+              }
+            );
+            setInvitedClients(invitedClientsList);
+          }
+
+          setFilter((prevState: any) => ({
+            ...prevState,
+            link: affiliateLink || '',
+            company: ambassadorUser?.ambassador.company.name || '',
+            role: ambassadorUser?.ambassador.companyTitle.name || '',
+            list: invitedClientsList,
+          }));
+
+          let company = null;
+          let role = null;
+          if (ambassadorUser?.ambassador.company) {
+            company = {
+              value: ambassadorUser?.ambassador.company.id,
+              label: ambassadorUser?.ambassador.company.name,
+            };
+          }
+
+          if (ambassadorUser?.ambassador.companyTitle) {
+            role = {
+              value: ambassadorUser?.ambassador.companyTitle.id,
+              label: ambassadorUser?.ambassador.companyTitle.name,
+            };
+          }
+
+          if (company && role) {
+            setCompanyRole({ company, role });
+          }
+        }
+      );
+    }
+    return () => {
+      isMounted.current = true;
+    };
   }, []);
 
   return (
@@ -70,6 +165,7 @@ const AccountPage = ({ ...props }) => {
           <Stack>
             <AccountStack direction="horizontal">
               <Input
+                disabled
                 type="text"
                 label="First Name"
                 placeholder="Please Enter"
@@ -77,6 +173,7 @@ const AccountPage = ({ ...props }) => {
                 onValue={(firstname) => setFilter({ ...filter, firstname })}
               />
               <Input
+                disabled
                 type="text"
                 label="Last Name"
                 placeholder="Please Enter"
@@ -86,6 +183,7 @@ const AccountPage = ({ ...props }) => {
             </AccountStack>
             <AccountStack direction="horizontal">
               <Input
+                disabled
                 type="text"
                 label="Company"
                 placeholder="Please Enter"
@@ -93,6 +191,7 @@ const AccountPage = ({ ...props }) => {
                 onValue={(company) => setFilter({ ...filter, company })}
               />
               <Input
+                disabled
                 type="text"
                 label="Role"
                 placeholder="Please Enter"
@@ -100,8 +199,10 @@ const AccountPage = ({ ...props }) => {
                 onValue={(role) => setFilter({ ...filter, role })}
               />
             </AccountStack>
+            <AccountSpan onClick={openAiModal}>Change Info</AccountSpan>
             <AccountChange>
               <Input
+                disabled
                 type="text"
                 label="Email"
                 placeholder="Please Enter"
@@ -111,13 +212,14 @@ const AccountPage = ({ ...props }) => {
             </AccountChange>
             <AccountChange>
               <Input
+                disabled
                 type="text"
                 label="Password"
                 placeholder="Please Enter"
                 value={filter.password}
                 onValue={(password) => setFilter({ ...filter, password })}
               />
-              <AccountSpan onClick={openCpModal}>Change Password</AccountSpan>
+              <AccountSpan onClick={resetPassword}>Change Password</AccountSpan>
             </AccountChange>
             <Input
               disabled
@@ -129,18 +231,32 @@ const AccountPage = ({ ...props }) => {
               onValue={(link) => setFilter({ ...filter, link })}
             />
             <Input
-              disabled
-              type="multiselect"
+              disabled={!invitedClients.length}
+              type="select"
               label="Invited List"
               placeholder="Please Select"
-              value={filter.list}
-              onValue={(list) => setFilter({ ...filter, list })}
+              value={filter.invitedClient}
+              onValue={(invitedClient) =>
+                setFilter({ ...filter, invitedClient })
+              }
+              options={invitedClients}
             />
           </Stack>
         </AccountForm>
       </AccountContainer>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
       {cpModal && <ChangePasswordModal onClose={closeCpModal} />}
+      {aiModal && (
+        <ChangeAmbassadorInfoModal
+          data={companyRole}
+          setParentFilter={setFilter}
+          setCompanyRole={setCompanyRole}
+          onClose={() => {
+            getAmbassador();
+            closeAiModal();
+          }}
+        />
+      )}
     </AccountMain>
   );
 };

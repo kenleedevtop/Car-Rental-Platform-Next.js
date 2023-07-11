@@ -25,15 +25,10 @@ const Code = () => {
     }
   }, [router.query.code, user.id]);
 
-  useEffect(() => {
-    if (message) {
-      window.location.href = '/account';
-    }
-  }, [message]);
-
   return (
     <div>
       <h1>{message}</h1>
+      {message && 'You can close this window now.'}
     </div>
   );
 };

@@ -23,7 +23,6 @@ export const calculateAge = (birthDate: Date) => {
 };
 
 export const formatCurrencyIdToObject = (id: number) => {
-  console.log(id);
   switch (id) {
     case 0:
       return { id, name: 'Euro', short: 'EUR', symbol: '€' };

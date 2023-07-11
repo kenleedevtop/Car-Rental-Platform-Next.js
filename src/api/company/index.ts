@@ -1,8 +1,8 @@
 import Project from 'constants/project';
 import {
+  ICompany,
+  ICompanyTitle,
   TCreateCompanyTitle,
-  TSingleCompany,
-  TSingleCompanyTitle,
 } from 'api/company/types';
 
 import { client } from 'api/api-client';
@@ -42,13 +42,13 @@ const CompanyAPI = {
     return data;
   },
 
-  getOneCompany: async (id: any) => {
+  getOneCompany: async (id: any): Promise<ICompany> => {
     const { data } = await client.get(`${Project.apis.v1}/companies/${id}`);
 
     return data;
   },
 
-  getOneCompanyTitle: async (id: TSingleCompanyTitle) => {
+  getOneCompanyTitle: async (id: number): Promise<ICompanyTitle> => {
     const { data } = await client.get(
       `${Project.apis.v1}/companies/title/${id}`
     );

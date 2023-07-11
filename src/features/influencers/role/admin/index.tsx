@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   InfluencersPageMain,
   InfluencersPageCharts,
   InfluencersPageFilter,
   InfluencersPageFilterActions,
-  InfluencersPageActions,
-  InfluencersPageButtons,
   InfluencerAction,
 } from 'features/influencers/styles';
 import {
   CardWithChart,
   CardWithText,
-  Menu,
-  CheckboxTable,
   Tabs,
   NewCheckboxTable,
 } from 'components/custom';
@@ -71,17 +67,11 @@ import { InfluencerAPI } from 'api';
 import { IPaginatedUser } from 'api/influencer/types';
 import { BackupTableRounded } from '@mui/icons-material';
 import PromptModal from 'features/discover-influencers/role/admin/elements/approve-influencer-modal';
+import { formatLongString } from 'utilities/string-converter';
 import { ButtonGroupContainer, TableTooltip } from './styles';
 
 const getDiseasesAsCommaSeparatedString = (diseases: any[]): string =>
   diseases.map((disease) => disease.name).join(', ');
-
-const formatLongString = (longText: string, length: number): string => {
-  if (longText.length >= length) {
-    return `${longText.slice(0, length)}...`;
-  }
-  return longText;
-};
 
 const InfluencersPage = () => {
   // Modals
@@ -182,7 +172,6 @@ const InfluencersPage = () => {
   };
 
   const toggleInfluencer = (rowId: number, checked: boolean) => {
-    console.log(rowId);
     if (checked) {
       setCheckedInfluencers([...checkedInfluencers, rowId]);
     } else {
@@ -210,10 +199,6 @@ const InfluencersPage = () => {
   const handleMenu = () => {
     setOpen(!open);
   };
-
-  useEffect(() => {
-    console.log(influencers);
-  }, [influencers]);
 
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'firstName') {

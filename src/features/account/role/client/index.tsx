@@ -8,7 +8,7 @@ import {
   AccountForm,
   AccountStack,
 } from 'features/account/style';
-import { Button, Input } from 'components/ui';
+import { Input } from 'components/ui';
 import {
   ChangeEmailModal,
   ChangeInfoModal,
@@ -16,19 +16,11 @@ import {
 } from 'features/account/role/client/elements';
 import { useModal, useSnackbar } from 'hooks';
 import { useAppContext } from 'context';
-import {
-  AuthorizationAPI,
-  ClientAPI,
-  CompanyAPI,
-  IndustryApi,
-  LocationAPI,
-} from 'api';
-import { useRouter } from 'next/router';
+import { AuthorizationAPI, ClientAPI } from 'api';
 
 const AccountPage = ({ ...props }) => {
   const { user } = useAppContext();
 
-  const [id, setId] = useState(user.id);
   const [data, setData] = useState<any>({});
 
   const [state, setState] = useState<any>({
@@ -52,7 +44,7 @@ const AccountPage = ({ ...props }) => {
   const [ciModal, openCiModal, closeCiModal] = useModal(false);
 
   const getClient = async () => {
-    const result = await ClientAPI.getSingleClient(id);
+    const result = await ClientAPI.getSingleClient(user.id);
 
     setData(result);
   };
@@ -62,8 +54,6 @@ const AccountPage = ({ ...props }) => {
   }, []);
 
   useEffect(() => {
-    console.log(data);
-
     if (Object.keys(data).length > 0) {
       const newState = { ...state }; // Create a new state object to hold all the updates
 
@@ -113,11 +103,9 @@ const AccountPage = ({ ...props }) => {
       if (data.client.clientMarkets) {
         newState.markets = data.client.clientMarkets.map((x: any) => ({
           value: x.location.id,
-          label: `${
-            data.location.country
-              ? `${(data.location.name, data.location.country.name)}`
-              : data.location.name
-          }`,
+          label: x.location.name
+            ? `${x.location.name}, ${x.location.country.name}}`
+            : x.location.country.name,
         }));
       }
 

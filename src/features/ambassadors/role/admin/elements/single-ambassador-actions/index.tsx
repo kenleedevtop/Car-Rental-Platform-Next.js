@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-  ClientActionsMain,
-  ClientActionsMenu,
+  SingleAmbassadorActionsMain,
+  SingleAmbassadorActionsMenu,
   ISpan,
-} from 'features/clients/role/admin/elements/client-actions/styles';
-import { useMenu, useModal } from 'hooks';
+} from 'features/ambassadors/role/admin/elements/single-ambassador-actions/styles';
+import { useMenu, useModal, useSnackbar } from 'hooks';
 import {
   ContactIcon,
   DeleteIcon,
@@ -12,19 +12,35 @@ import {
   ScheduleIcon,
   VerticalDotsIcon,
 } from 'components/svg';
-import {
-  ContactClientsModal,
-  DeleteClientsModal,
-  NoteClients,
-  ScheduleClientsModal,
-} from 'features/clients/role/admin/elements';
-import { TClientActionsMenuProps } from 'features/clients/role/admin/elements/client-actions/types';
+import { TDiscoverActionsMenuProps } from 'features/influencers/role/admin/elements/discover-actions/types';
+import { InfluencerAPI } from 'api';
+import PromptModal from 'features/discover-influencers/role/admin/elements/approve-influencer-modal';
+import ContactAmbassadorsModal from '../contact-ambassadors-modal';
+import ScheduleAmbassadorsModal from '../schedule-ambassadors-modal';
+import { NoteAmbassadors } from '..';
 
-const ClientActions = ({ data, ...props }: TClientActionsMenuProps) => {
+const SingleAmbassadorActions = ({
+  data,
+  reload,
+  ...props
+}: TDiscoverActionsMenuProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
 
   const handleMenu = () => {
     setOpen(!open);
+  };
+
+  const { push } = useSnackbar();
+
+  const handleDelete = async () => {
+    try {
+      await InfluencerAPI.deleteInfluencer(data);
+      reload();
+
+      push('Ambassador successfully deleted!', { variant: 'success' });
+    } catch (e: any) {
+      push(e.response.data.message, { variant: 'error' });
+    }
   };
 
   const [ciModal, openCiModal, closeCiModal] = useModal(false);
@@ -33,12 +49,12 @@ const ClientActions = ({ data, ...props }: TClientActionsMenuProps) => {
   const [diModal, openDiModal, closeDiModal] = useModal(false);
 
   return (
-    <ClientActionsMain>
+    <SingleAmbassadorActionsMain>
       <ISpan onClick={handleMenu} ref={buttonRef}>
         <VerticalDotsIcon onClick={handleMenu} />
       </ISpan>
       {open && (
-        <ClientActionsMenu
+        <SingleAmbassadorActionsMenu
           position={position}
           items={[
             {
@@ -77,19 +93,23 @@ const ClientActions = ({ data, ...props }: TClientActionsMenuProps) => {
           ref={menu}
         />
       )}
-      {ciModal && <ContactClientsModal id={data} onClose={closeCiModal} />}
-      {niModal && <NoteClients onClose={closeNiModal} />}
+      {ciModal && (
+        <ContactAmbassadorsModal id={data.id} onClose={closeCiModal} />
+      )}
+      {niModal && <NoteAmbassadors onClose={closeNiModal} />}
       {diModal && (
-        <DeleteClientsModal
-          id={data}
+        <PromptModal
+          id={data.id}
+          target="ambassador"
           onClose={() => {
             closeDiModal();
           }}
+          handleAction={handleDelete}
         />
       )}
-      {siModal && <ScheduleClientsModal onClose={closeSiModal} />}
-    </ClientActionsMain>
+      {siModal && <ScheduleAmbassadorsModal onClose={closeSiModal} />}
+    </SingleAmbassadorActionsMain>
   );
 };
 
-export default ClientActions;
+export default SingleAmbassadorActions;

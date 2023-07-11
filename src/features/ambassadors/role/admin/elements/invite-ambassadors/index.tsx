@@ -17,7 +17,7 @@ const InviteAmbassadors = ({
 
   const handleInviteLink = async () => {
     try {
-      const { link } = await AdminAPI.createAmbassadorInviteLink();
+      const link = await AdminAPI.createAmbassadorInviteLink();
       setInviteLink(link);
     } catch {
       push('Something failed!', {
