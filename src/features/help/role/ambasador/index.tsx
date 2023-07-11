@@ -166,7 +166,6 @@ const HelpPage = () => {
                     setHelpFormData({ ...helpFormData, message })
                   }
                   multiline
-                  rows={5}
                 />
                 <Button
                   color="primary"
