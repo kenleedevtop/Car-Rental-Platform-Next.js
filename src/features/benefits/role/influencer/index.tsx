@@ -11,7 +11,7 @@ import {
   DBenefitsIHead2,
   DGenerateFinanceFilter,
 } from 'features/benefits/role/influencer/data';
-import { CardWithChart, CardWithText, CheckboxTable } from 'components/custom';
+import { CardWithText, CheckboxTable } from 'components/custom';
 import {
   ApparelIcon,
   BeautyIcon,
@@ -39,6 +39,7 @@ import {
 import AccesoriesIcon from 'components/svg/accessories';
 import Link from 'next/link';
 import { BenefitsAPI } from 'api';
+import CardWithoutChart from 'components/custom/card-without-chart';
 
 const BenefitsPage = () => {
   const [asModal, openAsModal, closeAsModal] = useModal(false);
@@ -161,7 +162,7 @@ const BenefitsPage = () => {
   return (
     <BenefitsPageMain>
       <BenefitsPageCharts columns={4}>
-        <CardWithChart
+        <CardWithoutChart
           title="Accessories"
           icon={<AccesoriesIcon />}
           percent={2}
@@ -173,7 +174,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Apparel & Footwear"
           icon={<ApparelIcon />}
           percent={2}
@@ -185,7 +186,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Beauty & Personal Care"
           icon={<BeautyIcon />}
           percent={2}
@@ -197,7 +198,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Electronics"
           icon={<ElectronicsIcon />}
           percent={2}
@@ -209,7 +210,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Food & Beverage"
           icon={<UserFocusIcon />}
           percent={2}
@@ -221,7 +222,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Furniture"
           icon={<FurnitureIcon />}
           percent={2}
@@ -233,7 +234,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Health & Wellness"
           icon={<HealthIcon />}
           percent={2}
@@ -245,7 +246,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Leasure"
           icon={<LeisureIcon />}
           percent={2}
@@ -257,7 +258,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Nutrition"
           icon={<NutritionIcon />}
           percent={2}
@@ -269,7 +270,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Pet Care"
           icon={<PetCareIcon />}
           percent={2}
@@ -281,7 +282,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Services"
           icon={<ServicesBIcon />}
           percent={2}
@@ -293,7 +294,7 @@ const BenefitsPage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
+        <CardWithoutChart
           title="Travel"
           icon={<TravelIcon />}
           percent={2}

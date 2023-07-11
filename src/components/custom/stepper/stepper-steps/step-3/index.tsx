@@ -109,7 +109,7 @@ const Step = () => {
               endIcon={<InstagramIcon width="18" height="18" />}
               size="large"
               variant="contained"
-              color="default"
+              style={{ backgroundColor: '#448DC9' }}
             >
               Linked
             </Button>
@@ -127,7 +127,7 @@ const Step = () => {
             endIcon={<TiktokIcon width="18" height="18" />}
             size="large"
             variant="contained"
-            color="default"
+            style={{ backgroundColor: '#448DC9' }}
           >
             Linked
           </Button>

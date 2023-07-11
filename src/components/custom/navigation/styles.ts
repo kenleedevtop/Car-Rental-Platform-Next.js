@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Avatar, Search } from 'components/ui';
-import { Menu } from 'components/custom';
+import { Menu, MenuNoPortal } from 'components/custom';
 
 export const NavigationMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -63,6 +63,7 @@ export const NavigationItems = styled.div<{ theme?: Theme }>`
         display: flex;
         gap: ${theme.spacing(10)};
         align-items: center;
+        position: relative;
 
         ${theme.breakpoints.down('lg')} {
           gap: ${theme.spacing(2.5)};
@@ -124,6 +125,7 @@ export const NavigationNotification = styled.div<{ theme?: Theme }>`
 
 export const NavigationProfileOuter = styled.div<{ theme?: Theme }>`
   position: relative;
+  user-select: none;
 `;
 
 export const NavigationProfile = styled.div<{ theme?: Theme }>`
@@ -202,6 +204,7 @@ export const BalanceIcon = styled.div<{
       display: block;
       width: 100%;
       height: 100%;
+      fill: #a7a9b6;
     }
     `}
 `;
@@ -231,16 +234,16 @@ export const NavigationMenuButton = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const NavigationBalanceDropdown = styled(Menu)<{
+export const NavigationBalanceDropdown = styled(MenuNoPortal)<{
   theme?: Theme;
   position: { right: number; top: number };
 }>`
   ${({ theme, position }) => `
-  position: fixed;
+  position: absolute;
   z-index: 200;
   width: 120px;
-  right: ${position?.right}px;
-  top: ${position?.top}px;
+  // right: ${position?.right}px;
+  // top: ${position?.top}px;
   `}
 `;
 
@@ -251,8 +254,12 @@ export const NavigationCurrency = styled.div<{ theme?: Theme }>`
       gap: 5px;
       color: white;
       background-color: ${theme.palette.common.white}10;
+      color: #ffffff;
       padding: ${theme.spacing(2.5)} ${theme.spacing(5)};
       border-radius: 100vw;
       font-size: 14px;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
   `}
 `;

@@ -308,6 +308,15 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
             setFormData({ ...formData, affiliateLink })
           }
         />
+        <Input
+          type="text"
+          label="Invited by"
+          disabled
+          // required
+          value={invitedBy}
+          // onValue={(invitedBy) => setState({ ...state, invitedBy })}
+          onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
+        />
       </StepForm>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
       {cpModal && <ChangePasswordModal onClose={closeCpModal} />}

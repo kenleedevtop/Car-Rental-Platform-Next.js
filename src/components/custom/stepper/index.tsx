@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { Button } from 'components/ui';
 import React, { useState, FormEvent } from 'react';
@@ -142,6 +143,28 @@ const Stepper = () => {
 
   const decreaseStep = () => {
     setActiveStep((prev) => prev - 1);
+  };
+
+  const handleStepClick = (idx: any) => {
+    setActiveStep(idx);
+  };
+
+  const renderStepContent = (step: number) => {
+    // Render specific content based on the step
+    switch (step) {
+      case 0:
+        return <Step1 formData={formData} setFormData={setFormData} />;
+      case 1:
+        return <Step2 formData={formData} setFormData={setFormData} />;
+      case 2:
+        return <Step3 />;
+      case 3:
+        return <Step4 formData={formData} setFormData={setFormData} />;
+      case 4:
+        return <StepV />;
+      default:
+        return null;
+    }
   };
 
   let currencyToSend: number;
@@ -362,11 +385,11 @@ const Stepper = () => {
           >
             {steps.map((label, index) =>
               index !== 4 ? (
-                <Step key={label}>
+                <Step key={label} onClick={() => handleStepClick(index)}>
                   <StepLabel>{label}</StepLabel>
                 </Step>
               ) : (
-                <Step key={label}>
+                <Step key={label} onClick={() => handleStepClick(index)}>
                   <StepLabel StepIconComponent={StepIconComponent}>
                     {label}
                   </StepLabel>
@@ -422,7 +445,18 @@ const Stepper = () => {
             color="primary"
             onClick={handleSubmit}
           >
-            {activeStep === 3 ? 'Submit' : 'Next'}
+            {
+              // Check if user submitted the form and is on last page
+              activeStep === 4 && user.status === 3
+                ? 'Submitted'
+                : // Check if user is approved and on last page
+                // eslint-disable-next-line no-nested-ternary
+                activeStep === 4 && user.status > 4
+                ? 'Verified'
+                : activeStep === 3
+                ? 'Submit'
+                : 'Next'
+            }
           </Button>
         </ButtonsMain>
       </StepHelper>

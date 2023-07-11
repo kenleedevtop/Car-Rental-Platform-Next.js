@@ -7,6 +7,8 @@ import {
   StepStack,
   StepLeft,
   StepRight,
+  StepFMiddle,
+  StepSMiddle,
 } from 'components/custom/stepper/stepper-steps/step-4/style';
 import { Input } from 'components/ui';
 import React, { useState } from 'react';
@@ -33,6 +35,10 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
     instaP,
     instaR,
     instaS,
+    yVideoS,
+    yVideoM,
+    yVideoL,
+    ttPost,
     questionCredit,
     averageQuestionSurvey,
     interviewShort,
@@ -68,10 +74,31 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
 
   return (
     <StepStack>
-      <StepContainer>
+      <div
+        style={{
+          height: '25px',
+          width: '100%',
+          color: '#2D3779',
+          font: 'inter',
+          fontWeight: '600',
+          display: 'grid',
+          gridTemplateColumns:'repeat(8, 1fr)',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div>
+          <p>Campaigns</p>
+        </div>
+        <div style={{ justifyContent: 'center', gridColumn:'3'}}>
+          <p>Surveys</p>
+        </div>
+      </div>
+      <StepContainer style={{ display: 'flex' }}>
         <StepLeft>
           <Stack>
-            <p style={{ color: '#2D3779' }}>Instagram</p>
+            <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
+              Instagram
+            </p>
             <Input
               type="text"
               label="Post"
@@ -101,6 +128,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               //     },
               //   },
               // ]}
+              style={{ color: 'red', font: 'inter', fontWeight: '500' }}
             />
             <Input
               type="text"
@@ -166,45 +194,51 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
         </StepLeft>
         {/* <StepFMiddle>
           <Stack>
-            <p style={{ color: '#6f6f6f' }}>Twitter</p>
+            <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
+              Youtube
+            </p>
             <Input
               type="text"
               label="Video - 10sec"
               placeholder="Please Enter Amount"
-              value={filter.yVideoS}
-              onValue={(yVideoS) => setFilter({ ...filter, yVideoS })}
+              value={yVideoS}
+              onValue={(yVideoS) => setFormData({ ...formData, yVideoS })}
             />
             <Input
               type="text"
               label="Video - 30sec"
               placeholder="Please Enter Amount"
-              value={filter.yVideoM}
-              onValue={(yVideoM) => setFilter({ ...filter, yVideoM })}
+              value={yVideoM}
+              onValue={(yVideoM) => setFormData({ ...formData, yVideoM })}
             />
             <Input
               type="text"
               label="Video - 60sec"
               placeholder="Please Enter Amount"
-              value={filter.yVideoL}
-              onValue={(yVideoL) => setFilter({ ...filter, yVideoL })}
+              value={yVideoL}
+              onValue={(yVideoL) => setFormData({ ...formData, yVideoL })}
             />
           </Stack>
         </StepFMiddle>
-        <StepSMiddle> */}
-        {/* <Stack>
-          <p style={{ color: '#6f6f6f' }}>TikTok</p>
-          <Input
-            type="text"
-            label="Post"
-            placeholder="Please Enter Amount"
-            value={filter.yVideoL}
-            onValue={(yVideoL) => setFilter({ ...filter, yVideoL })}
-          />
-        </Stack>
-      </StepSMiddle> */}
+        <StepSMiddle>
+          <Stack>
+            <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
+              TikTok
+            </p>
+            <Input
+              type="text"
+              label="Post"
+              placeholder="Please Enter Amount"
+              value={ttPost}
+              onValue={(ttPost) => setFormData({ ...formData, ttPost })}
+            />
+          </Stack>
+        </StepSMiddle> */}
         <StepRight>
           <Stack>
-            <p style={{ color: '#2D3779' }}>Questionnaire</p>
+            <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
+              Questionnaire
+            </p>
             <p
               style={{
                 color: '#6f6f6f',
@@ -213,8 +247,19 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 fontSize: '14px',
               }}
             >
-              Question Credit{' '}
+              <p style={{ font: 'inter', fontWeight: '500' }}>
+                Question Credit
+              </p>
+
               <Tooltip
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      bgcolor: 'common.white',
+                      boxShadow: '0px 5px 15px 0px rgba(0,4,4,0.25)',
+                    },
+                  },
+                }}
                 title={
                   <div
                     style={{
@@ -222,21 +267,58 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                       flexDirection: 'column',
                       gap: '10px',
                       padding: '10px 2.5px',
+                      color: 'black',
+                      backgroundColor: 'white',
+                      boxShadow: '2px',
                     }}
                   >
-                    <p>Question Credit</p>
-                    <p>
+                    <p
+                      style={{
+                        font: 'inter',
+                        fontWeight: '600',
+                        color: '#7E839F',
+                        fontSize: '11px',
+                        lineHeight: '13.31px',
+                      }}
+                    >
+                      Question Credit
+                    </p>
+                    <p
+                      style={{
+                        font: 'inter',
+                        fontWeight: '500',
+                        color: '#9F9FB0',
+                        fontSize: '11px',
+                        lineHeight: '13.31px',
+                      }}
+                    >
                       Question Credit is determined by the complexity of the
                       question. If the question is taking more time for
                       participant to answer it will be worth more credits.
                     </p>
-                    <p>
+                    <p
+                      style={{
+                        font: 'inter',
+                        fontWeight: '500',
+                        color: '#9F9FB0',
+                        fontSize: '11px',
+                        lineHeight: '13.31px',
+                      }}
+                    >
                       <p>Example:</p>
                       <p>Yes or No = 1 credit</p>
                       <p>Multiple Choice = 1 credit</p>
                       <p>Open-ended Question = 2 credits</p>
                     </p>
-                    <p>
+                    <p
+                      style={{
+                        font: 'inter',
+                        fontWeight: '500',
+                        color: '#9F9FB0',
+                        fontSize: '11px',
+                        lineHeight: '13.31px',
+                      }}
+                    >
                       Additional credits will be assigned to the questions that
                       require more time e.g. watching a short video.
                     </p>
@@ -297,10 +379,12 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 setFormData({ ...formData, averageQuestionSurvey })
               }
             />
-            <p style={{ color: '#6f6f6f' }}>Interview</p>
+            <p style={{ color: '#7E839F', fontWeight: '600', font: 'inter' }}>
+              Interview
+            </p>
             <Input
               type="text"
-              label="Interview: 30min"
+              label="30min"
               placeholder="Please Enter Amount"
               value={interviewShort}
               onValue={(interviewShort) =>
@@ -331,7 +415,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
             />
             <Input
               type="text"
-              label="Interview: 60min"
+              label="60min"
               placeholder="Please Enter Amount"
               value={interviewLong}
               onValue={(interviewLong) =>
