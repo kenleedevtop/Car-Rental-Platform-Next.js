@@ -34,7 +34,7 @@ import {
 import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Stack } from 'components/system';
-import { Collapse } from '@mui/material';
+import { Collapse, Tooltip } from '@mui/material';
 import {
   DGenerateDiscoverInfluencersFilter,
   DInfluencerHeadRegistered,
@@ -50,10 +50,12 @@ import { useMenu, useModal, usePagination, useSnackbar } from 'hooks';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { InfluencerAPI } from 'api';
 import { IPaginatedUser } from 'api/influencer/types';
-import { ToBeApprovedActionsMenu } from 'features/benefits/role/admin/elements/to-be-approved-actions/styles';
 import { BackupTableRounded } from '@mui/icons-material';
 import UsersAPI from 'api/users';
+import { formatLongString } from 'utilities/string-converter';
 import PromptModal from './elements/approve-influencer-modal';
+import { calculateAge, getDiseasesAsCommaSeparatedString } from './helpers';
+import { TableTooltip } from './styles';
 
 const DiscoverInfluencersPage = () => {
   // Modals
@@ -405,6 +407,57 @@ const DiscoverInfluencersPage = () => {
     if (headItem.reference === 'email') {
       return row.data.user.email;
     }
+
+    if (headItem.reference === 'location') {
+      if (!row.data.user.location) {
+        return '';
+      }
+      const { location } = row.data.user;
+      const label = location.country
+        ? `${location.name}, ${location.country.name}`
+        : location.name;
+
+      return label;
+    }
+
+    if (headItem.reference === 'age') {
+      if (!row.data.dateOfBirth) {
+        return '';
+      }
+      return calculateAge(row.data.dateOfBirth);
+    }
+
+    if (headItem.reference === 'gender') {
+      switch (row.data.gender) {
+        case 0:
+          return 'Male';
+        case 1:
+          return 'Female';
+        case 2:
+          return 'Other';
+        default:
+          return '';
+      }
+    }
+
+    if (headItem.reference === 'diseaseArea') {
+      if (row.data.influencerDiseaseAreas) {
+        const formattedDiseases = getDiseasesAsCommaSeparatedString(
+          row.data.influencerDiseaseAreas
+        );
+
+        const formattedElipsisString = formatLongString(formattedDiseases, 50);
+        return (
+          <Tooltip
+            style={{ cursor: 'pointer' }}
+            title={<TableTooltip>{formattedDiseases}</TableTooltip>}
+          >
+            <span>{formattedElipsisString}</span>
+          </Tooltip>
+        );
+      }
+    }
+
     if (headItem.reference === 'status') {
       switch (row.data.user.status) {
         case 0:
@@ -429,6 +482,10 @@ const DiscoverInfluencersPage = () => {
     }
     if (headItem.reference === 'registeredAt') {
       return row.data.user.createdAt.slice(0, 10);
+    }
+
+    if (headItem.reference === 'updatedAt') {
+      return row.data.user.updatedAt.slice(0, 10);
     }
 
     if (headItem.reference === 'invitedBy') {

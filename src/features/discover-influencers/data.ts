@@ -74,26 +74,6 @@ export const DInfluencerHeadRegistered = [
     visible: false,
   },
   {
-    reference: 'diseaseArea',
-    label: 'Disease Area',
-    visible: false,
-  },
-  {
-    reference: 'socialMedia',
-    label: 'Social Media',
-    visible: false,
-  },
-  {
-    reference: 'desiredAmount',
-    label: 'Desired Amount',
-    visible: false,
-  },
-  {
-    reference: 'currency',
-    label: 'Currency',
-    visible: false,
-  },
-  {
     reference: 'actions',
     label: '',
     visible: true,
