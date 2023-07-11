@@ -282,6 +282,7 @@ const Input = ({
             value={value}
             onChange={handleDate}
             disabled={disabled}
+            minDate={max}
             renderInput={({ inputProps, ...x }) => (
               <InputText
                 {...x}
