@@ -238,14 +238,15 @@ const InfluencersPage = () => {
       return row.data.user.age;
     }
     if (headItem.reference === 'gender') {
-      if (row.data.user.gender === 1) {
-        return 'Male';
-      }
-      if (row.data.user.gender === 2) {
-        return 'Female';
-      }
-      if (row.data.user.gender === 3) {
-        return 'Other';
+      switch (row.data.user.gender) {
+        case 0:
+          return 'Male';
+        case 1:
+          return 'Female';
+        case 2:
+          return 'Other';
+        default:
+          return '';
       }
     }
     if (headItem.reference === 'followers') {
