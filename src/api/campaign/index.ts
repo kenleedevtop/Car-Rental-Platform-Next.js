@@ -1,10 +1,10 @@
 import Project from 'constants/project';
 import {
   TCampaign,
-  TReport,
   TReportId,
   TSingleCampaign,
   TSubmissionLinkForCampaign,
+  TUpdateCampaign,
 } from 'api/campaign/types';
 import { client } from 'api/api-client';
 
@@ -33,13 +33,13 @@ const CampaignAPI = {
     await client.post(`${Project.apis.v1}/campaign`, body);
   },
 
-  getSingleCampaign: async (id: TSingleCampaign) => {
+  getSingleCampaign: async (id: TSingleCampaign): Promise<TCampaign> => {
     const { data } = await client.get(`${Project.apis.v1}/campaign/${id}`);
 
     return data;
   },
 
-  updateCampaign: async (id: TSingleCampaign, body: TCampaign) => {
+  updateCampaign: async (id: TSingleCampaign, body: TUpdateCampaign) => {
     await client.patch(`${Project.apis.v1}/campaign/${id}`, body);
   },
 

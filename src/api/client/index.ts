@@ -92,7 +92,7 @@ const ClientAPI = {
     await client.patch(`${Project.apis.v1}/client/${id}`, body);
   },
 
-  getSingleClient: async (id: TSingleClient) => {
+  getSingleClient: async (id: number) => {
     const { data } = await client.get(`${Project.apis.v1}/client/${id}`);
 
     return data;
