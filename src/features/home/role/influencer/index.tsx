@@ -18,12 +18,13 @@ import { TTableRenderItemObject } from 'components/custom/table/types';
 import { DotsIcon, InfoIcon } from 'components/svg';
 import { Grid, GridCell, Stack } from 'components/system';
 import { Button, InputGroup, Pagination } from 'components/ui';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DCampaignItems } from 'features/home/role/influencer/data';
 import Theme from 'theme';
 import { ChartWrapper, GridCellCustom } from './styles';
 import InfluencerHomeActions from './elements/actions';
 import { useAppContext } from 'context';
+import InfluencerAPI from '../../../../api/influencer'
 
 const HomePage = () => {
 
@@ -79,15 +80,33 @@ const HomePage = () => {
 
   const label = `Desired amount per ${selectedOption.label}`;
 
-  let cost = 55;
-
   const [tabsC, setTabsC] = useState(0);
   const [tabsSM, setTabsSM] = useState(0);
   const [tabsS, setTabsS] = useState(0);
   const [tabsCA, setTabsCA] = useState(0);
   const [tabsI, setTabIS] = useState(0);	
-  const [tabsIA, setTabsIA] = useState(0);	
-  const { currency } = useAppContext();
+  const [tabsIA, setTabsIA] = useState(0);
+
+  
+  const { currency,user } = useAppContext();
+
+  const [desiredCampaignIncome, setDesiredCapmaignIncome] = useState(0);
+  const [desiredSurveyIncome, setDesiredSurveyIncome] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const id = user.id
+        const data = await InfluencerAPI.getSingleInfluencer(id);
+        console.log('DATA!!!!',data)
+        setDesiredCapmaignIncome(data.influencer.influencerCampaignAmounts[0].desiredAmount);
+        setDesiredSurveyIncome(data.influencer.influencerSurveyAmounts[0].desiredAmount);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   const renderItem = ({ headItem, cell }: TTableRenderItemObject) => {
     if (headItem.reference === 'campaign') {
@@ -202,7 +221,7 @@ const HomePage = () => {
                 <InfoIcon style={{paddingTop: '4px',width:'17px', height:'17px', alignContent: 'center', display: 'inline-flex'}}></InfoIcon>
                   {' '}Participants asks{' '}
                 Influencers with an audience your size, asks for {' '}
-                <b style={{color:'#448DC9', display:'inline-flex'}}>21-25 USD{' '}</b> per {' '}
+                <b style={{color:'#448DC9', display:'inline-flex'}}>21-25 {currency}{' '}</b> per {' '}
                 <b style={{color:'#448DC9', display:'inline-flex'}}>{selectedOption.label}</b>{' '}on average.
               </Note>
               <ChartWrapper>
@@ -255,7 +274,7 @@ const HomePage = () => {
                       ],	
                     },	
                     {	
-                      value: cost + ' ' + state.currency,	
+                      value: desiredCampaignIncome + ' ' + state.currency,	
                       onValue: (currency) => setState({ ...state, currency }),	
                       type: 'text',	
                       placeholder: 'CHF',	
@@ -275,15 +294,18 @@ const HomePage = () => {
                   Save
                 </Button>
               </GridCellCustom>
-              <div style={{display:'flex',font:'IBM Plex Sans', color:'#7E839F', fontSize:'11px', marginBottom: '12px'}}>	
+              {currency !== 'CHF' && 
+              <div
+               style={{display:'flex',font:'IBM Plex Sans', color:'#7E839F', fontSize:'11px', marginBottom: '12px'}}>	
                 <div style={{width:'13px', height:'13px',alignContent:'center', justifyContent:'center', paddingTop:'2px'}}>	
                   <InfoIcon />	
                 </div>	
                 <p style={{paddingLeft:'3px'}}>	
-                  {cost}{' '}{state.currency} is approximately 	
+                  {desiredCampaignIncome}{' '}{state.currency} is approximately 	
                 </p>	
-                <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(55,'USD')} USD.</p>	
-              </div>
+                <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(desiredCampaignIncome,currency as 'CHF' | 'EUR' | 'USD')} {currency}.</p>	
+              </div>}
+
             </Stack>
           </CardWithTextNew>
         </GridCell>
@@ -357,7 +379,7 @@ const HomePage = () => {
                 <Note showIcon={false}>
                 <InfoIcon style={{paddingTop: '4px',width:'17px', height:'17px', alignContent: 'center', display: 'inline-flex'}}></InfoIcon>
                   Patients asks for{' '}
-                  <b style={{color:'#448DC9', display:'inline-flex'}}>1-2.5 USD</b> per {' '}
+                  <b style={{color:'#448DC9', display:'inline-flex'}}>1-2.5 {currency}</b> per {' '}
                   <b style={{color:'#448DC9', display:'inline-flex'}}>Question Credit</b>{' '}on average.
                 </Note>
                 <ChartWrapper>
@@ -397,7 +419,7 @@ const HomePage = () => {
                         disabled:true,
                       },
                       {
-                        value: cost + ' ' + state.currency,
+                        value: desiredSurveyIncome + ' ' + state.currency,
                         onValue: (currency) => setState({ ...state, currency }),
                         type: 'text',
                         placeholder: 'CHF',
@@ -417,15 +439,16 @@ const HomePage = () => {
                     Save
                   </Button>
                 </GridCellCustom>
+                {currency !== 'CHF' && 
                 <div style={{display:'flex',font:'IBM Plex Sans', color:'#7E839F', fontSize:'11px'}}>	
                   <div style={{width:'13px', height:'13px',alignContent:'center', justifyContent:'center', paddingTop:'2px'}}>	
                     <InfoIcon />	
                   </div>	
                   <p style={{paddingLeft:'3px'}}>	
-                    {cost}{' '}{state.currency} is approximately 	
+                    {desiredSurveyIncome}{' '}{state.currency} is approximately 	
                   </p>	
-                  <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(55,'USD')} USD.</p>	
-                </div>
+                  <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(desiredCampaignIncome,currency as 'CHF' | 'EUR' | 'USD')} {currency}.</p>	
+                </div>}
                 </>)}
 
                 {tabsIA === 1 && (<>	
@@ -484,7 +507,7 @@ const HomePage = () => {
                           ]	
                         },	
                         {	
-                          value: cost + ' ' + state.currency,	
+                          value: desiredSurveyIncome + ' ' + state.currency,	
                           onValue: (currency)=> setState({ ...state, currency }),	
                           type: 'text',	
                           placeholder: 'CHF',	
@@ -506,13 +529,14 @@ const HomePage = () => {
                       Save	
                     </Button>	
                   </GridCellCustom>	
+                  {currency !== 'CHF' && 
                   <div style={{display:'flex',font:'IBM Plex Sans', color:'#7E839F', fontSize:'11px'}}>	
 
                     <p style={{paddingLeft:'3px'}}>	
-                      {cost} {' '}{state.currency} is approximately 	
+                      {desiredSurveyIncome} {' '}{state.currency} is approximately 	
                     </p>	
-                    <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(55,'USD')} USD.</p>	
-                  </div>	
+                    <p style={{paddingLeft:'3px',color:'#448DC9',fontWeight:'600'}}>{handleCurrencyCalculation(desiredCampaignIncome,currency as 'CHF' | 'EUR' | 'USD')} {currency}.</p>	
+                  </div>}
                 </>)}
               </Stack>
             </Stack>

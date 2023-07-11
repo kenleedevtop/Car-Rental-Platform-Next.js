@@ -89,7 +89,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
         <div>
           <p>Campaigns</p>
         </div>
-        <div style={{ justifyContent: 'center', gridColumn:'7'}}>
+        <div style={{ justifyContent: 'center', gridColumn:'3'}}>
           <p>Surveys</p>
         </div>
       </div>
@@ -192,7 +192,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
             />
           </Stack>
         </StepLeft>
-        <StepFMiddle>
+        {/* <StepFMiddle>
           <Stack>
             <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
               Youtube
@@ -233,7 +233,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
               onValue={(ttPost) => setFormData({ ...formData, ttPost })}
             />
           </Stack>
-        </StepSMiddle>
+        </StepSMiddle> */}
         <StepRight>
           <Stack>
             <p style={{ color: '#7E839F', font: 'inter', fontWeight: '600' }}>
