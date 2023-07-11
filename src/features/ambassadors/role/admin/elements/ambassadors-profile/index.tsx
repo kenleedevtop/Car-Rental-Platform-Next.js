@@ -102,9 +102,9 @@ const AmbasadorProfile = ({
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={() => (editActive ? onClose() : onClose())}
         >
-          Create
+          {editActive ? 'Close' : 'Save'}
         </Button>,
       ]}
       onClose={onClose}
