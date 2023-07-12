@@ -11,10 +11,10 @@ import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 import {
   CampaignAPI,
-  ClientAPI,
   DiseaseAreaAPI,
   FileManagerApi,
   LocationAPI,
+  ProductApi,
 } from 'api';
 import EnumsApi from 'api/enums';
 import { useModal, useSnackbar } from 'hooks';
@@ -116,12 +116,12 @@ const AddCampaignModal = ({
   const [symptoms, setSymptoms] = useState<any>();
 
   const getProducts = async () => {
-    const { result } = await ClientAPI.clientProducts();
+    const { result } = await ProductApi.getProducts('');
 
     setProduct(
       result.map((data: any) => ({
-        value: data.product.id,
-        label: data.product.name,
+        value: data.id,
+        label: data.name,
       }))
     );
   };
@@ -348,7 +348,7 @@ const AddCampaignModal = ({
     }
   };
 
-  const disabled = !state.campaignName;
+  const disabled = !state.campaignName && !state.client;
 
   return (
     <Modal
@@ -412,6 +412,7 @@ const AddCampaignModal = ({
               label="End Date"
               type="date"
               placeholder="To"
+              max={state.startDate}
               value={state.endDate}
               onValue={(endDate) => setState({ ...state, endDate })}
             />
@@ -474,6 +475,7 @@ const AddCampaignModal = ({
               label="Language"
               placeholder="Please Select"
               value={state.language}
+              onSearch={debounce(getLanguages, 250)}
               onValue={(input) => setState({ ...state, language: input })}
               options={languages}
             />
@@ -495,6 +497,7 @@ const AddCampaignModal = ({
               onValue={(input) => setState({ ...state, stakeholders: input })}
               options={stakeholders}
               onNewTag={handleNewStakeholderTag}
+              onSearch={debounce(getStakeholders, 250)}
             />
             <Input
               type="multiselect"
@@ -504,6 +507,7 @@ const AddCampaignModal = ({
               onValue={(input) => setState({ ...state, gender: input })}
               options={gender}
               onNewTag={handleNewGendersTag}
+              onSearch={debounce(getGenders, 250)}
             />
             <Input
               type="min-max"
@@ -522,6 +526,7 @@ const AddCampaignModal = ({
               onValue={(input) => setState({ ...state, ethnicity: input })}
               options={ethnicity}
               onNewTag={handleNewEthnicityTag}
+              onSearch={debounce(getEthnicities, 250)}
             />
             <Input
               type="multiselect"
@@ -531,6 +536,7 @@ const AddCampaignModal = ({
               onValue={(input) => setState({ ...state, struggles: input })}
               options={struggles}
               onNewTag={handleNewStruggleTag}
+              onSearch={debounce(getStruggles, 250)}
             />
             <Input
               type="multiselect"
@@ -540,6 +546,7 @@ const AddCampaignModal = ({
               onValue={(input) => setState({ ...state, interests: input })}
               options={interests}
               onNewTag={handleNewInterestsTag}
+              onSearch={debounce(getInterests, 250)}
             />
             <Input
               type="multiselect"
@@ -556,6 +563,7 @@ const AddCampaignModal = ({
               value={state.symptoms}
               onValue={(input) => setState({ ...state, symptoms: input })}
               options={symptoms}
+              onSearch={debounce(getSympthoms, 250)}
             />
             <GridCell columnSpan={2}>
               <Input

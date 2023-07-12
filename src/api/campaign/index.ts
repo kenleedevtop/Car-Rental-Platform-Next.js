@@ -23,7 +23,7 @@ const CampaignAPI = {
   getCampaigns: async (filters: any) => {
     const { data } = await client.get(`${Project.apis.v1}/campaign`, {
       params: {
-        filters,
+        ...filters,
       },
     });
     return data;
@@ -136,7 +136,7 @@ const CampaignAPI = {
   getReports: async (filter: any) => {
     const { data } = await client.get(`${Project.apis.v1}/campaign/reports`, {
       params: {
-        filter,
+        ...filter,
       },
     });
 

@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 
 const InPreparationActions = ({
   data,
+  reload,
   ...props
 }: TInpreparationActionsMenuProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
@@ -69,7 +70,13 @@ const InPreparationActions = ({
           ref={menu}
         />
       )}
-      {ccModal && <CreatedCampaignModal id={data} onClose={closeCcModal} />}
+      {ccModal && (
+        <CreatedCampaignModal
+          id={data}
+          onClose={closeCcModal}
+          reload={reload}
+        />
+      )}
     </InPreparationActionsMain>
   );
 };
