@@ -161,9 +161,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   >
                     <InfoIcon />
                   </div>
-                  <p style={{ paddingLeft: '3px' }}>
-                    {instaP} CHF is approximately
-                  </p>
+                  <p style={{ paddingLeft: '3px' }}>Approximately</p>
                   <p
                     style={{
                       paddingLeft: '3px',
@@ -236,9 +234,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   >
                     <InfoIcon />
                   </div>
-                  <p style={{ paddingLeft: '3px' }}>
-                    {instaS} CHF is approximately
-                  </p>
+                  <p style={{ paddingLeft: '3px' }}>Approximately</p>
                   <p
                     style={{
                       paddingLeft: '3px',
@@ -309,9 +305,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   >
                     <InfoIcon />
                   </div>
-                  <p style={{ paddingLeft: '3px' }}>
-                    {instaR} CHF is approximately
-                  </p>
+                  <p style={{ paddingLeft: '3px' }}>Approximately</p>
                   <p
                     style={{
                       paddingLeft: '3px',
@@ -493,9 +487,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   >
                     <InfoIcon />
                   </div>
-                  <p style={{ paddingLeft: '3px' }}>
-                    {questionCredit} CHF is approximately
-                  </p>
+                  <p style={{ paddingLeft: '3px' }}>Approximately</p>
                   <p
                     style={{
                       paddingLeft: '3px',
@@ -547,10 +539,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   >
                     <InfoIcon />
                   </div>
-                  <p style={{ paddingLeft: '3px' }}>
-                    {(+formData.questionCredit * 40).toFixed(2)} CHF is
-                    approximately
-                  </p>
+                  <p style={{ paddingLeft: '3px' }}>Approximately</p>
                   <p
                     style={{
                       paddingLeft: '3px',
@@ -625,9 +614,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   >
                     <InfoIcon />
                   </div>
-                  <p style={{ paddingLeft: '3px' }}>
-                    {interviewShort} CHF is approximately
-                  </p>
+                  <p style={{ paddingLeft: '3px' }}>Approximately</p>
                   <p
                     style={{
                       paddingLeft: '3px',
@@ -684,9 +671,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   <ConversionIconWrapper>
                     <InfoIcon />
                   </ConversionIconWrapper>
-                  <span style={{ paddingLeft: '3px' }}>
-                    {interviewLong} CHF is approximately
-                  </span>
+                  <span style={{ paddingLeft: '3px' }}>Approximately</span>
                   <span
                     style={{
                       paddingLeft: '3px',

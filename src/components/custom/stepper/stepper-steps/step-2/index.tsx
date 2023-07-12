@@ -47,7 +47,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
   ]);
 
   const [locations, setLocations] = useState([]);
-  const [diseaseAreas2, setDiseaseAreas] = useState([]);
+  const [diseaseAreasOptions, setDiseaseAreasOptions] = useState([]);
   const [ethnicities, setEthnicities] = useState([]);
   const [stakeholder, setStakeholders] = useState([]);
   const [genders, setGenders] = useState([]);
@@ -76,16 +76,14 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
   };
 
   const getDiseaseArea = async (s: string = '') => {
-    setLoading(true);
     const { result } = await DiseaseAreaAPI.getAll(s);
 
-    setDiseaseAreas(
+    setDiseaseAreasOptions(
       result.map((item: any) => ({
         value: item.id,
         label: item.name,
       }))
     );
-    setLoading(false);
   };
 
   const getEthnicity = async () => {
@@ -121,20 +119,9 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
     );
   };
 
-  const debounce = (func: any, wait: any) => {
-    let timeout: any;
-
-    return (...args: any) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), wait);
-    };
-  };
-
   const debouncedLocation = useDebounce(getLocations, 250);
 
-  const handleNewTag = (v: any) => {
-    setFormData({ ...formData, diseaseAreas: [...formData.diseaseAreas, v] });
-  };
+  const debouncedDisease = useDebounce(getDiseaseArea, 250);
 
   useEffect(() => {
     getLocations();
@@ -253,14 +240,13 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             placeholder="Please Select"
             value={diseaseAreas}
             disabled={user.status >= 4}
-            onSearch={debounce(getDiseaseArea, 250)}
+            onSearch={debouncedDisease}
             errorCallback={handleErrors(7)}
-            onValue={(diseaseAreas) =>
-              setFormData({ ...formData, diseaseAreas })
-            }
-            onNewTag={handleNewTag}
-            loading={loading}
-            options={diseaseAreas2}
+            onValue={(diseaseAreas) => {
+              setFormData({ ...formData, diseaseAreas });
+            }}
+            options={diseaseAreasOptions}
+            isFilterActive
             validators={[
               {
                 message: t('Disease area is required'),

@@ -47,6 +47,7 @@ const Input = ({
   loading = false,
   noOptionsText,
   customDateFormat,
+  isFilterActive = false,
   ...props
 }: TInputProps) => {
   const [search, setSearch] = useState(initialSearch);
@@ -320,6 +321,7 @@ const Input = ({
         <MultiSelectInputContainer disabled={disabled}>
           <InputMultiSelect
             multiple
+            autoComplete={false}
             filterSelectedOptions
             options={options}
             getOptionLabel={
@@ -333,6 +335,7 @@ const Input = ({
             noOptionsText={noOptionsText}
             value={value}
             onChange={handleMultiselect}
+            filterOptions={isFilterActive ? (x) => x : undefined}
             inputValue={search}
             disabled={disabled}
             onInputChange={(_a, b) => handleSearch(b)}

@@ -348,6 +348,7 @@ const InfluencerProfile = ({
             onNewTag={handleNewTag}
             loading={loading}
             options={diseaseArea}
+            isFilterActive
           />
           <Input
             type="select"
@@ -356,6 +357,7 @@ const InfluencerProfile = ({
             disabled={disabled}
             value={state.location}
             onSearch={debouncedLocation}
+            isFilterActive
             onValue={(location) => setState({ ...state, location })}
             loading={locationLoading}
             options={locations}
