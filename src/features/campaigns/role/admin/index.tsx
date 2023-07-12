@@ -45,19 +45,39 @@ import { TTableRenderItemObject } from 'components/custom/table/types';
 import { useMenu, useModal, usePagination } from 'hooks';
 import {
   AddCampaignModal,
-  CreatedCampaignModal,
   ExportCampaignsModal,
   NoteCampaignsModal,
   ScheduleCampaignModal,
 } from 'features/campaigns/role/admin/elements';
 import { CampaignAPI } from 'api';
+import { formatCurrencyIdToObject } from 'features/discover-influencers/role/admin/elements/influencer-profile/helpers';
+import moment from 'moment';
+import InPreparationActions from './elements/inpreparation-actions';
 
 const CampaignsPage = () => {
   const [acModal, openAcModal, closeAcModal] = useModal(false);
   const [ecModal, openEcModal, closeEcModal] = useModal(false);
   const [scModal, openScModal, closeScModal] = useModal(false);
   const [ncModal, openNcModal, closeNcModal] = useModal(false);
-  const [ccModal, openCcModal, closeCcModal] = useModal(false);
+
+  const [campaigns, setCampaigns] = useState([]);
+
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await CampaignAPI.getCampaigns({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setCampaigns(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
 
   const [filter, setFilter] = useState<any>(DGenerateCampaignsFilter());
 
@@ -87,32 +107,175 @@ const CampaignsPage = () => {
     }
 
     if (headItem.reference === 'budget') {
-      return row.data.platformProductOrder.budget;
+      if (
+        row.data.platformProductOrder.currencyId &&
+        row.data.platformProductOrder.budget
+      ) {
+        const currency = formatCurrencyIdToObject(
+          row.data.platformProductOrder.currencyId - 1 ?? 2
+        );
+
+        if (currency && row.data.platformProductOrder.budget) {
+          return `${row.data.platformProductOrder.budget} ${currency!!.short}`;
+        }
+      }
     }
 
     if (headItem.reference === 'diseaseArea') {
-      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
-        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea.name;
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas) {
+        const diseaseArea =
+          row.data.platformProductOrder.platformProductOrderDiseaseAreas.map(
+            (item: any) => item.diseaseArea.name
+          );
+
+        return diseaseArea.join(', ');
       }
     }
 
     if (headItem.reference === 'location') {
-      if (row.data.platformProductOrder.platformProductOrderLocations[0]) {
-        return row.data.platformProductOrder.platformProductOrderLocations[0]
-          .location.name;
+      if (row.data.platformProductOrder.platformProductOrderLocations) {
+        const locations =
+          row.data.platformProductOrder.platformProductOrderLocations.map(
+            (item: any) => {
+              if (item.location.country && item.location.country.name) {
+                return `${item.location.name} (${item.location.country.name})`;
+              }
+              return item.location.name;
+            }
+          );
+
+        return locations.join(', ');
       }
     }
 
     if (headItem.reference === 'product') {
-      return '';
+      if (row.data.platformProductOrder.platformProductOrderLocations) {
+        const locations = row.data.products.map(
+          (item: any) => item.product.name
+        );
+
+        return locations.join(', ');
+      }
     }
 
-    if (headItem.reference === 'influencers') {
-      return '';
+    if (headItem.reference === 'struggles') {
+      if (row.data.platformProductOrder.platformProductOrderStruggles) {
+        const struggles =
+          row.data.platformProductOrder.platformProductOrderStruggles.map(
+            (item: any) => item.struggle.name
+          );
+
+        return struggles.join(', ');
+      }
     }
 
-    return '';
+    if (headItem.reference === 'influencersNumber') {
+      if (row.data.influencersCount) {
+        return row.data.influencersCount;
+      }
+    }
+
+    if (headItem.reference === 'report') {
+      if (row.data.report) {
+        return row.data.report.name;
+      }
+    }
+
+    if (headItem.reference === 'company') {
+      if (row.data.platformProductOrder.client.company.name) {
+        return row.data.platformProductOrder.client.company.name;
+      }
+    }
+
+    if (headItem.reference === 'ethnicity') {
+      if (row.data.platformProductOrder.platformProductOrderEthnicities) {
+        const ethnicities =
+          row.data.platformProductOrder.platformProductOrderEthnicities.map(
+            (item: any) => item.ethnicity.name
+          );
+        return ethnicities.join(', ');
+      }
+    }
+
+    if (headItem.reference === 'interests') {
+      if (row.data.platformProductOrder.platformProductOrderInterests) {
+        const interests =
+          row.data.platformProductOrder.platformProductOrderInterests.map(
+            (item: any) => item.interest.name
+          );
+        return interests.join(', ');
+      }
+    }
+
+    if (headItem.reference === 'startDate') {
+      if (row.data.dateStart) {
+        return moment(row.data.dateStart).format('DD/MM/YYYY');
+      }
+    }
+
+    if (headItem.reference === 'endDate') {
+      if (row.data.dateEnd) {
+        return moment(row.data.dateEnd).format('DD/MM/YYYY');
+      }
+    }
+
+    if (headItem.reference === 'influencerSize') {
+      if (row.data.campaignInfluencersSizes) {
+        const influencerSizes = row.data.campaignInfluencersSizes.map(
+          (item: any) =>
+            `${item.influencerSize.name}: ${item.influencerSize.from} - ${item.influencerSize.to}`
+        );
+
+        return influencerSizes.join(', ');
+      }
+    }
+
+    if (headItem.reference === 'ageMin') {
+      if (row.data.ageMin) {
+        return row.data.ageMin;
+      }
+    }
+
+    if (headItem.reference === 'ageMax') {
+      if (row.data.ageMax) {
+        return row.data.ageMax;
+      }
+    }
+
+    if (headItem.reference === 'gender') {
+      if (row.data.platformProductOrder.platformProductOrderGenders) {
+        const genders =
+          row.data.platformProductOrder.platformProductOrderGenders.map(
+            (item: any) => item.name
+          );
+
+        return genders.join(', ');
+      }
+    }
+
+    if (headItem.reference === 'socialMediaPlatform') {
+      if (row.data.socialPlatformId) {
+        return 'Instagram';
+      }
+    }
+
+    if (headItem.reference === 'postType') {
+      if (row.data.postType) {
+        return row.data.postType.name;
+      }
+    }
+
+    if (headItem.reference === 'website') {
+      if (row.data.clientCompanyWebsite) {
+        return row.data.clientCompanyWebsite;
+      }
+    }
+
+    if (headItem.reference === 'actions') {
+      return <InPreparationActions data={row.data.id} reload={reload} />;
+    }
+
+    return '-';
   };
 
   const [menuI, openI, setOpenI] = useMenu(false);
@@ -136,25 +299,6 @@ const CampaignsPage = () => {
   const handleMenuIn = () => {
     setOpenIn(!openIn);
   };
-
-  const [campaigns, setCampaigns] = useState([]);
-
-  const [filterParams, setFilterParams] = useState({});
-
-  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
-    usePagination({
-      limit: 10,
-      page: 1,
-      onChange: async (params, setPage) => {
-        const { result, meta } = await CampaignAPI.getCampaigns({
-          limit: params.limit,
-          skip: params.skip,
-          ...filterParams,
-        });
-        setCampaigns(result);
-        setTotalResults(meta.countFiltered);
-      },
-    });
 
   return (
     <CampaignsPageMain>
@@ -559,9 +703,6 @@ const CampaignsPage = () => {
             <Button variant="contained" color="primary" onClick={openScModal}>
               Schedule Campaign
             </Button>
-            <Button variant="contained" color="primary" onClick={openCcModal}>
-              Created Campaign
-            </Button>
           </Stack>
           <Stack direction="horizontal">
             <Button variant="contained" color="primary" onClick={handleMenuI}>
@@ -763,11 +904,10 @@ const CampaignsPage = () => {
           />
         )}
       </CardWithText>
-      {acModal && <AddCampaignModal onClose={closeAcModal} />}
+      {acModal && <AddCampaignModal onClose={closeAcModal} refresh={reload} />}
       {ecModal && <ExportCampaignsModal onClose={closeEcModal} />}
       {scModal && <ScheduleCampaignModal onClose={closeScModal} />}
       {ncModal && <NoteCampaignsModal onClose={closeNcModal} />}
-      {ccModal && <CreatedCampaignModal onClose={closeCcModal} />}
     </CampaignsPageMain>
   );
 };
