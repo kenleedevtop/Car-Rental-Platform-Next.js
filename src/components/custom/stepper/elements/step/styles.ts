@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import { Step } from '@mui/material';
 
 export const StepMain = styled(Step)`
-& svg {
+  & svg {
     cursor: pointer;
-    color: #C3DBEE;
+    color: #c3dbee;
     & :last-child > {
-        color: white
+      color: white;
     }
-}
+  }
 `;

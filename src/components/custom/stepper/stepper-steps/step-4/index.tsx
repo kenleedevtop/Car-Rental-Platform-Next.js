@@ -82,14 +82,14 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
           font: 'inter',
           fontWeight: '600',
           display: 'grid',
-          gridTemplateColumns:'repeat(8, 1fr)',
+          gridTemplateColumns: 'repeat(8, 1fr)',
           justifyContent: 'space-between',
         }}
       >
         <div>
           <p>Campaigns</p>
         </div>
-        <div style={{ justifyContent: 'center', gridColumn:'3'}}>
+        <div style={{ justifyContent: 'center', gridColumn: '3' }}>
           <p>Surveys</p>
         </div>
       </div>

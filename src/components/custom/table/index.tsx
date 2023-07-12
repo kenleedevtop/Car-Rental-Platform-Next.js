@@ -68,7 +68,14 @@ const Table = ({
                     </TableBodyCell>
                   ))}
                   <TableBodyCell>
-                  <VerticalDotsIcon style={{width:'26px', height: '26px', borderRadius: '4px', backgroundColor: '#F3F6F9'}}></VerticalDotsIcon>
+                    <VerticalDotsIcon
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        borderRadius: '4px',
+                        backgroundColor: '#F3F6F9',
+                      }}
+                    ></VerticalDotsIcon>
                   </TableBodyCell>
                 </TableBodyRow>
               ))}
