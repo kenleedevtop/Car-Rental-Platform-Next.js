@@ -20,7 +20,11 @@ const CardWithoutChart = ({
   chartData,
   ...props
 }: TCardWithoutChartProps) => (
-  <CardWithoutChartMain animation="zoom-in" {...props} style={{width:'150px'}}>
+  <CardWithoutChartMain
+    animation="zoom-in"
+    {...props}
+    style={{ width: '150px' }}
+  >
     <CardWithoutChartText>
       <CardWithoutChartIconProps>{icon}</CardWithoutChartIconProps>
       <CardWithoutChartIconProps gray />
