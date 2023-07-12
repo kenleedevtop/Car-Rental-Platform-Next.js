@@ -106,6 +106,13 @@ const CampaignsPage = () => {
         `;
     }
 
+    if (headItem.reference === 'ambassador') {
+      const { client } = row.data.platformProductOrder;
+      if (client && client.ambassador && client.ambassador.user) {
+        return `${client.ambassador.user.firstName} ${client.ambassador.user.lastName}`;
+      }
+    }
+
     if (headItem.reference === 'budget') {
       if (
         row.data.platformProductOrder.currencyId &&

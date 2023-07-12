@@ -32,14 +32,19 @@ import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack } from 'components/system';
 import { Collapse } from '@mui/material';
-import { DGenerateReportsFilter, DReportsHead } from 'features/reports/data';
+import {
+  DGenerateReportsFilter,
+  DReportsClientHead,
+} from 'features/reports/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
   ExportReportsModal,
   CreateReportsModal,
 } from 'features/reports/role/admin/elements';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
+import { CampaignAPI } from 'api';
+import OrderedActions from './elements/ordered-actions';
 
 const ReportsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateReportsFilter());
@@ -56,6 +61,25 @@ const ReportsPage = () => {
   const [menuTBC, openTBC, setOpenTBC] = useMenu(false);
   const [menuTBS, openTBS, setOpenTBS] = useMenu(false);
   const [menuAF, openAF, setOpenAF] = useMenu(false);
+
+  const [reports, setReports] = useState<any>([]);
+  const [filterParams, setFilterParams] = useState({});
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await CampaignAPI.getReports({
+          limit: params.limit,
+          skip: params.skip,
+          reportType: 1,
+          ...filterParams,
+        });
+        setReports(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
 
   const handleMenuTBC = () => {
     setOpenTBC(!openTBC);
@@ -75,7 +99,34 @@ const ReportsPage = () => {
     setFilter(DGenerateReportsFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'campaign') {
+      return row.data.campaign.name;
+    }
+    if (headItem.reference === 'type') {
+      return row.data.reportType === 1 ? 'Yes' : 'No';
+    }
+    if (headItem.reference === 'budget') {
+      if (row.data.platformProductOrder.budget) {
+        return `${row.data.platformProductOrder.budget} CHF`;
+      }
+    }
+    if (headItem.reference === 'costPerClick') {
+      return row.data.costPerClick;
+    }
+    if (headItem.reference === 'costPerTarget') {
+      return row.data.costPerTarget;
+    }
+    if (headItem.reference === 'additionalInformation') {
+      return row.data.description;
+    }
+
+    if (headItem.reference === 'actions') {
+      return <OrderedActions data={row.data} reload={reload} />;
+    }
+
+    return '';
+  };
 
   const router = useRouter();
 
@@ -345,14 +396,21 @@ const ReportsPage = () => {
             value={tabsValue}
             onValue={setTabsValue}
           />
-          <CheckboxTable
-            head={DReportsHead}
-            items={[]}
-            renderItem={renderItem}
-          />
-
-          <Pagination count={32} />
-
+          {tabsValue === 0 && (
+            <>
+              <CheckboxTable
+                head={DReportsClientHead}
+                items={reports}
+                renderItem={renderItem}
+              />
+              <Pagination
+                onChange={(_e, x) => handlePageChange(x)}
+                page={page}
+                count={pagesCount}
+              />
+            </>
+          )}
+          {/* 
           <Stack direction="horizontal">
             <Button color="primary" variant="contained" onClick={handleMenuTBC}>
               Ordered
@@ -363,7 +421,7 @@ const ReportsPage = () => {
             <Button color="primary" variant="contained" onClick={handleMenuAF}>
               Delivered
             </Button>
-          </Stack>
+          </Stack> */}
           {openTBC && (
             <Menu
               items={[
@@ -488,7 +546,9 @@ const ReportsPage = () => {
         </Stack>
       </CardWithText>
       {erModal && <ExportReportsModal onClose={closeErModal} />}
-      {crModal && <CreateReportsModal onClose={closeCrModal} />}
+      {crModal && (
+        <CreateReportsModal onClose={closeCrModal} refresh={reload} />
+      )}
     </ReportsPageMain>
   );
 };
