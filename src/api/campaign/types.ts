@@ -241,3 +241,16 @@ export type TReport = {
 export type TReportId = {
   reportId: number;
 };
+
+export type TUpdateReport = {
+  budget?: number;
+  reportType?: number;
+  description?: string;
+  websiteClicks?: boolean;
+  engagement?: boolean;
+  costPerClick?: boolean;
+  costPerLike?: boolean;
+  costPerComment?: boolean;
+  costPerEngagement?: boolean;
+  overlap?: boolean;
+};

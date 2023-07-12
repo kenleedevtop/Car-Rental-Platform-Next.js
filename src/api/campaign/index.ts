@@ -142,6 +142,14 @@ const CampaignAPI = {
 
     return data;
   },
+
+  updateReport: async (id: number, body: any) => {
+    await client.patch(`${Project.apis.v1}/campaign/reports/${id}`, body);
+  },
+
+  deleteReport: async (id: number) => {
+    await client.delete(`${Project.apis.v1}/campaign/reports/${id}`);
+  },
 };
 
 export default CampaignAPI;
