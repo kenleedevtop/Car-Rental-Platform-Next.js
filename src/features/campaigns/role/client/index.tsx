@@ -29,7 +29,6 @@ import {
   SlidersHorizontalIcon,
   TotalIcon,
 } from 'components/svg';
-import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
@@ -81,6 +80,23 @@ const CampaignsPage = () => {
   };
 
   const [current, setCurrent] = useState(-1);
+  const [filterParams, setFilterParams] = useState({});
+  const [campaigns, setCampaigns] = useState([]);
+
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: 10,
+      page: 1,
+      onChange: async (params, setPage) => {
+        const { result, meta } = await CampaignAPI.getCampaigns({
+          limit: params.limit,
+          skip: params.skip,
+          ...filterParams,
+        });
+        setCampaigns(result);
+        setTotalResults(meta.countFiltered);
+      },
+    });
 
   const renderItem = ({
     headItem,
@@ -108,16 +124,29 @@ const CampaignsPage = () => {
     }
 
     if (headItem.reference === 'diseaseArea') {
-      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
-        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea.name;
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas) {
+        const diseases =
+          row.data.platformProductOrder.platformProductOrderDiseaseAreas.map(
+            (item: any) => item.diseaseArea.name
+          );
+
+        return diseases.join(', ');
       }
     }
 
     if (headItem.reference === 'location') {
-      if (row.data.platformProductOrder.platformProductOrderLocations[0]) {
-        return row.data.platformProductOrder.platformProductOrderLocations[0]
-          .location.name;
+      if (row.data.platformProductOrder.platformProductOrderLocations) {
+        const locations =
+          row.data.platformProductOrder.platformProductOrderLocations.map(
+            (item: any) => {
+              if (item.location.country && item.location.country.name) {
+                return `${item.location.name} (${item.location.country.name})`;
+              }
+              return item.location.name;
+            }
+          );
+
+        return locations.join(', ');
       }
     }
 
@@ -132,32 +161,13 @@ const CampaignsPage = () => {
     }
 
     if (headItem.reference === 'actions') {
-      return <InPreparationActions data={row.data.id} />;
+      return <InPreparationActions data={row.data.id} reload={reload} />;
     }
 
     return '';
   };
 
   const router = useRouter();
-
-  const [campaigns, setCampaigns] = useState([]);
-
-  const [filterParams, setFilterParams] = useState({});
-
-  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
-    usePagination({
-      limit: 10,
-      page: 1,
-      onChange: async (params, setPage) => {
-        const { result, meta } = await CampaignAPI.getCampaigns({
-          limit: params.limit,
-          skip: params.skip,
-          ...filterParams,
-        });
-        setCampaigns(result);
-        setTotalResults(meta.countFiltered);
-      },
-    });
 
   /* Filters */
   const [loading, setLoading] = useState(false);
@@ -268,7 +278,7 @@ const CampaignsPage = () => {
     setFilterInfluencerSize(
       result.map((x: any) => ({
         value: x.id,
-        label: `${x.name}: ${x.from} | ${x.to}`,
+        label: `${x.name}: ${x.from} - ${x.to}`,
       }))
     );
   };
@@ -741,7 +751,11 @@ const CampaignsPage = () => {
       )}
       {ecModal && <ExportCampaignsModal onClose={closeEcModal} />}
       {ccModal && (
-        <CreatedCampaignModal id={current.toString()} onClose={closeCcModal} />
+        <CreatedCampaignModal
+          id={current.toString()}
+          onClose={closeCcModal}
+          reload={reload}
+        />
       )}
     </CampaignsPageMain>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 
-export type TAddInfluencerModalProps = React.HTMLAttributes<HTMLDivElement> & {
+export type TAddCampaignModalProps = React.HTMLAttributes<HTMLDivElement> & {
   onClose: () => void;
+  refresh: () => void;
 };

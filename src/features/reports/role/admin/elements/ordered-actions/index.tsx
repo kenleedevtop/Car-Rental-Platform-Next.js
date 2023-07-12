@@ -7,16 +7,18 @@ import {
 import { useMenu, useModal } from 'hooks';
 import {
   ContactIcon,
+  DeleteIcon,
   InfoIcon,
   ScheduleIcon,
   VerticalDotsIcon,
 } from 'components/svg';
 import { TInpreparationActionsMenuProps } from 'features/reports/role/client/elements/ordered-actions/types';
-import { useRouter } from 'next/router';
-import { CreatedReportsModal } from 'features/reports/role/client/elements';
+import DeleteReportModal from '../delete-report-modal';
+import CreatedReportModal from '../created-report-modal';
 
-const InPreparationActions = ({
+const OrderedActions = ({
   data,
+  reload,
   ...props
 }: TInpreparationActionsMenuProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
@@ -31,7 +33,8 @@ const InPreparationActions = ({
     closeCreatedReportsModal,
   ] = useModal(false);
 
-  const router = useRouter();
+  const [deleteReportsModal, openDeleteReportsModal, closeDeleteReportsModal] =
+    useModal(false);
 
   return (
     <InPreparationActionsMain {...props}>
@@ -50,21 +53,29 @@ const InPreparationActions = ({
                 openCreatedReportsModal();
               },
             },
+            // {
+            //   icon: <ContactIcon />,
+            //   label: 'Contact',
+            //   action: () => {
+            //     handleMenu();
+            //     window.location.href = `mailto:client@patientsinfluence.com`;
+            //   },
+            // },
+            // {
+            //   icon: <ScheduleIcon />,
+            //   label: 'Schedule',
+            //   action: () => {
+            //     router.push(
+            //       'https://calendly.com/patientsinfluence-client/30min'
+            //     );
+            //   },
+            // },
             {
-              icon: <ContactIcon />,
-              label: 'Contact',
+              icon: <DeleteIcon />,
+              label: 'Remove',
               action: () => {
                 handleMenu();
-                window.location.href = `mailto:client@patientsinfluence.com`;
-              },
-            },
-            {
-              icon: <ScheduleIcon />,
-              label: 'Schedule',
-              action: () => {
-                router.push(
-                  'https://calendly.com/patientsinfluence-client/30min'
-                );
+                openDeleteReportsModal();
               },
             },
           ]}
@@ -72,10 +83,21 @@ const InPreparationActions = ({
         />
       )}
       {createdReportsModal && (
-        <CreatedReportsModal data={data} onClose={closeCreatedReportsModal} />
+        <CreatedReportModal
+          data={data}
+          onClose={closeCreatedReportsModal}
+          reload={reload}
+        />
+      )}
+      {deleteReportsModal && (
+        <DeleteReportModal
+          id={data.id}
+          onClose={closeDeleteReportsModal}
+          reload={reload}
+        />
       )}
     </InPreparationActionsMain>
   );
 };
 
-export default InPreparationActions;
+export default OrderedActions;

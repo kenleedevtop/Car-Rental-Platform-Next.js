@@ -1,36 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { Chat, CurrencyFeedback, Modal, Note, Tabs } from 'components/custom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Chat, CurrencyFeedback, Modal, Tabs } from 'components/custom';
 import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/created-campaign-modal/types';
 import { AddCampaignsModalMain } from 'features/campaigns/role/client/elements/created-campaign-modal/styles';
-import { Button, Input, InputGroup } from 'components/ui';
+import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
-import { CampaignAPI } from 'api';
+import {
+  CampaignAPI,
+  ClientAPI,
+  DiseaseAreaAPI,
+  EnumsApi,
+  FileManagerApi,
+  LocationAPI,
+  ProductApi,
+} from 'api';
+import { TState } from 'features/campaigns/role/admin/elements/created-campaign-modal/types';
+import { CampaignsTitle } from 'features/campaigns/role/admin/elements/created-campaign-modal/styles';
+import { EditIcon } from 'components/svg';
+import { TCampaign } from 'api/campaign/types';
+import { formatCurrencyIdToObject } from 'features/discover-influencers/role/admin/elements/influencer-profile/helpers';
+import UsersAPI from 'api/users';
+import { useModal, useSnackbar } from 'hooks';
+import { pick } from '@costorgroup/file-manager';
+import {
+  ImageUploadContainer,
+  ImageUploadMainContainer,
+} from '../add-campaign-modal/styles';
+import UploadedFileModal from '../uploaded-file-modal';
 
 const CreatedCampaignModal = ({
   onClose,
+  reload,
   id,
   ...props
 }: TAddCampaignsModalProps) => {
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState<TState>({
     campaignName: '',
     product: [],
-    influencers: null,
-    startDate: null,
-    endDate: null,
-    report: null,
-    currency: null,
-    budget: null,
+    influencers: undefined,
+    dateStart: null,
+    dateEnd: null,
+    report: undefined,
+    currency: {},
+    budget: undefined,
     campaignInfo: '',
 
-    location: null,
-    language: null,
-    diseaseArea: null,
+    location: [],
+    language: [],
+    diseaseArea: [],
+    symptoms: [],
     stakeholders: [],
-    gender: null,
+    gender: [],
     age: {
-      min: '',
-      max: '',
+      min: undefined,
+      max: undefined,
     },
     ethnicity: [],
     struggles: [],
@@ -38,8 +61,8 @@ const CreatedCampaignModal = ({
     influencerSize: [],
     targetAudienceInfo: '',
 
-    platform: null,
-    postType: null,
+    platform: {},
+    postType: {},
     image: null,
     website: '',
     instructions: '',
@@ -51,11 +74,17 @@ const CreatedCampaignModal = ({
     reportC: null,
   });
 
+  const handleNewProductTag = (v: any) => {
+    if (state.product) {
+      setState({ ...state, product: [...state.product, v] });
+    }
+  };
+
   const handleFile = async () => {};
 
   const [tab, setTab] = useState(0);
 
-  const [campaign, setCampaign] = useState<any>(null);
+  const [campaign, setCampaign] = useState<TCampaign>({});
 
   const getCampaign = async () => {
     const result = await CampaignAPI.getSingleCampaign(id);
@@ -63,204 +92,556 @@ const CreatedCampaignModal = ({
     setCampaign(result);
   };
 
+  const [loading, setLoading] = useState(false);
+
+  const [product, setProduct] = useState<any>([]);
+  const [report, setReport] = useState<any>();
+  const [location, setLocation] = useState<any>();
+  const [languages, setLanguages] = useState<any>();
+  const [diseaseAreas, setDiseaseAreas] = useState<any>();
+  const [stakeholders, setStakholders] = useState<any>();
+  const [gender, setGender] = useState<any>();
+  const [ethnicity, setEthnicity] = useState<any>();
+  const [struggles, setStruggles] = useState<any>();
+  const [interests, setInterests] = useState<any>();
+  const [influencerSize, setInfluencerSize] = useState<any>();
+  const [symptoms, setSymptoms] = useState<any>();
+  const [ambassador, setAmbassador] = useState<any>();
+
+  const getProducts = async () => {
+    const { result } = await ProductApi.getProducts('');
+
+    setProduct(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+  };
+
+  const getClient = useCallback(async () => {
+    if (state.client && state.client.value) {
+      const { client } = await ClientAPI.getSingleClient(state.client.value);
+
+      if (client && client.ambassador) {
+        const response = await UsersAPI.getUser(client.ambassador.userId);
+
+        setAmbassador({
+          value: response.id,
+          label: `${response.firstName} ${response.lastName}`,
+        });
+      } else {
+        setAmbassador(null);
+      }
+    } else {
+      setAmbassador(null);
+    }
+  }, [state.client?.value]);
+
+  useEffect(() => {
+    getClient();
+  }, [state.client]);
+
+  const getReportTypes = async () => {
+    const result = await EnumsApi.getReportTypes();
+
+    setReport(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getDiseaseAreas = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await DiseaseAreaAPI.getAll(s);
+
+    setDiseaseAreas(
+      result.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getLocations = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await LocationAPI.getAll(s);
+    setLocation(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.country ? `${data.name}, ${data.country.name}` : data.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getGenders = async () => {
+    const result = await EnumsApi.getGenders();
+
+    setGender(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getStakeholders = async () => {
+    const result = await EnumsApi.getStakeholderTypes();
+
+    setStakholders(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getEthnicities = async () => {
+    const result = await EnumsApi.getEthnicities();
+
+    setEthnicity(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getStruggles = async () => {
+    const result = await EnumsApi.getStruggles();
+
+    setStruggles(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+  const getInterests = async () => {
+    const result = await EnumsApi.getInterests();
+
+    setInterests(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getInfluencerSizes = async () => {
+    const { result } = await EnumsApi.getInfluencerSize();
+
+    setInfluencerSize(
+      result.map((x: any) => ({
+        value: x.id,
+        label: `${x.name}: ${x.from} - ${x.to}`,
+      }))
+    );
+  };
+
+  const getLanguages = async () => {
+    const result = await EnumsApi.getLanguages();
+
+    setLanguages(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getSympthoms = async () => {
+    const response = await EnumsApi.getSymptoms();
+
+    setSymptoms(
+      response.result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
   useEffect(() => {
     getCampaign();
   }, [id]);
 
   useEffect(() => {
+    getProducts();
+    getDiseaseAreas();
+    getLocations();
+    getReportTypes();
+    getGenders();
+    getStakeholders();
+    getEthnicities();
+    getStruggles();
+    getInterests();
+    getInfluencerSizes();
+    getLanguages();
+    getSympthoms();
+  }, []);
+
+  useEffect(() => {
     const newState = { ...state };
 
-    if (campaign && Object.keys(campaign).length > 0) {
-      newState.campaignName = campaign.name;
+    if (newState) {
+      if (campaign && Object.keys(campaign).length > 0 && campaign.name) {
+        newState.campaignName = campaign.name;
 
-      // if (campaign.campaignType) {
-      //   newState.campaignType = {
-      //     value: campaign.campaignType,
-      //     label: 'Questionaire',
-      //   };
-      // }
+        // if (campaign.campaignType) {
+        //   newState.campaignType = {
+        //     value: campaign.campaignType,
+        //     label: 'Questionaire',
+        //   };
+        // }
 
-      if (campaign.report) {
-        newState.report = {
-          value: campaign.report,
-          label: campaign.report === 0 ? 'No' : 'Yes',
-        };
-      }
+        if (campaign.report) {
+          newState.report = {
+            value: campaign.report,
+            label: campaign.report ? 'Yes' : 'No',
+          };
+        }
 
-      if (campaign.stakeholderTypes) {
-        newState.stakeholders = campaign.stakeholderTypes.map((x: any) => ({
-          value: x.value,
-          label: x.name,
-        }));
-      }
+        if (campaign.stakeholderTypes) {
+          newState.stakeholders = campaign.stakeholderTypes.map((x: any) => ({
+            value: x.value,
+            label: x.name,
+          }));
+        }
 
-      if (campaign.influencersCount) {
-        newState.influencers = campaign.influencersCount;
-      }
+        if (campaign.influencersCount) {
+          newState.influencers = campaign.influencersCount;
+        }
 
-      if (campaign.targetAudienceDescription) {
-        newState.targetAudienceInfo = campaign.targetAudienceDescription;
-      }
+        if (campaign.targetAudienceDescription) {
+          newState.targetAudienceInfo = campaign.targetAudienceDescription;
+        }
 
-      // if (campaign.participantsDescription) {
-      //   newState.targetAudInfo = campaign.participantsDescription;
-      // }
+        // if (campaign.participantsDescription) {
+        //   newState.targetAudInfo = campaign.participantsDescription;
+        // }
 
-      if (campaign.ageMin) {
-        newState.age.min = campaign.ageMin;
-      }
+        if (campaign.ageMin && newState.age) {
+          newState.age.min = campaign.ageMin;
+        }
 
-      if (campaign.ageMax) {
-        newState.age.max = campaign.ageMax;
-      }
+        if (campaign.ageMax && newState.age) {
+          newState.age.max = campaign.ageMax;
+        }
 
-      if (campaign.campaignDescription) {
-        newState.campaignInfo = campaign.campaignDescription;
-      }
+        if (campaign.description) {
+          newState.campaignInfo = campaign.description;
+        }
 
-      if (campaign.dateStart) {
-        newState.startDate = campaign.dateStart;
-      }
+        if (campaign.dateStart) {
+          newState.dateStart = campaign.dateStart;
+        }
 
-      if (campaign.dateEnd) {
-        newState.endDate = campaign.dateEnd;
-      }
+        if (campaign.dateEnd) {
+          newState.dateEnd = campaign.dateEnd;
+        }
 
-      if (campaign.products) {
-        newState.product = campaign.products.map((x: any) => ({
-          value: x.product.id,
-          label: x.product.name,
-        }));
-      }
+        if (campaign.products) {
+          newState.product = campaign.products.map((x: any) => ({
+            value: x.product.id,
+            label: x.product.name,
+          }));
+        }
+        if (campaign.platformProductOrder) {
+          if (
+            campaign.platformProductOrder.currency &&
+            campaign.platformProductOrder.currency.id
+          ) {
+            const currency = formatCurrencyIdToObject(
+              campaign.platformProductOrder.currency.id - 1
+            );
 
-      if (campaign.platformProductOrder.platformProductOrderLocations?.[0]) {
-        newState.location = {
-          value:
-            campaign.platformProductOrder.platformProductOrderLocations?.[0]
-              .location.id,
-          label:
-            campaign.platformProductOrder.platformProductOrderLocations?.[0]
-              .location.name,
-        };
-        // campaign.platformProductOrder.platformProductOrderLocations.map(
-        //   (x: any) => ({ value: x.location.id, label: x.location.name })
-        // );
-      }
+            if (currency) {
+              newState.currency = {
+                value: currency.id + 1,
+                label: currency.short,
+              };
+            }
+          }
 
-      if (campaign.platformProductOrder.platformProductOrderDiseaseAreas?.[0]) {
-        newState.diseaseArea = {
-          value:
-            campaign.platformProductOrder.platformProductOrderDiseaseAreas?.[0]
-              .diseaseArea.id,
-          label:
-            campaign.platformProductOrder.platformProductOrderDiseaseAreas?.[0]
-              .diseaseArea.name,
-        };
-        // campaign.platformProductOrder.platformProductOrderDiseaseAreas.map(
-        //   (x: any) => ({ value: x.diseaseArea.id, label: x.diseaseArea.name })
-        // );
-      }
+          if (campaign.platformProductOrder.platformProductOrderLocations) {
+            newState.location =
+              campaign.platformProductOrder.platformProductOrderLocations.map(
+                (x: any) => ({
+                  value: x.location.id,
+                  label: x.location.country
+                    ? `${x.location.name}, ${x.location.country.name}`
+                    : x.location.name,
+                })
+              );
+          }
 
-      if (campaign.campaignInfluencersSizes) {
-        newState.influencerSize = campaign.campaignInfluencersSizes.map(
-          (x: any) => ({
-            value: x.influencerSize.id,
-            label: `${x.influencerSize.name}: ${x.influencerSize.from} | ${x.influencerSize.to}`,
-          })
-        );
-      }
+          if (campaign.platformProductOrder.platformProductOrderDiseaseAreas) {
+            newState.diseaseArea =
+              campaign.platformProductOrder.platformProductOrderDiseaseAreas.map(
+                (x: any) => ({
+                  value: x.diseaseArea.id,
+                  label: x.diseaseArea.name,
+                })
+              );
+          }
 
-      if (campaign.platformProductOrder.platformProductOrderEthnicities) {
-        newState.ethnicity =
-          campaign.platformProductOrder.platformProductOrderEthnicities.map(
-            (x: any) => ({ value: x.ethnicity.id, label: x.ethnicity.name })
-          );
-      }
+          if (campaign.platformProductOrder.platformProductOrderEthnicities) {
+            newState.ethnicity =
+              campaign.platformProductOrder.platformProductOrderEthnicities.map(
+                (x: any) => ({ value: x.ethnicity.id, label: x.ethnicity.name })
+              );
+          }
 
-      if (campaign.platformProductOrder.platformProductOrderStruggles) {
-        newState.struggles =
-          campaign.platformProductOrder.platformProductOrderStruggles.map(
-            (x: any) => ({ value: x.struggle.id, label: x.struggle.name })
-          );
-      }
+          if (campaign.platformProductOrder.platformProductOrderStruggles) {
+            newState.struggles =
+              campaign.platformProductOrder.platformProductOrderStruggles.map(
+                (x: any) => ({ value: x.struggle.id, label: x.struggle.name })
+              );
+          }
 
-      if (campaign.platformProductOrder.platformProductOrderInterests) {
-        newState.interests =
-          campaign.platformProductOrder.platformProductOrderInterests.map(
-            (x: any) => ({ value: x.interest.id, label: x.interest.name })
-          );
-      }
+          if (campaign.platformProductOrder.platformProductOrderInterests) {
+            newState.interests =
+              campaign.platformProductOrder.platformProductOrderInterests.map(
+                (x: any) => ({ value: x.interest.id, label: x.interest.name })
+              );
+          }
 
-      if (campaign.language) {
-        newState.language = {
-          value: campaign.language.value,
-          label: campaign.language.name,
-        };
-      }
+          if (campaign.platformProductOrder.platformProductOrderLanguages) {
+            newState.language =
+              campaign.platformProductOrder.platformProductOrderLanguages.map(
+                (x: any) => ({ value: x.value, label: x.name })
+              );
+          }
 
-      if (campaign.instructions) {
-        newState.instructions = campaign.instructions;
-      }
+          if (campaign.platformProductOrder.platformProductOrderSymptoms) {
+            newState.symptoms =
+              campaign.platformProductOrder.platformProductOrderSymptoms.map(
+                (x: any) => ({ value: x.symptom.id, label: x.symptom.name })
+              );
+          }
 
-      if (campaign.clientCompanyWebsite) {
-        newState.website = campaign.clientCompanyWebsite;
-      }
+          if (campaign.platformProductOrder.budget) {
+            newState.budget = campaign.platformProductOrder.budget;
+          }
 
-      // if (campaign.campaignType !== null) {
-      //   newState.campaignType = {
-      //     value: 0,
-      //     label: 'Questionaire',
-      //   };
-      // }
+          if (campaign.platformProductOrder.platformProductOrderGenders) {
+            newState.gender =
+              campaign.platformProductOrder.platformProductOrderGenders.map(
+                (x: any) => ({
+                  value: x.value,
+                  label: x.name,
+                })
+              );
+          }
 
-      if (campaign.platformProductOrder.budget) {
-        newState.budget = campaign.platformProductOrder.budget;
-      }
+          if (
+            campaign.platformProductOrder.client &&
+            campaign.platformProductOrder.client.user &&
+            campaign.platformProductOrder.client.user.lastName &&
+            campaign.platformProductOrder.client.user.firstName &&
+            campaign.platformProductOrder.client.user.id
+          ) {
+            newState.client = {
+              value: campaign.platformProductOrder.client.user.id,
+              label: `${campaign.platformProductOrder.client.user.firstName} ${campaign.platformProductOrder.client.user.lastName}`,
+            };
+          }
+        }
 
-      if (campaign.platformProductOrder.platformProductOrderGenders) {
-        newState.gender =
-          campaign.platformProductOrder.platformProductOrderGenders.map(
+        if (campaign.campaignInfluencersSizes) {
+          newState.influencerSize = campaign.campaignInfluencersSizes.map(
             (x: any) => ({
-              value: x.value,
-              label: x.name,
+              value: x.influencerSize.id,
+              label: `${x.influencerSize.name}: ${x.influencerSize.from} | ${x.influencerSize.to}`,
             })
           );
-      }
+        }
 
-      if (campaign.socialPlatformId) {
-        newState.platform = {
-          value: campaign.socialPlatformId,
-          label: 'Instagram',
-        };
-      }
+        if (campaign.instructions) {
+          newState.instructions = campaign.instructions;
+        }
 
-      if (campaign.postType !== null) {
-        newState.postType = {
-          value: campaign.postType.value,
-          label: campaign.postType.name,
-        };
-      }
+        if (campaign.clientCompanyWebsite) {
+          newState.website = campaign.clientCompanyWebsite;
+        }
 
-      if (campaign.description) {
-        newState.campaignInfo = campaign.description;
-      }
+        // if (campaign.campaignType !== null) {
+        //   newState.campaignType = {
+        //     value: 0,
+        //     label: 'Questionaire',
+        //   };
+        // }
 
-      setState(newState);
+        if (campaign.socialPlatformId) {
+          newState.platform = {
+            value: campaign.socialPlatformId,
+            label: 'Instagram',
+          };
+        }
+
+        if (campaign.postType) {
+          newState.postType = {
+            value: campaign.postType.value,
+            label: campaign.postType.name,
+          };
+        }
+
+        if (campaign.description) {
+          newState.campaignInfo = campaign.description;
+        }
+
+        if (campaign.influencersCount) {
+          newState.influencerCount = campaign.influencersCount;
+        }
+
+        setState(newState);
+      }
     }
   }, [campaign]);
+
+  const [photo, setPhoto] = useState<any>(undefined);
+  const [fileType, setFileType] = useState<string>('');
+  const [photoName, setPhotoName] = useState('');
+  const [modal, modalOpen, modalClose] = useModal(false);
+
+  const handlePhotos = async () => {
+    const file: any = await pick({
+      accept: 'image/jpg, image/jpeg, image/png, application/pdf',
+    });
+
+    setPhotoName(file.name);
+
+    const data = await FileManagerApi.fileUpload(file);
+
+    const presignedUrl = await FileManagerApi.fileDownload(data.key);
+
+    setPhoto(presignedUrl.data);
+
+    setFileType(file.type);
+
+    if (file.name && presignedUrl.data && file.type) {
+      modalOpen();
+    }
+  };
+
+  const { push } = useSnackbar();
+
+  const updateCampaign = useCallback(async () => {
+    try {
+      const body = {
+        name: state.campaignName,
+        budget: state.budget ? +state.budget : undefined,
+        diseaseAreaIds: state.diseaseArea
+          ? state.diseaseArea.map((x: any) => x.value)
+          : [],
+        struggleIds: state.struggles
+          ? state.struggles.map((x: any) => x.value)
+          : [],
+        stakeholderTypes: state.stakeholders
+          ? state.stakeholders.map((x: any) => x.value)
+          : [],
+        locationIds: state.location
+          ? state.location.map((x: any) => x.value)
+          : [],
+        languages: state.language
+          ? state.language.map((x: any) => x.value)
+          : [],
+        ethnicityIds: state.ethnicity
+          ? state.ethnicity.map((x: any) => x.value)
+          : [],
+        interestIds: state.interests
+          ? state.interests.map((x: any) => x.value)
+          : [],
+        productIds: state.product ? state.product.map((x: any) => x.value) : [],
+        dateStart: state.dateStart ? state.dateStart : undefined,
+        dateEnd: state.dateEnd ? state.dateEnd : undefined,
+        description: state.campaignInfo ? state.campaignInfo : undefined,
+        influencersCount: state.influencerCount
+          ? state.influencerCount
+          : undefined,
+        influencersSizeIds: state.influencerSize
+          ? state.influencerSize.map((x: any) => x.value)
+          : [],
+        ageMin: state.age && state.age.min ? state.age.min : undefined,
+        ageMax: state.age && state.age.max ? state.age.max : undefined,
+        genders: state.gender ? state.gender.map((x: any) => x.value) : [],
+        symptomIds: state.symptoms
+          ? state.symptoms.map((x: any) => x.value)
+          : [],
+        targetAudienceDescription: state.targetAudienceInfo
+          ? state.targetAudienceInfo
+          : undefined,
+        socialPlatformId: state.platform ? state.platform.value : undefined,
+        postType:
+          state.postType && state.postType.value && state.postType.value,
+        clientCompanyWebsite: state.website ? state.website : undefined,
+        instructions: state.instructions ? state.instructions : undefined,
+        report: state.report ? state.report.value?.value : undefined,
+        exampleImageUrls: photo !== undefined ? [photo] : undefined,
+        currencyId: state.currency ? state.currency.value : 3,
+        status:
+          campaign &&
+          campaign.platformProductOrder &&
+          campaign.platformProductOrder.status &&
+          campaign.platformProductOrder.status,
+      };
+
+      await CampaignAPI.updateCampaign(id, body).then(() => reload());
+
+      push('Campaign successfully updated.', { variant: 'success' });
+    } catch (e) {
+      push('Campaign update failed.', { variant: 'error' });
+      console.log(e);
+    }
+  }, [state, campaign, photo]);
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
+
+  const [edit, setEdit] = useState(false);
+
+  const handleEdit = () => {
+    setEdit((prev) => !prev);
+  };
 
   return (
     <Modal
       size="medium"
-      title={campaign && campaign.name ? campaign.name : ''}
+      title={
+        <CampaignsTitle>
+          {campaign && campaign?.name ? campaign.name : ''}
+          <EditIcon
+            style={
+              edit
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleEdit}
+          />
+        </CampaignsTitle>
+      }
       actions={[
         <Button
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          disabled={!state.campaignName}
+          onClick={() => {
+            updateCampaign();
+            onClose();
+          }}
         >
-          Close
+          Update
         </Button>,
       ]}
       onClose={onClose}
@@ -280,43 +661,53 @@ const CreatedCampaignModal = ({
             <Input
               type="text"
               label="Campaign Name"
-              disabled
+              disabled={!edit}
               value={state.campaignName}
               onValue={(campaignName) => setState({ ...state, campaignName })}
+              required
             />
             <Input
               type="multiselect"
               label="Products"
-              disabled
+              disabled={!edit}
               value={state.product}
-              onValue={(product) => setState({ ...state, product })}
+              onValue={(input) => setState({ ...state, product: input })}
+              options={product}
+              onSearch={debounce(getProducts, 250)}
+              onNewTag={handleNewProductTag}
+              loading={loading}
             />
             <Input
               label="Start Date"
               type="date"
               placeholder="From"
-              value={state.startdate}
-              onValue={(startDate) => setState({ ...state, startDate })}
+              disabled={!edit}
+              value={state.dateStart}
+              onValue={(input) => setState({ ...state, dateStart: input })}
             />
             <Input
               label="End Date"
               type="date"
+              disabled={!edit}
               placeholder="To"
-              value={state.endDate}
-              onValue={(endDate) => setState({ ...state, endDate })}
+              value={state.dateEnd}
+              max={state.dateStart ? state.dateStart : undefined}
+              onValue={(input) => setState({ ...state, dateEnd: input })}
             />
             <Input
               type="select"
               label="Report"
-              disabled
+              disabled={!edit}
               value={state.report}
-              onValue={(report) => setState({ ...state, report })}
+              onValue={(input) => setState({ ...state, report: input })}
+              options={report}
             />
             <Input
               type="number"
               min={0}
-              label="Influencer Count"
+              label="Influencers"
               placeholder="Please Select"
+              disabled={!edit}
               value={state.influencerCount}
               onValue={(input) =>
                 setState({ ...state, influencerCount: input > 0 ? input : 0 })
@@ -325,10 +716,10 @@ const CreatedCampaignModal = ({
             <Stack>
               <Input
                 label="Budget"
-                disabled
+                disabled={!edit}
                 value={state.budget}
                 onValue={(budget) => setState({ ...state, budget })}
-                type="text"
+                type="number"
                 placeholder="Please Enter"
                 startAdornment="CHF"
               />
@@ -337,7 +728,7 @@ const CreatedCampaignModal = ({
             <GridCell columnSpan={2}>
               <Input
                 multiline
-                disabled
+                disabled={!edit}
                 rows={5}
                 type="text"
                 label="Campaign Info"
@@ -350,97 +741,102 @@ const CreatedCampaignModal = ({
         {tab === 1 && (
           <AddCampaignsModalMain columns={2}>
             <Input
-              type="select"
+              type="multiselect"
               label="Location"
-              disabled
+              disabled={!edit}
               value={state.location}
-              onValue={(location) => setState({ ...state, location })}
-            />
-            <Input
-              type="select"
-              label="Language"
-              disabled
-              value={state.language}
-              onValue={(language) => setState({ ...state, language })}
-            />
-            <Input
-              type="select"
-              label="Disease Area"
-              disabled
-              value={state.diseaseArea}
-              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              onValue={(input) => setState({ ...state, location: input })}
+              onSearch={debounce(getLocations, 250)}
+              loading={loading}
+              options={location}
             />
             <Input
               type="multiselect"
-              label="Stakeholders"
-              disabled
+              label="Language"
+              disabled={!edit}
+              value={state.language}
+              onValue={(language) => setState({ ...state, language })}
+              options={languages}
+            />
+            <Input
+              type="multiselect"
+              label="Disease Area"
+              disabled={!edit}
+              value={state.diseaseArea}
+              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              onSearch={debounce(getDiseaseAreas, 250)}
+              loading={loading}
+              options={diseaseAreas}
+            />
+            <Input
+              type="multiselect"
+              label="Stakeholder"
+              disabled={!edit}
               value={state.stakeholders}
-              onValue={(stakeholders) => setState({ ...state, stakeholders })}
+              onValue={(input) => setState({ ...state, stakeholders: input })}
+              options={stakeholders}
             />
             <Input
               type="multiselect"
               label="Gender"
-              disabled
+              disabled={!edit}
               value={state.gender}
-              onValue={(gender) => setState({ ...state, gender })}
-              options={[
-                {
-                  value: 0,
-                  label: 'Male',
-                },
-                {
-                  value: 1,
-                  label: 'Female',
-                },
-                {
-                  value: 0,
-                  label: 'Other',
-                },
-              ]}
+              onValue={(input) => setState({ ...state, gender: input })}
+              options={gender}
             />
             <Input
               type="min-max"
               label="Age"
-              disabled
+              disabled={!edit}
               value={state.age}
               onValue={(age) => setState({ ...state, age })}
             />
             <Input
               type="multiselect"
               label="Ethnicity"
-              disabled
+              disabled={!edit}
               value={state.ethnicity}
-              onValue={(ethnicity) => setState({ ...state, ethnicity })}
+              onValue={(input) => setState({ ...state, ethnicity: input })}
+              options={ethnicity}
             />
             <Input
               type="multiselect"
-              label="Struggles"
-              disabled
+              label="Struggle"
+              disabled={!edit}
               value={state.struggles}
-              onValue={(struggles) => setState({ ...state, struggles })}
+              onValue={(input) => setState({ ...state, struggles: input })}
+              options={struggles}
             />
             <Input
               type="multiselect"
-              label="Interests"
-              disabled
+              label="Interest"
+              disabled={!edit}
               value={state.interests}
-              onValue={(interests) => setState({ ...state, interests })}
+              onValue={(input) => setState({ ...state, interests: input })}
+              options={interests}
             />
             <Input
               type="multiselect"
               label="Influencer Size"
-              disabled
+              disabled={!edit}
               value={state.influencerSize}
-              onValue={(influencerSize) =>
-                setState({ ...state, influencerSize })
-              }
+              onValue={(input) => setState({ ...state, influencerSize: input })}
+              options={influencerSize}
+            />
+            <Input
+              type="multiselect"
+              label="Symptom"
+              disabled={!edit}
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
             />
             <GridCell columnSpan={2}>
               <Input
                 multiline
                 rows={5}
                 type="text"
-                disabled
+                disabled={!edit}
                 style={{ marginBottom: '20px' }}
                 label="Target Audience Info"
                 value={state.targetAudienceInfo}
@@ -456,32 +852,63 @@ const CreatedCampaignModal = ({
             <Input
               type="select"
               label="Platform"
-              disabled
+              disabled={!edit}
               value={state.platform}
               onValue={(platform) => setState({ ...state, platform })}
+              options={[
+                {
+                  value: 1,
+                  label: 'Instagram',
+                },
+              ]}
             />
             <Input
               type="select"
               label="Post Type"
-              disabled
+              disabled={!edit}
               value={state.postType}
               onValue={(postType) => setState({ ...state, postType })}
+              options={[
+                {
+                  value: 0,
+                  label: 'Story',
+                },
+                {
+                  value: 1,
+                  label: 'Post',
+                },
+                {
+                  value: 2,
+                  label: 'Reel',
+                },
+              ]}
             />
             <GridCell columnSpan={1}>
-              <InputLabel>Image</InputLabel>
-              <Button
-                color="default"
-                disabled
-                variant="contained"
-                onClick={handleFile}
-              >
-                Upload
-              </Button>
+              <ImageUploadMainContainer>
+                <ImageUploadContainer>
+                  <InputLabel>Image</InputLabel>
+                  <Button
+                    color="default"
+                    variant="contained"
+                    onClick={handlePhotos}
+                  >
+                    Upload
+                  </Button>
+                </ImageUploadContainer>
+              </ImageUploadMainContainer>
             </GridCell>
+            {modal && (
+              <UploadedFileModal
+                onClose={modalClose}
+                name={photoName}
+                url={photo}
+                type={fileType}
+              />
+            )}
             <Input
               type="text"
               label="Website"
-              disabled
+              disabled={!edit}
               value={state.website}
               onValue={(website) => setState({ ...state, website })}
             />
@@ -490,7 +917,7 @@ const CreatedCampaignModal = ({
                 multiline
                 rows={5}
                 type="text"
-                disabled
+                disabled={!edit}
                 label="Instructions"
                 value={state.instructions}
                 onValue={(instructions) => setState({ ...state, instructions })}
@@ -502,6 +929,7 @@ const CreatedCampaignModal = ({
           <AddCampaignsModalMain columns={2}>
             <Input
               type="select"
+              disabled={!edit}
               label="Participant"
               placeholder="Please Select"
               value={state.participantA}
@@ -509,9 +937,9 @@ const CreatedCampaignModal = ({
             />
             <Input
               type="text"
+              disabled={!edit}
               label="Submission"
               placeholder="www.instagram.com/link123"
-              disabled
               value={state.submission}
               onValue={(submission) => setState({ ...state, submission })}
             />
@@ -528,12 +956,13 @@ const CreatedCampaignModal = ({
               placeholder="Please Select"
               value={state.participantC}
               onValue={(participantC) => setState({ ...state, participantC })}
+              disabled={!edit}
             />
             <Input
               type="text"
               label="Report"
               placeholder="Report Name"
-              disabled
+              disabled={!edit}
               value={state.reportC}
               onValue={(reportC) => setState({ ...state, reportC })}
             />

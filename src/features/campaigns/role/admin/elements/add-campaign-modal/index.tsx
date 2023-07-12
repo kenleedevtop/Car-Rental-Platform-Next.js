@@ -1,80 +1,392 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Modal, Tabs } from 'components/custom';
-import { TAddInfluencerModalProps } from 'features/campaigns/role/admin/elements/add-campaign-modal/types';
-import {
-  AddInfluencerModalMain,
-  CampaignsTitle,
-} from 'features/campaigns/role/admin/elements/add-campaign-modal/styles';
-import { Button, Checkbox, Input, InputGroup } from 'components/ui';
+import { TAddCampaignModalProps } from 'features/campaigns/role/admin/elements/add-campaign-modal/types';
+import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
-import { EditIcon } from 'components/svg';
-import { CampaignAPI } from 'api';
+import {
+  CampaignAPI,
+  ClientAPI,
+  DiseaseAreaAPI,
+  EnumsApi,
+  FileManagerApi,
+  LocationAPI,
+  ProductApi,
+} from 'api';
+import {
+  AddCampaignsModalMain,
+  ImageUploadContainer,
+  ImageUploadMainContainer,
+} from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
+import { useModal, useSnackbar } from 'hooks';
+import { pick } from '@costorgroup/file-manager';
+import UploadedFileModal from 'features/campaigns/role/client/elements/uploaded-file-modal';
+import UsersAPI from 'api/users';
+import { set } from 'nprogress';
 
-const AddInfluencerModal = ({
+const AddCampaignModal = ({
   onClose,
+  refresh,
   ...props
-}: TAddInfluencerModalProps) => {
-  const [state, setState] = useState({
-    budget: null,
-    name: '',
-    clientId: null,
-    currencyId: null,
-    stakeholderTypes: [],
-    strugglesIds: [],
-    locationId: null,
-    languageId: null,
-    ethnicityIds: [],
-    interestIds: [],
-    productId: null,
-    dateStart: null,
-    dateEnd: null,
-    description: '',
-    influencerCount: null,
-    influencerSizeId: null,
-    ageMin: null,
-    ageMax: null,
-    genderIds: [],
-    targetAudienceDescription: '',
-    socialPlatformId: null,
-    postType: null,
-    exampleImageUrls: [],
-    clientCompanyWebiste: '',
-    instructions: '',
-    reportId: null,
-  });
+}: TAddCampaignModalProps) => {
+  const [state, setState] = useState<any>({
+    campaignName: '',
+    product: [],
+    client: null,
+    ambassador: null,
+    influencers: null,
+    dateStart: new Date(),
+    dateEnd: new Date(),
+    report: null,
+    currency: null,
+    budget: '',
+    campaignInfo: '',
 
-  const handleFile = async () => {};
+    location: [],
+    language: [],
+    diseaseArea: [],
+    symptoms: [],
+    stakeholders: [],
+    gender: [],
+    age: {
+      min: '',
+      max: '',
+    },
+    ethnicity: [],
+    struggles: [],
+    interests: [],
+    influencerSize: [],
+    influencerCount: null,
+    targetAudienceInfo: '',
+
+    platform: null,
+    postType: null,
+    image: null,
+    website: '',
+    instructions: '',
+  });
 
   const [tab, setTab] = useState(0);
 
-  const addCampaign = async () => {
-    await CampaignAPI.addCampaign(state);
+  const [loading, setLoading] = useState(false);
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
   };
 
-  const [reports, setReports] = useState<any>();
+  const handleNewProductTag = (v: any) => {
+    // addNewProduct({ clientProducts: [{ name: v.label }] });
+    setState({ ...state, product: [...state.product, v] });
+  };
+
+  const [product, setProduct] = useState<any>([]);
+  const [clients, setClients] = useState<any>();
+  const [report, setReport] = useState<any>();
+  const [location, setLocation] = useState<any>();
+  const [languages, setLanguages] = useState<any>();
+  const [diseaseAreas, setDiseaseAreas] = useState<any>();
+  const [stakeholders, setStakholders] = useState<any>();
+  const [gender, setGender] = useState<any>();
+  const [ethnicity, setEthnicity] = useState<any>();
+  const [struggles, setStruggles] = useState<any>();
+  const [interests, setInterests] = useState<any>();
+  const [influencerSize, setInfluencerSize] = useState<any>();
+  const [symptoms, setSymptoms] = useState<any>();
+  const [ambassador, setAmbassador] = useState<any>();
+
+  const getProducts = async () => {
+    const { result } = await ProductApi.getProducts('');
+
+    setProduct(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.name,
+      }))
+    );
+  };
+
+  const getClients = async () => {
+    const { dataFormatted } = await ClientAPI.getClients();
+
+    setClients(
+      dataFormatted.map((data: any) => ({
+        value: data.id,
+        label: `${data.firstName} ${data.lastName}`,
+      }))
+    );
+  };
+
+  const getClient = useCallback(async () => {
+    if (state.client && state.client.value) {
+      const { client } = await ClientAPI.getSingleClient(state.client.value);
+
+      if (client && client.ambassador) {
+        const response = await UsersAPI.getUser(client.ambassador.userId);
+
+        setAmbassador({
+          value: response.id,
+          label: `${response.firstName} ${response.lastName}`,
+        });
+      } else {
+        setAmbassador(null);
+      }
+    } else {
+      setAmbassador(null);
+    }
+  }, [state.client?.value]);
+
+  useEffect(() => {
+    getClient();
+  }, [state.client]);
 
   const getReportTypes = async () => {
-    const data = await CampaignAPI.getCampaignsReportTypes();
+    const result = await EnumsApi.getReportTypes();
 
-    setReports(data);
+    setReport(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getDiseaseAreas = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await DiseaseAreaAPI.getAll(s);
+
+    setDiseaseAreas(
+      result.map((item: any) => ({
+        value: item.id,
+        label: item.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getLocations = async (s: string = '') => {
+    setLoading(true);
+    const { result } = await LocationAPI.getAll(s);
+    setLocation(
+      result.map((data: any) => ({
+        value: data.id,
+        label: data.country ? `${data.name}, ${data.country.name}` : data.name,
+      }))
+    );
+    setLoading(false);
+  };
+
+  const getGenders = async () => {
+    const result = await EnumsApi.getGenders();
+
+    setGender(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getStakeholders = async () => {
+    const result = await EnumsApi.getStakeholderTypes();
+
+    setStakholders(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getEthnicities = async () => {
+    const result = await EnumsApi.getEthnicities();
+
+    setEthnicity(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getStruggles = async () => {
+    const result = await EnumsApi.getStruggles();
+
+    setStruggles(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+  const getInterests = async () => {
+    const result = await EnumsApi.getInterests();
+
+    setInterests(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getInfluencerSizes = async () => {
+    const { result } = await EnumsApi.getInfluencerSize();
+
+    setInfluencerSize(
+      result.map((x: any) => ({
+        value: x.id,
+        label: `${x.name}: ${x.from} - ${x.to}`,
+      }))
+    );
+  };
+
+  const getLanguages = async () => {
+    const result = await EnumsApi.getLanguages();
+
+    setLanguages(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
+  };
+
+  const getSympthoms = async () => {
+    const response = await EnumsApi.getSymptoms();
+
+    setSymptoms(
+      response.result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const [photo, setPhoto] = useState<any>(undefined);
+  const [fileType, setFileType] = useState<string>('');
+  const [photoName, setPhotoName] = useState('');
+  const [modal, modalOpen, modalClose] = useModal(false);
+
+  const handlePhotos = async () => {
+    const file: any = await pick({
+      accept: 'image/jpg, image/jpeg, image/png, application/pdf',
+    });
+
+    setPhotoName(file.name);
+
+    const data = await FileManagerApi.fileUpload(file);
+
+    const presignedUrl = await FileManagerApi.fileDownload(data.key);
+
+    setPhoto(presignedUrl.data);
+
+    setFileType(file.type);
+
+    if (file.name && presignedUrl.data && file.type) {
+      modalOpen();
+    }
   };
 
   useEffect(() => {
+    getProducts();
+    getClients();
+    getDiseaseAreas();
+    getLocations();
     getReportTypes();
+    getGenders();
+    getStakeholders();
+    getEthnicities();
+    getStruggles();
+    getInterests();
+    getInfluencerSizes();
+    getLanguages();
+    getSympthoms();
   }, []);
+
+  const { push } = useSnackbar();
+
+  const createCampaign = async () => {
+    try {
+      const body = {
+        name: state.campaignName,
+        budget: state.budget ? parseInt(state.budget, 10) : undefined,
+        diseaseAreaIds: state.diseaseArea
+          ? state.diseaseArea.map((x: any) => x.value)
+          : [],
+        struggleIds: state.struggles
+          ? state.struggles.map((x: any) => x.value)
+          : [],
+        stakeholderTypes: state.stakeholders
+          ? state.stakeholders.map((x: any) => x.value)
+          : [],
+        locationIds: state.location
+          ? state.location.map((x: any) => x.value)
+          : [],
+        languages: state.language
+          ? state.language.map((x: any) => x.value)
+          : [],
+        ethnicityIds: state.ethnicity
+          ? state.ethnicity.map((x: any) => x.value)
+          : [],
+        interestIds: state.interests
+          ? state.interests.map((x: any) => x.value)
+          : [],
+        productIds: state.product ? state.product.map((x: any) => x.value) : [],
+        dateStart: state.dateStart ? state.dateStart : undefined,
+        dateEnd: state.dateEnd ? state.dateEnd : undefined,
+        description: state.campaignInfo ? state.campaignInfo : undefined,
+        influencersCount: state.influencerCount
+          ? state.influencerCount
+          : undefined,
+        influencersSizeIds: state.influencerSize
+          ? state.influencerSize.map((x: any) => x.value)
+          : [],
+        ageMin: state.age.min ? parseInt(state.age.min, 10) : undefined,
+        ageMax: state.age.max ? parseInt(state.age.max, 10) : undefined,
+        genders: state.gender ? state.gender.map((x: any) => x.value) : [],
+        symptomIds: state.symptoms
+          ? state.symptoms.map((x: any) => x.value)
+          : [],
+        targetAudienceDescription: state.targetAudienceInfo
+          ? state.targetAudienceInfo
+          : undefined,
+        socialPlatformId: state.platform ? state.platform.value : undefined,
+        postType: state.postType ? state.postType.value : undefined,
+        clientCompanyWebsite: state.website ? state.website : undefined,
+        instructions: state.instructions ? state.instructions : undefined,
+        report: state.report ? state.report.value : undefined,
+        exampleImageUrls: photo !== undefined ? [photo] : undefined,
+        clientId: state.client ? state.client.value : null,
+        currencyId: state.currency ? state.currency.value : 1,
+      };
+
+      await CampaignAPI.addCampaign(body).then(() => refresh());
+
+      push('Campaign successfully added.', { variant: 'success' });
+    } catch (e) {
+      push('Campaign add failed.', { variant: 'error' });
+    }
+  };
+
+  const disabled = !state.campaignName || !state.client;
 
   return (
     <Modal
       size="medium"
-      title="Create Campaign "
+      title="Create Campaign"
       actions={[
         <Button
           color="primary"
           variant="contained"
           size="large"
+          disabled={disabled}
           onClick={() => {
-            addCampaign();
+            createCampaign();
             onClose();
           }}
         >
@@ -93,37 +405,44 @@ const AddInfluencerModal = ({
           onValue={setTab}
         />
         {tab === 0 && (
-          <AddInfluencerModalMain columns={2}>
+          <AddCampaignsModalMain columns={2}>
             <Input
               type="text"
               label="Campaign Name"
               placeholder="Please Enter"
-              value={state.name}
-              onValue={(name) => setState({ ...state, name })}
+              value={state.campaignName}
+              onValue={(campaignName) => setState({ ...state, campaignName })}
+              required
             />
             <Input
               type="select"
               label="Client"
               placeholder="Please Select"
-              value={state.clientId}
-              onValue={(clientId) => setState({ ...state, clientId })}
+              value={state.client}
+              onValue={(client) => setState({ ...state, client })}
+              options={clients}
+              required
             />
             <Input
-              type="select"
-              label="Product"
-              placeholder="Please Enter"
-              value={state.productId}
-              onValue={(productId) => setState({ ...state, productId })}
-            />
-            <Input
-              type="number"
-              label="Influencers"
+              type="text"
+              label="Ambassador"
               placeholder="Please Select"
-              value={state.influencerCount}
-              onValue={(influencerCount) =>
-                setState({ ...state, influencerCount })
-              }
+              value={ambassador?.label ?? 'None'}
+              onValue={(input) => setState({ ...state, ambassador: input })}
+              disabled
             />
+            <Input
+              type="multiselect"
+              label="Products"
+              placeholder="Please Select"
+              value={state.product}
+              onValue={(input) => setState({ ...state, product: input })}
+              options={product}
+              onSearch={debounce(getProducts, 250)}
+              onNewTag={handleNewProductTag}
+              loading={loading}
+            />
+
             <Input
               type="date"
               label="Start Date"
@@ -136,35 +455,46 @@ const AddInfluencerModal = ({
               label="Finish Date"
               placeholder="Please Enter"
               value={state.dateEnd}
+              max={state.dateStart}
               onValue={(dateEnd) => setState({ ...state, dateEnd })}
+            />
+            <Input
+              type="number"
+              label="Influencers"
+              placeholder="Please Select"
+              value={state.influencerCount}
+              onValue={(influencerCount) =>
+                setState({ ...state, influencerCount })
+              }
             />
             <Input
               type="select"
               label="Report"
               placeholder="Please Select"
-              value={state.reportId}
-              onValue={(reportId) => setState({ ...state, reportId })}
+              value={state.report}
+              onValue={(input) => setState({ ...state, report: input })}
+              options={report}
             />
             <InputGroup
               label="Amount"
               inputRatio="100px 1fr"
               elements={[
                 {
-                  value: state.currencyId,
-                  onValue: (currencyId) => setState({ ...state, currencyId }),
+                  value: state.currency,
+                  onValue: (input) => setState({ ...state, currency: input }),
                   type: 'select',
                   placeholder: 'CHF',
                   options: [
                     {
-                      value: 'eur',
+                      value: 1,
                       label: 'EUR',
                     },
                     {
-                      value: 'usd',
+                      value: 2,
                       label: 'USD',
                     },
                     {
-                      value: 'chf',
+                      value: 3,
                       label: 'CHF',
                     },
                   ],
@@ -184,120 +514,134 @@ const AddInfluencerModal = ({
                 type="text"
                 label="Campaign Info"
                 placeholder="Please Enter"
-                value={state.description}
-                onValue={(description) => setState({ ...state, description })}
+                value={state.campaignInfo}
+                onValue={(campaignInfo) => setState({ ...state, campaignInfo })}
               />
             </GridCell>
-          </AddInfluencerModalMain>
+          </AddCampaignsModalMain>
         )}
         {tab === 1 && (
-          <AddInfluencerModalMain columns={2}>
+          <AddCampaignsModalMain columns={2}>
             <Input
-              type="select"
+              type="multiselect"
               label="Location"
-              placeholder="Please Enter"
-              value={state.locationId}
-              onValue={(locationId) => setState({ ...state, locationId })}
+              placeholder="Please Select"
+              value={state.location}
+              onValue={(input) => setState({ ...state, location: input })}
+              onSearch={debounce(getLocations, 250)}
+              loading={loading}
+              options={location}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Language"
               placeholder="Please Select"
-              value={state.languageId}
-              onValue={(languageId) => setState({ ...state, languageId })}
+              value={state.language}
+              onValue={(input) => setState({ ...state, language: input })}
+              options={languages}
             />
             <Input
-              type="select"
+              type="multiselect"
+              label="Disease Area"
+              placeholder="Please Select"
+              value={state.diseaseArea}
+              onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              onSearch={debounce(getDiseaseAreas, 250)}
+              loading={loading}
+              options={diseaseAreas}
+            />
+            <Input
+              type="multiselect"
               label="Stakeholder"
               placeholder="Please Select"
-              value={state.stakeholderTypes}
-              onValue={(stakeholderTypes) =>
-                setState({ ...state, stakeholderTypes })
-              }
+              value={state.stakeholders}
+              onValue={(input) => setState({ ...state, stakeholders: input })}
+              options={stakeholders}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Gender"
               placeholder="Please Select"
-              value={state.genderIds}
-              onValue={(genderIds) => setState({ ...state, genderIds })}
-              options={[
-                {
-                  label: 'Male',
-                  value: 'male',
-                },
-                {
-                  label: 'Female',
-                  value: 'female',
-                },
-                {
-                  label: 'Other',
-                  value: 'other',
-                },
-              ]}
+              value={state.gender}
+              onValue={(input) => setState({ ...state, gender: input })}
+              options={gender}
             />
             <Input
-              type="number"
-              label="Age Min"
-              placeholder="Please Select"
-              value={state.ageMin}
-              onValue={(ageMin) => setState({ ...state, ageMin })}
+              type="min-max"
+              label="Age"
+              value={state.age}
+              onValue={(input) => setState({ ...state, age: input })}
             />
             <Input
-              type="number"
-              label="Age Max"
-              placeholder="Please Select"
-              value={state.ageMax}
-              onValue={(ageMax) => setState({ ...state, ageMax })}
-            />
-            <Input
-              type="select"
+              type="multiselect"
               label="Ethnicity"
-              placeholder="Please Select"
-              value={state.ethnicityIds}
-              onValue={(ethnicityIds) => setState({ ...state, ethnicityIds })}
+              value={state.ethnicity.sort(
+                (a: any, b: any) => b.value - a.value
+              )}
+              onValue={(input) => setState({ ...state, ethnicity: input })}
+              options={ethnicity}
             />
             <Input
-              type="select"
-              label="Interests"
+              type="multiselect"
+              label="Struggle"
               placeholder="Please Select"
-              value={state.interestIds}
-              onValue={(interestIds) => setState({ ...state, interestIds })}
+              value={state.struggles}
+              onValue={(input) => setState({ ...state, struggles: input })}
+              options={struggles}
             />
             <Input
-              type="select"
-              label="Influencer size"
+              type="multiselect"
+              label="Interest"
               placeholder="Please Select"
-              value={state.influencerSizeId}
-              onValue={(influencerSizeId) =>
-                setState({ ...state, influencerSizeId })
-              }
+              value={state.interests}
+              onValue={(input) => setState({ ...state, interests: input })}
+              options={interests}
+            />
+            <Input
+              type="multiselect"
+              label="Influencer Size"
+              placeholder="Please Select"
+              value={state.influencerSize}
+              onValue={(input) => setState({ ...state, influencerSize: input })}
+              options={influencerSize}
+            />
+            <Input
+              type="multiselect"
+              label="Symptom"
+              placeholder="Please Select"
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
             />
             <GridCell columnSpan={2}>
               <Input
                 multiline
-                rows={5}
+                rows={4}
                 type="text"
                 label="Target Audience Info"
                 placeholder="Please Enter"
-                value={state.targetAudienceDescription}
-                onValue={(targetAudienceDescription) =>
-                  setState({ ...state, targetAudienceDescription })
+                value={state.targetAudienceInfo}
+                onValue={(targetAudienceInfo) =>
+                  setState({ ...state, targetAudienceInfo })
                 }
               />
             </GridCell>
-          </AddInfluencerModalMain>
+          </AddCampaignsModalMain>
         )}
         {tab === 2 && (
-          <AddInfluencerModalMain columns={2}>
+          <AddCampaignsModalMain columns={2}>
             <Input
               type="select"
               label="Platform"
               placeholder="Please Select"
-              value={state.socialPlatformId}
-              onValue={(socialPlatformId) =>
-                setState({ ...state, socialPlatformId })
-              }
+              value={state.platform}
+              onValue={(input) => setState({ ...state, platform: input })}
+              options={[
+                {
+                  value: 1,
+                  label: 'Instagram',
+                },
+              ]}
             />
             <Input
               type="select"
@@ -305,31 +649,50 @@ const AddInfluencerModal = ({
               placeholder="Please Select"
               value={state.postType}
               onValue={(postType) => setState({ ...state, postType })}
+              options={[
+                {
+                  value: 0,
+                  label: 'Story',
+                },
+                {
+                  value: 1,
+                  label: 'Post',
+                },
+                {
+                  value: 2,
+                  label: 'Reel',
+                },
+              ]}
             />
-            <GridCell columnSpan={2}>
-              <Stack direction="horizontal">
-                <div style={{ width: '50%' }}>
+            <GridCell columnSpan={1}>
+              <ImageUploadMainContainer>
+                <ImageUploadContainer>
                   <InputLabel>Image</InputLabel>
                   <Button
                     color="default"
                     variant="contained"
-                    onClick={handleFile}
+                    onClick={handlePhotos}
                   >
                     Upload
                   </Button>
-                </div>
-                <Input
-                  type="text"
-                  label="Website"
-                  placeholder="Please Enter"
-                  value={state.clientCompanyWebiste}
-                  onValue={(clientCompanyWebiste) =>
-                    setState({ ...state, clientCompanyWebiste })
-                  }
-                  style={{ width: '50%' }}
-                />
-              </Stack>
+                </ImageUploadContainer>
+              </ImageUploadMainContainer>
             </GridCell>
+            {modal && (
+              <UploadedFileModal
+                onClose={modalClose}
+                name={photoName}
+                url={photo}
+                type={fileType}
+              />
+            )}
+            <Input
+              type="text"
+              label="Website"
+              placeholder="Please Enter"
+              value={state.website}
+              onValue={(website) => setState({ ...state, website })}
+            />
             <GridCell columnSpan={2}>
               <Input
                 multiline
@@ -341,11 +704,11 @@ const AddInfluencerModal = ({
                 onValue={(instructions) => setState({ ...state, instructions })}
               />
             </GridCell>
-          </AddInfluencerModalMain>
+          </AddCampaignsModalMain>
         )}
       </Stack>
     </Modal>
   );
 };
 
-export default AddInfluencerModal;
+export default AddCampaignModal;

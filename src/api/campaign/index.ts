@@ -1,10 +1,10 @@
 import Project from 'constants/project';
 import {
   TCampaign,
-  TReport,
   TReportId,
   TSingleCampaign,
   TSubmissionLinkForCampaign,
+  TUpdateCampaign,
 } from 'api/campaign/types';
 import { client } from 'api/api-client';
 
@@ -23,7 +23,7 @@ const CampaignAPI = {
   getCampaigns: async (filters: any) => {
     const { data } = await client.get(`${Project.apis.v1}/campaign`, {
       params: {
-        filters,
+        ...filters,
       },
     });
     return data;
@@ -33,13 +33,13 @@ const CampaignAPI = {
     await client.post(`${Project.apis.v1}/campaign`, body);
   },
 
-  getSingleCampaign: async (id: TSingleCampaign) => {
+  getSingleCampaign: async (id: TSingleCampaign): Promise<TCampaign> => {
     const { data } = await client.get(`${Project.apis.v1}/campaign/${id}`);
 
     return data;
   },
 
-  updateCampaign: async (id: TSingleCampaign, body: TCampaign) => {
+  updateCampaign: async (id: TSingleCampaign, body: TUpdateCampaign) => {
     await client.patch(`${Project.apis.v1}/campaign/${id}`, body);
   },
 
@@ -136,11 +136,19 @@ const CampaignAPI = {
   getReports: async (filter: any) => {
     const { data } = await client.get(`${Project.apis.v1}/campaign/reports`, {
       params: {
-        filter,
+        ...filter,
       },
     });
 
     return data;
+  },
+
+  updateReport: async (id: number, body: any) => {
+    await client.patch(`${Project.apis.v1}/campaign/reports/${id}`, body);
+  },
+
+  deleteReport: async (id: number) => {
+    await client.delete(`${Project.apis.v1}/campaign/reports/${id}`);
   },
 };
 

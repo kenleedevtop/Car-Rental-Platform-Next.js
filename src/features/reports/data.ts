@@ -146,12 +146,12 @@ export const DReportsClientHead = [
   {
     reference: 'costPerClick',
     label: 'Cost Per Click',
-    visible: true,
+    visible: false,
   },
   {
     reference: 'costPerTarget',
     label: 'Cost Per Target',
-    visible: true,
+    visible: false,
   },
   {
     reference: 'costPerEngagement',
@@ -162,6 +162,11 @@ export const DReportsClientHead = [
     reference: 'product',
     label: 'Product',
     visible: false,
+  },
+  {
+    reference: 'additionalInformation',
+    label: 'Additional Information',
+    visible: true,
   },
   {
     reference: 'actions',
@@ -270,5 +275,28 @@ export const DReportsHead = [
     reference: 'actions',
     label: '',
     visible: false,
+  },
+];
+
+export const DReportsWithoutReport = [
+  {
+    reference: 'campaign',
+    label: 'Campaign',
+    visible: true,
+  },
+  {
+    reference: 'type',
+    label: 'Type',
+    visible: true,
+  },
+  {
+    reference: 'budget',
+    label: 'Budget',
+    visible: true,
+  },
+  {
+    reference: 'actions',
+    label: '',
+    visible: true,
   },
 ];

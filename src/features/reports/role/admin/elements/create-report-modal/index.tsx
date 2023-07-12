@@ -1,21 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'components/custom';
 import { TAddReportModalProps } from 'features/reports/role/admin/elements/create-report-modal/types';
 import { AddReportModalMain } from 'features/reports/role/admin/elements/create-report-modal/styles';
-import { Button, Input, Switch } from 'components/ui';
+import { Button, Input } from 'components/ui';
 import { GridCell } from 'components/system';
-import { useModal } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
 import { ApproveReportsModal } from 'features/reports/role/admin/elements';
+import { CampaignAPI } from 'api';
 
-const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
-  const [state, setState] = useState({
-    campaign: null,
-    type: null,
+const AddReportModal = ({
+  campaign,
+  onClose,
+  refresh,
+  ...props
+}: TAddReportModalProps) => {
+  const [state, setState] = useState<any>({
+    campaign: campaign || null,
+    reportType: {
+      label: 'Yes',
+      value: 1,
+    },
     budget: '',
     additional: '',
   });
+  const [campaigns, setCampaigns] = useState<any>([]);
 
-  const [arModal, openArModal, closeArModal] = useModal(false);
+  const getCampaigns = async () => {
+    const { result } = await CampaignAPI.getCampaigns({
+      withNoReportOnly: true,
+    });
+
+    setCampaigns(
+      result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
+  const { push } = useSnackbar();
+
+  useEffect(() => {
+    getCampaigns();
+  }, []);
+
+  const createReport = async () => {
+    try {
+      await CampaignAPI.createReport({
+        campaignId: state.campaign.value,
+        budget: parseInt(state.budget, 10),
+        reportType: state.reportType.value,
+        description: state.additional,
+      }).then(() => refresh());
+      push('Successfully createad a report.', { variant: 'success' });
+    } catch {
+      push('Report creation failed.', { variant: 'error' });
+    }
+  };
+
+  // const [arModal, openArModal, closeArModal] = useModal(false);
+
+  const disabled = !state.campaign;
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
 
   return (
     <Modal
@@ -26,7 +80,11 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={openArModal}
+          disabled={disabled}
+          onClick={() => {
+            createReport();
+            onClose();
+          }}
         >
           Create
         </Button>,
@@ -40,14 +98,18 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
           label="Campaign"
           placeholder="Select Campaign"
           value={state.campaign}
-          onValue={(campaign) => setState({ ...state, campaign })}
+          onValue={(input) => setState({ ...state, campaign: input })}
+          options={campaigns}
+          onSearch={debounce(getCampaigns, 250)}
+          required
         />
         <Input
           type="select"
           label="Report Type"
-          placeholder="Basic"
-          value={state.type}
-          onValue={(type) => setState({ ...state, type })}
+          placeholder="Please Select"
+          disabled
+          value={state.reportType}
+          onValue={(reportType) => setState({ ...state, reportType })}
         />
         <Input
           type="text"
@@ -67,7 +129,7 @@ const AddReportModal = ({ onClose, ...props }: TAddReportModalProps) => {
           />
         </GridCell>
       </AddReportModalMain>
-      {arModal && <ApproveReportsModal onClose={closeArModal} />}
+      {/* {arModal && <ApproveReportsModal onClose={closeArModal} />} */}
     </Modal>
   );
 };

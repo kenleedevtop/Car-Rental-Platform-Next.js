@@ -1,25 +1,25 @@
 import React from 'react';
 import { Modal } from 'components/custom';
-import { TDeleteInfluencerModalProps } from 'features/discover-influencers/role/admin/elements/delete-influencer-modal/types';
-import { DeleteInfluencerModalMain } from 'features/discover-influencers/role/admin/elements/delete-influencer-modal/styles';
 import { Button } from 'components/ui';
-import { InfluencerAPI } from 'api';
+import { CampaignAPI } from 'api';
 import { useSnackbar } from 'hooks';
-import { useRouter } from 'next/router';
+import { TDeleteReportModalProps } from './types';
+import { DeleteReportModalMain } from './styles';
 
-const DeleteInfluencerModal = ({
+const DeleteReportModal = ({
   onClose,
   id,
+  reload,
   ...props
-}: TDeleteInfluencerModalProps) => {
+}: TDeleteReportModalProps) => {
   const { push } = useSnackbar();
-  const router = useRouter();
 
   const handleDelete = async () => {
     try {
-      await InfluencerAPI.deleteInfluencer(id);
-      router.push(window.location.pathname);
-      push('Influencer successfully deleted!', { variant: 'success' });
+      await CampaignAPI.deleteReport(id).then(() => {
+        push('Report successfully deleted!', { variant: 'success' });
+        reload();
+      });
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
     }
@@ -28,7 +28,7 @@ const DeleteInfluencerModal = ({
   return (
     <Modal
       size="small"
-      title="Delete Influencer"
+      title="Delete Campaign"
       actions={[
         <Button
           color="default"
@@ -53,12 +53,12 @@ const DeleteInfluencerModal = ({
       onClose={onClose}
       {...props}
     >
-      <DeleteInfluencerModalMain>
-        Are you sure that you want to remove influencer? <br /> Operation cannot
-        be undone.
-      </DeleteInfluencerModalMain>
+      <DeleteReportModalMain>
+        Are you sure that you want to remove this report? <br /> Operation
+        cannot be undone.
+      </DeleteReportModalMain>
     </Modal>
   );
 };
 
-export default DeleteInfluencerModal;
+export default DeleteReportModal;

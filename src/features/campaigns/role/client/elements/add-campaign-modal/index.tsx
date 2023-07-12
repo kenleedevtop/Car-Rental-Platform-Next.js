@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { CurrencyFeedback, Modal, Note, Tabs } from 'components/custom';
+import { CurrencyFeedback, Modal, Tabs } from 'components/custom';
 import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
 import {
   AddCampaignsModalMain,
   ImageUploadContainer,
   ImageUploadMainContainer,
 } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
-import { Button, Input, InputGroup } from 'components/ui';
+import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 import {
   CampaignAPI,
-  ClientAPI,
   DiseaseAreaAPI,
   FileManagerApi,
   LocationAPI,
   ProductApi,
 } from 'api';
 import EnumsApi from 'api/enums';
-import { useSnackbar } from 'hooks';
-import { pick, read } from '@costorgroup/file-manager';
+import { useModal, useSnackbar } from 'hooks';
+import { pick } from '@costorgroup/file-manager';
+import UploadedFileModal from '../uploaded-file-modal';
 
 const AddCampaignModal = ({
   onClose,
@@ -37,9 +37,10 @@ const AddCampaignModal = ({
     budget: '',
     campaignInfo: '',
 
-    location: null,
-    language: null,
-    diseaseArea: null,
+    location: [],
+    language: [],
+    diseaseArea: [],
+    symptoms: [],
     stakeholders: [],
     gender: [],
     age: {
@@ -112,14 +113,15 @@ const AddCampaignModal = ({
   const [interests, setInterests] = useState<any>();
   const [influencerSize, setInfluencerSize] = useState<any>();
   const [platform, setPlatform] = useState<any>();
+  const [symptoms, setSymptoms] = useState<any>();
 
   const getProducts = async () => {
-    const { result } = await ClientAPI.clientProducts();
+    const { result } = await ProductApi.getProducts('');
 
     setProduct(
       result.map((data: any) => ({
-        value: data.product.id,
-        label: data.product.name,
+        value: data.id,
+        label: data.name,
       }))
     );
   };
@@ -220,7 +222,7 @@ const AddCampaignModal = ({
     setInfluencerSize(
       result.map((x: any) => ({
         value: x.id,
-        label: `${x.name}: ${x.from} | ${x.to}`,
+        label: `${x.name}: ${x.from} - ${x.to}`,
       }))
     );
   };
@@ -236,17 +238,40 @@ const AddCampaignModal = ({
     );
   };
 
+  const getSympthoms = async () => {
+    const response = await EnumsApi.getSymptoms();
+
+    setSymptoms(
+      response.result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
   const [photo, setPhoto] = useState<any>(undefined);
+  const [fileType, setFileType] = useState<string>('');
   const [photoName, setPhotoName] = useState('');
+  const [modal, modalOpen, modalClose] = useModal(false);
 
   const handlePhotos = async () => {
-    const file: any = await pick();
+    const file: any = await pick({
+      accept: 'image/jpg, image/jpeg, image/png, application/pdf',
+    });
 
     setPhotoName(file.name);
 
-    const { url } = await FileManagerApi.fileUpload(file);
+    const data = await FileManagerApi.fileUpload(file);
 
-    setPhoto(url);
+    const presignedUrl = await FileManagerApi.fileDownload(data.key);
+
+    setPhoto(presignedUrl.data);
+
+    setFileType(file.type);
+
+    if (file.name && presignedUrl.data && file.type) {
+      modalOpen();
+    }
   };
 
   useEffect(() => {
@@ -261,6 +286,7 @@ const AddCampaignModal = ({
     getInterests();
     getInfluencerSizes();
     getLanguages();
+    getSympthoms();
   }, []);
 
   const { push } = useSnackbar();
@@ -270,38 +296,43 @@ const AddCampaignModal = ({
       const body = {
         name: state.campaignName,
         budget: state.budget ? parseInt(state.budget, 10) : undefined,
-        diseaseAreaId: state.diseaseArea ? state.diseaseArea.value : undefined,
+        diseaseAreaIds: state.diseaseArea
+          ? state.diseaseArea.map((x: any) => x.value)
+          : [],
         struggleIds: state.struggles
           ? state.struggles.map((x: any) => x.value)
-          : undefined,
+          : [],
         stakeholderTypes: state.stakeholders
           ? state.stakeholders.map((x: any) => x.value)
-          : undefined,
-        locationId: state.location ? state.location.value : undefined,
-        language: state.language ? state.language.value : undefined,
+          : [],
+        locationIds: state.location
+          ? state.location.map((x: any) => x.value)
+          : [],
+        languages: state.language
+          ? state.language.map((x: any) => x.value)
+          : [],
         ethnicityIds: state.ethnicity
           ? state.ethnicity.map((x: any) => x.value)
-          : undefined,
+          : [],
         interestIds: state.interests
           ? state.interests.map((x: any) => x.value)
-          : undefined,
-        productIds: state.product
-          ? state.product.map((x: any) => x.value)
-          : undefined,
+          : [],
+        productIds: state.product ? state.product.map((x: any) => x.value) : [],
         dateStart: state.startDate ? state.startDate : undefined,
         dateEnd: state.endDate ? state.endDate : undefined,
         description: state.campaignInfo ? state.campaignInfo : undefined,
         influencersCount: state.influencerCount
-          ? state.influencerCount.value
+          ? state.influencerCount
           : undefined,
         influencersSizeIds: state.influencerSize
           ? state.influencerSize.map((x: any) => x.value)
-          : undefined,
+          : [],
         ageMin: state.age.min ? parseInt(state.age.min, 10) : undefined,
         ageMax: state.age.max ? parseInt(state.age.max, 10) : undefined,
-        genders: state.gender
-          ? state.gender.map((x: any) => x.value)
-          : undefined,
+        genders: state.gender ? state.gender.map((x: any) => x.value) : [],
+        symptomIds: state.symptoms
+          ? state.symptoms.map((x: any) => x.value)
+          : [],
         targetAudienceDescription: state.targetAudienceInfo
           ? state.targetAudienceInfo
           : undefined,
@@ -322,7 +353,7 @@ const AddCampaignModal = ({
     }
   };
 
-  const disabled = !state.campaignName;
+  const disabled = !state.campaignName && !state.client;
 
   return (
     <Modal
@@ -386,6 +417,7 @@ const AddCampaignModal = ({
               label="End Date"
               type="date"
               placeholder="To"
+              max={state.startDate}
               value={state.endDate}
               onValue={(endDate) => setState({ ...state, endDate })}
             />
@@ -400,7 +432,7 @@ const AddCampaignModal = ({
             <Input
               type="number"
               min={0}
-              label="Influencer Count"
+              label="Influencers"
               placeholder="Please Select"
               value={state.influencerCount}
               onValue={(input) =>
@@ -434,7 +466,7 @@ const AddCampaignModal = ({
         {tab === 1 && (
           <AddCampaignsModalMain columns={2}>
             <Input
-              type="select"
+              type="multiselect"
               label="Location"
               placeholder="Please Select"
               value={state.location}
@@ -444,15 +476,16 @@ const AddCampaignModal = ({
               options={location}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Language"
               placeholder="Please Select"
               value={state.language}
+              onSearch={debounce(getLanguages, 250)}
               onValue={(input) => setState({ ...state, language: input })}
               options={languages}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Disease Area"
               placeholder="Please Select"
               value={state.diseaseArea}
@@ -463,21 +496,23 @@ const AddCampaignModal = ({
             />
             <Input
               type="multiselect"
-              label="Stakeholders"
+              label="Stakeholder"
               placeholder="Please Select"
               value={state.stakeholders}
               onValue={(input) => setState({ ...state, stakeholders: input })}
               options={stakeholders}
               onNewTag={handleNewStakeholderTag}
+              onSearch={debounce(getStakeholders, 250)}
             />
             <Input
               type="multiselect"
-              label="Genders"
+              label="Gender"
               placeholder="Please Select"
               value={state.gender}
               onValue={(input) => setState({ ...state, gender: input })}
               options={gender}
               onNewTag={handleNewGendersTag}
+              onSearch={debounce(getGenders, 250)}
             />
             <Input
               type="min-max"
@@ -488,30 +523,35 @@ const AddCampaignModal = ({
             />
             <Input
               type="multiselect"
-              label="Ethnicities"
+              label="Ethnicity"
               placeholder="Please Select"
-              value={state.ethnicity}
+              value={state.ethnicity.sort(
+                (a: any, b: any) => b.value - a.value
+              )}
               onValue={(input) => setState({ ...state, ethnicity: input })}
               options={ethnicity}
               onNewTag={handleNewEthnicityTag}
+              onSearch={debounce(getEthnicities, 250)}
             />
             <Input
               type="multiselect"
-              label="Struggles"
+              label="Struggle"
               placeholder="Please Select"
               value={state.struggles}
               onValue={(input) => setState({ ...state, struggles: input })}
               options={struggles}
               onNewTag={handleNewStruggleTag}
+              onSearch={debounce(getStruggles, 250)}
             />
             <Input
               type="multiselect"
-              label="Interests"
+              label="Interest"
               placeholder="Please Select"
               value={state.interests}
               onValue={(input) => setState({ ...state, interests: input })}
               options={interests}
               onNewTag={handleNewInterestsTag}
+              onSearch={debounce(getInterests, 250)}
             />
             <Input
               type="multiselect"
@@ -520,6 +560,15 @@ const AddCampaignModal = ({
               value={state.influencerSize}
               onValue={(input) => setState({ ...state, influencerSize: input })}
               options={influencerSize}
+            />
+            <Input
+              type="multiselect"
+              label="Symptom"
+              placeholder="Please Select"
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
+              onSearch={debounce(getSympthoms, 250)}
             />
             <GridCell columnSpan={2}>
               <Input
@@ -584,9 +633,16 @@ const AddCampaignModal = ({
                     Upload
                   </Button>
                 </ImageUploadContainer>
-                {photoName}
               </ImageUploadMainContainer>
             </GridCell>
+            {modal && (
+              <UploadedFileModal
+                onClose={modalClose}
+                name={photoName}
+                url={photo}
+                type={fileType}
+              />
+            )}
             <Input
               type="text"
               label="Website"

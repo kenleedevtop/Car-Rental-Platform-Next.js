@@ -5,16 +5,10 @@ import {
   ISpan,
 } from 'features/surveys/role/client/elements/inpreparation-actions/styles';
 import { useMenu, useModal } from 'hooks';
-import {
-  ContactIcon,
-  InfoIcon,
-  ManageIcon,
-  ScheduleIcon,
-  VerticalDotsIcon,
-} from 'components/svg';
-import { TInpreparationActionsMenuProps } from 'features/surveys/role/client/elements/inpreparation-actions/types';
-import { CreatedCampaignModal } from 'features/campaigns/role/client/elements';
-import { useRouter } from 'next/router';
+import { DeleteIcon, InfoIcon, VerticalDotsIcon } from 'components/svg';
+import DeleteCampaignModal from '../delete-campaign-modal';
+import { TInpreparationActionsMenuProps } from './types';
+import CreatedCampaignModal from '../created-campaign-modal';
 
 const InPreparationActions = ({
   data,
@@ -28,8 +22,19 @@ const InPreparationActions = ({
   };
 
   const [ccModal, openCcModal, closeCcModal] = useModal(false);
+  const [dcModal, openDCModal, closeDCModal] = useModal(false);
 
-  const router = useRouter();
+  // const router = useRouter();
+
+  const handleInfo = () => {
+    openCcModal();
+    handleMenu();
+  };
+
+  const handleRemove = () => {
+    openDCModal();
+    handleMenu();
+  };
 
   return (
     <InPreparationActionsMain {...props}>
@@ -43,28 +48,33 @@ const InPreparationActions = ({
             {
               icon: <InfoIcon />,
               label: 'Info',
-              action: openCcModal,
+              action: handleInfo,
             },
             // {
             //   icon: <ManageIcon />,
             //   label: 'Manage',
             //   action: () => {},
             // },
+            // {
+            //   icon: <ContactIcon />,
+            //   label: 'Contact',
+            //   action: () => {
+            //     window.location.href = `mailto:client@patientsinfluence.com`;
+            //   },
+            // },
+            // {
+            //   icon: <ScheduleIcon />,
+            //   label: 'Schedule',
+            //   action: () => {
+            //     router.push(
+            //       'https://calendly.com/patientsinfluence-client/30min'
+            //     );
+            //   },
+            // },
             {
-              icon: <ContactIcon />,
-              label: 'Contact',
-              action: () => {
-                window.location.href = `mailto:client@patientsinfluence.com`;
-              },
-            },
-            {
-              icon: <ScheduleIcon />,
-              label: 'Schedule',
-              action: () => {
-                router.push(
-                  'https://calendly.com/patientsinfluence-client/30min'
-                );
-              },
+              icon: <DeleteIcon />,
+              label: 'Remove',
+              action: handleRemove,
             },
           ]}
           ref={menu}
@@ -76,6 +86,9 @@ const InPreparationActions = ({
           onClose={closeCcModal}
           reload={reload}
         />
+      )}
+      {dcModal && (
+        <DeleteCampaignModal id={data} onClose={closeDCModal} reload={reload} />
       )}
     </InPreparationActionsMain>
   );

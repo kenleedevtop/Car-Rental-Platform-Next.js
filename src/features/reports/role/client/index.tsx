@@ -15,23 +15,27 @@ import {
 } from 'components/custom';
 import {
   ContactIcon,
-  ContactedIcon,
+  FinishedIcon,
   IdentifiedIcon,
   InfoIcon,
   ManageIcon,
+  OngoingIcon,
+  OrderedIcon,
   RegisteredIcon,
   ReportIcon,
+  ReportsSmallIcon,
   ScheduleIcon,
   SlidersHorizontalIcon,
   TotalIcon,
+  WithoutReportIcon,
 } from 'components/svg';
-import { faker } from '@faker-js/faker';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Stack } from 'components/system';
 import { Collapse } from '@mui/material';
 import {
   DGenerateReportsClientsFilter,
   DReportsClientHead,
+  DReportsWithoutReport,
 } from 'features/reports/data';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import {
@@ -43,6 +47,10 @@ import {
 import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
 import { CampaignAPI, EnumsApi, ProductApi } from 'api';
+import ReccomendedIcon from 'components/svg/recommended';
+import ReachIcon from 'components/svg/reach';
+import CommnetsIcon from 'components/svg/comments';
+import WebsiteClicksIcon from 'components/svg/website-clicks';
 
 const ReportsPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateReportsClientsFilter());
@@ -80,31 +88,6 @@ const ReportsPage = () => {
     setOpenD(!openD);
   };
 
-  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
-    if (headItem.reference === 'campaign') {
-      return row.data.campaign.name;
-    }
-    if (headItem.reference === 'type') {
-      return row.data.reportType === 1 ? 'Yes' : 'No';
-    }
-    if (headItem.reference === 'budget') {
-      if (row.data.platformProductOrder.budget) {
-        return `${row.data.platformProductOrder.budget} CHF`;
-      }
-    }
-    if (headItem.reference === 'costPerClick') {
-      return row.data.costPerClick;
-    }
-    if (headItem.reference === 'costPerTarget') {
-      return row.data.costPerTarget;
-    }
-    if (headItem.reference === 'actions') {
-      return <OrderedActions data={row.data} />;
-    }
-
-    return '';
-  };
-
   const [campaigns, setCampaigns] = useState<any>([]);
   const [filterParams, setFilterParams] = useState({});
 
@@ -121,11 +104,10 @@ const ReportsPage = () => {
       const { result, meta } = await CampaignAPI.getCampaigns({
         limit: params.limit,
         skip: params.skip,
+        withNoReportOnly: true,
         ...filterParams,
       });
-      setCampaigns(
-        result.filter((x: any) => !x.report || x.report.name === 'No')
-      );
+      setCampaigns(result);
       setTotalResultsWr(meta.countFiltered);
     },
   });
@@ -138,12 +120,15 @@ const ReportsPage = () => {
       return row.data.name;
     }
     if (headItem.reference === 'type') {
-      return row.data.report ? row.data.report.name : '';
+      return 'No';
     }
     if (headItem.reference === 'budget') {
       return row.data.platformProductOrder.budget
         ? `${row.data.platformProductOrder.budget} CHF`
         : '';
+    }
+    if (headItem.reference === 'additionalInformation') {
+      return row.data.description;
     }
     if (headItem.reference === 'actions') {
       return (
@@ -175,6 +160,35 @@ const ReportsPage = () => {
         setTotalResults(meta.countFiltered);
       },
     });
+
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'campaign') {
+      return row.data.campaign.name;
+    }
+    if (headItem.reference === 'type') {
+      return row.data.reportType === 1 ? 'Yes' : 'No';
+    }
+    if (headItem.reference === 'budget') {
+      if (row.data.platformProductOrder.budget) {
+        return `${row.data.platformProductOrder.budget} CHF`;
+      }
+    }
+    if (headItem.reference === 'costPerClick') {
+      return row.data.costPerClick;
+    }
+    if (headItem.reference === 'costPerTarget') {
+      return row.data.costPerTarget;
+    }
+    if (headItem.reference === 'additionalInformation') {
+      return row.data.description;
+    }
+
+    if (headItem.reference === 'actions') {
+      return <OrderedActions data={row.data} reload={reload} />;
+    }
+
+    return '';
+  };
 
   /* Filters */
   const [loading, setLoading] = useState(false);
@@ -226,7 +240,8 @@ const ReportsPage = () => {
       <ReportsPageCharts>
         <CardWithChart
           title="Without report"
-          icon={<IdentifiedIcon />}
+          icon={<WithoutReportIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={0}
           count={0}
           chartData={{
@@ -235,8 +250,9 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="To Be Created"
-          icon={<ContactedIcon />}
+          title="Ordered"
+          icon={<OrderedIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={0}
           count={0}
           chartData={{
@@ -245,8 +261,9 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Received"
-          icon={<RegisteredIcon />}
+          title="Ongoing"
+          icon={<OngoingIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={0}
           count={0}
           chartData={{
@@ -255,8 +272,9 @@ const ReportsPage = () => {
           }}
         />
         <CardWithChart
-          title="Approved"
-          icon={<TotalIcon />}
+          title="Delivered"
+          icon={<FinishedIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={0}
           count={0}
           chartData={{
@@ -268,7 +286,8 @@ const ReportsPage = () => {
       <ReportsPageCharts>
         <CardWithChart
           title="Reach"
-          icon={<IdentifiedIcon />}
+          icon={<ReachIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={0}
           count={0}
           chartData={{
@@ -278,7 +297,8 @@ const ReportsPage = () => {
         />
         <CardWithChart
           title="Likes"
-          icon={<ContactedIcon />}
+          icon={<ReccomendedIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={0}
           count={0}
           chartData={{
@@ -288,7 +308,8 @@ const ReportsPage = () => {
         />
         <CardWithChart
           title="Comments"
-          icon={<RegisteredIcon />}
+          icon={<CommnetsIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={0}
           count={0}
           chartData={{
@@ -298,7 +319,8 @@ const ReportsPage = () => {
         />
         <CardWithChart
           title="Website Clicks"
-          icon={<TotalIcon />}
+          icon={<WebsiteClicksIcon />}
+          smallIcon={<ReportsSmallIcon />}
           percent={0}
           count={0}
           chartData={{
@@ -471,7 +493,11 @@ const ReportsPage = () => {
                 items={campaigns}
                 renderItem={renderItemWithoutReport}
               />
-              <Pagination count={0} />
+              <Pagination
+                onChange={(_e, x) => handlePageChangeWr(x)}
+                page={pageWr}
+                count={pagesCountWr}
+              />
             </>
           )}
           {tabsValue === 1 && (
