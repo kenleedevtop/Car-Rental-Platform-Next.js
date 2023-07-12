@@ -6,7 +6,12 @@ import { Stack } from 'components/system';
 import { Button } from 'components/ui';
 import { TUploadedFileModalProps } from './types';
 
-const UploadedFileModal = ({ onClose, name, url }: TUploadedFileModalProps) => (
+const UploadedFileModal = ({
+  onClose,
+  name,
+  url,
+  type,
+}: TUploadedFileModalProps) => (
   <Modal
     title={name}
     onClose={onClose}
@@ -22,7 +27,17 @@ const UploadedFileModal = ({ onClose, name, url }: TUploadedFileModalProps) => (
     ]}
   >
     <Stack style={{ padding: '10px' }}>
-      <Image src={url} alt={name} width={100} height={100} loading="lazy" />
+      {type === 'application/pdf' ? (
+        <embed src={url} width="100%" height="100%" type="application/pdf" />
+      ) : (
+        <Image
+          src={url}
+          alt={name}
+          width={100}
+          height={100}
+          style={{ width: '100%', height: '100%' }}
+        />
+      )}
     </Stack>
   </Modal>
 );

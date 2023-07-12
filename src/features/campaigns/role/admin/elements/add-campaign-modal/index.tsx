@@ -22,6 +22,7 @@ import { useModal, useSnackbar } from 'hooks';
 import { pick } from '@costorgroup/file-manager';
 import UploadedFileModal from 'features/campaigns/role/client/elements/uploaded-file-modal';
 import UsersAPI from 'api/users';
+import { set } from 'nprogress';
 
 const AddCampaignModal = ({
   onClose,
@@ -267,6 +268,7 @@ const AddCampaignModal = ({
   };
 
   const [photo, setPhoto] = useState<any>(undefined);
+  const [fileType, setFileType] = useState<string>('');
   const [photoName, setPhotoName] = useState('');
   const [modal, modalOpen, modalClose] = useModal(false);
 
@@ -277,11 +279,15 @@ const AddCampaignModal = ({
 
     setPhotoName(file.name);
 
-    const { url } = await FileManagerApi.fileUpload(file);
+    const data = await FileManagerApi.fileUpload(file);
 
-    setPhoto(url);
+    const presignedUrl = await FileManagerApi.fileDownload(data.key);
 
-    if (file.name && url) {
+    setPhoto(presignedUrl.data);
+
+    setFileType(file.type);
+
+    if (file.name && presignedUrl.data && file.type) {
       modalOpen();
     }
   };
@@ -677,6 +683,7 @@ const AddCampaignModal = ({
                 onClose={modalClose}
                 name={photoName}
                 url={photo}
+                type={fileType}
               />
             )}
             <Input

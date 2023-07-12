@@ -504,6 +504,7 @@ const CreatedCampaignModal = ({
   }, [campaign]);
 
   const [photo, setPhoto] = useState<any>(undefined);
+  const [fileType, setFileType] = useState<string>('');
   const [photoName, setPhotoName] = useState('');
   const [modal, modalOpen, modalClose] = useModal(false);
 
@@ -514,16 +515,15 @@ const CreatedCampaignModal = ({
 
     setPhotoName(file.name);
 
-    const { url, key } = await FileManagerApi.fileUpload(file);
+    const data = await FileManagerApi.fileUpload(file);
 
-    if (key) {
-      const data = await FileManagerApi.fileDownload(key);
-      console.log(data);
-    }
+    const presignedUrl = await FileManagerApi.fileDownload(data.key);
 
-    setPhoto(url);
+    setPhoto(presignedUrl.data);
 
-    if (file.name && url) {
+    setFileType(file.type);
+
+    if (file.name && presignedUrl.data && file.type) {
       modalOpen();
     }
   };
@@ -902,6 +902,7 @@ const CreatedCampaignModal = ({
                 onClose={modalClose}
                 name={photoName}
                 url={photo}
+                type={fileType}
               />
             )}
             <Input
