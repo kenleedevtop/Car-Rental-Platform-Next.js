@@ -52,6 +52,8 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
   const [stakeholder, setStakeholders] = useState([]);
   const [genders, setGenders] = useState([]);
 
+  const { user } = useAppContext();
+
   const getLocations = async (searchTerm: string = '') => {
     setLoading(true);
     const { result } = await LocationAPI.getAll(searchTerm);
@@ -146,10 +148,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
     (element: { value: any }) => element.value === 1 || element.value === 2
   );
 
-  const { user } = useAppContext();
-
-  const [id, setId] = useState(user.influencer.id);
-
   return (
     <StepContainer>
       <StepForm>
@@ -159,6 +157,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             label="Date of Birth"
             placeholder="Please Select"
             value={birthDate}
+            disabled={user.status >= 4}
             onValue={(birthDate) => setFormData({ ...formData, birthDate })}
             validators={[
               {
@@ -190,6 +189,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             value={location}
             loading={loading}
             options={locations}
+            disabled={user.status >= 4}
             onValue={(location) => setFormData({ ...formData, location })}
             errorCallback={handleErrors(5)}
             validators={[
@@ -221,6 +221,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             label="Gender"
             placeholder="Please Select"
             value={gender}
+            disabled={user.status >= 4}
             onValue={(gender) => setFormData({ ...formData, gender })}
             options={genders}
             errorCallback={handleErrors(6)}
@@ -251,6 +252,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             label="Disease Area"
             placeholder="Please Select"
             value={diseaseAreas}
+            disabled={user.status >= 4}
             onSearch={debounce(getDiseaseArea, 250)}
             errorCallback={handleErrors(7)}
             onValue={(diseaseAreas) =>
@@ -290,6 +292,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             placeholder="Please Select"
             value={ethnicity}
             onValue={(ethnicity) => setFormData({ ...formData, ethnicity })}
+            disabled={user.status >= 4}
             errorCallback={handleErrors(8)}
             validators={[
               {
@@ -319,6 +322,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step2FormProps) => {
             label="Experience As"
             placeholder="Please Select"
             value={experienceAs}
+            disabled={user.status >= 4}
             onValue={(experienceAs) =>
               setFormData({ ...formData, experienceAs })
             }

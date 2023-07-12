@@ -231,9 +231,19 @@ const InfluencersPage = () => {
         );
       }
     }
+
     if (headItem.reference === 'location') {
-      return row.data.location.name;
+      if (!row.data.location) {
+        return '';
+      }
+      const { location } = row.data;
+      const label = location.country
+        ? `${location.name}, ${location.country.name}`
+        : location.name;
+
+      return label;
     }
+
     if (headItem.reference === 'age') {
       return row.data.user.age;
     }

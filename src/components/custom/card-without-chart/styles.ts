@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { Theme } from '@mui/material';
 import { Card } from 'components/ui';
 
-interface CardWithoutChartIconProps {
+interface ICardWithoutChartIconProps {
   theme?: Theme;
   gray?: boolean;
 }
@@ -30,32 +30,31 @@ export const CardWithoutChartText = styled.div<{ theme?: Theme }>`
     `}
 `;
 
-export const CardWithoutChartIconProps = styled.div<CardWithoutChartIconProps>`
-    width: 42px;
-    height: 42px;
-    z-index:3;
-    border-radius: 50%;
-    background: ${({ theme }): string => theme?.palette.primary.dark || ''};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: ${({ theme }): string => theme?.palette.common.white || ''};
-    svg {
-      display: block;
-      width: 24px;
-      height: 24px;
-    }
-    aspect-ratio: 1/1;
+export const CardWithoutChartIconProps = styled.div<ICardWithoutChartIconProps>`
+  width: 42px;
+  height: 42px;
+  z-index: 3;
+  border-radius: 50%;
+  background: ${({ theme }): string => theme?.palette.primary.dark || ''};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }): string => theme?.palette.common.white || ''};
+  svg {
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+  aspect-ratio: 1/1;
 
-    ${({ gray }): any =>
-      gray &&
-      css`
-        position: relative;
-        transform: translate(-115%, 5%);
-        background-color: #999999;
-        z-index:1;
-
-      `}
+  ${({ gray }): any =>
+    gray &&
+    css`
+      position: relative;
+      transform: translate(-115%, 5%);
+      background-color: #999999;
+      z-index: 1;
+    `}
 `;
 
 export const CardWithoutChartTitle = styled.div<{ theme?: Theme }>`

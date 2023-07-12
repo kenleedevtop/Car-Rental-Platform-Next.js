@@ -105,7 +105,7 @@ export const StepSMiddle = styled.div<{ theme?: Theme }>`
 export const StepRight = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
       grid-column: 3/5;
-      padding-left: ${theme.spacing(5)};
+      // padding-left: ${theme.spacing(5)};
 
       ${theme.breakpoints.down('xl')} {
         grid-column: 1/9;
@@ -118,4 +118,67 @@ export const StepRight = styled.div<{ theme?: Theme }>`
         grid-row: unset;
       }
     `}
+`;
+
+export const InputGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const ConversionAmountWrapper = styled.div`
+  display: flex;
+  font-family: IBM Plex Sans;
+  color: #7e839f;
+  font-size: 11px;
+`;
+
+export const ConversionIconWrapper = styled.span`
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  align-content: center;
+  justify-content: center;
+  padding-top: 2px;
+`;
+
+export const LabelTooltip = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+        background: ${theme.palette.common.white};
+        color: #4f4f4f;
+        padding: ${theme.spacing(4)} ${theme.spacing(4)};
+        font-size: 16px;
+        margin: -10px;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.45);
+        border-radius: 8px;
+        letter-spacing: 1px;
+        white-space: normal; /* Allow wrapping */
+        max-width: 500px;
+
+        span {
+          text-decoration: underline;
+          color: #4f4f4f;
+        }
+    `}
+`;
+
+export const TooltipTitle = styled.p<{ theme?: Theme }>`
+  ${({ theme }) => `
+      font-family: 'inter';
+      font-weight: 600;
+      color: #7E839F;
+      font-size: 12px;
+      line-height: 13px;
+      margin-bottom: 10px;
+  `}
+`;
+
+export const TooltipParagraph = styled.p<{ theme?: Theme }>`
+  ${({ theme }) => `
+      font-family: 'inter';
+      font-weight: 500;
+      color: #7E839F;
+      font-size: 12px;
+      line-height: 13px;
+      margin-bottom: 10px;
+  `}
 `;

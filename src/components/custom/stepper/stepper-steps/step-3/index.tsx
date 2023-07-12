@@ -115,7 +115,8 @@ const Step = () => {
             </Button>
           )}
 
-          <Button
+          {/* This is for the future */}
+          {/* <Button
             endIcon={<TwitterIcon width="18" height="18" />}
             size="large"
             variant="contained"
@@ -130,7 +131,7 @@ const Step = () => {
             style={{ backgroundColor: '#448DC9' }}
           >
             Linked
-          </Button>
+          </Button> */}
         </StepStack>
       </StepForm>
     </StepContainer>

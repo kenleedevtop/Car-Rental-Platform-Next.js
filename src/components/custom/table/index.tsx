@@ -18,8 +18,8 @@ import { useModal } from 'hooks';
 import { Modal } from 'components/custom';
 import { Button } from 'components/ui';
 import { Reorder } from 'framer-motion';
-import { OrderListDraggable } from './elements';
 import { VerticalDotsIcon } from 'components/svg';
+import { OrderListDraggable } from './elements';
 
 const Table = ({
   head = [],
@@ -68,7 +68,14 @@ const Table = ({
                     </TableBodyCell>
                   ))}
                   <TableBodyCell>
-                  <VerticalDotsIcon style={{width:'26px', height: '26px', borderRadius: '4px', backgroundColor: '#F3F6F9'}}></VerticalDotsIcon>
+                    <VerticalDotsIcon
+                      style={{
+                        width: '26px',
+                        height: '26px',
+                        borderRadius: '4px',
+                        backgroundColor: '#F3F6F9',
+                      }}
+                    />
                   </TableBodyCell>
                 </TableBodyRow>
               ))}

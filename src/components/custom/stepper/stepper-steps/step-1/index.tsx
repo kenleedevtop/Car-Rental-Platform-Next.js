@@ -37,19 +37,19 @@ type Step1FormProps = {
 };
 
 const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
-  const { user, handleInfluencer } = useAppContext();
+  const { user, influencer } = useAppContext();
 
   const { t } = useTranslation('register');
 
-  const [errors, setErrors] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  // const [errors, setErrors] = useState([
+  //   false,
+  //   false,
+  //   false,
+  //   false,
+  //   false,
+  //   false,
+  //   false,
+  // ]);
 
   // const handleErrors = (index: number) => (value: boolean) => {
   //   setErrors((x) => x.map((a, b) => (b === index ? value : a)));
@@ -58,12 +58,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
   const {
     firstName,
     lastName,
-    company,
-    role,
-    diseaseAreas,
-    markets,
     email,
-    password,
     invitedBy,
     affiliateFriends,
     affiliateLink,
@@ -92,30 +87,24 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
 
   const getInfluencerData = async (influencerId: number) => {
     const influencer = await InfluencerAPI.getSingleInfluencer(influencerId);
-    handleInfluencer(influencer);
+    // handleInfluencer(influencer);
     return influencer;
   };
 
   useEffect(() => {
-    getInfluencerData(user.id)
-      .then((data) => {
-        const affiliatedFriends = data.invitedInfluencers.map(
-          (influencer: { user: any }) => {
-            const { id, firstName, lastName } = influencer.user;
+    if (influencer) {
+      const affiliatedFriends = influencer.invitedInfluencers.map(
+        (influencer: { user: any }) => {
+          const { id, firstName, lastName } = influencer.user;
 
-            const label = `${firstName} ${lastName}`;
+          const label = `${firstName} ${lastName}`;
 
-            return { value: id, label };
-          }
-        );
-        setAffiliateFriendsList(affiliatedFriends);
-      })
-      .catch(() => {
-        push('Something failed!', {
-          variant: 'error',
-        });
-      });
-  }, []);
+          return { value: id, label };
+        }
+      );
+      setAffiliateFriendsList(affiliatedFriends);
+    }
+  }, [influencer]);
 
   useEffect(() => {
     if (user.influencer.invitendByUserId) {
@@ -263,25 +252,19 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
               },
             ]}
           />
-          {/* <Input
-            type="text"
-            label="Password"
-            disabled
-            placeholder="**********"
-            value={password}
-            // onValue={(password) => setState({ ...state, password })}
-            onValue={password => setFormData({ ...formData, password })}
-        /> */}
+
           <StepSpan onClick={openCpModal}>Change Password</StepSpan>
         </StepChange>
-        <Input
-          type="text"
-          label="Invited by"
-          disabled
-          value={invitedBy}
-          // onValue={(invitedBy) => setState({ ...state, invitedBy })}
-          onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
-        />
+        {invitedBy ? (
+          <Input
+            type="text"
+            label="Invited by"
+            disabled
+            value={invitedBy}
+            onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
+          />
+        ) : undefined}
+
         <Input
           type="select"
           label="Affiliate friends"
@@ -307,15 +290,6 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
           onValue={(affiliateLink) =>
             setFormData({ ...formData, affiliateLink })
           }
-        />
-        <Input
-          type="text"
-          label="Invited by"
-          disabled
-          // required
-          value={invitedBy}
-          // onValue={(invitedBy) => setState({ ...state, invitedBy })}
-          onValue={(invitedBy) => setFormData({ ...formData, invitedBy })}
         />
       </StepForm>
       {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
