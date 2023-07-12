@@ -45,12 +45,16 @@ const InPreparationActions = ({
             {
               icon: <InfoIcon />,
               label: 'Info',
-              action: openCreatedReportsModal,
+              action: () => {
+                handleMenu();
+                openCreatedReportsModal();
+              },
             },
             {
               icon: <ContactIcon />,
               label: 'Contact',
               action: () => {
+                handleMenu();
                 window.location.href = `mailto:client@patientsinfluence.com`;
               },
             },

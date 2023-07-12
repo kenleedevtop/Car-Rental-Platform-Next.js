@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { CurrencyFeedback, Modal } from 'components/custom';
 import { TAddReportModalProps } from 'features/reports/role/client/elements/created-report-modal/types';
 import { AddReportModalMain } from 'features/reports/role/client/elements/created-report-modal/styles';
@@ -12,7 +12,7 @@ const AddReportModal = ({ data, onClose, ...props }: TAddReportModalProps) => {
       label: data.campaign.name,
     },
     reportType:
-      data.campaign.reportType === 1
+      data.reportType === 1
         ? { value: 1, label: 'Yes' }
         : { value: 0, label: 'No' },
     budget: data.platformProductOrder.budget,

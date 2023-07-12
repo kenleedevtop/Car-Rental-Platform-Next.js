@@ -4,7 +4,7 @@ import { TAddReportModalProps } from 'features/reports/role/client/elements/crea
 import { AddReportModalMain } from 'features/reports/role/client/elements/create-report-modal/styles';
 import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
-import { CampaignAPI, EnumsApi } from 'api';
+import { CampaignAPI } from 'api';
 import { useSnackbar } from 'hooks';
 
 const AddReportModal = ({
@@ -37,8 +37,10 @@ const AddReportModal = ({
   //   );
   // };
 
-  const getCampaigns = async (s: string = '') => {
-    const { result } = await CampaignAPI.getCampaigns(s);
+  const getCampaigns = async () => {
+    const { result } = await CampaignAPI.getCampaigns({
+      withNoReportOnly: true,
+    });
 
     setCampaigns(
       result.map((x: any) => ({
@@ -71,6 +73,15 @@ const AddReportModal = ({
 
   const disabled = !state.campaign;
 
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
+
   return (
     <Modal
       size="medium"
@@ -101,6 +112,7 @@ const AddReportModal = ({
           value={state.campaign}
           onValue={(input) => setState({ ...state, campaign: input })}
           options={campaigns}
+          onSearch={debounce(getCampaigns, 250)}
           required
         />
         <Input
