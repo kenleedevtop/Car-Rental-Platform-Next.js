@@ -10,9 +10,10 @@ export const BenefitsPageCharts = styled(Grid)<{ theme?: Theme }>`
   overflow-x: scroll;
   padding-bottom: 20px;
 
-  & > * {
-    min-width: 250px !important;
-    width: 250px !important;
+  & > div {
+    height: 101px;
+    min-width: 170px !important;
+    width: 170px !important;
   }
 `;
 
