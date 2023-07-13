@@ -70,7 +70,7 @@ const InPreparationActions = ({
           ref={menu}
         />
       )}
-      {ccModal && (
+      {ccModal && reload && (
         <CreatedCampaignModal
           id={data}
           onClose={closeCcModal}
