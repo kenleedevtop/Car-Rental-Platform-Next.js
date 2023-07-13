@@ -683,14 +683,13 @@ const CreatedCampaignModal = ({
               required
             />
             <Input
-              type="select"
+              type="text"
               label="Client"
               disabled
               placeholder="Please Select"
-              value={state.client}
+              value={state.client && state.client.label}
               onValue={(client) => setState({ ...state, client })}
               options={clients}
-              required
             />
             <Input
               type="text"
