@@ -85,6 +85,8 @@ const SmlPage = () => {
   const getUserData = async () => {
     const result = await ClientAPI.clientRecommendedDiseaseAreas();
 
+    console.log({ disseaseAreas: result });
+
     setRecommendedDiseaseAreas(
       result.map((x: any) => ({
         diseaseArea: {
@@ -130,7 +132,7 @@ const SmlPage = () => {
     if (headItem.reference === 'diseaseArea') {
       if (
         row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea
+          ?.diseaseArea
       ) {
         return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
           .diseaseArea.name;
@@ -266,7 +268,7 @@ const SmlPage = () => {
           //   Export
           // </Button>,
           <Button color="primary" variant="contained" onClick={openCsModal}>
-            Get SML Report
+            Create SML
           </Button>,
         ]}
       >

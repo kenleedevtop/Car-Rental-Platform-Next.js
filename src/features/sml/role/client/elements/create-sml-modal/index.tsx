@@ -78,13 +78,13 @@ const AddSmlModal = ({
 
   useEffect(() => {
     if (sml) {
-      setState({
-        ...state,
-        subscription: sml.subscription,
-        platform: sml.socialMedia,
-        diseaseArea: sml.diseaseArea,
-        aiAnalytics: sml.tokens,
-      });
+      // setState({
+      //   ...state,
+      //   subscription: sml.subscription,
+      //   platform: sml.socialMedia,
+      //   diseaseArea: sml.diseaseArea,
+      //   aiAnalytics: sml.tokens,
+      // });
       setData({
         clientId: user.client.id,
         platforms: [sml.socialMedia.value],
@@ -97,11 +97,11 @@ const AddSmlModal = ({
     } else {
       setData({
         clientId: user.client.id,
-        platforms: [state.platform.value] || [],
-        subscriptionLength: state.subscription.value || null,
+        platforms: [state.platform?.value] || [],
+        subscriptionLength: state.subscription?.value || null,
         monthlyTokens:
-          state.aiAnalytics.value !== null ? state.aiAnalytics.value : null,
-        diseaseAreas: [state.diseaseArea.value],
+          state.aiAnalytics?.value !== null ? state.aiAnalytics?.value : null,
+        diseaseAreas: [state.diseaseArea?.value],
         budget: state.amount || null,
         smlDescription: state.additional || '',
       });
@@ -119,7 +119,11 @@ const AddSmlModal = ({
     }
   };
 
-  const disabled = !state.platform || !state.diseaseArea || !state.aiAnalytics;
+  const disabled =
+    !state.platform ||
+    !state.diseaseArea ||
+    !state.aiAnalytics ||
+    !state.amount;
 
   return (
     <Modal
@@ -207,6 +211,7 @@ const AddSmlModal = ({
             startAdornment="CHF"
             value={state.amount}
             onValue={(amount) => setState({ ...state, amount })}
+            required
           />
           <CurrencyFeedback value={state.amount} />
         </Stack>

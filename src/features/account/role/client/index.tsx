@@ -53,6 +53,8 @@ const AccountPage = ({ ...props }) => {
     getClient();
   }, []);
 
+  console.log(data);
+
   useEffect(() => {
     if (Object.keys(data).length > 0) {
       const newState = { ...state }; // Create a new state object to hold all the updates
