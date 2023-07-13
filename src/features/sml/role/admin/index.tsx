@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SmlPageMain,
   SmlPageCharts,
@@ -42,6 +42,7 @@ import {
 import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
 import { SMLApi } from 'api';
+import OrderedActions from './elements/ordered-sml-actions';
 
 const SmlPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateAdminSmlFilter());
@@ -86,7 +87,7 @@ const SmlPage = () => {
   const [tabs, setTabs] = useState(0);
 
   const [sml, setSml] = useState<any>([]);
-
+  const [formattedSML, setFormattedSML] = useState<any>([]);
   const [filterParams, setFilterParams] = useState({});
 
   const { pagesCount, page, setTotalResults, handlePageChange, reload } =
@@ -104,25 +105,55 @@ const SmlPage = () => {
       },
     });
 
+  useEffect(() => {
+    if (sml && sml.length > 0) {
+      const result = [];
+      for (let i = 0; i < sml.length; i += 1) {
+        for (
+          let j = 0;
+          j <
+          sml[i].platformProductOrder.platformProductOrderDiseaseAreas.length;
+          j += 1
+        ) {
+          const obj = {
+            diseaseArea:
+              sml[i].platformProductOrder.platformProductOrderDiseaseAreas[j]
+                .diseaseArea,
+            subscriptionLength: sml[i].subscriptionLength,
+            monthlyTokens: sml[i].monthlyTokens,
+            budget: sml[i].platformProductOrder.budget,
+            SMLPlatforms: { value: 0, label: 'Instagram' },
+            smlDescription: sml[i].smlDescription,
+            client: sml[i].platformProductOrder.client,
+            originalData: sml[i],
+          };
+          result.push(obj);
+        }
+      }
+      if (result && result.length > 0) {
+        setFormattedSML(result);
+      }
+    }
+  }, [sml]);
+
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'client') {
-      return '';
+      if (row.data.client) {
+        const { client } = row.data;
+        if (client.user) {
+          return `${client.user.firstName} ${client.user.lastName}`;
+        }
+      }
     }
 
     if (headItem.reference === 'budget') {
-      return `${row.data.platformProductOrder.budget} CHF`;
+      return `${row.data.budget} CHF`;
     }
 
     if (headItem.reference === 'diseaseArea') {
-      return row.data.platformProductOrder.platformProductOrderDiseaseAreas.map(
-        (x: any, index: any) =>
-          index <
-          row.data.platformProductOrder.platformProductOrderDiseaseAreas
-            .length -
-            1
-            ? `${x.diseaseArea.name}, `
-            : x.diseaseArea.name
-      );
+      if (row.data.diseaseArea) {
+        return row.data.diseaseArea.name;
+      }
     }
 
     if (headItem.reference === 'subscription') {
@@ -133,14 +164,24 @@ const SmlPage = () => {
       return `${row.data.monthlyTokens} Tokens`;
     }
 
-    if (headItem.reference === 'endDate') {
-      const originalDate = new Date(row.data.createdAt);
-      const newDate = new Date(row.data.createdAt);
-      const subLength = parseInt(row.data.subscriptionLength, 10);
+    // if (headItem.reference === 'endDate') {
+    //   const originalDate = new Date(row.data.createdAt);
+    //   const newDate = new Date(row.data.createdAt);
+    //   const subLength = parseInt(row.data.subscriptionLength, 10);
 
-      newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
+    //   newDate.setUTCMonth(newDate.getUTCMonth() + subLength);
 
-      return newDate.toISOString().slice(0, 10);
+    //   return newDate.toISOString().slice(0, 10);
+    // }
+
+    if (headItem.reference === 'actions') {
+      return (
+        <OrderedActions
+          data={row.data.originalData}
+          reload={reload}
+          style={{ width: '100%' }}
+        />
+      );
     }
 
     return '';
@@ -451,7 +492,7 @@ const SmlPage = () => {
                 visible: true,
               },
             ]}
-            items={sml}
+            items={formattedSML}
             renderItem={renderItem}
           />
 

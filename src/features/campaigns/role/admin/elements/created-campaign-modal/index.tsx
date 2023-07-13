@@ -537,8 +537,6 @@ const CreatedCampaignModal = ({
           newState.influencerCount = campaign.influencersCount;
         }
 
-        console.log(campaign);
-
         setState(newState);
       }
     }
@@ -687,7 +685,7 @@ const CreatedCampaignModal = ({
             <Input
               type="select"
               label="Client"
-              disabled={!edit}
+              disabled
               placeholder="Please Select"
               value={state.client}
               onValue={(client) => setState({ ...state, client })}

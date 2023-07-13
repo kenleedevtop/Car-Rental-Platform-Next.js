@@ -4,7 +4,6 @@ import { TCreateSmlTabsModalProps } from 'features/sml/role/admin/elements/creat
 import { CreateSmlTabsModalMain } from 'features/sml/role/admin/elements/create-sml-tabs-modal/styles';
 import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
-import { EditIcon } from 'components/svg';
 
 const CreateSmlTabsModal = ({
   onClose,

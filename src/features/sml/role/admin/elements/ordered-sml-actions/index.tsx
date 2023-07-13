@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   OrderedActionsMain,
   OrderedActionsMenu,
@@ -8,7 +8,6 @@ import { useMenu, useModal } from 'hooks';
 import {
   ContactIcon,
   InfoIcon,
-  OrderedIcon,
   ScheduleIcon,
   VerticalDotsIcon,
 } from 'components/svg';
@@ -20,9 +19,9 @@ import {
 // } from 'features/sml/role/client/elements';
 import { TOrderedActionsMenuProps } from 'features/sml/role/client/elements/ordered-actions/types';
 import { useRouter } from 'next/router';
-import { CreatedSMLModal } from '..';
+import CreatedSmlModal from '../created-sml-modal';
 
-const DiscoverActions = ({
+const OrderedActions = ({
   data,
   reload,
   ...props
@@ -54,7 +53,10 @@ const DiscoverActions = ({
             {
               icon: <InfoIcon />,
               label: 'Info',
-              action: openCreatedSMLModal,
+              action: () => {
+                openCreatedSMLModal();
+                handleMenu();
+              },
             },
             {
               icon: <ContactIcon />,
@@ -80,7 +82,7 @@ const DiscoverActions = ({
         />
       )}
       {createdSMLModal && (
-        <CreatedSMLModal
+        <CreatedSmlModal
           refresh={reload}
           onClose={closeCreatedSMLModal}
           data={data}
@@ -93,4 +95,4 @@ const DiscoverActions = ({
   );
 };
 
-export default DiscoverActions;
+export default OrderedActions;
