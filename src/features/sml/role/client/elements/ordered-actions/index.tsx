@@ -24,7 +24,7 @@ import { CreatedSMLModal } from '..';
 
 const DiscoverActions = ({
   data,
-  refreshInfluencers,
+  reload,
   ...props
 }: TOrderedActionsMenuProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
@@ -81,7 +81,7 @@ const DiscoverActions = ({
       )}
       {createdSMLModal && (
         <CreatedSMLModal
-          refresh={refreshInfluencers}
+          refresh={reload}
           onClose={closeCreatedSMLModal}
           data={data}
         />

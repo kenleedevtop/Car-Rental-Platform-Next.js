@@ -19,7 +19,7 @@ const AddSmlModal = ({
     client: null,
     subscription: null,
     platform: null,
-    diseaseArea: null,
+    diseaseArea: [],
     aiAnalytics: null,
     currency: null,
     amount: '',
@@ -76,21 +76,16 @@ const AddSmlModal = ({
   const { user } = useAppContext();
   const [data, setData] = useState<any>({});
 
+  console.log(state.diseaseArea);
+
   useEffect(() => {
     if (sml) {
-      // setState({
-      //   ...state,
-      //   subscription: sml.subscription,
-      //   platform: sml.socialMedia,
-      //   diseaseArea: sml.diseaseArea,
-      //   aiAnalytics: sml.tokens,
-      // });
       setData({
         clientId: user.client.id,
         platforms: [sml.socialMedia.value],
         subscriptionLength: sml.subscription.value,
         monthlyTokens: sml.tokens.value,
-        diseaseAreas: [sml.diseaseArea.value],
+        diseaseAreas: state.diseaseArea.map((item: any) => item.value),
         budget: state.amount,
         smlDescription: state.additional,
       });
@@ -101,17 +96,33 @@ const AddSmlModal = ({
         subscriptionLength: state.subscription?.value || null,
         monthlyTokens:
           state.aiAnalytics?.value !== null ? state.aiAnalytics?.value : null,
-        diseaseAreas: [state.diseaseArea?.value],
+        diseaseAreas: state.diseaseArea.map((item: any) => item.value),
         budget: state.amount || null,
         smlDescription: state.additional || '',
       });
     }
   }, [state]);
 
+  useEffect(() => {
+    if (sml) {
+      setState({
+        ...state,
+        subscription: sml.subscription,
+        platform: sml.socialMedia,
+        diseaseArea: sml.diseaseArea,
+        aiAnalytics: sml.tokens,
+      });
+    }
+  }, []);
+
+  console.log(state);
+
   const { push } = useSnackbar();
 
   const createSML = async () => {
     try {
+      console.log({ data });
+
       await SMLApi.createSML(data);
       push('Successfully added SML report', { variant: 'success' });
     } catch {
@@ -181,7 +192,7 @@ const AddSmlModal = ({
           ]}
         />
         <Input
-          type="select"
+          type="multiselect"
           label="Disease Area"
           placeholder="Please Select"
           required
