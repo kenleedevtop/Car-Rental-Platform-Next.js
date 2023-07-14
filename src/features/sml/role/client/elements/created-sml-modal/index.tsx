@@ -17,21 +17,12 @@ const AddSmlModal = ({
       ? { value: 0, label: `${data.subscriptionLength} Months` }
       : null,
     platform: data.SMLPlatforms ? { value: 0, label: 'Instagram' } : null,
-    diseaseArea: data.platformProductOrder.platformProductOrderDiseaseAreas
-      ? {
-          value:
-            data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-              .diseaseArea.id,
-          label:
-            data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-              .diseaseArea.name,
-        }
-      : null,
+    diseaseArea: data.diseaseArea && data.diseaseArea.name,
     aiAnalytics: data.monthlyTokens
       ? { value: 100, label: `${data.monthlyTokens} Tokens` }
       : null,
     currency: null,
-    amount: data.platformProductOrder ? data.platformProductOrder.budget : '',
+    amount: data.budget ? data.budget : '',
     additional: data.smlDescription ? data.smlDescription : '',
   });
 
@@ -71,7 +62,7 @@ const AddSmlModal = ({
           disabled
         />
         <Input
-          type="select"
+          type="text"
           label="Disease Area"
           placeholder="Please Select"
           value={state.diseaseArea}

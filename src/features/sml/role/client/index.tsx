@@ -108,7 +108,7 @@ const SmlPage = () => {
   };
 
   const [sml, setSml] = useState<any>([]);
-
+  const [formattedSML, setFormattedSML] = useState<any>([]);
   const [filterParams, setFilterParams] = useState({});
 
   const { pagesCount, page, setTotalResults, handlePageChange, reload } =
@@ -126,14 +126,39 @@ const SmlPage = () => {
       },
     });
 
+  useEffect(() => {
+    if (sml && sml.length > 0) {
+      const result = [];
+      for (let i = 0; i < sml.length; i += 1) {
+        for (
+          let j = 0;
+          j <
+          sml[i].platformProductOrder.platformProductOrderDiseaseAreas.length;
+          j += 1
+        ) {
+          const obj = {
+            diseaseArea:
+              sml[i].platformProductOrder.platformProductOrderDiseaseAreas[j]
+                .diseaseArea,
+            subscriptionLength: sml[i].subscriptionLength,
+            monthlyTokens: sml[i].monthlyTokens,
+            budget: sml[i].platformProductOrder.budget,
+            SMLPlatforms: { value: 0, label: 'Instagram' },
+            smlDescription: sml[i].smlDescription,
+          };
+          result.push(obj);
+        }
+      }
+      if (result && result.length > 0) {
+        setFormattedSML(result);
+      }
+    }
+  }, [sml]);
+
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     if (headItem.reference === 'diseaseArea') {
-      if (
-        row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea
-      ) {
-        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea.name;
+      if (row.data.diseaseArea) {
+        return row.data.diseaseArea.name;
       }
     }
 
@@ -150,7 +175,7 @@ const SmlPage = () => {
     }
 
     if (headItem.reference === 'actions') {
-      return <OrderedActions data={row.data} refreshInfluencers={() => {}} />;
+      return <OrderedActions data={row.data} reload={() => {}} />;
     }
 
     return '';
@@ -182,7 +207,7 @@ const SmlPage = () => {
       return (
         <RecommendedActions
           data={row.data}
-          refreshInfluencers={() => {
+          reload={() => {
             getUserData();
             reload();
           }}
@@ -266,7 +291,7 @@ const SmlPage = () => {
           //   Export
           // </Button>,
           <Button color="primary" variant="contained" onClick={openCsModal}>
-            Get SML Report
+            Create SML
           </Button>,
         ]}
       >
@@ -468,7 +493,7 @@ const SmlPage = () => {
                     visible: true,
                   },
                 ]}
-                items={sml}
+                items={formattedSML}
                 renderItem={renderItem}
               />
 

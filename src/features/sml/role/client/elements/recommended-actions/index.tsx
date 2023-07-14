@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   OrderedActionsMain,
   OrderedActionsMenu,
@@ -23,7 +23,7 @@ import { CreateSmlModal } from 'features/sml/role/client/elements';
 
 const DiscoverActions = ({
   data,
-  refreshInfluencers,
+  reload,
   ...props
 }: TOrderedActionsMenuProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
@@ -54,7 +54,10 @@ const DiscoverActions = ({
             {
               icon: <OrderedIcon />,
               label: 'Order',
-              action: openCreateSmlModal,
+              action: () => {
+                openCreateSmlModal();
+                handleMenu();
+              },
             },
             {
               icon: <ContactIcon />,
@@ -83,9 +86,9 @@ const DiscoverActions = ({
       {createSmlModal && (
         <CreateSmlModal
           sml={data}
-          refresh={refreshInfluencers}
+          refresh={reload}
           onClose={() => {
-            refreshInfluencers();
+            reload();
             closeCreateSmlModal();
           }}
         />

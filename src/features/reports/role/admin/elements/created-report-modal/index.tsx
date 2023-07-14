@@ -55,7 +55,6 @@ const CreatedReportModal = ({
 
   const getClient = useCallback(async () => {
     if (state.client && state.client?.value) {
-      console.log(data);
       const { client } = await ClientAPI.getSingleClient(state.client.value);
 
       if (client && client.ambassador) {
@@ -95,8 +94,6 @@ const CreatedReportModal = ({
       push(e.response.data.message, { variant: 'error' });
     }
   }, [state, push, onClose, reload, data.id]);
-
-  console.log(data);
 
   return (
     <Modal

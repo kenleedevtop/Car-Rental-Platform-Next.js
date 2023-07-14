@@ -593,9 +593,9 @@ const CreatedCampaignModal = ({
       await CampaignAPI.updateCampaign(id, body).then(() => reload());
 
       push('Campaign successfully updated.', { variant: 'success' });
-    } catch (e) {
+    } catch (e: any) {
       push('Campaign update failed.', { variant: 'error' });
-      console.log(e);
+      console.error(e.message);
     }
   }, [state, campaign, photo]);
 
