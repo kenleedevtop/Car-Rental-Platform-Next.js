@@ -28,7 +28,6 @@ const instagramAuth = (title: string, onClose: () => void) =>
       const { type: eventType, data } = event.data;
       if (eventType === 'code') {
         resolve(data);
-        onClose();
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         cleanup();
       }
@@ -42,10 +41,17 @@ const instagramAuth = (title: string, onClose: () => void) =>
       if (dialog.close) dialog.close();
     };
 
+    dialog.addEventListener('message', receiveMessage, false);
+
+    if (onClose && typeof onClose === 'function') {
+      dialog.addEventListener('beforeunload', onClose);
+    }
+
     const checkClosed = setInterval(() => {
       if (dialog.closed) {
         clearInterval(checkClosed);
         cleanup();
+        onClose();
         reject(new Error('User closed the dialog.'));
       }
     }, 1000);
@@ -62,7 +68,6 @@ const Step = () => {
 
   const onClose = () => {
     getInfluencerData(user.id);
-    window.location.reload();
   };
 
   const handleInstagramAuth = async () => {
@@ -88,7 +93,7 @@ const Step = () => {
     } else {
       setHasInstagramLinked(false);
     }
-  }, [findInstagramAccount]);
+  }, [findInstagramAccount, influencer]);
 
   return (
     <StepContainer>
