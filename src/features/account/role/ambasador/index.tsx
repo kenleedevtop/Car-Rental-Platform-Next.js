@@ -49,8 +49,6 @@ const AccountPage = ({ ...props }) => {
 
   const [invitedClients, setInvitedClients] = useState<ISelectFieldType[]>([]);
 
-  const isMounted = useRef(false);
-
   const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [aiModal, openAiModal, closeAiModal] = useModal(false);
 
@@ -97,65 +95,60 @@ const AccountPage = ({ ...props }) => {
   };
 
   useEffect(() => {
-    if (isMounted.current === true) {
-      Promise.allSettled([getAffiliateLink(), getAmbassador()]).then(
-        (results) => {
-          let affiliateLink: string | null = null;
-          let ambassadorUser: ISingleAmbassadorResponse | null = null;
-          let invitedClientsList: ISelectFieldType[] = [];
+    Promise.allSettled([getAffiliateLink(), getAmbassador()]).then(
+      (results) => {
+        let affiliateLink: string | null = null;
+        let ambassadorUser: ISingleAmbassadorResponse | null = null;
+        let invitedClientsList: ISelectFieldType[] = [];
 
-          const [affiliateLinkResult, ambassadorResult] = results;
+        const [affiliateLinkResult, ambassadorResult] = results;
 
-          if (affiliateLinkResult.status === 'fulfilled') {
-            affiliateLink = affiliateLinkResult.value;
-          }
-
-          if (ambassadorResult.status === 'fulfilled') {
-            ambassadorUser = ambassadorResult.value;
-            invitedClientsList = ambassadorResult.value.ambassador.clients.map(
-              (client) => {
-                const { id } = client;
-                const { firstName, lastName } = client.user;
-
-                return { value: id, label: `${firstName} ${lastName}` };
-              }
-            );
-            setInvitedClients(invitedClientsList);
-          }
-
-          setFilter((prevState: any) => ({
-            ...prevState,
-            link: affiliateLink || '',
-            company: ambassadorUser?.ambassador.company.name || '',
-            role: ambassadorUser?.ambassador.companyTitle.name || '',
-            list: invitedClientsList,
-          }));
-
-          let company = null;
-          let role = null;
-          if (ambassadorUser?.ambassador.company) {
-            company = {
-              value: ambassadorUser?.ambassador.company.id,
-              label: ambassadorUser?.ambassador.company.name,
-            };
-          }
-
-          if (ambassadorUser?.ambassador.companyTitle) {
-            role = {
-              value: ambassadorUser?.ambassador.companyTitle.id,
-              label: ambassadorUser?.ambassador.companyTitle.name,
-            };
-          }
-
-          if (company && role) {
-            setCompanyRole({ company, role });
-          }
+        if (affiliateLinkResult.status === 'fulfilled') {
+          affiliateLink = affiliateLinkResult.value;
         }
-      );
-    }
-    return () => {
-      isMounted.current = true;
-    };
+
+        if (ambassadorResult.status === 'fulfilled') {
+          ambassadorUser = ambassadorResult.value;
+          invitedClientsList = ambassadorResult.value.ambassador.clients.map(
+            (client) => {
+              const { id } = client;
+              const { firstName, lastName } = client.user;
+
+              return { value: id, label: `${firstName} ${lastName}` };
+            }
+          );
+          setInvitedClients(invitedClientsList);
+        }
+
+        setFilter((prevState: any) => ({
+          ...prevState,
+          link: affiliateLink || '',
+          company: ambassadorUser?.ambassador.company.name || '',
+          role: ambassadorUser?.ambassador.companyTitle.name || '',
+          list: invitedClientsList,
+        }));
+
+        let company = null;
+        let role = null;
+        if (ambassadorUser?.ambassador.company) {
+          company = {
+            value: ambassadorUser?.ambassador.company.id,
+            label: ambassadorUser?.ambassador.company.name,
+          };
+        }
+
+        if (ambassadorUser?.ambassador.companyTitle) {
+          role = {
+            value: ambassadorUser?.ambassador.companyTitle.id,
+            label: ambassadorUser?.ambassador.companyTitle.name,
+          };
+        }
+
+        if (company && role) {
+          setCompanyRole({ company, role });
+        }
+      }
+    );
   }, []);
 
   return (

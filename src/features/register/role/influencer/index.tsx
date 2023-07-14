@@ -31,8 +31,6 @@ const RegisterPage = () => {
     patientSpecificLegalId: null,
   });
 
-  const isMounted = useRef(false);
-
   const [affiliatedInfluencer, setAffiliatedInfluencer] = useState<
     TAffiliatedInfluencer | undefined
   >(undefined);
@@ -85,17 +83,11 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    if (isMounted.current === true) {
+    if (affiliateCode) {
       setAffiliatedInfluencerCall();
 
-      if (affiliateCode) {
-        setIsAffiliated(true);
-      }
+      setIsAffiliated(true);
     }
-
-    return () => {
-      isMounted.current = true;
-    };
   }, []);
 
   useEffect(() => {

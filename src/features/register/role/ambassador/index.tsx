@@ -60,8 +60,6 @@ const RegisterPage = () => {
 
   const [commonLegal, setCommonLegal] = useState<any>('');
 
-  const isMounted = useRef(false);
-
   const [counter, setCounter] = useState(0);
 
   const router = useRouter();
@@ -204,17 +202,11 @@ const RegisterPage = () => {
   }, [router.locale]);
 
   useEffect(() => {
-    if (isMounted.current === true) {
-      getCompanies();
-      getTitles();
-      if (token) {
-        setState((prevState) => ({ ...prevState, invCode: token.toString() }));
-      }
+    getCompanies();
+    getTitles();
+    if (token) {
+      setState((prevState) => ({ ...prevState, invCode: token.toString() }));
     }
-
-    return () => {
-      isMounted.current = true;
-    };
   }, []);
 
   return (

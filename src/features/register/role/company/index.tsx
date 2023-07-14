@@ -58,8 +58,6 @@ const RegisterPage = () => {
   const [legalsChecked, setLegalsChecked] = useState(false);
   const [commonLegal, setCommonLegals] = useState<any>(null);
 
-  const isMounted = useRef(false);
-
   const getLegals = async (lang: string) => {
     const data = await LegalsAPI.getLegals(lang);
 
@@ -214,22 +212,16 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    if (isMounted.current === true) {
-      setAffiliatedInfluencerCall();
-      getCompanies();
-      getTitles();
-      const lang = router.locale?.slice(0, 2);
-      if (lang) {
-        getLegals(lang);
-      }
-      if (affiliateCode) {
-        setIsAffiliated(true);
-      }
+    setAffiliatedInfluencerCall();
+    getCompanies();
+    getTitles();
+    const lang = router.locale?.slice(0, 2);
+    if (lang) {
+      getLegals(lang);
     }
-
-    return () => {
-      isMounted.current = true;
-    };
+    if (affiliateCode) {
+      setIsAffiliated(true);
+    }
   }, []);
 
   useEffect(() => {
