@@ -83,9 +83,9 @@ const RegisterPage = () => {
   };
 
   useEffect(() => {
-    setAffiliatedInfluencerCall();
-
     if (affiliateCode) {
+      setAffiliatedInfluencerCall();
+
       setIsAffiliated(true);
     }
   }, []);
