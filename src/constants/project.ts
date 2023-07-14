@@ -6,7 +6,7 @@ const Project = {
     // environment: 'development',
 
     baseUrl: 'http://localhost',
-    baseProdUrl: 'https://patientsinfluence.com',
+    baseProdUrl: 'https://app.patientsinfluence.com',
   },
   apis: {
     v1: 'https://api.patientsinfluence.com',
