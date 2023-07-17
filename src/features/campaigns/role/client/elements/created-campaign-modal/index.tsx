@@ -683,6 +683,7 @@ const CreatedCampaignModal = ({
               placeholder="From"
               disabled={!edit}
               value={state.dateStart}
+              min={state.dateStart ? state.dateStart : undefined}
               onValue={(input) => setState({ ...state, dateStart: input })}
             />
             <Input
@@ -691,7 +692,7 @@ const CreatedCampaignModal = ({
               disabled={!edit}
               placeholder="To"
               value={state.dateEnd}
-              max={state.dateStart ? state.dateStart : undefined}
+              min={state.dateStart ? state.dateStart : undefined}
               onValue={(input) => setState({ ...state, dateEnd: input })}
             />
             <Input
