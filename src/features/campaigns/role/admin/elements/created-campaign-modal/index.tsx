@@ -125,8 +125,8 @@ const CreatedCampaignModal = ({
     );
   };
 
-  const getClients = async () => {
-    const { dataFormatted } = await ClientAPI.getClients();
+  const getClients = async (s: string = '') => {
+    const { dataFormatted } = await ClientAPI.getClients(s);
 
     setClients(
       dataFormatted.map((data: any) => ({

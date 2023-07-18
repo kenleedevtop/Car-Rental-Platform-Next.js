@@ -24,6 +24,16 @@ const ClientAPI = {
     return data;
   },
 
+  getClientsTable: async (filters?: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/client/table`, {
+      params: {
+        ...filters,
+      },
+    });
+
+    return data;
+  },
+
   getClients: async (search?: string) => {
     const { data } = await client.get(`${Project.apis.v1}/client`, {
       params: {
