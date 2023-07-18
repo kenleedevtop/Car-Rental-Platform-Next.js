@@ -608,26 +608,12 @@ const CreatedCampaignModal = ({
     };
   };
 
-  const [edit, setEdit] = useState(false);
-
-  const handleEdit = () => {
-    setEdit((prev) => !prev);
-  };
-
   return (
     <Modal
       size="medium"
       title={
         <CampaignsTitle>
           {campaign && campaign?.name ? campaign.name : ''}
-          <EditIcon
-            style={
-              edit
-                ? { cursor: 'pointer', color: '#7E839F' }
-                : { cursor: 'pointer', color: '#448DC9' }
-            }
-            onClick={handleEdit}
-          />
         </CampaignsTitle>
       }
       actions={[
@@ -661,7 +647,7 @@ const CreatedCampaignModal = ({
             <Input
               type="text"
               label="Campaign Name"
-              disabled={!edit}
+              disabled
               value={state.campaignName}
               onValue={(campaignName) => setState({ ...state, campaignName })}
               required
@@ -669,7 +655,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Products"
-              disabled={!edit}
+              disabled
               value={state.product}
               onValue={(input) => setState({ ...state, product: input })}
               options={product}
@@ -681,7 +667,7 @@ const CreatedCampaignModal = ({
               label="Start Date"
               type="date"
               placeholder="From"
-              disabled={!edit}
+              disabled
               value={state.dateStart}
               min={state.dateStart ? state.dateStart : undefined}
               onValue={(input) => setState({ ...state, dateStart: input })}
@@ -689,7 +675,7 @@ const CreatedCampaignModal = ({
             <Input
               label="End Date"
               type="date"
-              disabled={!edit}
+              disabled
               placeholder="To"
               value={state.dateEnd}
               min={state.dateStart ? state.dateStart : undefined}
@@ -698,7 +684,7 @@ const CreatedCampaignModal = ({
             <Input
               type="select"
               label="Report"
-              disabled={!edit}
+              disabled
               value={state.report}
               onValue={(input) => setState({ ...state, report: input })}
               options={report}
@@ -708,7 +694,7 @@ const CreatedCampaignModal = ({
               min={0}
               label="Influencers"
               placeholder="Please Select"
-              disabled={!edit}
+              disabled
               value={state.influencerCount}
               onValue={(input) =>
                 setState({ ...state, influencerCount: input > 0 ? input : 0 })
@@ -717,7 +703,7 @@ const CreatedCampaignModal = ({
             <Stack>
               <Input
                 label="Budget"
-                disabled={!edit}
+                disabled
                 value={state.budget}
                 onValue={(budget) => setState({ ...state, budget })}
                 type="number"
@@ -729,7 +715,7 @@ const CreatedCampaignModal = ({
             <GridCell columnSpan={2}>
               <Input
                 multiline
-                disabled={!edit}
+                disabled
                 rows={5}
                 type="text"
                 label="Campaign Info"
@@ -744,7 +730,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Location"
-              disabled={!edit}
+              disabled
               value={state.location}
               onValue={(input) => setState({ ...state, location: input })}
               onSearch={debounce(getLocations, 250)}
@@ -754,7 +740,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Language"
-              disabled={!edit}
+              disabled
               value={state.language}
               onValue={(language) => setState({ ...state, language })}
               options={languages}
@@ -762,7 +748,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Disease Area"
-              disabled={!edit}
+              disabled
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
               onSearch={debounce(getDiseaseAreas, 250)}
@@ -772,7 +758,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Stakeholder"
-              disabled={!edit}
+              disabled
               value={state.stakeholders}
               onValue={(input) => setState({ ...state, stakeholders: input })}
               options={stakeholders}
@@ -780,7 +766,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Gender"
-              disabled={!edit}
+              disabled
               value={state.gender}
               onValue={(input) => setState({ ...state, gender: input })}
               options={gender}
@@ -788,14 +774,14 @@ const CreatedCampaignModal = ({
             <Input
               type="min-max"
               label="Age"
-              disabled={!edit}
+              disabled
               value={state.age}
               onValue={(age) => setState({ ...state, age })}
             />
             <Input
               type="multiselect"
               label="Ethnicity"
-              disabled={!edit}
+              disabled
               value={state.ethnicity}
               onValue={(input) => setState({ ...state, ethnicity: input })}
               options={ethnicity}
@@ -803,7 +789,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Struggle"
-              disabled={!edit}
+              disabled
               value={state.struggles}
               onValue={(input) => setState({ ...state, struggles: input })}
               options={struggles}
@@ -811,7 +797,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Interest"
-              disabled={!edit}
+              disabled
               value={state.interests}
               onValue={(input) => setState({ ...state, interests: input })}
               options={interests}
@@ -819,7 +805,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Influencer Size"
-              disabled={!edit}
+              disabled
               value={state.influencerSize}
               onValue={(input) => setState({ ...state, influencerSize: input })}
               options={influencerSize}
@@ -827,7 +813,7 @@ const CreatedCampaignModal = ({
             <Input
               type="multiselect"
               label="Symptom"
-              disabled={!edit}
+              disabled
               value={state.symptoms}
               onValue={(input) => setState({ ...state, symptoms: input })}
               options={symptoms}
@@ -837,7 +823,7 @@ const CreatedCampaignModal = ({
                 multiline
                 rows={5}
                 type="text"
-                disabled={!edit}
+                disabled
                 style={{ marginBottom: '20px' }}
                 label="Target Audience Info"
                 value={state.targetAudienceInfo}
@@ -853,7 +839,7 @@ const CreatedCampaignModal = ({
             <Input
               type="select"
               label="Platform"
-              disabled={!edit}
+              disabled
               value={state.platform}
               onValue={(platform) => setState({ ...state, platform })}
               options={[
@@ -866,7 +852,7 @@ const CreatedCampaignModal = ({
             <Input
               type="select"
               label="Post Type"
-              disabled={!edit}
+              disabled
               value={state.postType}
               onValue={(postType) => setState({ ...state, postType })}
               options={[
@@ -909,7 +895,7 @@ const CreatedCampaignModal = ({
             <Input
               type="text"
               label="Website"
-              disabled={!edit}
+              disabled
               value={state.website}
               onValue={(website) => setState({ ...state, website })}
             />
@@ -918,7 +904,7 @@ const CreatedCampaignModal = ({
                 multiline
                 rows={5}
                 type="text"
-                disabled={!edit}
+                disabled
                 label="Instructions"
                 value={state.instructions}
                 onValue={(instructions) => setState({ ...state, instructions })}
@@ -930,7 +916,7 @@ const CreatedCampaignModal = ({
           <AddCampaignsModalMain columns={2}>
             <Input
               type="select"
-              disabled={!edit}
+              disabled
               label="Participant"
               placeholder="Please Select"
               value={state.participantA}
@@ -938,7 +924,7 @@ const CreatedCampaignModal = ({
             />
             <Input
               type="text"
-              disabled={!edit}
+              disabled
               label="Submission"
               placeholder="www.instagram.com/link123"
               value={state.submission}
@@ -957,13 +943,13 @@ const CreatedCampaignModal = ({
               placeholder="Please Select"
               value={state.participantC}
               onValue={(participantC) => setState({ ...state, participantC })}
-              disabled={!edit}
+              disabled
             />
             <Input
               type="text"
               label="Report"
               placeholder="Report Name"
-              disabled={!edit}
+              disabled
               value={state.reportC}
               onValue={(reportC) => setState({ ...state, reportC })}
             />

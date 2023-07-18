@@ -11,14 +11,15 @@ import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 import {
   CampaignAPI,
+  ClientAPI,
   DiseaseAreaAPI,
   FileManagerApi,
   LocationAPI,
-  ProductApi,
 } from 'api';
 import EnumsApi from 'api/enums';
 import { useModal, useSnackbar } from 'hooks';
 import { pick } from '@costorgroup/file-manager';
+import { useAppContext } from 'context';
 import UploadedFileModal from '../uploaded-file-modal';
 
 const AddCampaignModal = ({
@@ -61,6 +62,8 @@ const AddCampaignModal = ({
     instructions: '',
   });
 
+  const { user } = useAppContext();
+
   const debounce = (func: any, wait: any) => {
     let timeout: any;
 
@@ -74,30 +77,12 @@ const AddCampaignModal = ({
 
   const [loading, setLoading] = useState(false);
 
-  const handleNewStruggleTag = (v: any) => {
-    setState({ ...state, struggles: [...state.struggles, v] });
+  const addNewProduct = async (arr: any) => {
+    await ClientAPI.addClientProduct(arr);
   };
-  const handleNewStakeholderTag = (v: any) => {
-    setState({ ...state, stakeholders: [...state.stakeholders, v] });
-  };
-  const handleNewEthnicityTag = (v: any) => {
-    setState({ ...state, ethnicity: [...state.ethnicity, v] });
-  };
-  const handleNewInterestsTag = (v: any) => {
-    setState({ ...state, interests: [...state.interests, v] });
-  };
-
-  // const addNewProduct = async (arr: any) => {
-  //   await ClientAPI.addClientProduct(arr);
-  // };
 
   const handleNewProductTag = (v: any) => {
-    // addNewProduct({ clientProducts: [{ name: v.label }] });
     setState({ ...state, product: [...state.product, v] });
-  };
-
-  const handleNewGendersTag = (v: any) => {
-    setState({ ...state, gender: [...state.gender, v] });
   };
 
   const [product, setProduct] = useState<any>([]);
@@ -107,23 +92,28 @@ const AddCampaignModal = ({
   const [diseaseAreas, setDiseaseAreas] = useState<any>();
   const [stakeholders, setStakholders] = useState<any>();
   const [gender, setGender] = useState<any>();
-  const [age, setAge] = useState<any>();
   const [ethnicity, setEthnicity] = useState<any>();
   const [struggles, setStruggles] = useState<any>();
   const [interests, setInterests] = useState<any>();
   const [influencerSize, setInfluencerSize] = useState<any>();
-  const [platform, setPlatform] = useState<any>();
   const [symptoms, setSymptoms] = useState<any>();
+  const [client, setClient] = useState<any>();
 
   const getProducts = async () => {
-    const { result } = await ProductApi.getProducts('');
+    const { result } = await ClientAPI.clientProducts();
 
     setProduct(
       result.map((data: any) => ({
-        value: data.id,
-        label: data.name,
+        value: data.product.id,
+        label: data.product.name,
       }))
     );
+  };
+
+  const getClient = async () => {
+    const data = await ClientAPI.getSingleClient(user.id);
+
+    setClient(data);
   };
 
   const getReportTypes = async () => {
@@ -287,6 +277,7 @@ const AddCampaignModal = ({
     getInfluencerSizes();
     getLanguages();
     getSympthoms();
+    getClient();
   }, []);
 
   const { push } = useSnackbar();
@@ -411,13 +402,14 @@ const AddCampaignModal = ({
               type="date"
               placeholder="From"
               value={state.startDate}
+              max={state.endDate}
               onValue={(startDate) => setState({ ...state, startDate })}
             />
             <Input
               label="End Date"
               type="date"
               placeholder="To"
-              max={state.startDate}
+              min={state.startDate}
               value={state.endDate}
               onValue={(endDate) => setState({ ...state, endDate })}
             />
@@ -501,7 +493,6 @@ const AddCampaignModal = ({
               value={state.stakeholders}
               onValue={(input) => setState({ ...state, stakeholders: input })}
               options={stakeholders}
-              onNewTag={handleNewStakeholderTag}
               onSearch={debounce(getStakeholders, 250)}
             />
             <Input
@@ -511,7 +502,6 @@ const AddCampaignModal = ({
               value={state.gender}
               onValue={(input) => setState({ ...state, gender: input })}
               options={gender}
-              onNewTag={handleNewGendersTag}
               onSearch={debounce(getGenders, 250)}
             />
             <Input
@@ -530,7 +520,6 @@ const AddCampaignModal = ({
               )}
               onValue={(input) => setState({ ...state, ethnicity: input })}
               options={ethnicity}
-              onNewTag={handleNewEthnicityTag}
               onSearch={debounce(getEthnicities, 250)}
             />
             <Input
@@ -540,7 +529,6 @@ const AddCampaignModal = ({
               value={state.struggles}
               onValue={(input) => setState({ ...state, struggles: input })}
               options={struggles}
-              onNewTag={handleNewStruggleTag}
               onSearch={debounce(getStruggles, 250)}
             />
             <Input
@@ -550,7 +538,6 @@ const AddCampaignModal = ({
               value={state.interests}
               onValue={(input) => setState({ ...state, interests: input })}
               options={interests}
-              onNewTag={handleNewInterestsTag}
               onSearch={debounce(getInterests, 250)}
             />
             <Input
