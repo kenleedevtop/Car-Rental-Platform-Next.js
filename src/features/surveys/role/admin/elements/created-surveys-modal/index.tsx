@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal, Tabs } from 'components/custom';
-import { TCreateSurveysModalProps } from 'features/surveys/role/client/elements/create-surveys-modal/types';
-import {
-  CreateSurveysModalMain,
-  ImageUploadContainer,
-  ImageUploadMainContainer,
-} from 'features/surveys/role/client/elements/create-surveys-modal/styles';
 import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
@@ -18,15 +12,22 @@ import {
   ProductApi,
   SurveyAPI,
 } from 'api';
-import { pick, read } from '@costorgroup/file-manager';
-import { useDebounce, useSnackbar } from 'hooks';
+import { CampaignsTitle } from 'features/campaigns/role/admin/elements/created-campaign-modal/styles';
+import { EditIcon } from 'components/svg';
+import { pick } from '@costorgroup/file-manager';
 import UsersAPI from 'api/users';
+import { useSnackbar } from 'hooks';
+import { TCreateSurveysModalProps } from './types';
+import { CreateSurveysModalMain } from './styles';
 
-const CreateSurveysModal = ({
+const CreatedSurveysModal = ({
   onClose,
-  refresh,
+  id,
+  reload,
   ...props
 }: TCreateSurveysModalProps) => {
+  const [survey, setSurvey] = useState<any>();
+
   const [state, setState] = useState<any>({
     surveyName: '',
     product: [],
@@ -58,31 +59,214 @@ const CreateSurveysModal = ({
     link: '',
     materials: [],
     instructions: '',
+    symptoms: [],
   });
 
   const [tab, setTab] = useState(0);
 
-  const debounce = (func: any, wait: any) => {
-    let timeout: any;
+  const handleFile = async () => {};
 
-    return (...args: any) => {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => func(...args), wait);
-    };
+  const getSurvey = async () => {
+    const result = await SurveyAPI.getSurvey(id);
+
+    setSurvey(result);
   };
+
+  useEffect(() => {
+    getSurvey();
+  }, [id]);
+
+  useEffect(() => {
+    const newState = { ...state };
+
+    if (survey && Object.keys(survey)?.length > 0) {
+      newState.surveyName = survey.name;
+
+      if (survey.instructions) {
+        newState.instructions = survey.instructionsDescription;
+      }
+
+      if (survey.surveyType) {
+        newState.surveyType = {
+          value: survey.surveyType,
+          label: 'Questionaire',
+        };
+      }
+
+      if (survey.participantCount) {
+        newState.participants = survey.participantCount;
+      }
+
+      // if (survey.questionCredits) {
+      //   newState.questionCredits = survey.questionCredits;
+      // }
+
+      if (survey.questionCount) {
+        newState.questionsCount = survey.questionCount;
+      }
+
+      if (survey.clientSurveyTokenBalances) {
+        newState.tokens = {
+          value: survey.clientSurveyTokenBalances[0].tokenBalance,
+          label: `${survey.clientSurveyTokenBalances[0].tokenBalance} Tokens`,
+        };
+      }
+
+      if (survey.link) {
+        newState.link = survey.link;
+      }
+
+      if (survey.participantsDescription) {
+        newState.targetAudInfo = survey.participantsDescription;
+      }
+
+      if (survey.ageMin) {
+        newState.ageRange.min = survey.ageMin;
+      }
+
+      if (survey.ageMax) {
+        newState.ageRange.max = survey.ageMax;
+      }
+
+      if (survey.surveyDescription) {
+        newState.surveyInfo = survey.surveyDescription;
+      }
+
+      if (survey.dateStart) {
+        newState.startDate = survey.dateStart;
+      }
+
+      if (survey.dateEnd) {
+        newState.endDate = survey.dateEnd;
+      }
+
+      if (survey.products) {
+        newState.product = survey.products.map((x: any) => ({
+          value: x.product.id,
+          label: x.product.name,
+        }));
+      }
+
+      if (survey.platformProductOrder.platformProductOrderLocations) {
+        newState.location =
+          survey.platformProductOrder.platformProductOrderLocations.map(
+            (x: any) => ({
+              value: x.location.id,
+              label: x.location.country
+                ? `${x.location.name}, ${x.location.country.name}`
+                : x.location.name,
+            })
+          );
+      }
+
+      if (survey.platformProductOrder.platformProductOrderDiseaseAreas) {
+        newState.diseaseArea =
+          survey.platformProductOrder.platformProductOrderDiseaseAreas.map(
+            (x: any) => ({ value: x.diseaseArea.id, label: x.diseaseArea.name })
+          );
+      }
+
+      if (survey.platformProductOrder.platformProductOrderEthnicities) {
+        newState.ethnicity =
+          survey.platformProductOrder.platformProductOrderEthnicities.map(
+            (x: any) => ({ value: x.ethnicity.id, label: x.ethnicity.name })
+          );
+      }
+
+      if (survey.platformProductOrder.platformProductOrderStruggles) {
+        newState.struggles =
+          survey.platformProductOrder.platformProductOrderStruggles.map(
+            (x: any) => ({ value: x.struggle.id, label: x.struggle.name })
+          );
+      }
+
+      if (survey.platformProductOrder.platformProductOrderInterests) {
+        newState.interests =
+          survey.platformProductOrder.platformProductOrderInterests.map(
+            (x: any) => ({ value: x.interest.id, label: x.interest.name })
+          );
+      }
+
+      if (survey.platformProductOrder.platformProductOrderLanguages) {
+        newState.language =
+          survey.platformProductOrder.platformProductOrderLanguages.map(
+            (x: any) => ({ value: x.value, label: x.name })
+          );
+      }
+
+      if (survey.platformProductOrder.platformProductOrderSymptoms) {
+        newState.symptoms =
+          survey.platformProductOrder.platformProductOrderSymptoms.map(
+            (x: any) => ({ value: x.symptom.id, label: x.symptom.name })
+          );
+      }
+
+      if (survey.instructionsDescription) {
+        newState.instructions = survey.instructionsDescription;
+      }
+
+      if (survey.surveyType !== null) {
+        const surveyTypes = [
+          'Questionaire',
+          'Short Interview',
+          'Long Interview',
+        ];
+
+        newState.surveyType = {
+          value: survey.surveyType,
+          label: surveyTypes[survey.surveyType],
+        };
+      }
+
+      if (survey.platformProductOrder.budget) {
+        newState.budget = survey.platformProductOrder.budget;
+      }
+
+      if (survey.platformProductOrder.platformProductOrderGenders) {
+        newState.gender =
+          survey.platformProductOrder.platformProductOrderGenders.map(
+            (x: any) => ({
+              value: x.value,
+              label: x.name,
+            })
+          );
+      }
+
+      if (
+        survey.platformProductOrder.client &&
+        survey.platformProductOrder.client.user &&
+        survey.platformProductOrder.client.user.lastName &&
+        survey.platformProductOrder.client.user.firstName &&
+        survey.platformProductOrder.client.user.id
+      ) {
+        newState.client = {
+          value: survey.platformProductOrder.client.user.id,
+          label: `${survey.platformProductOrder.client.user.firstName} ${survey.platformProductOrder.client.user.lastName}`,
+        };
+      }
+
+      if (survey.stakeholderTypes) {
+        newState.stakeholders = survey.stakeholderTypes.map((x: any) => ({
+          value: x.value,
+          label: x.name,
+        }));
+      }
+
+      setState(newState);
+    }
+  }, [survey]);
 
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState<any>([]);
-  const [location, setLocation] = useState<any>(null);
-  const [diseaseAreas, setDiseaseAreas] = useState<any>(null);
+  const [location, setLocation] = useState<any>([]);
+  const [diseaseAreas, setDiseaseAreas] = useState<any>([]);
   const [stakeholders, setStakholders] = useState<any>();
   const [gender, setGender] = useState<any>([]);
   const [ethnicity, setEthnicity] = useState<any>([]);
   const [struggles, setStruggles] = useState<any>([]);
   const [interests, setInterests] = useState<any>([]);
-  const [surveyTypes, setSurveyTypes] = useState<any>(null);
+  const [surveyTypes, setSurveyTypes] = useState<any>([]);
   const [tokens, setTokens] = useState<any>(null);
-  const [clients, setClients] = useState<any>();
   const [symptoms, setSymptoms] = useState<any>();
   const [ambassador, setAmbassador] = useState<any>();
 
@@ -215,24 +399,13 @@ const CreateSurveysModal = ({
     );
   };
 
-  const getSympthoms = async () => {
+  const getSymptoms = async () => {
     const response = await EnumsApi.getSymptoms();
 
     setSymptoms(
       response.result.map((x: any) => ({
         value: x.id,
         label: x.name,
-      }))
-    );
-  };
-
-  const getClients = async (s: string = '') => {
-    const { result } = await ClientAPI.getClients(s);
-
-    setClients(
-      result.map((data: any) => ({
-        value: data.id,
-        label: `${data.firstName} ${data.lastName}`,
       }))
     );
   };
@@ -257,12 +430,8 @@ const CreateSurveysModal = ({
   }, [state.client?.value]);
 
   useEffect(() => {
-    getClient();
-  }, [state.client]);
-
-  useEffect(() => {
     getProducts();
-    getClients();
+    getClient();
     getDiseaseAreas();
     getLocations();
     getGenders();
@@ -272,14 +441,12 @@ const CreateSurveysModal = ({
     getSurveyTypes();
     getSurveyTokens();
     getStakeholders();
-    getSympthoms();
+    getSymptoms();
   }, []);
 
   const { push } = useSnackbar();
 
-  const disabled = !state.surveyName || !state.tokens || !state.client;
-
-  const createSurvey = useCallback(async () => {
+  const updateSurvey = useCallback(async () => {
     try {
       const body = {
         name: state.surveyName,
@@ -339,39 +506,64 @@ const CreateSurveysModal = ({
         //   : undefined,
       };
 
-      await SurveyAPI.createSurvey(body).then(() => {
+      await SurveyAPI.updateSurvey(id, body).then(() => {
         push('Survey successfully added.', { variant: 'success' });
-        refresh();
+        reload();
         onClose();
       });
     } catch (e) {
-      console.error(e);
-
-      push('Survey add failed.', { variant: 'error' });
+      push('Survey update failed.', { variant: 'error' });
     }
   }, [state]);
+
+  const [edit, setEdit] = useState(false);
+
+  const handleEdit = () => {
+    setEdit((prev) => !prev);
+  };
+
+  const disabled = !state.surveyName || !state.tokens;
+
+  const debounce = (func: any, wait: any) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func(...args), wait);
+    };
+  };
 
   return (
     <Modal
       size="medium"
-      title="Create Survey"
+      title={
+        <CampaignsTitle>
+          {survey && survey?.name ? survey.name : ''}
+          <EditIcon
+            style={
+              edit
+                ? { cursor: 'pointer', color: '#7E839F' }
+                : { cursor: 'pointer', color: '#448DC9' }
+            }
+            onClick={handleEdit}
+          />
+        </CampaignsTitle>
+      }
       actions={[
         <Button
           color="primary"
           variant="contained"
           size="large"
+          onClick={updateSurvey}
           disabled={disabled}
-          onClick={createSurvey}
         >
-          Create
+          Update
         </Button>,
       ]}
       onClose={onClose}
       {...props}
     >
-      <Stack
-        style={{ height: '450px', overflowY: 'scroll', paddingRight: '10px' }}
-      >
+      <Stack style={{ height: '600px', overflowY: 'scroll' }}>
         <Tabs
           tabs={['Info', 'Target', 'Instructions']}
           value={tab}
@@ -382,30 +574,29 @@ const CreateSurveysModal = ({
             <Input
               type="text"
               label="Survey name"
-              required
-              placeholder="Please Enter"
               value={state.surveyName}
+              disabled={!edit}
               onValue={(surveyName) => setState({ ...state, surveyName })}
+              required={!edit}
             />
+            {tokens && state.tokens && (
+              <Input
+                type="select"
+                label="Tokens"
+                value={state.tokens}
+                disabled={!edit}
+                onValue={(input) => setState({ ...state, tokens: input })}
+                required={!edit}
+                options={tokens}
+              />
+            )}
             <Input
-              type="select"
-              label="Tokens"
-              placeholder="Please Select"
-              required
-              value={state.tokens}
-              onValue={(input) => setState({ ...state, tokens: input })}
-              options={tokens}
-            />
-            <Input
-              type="select"
+              type="text"
               label="Client"
               placeholder="Please Select"
-              value={state.client}
+              value={state.client?.label}
               onValue={(client) => setState({ ...state, client })}
-              onSearch={debounce(getClients, 250)}
-              options={clients}
-              required
-              loading={loading}
+              disabled
             />
             <Input
               type="text"
@@ -418,8 +609,8 @@ const CreateSurveysModal = ({
             <Input
               type="multiselect"
               label="Product"
-              placeholder="Please Select"
               value={state.product}
+              disabled={!edit}
               onValue={(input) => setState({ ...state, product: input })}
               options={product}
               onSearch={debounce(getProducts, 250)}
@@ -429,14 +620,14 @@ const CreateSurveysModal = ({
             <Input
               type="number"
               label="Participants"
-              placeholder="Please Enter"
               value={state.participants}
+              disabled={!edit}
               onValue={(participants) => setState({ ...state, participants })}
             />
             <Input
               type="number"
-              label="Questions"
-              placeholder="Please Enter"
+              label="Questions Count"
+              disabled={!edit}
               value={state.questionsCount}
               onValue={(questionsCount) =>
                 setState({ ...state, questionsCount })
@@ -445,7 +636,7 @@ const CreateSurveysModal = ({
             {/* <Input
               type="number"
               label="Question Credits"
-              placeholder="Please Enter"
+              disabled={!edit}
               value={state.questionCredits}
               onValue={(questionCredits) =>
                 setState({ ...state, questionCredits })
@@ -456,30 +647,31 @@ const CreateSurveysModal = ({
               label="Survey Type"
               placeholder="Please Select"
               value={state.surveyType}
+              disabled={!edit}
               onValue={(surveyType) => setState({ ...state, surveyType })}
               options={surveyTypes}
             />
             <Input
               type="date"
               label="Start Date"
-              placeholder="Please Select"
               value={state.startDate}
+              disabled={!edit}
               max={state.endDate}
               onValue={(startDate) => setState({ ...state, startDate })}
             />
             <Input
               type="date"
               label="End Date"
-              placeholder="Please Select"
               value={state.endDate}
+              disabled={!edit}
               min={state.startDate}
               onValue={(endDate) => setState({ ...state, endDate })}
             />
-
             <Stack>
               <Input
                 type="number"
                 value={state.budget}
+                disabled={!edit}
                 onValue={(budget) => setState({ ...state, budget })}
                 placeholder="Please Enter"
                 startAdornment="CHF"
@@ -491,9 +683,9 @@ const CreateSurveysModal = ({
               <Input
                 multiline
                 rows={5}
+                disabled={!edit}
                 type="text"
                 label="Survey Info"
-                placeholder="Please Enter"
                 value={state.surveyInfo}
                 onValue={(surveyInfo) => setState({ ...state, surveyInfo })}
               />
@@ -505,7 +697,7 @@ const CreateSurveysModal = ({
             <Input
               type="multiselect"
               label="Location"
-              placeholder="Please Select"
+              disabled={!edit}
               value={state.location}
               onValue={(input) => setState({ ...state, location: input })}
               onSearch={debounce(getLocations, 250)}
@@ -515,7 +707,7 @@ const CreateSurveysModal = ({
             <Input
               type="multiselect"
               label="Language"
-              placeholder="Please Select"
+              disabled={!edit}
               value={state.language}
               onValue={(language) => setState({ ...state, language })}
               options={[
@@ -544,7 +736,7 @@ const CreateSurveysModal = ({
             <Input
               type="multiselect"
               label="Disease Area"
-              placeholder="Please Select"
+              disabled={!edit}
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
               onSearch={debounce(getDiseaseAreas, 250)}
@@ -558,6 +750,7 @@ const CreateSurveysModal = ({
               value={state.stakeholders}
               onValue={(input) => setState({ ...state, stakeholders: input })}
               options={stakeholders}
+              disabled={!edit}
               onSearch={debounce(getStakeholders, 250)}
             />
             <Input
@@ -567,18 +760,19 @@ const CreateSurveysModal = ({
               value={state.gender}
               onValue={(input) => setState({ ...state, gender: input })}
               options={gender}
+              disabled={!edit}
             />
             <Input
               type="min-max"
               label="Age"
-              placeholder="Please Select"
+              disabled={!edit}
               value={state.ageRange}
               onValue={(ageRange) => setState({ ...state, ageRange })}
             />
             <Input
               type="multiselect"
               label="Ethnicity"
-              placeholder="Please Select"
+              disabled={!edit}
               value={state.ethnicity}
               onValue={(input) => setState({ ...state, ethnicity: input })}
               options={ethnicity}
@@ -586,7 +780,7 @@ const CreateSurveysModal = ({
             <Input
               type="multiselect"
               label="Struggle"
-              placeholder="Please Select"
+              disabled={!edit}
               value={state.struggles}
               onValue={(input) => setState({ ...state, struggles: input })}
               options={struggles}
@@ -594,16 +788,16 @@ const CreateSurveysModal = ({
             <Input
               type="multiselect"
               label="Symptom"
+              disabled={!edit}
               placeholder="Please Select"
               value={state.symptoms}
               onValue={(input) => setState({ ...state, symptoms: input })}
               options={symptoms}
-              onSearch={debounce(getSympthoms, 250)}
             />
             <Input
               type="multiselect"
               label="Interest"
-              placeholder="Please Select"
+              disabled={!edit}
               value={state.interests}
               onValue={(input) => setState({ ...state, interests: input })}
               options={interests}
@@ -612,9 +806,9 @@ const CreateSurveysModal = ({
               <Input
                 multiline
                 rows={5}
+                disabled={!edit}
                 type="text"
                 label="Target audience info"
-                placeholder="Please Enter"
                 value={state.targetAudInfo}
                 onValue={(targetAudInfo) =>
                   setState({ ...state, targetAudInfo })
@@ -628,31 +822,27 @@ const CreateSurveysModal = ({
             <Input
               type="text"
               label="Link"
-              placeholder="Please Enter"
+              disabled={!edit}
               value={state.link}
               onValue={(link) => setState({ ...state, link })}
             />
             <GridCell columnSpan={1}>
-              <ImageUploadMainContainer>
-                <ImageUploadContainer>
-                  <InputLabel>Image</InputLabel>
-                  <Button
-                    color="default"
-                    variant="contained"
-                    onClick={handlePhotos}
-                  >
-                    Upload
-                  </Button>
-                </ImageUploadContainer>
-                {photoName}
-              </ImageUploadMainContainer>
+              <InputLabel>Materials</InputLabel>
+              <Button
+                disabled={!edit}
+                color="default"
+                variant="contained"
+                onClick={handleFile}
+              >
+                Upload
+              </Button>
             </GridCell>
             <Input
               multiline
               rows={5}
+              disabled={!edit}
               type="text"
               label="Instructions"
-              placeholder="Please Enter"
               value={state.instructions}
               onValue={(instructions) => setState({ ...state, instructions })}
             />
@@ -663,4 +853,4 @@ const CreateSurveysModal = ({
   );
 };
 
-export default CreateSurveysModal;
+export default CreatedSurveysModal;
