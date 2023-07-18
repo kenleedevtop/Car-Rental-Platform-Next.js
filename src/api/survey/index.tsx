@@ -1,5 +1,5 @@
 import Project from 'constants/project';
-import { TCreateSurveyParams } from 'api/survey/types';
+// import { TCreateSurveyParams } from 'api/survey/types';
 import { client } from 'api/api-client';
 
 const SurveyAPI = {
@@ -29,6 +29,10 @@ const SurveyAPI = {
     );
 
     return data;
+  },
+
+  updateSurvey: async (id: any, body: any) => {
+    await client.patch(`${Project.apis.v1}/surveys/${id}`, body);
   },
 };
 

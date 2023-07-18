@@ -1,5 +1,5 @@
 import Project from 'constants/project';
-import { TSingleClient, TRegisterAsClientParams } from 'api/client/types';
+import { TSingleClient } from 'api/client/types';
 import { client } from 'api/api-client';
 
 const ClientAPI = {
@@ -24,9 +24,12 @@ const ClientAPI = {
     return data;
   },
 
-  getClients: async (params?: any) => {
+  getClients: async (search?: string) => {
     const { data } = await client.get(`${Project.apis.v1}/client`, {
-      params,
+      params: {
+        search,
+        limit: 10,
+      },
     });
 
     return data;
