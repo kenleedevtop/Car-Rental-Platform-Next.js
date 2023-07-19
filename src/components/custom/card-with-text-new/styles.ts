@@ -12,6 +12,10 @@ export const CardMain = styled(Card)<{ theme?: Theme }>`
         ${theme.breakpoints.down('xl')} {
           grid-template-columns: 1fr;
         }
+
+        @media screen and (min-width: 967px) and (max-width: 1199px) {
+          grid-template-columns: repeat(2, 1fr);
+        }
     `}
 `;
 
@@ -23,6 +27,8 @@ export const CardHead = styled.div<{ theme?: Theme }>`
     flex-direction: column;
     width: 100%;
     gap: 1.25rem;
+
+    
     
     ${theme.breakpoints.down('md')} {
       width: 82vw;

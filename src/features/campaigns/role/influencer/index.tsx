@@ -84,7 +84,7 @@ const CampaignsPage = () => {
         title="Available Campaigns"
         style={
           window.innerWidth < 600
-            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            ? { padding: '1.25rem 10px', boxShadow: 'unset' }
             : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
         }
         actions={
@@ -164,7 +164,7 @@ const CampaignsPage = () => {
             items={[]}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination count={0} />
         </Stack>
       </CardWithText>
       <CardWithText
@@ -181,7 +181,7 @@ const CampaignsPage = () => {
             items={[]}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination count={0} />
         </Stack>
       </CardWithText>
     </CampaignsPageMain>

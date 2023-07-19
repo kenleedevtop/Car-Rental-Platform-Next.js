@@ -22,34 +22,64 @@ import React, { useEffect, useState } from 'react';
 import { DCampaignItems } from 'features/home/role/influencer/data';
 import Theme from 'theme';
 import { useAppContext } from 'context';
-import { ChartWrapper, GridCellCustom } from './styles';
+import { IInfluencer } from 'api/influencer/types';
+import { IUser } from 'api/users/types';
+import { useSnackbar } from 'hooks';
+import {
+  TPostTypeResult,
+  TSelectFieldType,
+} from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
+import { ISelectFieldType } from 'features/account/role/ambasador/types';
+import { EnumsApi } from 'api';
+import { ChartWrapper, CustomStack, GridCellCustom } from './styles';
 import InfluencerHomeActions from './elements/actions';
 import InfluencerAPI from '../../../../api/influencer';
 
+type TPostAmount = {
+  id: number;
+  desiredAmount: number;
+  postType: number;
+};
+
+type TSurveyAmount = {
+  id: number;
+  desiredAmount: number;
+  surveyType: number;
+};
+
 const HomePage = () => {
-  const [state, setState] = useState({
-    currency: 'CHF',
-    amount: { value: 'post', label: 'Post' },
-    start: null,
-    end: null,
-    save: null,
-  });
+  const initialSelectedPostOption = {
+    value: 0,
+    label: 'Post',
+  };
 
-  const [amountQuestion, setAmountQuestion] = useState({
-    currency: 'CHF',
-    amount: '',
-    start: null,
-    end: null,
-    save: null,
-  });
+  const initialSelectedQuestionnaireOption = {
+    value: 0,
+    label: 'Questionnaire',
+  };
 
-  const [amountInterview, setAmountInterview] = useState({
-    currency: 'CHF',
-    amount: { value: '30min', label: '30 min interview' },
-    start: null,
-    end: null,
-    save: null,
-  });
+  const initialSelectedInterviewOption = {
+    value: 1,
+    label: '30 min Interview',
+  };
+
+  const [selectedPostOption, setSelectedPostOption] = useState(
+    initialSelectedPostOption
+  );
+
+  const [selectedQuestionnaireOption, setSelectedQuestionnaireOption] =
+    useState(initialSelectedQuestionnaireOption);
+
+  const [selectedInterviewOption, setSelectedInterviewOption] = useState(
+    initialSelectedInterviewOption
+  );
+  const [post, setPost] = useState<ISelectFieldType>();
+  const [interview, setInterview] = useState<ISelectFieldType>();
+  const [questionnaire, setQuestionnaire] = useState<ISelectFieldType>();
+
+  const [postAmountToSend, setPostAmountToSend] = useState(0);
+  const [interviewAmountToSend, setInterviewAmountToSend] = useState(0);
+  const [questionnaireAmountToSend, setQuestionnaireAmountToSend] = useState(0);
 
   const handleCurrencyCalculation = (
     amount: number,
@@ -71,69 +101,6 @@ const HomePage = () => {
     return +formattedAmount.toFixed(0);
   };
 
-  const selectedOption = { value: 'post', label: 'Post' };
-  if (state.amount === null) {
-    state.amount = { value: 'post', label: 'Post' };
-  } else if (
-    state.amount.value === '' ||
-    state.amount.value === null ||
-    state.amount.value === undefined
-  ) {
-    selectedOption.label = 'Post';
-  } else {
-    selectedOption.label = state.amount.label;
-  }
-
-  const label = `Desired amount per ${selectedOption.label}`;
-
-  // const [amountQuestion, setAmountQuestion] = useState({
-  //   currency: 'CHF',
-  //   amount: '',
-  //   start: null,
-  //   end: null,
-  //   save: null,
-  // });
-  // const [amountInterview, setAmountInterview] = useState({
-  //   currency: 'CHF',
-  //   amount: { value: '30min', label: '30 min interview' },
-  //   start: null,
-  //   end: null,
-  //   save: null,
-  // });
-  // const handleCurrencyCalculation = (
-  //   amount: number,
-  //   currency: 'EUR' | 'USD' | 'CHF' = 'CHF'
-  // ): number => {
-  //   let formattedAmount = 0;
-
-  //   if (currency === 'EUR') {
-  //     formattedAmount = amount * 1.03;
-  //   }
-  //   if (currency === 'USD') {
-  //     formattedAmount = amount * 1.11;
-  //   }
-
-  //   if (currency === 'CHF') {
-  //     formattedAmount = amount; // Assumes the amount is already in euros for other currencies
-  //   }
-
-  //   return +formattedAmount.toFixed(0);
-  // };
-  // let selectedOption = { value: 'post', label: 'Post' };
-  // if (state.amount === null) {
-  //   state.amount = { value: 'post', label: 'Post' };
-  // } else if (
-  //   state.amount.value === '' ||
-  //   state.amount.value === null ||
-  //   state.amount.value === undefined
-  // ) {
-  //   selectedOption.label = 'Post';
-  // } else {
-  //   selectedOption.label = state.amount.label;
-  // }
-
-  // const label = `Desired amount per ${selectedOption.label}`;
-
   const [tabsC, setTabsC] = useState(0);
   const [tabsSM, setTabsSM] = useState(0);
   const [tabsS, setTabsS] = useState(0);
@@ -141,28 +108,248 @@ const HomePage = () => {
   const [tabsI, setTabIS] = useState(0);
   const [tabsIA, setTabsIA] = useState(0);
 
+  const { push } = useSnackbar();
+
   const { currency, user } = useAppContext();
 
-  const [desiredCampaignIncome, setDesiredCapmaignIncome] = useState(0);
-  const [desiredSurveyIncome, setDesiredSurveyIncome] = useState(0);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { id } = user;
-        const data = await InfluencerAPI.getSingleInfluencer(id);
-        setDesiredCapmaignIncome(
-          data.influencer.influencerCampaignAmounts[0].desiredAmount
-        );
-        setDesiredSurveyIncome(
-          data.influencer.influencerSurveyAmounts[0].desiredAmount
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const [postAmounts, setPostAmounts] = useState<TSelectFieldType[]>();
+  const [questionaireAmounts, setQuestionaireAmounts] =
+    useState<TSelectFieldType[]>();
+  const [interviewAmounts, setInterviewAmounts] =
+    useState<TSelectFieldType[]>();
 
-    fetchData();
+  const [influencer, setInfluencer] = useState<IUser>();
+
+  const formatPostAmounts = (
+    influencerData: IInfluencer,
+    postTypes: TPostTypeResult[],
+    surveyTypes: TPostTypeResult[]
+  ) => {
+    const { influencerCampaignAmounts, influencerSurveyAmounts } =
+      influencerData;
+
+    const postAmountsResults: TSelectFieldType[] = [];
+    const questionnaireAmountResult: ISelectFieldType[] = [];
+    const interviewAmountResult: ISelectFieldType[] = [];
+
+    influencerCampaignAmounts.map((campaign) =>
+      postAmountsResults.push({
+        label: `${campaign.desiredAmount}`,
+        value: campaign.postType,
+      })
+    );
+
+    influencerSurveyAmounts.map((survey) => {
+      if (surveyTypes[survey.surveyType].name === 'Questionnaire') {
+        return questionnaireAmountResult.push({
+          label: `${survey.desiredAmount}`,
+          value: survey.surveyType,
+        });
+      }
+      return interviewAmountResult.push({
+        label: `${survey.desiredAmount}`,
+        value: survey.surveyType,
+      });
+    });
+
+    setPostAmounts(postAmountsResults);
+    setQuestionaireAmounts(questionnaireAmountResult);
+    setInterviewAmounts(interviewAmountResult);
+  };
+
+  const getInfluencerData = async () => {
+    try {
+      const { id } = user;
+      const influencerResponse = await InfluencerAPI.getSingleInfluencer(id);
+      setInfluencer(influencerResponse);
+    } catch (error) {
+      push('Something went wrong.', { variant: 'error' });
+    }
+  };
+
+  const getPostTypes = async (userId: number) => {
+    const postResults = await EnumsApi.getPostTypes(userId);
+
+    return postResults;
+  };
+
+  const getSurveyTypes = async () => {
+    const surveyResults = await EnumsApi.getSurveyTypes();
+
+    return surveyResults;
+  };
+
+  const updatePostAmount = async () => {
+    const postAmountObj =
+      influencer?.influencer.influencerCampaignAmounts?.find(
+        (campaignEl) => campaignEl.postType === selectedPostOption.value
+      );
+    if (postAmountObj && influencer) {
+      const postAmountQuery: TPostAmount = {
+        desiredAmount: +postAmountToSend,
+        id: postAmountObj.id,
+        postType: selectedPostOption.value,
+      };
+
+      try {
+        await InfluencerAPI.addCampaignDesiredIncome(influencer.id, [
+          postAmountQuery,
+        ]);
+        push(`Sucessfully Updated ${selectedPostOption.label}.`, {
+          variant: 'success',
+        });
+        getInfluencerData();
+      } catch {
+        push('Something went wrong!', { variant: 'error' });
+      }
+    }
+  };
+
+  const updateInterviewAmount = async () => {
+    const interviewAmountObj =
+      influencer?.influencer.influencerSurveyAmounts?.find(
+        (surveyEl) => surveyEl.surveyType === selectedInterviewOption.value
+      );
+    if (interviewAmountObj && influencer) {
+      const interviewAmountQuery: TSurveyAmount = {
+        desiredAmount: +interviewAmountToSend,
+        id: interviewAmountObj.id,
+        surveyType: selectedInterviewOption.value,
+      };
+
+      try {
+        await InfluencerAPI.addSurveyDesiredIncome(influencer.id, [
+          interviewAmountQuery,
+        ]);
+        push(`Sucessfully Updated ${selectedInterviewOption.label}.`, {
+          variant: 'success',
+        });
+        getInfluencerData();
+      } catch {
+        push('Something went wrong!', { variant: 'error' });
+      }
+    }
+  };
+
+  const updateQuestionnaireAmount = async () => {
+    const questionnaireAmountObj =
+      influencer?.influencer.influencerSurveyAmounts?.find(
+        (surveyEl) => surveyEl.surveyType === selectedQuestionnaireOption.value
+      );
+    if (questionnaireAmountObj && influencer) {
+      const questionnaireAmountQuery: TSurveyAmount = {
+        desiredAmount: +questionnaireAmountToSend,
+        id: questionnaireAmountObj.id,
+        surveyType: selectedQuestionnaireOption.value,
+      };
+
+      try {
+        await InfluencerAPI.addSurveyDesiredIncome(influencer.id, [
+          questionnaireAmountQuery,
+        ]);
+        push(`Sucessfully Updated ${selectedQuestionnaireOption.label}.`, {
+          variant: 'success',
+        });
+        getInfluencerData();
+      } catch {
+        push('Something went wrong!', { variant: 'error' });
+      }
+    }
+  };
+
+  useEffect(() => {
+    getInfluencerData();
   }, []);
+
+  useEffect(() => {
+    if (selectedPostOption) {
+      if (postAmounts && postAmounts.length) {
+        const selectPost = postAmounts.find(
+          (posts) => +selectedPostOption.value === posts.value
+        );
+        setPost(selectPost);
+      }
+
+      if (questionaireAmounts && questionaireAmounts.length) {
+        const selectQuestionaire = questionaireAmounts.find(
+          (questionnaires) =>
+            +selectedQuestionnaireOption.value === questionnaires.value
+        );
+        setQuestionnaire(selectQuestionaire);
+      }
+
+      if (interviewAmounts && interviewAmounts.length) {
+        const selectedInterview = interviewAmounts.find(
+          (interviews) => +selectedInterviewOption.value === interviews.value
+        );
+        setInterview(selectedInterview);
+      }
+    }
+  }, [selectedPostOption, postAmounts, questionaireAmounts, interviewAmounts]);
+
+  useEffect(() => {
+    if (selectedQuestionnaireOption) {
+      if (questionaireAmounts && questionaireAmounts.length) {
+        const selectQuestionaire = questionaireAmounts.find(
+          (questionnaires) =>
+            +selectedQuestionnaireOption.value === questionnaires.value
+        );
+        setQuestionnaire(selectQuestionaire);
+      }
+    }
+  }, [selectedQuestionnaireOption, questionaireAmounts]);
+
+  useEffect(() => {
+    if (selectedInterviewOption) {
+      if (interviewAmounts && interviewAmounts.length) {
+        const selectedInterview = interviewAmounts.find(
+          (interviews) => +selectedInterviewOption.value === interviews.value
+        );
+        setInterview(selectedInterview);
+      }
+    }
+  }, [selectedInterviewOption, interviewAmounts]);
+
+  useEffect(() => {
+    if (post) {
+      setPostAmountToSend(+post.label);
+    }
+
+    if (interview) {
+      setInterviewAmountToSend(+interview.label);
+    }
+
+    if (questionnaire) {
+      setQuestionnaireAmountToSend(+questionnaire.label);
+    }
+  }, [post, interview, questionnaire]);
+
+  useEffect(() => {
+    if (influencer) {
+      const postTypes = getPostTypes(influencer.id);
+      const surveyTypes = getSurveyTypes();
+
+      Promise.allSettled([postTypes, surveyTypes]).then((typesResults) => {
+        const postTypesResult = typesResults[0] as PromiseSettledResult<
+          TPostTypeResult[]
+        >;
+        const surveyTypesResult = typesResults[1] as PromiseSettledResult<
+          TPostTypeResult[]
+        >;
+
+        if (
+          postTypesResult.status === 'fulfilled' &&
+          surveyTypesResult.status === 'fulfilled'
+        ) {
+          formatPostAmounts(
+            influencer.influencer,
+            postTypesResult.value,
+            surveyTypesResult.value
+          );
+        }
+      });
+    }
+  }, [influencer]);
 
   const renderItem = ({ headItem, cell }: TTableRenderItemObject) => {
     if (headItem.reference === 'campaign') {
@@ -211,15 +398,18 @@ const HomePage = () => {
     return '';
   };
 
+  useEffect(() => {
+    console.log(currency !== 'CHF', postAmountToSend, postAmountToSend !== 0);
+  }, [currency, postAmountToSend]);
+
   return (
     <Stack>
       <HomeInfluencerPageGrid>
         <GridCell columnSpan={2} style={{ gap: '20px' }}>
           <CardWithTextNew
             title="Campaigns"
-            // actions={[<DotsIcon />]}
             headerColumnTable={
-              <Stack>
+              <CustomStack>
                 <Tabs
                   tabs={['Available', 'In Progress']}
                   value={tabsC}
@@ -238,7 +428,7 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination count={32} />
+                    <Pagination count={0} />
                   </>
                 )}
                 {tabsC === 1 && (
@@ -259,162 +449,180 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination count={32} style={{ paddingTop: '15%' }} />
+                    <Pagination count={0} />
                   </>
                 )}
-              </Stack>
+              </CustomStack>
             }
           >
-            <Stack style={{ gap: '0' }}>
-              <Title
-                title="Competitive Analysis"
-                style={{
-                  fontSize: ' 20px',
-                  color: '#37428A',
-                  fontWeight: '500',
-                }}
-              />
-              <Tabs tabs={['Instagram']} value={tabsSM} onValue={setTabsSM} />
-              <Note showIcon={false}>
-                <InfoIcon
+            <CustomStack>
+              <>
+                <Title
+                  title="Competitive Analysis"
                   style={{
-                    paddingTop: '4px',
-                    width: '17px',
-                    height: '17px',
-                    alignContent: 'center',
-                    display: 'inline-flex',
+                    fontSize: '20px',
+                    color: '#37428A',
+                    fontWeight: '500',
                   }}
-                />{' '}
-                Participants asks Influencers with an audience your size, asks
-                for{' '}
-                <b style={{ color: '#448DC9', display: 'inline-flex' }}>
-                  21-25 {currency}{' '}
-                </b>{' '}
-                per{' '}
-                <b style={{ color: '#448DC9', display: 'inline-flex' }}>
-                  {selectedOption.label}
-                </b>{' '}
-                on average.
-              </Note>
-              <ChartWrapper>
-                <BarChart
-                  labels={[
-                    '0-5',
-                    '6-10',
-                    '11-15',
-                    '16-20',
-                    '21-25',
-                    '26-30',
-                    '31-35',
-                    '36-40',
-                    '41-45',
-                    '46-50',
-                  ]}
-                  data={[
-                    {
-                      color: `${Theme.palette.secondary.main}40`,
-                      values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
-                    },
-                  ]}
-                  verticalLabel="Number of Influencers"
-                  horizontalLabel="Amount Per Post"
                 />
-              </ChartWrapper>
-              <GridCellCustom columnSpan={4}>
-                <InputGroup
-                  label={label}
-                  inputRatio="150px 79px"
-                  elements={[
-                    {
-                      value: state.amount,
-                      onValue: (amount) => setState({ ...state, amount }),
-                      type: 'select',
-                      placeholder: 'Post',
-                      options: [
-                        {
-                          value: 'post',
-                          label: 'Post',
-                        },
-                        {
-                          value: 'reel',
-                          label: 'Reel',
-                        },
-                        {
-                          value: 'story',
-                          label: 'Story',
-                        },
-                      ],
-                    },
-                    {
-                      value: `${desiredCampaignIncome} ${state.currency}`,
-                      onValue: (currencyVal) =>
-                        setState({ ...state, currency: currencyVal }),
-                      type: 'text',
-                      placeholder: 'CHF',
-                      disabled: true,
-                    },
-                  ]}
+                <Tabs
+                  style={{ minHeight: 'unset' }}
+                  tabs={['Instagram']}
+                  value={tabsSM}
+                  onValue={setTabsSM}
                 />
-                <Button
-                  style={{
-                    width: '150px',
-                    height: '39px',
-                    marginLeft: '10px',
-                  }}
-                  variant="contained"
-                  color="primary"
-                >
-                  Save
-                </Button>
-              </GridCellCustom>
-              {currency !== 'CHF' && (
-                <div
-                  style={{
-                    display: 'flex',
-                    font: 'IBM Plex Sans',
-                    color: '#7E839F',
-                    fontSize: '11px',
-                    marginBottom: '12px',
-                  }}
-                >
+                <Note showIcon={false} style={{ minHeight: '48px' }}>
+                  <InfoIcon
+                    style={{
+                      marginRight: '5px',
+                      width: '17px',
+                      height: '17px',
+                      alignContent: 'center',
+                      display: 'inline-flex',
+                      position: 'absolute',
+                      top: '2px',
+                    }}
+                  />
+                  <span style={{ marginLeft: '25px' }}>
+                    Influencers with an audience your size, asks for for
+                    <span style={{ color: '#448DC9' }}>21-25 {currency}</span>
+                    per
+                    <span style={{ color: '#448DC9' }}>
+                      {selectedPostOption.label}
+                    </span>
+                    on average.
+                  </span>
+                </Note>
+                <ChartWrapper>
+                  <BarChart
+                    labels={[
+                      '0-5',
+                      '6-10',
+                      '11-15',
+                      '16-20',
+                      '21-25',
+                      '26-30',
+                      '31-35',
+                      '36-40',
+                      '41-45',
+                      '46-50',
+                    ]}
+                    data={[
+                      {
+                        color: `${Theme.palette.secondary.main}40`,
+                        values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                      },
+                    ]}
+                    verticalLabel="Number of Influencers"
+                    horizontalLabel="Amount Per Post"
+                  />
+                </ChartWrapper>
+                <GridCellCustom columnSpan={4}>
+                  <InputGroup
+                    label={`Desired amount per ${selectedPostOption.label}`}
+                    inputRatio="150px 100px"
+                    inputGroupElementStyle={{ gap: '5px' }}
+                    elements={[
+                      {
+                        value: selectedPostOption,
+                        onValue: (postOption) => {
+                          if (postOption) {
+                            setSelectedPostOption(postOption);
+                          } else {
+                            setSelectedPostOption(initialSelectedPostOption);
+                          }
+                        },
+
+                        type: 'select',
+                        placeholder: 'Post',
+                        options: [
+                          {
+                            value: 0,
+                            label: 'Post',
+                          },
+                          {
+                            value: 1,
+                            label: 'Reel',
+                          },
+                          {
+                            value: 2,
+                            label: 'Story',
+                          },
+                        ],
+                      },
+                      {
+                        value: postAmountToSend,
+                        onValue: (currencyVal) => {
+                          setPostAmountToSend(currencyVal);
+                        },
+
+                        type: 'number',
+                        placeholder: 'CHF',
+                        endAdornment: '₣',
+                      },
+                    ]}
+                  />
+                  <Button
+                    style={{
+                      width: '150px',
+                      height: '39px',
+                      marginLeft: '10px',
+                    }}
+                    variant="contained"
+                    color="primary"
+                    onClick={updatePostAmount}
+                  >
+                    Save
+                  </Button>
+                </GridCellCustom>
+                {currency !== 'CHF' && +postAmountToSend !== 0 ? (
                   <div
                     style={{
-                      width: '13px',
-                      height: '13px',
-                      alignContent: 'center',
-                      justifyContent: 'center',
-                      paddingTop: '2px',
+                      display: 'flex',
+                      font: 'IBM Plex Sans',
+                      color: '#7E839F',
+                      fontSize: '11px',
+                      marginBottom: '12px',
                     }}
                   >
-                    <InfoIcon />
+                    <div
+                      style={{
+                        width: '13px',
+                        height: '13px',
+                        alignContent: 'center',
+                        justifyContent: 'center',
+                        paddingTop: '2px',
+                      }}
+                    >
+                      <InfoIcon />
+                    </div>
+                    <p style={{ paddingLeft: '3px' }}>
+                      {postAmountToSend} CHF is approximately
+                    </p>
+                    <p
+                      style={{
+                        paddingLeft: '3px',
+                        color: '#448DC9',
+                        fontWeight: '600',
+                      }}
+                    >
+                      {handleCurrencyCalculation(
+                        postAmountToSend,
+                        currency as 'CHF' | 'EUR' | 'USD'
+                      )}{' '}
+                      {currency}.
+                    </p>
                   </div>
-                  <p style={{ paddingLeft: '3px' }}>
-                    {desiredCampaignIncome} {state.currency} is approximately
-                  </p>
-                  <p
-                    style={{
-                      paddingLeft: '3px',
-                      color: '#448DC9',
-                      fontWeight: '600',
-                    }}
-                  >
-                    {handleCurrencyCalculation(
-                      desiredCampaignIncome,
-                      currency as 'CHF' | 'EUR' | 'USD'
-                    )}{' '}
-                    {currency}.
-                  </p>
-                </div>
-              )}
-            </Stack>
+                ) : undefined}
+              </>
+            </CustomStack>
           </CardWithTextNew>
         </GridCell>
-        <GridCell columnSpan={2}>
+        <GridCell columnSpan={2} style={{ gap: '20px' }}>
           <CardWithTextNew
             title="Surveys"
-            // actions={[<DotsIcon />]}
             headerColumnTable={
-              <Stack style={{ gap: '0' }}>
+              <CustomStack>
                 <Tabs
                   tabs={['Available', 'In Progress']}
                   value={tabsS}
@@ -433,7 +641,7 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination count={32} style={{ paddingTop: '20%' }} />
+                    <Pagination count={0} />
                   </>
                 )}
                 {tabsS === 1 && (
@@ -454,280 +662,296 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination
-                      count={32}
-                      style={{ paddingTop: '20%', width: '400px' }}
-                    />
+                    <Pagination count={32} />
                   </>
                 )}
-              </Stack>
+              </CustomStack>
             }
           >
-            <Stack direction="horizontal">
-              <Stack style={{ gap: '0' }}>
-                <Title
-                  title="Competitive Analysis"
-                  style={{
-                    fontSize: ' 20px',
-                    color: '#37428A',
-                    fontWeight: '500',
-                  }}
-                />
-                <Tabs
-                  tabs={['Questionnaire', 'Interview']}
-                  value={tabsIA}
-                  onValue={setTabsIA}
-                />
-                {tabsIA === 0 && (
-                  <>
-                    <Note showIcon={false}>
-                      <InfoIcon
-                        style={{
-                          paddingTop: '4px',
-                          width: '17px',
-                          height: '17px',
-                          alignContent: 'center',
-                          display: 'inline-flex',
-                        }}
-                      />
+            <CustomStack>
+              <Title
+                title="Competitive Analysis"
+                style={{
+                  fontSize: ' 20px',
+                  color: '#37428A',
+                  fontWeight: '500',
+                }}
+              />
+              <Tabs
+                style={{ minHeight: 'unset' }}
+                tabs={['Questionnaire', 'Interview']}
+                value={tabsIA}
+                onValue={setTabsIA}
+              />
+              {tabsIA === 0 && (
+                <>
+                  <Note showIcon={false} style={{ minHeight: '48px' }}>
+                    <InfoIcon
+                      style={{
+                        marginRight: '5px',
+                        width: '17px',
+                        height: '17px',
+                        alignContent: 'center',
+                        display: 'inline-flex',
+                        position: 'absolute',
+                        top: '2px',
+                      }}
+                    />
+                    <span style={{ marginLeft: '25px' }}>
                       Patients asks for{' '}
-                      <b style={{ color: '#448DC9', display: 'inline-flex' }}>
-                        1-2.5 {currency}
-                      </b>{' '}
+                      <span style={{ color: '#448DC9' }}>1-2.5 {currency}</span>{' '}
                       per{' '}
-                      <b style={{ color: '#448DC9', display: 'inline-flex' }}>
-                        Question Credit
-                      </b>{' '}
+                      <span style={{ color: '#448DC9' }}>Question Credit</span>{' '}
                       on average.
-                    </Note>
-                    <ChartWrapper>
-                      <BarChart
-                        labels={[
-                          '0-5',
-                          '6-10',
-                          '11-15',
-                          '16-20',
-                          '21-25',
-                          '26-30',
-                          '31-35',
-                          '36-40',
-                          '41-45',
-                          '46-50',
-                        ]}
-                        data={[
-                          {
-                            color: `${Theme.palette.secondary.main}40`,
-                            values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                    </span>
+                  </Note>
+                  <ChartWrapper>
+                    <BarChart
+                      labels={[
+                        '0-5',
+                        '6-10',
+                        '11-15',
+                        '16-20',
+                        '21-25',
+                        '26-30',
+                        '31-35',
+                        '36-40',
+                        '41-45',
+                        '46-50',
+                      ]}
+                      data={[
+                        {
+                          color: `${Theme.palette.secondary.main}40`,
+                          values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                        },
+                      ]}
+                      verticalLabel="Number of Influencers"
+                      horizontalLabel="Amount Per Post"
+                    />
+                  </ChartWrapper>
+                  <GridCellCustom columnSpan={4}>
+                    <InputGroup
+                      label="Desired amount per Question credit"
+                      inputRatio="150px 100px"
+                      inputGroupElementStyle={{ gap: '5px' }}
+                      elements={[
+                        {
+                          value: selectedQuestionnaireOption,
+                          onValue: (questionnaireOption) => {
+                            if (questionnaireOption) {
+                              setSelectedQuestionnaireOption(
+                                questionnaireOption
+                              );
+                            } else {
+                              setSelectedQuestionnaireOption(
+                                initialSelectedQuestionnaireOption
+                              );
+                            }
                           },
-                        ]}
-                        verticalLabel="Number of Influencers"
-                        horizontalLabel="Amount Per Post"
-                      />
-                    </ChartWrapper>
-                    <GridCellCustom columnSpan={4}>
-                      <InputGroup
-                        label="Desired amount per Question credit"
-                        inputRatio="150px 79px"
-                        elements={[
-                          {
-                            value: amountQuestion.amount,
-                            onValue: (amount) => setState({ ...state, amount }),
-                            type: 'select',
-                            placeholder: 'Question Credit',
-                            disabled: true,
-                          },
-                          {
-                            value: `${desiredSurveyIncome} ${state.currency}`,
-                            onValue: (currencyVal) =>
-                              setState({ ...state, currency: currencyVal }),
-                            type: 'text',
-                            placeholder: 'CHF',
-                            disabled: true,
-                          },
-                        ]}
-                      />
-                      <Button
-                        style={{
-                          width: '150px',
-                          height: '39px',
-                          marginLeft: '10px',
-                        }}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Save
-                      </Button>
-                    </GridCellCustom>
-                    {currency !== 'CHF' && (
+                          type: 'select',
+                          placeholder: 'Question Credit',
+                        },
+                        {
+                          value: questionnaireAmountToSend,
+                          onValue: (currencyVal) =>
+                            setQuestionnaireAmountToSend(currencyVal),
+                          type: 'number',
+                          placeholder: 'CHF',
+                          endAdornment: '₣',
+                        },
+                      ]}
+                    />
+                    <Button
+                      style={{
+                        width: '150px',
+                        height: '39px',
+                        marginLeft: '10px',
+                      }}
+                      variant="contained"
+                      color="primary"
+                      onClick={updateQuestionnaireAmount}
+                    >
+                      Save
+                    </Button>
+                  </GridCellCustom>
+                  {currency !== 'CHF' && +questionnaireAmountToSend ? (
+                    <div
+                      style={{
+                        display: 'flex',
+                        font: 'IBM Plex Sans',
+                        color: '#7E839F',
+                        fontSize: '11px',
+                        marginBottom: '12px',
+                      }}
+                    >
                       <div
                         style={{
-                          display: 'flex',
-                          font: 'IBM Plex Sans',
-                          color: '#7E839F',
-                          fontSize: '11px',
+                          width: '13px',
+                          height: '13px',
+                          alignContent: 'center',
+                          justifyContent: 'center',
+                          paddingTop: '2px',
                         }}
                       >
-                        <div
-                          style={{
-                            width: '13px',
-                            height: '13px',
-                            alignContent: 'center',
-                            justifyContent: 'center',
-                            paddingTop: '2px',
-                          }}
-                        >
-                          <InfoIcon />
-                        </div>
-                        <p style={{ paddingLeft: '3px' }}>
-                          {desiredSurveyIncome} {state.currency} is
-                          approximately
-                        </p>
-                        <p
-                          style={{
-                            paddingLeft: '3px',
-                            color: '#448DC9',
-                            fontWeight: '600',
-                          }}
-                        >
-                          {handleCurrencyCalculation(
-                            desiredCampaignIncome,
-                            currency as 'CHF' | 'EUR' | 'USD'
-                          )}{' '}
-                          {currency}.
-                        </p>
+                        <InfoIcon />
                       </div>
-                    )}
-                  </>
-                )}
-
-                {tabsIA === 1 && (
-                  <>
-                    <Note showIcon={false}>
-                      <InfoIcon
+                      <p style={{ paddingLeft: '3px' }}>
+                        {questionnaireAmountToSend} CHF is approximately
+                      </p>
+                      <p
                         style={{
-                          paddingTop: '4px',
-                          width: '17px',
-                          height: '17px',
-                          alignContent: 'center',
-                          display: 'inline-flex',
+                          paddingLeft: '3px',
+                          color: '#448DC9',
+                          fontWeight: '600',
                         }}
-                      />{' '}
-                      Participants asks{' '}
-                      <b style={{ color: '#448DC9', display: 'inline-flex' }}>
-                        23-25 USD{' '}
-                      </b>{' '}
-                      per{' '}
-                      <b style={{ color: '#448DC9', display: 'inline-flex' }}>
-                        {amountInterview.amount.value === '30min'
+                      >
+                        {handleCurrencyCalculation(
+                          questionnaireAmountToSend,
+                          currency as 'CHF' | 'EUR' | 'USD'
+                        )}{' '}
+                        {currency}.
+                      </p>
+                    </div>
+                  ) : undefined}
+                </>
+              )}
+
+              {tabsIA === 1 && (
+                <>
+                  <Note showIcon={false} style={{ minHeight: '48px' }}>
+                    <InfoIcon
+                      style={{
+                        marginRight: '5px',
+                        width: '17px',
+                        height: '17px',
+                        alignContent: 'center',
+                        display: 'inline-flex',
+                        position: 'absolute',
+                        top: '2px',
+                      }}
+                    />
+                    <span style={{ marginLeft: '25px' }}>
+                      Participants asks
+                      <span style={{ color: '#448DC9' }}>23-25 USD</span>
+                      per
+                      <span style={{ color: '#448DC9' }}>
+                        {selectedInterviewOption.label === '30 min Interview'
                           ? '30 min Interview'
                           : '60 min interview'}
-                      </b>{' '}
+                      </span>
                       on average.
-                    </Note>
-                    <ChartWrapper>
-                      <BarChart
-                        labels={[
-                          '0-5',
-                          '6-10',
-                          '11-15',
-                          '16-20',
-                          '21-25',
-                          '26-30',
-                          '31-35',
-                          '36-40',
-                          '41-45',
-                          '46-50',
-                        ]}
-                        data={[
-                          {
-                            color: `${Theme.palette.secondary.main}40`,
-                            values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                    </span>
+                  </Note>
+                  <ChartWrapper>
+                    <BarChart
+                      labels={[
+                        '0-5',
+                        '6-10',
+                        '11-15',
+                        '16-20',
+                        '21-25',
+                        '26-30',
+                        '31-35',
+                        '36-40',
+                        '41-45',
+                        '46-50',
+                      ]}
+                      data={[
+                        {
+                          color: `${Theme.palette.secondary.main}40`,
+                          values: [5, 10, 15, 20, 25, 18, 13, 8, 3, 1],
+                        },
+                      ]}
+                      verticalLabel="Number of Influencers"
+                      horizontalLabel="Amount Per Post"
+                    />
+                  </ChartWrapper>
+                  <GridCellCustom columnSpan={4}>
+                    <InputGroup
+                      label={`Desired amount per ${
+                        selectedInterviewOption.label === '30 min Interview'
+                          ? '30 min Interview'
+                          : '60 min interview'
+                      }`}
+                      inputRatio="185px 100px"
+                      elements={[
+                        {
+                          value: selectedInterviewOption,
+                          onValue: (interviewOption) => {
+                            if (interviewOption) {
+                              setSelectedInterviewOption(interviewOption);
+                            } else {
+                              setSelectedInterviewOption(
+                                initialSelectedInterviewOption
+                              );
+                            }
                           },
-                        ]}
-                        verticalLabel="Number of Influencers"
-                        horizontalLabel="Amount Per Post"
-                      />
-                    </ChartWrapper>
-                    <GridCellCustom columnSpan={4}>
-                      <InputGroup
-                        label={`Desired amount per ${
-                          amountInterview.amount.value === '30min'
-                            ? '30 min Interview'
-                            : '60 min interview'
-                        }`}
-                        inputRatio="185px 79px"
-                        elements={[
-                          {
-                            value: amountInterview.amount,
-                            onValue: (amount) =>
-                              setAmountInterview({ ...state, amount }),
-                            type: 'select',
-                            placeholder: '30 min Interviews',
-                            options: [
-                              {
-                                value: '30min',
-                                label: '30 min Interview',
-                              },
-                              {
-                                value: '60',
-                                label: '60 min interview',
-                              },
-                            ],
-                          },
-                          {
-                            value: `${desiredSurveyIncome} ${state.currency}`,
-                            onValue: (currencyVal) =>
-                              setState({ ...state, currency: currencyVal }),
-                            type: 'text',
-                            placeholder: 'CHF',
-                            disabled: true,
-                          },
-                        ]}
-                      />
-                      <Button
+                          type: 'select',
+                          placeholder: '30 min Interviews',
+                          options: [
+                            {
+                              value: 1,
+                              label: '30 min Interview',
+                            },
+                            {
+                              value: 2,
+                              label: '60 min interview',
+                            },
+                          ],
+                        },
+                        {
+                          value: interviewAmountToSend,
+                          onValue: (currencyVal) =>
+                            setInterviewAmountToSend(currencyVal),
+                          type: 'number',
+                          placeholder: 'CHF',
+                          endAdornment: '₣',
+                        },
+                      ]}
+                    />
+                    <Button
+                      style={{
+                        width: '150px',
+                        height: '39px',
+                        marginLeft: '10px',
+                      }}
+                      onClick={updateInterviewAmount}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Save
+                    </Button>
+                  </GridCellCustom>
+                  {currency !== 'CHF' && +interviewAmountToSend ? (
+                    <div
+                      style={{
+                        display: 'flex',
+                        font: 'IBM Plex Sans',
+                        color: '#7E839F',
+                        fontSize: '11px',
+                      }}
+                    >
+                      <p style={{ paddingLeft: '3px' }}>
+                        {interviewAmountToSend} CHF is approximately
+                      </p>
+                      <p
                         style={{
-                          width: '150px',
-                          height: '39px',
-                          marginLeft: '10px',
-                        }}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Save
-                      </Button>
-                    </GridCellCustom>
-                    {currency !== 'CHF' && (
-                      <div
-                        style={{
-                          display: 'flex',
-                          font: 'IBM Plex Sans',
-                          color: '#7E839F',
-                          fontSize: '11px',
+                          paddingLeft: '3px',
+                          color: '#448DC9',
+                          fontWeight: '600',
                         }}
                       >
-                        <p style={{ paddingLeft: '3px' }}>
-                          {desiredSurveyIncome} {state.currency} is
-                          approximately
-                        </p>
-                        <p
-                          style={{
-                            paddingLeft: '3px',
-                            color: '#448DC9',
-                            fontWeight: '600',
-                          }}
-                        >
-                          {handleCurrencyCalculation(
-                            desiredCampaignIncome,
-                            currency as 'CHF' | 'EUR' | 'USD'
-                          )}{' '}
-                          {currency}.
-                        </p>
-                      </div>
-                    )}
-                  </>
-                )}
-              </Stack>
-            </Stack>
+                        {handleCurrencyCalculation(
+                          interviewAmountToSend,
+                          currency as 'CHF' | 'EUR' | 'USD'
+                        )}{' '}
+                        {currency}.
+                      </p>
+                    </div>
+                  ) : undefined}
+                </>
+              )}
+            </CustomStack>
           </CardWithTextNew>
         </GridCell>
       </HomeInfluencerPageGrid>

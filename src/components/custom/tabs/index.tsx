@@ -24,7 +24,7 @@ const Tabs = ({ value, onValue, tabs, ...props }: TTabsProps) => {
       {...props}
     >
       {tabs.map((x, y) => (
-        <TabsTab key={x} label={x} value={y} />
+        <TabsTab key={x} label={x} value={y} style={{ paddingBottom: '0px' }} />
       ))}
     </TabsMain>
   );

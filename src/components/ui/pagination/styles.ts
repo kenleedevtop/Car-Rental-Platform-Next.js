@@ -17,12 +17,13 @@ export const PaginationMain = styled(Pagination)<{ align: TPaginationAlign }>`
     padding-top: 25px;
     }
     
+    @media screen and (min-width: 1535px) {
+      padding-top: 110px;
+    }
+    
     @media screen and (min-width: 601px) and (max-width: 1024px) {
       padding-top: 55px;
     }
     
-    @media screen and (min-width: 1535px) {
-      padding-top: 85px;
-    }
   `}
 `;

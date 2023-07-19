@@ -19,4 +19,5 @@ export type TAppContext = TAppContextState & {
   handleMobileMenu: (value: boolean) => void;
   handleCurrencyChange: (value: string) => void;
   handleInfluencer: (value: IUser) => void;
+  getMeData: () => Promise<any>;
 };

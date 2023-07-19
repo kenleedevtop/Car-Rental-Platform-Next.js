@@ -19,7 +19,7 @@ import {
 } from 'components/custom/stepper/elements';
 import { CopyIcon } from 'components/svg';
 import { useAppContext } from 'context';
-import { InfluencerAPI } from 'api';
+import { AuthorizationAPI, InfluencerAPI } from 'api';
 import { t } from 'i18next';
 import {
   emailSchema,
@@ -28,6 +28,7 @@ import {
   passwordSchema,
 } from 'utilities/validators';
 import { TSelectFieldType } from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
+import { useRouter } from 'next/router';
 import { FormData } from '../..';
 
 type Step1FormProps = {
@@ -37,7 +38,7 @@ type Step1FormProps = {
 };
 
 const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
-  const { user, influencer } = useAppContext();
+  const { user, influencer, logout } = useAppContext();
 
   const { t } = useTranslation('register');
 
@@ -72,6 +73,8 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
 
   const { push } = useSnackbar();
 
+  const router = useRouter();
+
   const handleCopyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(affiliateLink);
@@ -89,6 +92,18 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
     const influencer = await InfluencerAPI.getSingleInfluencer(influencerId);
     // handleInfluencer(influencer);
     return influencer;
+  };
+
+  const resetPassword = async () => {
+    try {
+      await AuthorizationAPI.resetPassword(user.email, 'en').then(() => {
+        logout();
+        router.push('/login');
+      });
+      push('Email for password reset has been sent.', { variant: 'success' });
+    } catch {
+      push('Email for password reset has not been sent.', { variant: 'error' });
+    }
   };
 
   useEffect(() => {
@@ -253,7 +268,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step1FormProps) => {
             ]}
           />
 
-          <StepSpan onClick={openCpModal}>Change Password</StepSpan>
+          <StepSpan onClick={resetPassword}>Change Password</StepSpan>
         </StepChange>
         {invitedBy ? (
           <Input
