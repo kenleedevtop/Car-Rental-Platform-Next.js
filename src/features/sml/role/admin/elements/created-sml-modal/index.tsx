@@ -128,8 +128,6 @@ const CreatedSmlModal = ({
     !state.subscription ||
     !state.amount;
 
-  console.log(state);
-
   return (
     <Modal
       size="medium"
