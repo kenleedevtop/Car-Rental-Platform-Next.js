@@ -30,4 +30,5 @@ export type TInputGroupProps = React.HTMLAttributes<HTMLInputElement> & {
   inputRatio: string;
   elements: Array<TInputGroupElement>;
   disabled?: boolean;
+  inputGroupElementStyle?: any;
 };

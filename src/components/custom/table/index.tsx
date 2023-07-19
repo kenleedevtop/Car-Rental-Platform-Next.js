@@ -74,6 +74,7 @@ const Table = ({
                         height: '26px',
                         borderRadius: '4px',
                         backgroundColor: '#F3F6F9',
+                        margin: '7px 0px 7px 7px',
                       }}
                     />
                   </TableBodyCell>

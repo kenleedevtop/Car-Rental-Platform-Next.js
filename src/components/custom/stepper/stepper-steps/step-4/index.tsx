@@ -141,7 +141,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 // ]}
                 style={{ color: 'red', font: 'inter', fontWeight: '500' }}
               />
-              {currency !== 'CHF' && (
+              {currency !== 'CHF' && +instaP !== 0 ? (
                 <div
                   style={{
                     display: 'flex',
@@ -176,7 +176,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                     {currency}.
                   </p>
                 </div>
-              )}
+              ) : undefined}
             </InputGroup>
 
             <InputGroup>
@@ -214,7 +214,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 //   },
                 // ]}
               />
-              {currency !== 'CHF' && (
+              {currency !== 'CHF' && +instaS !== 0 ? (
                 <div
                   style={{
                     display: 'flex',
@@ -249,7 +249,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                     {currency}.
                   </p>
                 </div>
-              )}
+              ) : undefined}
             </InputGroup>
             <InputGroup>
               <Input
@@ -285,7 +285,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 //   },
                 // ]}
               />
-              {currency !== 'CHF' && (
+              {currency !== 'CHF' && +instaR !== 0 ? (
                 <div
                   style={{
                     display: 'flex',
@@ -320,7 +320,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                     {currency}.
                   </p>
                 </div>
-              )}
+              ) : undefined}
             </InputGroup>
           </Stack>
         </StepLeft>
@@ -467,7 +467,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 //   },
                 // ]}
               />
-              {currency !== 'CHF' && (
+              {currency !== 'CHF' && +questionCredit !== 0 ? (
                 <div
                   style={{
                     display: 'flex',
@@ -502,7 +502,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                     {currency}.
                   </p>
                 </div>
-              )}
+              ) : undefined}
             </InputGroup>
 
             <InputGroup>
@@ -519,7 +519,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                   <span style={{ font: 'inter', color: '#7e839f' }}>CHF</span>
                 }
               />
-              {currency !== 'CHF' && (
+              {currency !== 'CHF' && +formData.questionCredit !== 0 ? (
                 <div
                   style={{
                     display: 'flex',
@@ -554,7 +554,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                     {currency}.
                   </p>
                 </div>
-              )}
+              ) : undefined}
             </InputGroup>
             <p style={{ color: '#7E839F', fontWeight: '600', font: 'inter' }}>
               Interview
@@ -594,7 +594,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 //   },
                 // ]}
               />
-              {currency !== 'CHF' && (
+              {currency !== 'CHF' && +interviewShort !== 0 ? (
                 <div
                   style={{
                     display: 'flex',
@@ -629,7 +629,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                     {currency}.
                   </p>
                 </div>
-              )}
+              ) : undefined}
             </InputGroup>
             <InputGroup>
               <Input
@@ -666,7 +666,7 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                 //   },
                 // ]}
               />
-              {currency !== 'CHF' && (
+              {currency !== 'CHF' && +interviewLong !== 0 ? (
                 <ConversionAmountWrapper>
                   <ConversionIconWrapper>
                     <InfoIcon />
@@ -686,13 +686,13 @@ const Step = ({ formData, setFormData, handleErrors }: Step4FormProps) => {
                     {currency}.
                   </span>
                 </ConversionAmountWrapper>
-              )}
+              ) : undefined}
             </InputGroup>
           </Stack>
         </StepRight>
       </StepContainer>
       <StepText>
-        *It&apos;s enough to fill out only one field for the submit form.
+        *Please fill out at least one field to complete your submission.
       </StepText>
     </StepStack>
   );

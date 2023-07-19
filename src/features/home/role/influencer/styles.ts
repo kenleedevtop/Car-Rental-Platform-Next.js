@@ -1,27 +1,55 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
-import { GridCell } from 'components/system';
+import { GridCell, Stack } from 'components/system';
 import { Card } from 'components/ui';
 
 export const HelpPageMain = styled(Card)``;
 
 export const ChartWrapper = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-        width: 500px;
+        width: clamp(400px, 35vw,470px);
         height: 300px;
-        margin: 50px 0px;
+        margin: 30px 0px 15px;
+
+        ${theme.breakpoints.down('xl')} {
+            width: 400px;
+            max-width: 400px;
+        }
+
+        ${theme.breakpoints.down('lg')} {
+          width: 380px;
+      }
 
         ${theme.breakpoints.down('md')} {
-            width: 440px;
+            width: 380px;
         }
 
         ${theme.breakpoints.down('sm')} {
-            width: 350px;
+            max-width: 400px;
+            width: 80vw;
         }
 
-        ${theme.breakpoints.down('xs')} {
-            width: 280px;
+        // ${theme.breakpoints.down('xs')} {
+        //     width: 280px;
+        // }
+    `}
+`;
+
+export const CustomStack = styled(Stack)<{ theme?: Theme }>`
+  ${({ theme }) => `
+        max-width: 500px;
+        align-self: flex-start;
+        
+        ${theme.breakpoints.down('xl')} {
+          max-width: 380px;
+          width: 82vw;
         }
+
+        ${theme.breakpoints.down('sm')} {
+          max-width: 380px;
+          width: 75vw;
+        }
+
     `}
 `;
 
@@ -29,7 +57,8 @@ export const GridCellCustom = styled(GridCell)<{ theme?: Theme }>`
   ${({ theme }) => `
     display: flex;
     align-items: flex-end;
-    margin-bottom: 25px;
+    // margin-bottom: 25px;
+    justify-content: space-between;
 
 
 

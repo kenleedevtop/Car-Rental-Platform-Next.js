@@ -101,8 +101,8 @@ const Navigation = ({ ...props }: TNavigationProps) => {
 
   const [currencyValue, setCurrency] = useState(currency);
 
-  const [balance, setBalance] = useState(123.23);
-  const [formattedBalance, setFormattedBalance] = useState(123.23);
+  const [balance, setBalance] = useState(0);
+  const [formattedBalance, setFormattedBalance] = useState(0);
 
   const handleMenu = () => {
     setOpen(!open);
@@ -195,7 +195,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           <NavigationCurrency
             onClick={() => setOpenBalanceButton(!openBalanceButton)}
           >
-            Balance: {currency} {formattedBalance}
+            Balance: {currency} {formattedBalance.toFixed(2)}
             <BalanceIcon ref={balanceButtonRef} expanded={openBalanceButton}>
               {' '}
               <ArrowDownIcon />{' '}

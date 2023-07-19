@@ -25,7 +25,7 @@ import {
   ServicesBIcon,
   SlidersHorizontalIcon,
   TravelIcon,
-  UserFocusIcon,
+  FoodIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 import { Button, Input, Pagination } from 'components/ui';
@@ -212,7 +212,7 @@ const BenefitsPage = () => {
         />
         <CardWithoutChart
           title="Food & Beverage"
-          icon={<UserFocusIcon />}
+          icon={<FoodIcon />}
           percent={2}
           count={23}
           chartData={{
@@ -309,7 +309,6 @@ const BenefitsPage = () => {
       </BenefitsPageCharts>
       <CardWithText
         title="Benefits"
-        description="20 new Benefits"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}

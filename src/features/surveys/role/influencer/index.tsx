@@ -88,7 +88,7 @@ const SurveysPage = () => {
         title="Available Surveys"
         style={
           window.innerWidth < 600
-            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            ? { padding: '1.25rem 10px', boxShadow: 'unset' }
             : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
         }
         actions={
@@ -162,7 +162,7 @@ const SurveysPage = () => {
         title="Campaings in Progress"
         style={
           window.innerWidth < 600
-            ? { padding: '1.25rem 0', boxShadow: 'unset' }
+            ? { padding: '1.25rem 10px', boxShadow: 'unset' }
             : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
         }
       >

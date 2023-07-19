@@ -130,9 +130,10 @@ const InfluencerAPI = {
     return data;
   },
 
-  addCampaignDesiredIncome: async (id: TSingleInfluencer) => {
+  addCampaignDesiredIncome: async (userId: number, body: any[]) => {
     await client.put(
-      `${Project.apis.v1}/influencer/${id}/desiredIncome/campaign`
+      `${Project.apis.v1}/influencer/${userId}/desiredIncome/campaign`,
+      body
     );
   },
 
@@ -152,9 +153,10 @@ const InfluencerAPI = {
     return data;
   },
 
-  addSurveyDesiredIncome: async (id: TSingleInfluencer) => {
+  addSurveyDesiredIncome: async (userId: number, body: any[]) => {
     await client.put(
-      `${Project.apis.v1}/influencer/${id}/desiredIncome/survey`
+      `${Project.apis.v1}/influencer/${userId}/desiredIncome/survey`,
+      body
     );
   },
 };

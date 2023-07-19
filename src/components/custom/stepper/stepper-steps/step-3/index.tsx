@@ -34,11 +34,15 @@ const instagramAuth = (title: string, onClose: () => void) =>
     };
 
     const cleanup = () => {
-      if (dialog.removeEventListener)
-        dialog.removeEventListener('message', receiveMessage);
-      if (dialog.removeEventListener)
-        dialog.removeEventListener('beforeunload', onClose);
-      if (dialog.close) dialog.close();
+      try {
+        if (dialog.removeEventListener)
+          dialog.removeEventListener('message', receiveMessage);
+        if (dialog.removeEventListener)
+          dialog.removeEventListener('beforeunload', onClose);
+        if (dialog.close) dialog.close();
+      } catch (e: any) {
+        console.log(e.message);
+      }
     };
 
     dialog.addEventListener('message', receiveMessage, false);

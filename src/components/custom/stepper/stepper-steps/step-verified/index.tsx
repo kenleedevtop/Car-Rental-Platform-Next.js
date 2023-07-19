@@ -11,13 +11,20 @@ const Step = () => (
       height: ' 50vh',
     }}
   >
-    Congratulations, you&apos;ve successfully completed all verification steps!
-    Your account is now pending approval.
-    <VerifiedIcon
-      width="20"
-      height="20"
-      style={{ color: '#2D3779', marginLeft: '10px' }}
-    />{' '}
+    <span style={{ position: 'relative', padding: '0px 10px' }}>
+      Congratulations, you&apos;ve successfully completed all verification
+      steps! Your account is now pending approval.
+      <VerifiedIcon
+        width="20"
+        height="20"
+        style={{
+          color: '#2D3779',
+          marginLeft: '10px',
+          position: 'absolute',
+          bottom: '3px',
+        }}
+      />{' '}
+    </span>
   </div>
 );
 

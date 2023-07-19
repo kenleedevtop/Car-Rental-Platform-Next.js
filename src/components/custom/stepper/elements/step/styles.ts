@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
-import { Step } from '@mui/material';
+import { Step, Theme } from '@mui/material';
 
-export const StepMain = styled(Step)`
+export const StepMain = styled(Step)<{ theme?: Theme }>`
+  ${({ theme }) => `
+  ${theme.breakpoints.down('xs')} {
+    padding-left: unset;
+    padding-right: unset;
+  }
+
   & .Mui-active {
     z-index: 2;
     & svg {
@@ -12,7 +18,7 @@ export const StepMain = styled(Step)`
 
   & svg {
     cursor: pointer;
-
     color: #c3dbee;
   }
+`}
 `;
