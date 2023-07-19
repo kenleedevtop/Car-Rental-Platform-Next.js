@@ -168,6 +168,7 @@ const InfluencerProfile = ({
                 value={state.diseaseArea}
                 disabled={disabled}
                 onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+                isFilterActive
               />
               <Input
                 type="text"

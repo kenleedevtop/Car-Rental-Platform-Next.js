@@ -232,6 +232,7 @@ const SurveyInfoModal = ({ onClose, ...props }: TSurveyInfoModalProps) => {
               placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              isFilterActive
             />
             <Input
               type="select"

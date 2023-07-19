@@ -128,8 +128,6 @@ const CreatedSmlModal = ({
     !state.subscription ||
     !state.amount;
 
-  console.log(state);
-
   return (
     <Modal
       size="medium"
@@ -205,6 +203,7 @@ const CreatedSmlModal = ({
           disabled={!edit}
           options={diseaseArea}
           loading={loading}
+          isFilterActive
         />
         <Input
           type="select"

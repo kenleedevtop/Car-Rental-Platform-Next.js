@@ -297,11 +297,10 @@ const CreatedCampaignModal = ({
         //     label: 'Questionaire',
         //   };
         // }
-
         if (campaign.report) {
           newState.report = {
-            value: campaign.report,
-            label: campaign.report ? 'Yes' : 'No',
+            value: campaign.report.value,
+            label: campaign.report.name,
           };
         }
 
@@ -528,77 +527,6 @@ const CreatedCampaignModal = ({
     }
   };
 
-  const { push } = useSnackbar();
-
-  const updateCampaign = useCallback(async () => {
-    try {
-      const body = {
-        name: state.campaignName,
-        budget: state.budget ? +state.budget : undefined,
-        diseaseAreaIds: state.diseaseArea
-          ? state.diseaseArea.map((x: any) => x.value)
-          : [],
-        struggleIds: state.struggles
-          ? state.struggles.map((x: any) => x.value)
-          : [],
-        stakeholderTypes: state.stakeholders
-          ? state.stakeholders.map((x: any) => x.value)
-          : [],
-        locationIds: state.location
-          ? state.location.map((x: any) => x.value)
-          : [],
-        languages: state.language
-          ? state.language.map((x: any) => x.value)
-          : [],
-        ethnicityIds: state.ethnicity
-          ? state.ethnicity.map((x: any) => x.value)
-          : [],
-        interestIds: state.interests
-          ? state.interests.map((x: any) => x.value)
-          : [],
-        productIds: state.product ? state.product.map((x: any) => x.value) : [],
-        dateStart: state.dateStart ? state.dateStart : undefined,
-        dateEnd: state.dateEnd ? state.dateEnd : undefined,
-        description: state.campaignInfo ? state.campaignInfo : undefined,
-        influencersCount: state.influencerCount
-          ? state.influencerCount
-          : undefined,
-        influencersSizeIds: state.influencerSize
-          ? state.influencerSize.map((x: any) => x.value)
-          : [],
-        ageMin: state.age && state.age.min ? state.age.min : undefined,
-        ageMax: state.age && state.age.max ? state.age.max : undefined,
-        genders: state.gender ? state.gender.map((x: any) => x.value) : [],
-        symptomIds: state.symptoms
-          ? state.symptoms.map((x: any) => x.value)
-          : [],
-        targetAudienceDescription: state.targetAudienceInfo
-          ? state.targetAudienceInfo
-          : undefined,
-        socialPlatformId: state.platform ? state.platform.value : undefined,
-        postType:
-          state.postType && state.postType.value && state.postType.value,
-        clientCompanyWebsite: state.website ? state.website : undefined,
-        instructions: state.instructions ? state.instructions : undefined,
-        report: state.report ? state.report.value?.value : undefined,
-        exampleImageUrls: photo !== undefined ? [photo] : undefined,
-        currencyId: state.currency ? state.currency.value : 3,
-        status:
-          campaign &&
-          campaign.platformProductOrder &&
-          campaign.platformProductOrder.status &&
-          campaign.platformProductOrder.status,
-      };
-
-      await CampaignAPI.updateCampaign(id, body).then(() => reload());
-
-      push('Campaign successfully updated.', { variant: 'success' });
-    } catch (e: any) {
-      push('Campaign update failed.', { variant: 'error' });
-      console.error(e.message);
-    }
-  }, [state, campaign, photo]);
-
   const debounce = (func: any, wait: any) => {
     let timeout: any;
 
@@ -623,11 +551,10 @@ const CreatedCampaignModal = ({
           size="large"
           disabled={!state.campaignName}
           onClick={() => {
-            updateCampaign();
             onClose();
           }}
         >
-          Update
+          Close
         </Button>,
       ]}
       onClose={onClose}
@@ -686,19 +613,8 @@ const CreatedCampaignModal = ({
               label="Report"
               disabled
               value={state.report}
-              onValue={(input) => setState({ ...state, report: input })}
+              onValue={() => {}}
               options={report}
-            />
-            <Input
-              type="number"
-              min={0}
-              label="Influencers"
-              placeholder="Please Select"
-              disabled
-              value={state.influencerCount}
-              onValue={(input) =>
-                setState({ ...state, influencerCount: input > 0 ? input : 0 })
-              }
             />
             <Stack>
               <Input
@@ -754,6 +670,7 @@ const CreatedCampaignModal = ({
               onSearch={debounce(getDiseaseAreas, 250)}
               loading={loading}
               options={diseaseAreas}
+              isFilterActive
             />
             <Input
               type="multiselect"
@@ -804,6 +721,14 @@ const CreatedCampaignModal = ({
             />
             <Input
               type="multiselect"
+              label="Symptom"
+              disabled
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
+            />
+            <Input
+              type="multiselect"
               label="Influencer Size"
               disabled
               value={state.influencerSize}
@@ -811,12 +736,15 @@ const CreatedCampaignModal = ({
               options={influencerSize}
             />
             <Input
-              type="multiselect"
-              label="Symptom"
+              type="number"
+              min={0}
+              label="Influencers"
+              placeholder="Please Select"
               disabled
-              value={state.symptoms}
-              onValue={(input) => setState({ ...state, symptoms: input })}
-              options={symptoms}
+              value={state.influencerCount}
+              onValue={(input) =>
+                setState({ ...state, influencerCount: input > 0 ? input : 0 })
+              }
             />
             <GridCell columnSpan={2}>
               <Input
@@ -840,7 +768,7 @@ const CreatedCampaignModal = ({
               type="select"
               label="Platform"
               disabled
-              value={state.platform}
+              value={state.platform ? state.platform : null}
               onValue={(platform) => setState({ ...state, platform })}
               options={[
                 {
@@ -878,6 +806,7 @@ const CreatedCampaignModal = ({
                     color="default"
                     variant="contained"
                     onClick={handlePhotos}
+                    disabled
                   >
                     Upload
                   </Button>

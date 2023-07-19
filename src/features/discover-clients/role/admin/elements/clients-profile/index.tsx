@@ -195,6 +195,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
               placeholder="Please Enter"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              isFilterActive
             />
             <Input
               type="select"

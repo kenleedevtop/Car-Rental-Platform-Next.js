@@ -134,6 +134,7 @@ const ClientsProfile = ({ onClose, ...props }: TClientsProfileModalProps) => {
               placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              isFilterActive
             />
             <Input
               disabled={editActive}

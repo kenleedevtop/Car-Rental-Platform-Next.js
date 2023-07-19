@@ -12,7 +12,7 @@ export type TState = {
   influencers?: number;
   dateStart?: null;
   dateEnd?: null;
-  report?: Report;
+  report?: TStateItem;
   currency: TStateItem;
   budget?: number;
   campaignInfo?: string;
@@ -48,14 +48,4 @@ export type Age = {
 export type TStateItem = {
   value?: number;
   label?: string;
-};
-
-export type Report = {
-  value?: Value;
-  label?: string;
-};
-
-export type Value = {
-  name?: string;
-  value?: number;
 };

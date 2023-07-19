@@ -91,6 +91,7 @@ const AddClientsModal = ({ onClose, ...props }: TAddClientsModalProps) => {
           placeholder="Please Enter"
           value={state.diseaseArea}
           onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+          isFilterActive
         />
         <Input
           type="select"

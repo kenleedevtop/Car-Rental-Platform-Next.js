@@ -70,6 +70,7 @@ const AddSmlModal = ({
             setState({ ...state, diseaseArea: input });
           }}
           disabled
+          isFilterActive
         />
         <Input
           type="select"

@@ -154,10 +154,6 @@ const Navigation = ({ ...props }: TNavigationProps) => {
     handleMobileMenu(!showMobileMenu);
   };
 
-  useEffect(() => {
-    console.log(openBalanceButton);
-  }, [openBalanceButton]);
-
   return (
     <NavigationMain {...props}>
       <NavigationMenu>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal } from 'components/custom';
 import { TAddSmlModalProps } from 'features/sml/role/client/elements/create-sml-modal/types';
 import { AddSmlModalMain } from 'features/sml/role/client/elements/create-sml-modal/styles';
@@ -6,7 +6,7 @@ import { Button, Input, InputGroup } from 'components/ui';
 import { useModal, useSnackbar } from 'hooks';
 import { CreateSmlFinal } from 'features/sml/role/client/elements';
 import { GridCell, Stack } from 'components/system';
-import { DiseaseAreaAPI, SMLApi } from 'api';
+import { DiseaseAreaAPI, EnumsApi, SMLApi } from 'api';
 import { useAppContext } from 'context';
 
 const AddSmlModal = ({
@@ -76,59 +76,37 @@ const AddSmlModal = ({
   const { user } = useAppContext();
   const [data, setData] = useState<any>({});
 
-  console.log(state.diseaseArea);
-
-  useEffect(() => {
-    if (sml) {
-      setData({
-        clientId: user.client.id,
-        platforms: [sml.socialMedia.value],
-        subscriptionLength: sml.subscription.value,
-        monthlyTokens: sml.tokens.value,
-        diseaseAreas: state.diseaseArea.map((item: any) => item.value),
-        budget: state.amount,
-        smlDescription: state.additional,
-      });
-    } else {
-      setData({
-        clientId: user.client.id,
-        platforms: [state.platform?.value] || [],
-        subscriptionLength: state.subscription?.value || null,
-        monthlyTokens:
-          state.aiAnalytics?.value !== null ? state.aiAnalytics?.value : null,
-        diseaseAreas: state.diseaseArea.map((item: any) => item.value),
-        budget: state.amount || null,
-        smlDescription: state.additional || '',
-      });
-    }
-  }, [state]);
-
   useEffect(() => {
     if (sml) {
       setState({
-        ...state,
         subscription: sml.subscription,
         platform: sml.socialMedia,
-        diseaseArea: sml.diseaseArea,
+        diseaseArea: [sml.diseaseArea],
         aiAnalytics: sml.tokens,
       });
     }
   }, []);
 
-  console.log(state);
-
   const { push } = useSnackbar();
 
-  const createSML = async () => {
+  const createSML = useCallback(async () => {
     try {
-      console.log({ data });
+      const body = {
+        clientId: user.client.id,
+        platforms: [state.platform?.value],
+        subscriptionLength: state.subscription?.value,
+        monthlyTokens: state.aiAnalytics?.value,
+        diseaseAreas: state.diseaseArea.map((item: any) => item.value),
+        budget: state?.amount,
+        smlDescription: state.additional,
+      };
 
-      await SMLApi.createSML(data);
+      await SMLApi.createSML(body);
       push('Successfully added SML report', { variant: 'success' });
     } catch {
       push('Something went wrong.', { variant: 'error' });
     }
-  };
+  }, [state, user]);
 
   const disabled =
     !state.platform ||
@@ -204,6 +182,7 @@ const AddSmlModal = ({
           // onNewTag={handleNewTag}
           loading={loading}
           options={diseaseArea}
+          isFilterActive
         />
         <Input
           type="select"
