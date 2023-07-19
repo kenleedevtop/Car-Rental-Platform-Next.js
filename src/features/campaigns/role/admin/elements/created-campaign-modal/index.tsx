@@ -339,8 +339,8 @@ const CreatedCampaignModal = ({
 
         if (campaign.report) {
           newState.report = {
-            value: campaign.report,
-            label: campaign.report ? 'Yes' : 'No',
+            value: campaign.report.value,
+            label: campaign.report.name,
           };
         }
 
@@ -600,7 +600,7 @@ const CreatedCampaignModal = ({
           state.postType && state.postType.value && state.postType.value,
         clientCompanyWebsite: state.website ? state.website : undefined,
         instructions: state.instructions ? state.instructions : undefined,
-        report: state.report ? state.report.value?.value : undefined,
+        report: state.report ? state.report?.value : undefined,
         exampleImageUrls: photo !== undefined ? [photo] : undefined,
         clientId: state.client ? state.client.value : undefined,
         currencyId: state.currency ? state.currency.value : 3,
@@ -823,6 +823,7 @@ const CreatedCampaignModal = ({
               onSearch={debounce(getDiseaseAreas, 250)}
               loading={loading}
               options={diseaseAreas}
+              isFilterActive
             />
             <Input
               type="multiselect"

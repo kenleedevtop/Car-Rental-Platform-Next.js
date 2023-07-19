@@ -182,6 +182,7 @@ const AddSmlModal = ({
           // onNewTag={handleNewTag}
           loading={loading}
           options={diseaseArea}
+          isFilterActive
         />
         <Input
           type="select"

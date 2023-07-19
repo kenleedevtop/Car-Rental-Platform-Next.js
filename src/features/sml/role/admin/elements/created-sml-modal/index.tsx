@@ -203,6 +203,7 @@ const CreatedSmlModal = ({
           disabled={!edit}
           options={diseaseArea}
           loading={loading}
+          isFilterActive
         />
         <Input
           type="select"

@@ -165,6 +165,7 @@ const AmbasadorProfile = ({
               placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              isFilterActive
             />
             <Input
               disabled={editActive}

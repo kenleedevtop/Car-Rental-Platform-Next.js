@@ -190,6 +190,7 @@ const AccountPage = ({ ...props }) => {
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
               disabled
+              isFilterActive
             />
             <Input
               type="multiselect"

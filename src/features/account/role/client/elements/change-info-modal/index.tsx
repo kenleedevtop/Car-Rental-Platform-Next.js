@@ -274,6 +274,7 @@ const ChangeInfoModal = ({
             onNewTag={handleNewTag}
             loading={loading}
             options={diseaseAreas}
+            isFilterActive
           />
           <Input
             type="multiselect"

@@ -361,6 +361,7 @@ const CreateSurveysModal = ({
               disabled
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+              isFilterActive
             />
             <Input
               type="multiselect"

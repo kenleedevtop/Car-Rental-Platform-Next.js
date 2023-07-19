@@ -42,6 +42,7 @@ const AddSmlModal = ({ onClose, ...props }: TAddSmlModalProps) => {
           placeholder="Please Select"
           value={state.diseaseArea}
           onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
+          isFilterActive
         />
         <Input
           type="select"

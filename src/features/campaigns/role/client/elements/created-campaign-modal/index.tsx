@@ -681,6 +681,7 @@ const CreatedCampaignModal = ({
               onSearch={debounce(getDiseaseAreas, 250)}
               loading={loading}
               options={diseaseAreas}
+              isFilterActive
             />
             <Input
               type="multiselect"

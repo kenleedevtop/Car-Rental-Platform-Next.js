@@ -549,6 +549,7 @@ const CreateSurveysModal = ({
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
               onSearch={debounce(getDiseaseAreas, 250)}
               loading={loading}
+              isFilterActive
               options={diseaseAreas}
             />
             <Input
