@@ -19,6 +19,7 @@ const CompanyAPI = {
       params: {
         search,
         limit: 10,
+        approvalStatus: 'Approved',
       },
     });
 
