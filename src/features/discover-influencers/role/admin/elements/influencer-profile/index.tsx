@@ -29,6 +29,21 @@ const InfluencerProfile = ({
     loading: locationLoading,
   } = useLocationSearch();
 
+  const availableSocialPlatforms = [
+    {
+      value: 1,
+      label: 'Instagram',
+    },
+    {
+      value: 2,
+      label: 'Twitter',
+    },
+    {
+      value: 3,
+      label: 'Facebook',
+    },
+  ];
+
   const [influencer, setInfluencer] = useState<IUser>();
   const [diseaseArea, setDiseaseArea] = useState<any>([]);
   const [disabled, setDisabled] = useState(true);
@@ -39,13 +54,13 @@ const InfluencerProfile = ({
   const [state, setState] = useState<any>({
     email: '',
     username: '',
-    location: null,
+    socialPlatform: '',
     followers: null,
+    location: null,
     gender: null,
     dateOfBirth: '',
     age: '',
     diseaseAreas: [],
-    socialPlatforms: [],
     experience: null,
   });
 
@@ -215,6 +230,23 @@ const InfluencerProfile = ({
               );
             }
 
+            const socialPlatformObj = influencer.influencer.stakeholders.find(
+              (obj) => obj.socialPlatformId === 1
+            );
+
+            const username = socialPlatformObj
+              ? socialPlatformObj.socialPlatformUsername
+              : '';
+            const socialPlatform = socialPlatformObj
+              ? availableSocialPlatforms[
+                  socialPlatformObj!.socialPlatformId - 1
+                ].label
+              : '';
+
+            const followersCount = socialPlatformObj
+              ? socialPlatformObj?.followersCount
+              : null;
+
             if (influencer.location) {
               const label =
                 influencer.location.countryId && influencer.location.country
@@ -274,6 +306,9 @@ const InfluencerProfile = ({
               experience,
               diseaseAreas,
               socialPlatforms,
+              username,
+              socialPlatform,
+              followers: followersCount,
             };
           });
         }
@@ -400,7 +435,7 @@ const InfluencerProfile = ({
               onValue={(dateOfBirth) => setState({ ...state, dateOfBirth })}
             />
           )}
-          <Input
+          {/* <Input
             type="select"
             label="Social Media"
             placeholder="Please Enter"
@@ -435,12 +470,20 @@ const InfluencerProfile = ({
                 label: 'Facebook',
               },
             ]}
+          /> */}
+          <Input
+            type="text"
+            label="Platform"
+            placeholder="Please Enter"
+            value={state.socialPlatform}
+            disabled
+            onValue={(socialPlatform) => setState({ ...state, socialPlatform })}
           />
           <Input
             type="text"
             label="Username"
             placeholder="Please Enter"
-            disabled={disabled}
+            disabled
             value={state.username}
             onValue={(username) => setState({ ...state, username })}
           />
@@ -448,7 +491,7 @@ const InfluencerProfile = ({
             type="number"
             label="Followers"
             placeholder="Please Enter"
-            disabled={disabled}
+            disabled
             value={state.followers}
             onValue={(followers) => setState({ ...state, followers })}
           />
