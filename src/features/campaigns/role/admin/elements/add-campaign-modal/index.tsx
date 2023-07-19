@@ -111,10 +111,10 @@ const AddCampaignModal = ({
   };
 
   const getClients = async (s: string = '') => {
-    const { dataFormatted } = await ClientAPI.getClients(s);
+    const { result } = await ClientAPI.getClients(s);
 
     setClients(
-      dataFormatted.map((data: any) => ({
+      result.map((data: any) => ({
         value: data.id,
         label: `${data.firstName} ${data.lastName}`,
       }))
@@ -365,9 +365,11 @@ const AddCampaignModal = ({
         currencyId: state.currency ? state.currency.value : 1,
       };
 
-      await CampaignAPI.addCampaign(body).then(() => refresh());
-
-      push('Campaign successfully added.', { variant: 'success' });
+      await CampaignAPI.addCampaign(body).then(() => {
+        refresh();
+        push('Campaign successfully added.', { variant: 'success' });
+        onClose();
+      });
     } catch (e) {
       push('Campaign add failed.', { variant: 'error' });
     }
@@ -415,23 +417,6 @@ const AddCampaignModal = ({
               required
             />
             <Input
-              type="select"
-              label="Client"
-              placeholder="Please Select"
-              value={state.client}
-              onValue={(client) => setState({ ...state, client })}
-              options={clients}
-              required
-            />
-            <Input
-              type="text"
-              label="Ambassador"
-              placeholder="Please Select"
-              value={ambassador?.label ?? 'None'}
-              onValue={(input) => setState({ ...state, ambassador: input })}
-              disabled
-            />
-            <Input
               type="multiselect"
               label="Products"
               placeholder="Please Select"
@@ -441,6 +426,25 @@ const AddCampaignModal = ({
               onSearch={debounce(getProducts, 250)}
               onNewTag={handleNewProductTag}
               loading={loading}
+              noOptionsText="Press Enter to Add Yours"
+            />
+            <Input
+              type="select"
+              label="Client"
+              placeholder="Please Select"
+              value={state.client}
+              onValue={(client) => setState({ ...state, client })}
+              options={clients}
+              required
+              onSearch={debounce(getClients, 250)}
+            />
+            <Input
+              type="text"
+              label="Ambassador"
+              placeholder="Please Select"
+              value={ambassador?.label ?? 'None'}
+              onValue={(input) => setState({ ...state, ambassador: input })}
+              disabled
             />
 
             <Input
@@ -458,23 +462,6 @@ const AddCampaignModal = ({
               value={state.dateEnd}
               min={state.dateStart}
               onValue={(dateEnd) => setState({ ...state, dateEnd })}
-            />
-            <Input
-              type="number"
-              label="Influencers"
-              placeholder="Please Select"
-              value={state.influencerCount}
-              onValue={(influencerCount) =>
-                setState({ ...state, influencerCount })
-              }
-            />
-            <Input
-              type="select"
-              label="Report"
-              placeholder="Please Select"
-              value={state.report}
-              onValue={(input) => setState({ ...state, report: input })}
-              options={report}
             />
             <InputGroup
               label="Amount"
@@ -507,6 +494,14 @@ const AddCampaignModal = ({
                   placeholder: 'Please Enter',
                 },
               ]}
+            />
+            <Input
+              type="select"
+              label="Report"
+              placeholder="Please Select"
+              value={state.report}
+              onValue={(input) => setState({ ...state, report: input })}
+              options={report}
             />
             <GridCell columnSpan={2}>
               <Input
@@ -593,6 +588,14 @@ const AddCampaignModal = ({
             />
             <Input
               type="multiselect"
+              label="Symptom"
+              placeholder="Please Select"
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
+            />
+            <Input
+              type="multiselect"
               label="Interest"
               placeholder="Please Select"
               value={state.interests}
@@ -608,12 +611,13 @@ const AddCampaignModal = ({
               options={influencerSize}
             />
             <Input
-              type="multiselect"
-              label="Symptom"
+              type="number"
+              label="Influencers"
               placeholder="Please Select"
-              value={state.symptoms}
-              onValue={(input) => setState({ ...state, symptoms: input })}
-              options={symptoms}
+              value={state.influencerCount}
+              onValue={(influencerCount) =>
+                setState({ ...state, influencerCount })
+              }
             />
             <GridCell columnSpan={2}>
               <Input

@@ -616,17 +616,6 @@ const CreatedCampaignModal = ({
               onValue={() => {}}
               options={report}
             />
-            <Input
-              type="number"
-              min={0}
-              label="Influencers"
-              placeholder="Please Select"
-              disabled
-              value={state.influencerCount}
-              onValue={(input) =>
-                setState({ ...state, influencerCount: input > 0 ? input : 0 })
-              }
-            />
             <Stack>
               <Input
                 label="Budget"
@@ -732,6 +721,14 @@ const CreatedCampaignModal = ({
             />
             <Input
               type="multiselect"
+              label="Symptom"
+              disabled
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
+            />
+            <Input
+              type="multiselect"
               label="Influencer Size"
               disabled
               value={state.influencerSize}
@@ -739,12 +736,15 @@ const CreatedCampaignModal = ({
               options={influencerSize}
             />
             <Input
-              type="multiselect"
-              label="Symptom"
+              type="number"
+              min={0}
+              label="Influencers"
+              placeholder="Please Select"
               disabled
-              value={state.symptoms}
-              onValue={(input) => setState({ ...state, symptoms: input })}
-              options={symptoms}
+              value={state.influencerCount}
+              onValue={(input) =>
+                setState({ ...state, influencerCount: input > 0 ? input : 0 })
+              }
             />
             <GridCell columnSpan={2}>
               <Input
@@ -806,6 +806,7 @@ const CreatedCampaignModal = ({
                     color="default"
                     variant="contained"
                     onClick={handlePhotos}
+                    disabled
                   >
                     Upload
                   </Button>

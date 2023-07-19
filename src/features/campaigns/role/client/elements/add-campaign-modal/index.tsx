@@ -335,9 +335,11 @@ const AddCampaignModal = ({
         exampleImageUrls: photo !== undefined ? [photo] : undefined,
       };
 
-      await CampaignAPI.addCampaign(body);
-
-      push('Campaign successfully added.', { variant: 'success' });
+      await CampaignAPI.addCampaign(body).then(() => {
+        refresh();
+        onClose();
+        push('Campaign successfully added.', { variant: 'success' });
+      });
     } catch (e) {
       push('Campaign add failed.', { variant: 'error' });
       console.error(e);
@@ -358,8 +360,6 @@ const AddCampaignModal = ({
           disabled={disabled}
           onClick={() => {
             createCampaign();
-            refresh();
-            onClose();
           }}
         >
           Create
@@ -396,6 +396,7 @@ const AddCampaignModal = ({
               onSearch={debounce(getProducts, 250)}
               onNewTag={handleNewProductTag}
               loading={loading}
+              noOptionsText="Press Enter to Add Yours"
             />
             <Input
               label="Start Date"
@@ -420,16 +421,6 @@ const AddCampaignModal = ({
               value={state.report}
               onValue={(input) => setState({ ...state, report: input })}
               options={report}
-            />
-            <Input
-              type="number"
-              min={0}
-              label="Influencers"
-              placeholder="Please Select"
-              value={state.influencerCount}
-              onValue={(input) =>
-                setState({ ...state, influencerCount: input > 0 ? input : 0 })
-              }
             />
             <Stack>
               <Input
@@ -543,6 +534,15 @@ const AddCampaignModal = ({
             />
             <Input
               type="multiselect"
+              label="Symptom"
+              placeholder="Please Select"
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
+              onSearch={debounce(getSympthoms, 250)}
+            />
+            <Input
+              type="multiselect"
               label="Influencer Size"
               placeholder="Please Select"
               value={state.influencerSize}
@@ -550,13 +550,14 @@ const AddCampaignModal = ({
               options={influencerSize}
             />
             <Input
-              type="multiselect"
-              label="Symptom"
+              type="number"
+              min={0}
+              label="Influencers"
               placeholder="Please Select"
-              value={state.symptoms}
-              onValue={(input) => setState({ ...state, symptoms: input })}
-              options={symptoms}
-              onSearch={debounce(getSympthoms, 250)}
+              value={state.influencerCount}
+              onValue={(input) =>
+                setState({ ...state, influencerCount: input > 0 ? input : 0 })
+              }
             />
             <GridCell columnSpan={2}>
               <Input

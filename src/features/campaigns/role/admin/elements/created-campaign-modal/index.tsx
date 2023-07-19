@@ -126,10 +126,10 @@ const CreatedCampaignModal = ({
   };
 
   const getClients = async (s: string = '') => {
-    const { dataFormatted } = await ClientAPI.getClients(s);
+    const { result } = await ClientAPI.getClients(s);
 
     setClients(
-      dataFormatted.map((data: any) => ({
+      result.map((data: any) => ({
         value: data.id,
         label: `${data.firstName} ${data.lastName}`,
       }))
@@ -611,9 +611,11 @@ const CreatedCampaignModal = ({
           campaign.platformProductOrder.status,
       };
 
-      await CampaignAPI.updateCampaign(id, body).then(() => reload());
-
       push('Campaign successfully updated.', { variant: 'success' });
+      await CampaignAPI.updateCampaign(id, body).then(() => {
+        reload();
+        onClose();
+      });
     } catch (e) {
       push('Campaign update failed.', { variant: 'error' });
     }
@@ -654,7 +656,6 @@ const CreatedCampaignModal = ({
           disabled={disabled}
           onClick={() => {
             updateCampaign();
-            onClose();
           }}
         >
           Update
@@ -683,13 +684,24 @@ const CreatedCampaignModal = ({
               required
             />
             <Input
+              type="multiselect"
+              label="Products"
+              placeholder="Please Select"
+              value={state.product}
+              disabled={!edit}
+              onValue={(input) => setState({ ...state, product: input })}
+              options={product}
+              onSearch={debounce(getProducts, 250)}
+              onNewTag={handleNewProductTag}
+              loading={loading}
+              noOptionsText="Press Enter to Add Yours"
+            />
+            <Input
               type="text"
               label="Client"
               disabled
-              placeholder="Please Select"
               value={state.client && state.client.label}
-              onValue={(client) => setState({ ...state, client })}
-              options={clients}
+              onValue={() => {}}
             />
             <Input
               type="text"
@@ -698,17 +710,6 @@ const CreatedCampaignModal = ({
               value={ambassador?.label ?? 'None'}
               onValue={(input) => setState({ ...state, ambassador: input })}
               disabled
-            />
-            <Input
-              type="multiselect"
-              label="Products"
-              disabled={!edit}
-              value={state.product}
-              onValue={(input) => setState({ ...state, product: input })}
-              options={product}
-              onSearch={debounce(getProducts, 250)}
-              onNewTag={handleNewProductTag}
-              loading={loading}
             />
             <Input
               label="Start Date"
@@ -727,26 +728,6 @@ const CreatedCampaignModal = ({
               value={state.dateEnd}
               min={state.dateStart ? state.dateStart : undefined}
               onValue={(input) => setState({ ...state, dateEnd: input })}
-            />
-
-            <Input
-              type="select"
-              label="Report"
-              disabled={!edit}
-              value={state.report}
-              onValue={(input) => setState({ ...state, report: input })}
-              options={report}
-            />
-            <Input
-              type="number"
-              min={0}
-              disabled={!edit}
-              label="Influencers"
-              placeholder="Please Select"
-              value={state.influencerCount}
-              onValue={(input) =>
-                setState({ ...state, influencerCount: input > 0 ? input : 0 })
-              }
             />
             <InputGroup
               label="Amount"
@@ -780,6 +761,14 @@ const CreatedCampaignModal = ({
                   placeholder: 'Please Enter',
                 },
               ]}
+            />
+            <Input
+              type="select"
+              label="Report"
+              disabled={!edit}
+              value={state.report}
+              onValue={(input) => setState({ ...state, report: input })}
+              options={report}
             />
             <GridCell columnSpan={2}>
               <Input
@@ -874,6 +863,14 @@ const CreatedCampaignModal = ({
             />
             <Input
               type="multiselect"
+              label="Symptom"
+              disabled={!edit}
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
+            />
+            <Input
+              type="multiselect"
               label="Influencer Size"
               disabled={!edit}
               value={state.influencerSize}
@@ -881,13 +878,17 @@ const CreatedCampaignModal = ({
               options={influencerSize}
             />
             <Input
-              type="multiselect"
-              label="Symptom"
+              type="number"
+              min={0}
               disabled={!edit}
-              value={state.symptoms}
-              onValue={(input) => setState({ ...state, symptoms: input })}
-              options={symptoms}
+              label="Influencers"
+              placeholder="Please Select"
+              value={state.influencerCount}
+              onValue={(input) =>
+                setState({ ...state, influencerCount: input > 0 ? input : 0 })
+              }
             />
+
             <GridCell columnSpan={2}>
               <Input
                 multiline
@@ -948,6 +949,7 @@ const CreatedCampaignModal = ({
                     color="default"
                     variant="contained"
                     onClick={handlePhotos}
+                    disabled={!edit}
                   >
                     Upload
                   </Button>
