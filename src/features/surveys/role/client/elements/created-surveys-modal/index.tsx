@@ -28,9 +28,9 @@ const CreateSurveysModal = ({
     tokens: null,
     surveyInfo: '',
 
-    location: null,
-    language: null,
-    diseaseArea: null,
+    location: [],
+    language: [],
+    diseaseArea: [],
     gender: [],
     ageRange: {
       min: null,
@@ -46,6 +46,7 @@ const CreateSurveysModal = ({
     link: '',
     materials: [],
     instructions: '',
+    symptoms: [],
   });
 
   const [tab, setTab] = useState(0);
@@ -83,6 +84,16 @@ const CreateSurveysModal = ({
         newState.participants = survey.participantCount;
       }
 
+      if (
+        survey.platformProductOrder.platformProductOrderSymptoms &&
+        survey.platformProductOrder.platformProductOrderSymptoms.length > 0
+      ) {
+        newState.symptoms =
+          survey.platformProductOrder.platformProductOrderSymptoms.map(
+            (x: any) => ({ value: x.id, label: x.name })
+          );
+      }
+
       if (survey.questionCredits) {
         newState.questionCredits = survey.questionCredits;
       }
@@ -93,7 +104,7 @@ const CreateSurveysModal = ({
 
       if (survey.clientSurveyTokenBalances) {
         newState.tokens = {
-          value: survey.clientSurveyTokenBalances[0].id,
+          value: survey.clientSurveyTokenBalances[0].tokenBalance,
           label: `${survey.clientSurveyTokenBalances[0].tokenBalance} Tokens`,
         };
       }
@@ -133,32 +144,23 @@ const CreateSurveysModal = ({
         }));
       }
 
-      if (survey.platformProductOrder.platformProductOrderLocations?.[0]) {
-        newState.location = {
-          value:
-            survey.platformProductOrder.platformProductOrderLocations?.[0]
-              .location.id,
-          label:
-            survey.platformProductOrder.platformProductOrderLocations?.[0]
-              .location.name,
-        };
-        // survey.platformProductOrder.platformProductOrderLocations.map(
-        //   (x: any) => ({ value: x.location.id, label: x.location.name })
-        // );
+      if (survey.platformProductOrder.platformProductOrderLocations) {
+        newState.location =
+          survey.platformProductOrder.platformProductOrderLocations.map(
+            (x: any) => ({
+              value: x.location.id,
+              label: x.location.country
+                ? `${x.location.name}, ${x.location.country.name}`
+                : x.location.name,
+            })
+          );
       }
 
-      if (survey.platformProductOrder.platformProductOrderDiseaseAreas?.[0]) {
-        newState.diseaseArea = {
-          value:
-            survey.platformProductOrder.platformProductOrderDiseaseAreas?.[0]
-              .diseaseArea.id,
-          label:
-            survey.platformProductOrder.platformProductOrderDiseaseAreas?.[0]
-              .diseaseArea.name,
-        };
-        // survey.platformProductOrder.platformProductOrderDiseaseAreas.map(
-        //   (x: any) => ({ value: x.diseaseArea.id, label: x.diseaseArea.name })
-        // );
+      if (survey.platformProductOrder.platformProductOrderDiseaseAreas) {
+        newState.diseaseArea =
+          survey.platformProductOrder.platformProductOrderDiseaseAreas.map(
+            (x: any) => ({ value: x.diseaseArea.id, label: x.diseaseArea.name })
+          );
       }
 
       if (survey.platformProductOrder.platformProductOrderEthnicities) {
@@ -182,27 +184,11 @@ const CreateSurveysModal = ({
           );
       }
 
-      if (survey.language) {
-        switch (survey.language) {
-          case 0:
-            newState.language = { value: 0, label: 'English' };
-            break;
-          case 1:
-            newState.language = { value: 1, label: 'French' };
-            break;
-          case 2:
-            newState.language = { value: 2, label: 'German' };
-            break;
-          case 3:
-            newState.language = { value: 3, label: 'Spanish' };
-            break;
-          case 4:
-            newState.language = { value: 4, label: 'Italian' };
-            break;
-          default:
-            newState.language = null;
-            break;
-        }
+      if (survey.platformProductOrder.platformProductOrderLanguages) {
+        newState.language =
+          survey.platformProductOrder.platformProductOrderLanguages.map(
+            (x: any) => ({ value: x.id, label: x.name })
+          );
       }
 
       if (survey.instructionsDescription) {
@@ -267,6 +253,13 @@ const CreateSurveysModal = ({
               onValue={(surveyName) => setState({ ...state, surveyName })}
             />
             <Input
+              type="select"
+              label="Tokens"
+              value={state.tokens}
+              disabled
+              onValue={(tokens) => setState({ ...state, tokens })}
+            />
+            <Input
               type="multiselect"
               label="Product"
               value={state.product}
@@ -320,13 +313,7 @@ const CreateSurveysModal = ({
               disabled
               onValue={(endDate) => setState({ ...state, endDate })}
             />
-            <Input
-              type="select"
-              label="Tokens"
-              value={state.tokens}
-              disabled
-              onValue={(tokens) => setState({ ...state, tokens })}
-            />
+
             <Stack>
               <Input
                 type="number"
@@ -355,22 +342,22 @@ const CreateSurveysModal = ({
         {tab === 1 && (
           <CreateSurveysModalMain columns={2}>
             <Input
-              type="select"
+              type="multiselect"
               label="Location"
               disabled
               value={state.location}
               onValue={(location) => setState({ ...state, location })}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Language"
               disabled
               value={state.language}
               onValue={(language) => setState({ ...state, language })}
             />
             <Input
-              type="select"
-              label="Disease area"
+              type="multiselect"
+              label="Disease Area"
               disabled
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
@@ -412,14 +399,14 @@ const CreateSurveysModal = ({
             />
             <Input
               type="multiselect"
-              label="Struggles"
+              label="Struggle"
               disabled
               value={state.struggles}
               onValue={(struggles) => setState({ ...state, struggles })}
             />
             <Input
               type="multiselect"
-              label="Interests"
+              label="Interest"
               disabled
               value={state.interests}
               onValue={(interests) => setState({ ...state, interests })}

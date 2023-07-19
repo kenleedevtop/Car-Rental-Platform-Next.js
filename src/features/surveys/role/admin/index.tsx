@@ -42,6 +42,8 @@ import {
 import { useMenu, useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
 import { SurveyAPI } from 'api';
+import moment from 'moment';
+import InPreparationActions from './elements/inpreparation-actions';
 
 const SurveyPage = () => {
   const [filter, setFilter] = useState<any>(DGenerateSurveyFilter());
@@ -64,60 +66,6 @@ const SurveyPage = () => {
 
   const clearFilters = () => {
     setFilter(DGenerateSurveyFilter());
-  };
-
-  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
-    if (headItem.reference === 'survey') {
-      return row.data.name;
-    }
-
-    if (headItem.reference === 'diseaseArea') {
-      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
-        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea.name;
-      }
-    }
-
-    if (headItem.reference === 'date') {
-      return `${row.data.dateStart.slice(0, 10)} - ${row.data.dateEnd.slice(
-        0,
-        10
-      )}`;
-    }
-
-    if (headItem.reference === 'participants') {
-      return row.data.participantCount;
-    }
-
-    if (headItem.reference === 'questions') {
-      return '';
-    }
-
-    if (headItem.reference === 'budget') {
-      return `${row.data.platformProductOrder.budget} CHF`;
-    }
-
-    if (headItem.reference === 'language') {
-      switch (row.data.language) {
-        case 1:
-          return 'English';
-        case 2:
-          return 'French';
-        case 3:
-          return 'German';
-        case 4:
-          return 'Spanish';
-        case 5:
-          return 'Italian';
-        default:
-          return '';
-      }
-    }
-    if (headItem.reference === 'questions') {
-      return row.data.questionCount;
-    }
-
-    return '';
   };
 
   const [menuIP, openIP, setOpenIP] = useMenu(false);
@@ -156,6 +104,71 @@ const SurveyPage = () => {
         setTotalResults(meta.countFiltered);
       },
     });
+
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    if (headItem.reference === 'survey') {
+      return row.data.name;
+    }
+
+    if (headItem.reference === 'diseaseArea') {
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
+        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
+          .diseaseArea.name;
+      }
+    }
+
+    if (headItem.reference === 'startDate') {
+      if (row.data.dateStart) {
+        return moment(row.data.dateStart).format('DD/MM/YYYY');
+      }
+    }
+
+    if (headItem.reference === 'endDate') {
+      if (row.data.dateEnd) {
+        return moment(row.data.dateEnd).format('DD/MM/YYYY');
+      }
+    }
+
+    if (headItem.reference === 'participants') {
+      return row.data.participantCount;
+    }
+
+    if (headItem.reference === 'questions') {
+      return '';
+    }
+
+    if (headItem.reference === 'budget') {
+      if (row.data.platformProductOrder.budget) {
+        return `${row.data.platformProductOrder.budget} CHF`;
+      }
+    }
+
+    if (headItem.reference === 'language') {
+      switch (row.data.language) {
+        case 1:
+          return 'English';
+        case 2:
+          return 'French';
+        case 3:
+          return 'German';
+        case 4:
+          return 'Spanish';
+        case 5:
+          return 'Italian';
+        default:
+          return '';
+      }
+    }
+    if (headItem.reference === 'questions') {
+      return row.data.questionCount;
+    }
+
+    if (headItem.reference === 'actions') {
+      return <InPreparationActions data={row.data.id} reload={reload} />;
+    }
+
+    return '';
+  };
 
   return (
     <SurveysPageMain>
@@ -472,8 +485,13 @@ const SurveyPage = () => {
                 visible: true,
               },
               {
-                reference: 'date',
-                label: 'Date',
+                reference: 'startDate',
+                label: 'Start Date',
+                visible: true,
+              },
+              {
+                reference: 'endDate',
+                label: 'End Date',
                 visible: true,
               },
               {
@@ -644,7 +662,9 @@ const SurveyPage = () => {
         )}
       </CardWithText>
       {esModal && <ExportSurveysModal onClose={closeEsModal} />}
-      {csModal && <CreateSurveysModal onClose={closeCsModal} />}
+      {csModal && (
+        <CreateSurveysModal onClose={closeCsModal} refresh={reload} />
+      )}
       {siModal && <SurveyInfoModal onClose={closeSiModal} />}
     </SurveysPageMain>
   );

@@ -125,8 +125,8 @@ const CreatedCampaignModal = ({
     );
   };
 
-  const getClients = async () => {
-    const { dataFormatted } = await ClientAPI.getClients();
+  const getClients = async (s: string = '') => {
+    const { dataFormatted } = await ClientAPI.getClients(s);
 
     setClients(
       dataFormatted.map((data: any) => ({
@@ -716,6 +716,7 @@ const CreatedCampaignModal = ({
               disabled={!edit}
               placeholder="From"
               value={state.dateStart}
+              max={state.dateEnd ? state.dateEnd : undefined}
               onValue={(input) => setState({ ...state, dateStart: input })}
             />
             <Input
@@ -724,7 +725,7 @@ const CreatedCampaignModal = ({
               disabled={!edit}
               placeholder="To"
               value={state.dateEnd}
-              max={state.dateStart ? state.dateStart : undefined}
+              min={state.dateStart ? state.dateStart : undefined}
               onValue={(input) => setState({ ...state, dateEnd: input })}
             />
 
