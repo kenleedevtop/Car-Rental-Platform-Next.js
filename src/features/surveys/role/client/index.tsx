@@ -84,35 +84,32 @@ const SurveyPage = () => {
       );
     }
     if (headItem.reference === 'diseaseArea') {
-      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]) {
-        return row.data.platformProductOrder.platformProductOrderDiseaseAreas[0]
-          .diseaseArea.name;
+      if (row.data.platformProductOrder.platformProductOrderDiseaseAreas) {
+        const diseaseAreas =
+          row.data.platformProductOrder.platformProductOrderDiseaseAreas.map(
+            (x: any) => x.diseaseArea.name
+          );
+
+        return diseaseAreas.join(', ');
       }
     }
     if (headItem.reference === 'participants') {
       return row.data.participantCount;
     }
     if (headItem.reference === 'language') {
-      switch (row.data.language) {
-        case 1:
-          return 'English';
-        case 2:
-          return 'French';
-        case 3:
-          return 'German';
-        case 4:
-          return 'Spanish';
-        case 5:
-          return 'Italian';
-        default:
-          return '';
+      if (row.data.platformProductOrder.platformProductOrderLanguages) {
+        const languages =
+          row.data.platformProductOrder.platformProductOrderLanguages.map(
+            (x: any) => x.name
+          );
+
+        return languages.join(', ');
       }
     }
     if (headItem.reference === 'questions') {
       return row.data.questionCount;
     }
     if (headItem.reference === 'actions') {
-      // return '';
       return <InPreparationActions data={row.data.id} />;
     }
 

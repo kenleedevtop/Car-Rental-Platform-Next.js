@@ -8,15 +8,24 @@ export const TableWrapper = styled.div<{ theme?: Theme }>`
     border: 1px solid ${theme.palette.common.black}20;
     background-color: ${theme.palette.common.white};
 
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: auto;
 
+
+    @media screen and (min-width: 420px) and (max-width: 962px) {
+      width: 380px;
+      max-width: 420px;
+    }
+
+    
+
     ${theme.breakpoints.down('sm')} {
-      width: 78vw;
+      width: 340px
+
     }
 
     ${theme.breakpoints.down('xs')} {
-      width: 74vw;
+      width: 260px
     }
   `}
 `;
@@ -98,7 +107,7 @@ export const TableEmpty = styled.div<{ theme?: Theme }>`
     flex-direction: column;
     text-align: center;
     padding: ${theme.spacing(5)};
-    min-height: 200px;
+    min-height: 325px;
     color: ${theme.palette.common.gray[6]};
     font-size: 18px;
     font-weight: 300;

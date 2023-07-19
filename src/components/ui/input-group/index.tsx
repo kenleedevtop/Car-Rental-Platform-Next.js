@@ -14,6 +14,7 @@ const InputGroup = ({
   elements,
   inputRatio,
   disabled,
+  inputGroupElementStyle,
   ...props
 }: TInputGroupProps) => (
   <InputGroupMain {...props}>
@@ -22,7 +23,7 @@ const InputGroup = ({
         {label}
       </InputGroupLabel>
     )}
-    <InputGroupElements inputRatio={inputRatio}>
+    <InputGroupElements inputRatio={inputRatio} style={inputGroupElementStyle}>
       {elements.map((x) => (
         <InputGroupElement disabled={disabled} {...x} />
       ))}

@@ -13,5 +13,6 @@ export const createInitialState = (): TAppContext => ({
   showMobileMenu: false,
   handleMobileMenu: () => {},
   handleCurrencyChange: () => {},
-  handleInfluencer() {},
+  handleInfluencer: () => {},
+  getMeData: async () => {},
 });

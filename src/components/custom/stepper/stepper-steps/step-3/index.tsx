@@ -9,14 +9,40 @@ import { Button } from 'components/ui';
 import React, { useEffect, useState } from 'react';
 import { useAppContext } from 'context';
 import { InfluencerAPI } from 'api';
+import Project from 'constants/project';
 
 const instagramAuth = (title: string, onClose: () => void) =>
   new Promise((resolve, reject) => {
     const top = (window.innerHeight - 600) / 2 + window.screenY;
     const left = (window.innerWidth - 600) / 2 + window.screenX;
 
+    const {
+      environment,
+      baseUrl: baseDevUrl,
+      baseProdUrl,
+      baseStageUrl,
+    } = Project.app;
+
+    let baseUrl;
+
+    switch (environment) {
+      case 'development':
+        baseUrl = baseDevUrl;
+        break;
+      case 'staging':
+        baseUrl = baseStageUrl;
+        break;
+      case 'production':
+        baseUrl = baseProdUrl;
+        break;
+      default:
+        // Handle the case where 'environment' is not one of the specified values
+        console.error('Unknown environment:', environment);
+        break;
+    }
+
     const dialog = window.open(
-      `https://api.instagram.com/oauth/authorize?client_id=192566817106120&redirect_uri=https://app.patientsinfluence.com/_/code&scope=user_profile&response_type=code`,
+      `https://api.instagram.com/oauth/authorize?client_id=192566817106120&redirect_uri=${baseUrl}/_/code&scope=user_profile&response_type=code`,
       title,
       `top=${top}px,left=${left},width=${600}px,height=${600}px`
     );
@@ -28,24 +54,34 @@ const instagramAuth = (title: string, onClose: () => void) =>
       const { type: eventType, data } = event.data;
       if (eventType === 'code') {
         resolve(data);
-        onClose();
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         cleanup();
       }
     };
 
     const cleanup = () => {
-      if (dialog.removeEventListener)
-        dialog.removeEventListener('message', receiveMessage);
-      if (dialog.removeEventListener)
-        dialog.removeEventListener('beforeunload', onClose);
-      if (dialog.close) dialog.close();
+      try {
+        if (dialog.removeEventListener)
+          dialog.removeEventListener('message', receiveMessage);
+        if (dialog.removeEventListener)
+          dialog.removeEventListener('beforeunload', onClose);
+        if (dialog.close) dialog.close();
+      } catch (e: any) {
+        console.log(e.message);
+      }
     };
+
+    dialog.addEventListener('message', receiveMessage, false);
+
+    if (onClose && typeof onClose === 'function') {
+      dialog.addEventListener('beforeunload', onClose);
+    }
 
     const checkClosed = setInterval(() => {
       if (dialog.closed) {
         clearInterval(checkClosed);
         cleanup();
+        onClose();
         reject(new Error('User closed the dialog.'));
       }
     }, 1000);
@@ -62,7 +98,6 @@ const Step = () => {
 
   const onClose = () => {
     getInfluencerData(user.id);
-    window.location.reload();
   };
 
   const handleInstagramAuth = async () => {
@@ -88,7 +123,7 @@ const Step = () => {
     } else {
       setHasInstagramLinked(false);
     }
-  }, [findInstagramAccount]);
+  }, [findInstagramAccount, influencer]);
 
   return (
     <StepContainer>

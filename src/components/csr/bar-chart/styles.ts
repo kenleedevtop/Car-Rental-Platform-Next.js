@@ -22,5 +22,6 @@ export const Overlay = styled.div`
   span {
     color: dark-grey;
     font-size: 24px;
+    text-align: center;
   }
 `;

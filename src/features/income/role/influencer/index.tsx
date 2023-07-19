@@ -128,10 +128,9 @@ const IncomePage = () => {
         {tab === 0 && (
           <CardWithText
             title="Account Statement"
-            description="20 new Campaigns"
             style={
               window.innerWidth < 600
-                ? { padding: '1.25rem 0', boxShadow: 'unset' }
+                ? { padding: '1.25rem 10px', boxShadow: 'unset' }
                 : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
             }
             actions={[
@@ -236,14 +235,13 @@ const IncomePage = () => {
                 renderItem={() => {}}
               />
 
-              <Pagination count={32} />
+              <Pagination count={0} />
             </Stack>
           </CardWithText>
         )}
         {tab === 1 && (
           <CardWithText
             title="Affiliate Program"
-            description="20 new Campaigns"
             style={
               window.innerWidth < 600
                 ? { padding: '1.25rem 0', boxShadow: 'unset' }
@@ -343,7 +341,7 @@ const IncomePage = () => {
                 renderItem={() => {}}
               />
 
-              <Pagination count={32} />
+              <Pagination count={0} />
             </Stack>
           </CardWithText>
         )}

@@ -33,6 +33,8 @@ const ManageSMLPage = ({ ...props }) => {
     setFilter(DGenerateManageSMLFilter());
   };
 
+  console.log('You are already here, bitch!');
+
   return (
     <ManageSMLMain {...props}>
       <Tabs

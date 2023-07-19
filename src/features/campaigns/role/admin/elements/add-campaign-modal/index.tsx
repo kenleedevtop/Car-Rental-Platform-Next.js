@@ -110,8 +110,8 @@ const AddCampaignModal = ({
     );
   };
 
-  const getClients = async () => {
-    const { dataFormatted } = await ClientAPI.getClients();
+  const getClients = async (s: string = '') => {
+    const { dataFormatted } = await ClientAPI.getClients(s);
 
     setClients(
       dataFormatted.map((data: any) => ({
@@ -448,6 +448,7 @@ const AddCampaignModal = ({
               label="Start Date"
               placeholder="Please Enter"
               value={state.dateStart}
+              max={state.dateEnd}
               onValue={(dateStart) => setState({ ...state, dateStart })}
             />
             <Input
@@ -455,7 +456,7 @@ const AddCampaignModal = ({
               label="Finish Date"
               placeholder="Please Enter"
               value={state.dateEnd}
-              max={state.dateStart}
+              min={state.dateStart}
               onValue={(dateEnd) => setState({ ...state, dateEnd })}
             />
             <Input

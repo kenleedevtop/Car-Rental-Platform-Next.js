@@ -36,14 +36,15 @@ const CreateSurveysModal = ({
     tokens: null,
     surveyInfo: '',
 
-    location: null,
-    language: null,
-    diseaseArea: null,
+    location: [],
+    language: [],
+    diseaseArea: [],
     gender: [],
     ageRange: {
       min: null,
       max: null,
     },
+    stakeholders: [],
     ethnicity: [],
     struggles: [],
     interests: [],
@@ -54,6 +55,7 @@ const CreateSurveysModal = ({
     link: '',
     materials: [],
     instructions: '',
+    symptoms: [],
   });
 
   const [tab, setTab] = useState(0);
@@ -71,29 +73,28 @@ const CreateSurveysModal = ({
   const [product, setProduct] = useState<any>([]);
   const [location, setLocation] = useState<any>(null);
   const [diseaseAreas, setDiseaseAreas] = useState<any>(null);
+  const [stakeholders, setStakholders] = useState<any>();
   const [gender, setGender] = useState<any>([]);
   const [ethnicity, setEthnicity] = useState<any>([]);
   const [struggles, setStruggles] = useState<any>([]);
   const [interests, setInterests] = useState<any>([]);
   const [surveyTypes, setSurveyTypes] = useState<any>(null);
   const [tokens, setTokens] = useState<any>(null);
-
-  const handleNewStruggleTag = (v: any) => {
-    setState({ ...state, struggles: [...state.struggles, v] });
-  };
-  const handleNewEthnicityTag = (v: any) => {
-    setState({ ...state, ethnicity: [...state.ethnicity, v] });
-  };
-  const handleNewInterestsTag = (v: any) => {
-    setState({ ...state, interests: [...state.interests, v] });
-  };
+  const [symptoms, setSymptoms] = useState<any>();
 
   const handleNewProductTag = (v: any) => {
     setState({ ...state, product: [...state.product, v] });
   };
 
-  const handleNewGendersTag = (v: any) => {
-    setState({ ...state, gender: [...state.gender, v] });
+  const getStakeholders = async () => {
+    const result = await EnumsApi.getStakeholderTypes();
+
+    setStakholders(
+      result.map((x: any) => ({
+        value: x.value,
+        label: x.name,
+      }))
+    );
   };
 
   const getProducts = async (s: string = '') => {
@@ -210,6 +211,17 @@ const CreateSurveysModal = ({
     );
   };
 
+  const getSympthoms = async () => {
+    const response = await EnumsApi.getSymptoms();
+
+    setSymptoms(
+      response.result.map((x: any) => ({
+        value: x.id,
+        label: x.name,
+      }))
+    );
+  };
+
   useEffect(() => {
     getProducts();
     getDiseaseAreas();
@@ -220,6 +232,8 @@ const CreateSurveysModal = ({
     getInterests();
     getSurveyTypes();
     getSurveyTokens();
+    getStakeholders();
+    getSympthoms();
   }, []);
 
   const { push } = useSnackbar();
@@ -229,14 +243,17 @@ const CreateSurveysModal = ({
   const createSurvey = async () => {
     try {
       const body = {
-        name: state.surveyName || '',
+        name: state.surveyName,
         budget: state.budget ? parseInt(state.budget, 10) : undefined,
-        diseaseAreaId: state.diseaseArea ? state.diseaseArea.value : undefined,
+        diseaseAreaIds: state.diseaseArea
+          ? state.diseaseArea.map((x: any) => x.value)
+          : [],
         struggleIds: state.struggles
           ? state.struggles.map((x: any) => x.value)
           : undefined,
-        locationId: state.location ? state.location.value : undefined,
-        languageId: state.language ? state.language.value : undefined,
+        locationIds: state.location
+          ? state.location.map((x: any) => x.value)
+          : [],
         ethnicityIds: state.ethnicity
           ? state.ethnicity.map((x: any) => x.value)
           : undefined,
@@ -272,13 +289,20 @@ const CreateSurveysModal = ({
         instructions: state.instructions ? state.instructions : undefined,
         tokens: state.tokens ? state.tokens.value : null,
         link: state.link ? state.link : undefined,
+        languages: state.language
+          ? state.language.map((x: any) => x.value)
+          : [],
+        stakeholderTypes: state.stakeholders.map((x: any) => x.value),
+        symptomIds: state.symptoms.map((x: any) => x.value),
         // questionCredits: state.questionsCredit
         //   ? parseInt(state.questionCredits, 10)
         //   : undefined,
       };
-      await SurveyAPI.createSurvey(body);
-
-      push('Survey successfully added.', { variant: 'success' });
+      await SurveyAPI.createSurvey(body).then(() => {
+        push('Survey successfully added.', { variant: 'success' });
+        refresh();
+        onClose();
+      });
     } catch (e) {
       console.error(e);
 
@@ -296,11 +320,7 @@ const CreateSurveysModal = ({
           variant="contained"
           size="large"
           disabled={disabled}
-          onClick={() => {
-            createSurvey();
-            refresh();
-            onClose();
-          }}
+          onClick={createSurvey}
         >
           Create
         </Button>,
@@ -327,6 +347,15 @@ const CreateSurveysModal = ({
               onValue={(surveyName) => setState({ ...state, surveyName })}
             />
             <Input
+              type="select"
+              label="Tokens"
+              placeholder="Please Select"
+              required
+              value={state.tokens}
+              onValue={(input) => setState({ ...state, tokens: input })}
+              options={tokens}
+            />
+            <Input
               type="multiselect"
               label="Product"
               placeholder="Please Select"
@@ -346,7 +375,7 @@ const CreateSurveysModal = ({
             />
             <Input
               type="number"
-              label="Questions Count"
+              label="Questions"
               placeholder="Please Enter"
               value={state.questionsCount}
               onValue={(questionsCount) =>
@@ -375,6 +404,7 @@ const CreateSurveysModal = ({
               label="Start Date"
               placeholder="Please Select"
               value={state.startDate}
+              max={state.endDate}
               onValue={(startDate) => setState({ ...state, startDate })}
             />
             <Input
@@ -382,17 +412,10 @@ const CreateSurveysModal = ({
               label="End Date"
               placeholder="Please Select"
               value={state.endDate}
+              min={state.startDate}
               onValue={(endDate) => setState({ ...state, endDate })}
             />
-            <Input
-              type="select"
-              label="Tokens"
-              placeholder="Please Select"
-              required
-              value={state.tokens}
-              onValue={(input) => setState({ ...state, tokens: input })}
-              options={tokens}
-            />
+
             <Stack>
               <Input
                 type="number"
@@ -420,7 +443,7 @@ const CreateSurveysModal = ({
         {tab === 1 && (
           <CreateSurveysModalMain columns={2}>
             <Input
-              type="select"
+              type="multiselect"
               label="Location"
               placeholder="Please Select"
               value={state.location}
@@ -430,7 +453,7 @@ const CreateSurveysModal = ({
               options={location}
             />
             <Input
-              type="select"
+              type="multiselect"
               label="Language"
               placeholder="Please Select"
               value={state.language}
@@ -459,8 +482,8 @@ const CreateSurveysModal = ({
               ]}
             />
             <Input
-              type="select"
-              label="Disease Areas"
+              type="multiselect"
+              label="Disease Area"
               placeholder="Please Select"
               value={state.diseaseArea}
               onValue={(diseaseArea) => setState({ ...state, diseaseArea })}
@@ -470,12 +493,20 @@ const CreateSurveysModal = ({
             />
             <Input
               type="multiselect"
+              label="Stakeholder"
+              placeholder="Please Select"
+              value={state.stakeholders}
+              onValue={(input) => setState({ ...state, stakeholders: input })}
+              options={stakeholders}
+              onSearch={debounce(getStakeholders, 250)}
+            />
+            <Input
+              type="multiselect"
               label="Gender"
               placeholder="Please Select"
               value={state.gender}
               onValue={(input) => setState({ ...state, gender: input })}
               options={gender}
-              onNewTag={handleNewGendersTag}
             />
             <Input
               type="min-max"
@@ -491,25 +522,31 @@ const CreateSurveysModal = ({
               value={state.ethnicity}
               onValue={(input) => setState({ ...state, ethnicity: input })}
               options={ethnicity}
-              onNewTag={handleNewEthnicityTag}
             />
             <Input
               type="multiselect"
-              label="Struggles"
+              label="Struggle"
               placeholder="Please Select"
               value={state.struggles}
               onValue={(input) => setState({ ...state, struggles: input })}
               options={struggles}
-              onNewTag={handleNewStruggleTag}
             />
             <Input
               type="multiselect"
-              label="Interests"
+              label="Symptom"
+              placeholder="Please Select"
+              value={state.symptoms}
+              onValue={(input) => setState({ ...state, symptoms: input })}
+              options={symptoms}
+              onSearch={debounce(getSympthoms, 250)}
+            />
+            <Input
+              type="multiselect"
+              label="Interest"
               placeholder="Please Select"
               value={state.interests}
               onValue={(input) => setState({ ...state, interests: input })}
               options={interests}
-              onNewTag={handleNewInterestsTag}
             />
             <GridCell columnSpan={2}>
               <Input

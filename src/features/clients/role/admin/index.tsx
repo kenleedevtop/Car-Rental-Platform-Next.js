@@ -78,7 +78,7 @@ const ClientsPage = () => {
       limit: 10,
       page: 1,
       onChange: async (params, setPage) => {
-        const { dataFormatted, pagination } = await ClientAPI.getClients({
+        const { dataFormatted, pagination } = await ClientAPI.getClientsTable({
           limit: params.limit,
           skip: params.skip,
           ...filterParams,
