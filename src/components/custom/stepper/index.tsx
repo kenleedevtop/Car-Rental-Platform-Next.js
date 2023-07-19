@@ -26,15 +26,8 @@ import { EnumsApi, InfluencerAPI } from 'api';
 // eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
 import Project from 'constants/project';
 import { useTranslation } from 'react-i18next';
-import { notifyManager } from 'react-query';
 import { useModal, useSnackbar } from 'hooks';
-import {
-  TPostTypeResult,
-  TSelectFieldType,
-} from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
-import { Dialog, Modal } from '@mui/material';
-import { formatCurrencyIdToObject } from 'features/discover-influencers/role/admin/elements/influencer-profile/helpers';
-import { IInfluencer } from 'api/influencer/types';
+import { TSelectFieldType } from 'features/discover-influencers/role/admin/elements/influencer-profile/types';
 import PromptFormSubmitModal from './elements/form-submit-modal';
 
 const steps = [
@@ -107,8 +100,29 @@ const Stepper = () => {
   };
 
   const generateRegisterAffiliateLink = (affiliateCode: string) => {
-    const { environment, baseUrl: baseDevUrl, baseProdUrl } = Project.app;
-    const baseUrl = environment === 'development' ? baseDevUrl : baseProdUrl;
+    const {
+      environment,
+      baseUrl: baseDevUrl,
+      baseProdUrl,
+      baseStageUrl,
+    } = Project.app;
+    let baseUrl;
+
+    switch (environment) {
+      case 'development':
+        baseUrl = baseDevUrl;
+        break;
+      case 'staging':
+        baseUrl = baseStageUrl;
+        break;
+      case 'production':
+        baseUrl = baseProdUrl;
+        break;
+      default:
+        // Handle the case where 'environment' is not one of the specified values
+        console.error('Unknown environment:', environment);
+        break;
+    }
 
     return `${baseUrl}/register?as=influencer&affiliateCode=${affiliateCode}`;
   };
@@ -411,7 +425,6 @@ const Stepper = () => {
         };
 
         const isFormDataValid = Object.values(data).every((value) => !!value);
-        console.log(data, isFormDataValid, Object.values(data));
         const findInstagramAccount = influencer?.influencer.stakeholders.find(
           (x) => x.socialPlatformId === 1
         );
