@@ -43,7 +43,10 @@ const InPreparationActions = ({
             {
               icon: <InfoIcon />,
               label: 'Info',
-              action: openCcModal,
+              action: () => {
+                openCcModal();
+                handleMenu();
+              },
             },
             // {
             //   icon: <ManageIcon />,
