@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal, Tabs } from 'components/custom';
 import { TCreateSurveysModalProps } from 'features/surveys/role/client/elements/create-surveys-modal/types';
 import {
@@ -17,8 +17,16 @@ import {
   ProductApi,
   SurveyAPI,
 } from 'api';
-import { pick, read } from '@costorgroup/file-manager';
-import { useSnackbar } from 'hooks';
+import { pick } from '@costorgroup/file-manager';
+import { useModal, useSnackbar } from 'hooks';
+import { TCampaignPhoto } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
+import {
+  ImageActions,
+  ImageDeleteButton,
+  ImageList,
+  ImageUploadButton,
+} from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
+import UploadedFileModal from 'features/campaigns/role/client/elements/uploaded-file-modal';
 
 const CreateSurveysModal = ({
   onClose,
@@ -176,17 +184,45 @@ const CreateSurveysModal = ({
     );
   };
 
-  const [photo, setPhoto] = useState<any>('');
-  const [photoName, setPhotoName] = useState('');
+  const [photos, setPhotos] = useState<TCampaignPhoto[]>([]);
+  const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
+  const [modal, modalOpen, modalClose] = useModal(false);
+  const { push } = useSnackbar();
 
   const handlePhotos = async () => {
-    const file: any = await pick();
+    const file: any = await pick({
+      accept: 'image/jpg, image/jpeg, image/png, application/pdf',
+    });
 
-    setPhotoName(file.name);
+    try {
+      await FileManagerApi.fileUpload(file).then(async (data) => {
+        const presignedUrl = await FileManagerApi.fileDownload(data.key);
 
-    const { url } = await FileManagerApi.fileUpload(file);
-
-    setPhoto(url);
+        if (
+          presignedUrl &&
+          presignedUrl.data &&
+          file &&
+          file.name &&
+          file.type &&
+          data &&
+          data.id
+        ) {
+          setPhotos((prev: TCampaignPhoto[]) => [
+            ...prev,
+            {
+              presignedUrl: presignedUrl.data,
+              name: file.name,
+              type: file.type,
+              id: data.id,
+              url: data.url,
+            },
+          ]);
+          push('File successfully uploaded.', { variant: 'success' });
+        }
+      });
+    } catch (error: any) {
+      push('File upload failed.', { variant: 'error' });
+    }
   };
 
   const getSurveyTypes = async () => {
@@ -236,11 +272,9 @@ const CreateSurveysModal = ({
     getSympthoms();
   }, []);
 
-  const { push } = useSnackbar();
-
   const disabled = !state.surveyName || !state.tokens;
 
-  const createSurvey = async () => {
+  const createSurvey = useCallback(async () => {
     try {
       const body = {
         name: state.surveyName,
@@ -285,7 +319,8 @@ const CreateSurveysModal = ({
           ? state.targetAudInfo
           : undefined,
         surveyType: state.surveyType ? state.surveyType.value : undefined,
-        exampleImageUrls: [photo] || undefined,
+        exampleImageUrls:
+          photos.length > 0 ? photos.map((x) => x.url) : undefined,
         instructions: state.instructions ? state.instructions : undefined,
         tokens: state.tokens ? state.tokens.value : null,
         link: state.link ? state.link : undefined,
@@ -304,9 +339,20 @@ const CreateSurveysModal = ({
         onClose();
       });
     } catch (e) {
-      console.error(e);
-
       push('Survey add failed.', { variant: 'error' });
+    }
+  }, [state, photos]);
+
+  const handleDeletePhoto = (id: number) => {
+    try {
+      FileManagerApi.fileDelete(id).then(() => {
+        setPhotos((prev: TCampaignPhoto[]) =>
+          prev.filter((item: TCampaignPhoto) => item.id !== id)
+        );
+        push('File successfully uploaded.', { variant: 'success' });
+      });
+    } catch (error: any) {
+      push('File delete failed.', { variant: 'error' });
     }
   };
 
@@ -581,11 +627,46 @@ const CreateSurveysModal = ({
                     color="default"
                     variant="contained"
                     onClick={handlePhotos}
+                    style={{ width: 'fit-content' }}
                   >
                     Upload
                   </Button>
+                  {photos && photos.length
+                    ? photos.map((item: TCampaignPhoto, idx: number) => {
+                        const { presignedUrl, name, type, id } = item;
+                        return (
+                          <ImageList>
+                            <ImageActions>
+                              <ImageUploadButton
+                                onClick={() => {
+                                  modalOpen();
+                                  setActivePhotoIdx(idx);
+                                }}
+                                key={id}
+                              >
+                                {name}
+                              </ImageUploadButton>
+                              <ImageDeleteButton
+                                onClick={() => handleDeletePhoto(id)}
+                              >
+                                X
+                              </ImageDeleteButton>
+                            </ImageActions>
+                            {modal &&
+                              presignedUrl &&
+                              activePhotoIdx === idx && (
+                                <UploadedFileModal
+                                  onClose={modalClose}
+                                  name={name}
+                                  url={presignedUrl}
+                                  type={type}
+                                />
+                              )}
+                          </ImageList>
+                        );
+                      })
+                    : null}
                 </ImageUploadContainer>
-                {photoName}
               </ImageUploadMainContainer>
             </GridCell>
             <Input

@@ -8,7 +8,16 @@ import {
 import { Button, Input, InputGroup } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
-import { SurveyAPI } from 'api';
+import { FileManagerApi, SurveyAPI } from 'api';
+import {
+  ImageActions,
+  ImageList,
+  ImageUploadButton,
+  ImageUploadMainContainer,
+} from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
+import UploadedFileModal from 'features/campaigns/role/client/elements/uploaded-file-modal';
+import { TCampaignPhoto } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
+import { useModal } from 'hooks';
 
 const CreateSurveysModal = ({
   onClose,
@@ -51,13 +60,15 @@ const CreateSurveysModal = ({
 
   const [tab, setTab] = useState(0);
 
-  const handleFile = async () => {};
-
   const getSurvey = async () => {
     const result = await SurveyAPI.getSurvey(id);
 
     setSurvey(result);
   };
+
+  const [photos, setPhotos] = useState<TCampaignPhoto[]>([]);
+  const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
+  const [modal, modalOpen, modalClose] = useModal(false);
 
   useEffect(() => {
     getSurvey();
@@ -204,6 +215,25 @@ const CreateSurveysModal = ({
 
       if (survey.platformProductOrder.budget) {
         newState.budget = survey.platformProductOrder.budget;
+      }
+
+      if (survey.exampleImages) {
+        const array = survey.exampleImages.map(async (x: any) => {
+          const key = x.imageUrl.split('/').slice(3).join('/');
+          const file = await FileManagerApi.fileDownload(key);
+          const parts = x.imageUrl.split('.');
+          const fileExtension = parts.pop();
+
+          return {
+            presignedUrl: file.data,
+            name: x.imageUrl.split('/').slice(4).join('/'),
+            type: fileExtension === 'pdf' ? 'application/pdf' : 'image/png',
+            id: x.id,
+            url: x.imageUrl,
+          };
+        });
+
+        Promise.all(array).then((data) => setPhotos([...data]));
       }
 
       if (survey.platformProductOrder.platformProductOrderGenders) {
@@ -437,15 +467,50 @@ const CreateSurveysModal = ({
               onValue={(link) => setState({ ...state, link })}
             />
             <GridCell columnSpan={1}>
-              <InputLabel>Materials</InputLabel>
-              <Button
-                disabled
-                color="default"
-                variant="contained"
-                onClick={handleFile}
-              >
-                Upload
-              </Button>
+              <ImageUploadMainContainer>
+                <ImageUploadContainer>
+                  <InputLabel>Image</InputLabel>
+                  <Button
+                    color="default"
+                    variant="contained"
+                    disabled
+                    style={{ width: 'fit-content' }}
+                  >
+                    Upload
+                  </Button>
+                  {photos && photos.length
+                    ? photos.map((item: TCampaignPhoto, idx: number) => {
+                        // eslint-disable-next-line no-shadow
+                        const { presignedUrl, name, type, id } = item;
+                        return (
+                          <ImageList>
+                            <ImageActions>
+                              <ImageUploadButton
+                                onClick={() => {
+                                  modalOpen();
+                                  setActivePhotoIdx(idx);
+                                }}
+                                key={id}
+                              >
+                                {name}
+                              </ImageUploadButton>
+                            </ImageActions>
+                            {modal &&
+                              activePhotoIdx === idx &&
+                              presignedUrl && (
+                                <UploadedFileModal
+                                  onClose={modalClose}
+                                  name={name}
+                                  url={presignedUrl}
+                                  type={type}
+                                />
+                              )}
+                          </ImageList>
+                        );
+                      })
+                    : null}
+                </ImageUploadContainer>
+              </ImageUploadMainContainer>
             </GridCell>
             <Input
               multiline
