@@ -172,8 +172,6 @@ const HomePage = () => {
           }
         );
 
-        console.log(initPost);
-        console.log(postAmountAvailableOptions);
         setInitialPostOption({
           label: initPost.label,
           value: initPost.value,
@@ -446,12 +444,6 @@ const HomePage = () => {
           postTypesResult.status === 'fulfilled' &&
           surveyTypesResult.status === 'fulfilled'
         ) {
-          // setPostOptions
-
-          // setQuestionaireOptions
-
-          // setInterviewOptions
-
           formatPostAmounts(
             influencer.influencer,
             postTypesResult.value,
@@ -461,10 +453,6 @@ const HomePage = () => {
       });
     }
   }, [influencer]);
-
-  useEffect(() => {
-    console.log(postOptions);
-  }, [postOptions]);
 
   const renderItem = ({ headItem, cell }: TTableRenderItemObject) => {
     if (headItem.reference === 'campaign') {
@@ -644,7 +632,6 @@ const HomePage = () => {
                         value: selectedPostOption,
                         onValue: (postOption) => {
                           if (postOption) {
-                            console.log('Post Set');
                             setSelectedPostOption(postOption);
                           } else {
                             setSelectedPostOption(initialSelectedPostOption!);
@@ -995,10 +982,8 @@ const HomePage = () => {
                           value: selectedInterviewOption,
                           onValue: (interviewOption) => {
                             if (interviewOption) {
-                              console.log('Interview Set');
                               setSelectedInterviewOption(interviewOption);
                             } else {
-                              console.log('Interview Intitial');
                               setSelectedInterviewOption(
                                 initialSelectedInterviewOption!
                               );
