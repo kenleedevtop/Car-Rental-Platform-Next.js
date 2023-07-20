@@ -18,7 +18,7 @@ import { TTableRenderItemObject } from 'components/custom/table/types';
 import { DotsIcon, InfoIcon } from 'components/svg';
 import { Grid, GridCell, Stack } from 'components/system';
 import { Button, InputGroup, Pagination } from 'components/ui';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { DCampaignItems } from 'features/home/role/influencer/data';
 import Theme from 'theme';
 import { useAppContext } from 'context';
@@ -47,32 +47,35 @@ type TSurveyAmount = {
   surveyType: number;
 };
 
+type TSelectedType = {
+  value: number;
+  label: string;
+};
+
 const HomePage = () => {
-  const initialSelectedPostOption = {
-    value: 0,
-    label: 'Post',
-  };
-
-  const initialSelectedQuestionnaireOption = {
-    value: 0,
-    label: 'Questionnaire',
-  };
-
-  const initialSelectedInterviewOption = {
-    value: 1,
-    label: '30 min Interview',
-  };
-
-  const [selectedPostOption, setSelectedPostOption] = useState(
-    initialSelectedPostOption
+  const [postOptions, setPostOptions] = useState<ISelectFieldType[]>([]);
+  const [interviewOptions, setInterviewOptions] = useState<ISelectFieldType[]>(
+    []
   );
+  const [questionnaireOptions, setQuestionnaireOptions] = useState<
+    ISelectFieldType[]
+  >([]);
+
+  const [selectedPostOption, setSelectedPostOption] =
+    useState<ISelectFieldType | null>(null);
+  const [initialSelectedPostOption, setInitialPostOption] =
+    useState<TSelectedType>();
 
   const [selectedQuestionnaireOption, setSelectedQuestionnaireOption] =
-    useState(initialSelectedQuestionnaireOption);
+    useState<TSelectedType | null>(null);
+  const [initialSelectedQuestionnaireOption, setInitialQuestionnaireOption] =
+    useState<TSelectedType>();
 
-  const [selectedInterviewOption, setSelectedInterviewOption] = useState(
-    initialSelectedInterviewOption
-  );
+  const [selectedInterviewOption, setSelectedInterviewOption] =
+    useState<TSelectedType | null>(null);
+  const [initialSelectedInterviewOption, setInitialInterviewOption] =
+    useState<TSelectedType>();
+
   const [post, setPost] = useState<ISelectFieldType>();
   const [interview, setInterview] = useState<ISelectFieldType>();
   const [questionnaire, setQuestionnaire] = useState<ISelectFieldType>();
@@ -120,42 +123,157 @@ const HomePage = () => {
 
   const [influencer, setInfluencer] = useState<IUser>();
 
-  const formatPostAmounts = (
-    influencerData: IInfluencer,
-    postTypes: TPostTypeResult[],
-    surveyTypes: TPostTypeResult[]
-  ) => {
-    const { influencerCampaignAmounts, influencerSurveyAmounts } =
-      influencerData;
+  const formatPostAmounts = useCallback(
+    (
+      influencerData: IInfluencer,
+      postTypes: TPostTypeResult[],
+      surveyTypes: TPostTypeResult[]
+    ) => {
+      const { influencerCampaignAmounts, influencerSurveyAmounts } =
+        influencerData;
 
-    const postAmountsResults: TSelectFieldType[] = [];
-    const questionnaireAmountResult: ISelectFieldType[] = [];
-    const interviewAmountResult: ISelectFieldType[] = [];
+      const postAmountsResults: TSelectFieldType[] = [];
+      const questionnaireAmountResult: ISelectFieldType[] = [];
+      const interviewAmountResult: ISelectFieldType[] = [];
 
-    influencerCampaignAmounts.map((campaign) =>
-      postAmountsResults.push({
-        label: `${campaign.desiredAmount}`,
-        value: campaign.postType,
-      })
-    );
+      let postAmountAvailableOptions: ISelectFieldType[] = [];
+      let questionnaireAvailableOptions: ISelectFieldType[] = [];
+      let interviewAvailableOptions: ISelectFieldType[] = [];
 
-    influencerSurveyAmounts.map((survey) => {
-      if (surveyTypes[survey.surveyType].name === 'Questionnaire') {
-        return questionnaireAmountResult.push({
+      influencerCampaignAmounts.map((campaign) =>
+        postAmountsResults.push({
+          label: `${campaign.desiredAmount}`,
+          value: campaign.postType,
+        })
+      );
+
+      if (postAmountsResults.length) {
+        postAmountAvailableOptions = postTypes
+          .filter((postType) =>
+            postAmountsResults.some(
+              (postValue) => postValue.value === postType.value
+            )
+          )
+          .map((postType) => ({
+            label: postType.name,
+            value: postType.value,
+          }));
+      }
+
+      setPostOptions(postAmountAvailableOptions);
+
+      if (postAmountsResults.length) {
+        const initPost = postAmountAvailableOptions.reduce(
+          (minElement, currentElement) => {
+            if (currentElement.value < minElement.value) {
+              return currentElement;
+            }
+            return minElement;
+          }
+        );
+
+        setInitialPostOption({
+          label: initPost.label,
+          value: initPost.value,
+        });
+        setSelectedPostOption({
+          label: initPost.label,
+          value: initPost.value,
+        });
+      }
+
+      influencerSurveyAmounts.map((survey) => {
+        if (surveyTypes[survey.surveyType].name === 'Questionnaire') {
+          return questionnaireAmountResult.push({
+            label: `${survey.desiredAmount}`,
+            value: survey.surveyType,
+          });
+        }
+        return interviewAmountResult.push({
           label: `${survey.desiredAmount}`,
           value: survey.surveyType,
         });
-      }
-      return interviewAmountResult.push({
-        label: `${survey.desiredAmount}`,
-        value: survey.surveyType,
       });
-    });
 
-    setPostAmounts(postAmountsResults);
-    setQuestionaireAmounts(questionnaireAmountResult);
-    setInterviewAmounts(interviewAmountResult);
-  };
+      if (questionnaireAmountResult.length) {
+        questionnaireAvailableOptions = surveyTypes
+          .filter((surveyType) =>
+            questionnaireAmountResult.some(
+              (surveyValue) => surveyValue.value === surveyType.value
+            )
+          )
+          .map((postType) => ({
+            label: postType.name,
+            value: postType.value,
+          }));
+      }
+      setQuestionnaireOptions(questionnaireAvailableOptions);
+
+      if (questionnaireAmountResult.length) {
+        setInitialQuestionnaireOption({
+          label: questionnaireAvailableOptions[0].label,
+          value: questionnaireAvailableOptions[0].value,
+        });
+
+        setSelectedQuestionnaireOption({
+          label: questionnaireAvailableOptions[0].label,
+          value: questionnaireAvailableOptions[0].value,
+        });
+      }
+
+      if (interviewAmountResult.length) {
+        interviewAvailableOptions = surveyTypes
+          .filter((surveyType) =>
+            interviewAmountResult.some(
+              (surveyValue) => surveyValue.value === surveyType.value
+            )
+          )
+          .map((surveyType) => ({
+            label:
+              surveyType.name === 'Short Interview'
+                ? '30 min Interview'
+                : '60 min Interview',
+            value: surveyType.value,
+          }));
+      }
+      setInterviewOptions(interviewAvailableOptions);
+
+      if (interviewAmountResult.length) {
+        const initInterview = interviewAvailableOptions.reduce(
+          (minElement, currentElement) => {
+            if (currentElement.value < minElement.value) {
+              return currentElement;
+            }
+            return minElement;
+          }
+        );
+
+        setInitialInterviewOption({
+          label: initInterview.label,
+          value: initInterview.value,
+        });
+        setSelectedInterviewOption({
+          label: initInterview.label,
+          value: initInterview.value,
+        });
+      }
+
+      setPostAmounts(postAmountsResults);
+      setQuestionaireAmounts(questionnaireAmountResult);
+      setInterviewAmounts(interviewAmountResult);
+    },
+    [
+      influencer,
+      postAmounts,
+      questionaireAmounts,
+      interviewAmounts,
+      selectedInterviewOption,
+      initialSelectedInterviewOption,
+      initialSelectedPostOption,
+      selectedPostOption,
+      postOptions,
+    ]
+  );
 
   const getInfluencerData = async () => {
     try {
@@ -182,9 +300,9 @@ const HomePage = () => {
   const updatePostAmount = async () => {
     const postAmountObj =
       influencer?.influencer.influencerCampaignAmounts?.find(
-        (campaignEl) => campaignEl.postType === selectedPostOption.value
+        (campaignEl) => campaignEl.postType === selectedPostOption?.value
       );
-    if (postAmountObj && influencer) {
+    if (postAmountObj && influencer && selectedPostOption) {
       const postAmountQuery: TPostAmount = {
         desiredAmount: +postAmountToSend,
         id: postAmountObj.id,
@@ -208,13 +326,13 @@ const HomePage = () => {
   const updateInterviewAmount = async () => {
     const interviewAmountObj =
       influencer?.influencer.influencerSurveyAmounts?.find(
-        (surveyEl) => surveyEl.surveyType === selectedInterviewOption.value
+        (surveyEl) => surveyEl.surveyType === selectedInterviewOption?.value
       );
-    if (interviewAmountObj && influencer) {
+    if (interviewAmountObj && influencer && selectedInterviewOption) {
       const interviewAmountQuery: TSurveyAmount = {
         desiredAmount: +interviewAmountToSend,
         id: interviewAmountObj.id,
-        surveyType: selectedInterviewOption.value,
+        surveyType: selectedInterviewOption?.value,
       };
 
       try {
@@ -234,9 +352,9 @@ const HomePage = () => {
   const updateQuestionnaireAmount = async () => {
     const questionnaireAmountObj =
       influencer?.influencer.influencerSurveyAmounts?.find(
-        (surveyEl) => surveyEl.surveyType === selectedQuestionnaireOption.value
+        (surveyEl) => surveyEl.surveyType === selectedQuestionnaireOption?.value
       );
-    if (questionnaireAmountObj && influencer) {
+    if (questionnaireAmountObj && influencer && selectedQuestionnaireOption) {
       const questionnaireAmountQuery: TSurveyAmount = {
         desiredAmount: +questionnaireAmountToSend,
         id: questionnaireAmountObj.id,
@@ -269,23 +387,8 @@ const HomePage = () => {
         );
         setPost(selectPost);
       }
-
-      if (questionaireAmounts && questionaireAmounts.length) {
-        const selectQuestionaire = questionaireAmounts.find(
-          (questionnaires) =>
-            +selectedQuestionnaireOption.value === questionnaires.value
-        );
-        setQuestionnaire(selectQuestionaire);
-      }
-
-      if (interviewAmounts && interviewAmounts.length) {
-        const selectedInterview = interviewAmounts.find(
-          (interviews) => +selectedInterviewOption.value === interviews.value
-        );
-        setInterview(selectedInterview);
-      }
     }
-  }, [selectedPostOption, postAmounts, questionaireAmounts, interviewAmounts]);
+  }, [selectedPostOption, postAmounts]);
 
   useEffect(() => {
     if (selectedQuestionnaireOption) {
@@ -398,10 +501,6 @@ const HomePage = () => {
     return '';
   };
 
-  useEffect(() => {
-    console.log(currency !== 'CHF', postAmountToSend, postAmountToSend !== 0);
-  }, [currency, postAmountToSend]);
-
   return (
     <Stack>
       <HomeInfluencerPageGrid>
@@ -488,7 +587,9 @@ const HomePage = () => {
                     <span style={{ color: '#448DC9' }}>21-25 {currency}</span>
                     per
                     <span style={{ color: '#448DC9' }}>
-                      {selectedPostOption.label}
+                      {selectedPostOption
+                        ? selectedPostOption.label
+                        : 'Post not selected'}
                     </span>
                     on average.
                   </span>
@@ -519,7 +620,11 @@ const HomePage = () => {
                 </ChartWrapper>
                 <GridCellCustom columnSpan={4}>
                   <InputGroup
-                    label={`Desired amount per ${selectedPostOption.label}`}
+                    label={
+                      selectedPostOption
+                        ? `Desired amount per ${selectedPostOption.label}`
+                        : 'No post amounts'
+                    }
                     inputRatio="150px 100px"
                     inputGroupElementStyle={{ gap: '5px' }}
                     elements={[
@@ -529,33 +634,20 @@ const HomePage = () => {
                           if (postOption) {
                             setSelectedPostOption(postOption);
                           } else {
-                            setSelectedPostOption(initialSelectedPostOption);
+                            setSelectedPostOption(initialSelectedPostOption!);
                           }
                         },
-
                         type: 'select',
-                        placeholder: 'Post',
-                        options: [
-                          {
-                            value: 0,
-                            label: 'Post',
-                          },
-                          {
-                            value: 1,
-                            label: 'Reel',
-                          },
-                          {
-                            value: 2,
-                            label: 'Story',
-                          },
-                        ],
+                        placeholder: 'Post amounts',
+                        options: postOptions,
+                        disabled: !selectedPostOption,
                       },
                       {
                         value: postAmountToSend,
                         onValue: (currencyVal) => {
                           setPostAmountToSend(currencyVal);
                         },
-
+                        disabled: !selectedPostOption,
                         type: 'number',
                         placeholder: 'CHF',
                         endAdornment: '₣',
@@ -571,6 +663,7 @@ const HomePage = () => {
                     variant="contained"
                     color="primary"
                     onClick={updatePostAmount}
+                    disabled={!selectedPostOption}
                   >
                     Save
                   </Button>
@@ -662,7 +755,7 @@ const HomePage = () => {
                       items={DCampaignItems}
                       renderItem={renderItem}
                     />
-                    <Pagination count={32} />
+                    <Pagination count={0} />
                   </>
                 )}
               </CustomStack>
@@ -731,7 +824,11 @@ const HomePage = () => {
                   </ChartWrapper>
                   <GridCellCustom columnSpan={4}>
                     <InputGroup
-                      label="Desired amount per Question credit"
+                      label={
+                        selectedQuestionnaireOption
+                          ? `Desired amount per ${selectedQuestionnaireOption.label}`
+                          : 'Question credit not set'
+                      }
                       inputRatio="150px 100px"
                       inputGroupElementStyle={{ gap: '5px' }}
                       elements={[
@@ -744,12 +841,14 @@ const HomePage = () => {
                               );
                             } else {
                               setSelectedQuestionnaireOption(
-                                initialSelectedQuestionnaireOption
+                                initialSelectedQuestionnaireOption!
                               );
                             }
                           },
                           type: 'select',
                           placeholder: 'Question Credit',
+                          options: questionnaireOptions,
+                          disabled: !selectedQuestionnaireOption,
                         },
                         {
                           value: questionnaireAmountToSend,
@@ -758,6 +857,7 @@ const HomePage = () => {
                           type: 'number',
                           placeholder: 'CHF',
                           endAdornment: '₣',
+                          disabled: !selectedQuestionnaireOption,
                         },
                       ]}
                     />
@@ -835,7 +935,10 @@ const HomePage = () => {
                       <span style={{ color: '#448DC9' }}>23-25 USD</span>
                       per
                       <span style={{ color: '#448DC9' }}>
-                        {selectedInterviewOption.label === '30 min Interview'
+                        {/* eslint-disable-next-line no-nested-ternary */}
+                        {!selectedInterviewOption
+                          ? '30 min Interview and 60 min interview'
+                          : selectedInterviewOption.label === '30 min Interview'
                           ? '30 min Interview'
                           : '60 min interview'}
                       </span>
@@ -868,11 +971,11 @@ const HomePage = () => {
                   </ChartWrapper>
                   <GridCellCustom columnSpan={4}>
                     <InputGroup
-                      label={`Desired amount per ${
-                        selectedInterviewOption.label === '30 min Interview'
-                          ? '30 min Interview'
-                          : '60 min interview'
-                      }`}
+                      label={
+                        selectedInterviewOption
+                          ? `Desired amount per ${selectedInterviewOption.label}`
+                          : 'Interviews not set'
+                      }
                       inputRatio="185px 100px"
                       elements={[
                         {
@@ -882,22 +985,14 @@ const HomePage = () => {
                               setSelectedInterviewOption(interviewOption);
                             } else {
                               setSelectedInterviewOption(
-                                initialSelectedInterviewOption
+                                initialSelectedInterviewOption!
                               );
                             }
                           },
                           type: 'select',
-                          placeholder: '30 min Interviews',
-                          options: [
-                            {
-                              value: 1,
-                              label: '30 min Interview',
-                            },
-                            {
-                              value: 2,
-                              label: '60 min interview',
-                            },
-                          ],
+                          placeholder: 'Interviews',
+                          options: interviewOptions,
+                          disabled: !selectedInterviewOption,
                         },
                         {
                           value: interviewAmountToSend,
@@ -906,6 +1001,7 @@ const HomePage = () => {
                           type: 'number',
                           placeholder: 'CHF',
                           endAdornment: '₣',
+                          disabled: !selectedInterviewOption,
                         },
                       ]}
                     />
@@ -918,6 +1014,7 @@ const HomePage = () => {
                       onClick={updateInterviewAmount}
                       variant="contained"
                       color="primary"
+                      disabled={!selectedInterviewOption}
                     >
                       Save
                     </Button>

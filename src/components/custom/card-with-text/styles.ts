@@ -53,6 +53,8 @@ export const CardActions = styled.div<{ theme?: Theme }>`
 
     ${theme.breakpoints.down('sm')} {
       display: grid;
+      position: relative;
+      right: unset;
       gap: ${theme.spacing(4)};
     }
 `}
