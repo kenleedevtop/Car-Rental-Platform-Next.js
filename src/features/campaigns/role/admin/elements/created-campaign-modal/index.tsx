@@ -22,9 +22,14 @@ import { formatCurrencyIdToObject } from 'features/discover-influencers/role/adm
 import { TCampaign } from 'api/campaign/types';
 import UploadedFileModal from 'features/campaigns/role/client/elements/uploaded-file-modal';
 import {
+  ImageActions,
+  ImageDeleteButton,
+  ImageList,
+  ImageUploadButton,
   ImageUploadContainer,
   ImageUploadMainContainer,
 } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
+import { TCampaignPhoto } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
 import { CampaignsTitle } from './styles';
 import { TState } from './types';
 
@@ -100,7 +105,6 @@ const CreatedCampaignModal = ({
   const [loading, setLoading] = useState(false);
 
   const [product, setProduct] = useState<any>([]);
-  const [clients, setClients] = useState<any>();
   const [report, setReport] = useState<any>();
   const [location, setLocation] = useState<any>();
   const [languages, setLanguages] = useState<any>();
@@ -121,17 +125,6 @@ const CreatedCampaignModal = ({
       result.map((data: any) => ({
         value: data.id,
         label: data.name,
-      }))
-    );
-  };
-
-  const getClients = async (s: string = '') => {
-    const { result } = await ClientAPI.getClients(s);
-
-    setClients(
-      result.map((data: any) => ({
-        value: data.id,
-        label: `${data.firstName} ${data.lastName}`,
       }))
     );
   };
@@ -282,34 +275,49 @@ const CreatedCampaignModal = ({
     );
   };
 
-  const [photo, setPhoto] = useState<any>(undefined);
-  const [fileType, setFileType] = useState<string>('');
-  const [photoName, setPhotoName] = useState('');
+  const { push } = useSnackbar();
+  const [photos, setPhotos] = useState<TCampaignPhoto[]>([]);
   const [modal, modalOpen, modalClose] = useModal(false);
+  const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
 
   const handlePhotos = async () => {
     const file: any = await pick({
       accept: 'image/jpg, image/jpeg, image/png, application/pdf',
     });
 
-    setPhotoName(file.name);
+    try {
+      await FileManagerApi.fileUpload(file).then(async (data) => {
+        const presignedUrl = await FileManagerApi.fileDownload(data.key);
 
-    const data = await FileManagerApi.fileUpload(file);
-
-    const presignedUrl = await FileManagerApi.fileDownload(data.key);
-
-    setPhoto(presignedUrl.data);
-
-    setFileType(file.type);
-
-    if (file.name && presignedUrl.data && file.type) {
-      modalOpen();
+        if (
+          presignedUrl &&
+          presignedUrl.data &&
+          file &&
+          file.name &&
+          file.type &&
+          data &&
+          data.id
+        ) {
+          setPhotos((prev: TCampaignPhoto[]) => [
+            ...prev,
+            {
+              presignedUrl: presignedUrl.data,
+              name: file.name,
+              type: file.type,
+              id: data.id,
+              url: data.url,
+            },
+          ]);
+          push('File successfully uploaded.', { variant: 'success' });
+        }
+      });
+    } catch (error: any) {
+      push('File upload failed.', { variant: 'error' });
     }
   };
 
   useEffect(() => {
     getProducts();
-    getClients();
     getDiseaseAreas();
     getLocations();
     getReportTypes();
@@ -537,6 +545,25 @@ const CreatedCampaignModal = ({
           newState.influencerCount = campaign.influencersCount;
         }
 
+        if (campaign.exampleImages) {
+          const array = campaign.exampleImages.map(async (x: any) => {
+            const key = x.imageUrl.split('/').slice(3).join('/');
+            const file = await FileManagerApi.fileDownload(key);
+            const parts = x.imageUrl.split('.');
+            const fileExtension = parts.pop();
+
+            return {
+              presignedUrl: file.data,
+              name: x.imageUrl.split('/').slice(4).join('/'),
+              type: fileExtension === 'pdf' ? 'application/pdf' : 'image/png',
+              id: x.id,
+              url: x.imageUrl,
+            };
+          });
+
+          Promise.all(array).then((data) => setPhotos([...data]));
+        }
+
         setState(newState);
       }
     }
@@ -547,8 +574,6 @@ const CreatedCampaignModal = ({
   const handleEdit = () => {
     setEdit(!edit);
   };
-
-  const { push } = useSnackbar();
 
   const updateCampaign = useCallback(async () => {
     try {
@@ -601,7 +626,8 @@ const CreatedCampaignModal = ({
         clientCompanyWebsite: state.website ? state.website : undefined,
         instructions: state.instructions ? state.instructions : undefined,
         report: state.report ? state.report?.value : undefined,
-        exampleImageUrls: photo !== undefined ? [photo] : undefined,
+        exampleImageUrls:
+          photos.length > 0 ? photos.map((x) => x.url) : undefined,
         clientId: state.client ? state.client.value : undefined,
         currencyId: state.currency ? state.currency.value : 3,
         status:
@@ -619,7 +645,7 @@ const CreatedCampaignModal = ({
     } catch (e) {
       push('Campaign update failed.', { variant: 'error' });
     }
-  }, [state, campaign, photo]);
+  }, [state, campaign, photos]);
 
   const debounce = (func: any, wait: any) => {
     let timeout: any;
@@ -631,6 +657,19 @@ const CreatedCampaignModal = ({
   };
 
   const disabled = !state.campaignName && !state.client;
+
+  const handleDeletePhoto = (idx: number) => {
+    try {
+      FileManagerApi.fileDelete(idx).then(() => {
+        setPhotos((prev: TCampaignPhoto[]) =>
+          prev.filter((item: TCampaignPhoto) => item.id !== idx)
+        );
+        push('File successfully uploaded.', { variant: 'success' });
+      });
+    } catch (error: any) {
+      push('File delete failed.', { variant: 'error' });
+    }
+  };
 
   return (
     <Modal
@@ -949,21 +988,49 @@ const CreatedCampaignModal = ({
                     color="default"
                     variant="contained"
                     onClick={handlePhotos}
-                    disabled={!edit}
+                    style={{ width: 'fit-content' }}
                   >
                     Upload
                   </Button>
+                  {photos && photos.length
+                    ? photos.map((item: TCampaignPhoto, idx: number) => {
+                        // eslint-disable-next-line no-shadow
+                        const { presignedUrl, name, type, id } = item;
+                        return (
+                          <ImageList>
+                            <ImageActions>
+                              <ImageUploadButton
+                                onClick={() => {
+                                  modalOpen();
+                                  setActivePhotoIdx(idx);
+                                }}
+                                key={id}
+                              >
+                                {name}
+                              </ImageUploadButton>
+                              <ImageDeleteButton
+                                onClick={() => handleDeletePhoto(id)}
+                              >
+                                X
+                              </ImageDeleteButton>
+                            </ImageActions>
+                            {modal &&
+                              activePhotoIdx === idx &&
+                              presignedUrl && (
+                                <UploadedFileModal
+                                  onClose={modalClose}
+                                  name={name}
+                                  url={presignedUrl}
+                                  type={type}
+                                />
+                              )}
+                          </ImageList>
+                        );
+                      })
+                    : null}
                 </ImageUploadContainer>
               </ImageUploadMainContainer>
             </GridCell>
-            {modal && (
-              <UploadedFileModal
-                onClose={modalClose}
-                name={photoName}
-                url={photo}
-                type={fileType}
-              />
-            )}
             <Input
               type="text"
               label="Website"

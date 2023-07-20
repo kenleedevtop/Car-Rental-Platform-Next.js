@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { CurrencyFeedback, Modal, Tabs } from 'components/custom';
-import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
+import {
+  TAddCampaignsModalProps,
+  TCampaignPhoto,
+} from 'features/campaigns/role/client/elements/add-campaign-modal/types';
 import {
   AddCampaignsModalMain,
+  ImageDeleteButton,
+  ImageActions,
+  ImageUploadButton,
   ImageUploadContainer,
   ImageUploadMainContainer,
+  ImageList,
 } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
 import { Button, Input } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
@@ -19,7 +26,6 @@ import {
 import EnumsApi from 'api/enums';
 import { useModal, useSnackbar } from 'hooks';
 import { pick } from '@costorgroup/file-manager';
-import { useAppContext } from 'context';
 import UploadedFileModal from '../uploaded-file-modal';
 
 const AddCampaignModal = ({
@@ -62,8 +68,6 @@ const AddCampaignModal = ({
     instructions: '',
   });
 
-  const { user } = useAppContext();
-
   const debounce = (func: any, wait: any) => {
     let timeout: any;
 
@@ -77,9 +81,9 @@ const AddCampaignModal = ({
 
   const [loading, setLoading] = useState(false);
 
-  const addNewProduct = async (arr: any) => {
-    await ClientAPI.addClientProduct(arr);
-  };
+  // const addNewProduct = async (arr: any) => {
+  //   await ClientAPI.addClientProduct(arr);
+  // };
 
   const handleNewProductTag = (v: any) => {
     setState({ ...state, product: [...state.product, v] });
@@ -97,7 +101,6 @@ const AddCampaignModal = ({
   const [interests, setInterests] = useState<any>();
   const [influencerSize, setInfluencerSize] = useState<any>();
   const [symptoms, setSymptoms] = useState<any>();
-  const [client, setClient] = useState<any>();
 
   const getProducts = async () => {
     const { result } = await ClientAPI.clientProducts();
@@ -108,12 +111,6 @@ const AddCampaignModal = ({
         label: data.product.name,
       }))
     );
-  };
-
-  const getClient = async () => {
-    const data = await ClientAPI.getSingleClient(user.id);
-
-    setClient(data);
   };
 
   const getReportTypes = async () => {
@@ -239,28 +236,44 @@ const AddCampaignModal = ({
     );
   };
 
-  const [photo, setPhoto] = useState<any>(undefined);
-  const [fileType, setFileType] = useState<string>('');
-  const [photoName, setPhotoName] = useState('');
+  const [photos, setPhotos] = useState<TCampaignPhoto[]>([]);
+  const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
   const [modal, modalOpen, modalClose] = useModal(false);
+  const { push } = useSnackbar();
 
   const handlePhotos = async () => {
     const file: any = await pick({
       accept: 'image/jpg, image/jpeg, image/png, application/pdf',
     });
 
-    setPhotoName(file.name);
+    try {
+      await FileManagerApi.fileUpload(file).then(async (data) => {
+        const presignedUrl = await FileManagerApi.fileDownload(data.key);
 
-    const data = await FileManagerApi.fileUpload(file);
-
-    const presignedUrl = await FileManagerApi.fileDownload(data.key);
-
-    setPhoto(presignedUrl.data);
-
-    setFileType(file.type);
-
-    if (file.name && presignedUrl.data && file.type) {
-      modalOpen();
+        if (
+          presignedUrl &&
+          presignedUrl.data &&
+          file &&
+          file.name &&
+          file.type &&
+          data &&
+          data.id
+        ) {
+          setPhotos((prev: TCampaignPhoto[]) => [
+            ...prev,
+            {
+              presignedUrl: presignedUrl.data,
+              name: file.name,
+              type: file.type,
+              id: data.id,
+              url: data.url,
+            },
+          ]);
+          push('File successfully uploaded.', { variant: 'success' });
+        }
+      });
+    } catch (error: any) {
+      push('File upload failed.', { variant: 'error' });
     }
   };
 
@@ -277,10 +290,7 @@ const AddCampaignModal = ({
     getInfluencerSizes();
     getLanguages();
     getSympthoms();
-    getClient();
   }, []);
-
-  const { push } = useSnackbar();
 
   const createCampaign = async () => {
     try {
@@ -332,7 +342,8 @@ const AddCampaignModal = ({
         clientCompanyWebsite: state.website ? state.website : undefined,
         instructions: state.instructions ? state.instructions : undefined,
         report: state.report ? state.report.value : undefined,
-        exampleImageUrls: photo !== undefined ? [photo] : undefined,
+        exampleImageUrls:
+          photos.length > 0 ? photos.map((x) => x.url) : undefined,
       };
 
       await CampaignAPI.addCampaign(body).then(() => {
@@ -342,7 +353,19 @@ const AddCampaignModal = ({
       });
     } catch (e) {
       push('Campaign add failed.', { variant: 'error' });
-      console.error(e);
+    }
+  };
+
+  const handleDeletePhoto = (id: number) => {
+    try {
+      FileManagerApi.fileDelete(id).then(() => {
+        setPhotos((prev: TCampaignPhoto[]) =>
+          prev.filter((item: TCampaignPhoto) => item.id !== id)
+        );
+        push('File successfully uploaded.', { variant: 'success' });
+      });
+    } catch (error: any) {
+      push('File delete failed.', { variant: 'error' });
     }
   };
 
@@ -618,20 +641,48 @@ const AddCampaignModal = ({
                     color="default"
                     variant="contained"
                     onClick={handlePhotos}
+                    style={{ width: 'fit-content' }}
                   >
                     Upload
                   </Button>
+                  {photos && photos.length
+                    ? photos.map((item: TCampaignPhoto, idx: number) => {
+                        const { presignedUrl, name, type, id } = item;
+                        return (
+                          <ImageList>
+                            <ImageActions>
+                              <ImageUploadButton
+                                onClick={() => {
+                                  modalOpen();
+                                  setActivePhotoIdx(idx);
+                                }}
+                                key={id}
+                              >
+                                {name}
+                              </ImageUploadButton>
+                              <ImageDeleteButton
+                                onClick={() => handleDeletePhoto(id)}
+                              >
+                                X
+                              </ImageDeleteButton>
+                            </ImageActions>
+                            {modal &&
+                              presignedUrl &&
+                              activePhotoIdx === idx && (
+                                <UploadedFileModal
+                                  onClose={modalClose}
+                                  name={name}
+                                  url={presignedUrl}
+                                  type={type}
+                                />
+                              )}
+                          </ImageList>
+                        );
+                      })
+                    : null}
                 </ImageUploadContainer>
               </ImageUploadMainContainer>
             </GridCell>
-            {modal && (
-              <UploadedFileModal
-                onClose={modalClose}
-                name={photoName}
-                url={photo}
-                type={fileType}
-              />
-            )}
             <Input
               type="text"
               label="Website"

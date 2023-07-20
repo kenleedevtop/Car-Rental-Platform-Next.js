@@ -15,6 +15,10 @@ import {
 } from 'api';
 import {
   AddCampaignsModalMain,
+  ImageActions,
+  ImageDeleteButton,
+  ImageList,
+  ImageUploadButton,
   ImageUploadContainer,
   ImageUploadMainContainer,
 } from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
@@ -22,7 +26,7 @@ import { useModal, useSnackbar } from 'hooks';
 import { pick } from '@costorgroup/file-manager';
 import UploadedFileModal from 'features/campaigns/role/client/elements/uploaded-file-modal';
 import UsersAPI from 'api/users';
-import { set } from 'nprogress';
+import { TCampaignPhoto } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
 
 const AddCampaignModal = ({
   onClose,
@@ -267,28 +271,44 @@ const AddCampaignModal = ({
     );
   };
 
-  const [photo, setPhoto] = useState<any>(undefined);
-  const [fileType, setFileType] = useState<string>('');
-  const [photoName, setPhotoName] = useState('');
+  const [photos, setPhotos] = useState<TCampaignPhoto[]>([]);
+  const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
   const [modal, modalOpen, modalClose] = useModal(false);
+  const { push } = useSnackbar();
 
   const handlePhotos = async () => {
     const file: any = await pick({
       accept: 'image/jpg, image/jpeg, image/png, application/pdf',
     });
 
-    setPhotoName(file.name);
+    try {
+      await FileManagerApi.fileUpload(file).then(async (data) => {
+        const presignedUrl = await FileManagerApi.fileDownload(data.key);
 
-    const data = await FileManagerApi.fileUpload(file);
-
-    const presignedUrl = await FileManagerApi.fileDownload(data.key);
-
-    setPhoto(presignedUrl.data);
-
-    setFileType(file.type);
-
-    if (file.name && presignedUrl.data && file.type) {
-      modalOpen();
+        if (
+          presignedUrl &&
+          presignedUrl.data &&
+          file &&
+          file.name &&
+          file.type &&
+          data &&
+          data.id
+        ) {
+          setPhotos((prev: TCampaignPhoto[]) => [
+            ...prev,
+            {
+              presignedUrl: presignedUrl.data,
+              name: file.name,
+              type: file.type,
+              id: data.id,
+              url: data.url,
+            },
+          ]);
+          push('File successfully uploaded.', { variant: 'success' });
+        }
+      });
+    } catch (error: any) {
+      push('File upload failed.', { variant: 'error' });
     }
   };
 
@@ -307,8 +327,6 @@ const AddCampaignModal = ({
     getLanguages();
     getSympthoms();
   }, []);
-
-  const { push } = useSnackbar();
 
   const createCampaign = async () => {
     try {
@@ -360,7 +378,8 @@ const AddCampaignModal = ({
         clientCompanyWebsite: state.website ? state.website : undefined,
         instructions: state.instructions ? state.instructions : undefined,
         report: state.report ? state.report.value : undefined,
-        exampleImageUrls: photo !== undefined ? [photo] : undefined,
+        exampleImageUrls:
+          photos.length > 0 ? photos.map((x) => x.url) : undefined,
         clientId: state.client ? state.client.value : null,
         currencyId: state.currency ? state.currency.value : 1,
       };
@@ -372,6 +391,19 @@ const AddCampaignModal = ({
       });
     } catch (e) {
       push('Campaign add failed.', { variant: 'error' });
+    }
+  };
+
+  const handleDeletePhoto = (id: number) => {
+    try {
+      FileManagerApi.fileDelete(id).then(() => {
+        setPhotos((prev: TCampaignPhoto[]) =>
+          prev.filter((item: TCampaignPhoto) => item.id !== id)
+        );
+        push('File successfully uploaded.', { variant: 'success' });
+      });
+    } catch (error: any) {
+      push('File delete failed.', { variant: 'error' });
     }
   };
 
@@ -678,20 +710,48 @@ const AddCampaignModal = ({
                     color="default"
                     variant="contained"
                     onClick={handlePhotos}
+                    style={{ width: 'fit-content' }}
                   >
                     Upload
                   </Button>
+                  {photos && photos.length
+                    ? photos.map((item: TCampaignPhoto, idx: number) => {
+                        const { presignedUrl, name, type, id } = item;
+                        return (
+                          <ImageList>
+                            <ImageActions>
+                              <ImageUploadButton
+                                onClick={() => {
+                                  modalOpen();
+                                  setActivePhotoIdx(idx);
+                                }}
+                                key={id}
+                              >
+                                {name}
+                              </ImageUploadButton>
+                              <ImageDeleteButton
+                                onClick={() => handleDeletePhoto(id)}
+                              >
+                                X
+                              </ImageDeleteButton>
+                            </ImageActions>
+                            {modal &&
+                              activePhotoIdx === idx &&
+                              presignedUrl && (
+                                <UploadedFileModal
+                                  onClose={modalClose}
+                                  name={name}
+                                  url={presignedUrl}
+                                  type={type}
+                                />
+                              )}
+                          </ImageList>
+                        );
+                      })
+                    : null}
                 </ImageUploadContainer>
               </ImageUploadMainContainer>
             </GridCell>
-            {modal && (
-              <UploadedFileModal
-                onClose={modalClose}
-                name={photoName}
-                url={photo}
-                type={fileType}
-              />
-            )}
             <Input
               type="text"
               label="Website"
