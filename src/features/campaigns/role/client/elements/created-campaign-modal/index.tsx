@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chat, CurrencyFeedback, Modal, Tabs } from 'components/custom';
 import { TAddCampaignsModalProps } from 'features/campaigns/role/client/elements/created-campaign-modal/types';
 import { AddCampaignsModalMain } from 'features/campaigns/role/client/elements/created-campaign-modal/styles';
@@ -7,7 +7,6 @@ import { GridCell, Stack } from 'components/system';
 import { InputLabel } from 'components/ui/input/styles';
 import {
   CampaignAPI,
-  ClientAPI,
   DiseaseAreaAPI,
   EnumsApi,
   FileManagerApi,
@@ -16,21 +15,22 @@ import {
 } from 'api';
 import { TState } from 'features/campaigns/role/admin/elements/created-campaign-modal/types';
 import { CampaignsTitle } from 'features/campaigns/role/admin/elements/created-campaign-modal/styles';
-import { EditIcon } from 'components/svg';
 import { TCampaign } from 'api/campaign/types';
 import { formatCurrencyIdToObject } from 'features/discover-influencers/role/admin/elements/influencer-profile/helpers';
-import UsersAPI from 'api/users';
 import { useModal, useSnackbar } from 'hooks';
 import { pick } from '@costorgroup/file-manager';
 import {
+  ImageActions,
+  ImageList,
+  ImageUploadButton,
   ImageUploadContainer,
   ImageUploadMainContainer,
 } from '../add-campaign-modal/styles';
 import UploadedFileModal from '../uploaded-file-modal';
+import { TCampaignPhoto } from '../add-campaign-modal/types';
 
 const CreatedCampaignModal = ({
   onClose,
-  reload,
   id,
   ...props
 }: TAddCampaignsModalProps) => {
@@ -80,8 +80,6 @@ const CreatedCampaignModal = ({
     }
   };
 
-  const handleFile = async () => {};
-
   const [tab, setTab] = useState(0);
 
   const [campaign, setCampaign] = useState<TCampaign>({});
@@ -106,7 +104,6 @@ const CreatedCampaignModal = ({
   const [interests, setInterests] = useState<any>();
   const [influencerSize, setInfluencerSize] = useState<any>();
   const [symptoms, setSymptoms] = useState<any>();
-  const [ambassador, setAmbassador] = useState<any>();
 
   const getProducts = async () => {
     const { result } = await ProductApi.getProducts('');
@@ -118,29 +115,6 @@ const CreatedCampaignModal = ({
       }))
     );
   };
-
-  const getClient = useCallback(async () => {
-    if (state.client && state.client.value) {
-      const { client } = await ClientAPI.getSingleClient(state.client.value);
-
-      if (client && client.ambassador) {
-        const response = await UsersAPI.getUser(client.ambassador.userId);
-
-        setAmbassador({
-          value: response.id,
-          label: `${response.firstName} ${response.lastName}`,
-        });
-      } else {
-        setAmbassador(null);
-      }
-    } else {
-      setAmbassador(null);
-    }
-  }, [state.client?.value]);
-
-  useEffect(() => {
-    getClient();
-  }, [state.client]);
 
   const getReportTypes = async () => {
     const result = await EnumsApi.getReportTypes();
@@ -283,6 +257,8 @@ const CreatedCampaignModal = ({
     getLanguages();
     getSympthoms();
   }, []);
+
+  const [photos, setPhotos] = useState<TCampaignPhoto[]>([]);
 
   useEffect(() => {
     const newState = { ...state };
@@ -497,35 +473,31 @@ const CreatedCampaignModal = ({
           newState.influencerCount = campaign.influencersCount;
         }
 
+        if (campaign.exampleImages) {
+          const array = campaign.exampleImages.map(async (x: any) => {
+            const key = x.imageUrl.split('/').slice(3).join('/');
+            const file = await FileManagerApi.fileDownload(key);
+            const parts = x.imageUrl.split('.');
+            const fileExtension = parts.pop();
+
+            return {
+              presignedUrl: file.data,
+              name: x.imageUrl.split('/').slice(4).join('/'),
+              type: fileExtension === 'pdf' ? 'application/pdf' : 'image/png',
+              id: x.id,
+              url: x.imageUrl,
+            };
+          });
+
+          Promise.all(array).then((data) => setPhotos([...data]));
+        }
         setState(newState);
       }
     }
   }, [campaign]);
 
-  const [photo, setPhoto] = useState<any>(undefined);
-  const [fileType, setFileType] = useState<string>('');
-  const [photoName, setPhotoName] = useState('');
+  const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
   const [modal, modalOpen, modalClose] = useModal(false);
-
-  const handlePhotos = async () => {
-    const file: any = await pick({
-      accept: 'image/jpg, image/jpeg, image/png, application/pdf',
-    });
-
-    setPhotoName(file.name);
-
-    const data = await FileManagerApi.fileUpload(file);
-
-    const presignedUrl = await FileManagerApi.fileDownload(data.key);
-
-    setPhoto(presignedUrl.data);
-
-    setFileType(file.type);
-
-    if (file.name && presignedUrl.data && file.type) {
-      modalOpen();
-    }
-  };
 
   const debounce = (func: any, wait: any) => {
     let timeout: any;
@@ -805,22 +777,45 @@ const CreatedCampaignModal = ({
                   <Button
                     color="default"
                     variant="contained"
-                    onClick={handlePhotos}
                     disabled
+                    style={{ width: 'fit-content' }}
                   >
                     Upload
                   </Button>
+                  {photos && photos.length
+                    ? photos.map((item: TCampaignPhoto, idx: number) => {
+                        // eslint-disable-next-line no-shadow
+                        const { presignedUrl, name, type, id } = item;
+                        return (
+                          <ImageList>
+                            <ImageActions>
+                              <ImageUploadButton
+                                onClick={() => {
+                                  modalOpen();
+                                  setActivePhotoIdx(idx);
+                                }}
+                                key={id}
+                              >
+                                {name}
+                              </ImageUploadButton>
+                            </ImageActions>
+                            {modal &&
+                              activePhotoIdx === idx &&
+                              presignedUrl && (
+                                <UploadedFileModal
+                                  onClose={modalClose}
+                                  name={name}
+                                  url={presignedUrl}
+                                  type={type}
+                                />
+                              )}
+                          </ImageList>
+                        );
+                      })
+                    : null}
                 </ImageUploadContainer>
               </ImageUploadMainContainer>
             </GridCell>
-            {modal && (
-              <UploadedFileModal
-                onClose={modalClose}
-                name={photoName}
-                url={photo}
-                type={fileType}
-              />
-            )}
             <Input
               type="text"
               label="Website"

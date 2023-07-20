@@ -16,7 +16,17 @@ import { CampaignsTitle } from 'features/campaigns/role/admin/elements/created-c
 import { EditIcon } from 'components/svg';
 import { pick } from '@costorgroup/file-manager';
 import UsersAPI from 'api/users';
-import { useSnackbar } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
+import {
+  ImageActions,
+  ImageDeleteButton,
+  ImageList,
+  ImageUploadButton,
+  ImageUploadContainer,
+  ImageUploadMainContainer,
+} from 'features/campaigns/role/client/elements/add-campaign-modal/styles';
+import { TCampaignPhoto } from 'features/campaigns/role/client/elements/add-campaign-modal/types';
+import UploadedFileModal from 'features/campaigns/role/client/elements/uploaded-file-modal';
 import { TCreateSurveysModalProps } from './types';
 import { CreateSurveysModalMain } from './styles';
 
@@ -64,7 +74,46 @@ const CreatedSurveysModal = ({
 
   const [tab, setTab] = useState(0);
 
-  const handleFile = async () => {};
+  const { push } = useSnackbar();
+  const [photos, setPhotos] = useState<TCampaignPhoto[]>([]);
+  const [modal, modalOpen, modalClose] = useModal(false);
+  const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
+
+  const handlePhotos = async () => {
+    const file: any = await pick({
+      accept: 'image/jpg, image/jpeg, image/png, application/pdf',
+    });
+
+    try {
+      await FileManagerApi.fileUpload(file).then(async (data) => {
+        const presignedUrl = await FileManagerApi.fileDownload(data.key);
+
+        if (
+          presignedUrl &&
+          presignedUrl.data &&
+          file &&
+          file.name &&
+          file.type &&
+          data &&
+          data.id
+        ) {
+          setPhotos((prev: TCampaignPhoto[]) => [
+            ...prev,
+            {
+              presignedUrl: presignedUrl.data,
+              name: file.name,
+              type: file.type,
+              id: data.id,
+              url: data.url,
+            },
+          ]);
+          push('File successfully uploaded.', { variant: 'success' });
+        }
+      });
+    } catch (error: any) {
+      push('File upload failed.', { variant: 'error' });
+    }
+  };
 
   const getSurvey = async () => {
     const result = await SurveyAPI.getSurvey(id);
@@ -232,6 +281,25 @@ const CreatedSurveysModal = ({
           );
       }
 
+      if (survey.exampleImages) {
+        const array = survey.exampleImages.map(async (x: any) => {
+          const key = x.imageUrl.split('/').slice(3).join('/');
+          const file = await FileManagerApi.fileDownload(key);
+          const parts = x.imageUrl.split('.');
+          const fileExtension = parts.pop();
+
+          return {
+            presignedUrl: file.data,
+            name: x.imageUrl.split('/').slice(4).join('/'),
+            type: fileExtension === 'pdf' ? 'application/pdf' : 'image/png',
+            id: x.id,
+            url: x.imageUrl,
+          };
+        });
+
+        Promise.all(array).then((data) => setPhotos([...data]));
+      }
+
       if (
         survey.platformProductOrder.client &&
         survey.platformProductOrder.client.user &&
@@ -364,19 +432,6 @@ const CreatedSurveysModal = ({
     );
   };
 
-  const [photo, setPhoto] = useState<any>('');
-  const [photoName, setPhotoName] = useState('');
-
-  const handlePhotos = async () => {
-    const file: any = await pick();
-
-    setPhotoName(file.name);
-
-    const { url } = await FileManagerApi.fileUpload(file);
-
-    setPhoto(url);
-  };
-
   const getSurveyTypes = async () => {
     const result = await EnumsApi.getSurveyTypes();
 
@@ -444,8 +499,6 @@ const CreatedSurveysModal = ({
     getSymptoms();
   }, []);
 
-  const { push } = useSnackbar();
-
   const updateSurvey = useCallback(async () => {
     try {
       const body = {
@@ -491,7 +544,8 @@ const CreatedSurveysModal = ({
           ? state.targetAudInfo
           : undefined,
         surveyType: state.surveyType ? state.surveyType.value : undefined,
-        exampleImageUrls: [photo] || undefined,
+        exampleImageUrls:
+          photos.length > 0 ? photos.map((x) => x.url) : undefined,
         instructions: state.instructions ? state.instructions : undefined,
         tokens: state.tokens ? state.tokens.value : null,
         link: state.link ? state.link : undefined,
@@ -514,7 +568,7 @@ const CreatedSurveysModal = ({
     } catch (e) {
       push('Survey update failed.', { variant: 'error' });
     }
-  }, [state]);
+  }, [state, photos]);
 
   const [edit, setEdit] = useState(false);
 
@@ -523,6 +577,19 @@ const CreatedSurveysModal = ({
   };
 
   const disabled = !state.surveyName || !state.tokens;
+
+  const handleDeletePhoto = (idx: number) => {
+    try {
+      FileManagerApi.fileDelete(idx).then(() => {
+        setPhotos((prev: TCampaignPhoto[]) =>
+          prev.filter((item: TCampaignPhoto) => item.id !== idx)
+        );
+        push('File successfully uploaded.', { variant: 'success' });
+      });
+    } catch (error: any) {
+      push('File delete failed.', { variant: 'error' });
+    }
+  };
 
   const debounce = (func: any, wait: any) => {
     let timeout: any;
@@ -828,15 +895,55 @@ const CreatedSurveysModal = ({
               onValue={(link) => setState({ ...state, link })}
             />
             <GridCell columnSpan={1}>
-              <InputLabel>Materials</InputLabel>
-              <Button
-                disabled={!edit}
-                color="default"
-                variant="contained"
-                onClick={handleFile}
-              >
-                Upload
-              </Button>
+              <ImageUploadMainContainer>
+                <ImageUploadContainer>
+                  <InputLabel>Image</InputLabel>
+                  <Button
+                    color="default"
+                    variant="contained"
+                    onClick={handlePhotos}
+                    style={{ width: 'fit-content' }}
+                  >
+                    Upload
+                  </Button>
+                  {photos && photos.length
+                    ? photos.map((item: TCampaignPhoto, idx: number) => {
+                        // eslint-disable-next-line no-shadow
+                        const { presignedUrl, name, type, id } = item;
+                        return (
+                          <ImageList>
+                            <ImageActions>
+                              <ImageUploadButton
+                                onClick={() => {
+                                  modalOpen();
+                                  setActivePhotoIdx(idx);
+                                }}
+                                key={id}
+                              >
+                                {name}
+                              </ImageUploadButton>
+                              <ImageDeleteButton
+                                onClick={() => handleDeletePhoto(id)}
+                              >
+                                X
+                              </ImageDeleteButton>
+                            </ImageActions>
+                            {modal &&
+                              activePhotoIdx === idx &&
+                              presignedUrl && (
+                                <UploadedFileModal
+                                  onClose={modalClose}
+                                  name={name}
+                                  url={presignedUrl}
+                                  type={type}
+                                />
+                              )}
+                          </ImageList>
+                        );
+                      })
+                    : null}
+                </ImageUploadContainer>
+              </ImageUploadMainContainer>
             </GridCell>
             <Input
               multiline
