@@ -3,8 +3,8 @@ const Project = {
   version: '1.0.0',
   app: {
     // environment: 'production',
-    // environment: 'development',
-    environment: 'staging',
+    // environment: 'staging',
+    environment: 'development',
 
     baseUrl: 'http://localhost',
     baseProdUrl: 'https://app.patientsinfluence.com',
@@ -14,9 +14,9 @@ const Project = {
     // Production
     // v1: 'https://api.patientsinfluence.com',
     // Staging
-    v1: 'https://api.staging.patientsinfluence.com',
+    // v1: 'https://api.staging.patientsinfluence.com',
     // Local/Dev
-    // v1: 'http://localhost:3000',
+    v1: 'http://localhost:3000',
   },
   title: {
     prefix: '',

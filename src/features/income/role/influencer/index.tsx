@@ -124,6 +124,13 @@ const IncomePage = () => {
           value={tab}
           onValue={setTab}
           tabs={['Account Statement', 'Affiliate Program', 'Withdraw']}
+          style={
+            window.innerWidth < 500
+              ? {
+                  maxWidth: '77vw',
+                }
+              : {}
+          }
         />
         {tab === 0 && (
           <CardWithText

@@ -171,8 +171,8 @@ const CampaignsPage = () => {
         title="Ongoing Campaigns"
         style={
           window.innerWidth < 600
-            ? { padding: '1.25rem 0', boxShadow: 'unset' }
-            : { padding: '1.25rem', boxShadow: '0px 2px 5px #00000010' }
+            ? { padding: '1.25rem 10px', boxShadow: 'unset' }
+            : { padding: '1.25rem 10px', boxShadow: '0px 2px 5px #00000010' }
         }
       >
         <Stack>
