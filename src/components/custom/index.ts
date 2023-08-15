@@ -1,4 +1,4 @@
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 export { default as LocalizationSelect } from 'components/custom/localization-select';
 export { default as ProgressDisplay } from 'components/custom/progress-display';
@@ -18,6 +18,8 @@ export { default as Sidebar } from 'components/custom/sidebar';
 export { default as CardWithText } from 'components/custom/card-with-text';
 export { default as CardWithTextNew } from 'components/custom/card-with-text-new';
 export { default as CardWithChart } from 'components/custom/card-with-chart';
+export { default as CardWithChartFinance } from 'components/custom/card-with-chart-finance';
+export { default as CardWithChartHomepage } from 'components/custom/card-with-chart-homepage';
 export { default as CardWithProgress } from 'components/custom/card-with-progress';
 export { default as NotificationsCard } from 'components/custom/notifications-card';
 export { default as CalendarCard } from 'components/custom/calendar-card';
@@ -25,7 +27,6 @@ export { default as Tabs } from 'components/custom/tabs';
 export { default as Table } from 'components/custom/table';
 export { default as IconWithText } from 'components/custom/icon-with-text';
 export { default as Title } from 'components/custom/title';
-export { default as Stepper } from 'components/custom/stepper';
 export { default as Status } from 'components/custom/status';
 export { default as Header } from 'components/custom/header';
 export { default as Loader } from 'components/custom/loader';
@@ -35,3 +36,6 @@ export { default as NewCheckboxTable } from 'components/custom/new-checkbox-tabl
 export { default as Chat } from 'components/custom/chat';
 export { default as Tooltip } from 'components/custom/tooltip';
 export { default as CurrencyFeedback } from 'components/custom/currency-feedback';
+export { default as PropertyCard } from 'components/custom/card-property';
+export { default as Gallery } from 'components/custom/gallery';
+export { default as Image } from 'components/custom/image';

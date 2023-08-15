@@ -8,7 +8,7 @@ export const createInitialState = (): TAppContext => ({
   login: async (_x) => {},
   setRouteName: () => {},
   logout: () => {},
-  role: 'CLIENT',
+  role: 'DEVELOPER',
   initialLoading: true,
   showMobileMenu: false,
   handleMobileMenu: () => {},

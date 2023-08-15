@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from 'components/custom';
-import { TChangePasswordModalProps } from 'features/account/role/ambasador/elements/change-password-modal/types';
-import { ChangePasswordModalMain } from 'features/account/role/ambasador/elements/change-password-modal/styles';
+import { TChangePasswordModalProps } from 'features/account/role/developer/elements/change-password-modal/types';
+import { ChangePasswordModalMain } from 'features/account/role/developer/elements/change-password-modal/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 

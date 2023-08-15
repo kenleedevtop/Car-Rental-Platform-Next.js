@@ -19,7 +19,7 @@ const Chat = ({ ...props }) => {
   };
 
   return (
-    <ChatMain>
+    <ChatMain {...props}>
       <ChatMessages>
         {messages.map((x: any) => (
           <ChatMessage message={x.message} time={x.date} />

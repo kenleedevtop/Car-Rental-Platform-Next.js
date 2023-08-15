@@ -2,12 +2,10 @@ import { Theme } from '@mui/material';
 import styled from '@emotion/styled';
 
 export const ProfilePictureMain = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
-        width: 100%;    
-        height: 600px;
-        overflow-y: scroll;
-        padding-right: 20px;
-    `}
+  width: 100%;
+  height: 600px;
+  overflow-y: scroll;
+  padding-right: 20px;
 `;
 
 export const ProfileUpload = styled.div<{ theme?: Theme }>`
@@ -44,11 +42,9 @@ export const ProfileInfo = styled.div<{ theme?: Theme }>`
 `;
 
 export const ProfileActions = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-`}
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const ProfileSpan = styled.div<{ theme?: Theme }>`

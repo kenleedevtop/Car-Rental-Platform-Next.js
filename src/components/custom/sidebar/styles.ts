@@ -24,8 +24,8 @@ export const SidebarLogoLink = styled(Link)`
 `;
 
 export const SidebarLogo = styled.img`
-  width: 100px;
-  height: 54px;
+  width: 100%;
+  height: 71px;
 `;
 
 export const SidebarItems = styled.div<{ theme?: Theme }>`

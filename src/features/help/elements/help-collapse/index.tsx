@@ -5,12 +5,19 @@ import { Collapse, Stack } from 'components/system';
 import {
   HelpCollapseMain,
   HelpCollapseHeader,
+  HelpCollapseHeaderText,
   HelpCollapseText,
 } from 'features/help/elements/help-collapse/style';
 
 import { THelpCollapseProps } from 'features/help/elements/help-collapse/types';
 
-const HelpCollapse = ({ title, icon, text, ...props }: THelpCollapseProps) => {
+const HelpCollapse = ({
+  title,
+  openIcon,
+  closeIcon,
+  text,
+  ...props
+}: THelpCollapseProps) => {
   const [help, setHelp] = useState(false);
 
   const openHelp = () => {
@@ -21,8 +28,9 @@ const HelpCollapse = ({ title, icon, text, ...props }: THelpCollapseProps) => {
     <HelpCollapseMain {...props}>
       <Stack style={{ gap: '0px' }}>
         <HelpCollapseHeader onClick={openHelp}>
-          <h2>{title}</h2>
-          {icon}
+          <HelpCollapseHeaderText help={help}>{title}</HelpCollapseHeaderText>
+          {help && closeIcon}
+          {!help && openIcon}
         </HelpCollapseHeader>
         <Collapse
           style={

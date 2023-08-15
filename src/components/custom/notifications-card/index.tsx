@@ -23,7 +23,7 @@ const NotificationsCard = ({ ...props }: TNotificationsCardProps) => {
 
   return (
     <>
-      {['ADMIN', 'SUPERADMIN'].includes(role) && (
+      {/* {['ADMIN', 'SUPERADMIN'].includes(role) && (
         <NotificationCard>
           <NotificationTitle>
             Notifications <SettingsIcon onClick={openNModal} />{' '}
@@ -34,8 +34,8 @@ const NotificationsCard = ({ ...props }: TNotificationsCardProps) => {
             ))}
           </NotificationsCardList>
         </NotificationCard>
-      )}
-      {['INFLUENCER', 'CLIENT', 'AMBASSADOR'].includes(role) && (
+      )} */}
+      {['ADMIN', 'SUPERADMIN', 'DEVELOPER', 'INVESTOR'].includes(role) && (
         <NotificationsCardMain title="Notifications" {...props}>
           <NotificationsCardList>
             {DNotifications.map(({ id, ...x }) => (

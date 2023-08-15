@@ -14,64 +14,29 @@ import {
 } from 'features/register/styles';
 import { Button, Input } from 'components/ui';
 import { emailSchema, nameSchema, passwordSchema } from 'utilities/validators';
-import { ClientAPI, LegalsAPI, CompanyAPI, AmbassadorAPI } from 'api';
+// import { ClientAPI, LegalsAPI, CompanyAPI, AmbassadorAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-import { IAffiliatedAmbassador } from 'api/ambassador/types';
+// import { IAffiliatedAmbassador } from 'api/ambassador/types';
 
 const RegisterPage = () => {
   const [state, setState] = useState({
     firstName: '',
     lastName: '',
-    company: {
-      value: undefined,
-      label: '',
-      name: '',
-    },
-    companyTitleId: {
-      value: null,
-      label: '',
-    },
-    // company: {
-    //   name: 1,
-    //   role: 1,
-    // },
+    company: null,
+    companyTitleId: null,
+    services: [],
     email: '',
     password: '',
     commonLegalId: null,
   });
 
-  const [affiliatedAmbassador, setAffiliatedAmbassador] = useState<
-    IAffiliatedAmbassador | undefined
-  >(undefined);
-  const [isAffiliated, setIsAffiliated] = useState(false);
-
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const snackbar = useSnackbar();
-
-  const { affiliateCode } = router.query;
-
-  const [legalsChecked, setLegalsChecked] = useState(false);
-  const [commonLegal, setCommonLegals] = useState<any>(null);
-
-  const getLegals = async (lang: string) => {
-    const data = await LegalsAPI.getLegals(lang);
-
-    const common = data.commonLegal;
-
-    setState({
-      ...state,
-      commonLegalId: common.id,
-    });
-
-    setCommonLegals(common);
-  };
-
-  const [counter, setCounter] = useState(0);
 
   const { push } = useSnackbar();
 
@@ -101,42 +66,12 @@ const RegisterPage = () => {
     // !state.company.role ||
     !state.email ||
     !state.password ||
-    !!errors.find((x) => x) ||
-    counter === 1 ||
-    !legalsChecked;
+    !!errors.find((x) => x);
 
   // , router.locale as string
 
   const handleRegister = async () => {
     try {
-      const locale = router.locale ? router.locale?.slice(0, 2) : '';
-
-      if (isAffiliated) {
-        const requestData = {
-          ...state,
-          company: {
-            name: state.company.label,
-            companyId: state.company.value,
-          },
-          companyTitleId: state.companyTitleId.value,
-          affiliateCode: affiliateCode?.toString(),
-        };
-        await ClientAPI.registrationViaInvitation({
-          ...requestData,
-        });
-      } else {
-        await ClientAPI.registration(
-          {
-            ...state,
-            companyTitleId: state.companyTitleId.value,
-            company: {
-              name: state.company.label,
-              companyId: state.company.value,
-            },
-          },
-          locale
-        );
-      }
       openCrModal();
     } catch (e: any) {
       push(e.response.data.message, { variant: 'error' });
@@ -148,43 +83,8 @@ const RegisterPage = () => {
     closeCrModal();
   };
 
-  const [companies, setCompanies] = useState<any>([]);
-  const [titles, setTitles] = useState<any>([]);
-
-  const getCompanies = async (s: string = '') => {
-    setLoading(true);
-    const { result } = await CompanyAPI.getAll(s);
-
-    setCompanies(
-      result.map((x: any) => ({
-        value: x.id,
-        label: x.name,
-      }))
-    );
-    setLoading(false);
-  };
-
-  const getTitles = async () => {
-    const { result } = await CompanyAPI.getAllTitles();
-
-    setTitles(
-      result.map((x: any) => ({
-        value: x.id,
-        label: x.name,
-      }))
-    );
-  };
-
-  const handleKeyDown = (event: any) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      setState({
-        ...state,
-        company: { ...state.company, label: event.target.value },
-      });
-      event.target.blur();
-    }
-  };
+  // const [companies, setCompanies] = useState<any>([]);
+  // const [titles, setTitles] = useState<any>([]);
 
   const debounce = (func: any, wait: any) => {
     let timeout: any;
@@ -195,45 +95,9 @@ const RegisterPage = () => {
     };
   };
 
-  const setAffiliatedInfluencerCall = async () => {
-    if (affiliateCode) {
-      try {
-        const affiliateAmbassador = await AmbassadorAPI.getAffiliateCodeOwner(
-          affiliateCode.toString()
-        );
-        setAffiliatedAmbassador(affiliateAmbassador);
-      } catch (error) {
-        router.push('/register?as=client');
-        snackbar.push('Invalid Affiliate Code', {
-          variant: 'error',
-        });
-      }
-    }
-  };
-
-  useEffect(() => {
-    setAffiliatedInfluencerCall();
-    getCompanies();
-    getTitles();
-    const lang = router.locale?.slice(0, 2);
-    if (lang) {
-      getLegals(lang);
-    }
-    if (affiliateCode) {
-      setIsAffiliated(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    const lang = router.locale?.slice(0, 2);
-    if (lang) {
-      getLegals(lang);
-    }
-  }, [router.locale]);
-
   return (
     <RegisterCompanyMain>
-      <RegisterTitle>{t('Sign Up as Company')}</RegisterTitle>
+      <RegisterTitle>{t('Sign Up as Developer')}</RegisterTitle>
       <RegisterSubtitle>
         {t(
           'Reach the most relevant market possible by connecting with influencers who have pre-established trust with your target audience.'
@@ -329,18 +193,12 @@ const RegisterPage = () => {
       </RegisterCompanyTopStack>
       <RegisterCompanyBottomStack direction="horizontal">
         <RegisterCompanyCompany
-          type="select"
+          type="text"
           label={t('Company') as string}
           required
           placeholder={t('Please Enter your Company') as string}
-          value={state.company?.name ? state.company.name : state.company}
-          onSearch={debounce(getCompanies, 250)}
-          onValue={(value) => setState({ ...state, company: value })}
-          options={companies}
-          onKeyDown={handleKeyDown}
-          loading={loading}
-          noOptionsText="Press Enter to Add Yours"
-          // errorCallback={handleErrors(2)}
+          value={state.company}
+          onValue={(company) => setState({ ...state, company })}
           // validators={[
           //   {
           //     message: t('Company is required'),
@@ -353,24 +211,46 @@ const RegisterPage = () => {
           // ]}
         />
         <RegisterCompanyRole
-          type="select"
+          type="text"
           label={t('Role') as string}
           required
           placeholder={t('Please Enter your Role') as string}
           value={state.companyTitleId}
-          onValue={(value) => setState({ ...state, companyTitleId: value })}
-          options={titles}
-          // errorCallback={handleErrors(3)}
+          onValue={(companyTitleId) => setState({ ...state, companyTitleId })}
           // validators={[
           //   {
           //     message: t('Role is required'),
-          //     validator: (role) => {
-          //       const v = role as string;
+          //     validator: (companyTitleId) => {
+          //       const v = companyTitleId as string;
           //       if (v.trim()) return true;
           //       return false;
           //     },
           //   },
           // ]}
+        />
+      </RegisterCompanyBottomStack>
+      <RegisterCompanyBottomStack direction="horizontal">
+        <RegisterCompanyCompany
+          type="multiselect"
+          label={t('Services') as string}
+          required
+          placeholder={t('Please Enter your Company') as string}
+          value={state.services}
+          // onSearch={debounce(getCompanies, 250)}
+          onValue={(value) => setState({ ...state, services: value })}
+          // options={companies}
+          // onKeyDown={handleKeyDown}
+          loading={loading}
+          noOptionsText="Press Enter to Add Yours"
+        />
+        <RegisterCompanyRole
+          type="select"
+          label={t('Location') as string}
+          required
+          placeholder={t('Please Enter your Role') as string}
+          value={state.companyTitleId}
+          onValue={(value) => setState({ ...state, companyTitleId: value })}
+          // options={titles}
         />
       </RegisterCompanyBottomStack>
       <Input
@@ -434,32 +314,6 @@ const RegisterPage = () => {
             },
           },
         ]}
-      />
-      {router.query.affiliateCode &&
-        router.query.affiliateCode.toString().length &&
-        affiliatedAmbassador && (
-          <Input
-            type="text"
-            label={t('Invited By') as string}
-            disabled
-            placeholder={
-              `${affiliatedAmbassador.user.firstName} ${affiliatedAmbassador.user.lastName}` as string
-            }
-            value={`${affiliatedAmbassador.user.firstName} ${affiliatedAmbassador.user.lastName}`}
-            onValue={() =>
-              setState((prevState) => ({
-                ...prevState,
-                affiliateCode: affiliatedAmbassador.affiliateCode,
-              }))
-            }
-          />
-        )}
-      <RegisterCheckbox
-        value={legalsChecked}
-        onValue={(value) => setLegalsChecked(value)}
-        label={<span dangerouslySetInnerHTML={{ __html: commonLegal?.text }} />}
-        size="small"
-        color="primary"
       />
       <Button
         variant="contained"

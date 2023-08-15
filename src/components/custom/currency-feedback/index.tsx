@@ -8,7 +8,7 @@ import {
 } from 'components/custom/currency-feedback/style';
 import { useAppContext } from 'context';
 
-const CurrencyFeedback = ({ value, children, ...props }: TNote) => {
+const CurrencyFeedback = ({ value, ...props }: TNote) => {
   const { currency } = useAppContext();
 
   const [euroValue, setEuroValue] = useState(value * 1.03);

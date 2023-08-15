@@ -1,61 +1,32 @@
 export const DGenerateFinanceFilter = () => ({
-  company: null,
-  client: null,
-  location: null,
-  diseaseArea: null,
-  industry: null,
-  platform: null,
-  promotionType: null,
-  dataRange: null,
-  influencerSize: '',
-  influencers: {
+  project: null,
+  dateFrom: null,
+  dateTo: null,
+  type: null,
+  amount: {
     min: '',
     max: '',
   },
-  budget: {
-    min: '',
-    max: '',
-  },
-  label: [],
 });
 
 export const DGenerateFinanceAdminFilter = () => ({
-  search: '',
-  startDate: null,
-  endDate: null,
-  budget: {
+  type: null,
+  investor: null,
+  developer: null,
+  location: null,
+  project: null,
+  status: null,
+  amount: {
     min: '',
     max: '',
   },
-  type: null,
-  location: null,
-  diseaseArea: null,
-  status: null,
-  socialMediaPlatform: null,
-  labels: null,
-  schedule: null,
-
-  company: null,
-  client: null,
-  influencer: null,
-  ambassador: null,
-  vendor: null,
-  campaign: null,
-  report: null,
-  socialMediaListening: null,
-  survey: null,
-  product: null,
+  date: null,
 });
 
-export const DFinanceHead = [
+export const DFinanceInvestorHead = [
   {
-    reference: 'name',
-    label: 'Name',
-    visible: true,
-  },
-  {
-    reference: 'amount',
-    label: 'Amount',
+    reference: 'statement',
+    label: 'Statement',
     visible: true,
   },
   {
@@ -66,79 +37,29 @@ export const DFinanceHead = [
   {
     reference: 'type',
     label: 'Type',
-    visible: false,
-  },
-  {
-    reference: 'location',
-    label: 'Location',
-    visible: false,
-  },
-  {
-    reference: 'diseaseArea',
-    label: 'Disease Area',
-    visible: false,
-  },
-  {
-    reference: 'status',
-    label: 'Status',
     visible: true,
   },
   {
-    reference: 'socialMediaPlatform',
-    label: 'Social Media Platform',
-    visible: false,
-  },
-  {
-    reference: 'promotionType',
-    label: 'Promotion Type',
-    visible: false,
-  },
-  {
-    reference: 'labels',
-    label: 'Labels',
-    visible: false,
-  },
-  {
-    reference: 'schedule',
-    label: 'Schedule',
-    visible: false,
-  },
-  {
-    reference: 'company',
-    label: 'Company',
-    visible: true,
-  },
-  {
-    reference: 'subject',
-    label: 'Subject',
-    visible: true,
-  },
-  {
-    reference: 'vendor',
-    label: 'Vendor',
-    visible: false,
-  },
-  {
-    reference: 'project',
-    label: 'Project',
-    visible: true,
-  },
-  {
-    reference: 'product',
-    label: 'Product',
-    visible: false,
-  },
-  {
-    reference: 'actions',
-    label: '',
+    reference: 'amount',
+    label: 'Amount',
     visible: true,
   },
 ];
 
-export const DFinanceHead2 = [
+export const DFinanceAdminCostHead = [
+  {
+    reference: 'cost',
+    label: 'Cost',
+    visible: true,
+  },
   {
     reference: 'subject',
     label: 'Subject',
+    visible: true,
+  },
+  {
+    reference: 'project',
+    label: 'Project',
     visible: true,
   },
   {
@@ -163,20 +84,25 @@ export const DFinanceHead2 = [
   },
 ];
 
-export const DFinanceHead3 = [
+export const DFinanceAdminRevenueHead = [
   {
-    reference: 'project',
-    label: 'Project',
+    reference: 'revenue',
+    label: 'Revenue',
     visible: true,
   },
   {
-    reference: 'date',
-    label: 'Date',
+    reference: 'subject',
+    label: 'Subject',
     visible: true,
   },
   {
     reference: 'status',
     label: 'Status',
+    visible: true,
+  },
+  {
+    reference: 'date',
+    label: 'Date',
     visible: true,
   },
   {
@@ -186,7 +112,7 @@ export const DFinanceHead3 = [
   },
   {
     reference: 'actions',
-    label: '',
+    label: 'Actions',
     visible: true,
   },
 ];

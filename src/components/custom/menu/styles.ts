@@ -13,11 +13,11 @@ export const MenuMain = styled(Card)<{ theme?: Theme }>`
   `}
 `;
 
-export const MenuItem = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
+export const MenuItem = styled.div<{ theme?: Theme; icon?: string }>`
+  ${({ theme, icon }) => `
     width: 100%;
     display: grid;
-    grid-template-columns: 14px 1fr;
+    grid-template-columns: ${icon === 'icon' ? '14px 1fr' : '1fr'};
     align-items: center;
     gap: ${theme.spacing(5)};
     cursor: pointer;

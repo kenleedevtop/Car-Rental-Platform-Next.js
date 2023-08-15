@@ -2,9 +2,7 @@ import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 
 export const ChatMain = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
-        width: 100%;
-    `}
+  width: 100%;
 `;
 
 export const ChatMessages = styled.div<{ theme?: Theme }>`

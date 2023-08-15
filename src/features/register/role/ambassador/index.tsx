@@ -155,68 +155,14 @@ const RegisterPage = () => {
     closeCrModal();
   };
 
-  const [companies, setCompanies] = useState<any>([]);
-  const [titles, setTitles] = useState<any>([]);
-
-  const getCompanies = async (s: string = '') => {
-    const { result } = await CompanyAPI.getAll(s);
-
-    setCompanies(
-      result.map((x: any) => ({
-        value: x.id,
-        label: x.name,
-      }))
-    );
-  };
-
-  const getTitles = async () => {
-    const { result } = await CompanyAPI.getAllTitles();
-
-    setTitles(
-      result.map((x: any) => ({
-        value: x.id,
-        label: x.name,
-      }))
-    );
-  };
-
-  const debounceCompanies = useDebounce(getCompanies, 300);
-  const debounceRoles = useDebounce(getTitles, 300);
-
-  const handleKeyDown = (event: any) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      setState({
-        ...state,
-        company: { ...state.company, label: event.target.value },
-      });
-      event.target.blur();
-    }
-  };
-
-  useEffect(() => {
-    const lang = router.locale?.slice(0, 2);
-    if (lang) {
-      getLegals(lang);
-    }
-  }, [router.locale]);
-
-  useEffect(() => {
-    getCompanies();
-    getTitles();
-    if (token) {
-      setState((prevState) => ({ ...prevState, invCode: token.toString() }));
-    }
-  }, []);
-
   return (
     <RegisterCompanyMain>
-      <RegisterTitle>Sign Up as Ambassador</RegisterTitle>
+      <RegisterTitle>Sign Up as Investor</RegisterTitle>
       <RegisterSubtitle>
         Lead the revolution to empower patients and transform healthcare for the
         better by leveraging your expertise and network with us.
       </RegisterSubtitle>
-      <RegisterCompanyTopStack direction="horizontal">
+      <RegisterCompanyTopStack>
         <RegisterCompanyFName
           type="text"
           label="First Name"
@@ -304,150 +250,69 @@ const RegisterPage = () => {
           ]}
         />
       </RegisterCompanyTopStack>
-      <RegisterCompanyBottomStack direction="horizontal">
-        <RegisterCompanyCompany
-          type="select"
-          label="Company"
-          placeholder="Please Enter your Company"
+      <RegisterCompanyBottomStack>
+        <Input
+          type="text"
+          label="Email"
           required
-          onSearch={debounceCompanies}
-          onKeyDown={handleKeyDown}
-          value={state.company}
-          onValue={(company) =>
-            setState({
-              ...state,
-              company,
-            })
-          }
-          options={companies}
-          errorCallback={handleErrors(2)}
+          placeholder="Please Enter your Email"
+          value={state.email}
+          onValue={(email) => setState({ ...state, email })}
+          errorCallback={handleErrors(4)}
           validators={[
             {
-              message: 'Company is required',
-              validator: (company) => {
-                const v = company as object;
-                if (v) return true;
+              message: 'Email is required',
+              validator: (email) => {
+                const v = email as string;
+                if (v.trim()) return true;
                 return false;
+              },
+            },
+            {
+              message: 'Not a valid email format',
+              validator: (email) => {
+                try {
+                  emailSchema.validateSync({ email });
+                  return true;
+                } catch {
+                  return false;
+                }
               },
             },
           ]}
         />
-        <RegisterCompanyRole
-          type="select"
-          label="Role"
+        <Input
+          type="password"
+          label="Password"
           required
-          placeholder="Please Enter your Role"
-          value={state.role}
-          onSearch={debounceRoles}
-          onValue={(role) =>
-            setState({
-              ...state,
-              role,
-            })
-          }
-          options={titles}
-          errorCallback={handleErrors(3)}
+          placeholder="Please Enter your Password"
+          value={state.password}
+          onValue={(password) => setState({ ...state, password })}
+          errorCallback={handleErrors(5)}
           validators={[
             {
-              message: 'Role is required',
-              validator: (role) => {
-                const v = role as object;
-                if (v) return true;
+              message: 'Password is required',
+              validator: (password) => {
+                const v = password as string;
+                if (v.trim()) return true;
                 return false;
+              },
+            },
+            {
+              message:
+                'Password must have at least one uppercase, lowercase letter, number and symbol',
+              validator: (password) => {
+                try {
+                  passwordSchema.validateSync({ password });
+                  return true;
+                } catch {
+                  return false;
+                }
               },
             },
           ]}
         />
       </RegisterCompanyBottomStack>
-      <Input
-        type="text"
-        label="Email"
-        required
-        placeholder="Please Enter your Email"
-        value={state.email}
-        onValue={(email) => setState({ ...state, email })}
-        errorCallback={handleErrors(4)}
-        validators={[
-          {
-            message: 'Email is required',
-            validator: (email) => {
-              const v = email as string;
-              if (v.trim()) return true;
-              return false;
-            },
-          },
-          {
-            message: 'Not a valid email format',
-            validator: (email) => {
-              try {
-                emailSchema.validateSync({ email });
-                return true;
-              } catch {
-                return false;
-              }
-            },
-          },
-        ]}
-      />
-      <Input
-        type="password"
-        label="Password"
-        required
-        placeholder="Please Enter your Password"
-        value={state.password}
-        onValue={(password) => setState({ ...state, password })}
-        errorCallback={handleErrors(5)}
-        validators={[
-          {
-            message: 'Password is required',
-            validator: (password) => {
-              const v = password as string;
-              if (v.trim()) return true;
-              return false;
-            },
-          },
-          {
-            message:
-              'Password must have at least one uppercase, lowercase letter, number and symbol',
-            validator: (password) => {
-              try {
-                passwordSchema.validateSync({ password });
-                return true;
-              } catch {
-                return false;
-              }
-            },
-          },
-        ]}
-      />
-      <RegisterCheckbox
-        label={
-          <>
-            {t('I agree to the')}
-            <Link
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://patientsinfluence.com/terms-of-use/"
-            >
-              {' '}
-              {t('Terms of Service')}
-            </Link>{' '}
-            {t('and')}{' '}
-            <Link
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://patientsinfluence.com/privacy-statement/"
-            >
-              {t('Privacy Policy')}
-            </Link>
-            .
-          </>
-        }
-        size="small"
-        color="primary"
-        value={legalsChecked.commonLegal}
-        onValue={(v) => setLegalsChecked({ ...legalsChecked, commonLegal: v })}
-      />
       <Button
         variant="contained"
         size="large"

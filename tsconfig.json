@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "moduleResolution": "node",
     "paths": {
-      "*": ["./src/*"]
+      "*": ["./src/*"],
+      "@splidejs/react-splide/*": ["node_modules/@splidejs/react-splide/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

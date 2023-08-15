@@ -1,9 +1,9 @@
 export type TUserRole =
   | 'SUPERADMIN'
-  | 'CLIENT'
+  | 'ADMIN'
+  | 'INVESTOR'
   | 'INFLUENCER'
-  | 'AMBASSADOR'
-  | 'ADMIN';
+  | 'DEVELOPER';
 
 export type TUser = {
   id: string;
@@ -12,9 +12,4 @@ export type TUser = {
   username: string;
   email: string;
   role: Array<TUserRole>;
-};
-
-export type TInstagramAccount = {
-  id: string;
-  username: string;
 };

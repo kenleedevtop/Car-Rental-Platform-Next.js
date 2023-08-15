@@ -6,16 +6,15 @@ import {
   FinancePageFilterActions,
 } from 'features/finance/styles';
 import {
-  DFinanceHead,
-  DFinanceHead2,
-  DFinanceHead3,
+  DFinanceAdminCostHead,
+  DFinanceAdminRevenueHead,
   DGenerateFinanceAdminFilter,
 } from 'features/finance/data';
 import {
   CardWithChart,
   CardWithText,
   Menu,
-  CheckboxTable,
+  NewCheckboxTable,
   Tabs,
 } from 'components/custom';
 import {
@@ -38,13 +37,6 @@ import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { useMenu, useModal } from 'hooks';
-import {
-  CreateFinanceModal,
-  ExportFinanceModal,
-  ApproveFinanceModal,
-  CostInfoModal,
-  RevenueInfoModal,
-} from 'features/finance/role/admin/elements';
 
 const FinancePage = () => {
   const [cfModal, openCfModal, closeCfModal] = useModal(false);
@@ -70,28 +62,6 @@ const FinancePage = () => {
   };
 
   const renderItem = ({ cell }: TTableRenderItemObject) => '';
-
-  const [menuRP, openRP, setOpenRP] = useMenu(false);
-  const [menuRPa, openRPa, setOpenRPa] = useMenu(false);
-  const [menuCP, openCP, setOpenCP] = useMenu(false);
-  const [menuCW, openCW, setOpenCW] = useMenu(false);
-  const [menuCPa, openCPa, setOpenCPa] = useMenu(false);
-
-  const handleMenuRP = () => {
-    setOpenRP(!openRP);
-  };
-  const handleMenuRPa = () => {
-    setOpenRPa(!openRPa);
-  };
-  const handleMenuCP = () => {
-    setOpenCP(!openCP);
-  };
-  const handleMenuCW = () => {
-    setOpenCW(!openCW);
-  };
-  const handleMenuCPa = () => {
-    setOpenCPa(!openCPa);
-  };
 
   return (
     <FinancePageMain>
@@ -135,9 +105,37 @@ const FinancePage = () => {
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
+      </FinancePageCharts>
+      <FinancePageCharts>
         <CardWithChart
-          title="Margin"
-          icon={<MarginIcon />}
+          title="Revenue"
+          icon={<RevenueIcon />}
+          smallIcon={<FinanceSmallIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Cost"
+          icon={<CostIcon />}
+          smallIcon={<FinanceSmallIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Profit"
+          icon={<ProfitIcon />}
           smallIcon={<FinanceSmallIcon />}
           percent={2}
           count={75}
@@ -149,96 +147,8 @@ const FinancePage = () => {
           }}
         />
       </FinancePageCharts>
-
-      {/* <FinancePageCharts>
-        <CardWithProgress
-          title="Industry"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <BusinessmanIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <BusinessmanIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <BusinessmanIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Location"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <BusinessmanIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <BusinessmanIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <BusinessmanIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Disease Area"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <BusinessmanIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <BusinessmanIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <BusinessmanIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-        <CardWithProgress
-          title="Platform"
-          icon={<RedCrossIcon />}
-          progressData={[
-            {
-              icon: <BusinessmanIcon />,
-              percent: 100,
-              title: 'Test',
-            },
-            {
-              icon: <BusinessmanIcon />,
-              percent: 38,
-              title: 'Test',
-            },
-            {
-              icon: <BusinessmanIcon />,
-              percent: 75,
-              title: 'Test',
-            },
-          ]}
-        />
-      </FinancePageCharts> */}
       <CardWithText
         title="Financial Statement"
-        description="More than 290+ new Statements"
         actions={[
           <Button
             color={filterOpen ? 'secondary' : 'default'}
@@ -251,190 +161,69 @@ const FinancePage = () => {
           <Button color="default" variant="contained" onClick={openEfModal}>
             Export
           </Button>,
-          <Button color="primary" variant="contained" onClick={openCfModal}>
-            Add Statement
-          </Button>,
         ]}
       >
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <FinancePageFilter>
-              <Tabs
-                tabs={['Statement', 'Subject']}
-                value={filterTabs}
-                onValue={setFilterTabs}
-              />
-
-              {filterTabs === 0 && (
-                <Grid columns={4}>
-                  <Input
-                    type="text"
-                    label="Search"
-                    placeholder="Please Enter"
-                    value={filter.search}
-                    onValue={(search) => setFilter({ ...filter, search })}
-                  />
-                  <InputGroup
-                    label="Date Joined"
-                    inputRatio="1fr 1fr"
-                    elements={[
-                      {
-                        value: filter.startDate,
-                        onValue: (startDate) =>
-                          setFilter({ ...filter, startDate }),
-                        type: 'date',
-                        placeholder: 'From',
-                      },
-                      {
-                        value: filter.endDate,
-                        onValue: (endDate) => setFilter({ ...filter, endDate }),
-                        type: 'date',
-                        placeholder: 'To',
-                      },
-                    ]}
-                  />
-                  <Input
-                    type="min-max"
-                    label="Budget"
-                    value={filter.budget}
-                    onValue={(budget) => setFilter({ ...filter, budget })}
-                  />
-                  <Input
-                    type="select"
-                    label="Type"
-                    placeholder="Please Select"
-                    value={filter.type}
-                    onValue={(type) => setFilter({ ...filter, type })}
-                  />
-                  <Input
-                    type="select"
-                    label="Location"
-                    placeholder="Please Select"
-                    value={filter.location}
-                    onValue={(location) => setFilter({ ...filter, location })}
-                  />
-                  <Input
-                    type="select"
-                    label="Disease Area"
-                    placeholder="Please Select"
-                    value={filter.diseaseArea}
-                    onValue={(diseaseArea) =>
-                      setFilter({ ...filter, diseaseArea })
-                    }
-                  />
-                  <Input
-                    type="select"
-                    label="Status"
-                    placeholder="Please Select"
-                    value={filter.status}
-                    onValue={(status) => setFilter({ ...filter, status })}
-                  />
-                  <Input
-                    type="select"
-                    label="Social Media Platform"
-                    placeholder="Please Select"
-                    value={filter.socialMediaPlatform}
-                    onValue={(socialMediaPlatform) =>
-                      setFilter({ ...filter, socialMediaPlatform })
-                    }
-                  />
-                  <Input
-                    type="select"
-                    label="Labels"
-                    placeholder="Please Select"
-                    value={filter.labels}
-                    onValue={(labels) => setFilter({ ...filter, labels })}
-                  />
-                  <Input
-                    type="select"
-                    label="Schedule"
-                    placeholder="Please Select"
-                    value={filter.schedule}
-                    onValue={(schedule) => setFilter({ ...filter, schedule })}
-                  />
-                </Grid>
-              )}
-
-              {filterTabs === 1 && (
-                <Grid columns={4}>
-                  <Input
-                    type="select"
-                    label="Company"
-                    placeholder="Please Select"
-                    value={filter.company}
-                    onValue={(company) => setFilter({ ...filter, company })}
-                  />
-                  <Input
-                    type="select"
-                    label="Client"
-                    placeholder="Please Select"
-                    value={filter.client}
-                    onValue={(client) => setFilter({ ...filter, client })}
-                  />
-                  <Input
-                    type="select"
-                    label="Influencer"
-                    placeholder="Please Select"
-                    value={filter.influencer}
-                    onValue={(influencer) =>
-                      setFilter({ ...filter, influencer })
-                    }
-                  />
-                  <Input
-                    type="select"
-                    label="Ambassador"
-                    placeholder="Please Select"
-                    value={filter.ambassador}
-                    onValue={(ambassador) =>
-                      setFilter({ ...filter, ambassador })
-                    }
-                  />
-                  <Input
-                    type="select"
-                    label="Vendor"
-                    placeholder="Please Select"
-                    value={filter.vendor}
-                    onValue={(vendor) => setFilter({ ...filter, vendor })}
-                  />
-                  <Input
-                    type="select"
-                    label="Campaign"
-                    placeholder="Please Select"
-                    value={filter.campaign}
-                    onValue={(campaign) => setFilter({ ...filter, campaign })}
-                  />
-                  <Input
-                    type="select"
-                    label="Report"
-                    placeholder="Please Select"
-                    value={filter.report}
-                    onValue={(report) => setFilter({ ...filter, report })}
-                  />
-                  <Input
-                    type="select"
-                    label="Social Media Listening"
-                    placeholder="Please Select"
-                    value={filter.socialMediaListening}
-                    onValue={(socialMediaListening) =>
-                      setFilter({ ...filter, socialMediaListening })
-                    }
-                  />
-                  <Input
-                    type="select"
-                    label="Survey"
-                    placeholder="Please Select"
-                    value={filter.survey}
-                    onValue={(survey) => setFilter({ ...filter, survey })}
-                  />
-                  <Input
-                    type="select"
-                    label="Product"
-                    placeholder="Please Select"
-                    value={filter.product}
-                    onValue={(product) => setFilter({ ...filter, product })}
-                  />
-                </Grid>
-              )}
+              <Grid columns={4}>
+                <Input
+                  type="select"
+                  label="Type"
+                  placeholder="Please Select"
+                  value={filter.type}
+                  onValue={(type) => setFilter({ ...filter, type })}
+                />
+                <Input
+                  type="select"
+                  label="Investor"
+                  placeholder="Please Select"
+                  value={filter.investor}
+                  onValue={(investor) => setFilter({ ...filter, investor })}
+                />
+                <Input
+                  type="select"
+                  label="Developer"
+                  placeholder="Please Select"
+                  value={filter.developer}
+                  onValue={(developer) => setFilter({ ...filter, developer })}
+                />
+                <Input
+                  type="select"
+                  label="Location"
+                  placeholder="Please Select"
+                  value={filter.location}
+                  onValue={(location) => setFilter({ ...filter, location })}
+                />
+                <Input
+                  type="select"
+                  label="Project"
+                  placeholder="Please Select"
+                  value={filter.project}
+                  onValue={(project) => setFilter({ ...filter, project })}
+                />
+                <Input
+                  type="select"
+                  label="Status"
+                  placeholder="Please Select"
+                  value={filter.status}
+                  onValue={(status) => setFilter({ ...filter, status })}
+                />
+                <Input
+                  type="min-max"
+                  label="Amount"
+                  placeholder="Please Select"
+                  value={filter.amount}
+                  onValue={(amount) => setFilter({ ...filter, amount })}
+                />
+                <Input
+                  type="date"
+                  label="Date"
+                  placeholder="Please Select"
+                  value={filter.date}
+                  onValue={(date) => setFilter({ ...filter, date })}
+                />
+              </Grid>
               <FinancePageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter
@@ -451,14 +240,7 @@ const FinancePage = () => {
           </Collapse>
         </Stack>
       </CardWithText>
-      <CardWithText
-        title="Cost"
-        actions={[
-          <Button color="default" variant="contained" onClick={openAfModal}>
-            Approve
-          </Button>,
-        ]}
-      >
+      <CardWithText title="Cost" actions={[]}>
         <Stack>
           <Tabs
             value={tab}
@@ -467,8 +249,8 @@ const FinancePage = () => {
           />
           {tab === 0 && (
             <>
-              <CheckboxTable
-                head={DFinanceHead}
+              <NewCheckboxTable
+                head={DFinanceAdminCostHead}
                 items={[]}
                 renderItem={renderItem}
               />
@@ -477,8 +259,8 @@ const FinancePage = () => {
           )}
           {tab === 1 && (
             <>
-              <CheckboxTable
-                head={DFinanceHead2}
+              <NewCheckboxTable
+                head={DFinanceAdminCostHead}
                 items={[]}
                 renderItem={renderItem}
               />
@@ -487,20 +269,13 @@ const FinancePage = () => {
           )}
         </Stack>
       </CardWithText>
-      <CardWithText
-        title="Revenue"
-        actions={[
-          <Button color="default" variant="contained">
-            Received
-          </Button>,
-        ]}
-      >
+      <CardWithText title="Revenue" actions={[]}>
         <Stack>
           <Tabs value={tabs} onValue={setTabs} tabs={['Pending', 'Received']} />
           {tabs === 0 && (
             <>
-              <CheckboxTable
-                head={DFinanceHead3}
+              <NewCheckboxTable
+                head={DFinanceAdminRevenueHead}
                 items={[]}
                 renderItem={renderItem}
               />
@@ -509,205 +284,16 @@ const FinancePage = () => {
           )}
           {tabs === 1 && (
             <>
-              <CheckboxTable
-                head={DFinanceHead3}
+              <NewCheckboxTable
+                head={DFinanceAdminRevenueHead}
                 items={[]}
                 renderItem={renderItem}
               />
               <Pagination count={32} />
             </>
           )}
-
-          <Stack direction="horizontal">
-            <Button color="default" variant="contained" onClick={handleMenuRP}>
-              RP action
-            </Button>
-            <Button color="default" variant="contained" onClick={handleMenuRPa}>
-              RPa action
-            </Button>
-            <Button color="default" variant="contained" onClick={handleMenuCP}>
-              CP action
-            </Button>
-            <Button color="default" variant="contained" onClick={handleMenuCW}>
-              CW action
-            </Button>
-            <Button color="default" variant="contained" onClick={handleMenuCPa}>
-              CPa action
-            </Button>
-            <Button color="default" variant="contained" onClick={openCiModal}>
-              Cost Info
-            </Button>
-            <Button color="default" variant="contained" onClick={openRiModal}>
-              Revenue Info
-            </Button>
-          </Stack>
         </Stack>
-        {openRP && (
-          <Menu
-            items={[
-              {
-                icon: <ReceivedIcon />,
-                label: 'Received',
-                action: () => {},
-              },
-              {
-                icon: <ContactIcon />,
-                label: 'Contact',
-                action: () => {},
-              },
-              {
-                icon: <EditIcon />,
-                label: 'Note',
-                action: () => {},
-              },
-              {
-                icon: <ScheduleIcon />,
-                label: 'Schedule',
-                action: () => {},
-              },
-              {
-                icon: <DeleteIcon />,
-                label: 'Remove',
-                action: () => {},
-              },
-            ]}
-            ref={menuRP}
-          />
-        )}
-        {openRPa && (
-          <Menu
-            items={[
-              {
-                icon: <ContactIcon />,
-                label: 'Contact',
-                action: () => {},
-              },
-              {
-                icon: <EditIcon />,
-                label: 'Note',
-                action: () => {},
-              },
-              {
-                icon: <ScheduleIcon />,
-                label: 'Schedule',
-                action: () => {},
-              },
-              {
-                icon: <DeleteIcon />,
-                label: 'Remove',
-                action: () => {},
-              },
-            ]}
-            ref={menuRPa}
-          />
-        )}
-        {openCP && (
-          <Menu
-            items={[
-              {
-                icon: <ApproveIcon />,
-                label: 'Approve',
-                action: () => {},
-              },
-              {
-                icon: <DeclineIcon />,
-                label: 'Decline',
-                action: () => {},
-              },
-              {
-                icon: <ContactIcon />,
-                label: 'Contact',
-                action: () => {},
-              },
-              {
-                icon: <EditIcon />,
-                label: 'Note',
-                action: () => {},
-              },
-              {
-                icon: <ScheduleIcon />,
-                label: 'Schedule',
-                action: () => {},
-              },
-              {
-                icon: <DeleteIcon />,
-                label: 'Remove',
-                action: () => {},
-              },
-            ]}
-            ref={menuCP}
-          />
-        )}
-        {openCW && (
-          <Menu
-            items={[
-              {
-                icon: <ApproveIcon />,
-                label: 'Approve',
-                action: () => {},
-              },
-              {
-                icon: <ContactIcon />,
-                label: 'Contact',
-                action: () => {},
-              },
-              {
-                icon: <EditIcon />,
-                label: 'Note',
-                action: () => {},
-              },
-              {
-                icon: <ScheduleIcon />,
-                label: 'Schedule',
-                action: () => {},
-              },
-              {
-                icon: <DeleteIcon />,
-                label: 'Remove',
-                action: () => {},
-              },
-            ]}
-            ref={menuCW}
-          />
-        )}
-        {openCPa && (
-          <Menu
-            items={[
-              {
-                icon: <ApproveIcon />,
-                label: 'Approve',
-                action: () => {},
-              },
-              {
-                icon: <ContactIcon />,
-                label: 'Contact',
-                action: () => {},
-              },
-              {
-                icon: <EditIcon />,
-                label: 'Note',
-                action: () => {},
-              },
-              {
-                icon: <ScheduleIcon />,
-                label: 'Schedule',
-                action: () => {},
-              },
-              {
-                icon: <DeleteIcon />,
-                label: 'Remove',
-                action: () => {},
-              },
-            ]}
-            ref={menuCPa}
-          />
-        )}
       </CardWithText>
-      {cfModal && <CreateFinanceModal onClose={closeCfModal} />}
-      {efModal && <ExportFinanceModal onClose={closeEfModal} />}
-      {afModal && <ApproveFinanceModal onClose={closeAfModal} />}
-      {ciModal && <CostInfoModal onClose={closeCiModal} />}
-      {riModal && <RevenueInfoModal onClose={closeRiModal} />}
     </FinancePageMain>
   );
 };

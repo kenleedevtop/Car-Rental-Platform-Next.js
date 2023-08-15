@@ -4,9 +4,9 @@ import { LocalizationSelect } from 'components/custom';
 import { Stack } from 'components/system';
 
 export const LoginMain = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
+  // ${({ theme }) => `
     font-family: 'Poppins', sans-serif;
-  `}
+  // `}
 `;
 
 export const LoginContainer = styled.div``;

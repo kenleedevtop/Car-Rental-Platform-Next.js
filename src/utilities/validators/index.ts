@@ -1,4 +1,4 @@
-import { array, number, object, string, date } from 'yup';
+import { array, object, string, date } from 'yup';
 
 export const emailSchema = object().shape({
   email: string().email(),

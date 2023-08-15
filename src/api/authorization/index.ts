@@ -1,7 +1,6 @@
 import {
   TLoginParams,
   TLoginResponse,
-  TResetPassword,
   TConfirmResetPassword,
   TEmailConfirmation,
   TResendEmailConfirmation,

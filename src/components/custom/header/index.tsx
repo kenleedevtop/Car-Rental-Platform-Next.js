@@ -23,7 +23,7 @@ const Header = ({ ...props }) => {
     <>
       <HeaderMain {...props}>
         <HeaderLogoLink href="https://patientsinfluence.com">
-          <HeaderLogo src="/static/assets/images/PatientsInfluence.svg" />
+          <HeaderLogo src="/static/assets/images/StakeEstate.svg" />
         </HeaderLogoLink>
         <HeaderActions>
           <HeaderAction href="/login">

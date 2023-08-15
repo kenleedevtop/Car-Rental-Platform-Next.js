@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { AdminFinancePage } from 'features';
+import { AdminFinancePage, InvestorFinancePage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Finance = () => {
@@ -16,6 +16,7 @@ const Finance = () => {
       <Title>Finance</Title>
       {role === 'ADMIN' && <AdminFinancePage />}
       {role === 'SUPERADMIN' && <AdminFinancePage />}
+      {role === 'INVESTOR' && <InvestorFinancePage />}
     </>
   );
 };

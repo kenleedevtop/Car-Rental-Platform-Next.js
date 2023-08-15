@@ -32,11 +32,11 @@ const SidebarItemNested = ({
       <SidebarItemNestedMain>
         <SidebarItemNestedIcon>{icon}</SidebarItemNestedIcon>
         <SidebarItemNestedLabel>{label}</SidebarItemNestedLabel>
-        <SidebarItemNestedExpandIcon expanded={state}>
+        <SidebarItemNestedExpandIcon expanded={item.state}>
           <ArrowDownIcon />
         </SidebarItemNestedExpandIcon>
       </SidebarItemNestedMain>
-      <SidebarItemNestedDropDown expanded={state}>
+      <SidebarItemNestedDropDown expanded={item.state}>
         {items.map((x: TSidebarSubItem) => (
           <SidebarItemNestedDropDownSubItem
             href={x.location}

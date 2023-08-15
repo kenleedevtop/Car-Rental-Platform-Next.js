@@ -24,24 +24,24 @@ const SignUpModal = ({ onClose, ...props }: TSignUpProps) => {
           )}
         </SignUpText>
         <SignUpActions direction="horizontal">
-          <SignUpAction href="/register?as=client">
+          <SignUpAction href="/register?as=developer">
             <Button
               variant="outlined"
               size="large"
               color="secondary"
               onClick={onClose}
             >
-              {t('I AM COMPANY')}
+              {t('I AM DEVELOPER')}
             </Button>
           </SignUpAction>
-          <SignUpAction href="/register?as=influencer">
+          <SignUpAction href="/register?as=investor">
             <Button
               variant="outlined"
               size="large"
               color="secondary"
               onClick={onClose}
             >
-              {t('I AM INFLUENCER')}
+              {t('I AM INVESTOR')}
             </Button>
           </SignUpAction>
         </SignUpActions>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { BarChartMain, Overlay } from 'components/csr/bar-chart/styles';
+import { BarChartMain } from 'components/csr/bar-chart/styles';
 import {
   HChartDataGenerate,
   HChartOptionsGenerate,
@@ -27,9 +27,6 @@ const BarChart = ({
   generatedOptions.maintainAspectRatio = false;
   return (
     <BarChartMain {...props}>
-      <Overlay>
-        <span>Data Gathering In Progress</span>
-      </Overlay>
       <Bar height={50} data={generatedData} options={generatedOptions} />
     </BarChartMain>
   );

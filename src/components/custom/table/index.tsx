@@ -36,16 +36,16 @@ const Table = ({
       <TableWrapper>
         <TableMain>
           <TableHead>
-            {/* <TableHeadRow>
+            <TableHeadRow>
               {visibleItems.map((x: any) => (
                 <TableHeadCell key={x.reference}>{x.label}</TableHeadCell>
               ))}
-              <TableHeadCell action>
+              {/* <TableHeadCell action>
                 <TableHeadCellAction color="primary" onClick={openTModal}>
                   <BackupTableRounded />
                 </TableHeadCellAction>
-              </TableHeadCell>
-            </TableHeadRow> */}
+              </TableHeadCell> */}
+            </TableHeadRow>
           </TableHead>
           {!!items.length && (
             <TableBody>
@@ -67,7 +67,7 @@ const Table = ({
                       })}
                     </TableBodyCell>
                   ))}
-                  <TableBodyCell>
+                  {/* <TableBodyCell>
                     <VerticalDotsIcon
                       style={{
                         width: '26px',
@@ -77,7 +77,7 @@ const Table = ({
                         margin: '7px 0px 7px 7px',
                       }}
                     />
-                  </TableBodyCell>
+                  </TableBodyCell> */}
                 </TableBodyRow>
               ))}
             </TableBody>

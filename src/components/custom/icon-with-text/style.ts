@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
-import { gradient } from 'utilities/style';
 
 export const IconWithTextMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -8,6 +7,7 @@ export const IconWithTextMain = styled.div<{ theme?: Theme }>`
     grid-template-columns: 60px auto;
     align-items: center;
     gap: ${theme.spacing(4)};
+    cursor: pointer;
 
       ${theme.breakpoints.down('sm')} {
         display: grid;
@@ -22,10 +22,7 @@ export const IconWithTextIcon = styled.div<{ theme?: Theme }>`
     width: 60px;
     height: 60px;
     border-radius: 40px;
-    background: ${gradient(45, [
-      theme.palette.primary.dark,
-      theme.palette.secondary.light,
-    ])};
+    background: ${theme.palette.primary.main};
     display: grid;
     place-items: center;
     margin-right: ${theme.spacing(4)};

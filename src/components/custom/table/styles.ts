@@ -1,11 +1,9 @@
 import styled from '@emotion/styled';
 import { IconButton, Theme } from '@mui/material';
-import { DragControls } from 'framer-motion';
 
 export const TableWrapper = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     border-radius: 4px;
-    border: 1px solid ${theme.palette.common.black}20;
     background-color: ${theme.palette.common.white};
 
     overflow-x: auto;
@@ -47,7 +45,6 @@ export const TableHeadRow = styled.tr<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     background-color: ${theme.palette.secondary.main}10;
-    border-bottom: 1px solid ${theme.palette.secondary.main}20;
   `}
 `;
 
@@ -55,15 +52,7 @@ export const TableBodyRow = styled.tr<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     background-color: ${theme.palette.common.white};
-    &:not(:last-child) {
-        border-bottom: 1px solid ${theme.palette.common.black}20;
-    }
-    td:last-child {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      top: 50%;
-  }
+    border-bottom: 1px solid ${theme.palette.common.black}20;
   `}
 `;
 
@@ -74,6 +63,9 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
         color: ${theme.palette.primary.main};
         font-weight: 500;
         white-space: nowrap; 
+        &:not(:first-child) {
+          text-align: center;
+        }
         ${
           action
             ? `
@@ -95,6 +87,10 @@ export const TableBodyCell = styled.td<{ theme?: Theme }>`
         text-align: left;
         color: ${theme.palette.common.gray[10]};
         white-space: nowrap; 
+
+        &:not(:first-child) {
+          text-align: center;
+        }
     `}
 `;
 

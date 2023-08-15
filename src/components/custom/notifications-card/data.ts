@@ -6,14 +6,38 @@ export const DNotifications: Array<TNotification> = [
   // Welcome to Patients Influence!
   {
     id: 0,
-    text: 'Your account is now activated.',
+    text: 'A connect with minhas Asif',
     createdAt: '2023-06-01T00:27:23.904Z',
     status: 'seen',
   },
   {
     id: 1,
-    text: 'Welcome to Patients Influence!',
+    text: 'A connect with minhas Asif',
     createdAt: '2023-06-01T00:27:23.904Z',
     status: 'seen',
+  },
+  {
+    id: 2,
+    text: 'A connect with minhas Asif',
+    createdAt: '2023-06-01T00:27:23.904Z',
+    status: 'unseen',
+  },
+  {
+    id: 3,
+    text: 'A connect with minhas Asif',
+    createdAt: '2023-06-01T00:27:23.904Z',
+    status: 'unseen',
+  },
+  {
+    id: 4,
+    text: 'A connect with minhas Asif',
+    createdAt: '2023-06-01T00:27:23.904Z',
+    status: 'unseen',
+  },
+  {
+    id: 5,
+    text: 'A connect with minhas Asif',
+    createdAt: '2023-06-01T00:27:23.904Z',
+    status: 'unseen',
   },
 ];

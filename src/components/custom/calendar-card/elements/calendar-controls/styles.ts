@@ -2,11 +2,9 @@ import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Button } from 'components/ui';
 
-export const SCalendarControlsMain = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
-        display: flex;
-        align-items: center;
-    `}
+export const SCalendarControlsMain = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 export const SCalendarControlsButton = styled(Button)`

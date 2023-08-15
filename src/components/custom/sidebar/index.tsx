@@ -33,10 +33,6 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
       id: 1,
       state: false,
     },
-    {
-      id: 2,
-      state: false,
-    },
   ];
 
   const [nested, setNested] = useState<any>(nestedArray);
@@ -64,7 +60,7 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
         <CancelIcon />
       </SidebarCancel>
       <SidebarLogoLink href="/">
-        <SidebarLogo src="/static/assets/images/PatientsInfluence.svg" />
+        <SidebarLogo src="/static/assets/images/StakeEstateFull.svg" />
       </SidebarLogoLink>
       <SidebarItems>
         {DSidebarItems.filter((x) => x.roles.includes(role)).map((x, index) =>
@@ -74,7 +70,7 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
               icon={x.icon}
               items={x.items}
               key={x.id}
-              item={nested[index - 1]}
+              item={nested[index]}
               onClick={() => {
                 handleNested(index - 1);
               }}
@@ -86,11 +82,6 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
               icon={x.icon}
               location={x.location}
               key={x.id}
-              isDisabled={
-                role === 'INFLUENCER' && x.influencerStatus
-                  ? !x.influencerStatus?.includes(user.status)
-                  : false
-              }
               onClick={handleSidebar}
             />
           )

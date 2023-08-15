@@ -14,10 +14,7 @@ import { Button, Input, Slider } from 'components/ui';
 import { Stack } from 'components/system';
 import { UploadIcon } from 'components/svg';
 import { useAppContext } from 'context';
-import {
-  ChangeEmailModal,
-  ChangePasswordModal,
-} from 'features/account/role/ambasador/elements';
+import { ChangePasswordModal } from 'features/account/role/developer/elements';
 import { useModal } from 'hooks';
 import { pick, read } from '@costorgroup/file-manager';
 
@@ -99,7 +96,6 @@ const ProfilePictureModal = ({ onClose, ...props }: TProfilePicture) => {
             ))}
         </ProfilePictureMain>
       </Stack>
-      {ceModal && <ChangeEmailModal onClose={closeCeModal} />}
       {cpModal && <ChangePasswordModal onClose={closeCpModal} />}
     </Modal>
   );

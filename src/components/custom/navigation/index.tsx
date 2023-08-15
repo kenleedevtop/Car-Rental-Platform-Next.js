@@ -1,4 +1,4 @@
-import React, { useEffect, useState, MouseEvent, EventHandler } from 'react';
+import React, { useState } from 'react';
 import {
   NavigationMain,
   NavigationRouteName,
@@ -16,8 +16,6 @@ import {
   NavigationMenu,
   NavigationMenuButton,
   NavigationNotification,
-  NavigationSpan,
-  NavigationTooltipContainer,
 } from 'components/custom/navigation/styles';
 import {
   NotificationModal,
@@ -25,18 +23,10 @@ import {
 } from 'components/custom/navigation/elements';
 import { TNavigationProps } from 'components/custom/navigation/types';
 import { useAppContext } from 'context';
-import {
-  AccountIcon,
-  ArrowDownIcon,
-  BellIcon,
-  InfoIcon,
-  LogoutIcon,
-  MenuIcon,
-} from 'components/svg';
+import { ArrowDownIcon, BellIcon, LogoutIcon, MenuIcon } from 'components/svg';
 import { useMenu, useModal } from 'hooks';
 import { useRouter } from 'next/router';
 import { ClickAwayListener, Grow, Paper, Popper } from '@mui/material';
-import Tooltip from '../tooltip';
 
 const handleCurrencyCalculation = (
   amount: number,
@@ -59,12 +49,10 @@ const handleCurrencyCalculation = (
 };
 
 const Navigation = ({ ...props }: TNavigationProps) => {
-  const [menuRef, open, setOpen, buttonRef, position] = useMenu(false);
-  const [currencyRef, openR, setOpenR, buttonRefC, positionC] = useMenu(false);
+  const [menuRef, open, setOpen, buttonRef] = useMenu(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const currencyTargRef = React.useRef<HTMLDivElement>(null);
   const [
-    balanceMenuButtonRef,
     openBalanceButton,
     setOpenBalanceButton,
     balanceButtonRef,
@@ -99,19 +87,11 @@ const Navigation = ({ ...props }: TNavigationProps) => {
     currency,
   } = useAppContext();
 
-  const [currencyValue, setCurrency] = useState(currency);
-
   const [balance, setBalance] = useState(0);
   const [formattedBalance, setFormattedBalance] = useState(0);
 
   const handleMenu = () => {
     setOpen(!open);
-  };
-
-  const handleCurrencyChangeVal = (currencyVal: 'EUR' | 'USD' | 'CHF') => {
-    handleCurrencyChange(currencyVal);
-    setOpenR(!openR);
-    setFormattedBalance(() => handleCurrencyCalculation(balance, currencyVal));
   };
 
   const handleBalanceMenuClose = (event: Event) => {
@@ -123,16 +103,6 @@ const Navigation = ({ ...props }: TNavigationProps) => {
       return;
     }
     setOpenBalanceButton(false);
-  };
-
-  const handleCurrencyMenuClose = (event: Event) => {
-    if (
-      currencyTargRef.current &&
-      currencyTargRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-    setOpenR(false);
   };
 
   const handleCurrencyAndBalanceChange = (
@@ -160,42 +130,17 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         <NavigationMenuButton onClick={handleSidebar}>
           <MenuIcon />
         </NavigationMenuButton>
-        <NavigationRouteName>
-          {routeName}
-          <NavigationSpan>
-            early access
-            <Tooltip
-              title={
-                <NavigationTooltipContainer>
-                  Welcome to Patients Influence Early Access! We&apos;re so
-                  excited to have you join us on this journey. This is a special
-                  sneak peek at our platform, so you might find some features
-                  are still under development. Your experience matters to us. As
-                  we grow, we&apos;re eagerly collecting feedback to enhance our
-                  service. Don&apos;t hesitate to share your insights and
-                  suggestions at <span>support@patientsinfluence.com</span>.
-                  Your input is key in shaping a better and more effective
-                  platform. Thank you for being a vital part of our community!
-                </NavigationTooltipContainer>
-              }
-            >
-              <div>
-                <InfoIcon />
-              </div>
-            </Tooltip>
-          </NavigationSpan>
-        </NavigationRouteName>
+        <NavigationRouteName>{routeName}</NavigationRouteName>
       </NavigationMenu>
       <NavigationItems>
-        {['AMBASSADOR', 'INFLUENCER'].includes(role) && (
+        {['INVESTOR', 'INFLUENCER'].includes(role) && (
           <NavigationCurrency
             onClick={() => setOpenBalanceButton(!openBalanceButton)}
           >
             Balance: {currency} {formattedBalance.toFixed(2)}
             <BalanceIcon ref={balanceButtonRef} expanded={openBalanceButton}>
-              {' '}
-              <ArrowDownIcon />{' '}
-            </BalanceIcon>{' '}
+              <ArrowDownIcon />
+            </BalanceIcon>
             <Popper
               open={openBalanceButton}
               anchorEl={anchorRef.current}
@@ -253,80 +198,17 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           </NavigationCurrency>
         )}
 
-        {['AMBASSADOR', 'CLIENT'].includes(role) && (
-          <NavigationCurrency onClick={() => setOpenR(!openR)}>
-            Currency: {currency}{' '}
-            <BalanceIcon ref={buttonRefC} expanded={openR}>
-              {' '}
-              <ArrowDownIcon />{' '}
-            </BalanceIcon>{' '}
-            <Popper
-              open={openR}
-              anchorEl={currencyTargRef.current}
-              role={undefined}
-              style={{
-                position: 'absolute',
-                top: '45px',
-                left: '25px',
-              }}
-              transition
-              disablePortal
-            >
-              {({ TransitionProps, placement }) => (
-                <Grow
-                  {...TransitionProps}
-                  style={{
-                    transformOrigin:
-                      placement === 'bottom' ? 'center top' : 'center bottom',
-                  }}
-                >
-                  <Paper>
-                    <ClickAwayListener onClickAway={handleCurrencyMenuClose}>
-                      <NavigationBalanceDropdown
-                        position={positionC}
-                        items={[
-                          {
-                            icon: '€',
-                            label: 'EUR',
-                            action: () => {
-                              handleCurrencyChangeVal('EUR');
-                            },
-                          },
-                          {
-                            icon: '$',
-                            label: 'USD',
-                            action: () => {
-                              handleCurrencyChangeVal('USD');
-                            },
-                          },
-                          {
-                            icon: 'Fr',
-                            label: 'CHF',
-                            action: () => {
-                              handleCurrencyChangeVal('CHF');
-                            },
-                          },
-                        ]}
-                        ref={menuRef}
-                      />
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-          </NavigationCurrency>
-        )}
         <NavigationNotification onClick={openNModal}>
           <BellIcon />
         </NavigationNotification>
         <NavigationProfileOuter>
           <NavigationProfile onClick={handleMenu}>
             <NavigationProfileName>{`${user?.firstName} ${user?.lastName}`}</NavigationProfileName>
-            {['ADMIN'].includes(role) && (
+            {/* {['ADMIN'].includes(role) && (
               <NavigationProfileImage image="https://static.intercomassets.com/avatars/5017590/square_128/NIX-1623671396.jpg">
                 IJ
               </NavigationProfileImage>
-            )}
+            )} */}
             <NavigationProvileIcon ref={buttonRef} expanded={open}>
               <ArrowDownIcon />
             </NavigationProvileIcon>
@@ -334,14 +216,14 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           {open && ['ADMIN', 'SUPERADMIN'].includes(role) && (
             <NavigationProfileDropdown
               items={[
-                {
-                  icon: <AccountIcon />,
-                  label: 'Account',
-                  action: () => {
-                    openPpModal();
-                    handleMenu();
-                  },
-                },
+                // {
+                //   icon: <AccountIcon />,
+                //   label: 'Account',
+                //   action: () => {
+                //     openPpModal();
+                //     handleMenu();
+                //   },
+                // },
                 {
                   icon: <LogoutIcon />,
                   label: 'Logout',
@@ -351,7 +233,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
               ref={menuRef}
             />
           )}
-          {open && ['INFLUENCER', 'CLIENT', 'AMBASSADOR'].includes(role) && (
+          {open && ['INFLUENCER', 'DEVELOPER', 'INVESTOR'].includes(role) && (
             <NavigationProfileDropdown
               items={[
                 {

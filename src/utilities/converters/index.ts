@@ -4,8 +4,8 @@ export const convertNumberToRole = (roleId: number): TUserRole => {
   const roles: TUserRole[] = [
     'SUPERADMIN',
     'ADMIN',
-    'AMBASSADOR',
-    'CLIENT',
+    'INVESTOR',
+    'DEVELOPER',
     'INFLUENCER',
   ];
 

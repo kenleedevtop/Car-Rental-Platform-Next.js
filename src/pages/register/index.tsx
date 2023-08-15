@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import {
-  RegisterCompanyPage,
-  RegisterInfluencerPage,
-  RegisterAmbassadorPage,
-} from 'features';
+import { RegisterCompanyPage, RegisterAmbassadorPage } from 'features';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
@@ -23,9 +19,8 @@ const Login = () => {
   return (
     <>
       <Title>{t('Sign Up')}</Title>
-      {query.as === 'client' && <RegisterCompanyPage />}
-      {query.as === 'influencer' && <RegisterInfluencerPage />}
-      {query.as === 'ambassador' && <RegisterAmbassadorPage />}
+      {query.as === 'developer' && <RegisterCompanyPage />}
+      {query.as === 'investor' && <RegisterAmbassadorPage />}
     </>
   );
 };

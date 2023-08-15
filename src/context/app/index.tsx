@@ -21,7 +21,7 @@ const AppContextProvider = ({ ...props }) => {
   const [state, setState] = useState<TAppContextState>({
     routeName: '',
     user: null,
-    role: 'CLIENT',
+    role: 'DEVELOPER',
     initialLoading: true,
     showMobileMenu: true,
     currency: 'CHF',

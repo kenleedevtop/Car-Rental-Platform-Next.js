@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import {
-  ClientHelpPage,
-  AmbasadorHelpPage,
-  InfluencerHelpPage,
-} from 'features';
+import { ClientHelpPage, AmbasadorHelpPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Help = () => {
@@ -18,9 +14,8 @@ const Help = () => {
   return (
     <>
       <Title>Help</Title>
-      {role === 'CLIENT' && <ClientHelpPage />}
-      {role === 'AMBASSADOR' && <AmbasadorHelpPage />}
-      {role === 'INFLUENCER' && <InfluencerHelpPage />}
+      {role === 'INVESTOR' && <ClientHelpPage />}
+      {role === 'DEVELOPER' && <AmbasadorHelpPage />}
     </>
   );
 };

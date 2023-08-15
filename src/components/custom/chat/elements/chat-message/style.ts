@@ -11,21 +11,17 @@ export const ChatMessageMain = styled.div<{ theme?: Theme }>`
 `;
 
 export const ChatMessageAvatar = styled.img<{ theme?: Theme }>`
-  ${({ theme }) => `
-        width: 30px;
-        aspect-ratio: 1/1;
-        border-radius: 50%;
-    `}
+  width: 30px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
 `;
 
 export const ChatMessageTextContainer = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
-        width: 100%;
-        display: flex;
-        flex-direction: column-reverse;
-        position: relative;
-        align-items: flex-start;
-    `}
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse;
+  position: relative;
+  align-items: flex-start;
 `;
 
 export const ChatMessageText = styled.div<{ theme?: Theme }>`

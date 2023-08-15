@@ -10,211 +10,17 @@ import {
   ContactedIcon,
   IdentifiedIcon,
   RegisteredIcon,
-  TotalIcon,
-  DailyIcon,
-  YearlyIcon,
-  MonthlyIcon,
-  WeeklyIcon,
-  UserIcon,
-  ClientIdentifiedIcon,
-  ClientContactedIcon,
-  ClientRegisteredIcon,
-  ClientScheduledIcon,
-  InstagramIcon,
-  TwitterIcon,
-  TiktokIcon,
   HospitalIcon,
-  OrderedIcon,
-  RevenueIcon,
-  FinishedIcon,
-  OngoingIcon,
-  ReadyIcon,
-  InpreparationIcon,
-  CostIcon,
-  ProfitIcon,
-  MarginIcon,
-  CampaignsSmallIcon,
-  ReportsSmallIcon,
-  SMLSmallIcon,
-  SurveysSmallIcon,
-  FinanceSmallIcon,
 } from 'components/svg';
 import { faker } from '@faker-js/faker';
 
 const HomePage = () => (
   <HomePageMain>
     <HomePageCharts>
-      <HomePageChartsLabel>Discover Influencers</HomePageChartsLabel>
+      <HomePageChartsLabel>Investors</HomePageChartsLabel>
       <HomePageChartsGrid>
         <CardWithChart
-          title="Daily"
-          icon={<DailyIcon />}
-          percent={2}
-          smallIcon={<UserIcon />}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Weekly"
-          icon={<WeeklyIcon />}
-          percent={2}
-          smallIcon={<UserIcon />}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Monthly"
-          icon={<MonthlyIcon />}
-          percent={2}
-          smallIcon={<UserIcon />}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Yearly"
-          icon={<YearlyIcon />}
-          percent={2}
-          smallIcon={<UserIcon />}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-      </HomePageChartsGrid>
-    </HomePageCharts>
-    <HomePageCharts>
-      <HomePageChartsLabel>Discover Clients</HomePageChartsLabel>
-      <HomePageChartsGrid>
-        <CardWithChart
-          title="Identified"
-          icon={<ClientIdentifiedIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Contacted"
-          icon={<ClientContactedIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Registered"
-          icon={<ClientRegisteredIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Scheduled"
-          icon={<ClientScheduledIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-      </HomePageChartsGrid>
-    </HomePageCharts>
-    <HomePageCharts>
-      <HomePageChartsLabel>Influencers</HomePageChartsLabel>
-      <HomePageChartsGrid>
-        <CardWithChart
-          title="Instagram"
-          icon={<InstagramIcon />}
-          smallIcon={<UserIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Twitter"
-          icon={<TwitterIcon />}
-          smallIcon={<UserIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Tiktok"
-          icon={<TiktokIcon />}
-          smallIcon={<UserIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Total"
-          icon={<TotalIcon />}
-          smallIcon={<UserIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-      </HomePageChartsGrid>
-    </HomePageCharts>
-    <HomePageCharts>
-      <HomePageChartsLabel>Clients</HomePageChartsLabel>
-      <HomePageChartsGrid>
-        <CardWithChart
-          title="Biotech"
+          title="New"
           icon={<IdentifiedIcon />}
           percent={2}
           count={75}
@@ -226,7 +32,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Healthtech"
+          title="In Project"
           icon={<ContactedIcon />}
           percent={2}
           count={75}
@@ -238,7 +44,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Medtech"
+          title="Inactive"
           icon={<RegisteredIcon />}
           percent={2}
           count={75}
@@ -250,7 +56,7 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Hospitals"
+          title="Total"
           icon={<HospitalIcon />}
           percent={2}
           count={75}
@@ -264,25 +70,76 @@ const HomePage = () => (
       </HomePageChartsGrid>
     </HomePageCharts>
     <HomePageCharts>
-      <HomePageChartsLabel>Campaigns</HomePageChartsLabel>
+      <HomePageChartsLabel>Developers</HomePageChartsLabel>
       <HomePageChartsGrid>
+        <CardWithChart
+          title="New"
+          icon={<IdentifiedIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="I Project"
+          icon={<ContactedIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Inactive"
+          icon={<RegisteredIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Total"
+          icon={<HospitalIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+      </HomePageChartsGrid>
+    </HomePageCharts>
+    <HomePageCharts>
+      <HomePageChartsLabel>Primary Market</HomePageChartsLabel>
+      <HomePageChartsGrid>
+        <CardWithChart
+          title="Funding"
+          icon={<IdentifiedIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
         <CardWithChart
           title="In Preparation"
-          icon={<InpreparationIcon />}
-          percent={2}
-          smallIcon={<CampaignsSmallIcon />}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Ongoing"
-          icon={<OngoingIcon />}
-          smallIcon={<CampaignsSmallIcon />}
+          icon={<ContactedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -293,9 +150,8 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Finished"
-          icon={<FinishedIcon />}
-          smallIcon={<CampaignsSmallIcon />}
+          title="Active"
+          icon={<RegisteredIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -306,9 +162,8 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Revenue"
-          icon={<RevenueIcon />}
-          smallIcon={<CampaignsSmallIcon />}
+          title="Completed"
+          icon={<HospitalIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -321,25 +176,11 @@ const HomePage = () => (
       </HomePageChartsGrid>
     </HomePageCharts>
     <HomePageCharts>
-      <HomePageChartsLabel>Reports</HomePageChartsLabel>
+      <HomePageChartsLabel>Secondary Market</HomePageChartsLabel>
       <HomePageChartsGrid>
         <CardWithChart
-          title="Ordered"
-          icon={<OrderedIcon />}
-          percent={2}
-          smallIcon={<ReportsSmallIcon />}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Ready"
-          icon={<ReadyIcon />}
-          smallIcon={<ReportsSmallIcon />}
+          title="Funding"
+          icon={<IdentifiedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -349,98 +190,9 @@ const HomePage = () => (
             labels: Array.from(Array(20).keys()).map((_x) => ''),
           }}
         />
-        <CardWithChart
-          title="Delivered"
-          icon={<FinishedIcon />}
-          smallIcon={<ReportsSmallIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Revenue"
-          icon={<RevenueIcon />}
-          smallIcon={<ReportsSmallIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-      </HomePageChartsGrid>
-    </HomePageCharts>
-    <HomePageCharts>
-      <HomePageChartsLabel>Social Media Listening</HomePageChartsLabel>
-      <HomePageChartsGrid>
-        <CardWithChart
-          title="Ordered"
-          icon={<OrderedIcon />}
-          smallIcon={<SMLSmallIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Ready"
-          icon={<ReadyIcon />}
-          smallIcon={<SMLSmallIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Delivered"
-          icon={<FinishedIcon />}
-          smallIcon={<SMLSmallIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Revenue"
-          icon={<RevenueIcon />}
-          smallIcon={<SMLSmallIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-      </HomePageChartsGrid>
-    </HomePageCharts>
-    <HomePageCharts>
-      <HomePageChartsLabel>Surveys</HomePageChartsLabel>
-      <HomePageChartsGrid>
         <CardWithChart
           title="In Preparation"
-          icon={<InpreparationIcon />}
-          smallIcon={<SurveysSmallIcon />}
+          icon={<ContactedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -451,9 +203,8 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Ongoing"
-          icon={<OngoingIcon />}
-          smallIcon={<SurveysSmallIcon />}
+          title="Active"
+          icon={<RegisteredIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -464,9 +215,25 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Finished"
-          icon={<FinishedIcon />}
-          smallIcon={<SurveysSmallIcon />}
+          title="Completed"
+          icon={<HospitalIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+      </HomePageChartsGrid>
+    </HomePageCharts>
+    <HomePageCharts>
+      <HomePageChartsLabel>Portfolio</HomePageChartsLabel>
+      <HomePageChartsGrid>
+        <CardWithChart
+          title="Funding"
+          icon={<IdentifiedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -477,9 +244,32 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Revenue"
-          icon={<RevenueIcon />}
-          smallIcon={<SurveysSmallIcon />}
+          title="In Preparation"
+          icon={<ContactedIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Active"
+          icon={<RegisteredIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Amount"
+          icon={<HospitalIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -495,9 +285,8 @@ const HomePage = () => (
       <HomePageChartsLabel>Finance</HomePageChartsLabel>
       <HomePageChartsGrid>
         <CardWithChart
-          title="Revenue"
-          icon={<RevenueIcon />}
-          smallIcon={<FinanceSmallIcon />}
+          title="Active"
+          icon={<IdentifiedIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -508,9 +297,20 @@ const HomePage = () => (
           }}
         />
         <CardWithChart
-          title="Cost"
-          icon={<CostIcon />}
-          smallIcon={<FinanceSmallIcon />}
+          title="Unused"
+          icon={<ContactedIcon />}
+          percent={2}
+          count={75}
+          chartData={{
+            values: Array.from(Array(20).keys()).map((_x) =>
+              faker.datatype.number({ min: 10, max: 30 })
+            ),
+            labels: Array.from(Array(20).keys()).map((_x) => ''),
+          }}
+        />
+        <CardWithChart
+          title="Invested"
+          icon={<RegisteredIcon />}
           percent={2}
           count={75}
           chartData={{
@@ -522,21 +322,7 @@ const HomePage = () => (
         />
         <CardWithChart
           title="Profit"
-          icon={<ProfitIcon />}
-          smallIcon={<FinanceSmallIcon />}
-          percent={2}
-          count={75}
-          chartData={{
-            values: Array.from(Array(20).keys()).map((_x) =>
-              faker.datatype.number({ min: 10, max: 30 })
-            ),
-            labels: Array.from(Array(20).keys()).map((_x) => ''),
-          }}
-        />
-        <CardWithChart
-          title="Margin"
-          icon={<MarginIcon />}
-          smallIcon={<FinanceSmallIcon />}
+          icon={<HospitalIcon />}
           percent={2}
           count={75}
           chartData={{

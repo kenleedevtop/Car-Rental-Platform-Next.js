@@ -43,6 +43,7 @@ export const InputMain = styled.div<{ theme?: Theme }>`
 export const InputLabel = styled(Label)<{ theme?: Theme }>`
   ${({ theme }) => `
     margin-bottom: ${theme.spacing(0.5)};
+    color: #7E839F;
   `}
 `;
 

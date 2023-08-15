@@ -28,7 +28,7 @@ const ChangePassword = () => {
   const { push } = useSnackbar();
 
   const { query } = useRouter();
-  const { locale } = useRouter();
+  // const { locale } = useRouter();
   const router = useRouter();
 
   const handleChange = async () => {

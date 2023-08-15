@@ -4,15 +4,25 @@ import { Card } from 'components/ui';
 
 export const HelpCollapseMain = styled(Card)``;
 
-export const HelpCollapseHeader = styled.div`
+export const HelpCollapseHeaderText = styled.h2<{
+  theme?: Theme;
+  help?: boolean;
+}>`
+  ${({ help, theme }) => `
+    color: ${help ? theme.palette.primary.main : '#464e5f'};
+  `}
+`;
+
+export const HelpCollapseHeader = styled.div<{
+  theme?: Theme;
+}>`
+  ${({ theme }) => `
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-
-  h2 {
-    color: #464e5f;
-  }
+  color: ${theme.palette.primary.main};
+  `}
 `;
 
 export const HelpCollapseText = styled.div<{ theme?: Theme }>`

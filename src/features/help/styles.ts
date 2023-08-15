@@ -9,6 +9,8 @@ export const HelpPageContact = styled.div<{ theme?: Theme }>`
         display: grid;
         grid-template-columns: 1fr 1fr;
         padding-bottom: ${theme.spacing(20)};
+        padding-top: ${theme.spacing(10)};
+
 
         ${theme.breakpoints.down('xl')} {
             grid-template-columns: 1fr;
@@ -86,14 +88,11 @@ export const HelpPageIconWithTextContainer = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
             display: flex;
             flex-direction: column;
+            gap: 75px;
 
             h2 {
                 color: #464e5f;
               }
-
-            ${theme.breakpoints.down('md')} {
-                align-items: center;
-            }
         `}
 `;
 
