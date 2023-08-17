@@ -35,7 +35,7 @@ const NotificationsCard = ({ ...props }: TNotificationsCardProps) => {
           </NotificationsCardList>
         </NotificationCard>
       )} */}
-      {['ADMIN', 'SUPERADMIN', 'DEVELOPER', 'INVESTOR'].includes(role) && (
+      {['ADMIN', 'USER'].includes(role) && (
         <NotificationsCardMain title="Notifications" {...props}>
           <NotificationsCardList>
             {DNotifications.map(({ id, ...x }) => (

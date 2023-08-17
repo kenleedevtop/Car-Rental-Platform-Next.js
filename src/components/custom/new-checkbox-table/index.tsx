@@ -11,7 +11,7 @@ import {
   TableHeadRow,
   TableBodyRow,
   TableEmpty,
-} from 'components/custom/checkbox-table/styles';
+} from 'components/custom/new-checkbox-table/styles';
 
 import {
   TTableProps,

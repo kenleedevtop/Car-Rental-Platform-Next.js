@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { ClientHelpPage, AmbasadorHelpPage } from 'features';
+import { HelpPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Help = () => {
-  const { role, setRouteName } = useAppContext();
+  const { setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Help');
@@ -14,8 +14,7 @@ const Help = () => {
   return (
     <>
       <Title>Help</Title>
-      {role === 'INVESTOR' && <ClientHelpPage />}
-      {role === 'DEVELOPER' && <AmbasadorHelpPage />}
+      <HelpPage />
     </>
   );
 };

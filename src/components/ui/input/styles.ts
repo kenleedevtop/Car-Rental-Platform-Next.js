@@ -56,6 +56,8 @@ export const InputSelect = styled(Autocomplete)`
 export const InputSelectItem = styled(MenuItem)``;
 
 export const InputText = styled(TextField)`
+  width: 100%;
+
   & .MuiInputBase-root.Mui-disabled {
     & svg {
       cursor: pointer;

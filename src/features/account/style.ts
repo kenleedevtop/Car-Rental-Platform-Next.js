@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Stack } from 'components/system';
-import { Card } from 'components/ui';
+import { Card, Checkbox } from 'components/ui';
 
 export const AccountMain = styled(Card)`
   height: 100%;
@@ -65,4 +65,20 @@ export const AccountStack = styled(Stack)<{ theme?: Theme }>`
       grid-template-columns: 1fr;
     }
   `}
+`;
+
+export const AccountHeadline = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  color: #2d3779;
+`;
+
+export const AccountGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+`;
+
+export const ApplicationContainer = styled.div`
+  width: 100%;
 `;

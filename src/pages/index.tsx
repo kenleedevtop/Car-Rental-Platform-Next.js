@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { AdminHomePage, ProjectsPage, InvestorHomePage } from 'features';
+import { UsersPage, OpportunitiesPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Home = () => {
@@ -14,10 +14,8 @@ const Home = () => {
   return (
     <>
       <Title>Home</Title>
-      {role === 'ADMIN' && <AdminHomePage />}
-      {role === 'SUPERADMIN' && <AdminHomePage />}
-      {role === 'DEVELOPER' && <ProjectsPage />}
-      {role === 'INVESTOR' && <InvestorHomePage />}
+      {role === 'ADMIN' && <UsersPage />}
+      {role === 'USER' && <OpportunitiesPage />}
     </>
   );
 };

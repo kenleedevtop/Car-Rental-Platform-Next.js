@@ -5,66 +5,46 @@ import {
   CardHead,
   CardPrice,
   CardPriceValue,
-  CardBids,
-  CardBidsValue,
-  CardType,
-  CardTypeValue,
   CardBody,
   CardAddress,
   CardAddressSmall,
   CardTitle,
-  CardProgress,
-  CardProgressBar,
-  CardProgressContainer,
   CardProgressValue,
   CardProgressItem,
-  CardProgressAvailable,
-  CardProgressAvailableValue,
   CardButton,
   CardCompletedMark,
-  CardProgressBarPopup,
-  CardProgressBarItem,
-  CardProgressBarPopupLabel,
-  CardProgressBarPopupVaue,
 } from 'components/custom/card-property/styles';
 import { TPropertyCardProps } from 'components/custom/card-property/types';
 import { formatNumber } from 'utilities/extended-proto';
 
 const PropertyCard = ({
-  type,
-  bids,
-  totalPrice,
-  address,
-  fundPercent,
-  available,
-  title,
   image,
-  completed,
+  address,
+  title,
   link,
-  investors,
+  spots,
+  availableSpots,
+  status,
+  rent,
+  theme,
+  completed,
   ...props
 }: TPropertyCardProps) => (
   <CardMain animation="zoom-in" {...props}>
-    {completed && <CardCompletedMark>Completed</CardCompletedMark>}
+    {completed && <CardCompletedMark>Filled</CardCompletedMark>}
     <CardImage src={image} />
     <CardHead>
-      {totalPrice && (
+      {rent && (
         <CardPrice>
-          Project Price
-          <CardPriceValue>€{formatNumber(totalPrice)}</CardPriceValue>
+          Rent
+          <CardPriceValue>€{formatNumber(rent)}</CardPriceValue>
         </CardPrice>
       )}
-      {bids && (
-        <CardBids>
-          bids
-          <CardBidsValue>{bids}</CardBidsValue>
-        </CardBids>
-      )}
-      {type && (
-        <CardType>
-          type
-          <CardTypeValue>{type}</CardTypeValue>
-        </CardType>
+      {theme && (
+        <CardPrice>
+          Theme
+          <CardPriceValue>Marketing</CardPriceValue>
+        </CardPrice>
       )}
     </CardHead>
     <CardBody>
@@ -73,38 +53,21 @@ const PropertyCard = ({
         {address}
       </CardAddress>
       <CardTitle>{title}</CardTitle>
-      {fundPercent && available && (
-        <CardProgress>
-          <CardProgressBar fundPercent={fundPercent} />
-          {investors && investors.length && (
-            <CardProgressBarPopup>
-              {investors.map((x: any) => (
-                <CardProgressBarItem>
-                  <CardProgressBarPopupLabel>
-                    {x.name}
-                  </CardProgressBarPopupLabel>
-                  <CardProgressBarPopupVaue>
-                    €{formatNumber(x.value)}
-                  </CardProgressBarPopupVaue>
-                </CardProgressBarItem>
-              ))}
-            </CardProgressBarPopup>
-          )}
-          <CardProgressContainer>
-            <CardProgressItem>
-              <CardProgressValue>{fundPercent}%</CardProgressValue>
-              funded
-            </CardProgressItem>
-            <CardProgressAvailable>
-              available
-              <CardProgressAvailableValue>
-                ${formatNumber(available)}
-              </CardProgressAvailableValue>
-            </CardProgressAvailable>
-          </CardProgressContainer>
-        </CardProgress>
+      {spots && availableSpots && (
+        <CardProgressItem>
+          Available spots
+          <CardProgressValue>
+            {availableSpots}/{spots}
+          </CardProgressValue>
+        </CardProgressItem>
       )}
-      <CardButton href={link}>View Project</CardButton>
+      {status && (
+        <CardProgressItem>
+          Status
+          <CardProgressValue>{status}</CardProgressValue>
+        </CardProgressItem>
+      )}
+      <CardButton href={link}>Apply</CardButton>
     </CardBody>
   </CardMain>
 );

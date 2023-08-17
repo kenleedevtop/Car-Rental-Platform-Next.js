@@ -8,41 +8,30 @@ import {
   HeaderLogoLink,
 } from 'components/custom/header/styles';
 
-import { SignUpModal } from 'components/custom/header/elements';
-
 import { Button } from 'components/ui';
-import { useModal } from 'hooks';
 import { useTranslation } from 'react-i18next';
 
 const Header = ({ ...props }) => {
-  const [spModal, openSpModal, closeSpModal] = useModal(false);
-
   const { t } = useTranslation('common');
 
   return (
-    <>
-      <HeaderMain {...props}>
-        <HeaderLogoLink href="https://patientsinfluence.com">
-          <HeaderLogo src="/static/assets/images/StakeEstate.svg" />
-        </HeaderLogoLink>
-        <HeaderActions>
-          <HeaderAction href="/login">
-            <Button variant="text" size="large">
-              {t('Login')}
-            </Button>
-          </HeaderAction>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            onClick={openSpModal}
-          >
-            {t('SIGN UP')}
+    <HeaderMain {...props}>
+      <HeaderLogoLink href="/login">
+        <HeaderLogo src="/static/assets/images/StakeEstate.svg" />
+      </HeaderLogoLink>
+      <HeaderActions>
+        <HeaderAction href="/login">
+          <Button variant="text" size="large">
+            {t('Login')}
           </Button>
-        </HeaderActions>
-      </HeaderMain>
-      {spModal && <SignUpModal onClose={closeSpModal} />}
-    </>
+        </HeaderAction>
+        <Button variant="contained" color="secondary" size="large">
+          <HeaderAction style={{ color: '#fff' }} href="/register">
+            {t('SIGN UP')}
+          </HeaderAction>
+        </Button>
+      </HeaderActions>
+    </HeaderMain>
   );
 };
 

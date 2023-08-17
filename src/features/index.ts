@@ -1,52 +1,16 @@
-// Account
-export { ClientAccountPage, AmbasadorAccountPage } from 'features/account';
-
-// Finance
-export { AdminFinancePage, InvestorFinancePage } from 'features/finance';
-
-// Finance
-export { ClientHelpPage, AmbasadorHelpPage } from 'features/help';
-
-// Home
-export { AdminHomePage, InvestorHomePage } from 'features/home';
-
-// Login
+export { UserAccountPage, AdminAccountPage } from 'features/account';
+export { default as FinancePage } from 'features/finance';
+export { default as HelpPage } from 'features/help';
+export {
+  AdminApplicationsPage,
+  UserApplicationsPage,
+} from 'features/applications';
 export { default as LoginPage } from 'features/login';
-
-// Registration
-export { RegisterCompanyPage, RegisterAmbassadorPage } from 'features/register';
-
-// Registration
+export { default as RegisterAmbassadorPage } from 'features/register';
 export { default as LoadingPage } from 'features/loading';
-
-// Reset Password
 export { default as ResetPasswordPage } from 'features/reset-password';
-
-// Email Confirmation
 export { default as EmailConfirmationPage } from 'features/email-confirmation';
-
-// Projects Developer
-export { default as ProjectsPage } from 'features/projects';
-
-// Overview Developer
-export {
-  AdminOverviewPage,
-  InvestorOverviewPage,
-  DeveloperOverviewPage,
-} from 'features/overview';
-
-// Market Page
-export { AdminMarketPage, InvestorMarketPage } from 'features/market';
-
-// Portfolio Page
-export { AdminPortfolioPage, InvestorPortfolioPage } from 'features/portfolio';
-
-// Secondary Market Page
-export {
-  AdminSecondaryMarketPage,
-  InvestorSecondaryMarketPage,
-} from 'features/secondary-market';
-
-export { AdminInvestorsPage } from 'features/investors';
-
-export { AdminDevelopersPage } from 'features/developers';
+export { default as OverviewPage } from 'features/overview';
+export { HousesPage, OpportunitiesPage } from 'features/opportunities';
+export { default as UsersPage } from 'features/users';
+export { default as UsersOverviewPage } from 'features/users-overview';

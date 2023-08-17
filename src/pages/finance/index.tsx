@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { AdminFinancePage, InvestorFinancePage } from 'features';
+import { FinancePage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Finance = () => {
-  const { role, setRouteName } = useAppContext();
+  const { setRouteName } = useAppContext();
 
   useEffect(() => {
     setRouteName('Finance');
@@ -14,9 +14,7 @@ const Finance = () => {
   return (
     <>
       <Title>Finance</Title>
-      {role === 'ADMIN' && <AdminFinancePage />}
-      {role === 'SUPERADMIN' && <AdminFinancePage />}
-      {role === 'INVESTOR' && <InvestorFinancePage />}
+      <FinancePage />
     </>
   );
 };

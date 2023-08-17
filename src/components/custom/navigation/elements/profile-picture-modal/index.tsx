@@ -14,7 +14,7 @@ import { Button, Input, Slider } from 'components/ui';
 import { Stack } from 'components/system';
 import { UploadIcon } from 'components/svg';
 import { useAppContext } from 'context';
-import { ChangePasswordModal } from 'features/account/role/developer/elements';
+import { ChangePasswordModal } from 'features/account/role/investor/elements';
 import { useModal } from 'hooks';
 import { pick, read } from '@costorgroup/file-manager';
 
@@ -68,32 +68,29 @@ const ProfilePictureModal = ({ onClose, ...props }: TProfilePicture) => {
           <ProfileZoom>
             <Slider />
           </ProfileZoom>
-          {role === 'ADMIN' ||
-            (role === 'SUPERADMIN' && (
-              <ProfileInfo>
-                <Input
-                  type="text"
-                  label="First Name"
-                  placeholder="John"
-                  value={filter.firstname}
-                  onValue={(firstname) => setFilter({ ...filter, firstname })}
-                />
-                <Input
-                  type="text"
-                  label="Last Name"
-                  placeholder="Doe"
-                  value={filter.lastName}
-                  onValue={(lastName) => setFilter({ ...filter, lastName })}
-                />
+          {role === 'ADMIN' && (
+            <ProfileInfo>
+              <Input
+                type="text"
+                label="First Name"
+                placeholder="John"
+                value={filter.firstname}
+                onValue={(firstname) => setFilter({ ...filter, firstname })}
+              />
+              <Input
+                type="text"
+                label="Last Name"
+                placeholder="Doe"
+                value={filter.lastName}
+                onValue={(lastName) => setFilter({ ...filter, lastName })}
+              />
 
-                <ProfileActions>
-                  <ProfileSpan onClick={openCeModal}>Change Email</ProfileSpan>
-                  <ProfileSpan onClick={openCpModal}>
-                    Change Password
-                  </ProfileSpan>
-                </ProfileActions>
-              </ProfileInfo>
-            ))}
+              <ProfileActions>
+                <ProfileSpan onClick={openCeModal}>Change Email</ProfileSpan>
+                <ProfileSpan onClick={openCpModal}>Change Password</ProfileSpan>
+              </ProfileActions>
+            </ProfileInfo>
+          )}
         </ProfilePictureMain>
       </Stack>
       {cpModal && <ChangePasswordModal onClose={closeCpModal} />}

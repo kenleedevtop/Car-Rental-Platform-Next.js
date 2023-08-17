@@ -171,6 +171,8 @@ export const CardProgressItem = styled.div`
   font-size: 14px;
   font-weight: 500;
   color: #7e839f;
+  width: 100%;
+  justify-content: space-between;
 `;
 export const CardProgressAvailable = styled.div`
   display: flex;

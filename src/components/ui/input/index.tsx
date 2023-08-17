@@ -214,7 +214,6 @@ const Input = ({
               inputProps: { max: value.max },
             }}
           />
-          <span style={{ alignSelf: 'center' }}>-</span>
           <InputText
             type="number"
             value={value.max}

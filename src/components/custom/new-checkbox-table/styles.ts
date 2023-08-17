@@ -7,7 +7,6 @@ export const TableContainer = styled(Stack)``;
 export const TableWrapper = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     border-radius: 4px;
-    border: 1px solid ${theme.palette.common.black}20;
     background-color: ${theme.palette.common.white};
     overflow-x: scroll;
     overflow-y: hidden;
@@ -31,7 +30,6 @@ export const TableHeadRow = styled.tr<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     background-color: ${theme.palette.secondary.main}10;
-    border-bottom: 1px solid ${theme.palette.secondary.main}20;
   `}
 `;
 
@@ -39,16 +37,14 @@ export const TableBodyRow = styled.tr<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     background-color: ${theme.palette.common.white};
-    &:not(:last-child) {
-        border-bottom: 1px solid ${theme.palette.common.black}20;
-    }
+    border-bottom: 1px solid ${theme.palette.common.black}20;
   `}
 `;
 
 export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
   ${({ theme, action }) => `
         padding: ${theme.spacing(5)};
-        text-align: left;
+        text-align: center;
         color: ${theme.palette.primary.main};
         font-weight: 500;
         white-space: nowrap; 
@@ -68,18 +64,23 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
           // padding-right: 0 !important;
           padding-right: unset;
           margin: unset;
-          width: unset;
           padding: 1.5rem 1.25rem 1.5rem 1.25rem
         `
             : ''
         }
+
+        &:first-of-type {
+          text-align: left;
+        }
+
+        
     `}
 `;
 
 export const TableBodyCell = styled.td<{ theme?: Theme; action?: boolean }>`
   ${({ theme, action }) => `
         padding: ${theme.spacing(5)};
-        text-align: left;
+        text-align: center;
         color: ${theme.palette.common.gray[10]};
         white-space: nowrap; 
 
@@ -100,6 +101,10 @@ export const TableBodyCell = styled.td<{ theme?: Theme; action?: boolean }>`
         `
                     : ''
                 }
+
+        &:first-of-type {
+          text-align: left;
+        }        
     `}
 `;
 

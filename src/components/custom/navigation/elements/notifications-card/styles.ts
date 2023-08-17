@@ -26,7 +26,10 @@ export const NotificationTitle = styled.div<{ theme?: Theme }>`
 `}
 `;
 
-export const NotificationsCardMain = styled(Card)``;
+export const NotificationsCardMain = styled(Card)`
+  max-height: 400px;
+  overflow-y: auto;
+`;
 
 export const NotificationsCardList = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `

@@ -1,17 +1,14 @@
 export const CProtectedRoutes = [
   '/',
   '/account',
-  '/clients',
-  '/developers',
-  '/investors',
+  '/opportunities',
+  '/applications',
+  '/users',
+  '/users/overview',
+  '/houses',
   '/finance',
   '/help',
-  '/search',
-  '/projects/overview',
-  '/market',
-  '/market/overview',
-  '/portfolio',
-  '/secondary-market',
+  '/overview',
 ];
 
 export const CUnprotectedRoutes = [

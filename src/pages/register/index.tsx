@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { RegisterCompanyPage, RegisterAmbassadorPage } from 'features';
+import { RegisterAmbassadorPage } from 'features';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useTranslation } from 'react-i18next';
@@ -19,8 +19,7 @@ const Login = () => {
   return (
     <>
       <Title>{t('Sign Up')}</Title>
-      {query.as === 'developer' && <RegisterCompanyPage />}
-      {query.as === 'investor' && <RegisterAmbassadorPage />}
+      <RegisterAmbassadorPage />
     </>
   );
 };
