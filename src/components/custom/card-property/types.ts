@@ -15,4 +15,5 @@ export type TPropertyCardProps = Omit<
   theme: string;
   completed?: boolean;
   label?: string;
+  dropdown?: boolean;
 };

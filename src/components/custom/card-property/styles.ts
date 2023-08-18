@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
-import { Card } from 'components/ui';
+import { Button, Card } from 'components/ui';
 import Link from 'next/link';
+import Menu from '../menu';
 
 export const CardMain = styled(Card)`
   display: grid;
@@ -217,4 +218,45 @@ export const CardProgressBarPopupLabel = styled.div`
 export const CardProgressBarPopupVaue = styled.div`
   font-size: 16px;
   color: #7e839f;
+`;
+
+export const CardDropdown = styled.div`
+  width: 100%;
+  background: #37428a;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 0;
+  border-radius: 6px;
+  text-align: center;
+  cursor: pointer;
+  display: grid;
+  gap: 10px;
+`;
+
+export const TableMenu = styled(Menu)<{
+  position: { right: number; top: number };
+}>`
+  ${({ position }) => `
+    position: fixed;
+    z-index: 200;
+    width: 120px;
+    right: ${position?.right}px;
+    top: ${position?.top}px;
+
+    &:last-child,
+    &:first-child {
+      grid-template-columns: 1fr;
+    }
+
+    .MenuItem {
+      grid-template-columns: 1fr;
+    }
+    `}
+`;
+
+export const ISpan = styled.span`
+  display: block;
+  width: 100%;
+  height: 100%;
 `;

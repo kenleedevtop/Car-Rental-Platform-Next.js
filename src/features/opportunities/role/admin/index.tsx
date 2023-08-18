@@ -35,7 +35,7 @@ const AdminMarketPage = () => {
       {tab === 0 && (
         <ProjectsGrid>
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -45,9 +45,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -57,9 +58,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -69,9 +71,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -81,9 +84,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -93,9 +97,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -105,13 +110,14 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
         </ProjectsGrid>
       )}
       {tab === 1 && (
         <ProjectsGrid>
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -121,9 +127,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -133,9 +140,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -145,9 +153,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -157,9 +166,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -169,9 +179,10 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -181,6 +192,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
+            dropdown
           />
         </ProjectsGrid>
       )}
@@ -192,59 +204,63 @@ const AdminMarketPage = () => {
             availableSpots={8}
             rent={250}
             theme="Marketing"
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
             completed
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
             spots={8}
             availableSpots={8}
             rent={250}
             theme="Marketing"
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
             completed
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
             spots={8}
             availableSpots={8}
             rent={250}
             theme="Marketing"
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
             completed
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
             spots={8}
             availableSpots={8}
             rent={250}
             theme="Marketing"
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
             completed
             status="Not applied"
             label="View"
+            dropdown
           />
           <PropertyCard
             spots={8}
             availableSpots={8}
             rent={250}
             theme="Marketing"
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
@@ -256,7 +272,7 @@ const AdminMarketPage = () => {
             availableSpots={8}
             rent={250}
             theme="Marketing"
-            link="/market/overview"
+            link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
