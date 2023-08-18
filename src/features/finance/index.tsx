@@ -9,7 +9,7 @@ import {
   DGenerateFinanceFilter,
 } from 'features/finance/data';
 import { CardWithText, NewCheckboxTable } from 'components/custom';
-import { SlidersHorizontalIcon } from 'components/svg';
+import { SlidersHorizontalIcon, VerticalDotsIcon } from 'components/svg';
 import { Button, Input, InputGroup, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
@@ -27,7 +27,28 @@ const FinancePage = () => {
     setFilter(DGenerateFinanceFilter());
   };
 
-  const renderItem = ({ cell }: TTableRenderItemObject) => '';
+  const renderItem = ({ headItem }: TTableRenderItemObject) => {
+    if (headItem.reference === 'revenue') {
+      return 'Application';
+    }
+    if (headItem.reference === 'user') {
+      return 'Ivan Jurisic';
+    }
+    if (headItem.reference === 'type') {
+      return 'High';
+    }
+    if (headItem.reference === 'date') {
+      return 'May 1, 2022';
+    }
+    if (headItem.reference === 'amount') {
+      return '$1.99';
+    }
+    if (headItem.reference === 'actions') {
+      return <VerticalDotsIcon />;
+    }
+
+    return '';
+  };
 
   return (
     <FinancePageMain>
@@ -121,7 +142,38 @@ const FinancePage = () => {
           </Collapse>
           <NewCheckboxTable
             head={DFinanceAdminRevenueHead}
-            items={[]}
+            items={[
+              {
+                name: 'Detailed planning of the project',
+                published: '01.05.2023',
+                action: 'a',
+              },
+              {
+                name: 'Detailed planning of the project',
+                published: '01.05.2023',
+                action: 'a',
+              },
+              {
+                name: 'Detailed planning of the project',
+                published: '01.05.2023',
+                action: 'a',
+              },
+              {
+                name: 'Detailed planning of the project',
+                published: '01.05.2023',
+                action: 'a',
+              },
+              {
+                name: 'Detailed planning of the project',
+                published: '01.05.2023',
+                action: 'a',
+              },
+              {
+                name: 'Detailed planning of the project',
+                published: '01.05.2023',
+                action: 'a',
+              },
+            ]}
             renderItem={renderItem}
           />
           <Pagination count={32} />

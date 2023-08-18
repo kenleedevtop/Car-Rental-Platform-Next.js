@@ -39,7 +39,7 @@ export const DFinanceAdminRevenueHead = [
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];
