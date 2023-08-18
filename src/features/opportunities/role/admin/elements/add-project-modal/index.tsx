@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { Modal, Tabs } from 'components/custom';
+import { Modal, RichTextEditor, Tabs } from 'components/custom';
 import { TExportFinanceModalProps } from 'features/finance/elements/export-finance-modal/types';
 import {
   AddProjectModalMain,
   AddProjectHeadline,
   AddProjectDocumentPlaceholder,
 } from 'features/opportunities/role/admin/elements/add-project-modal/style';
-import { Button, Input } from 'components/ui';
-import { Stack } from 'components/system';
+import { Button, Input, Label } from 'components/ui';
+import { GridCell, Stack } from 'components/system';
 import { UploadIcon, VerticalDotsIcon } from 'components/svg';
 
 const ExportFinanceModal = ({
@@ -88,16 +88,14 @@ const ExportFinanceModal = ({
               onValue={() => {}}
               placeholder="Please Select"
             />
-            <Input
-              type="text"
-              label="Info"
-              value={null}
-              placeholder="Please Enter"
-              onValue={() => {}}
-              style={{ gridColumn: '1/3' }}
-              multiline
-              rows={3}
-            />
+            <GridCell columnSpan={2}>
+              <Stack>
+                <Label style={{ color: '#7E839F', marginBottom: '-1.25rem' }}>
+                  Info
+                </Label>
+                <RichTextEditor />
+              </Stack>
+            </GridCell>
           </AddProjectModalMain>
         )}
         {tab === 1 && (

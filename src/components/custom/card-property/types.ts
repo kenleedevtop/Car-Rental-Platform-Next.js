@@ -14,4 +14,5 @@ export type TPropertyCardProps = Omit<
   rent: number;
   theme: string;
   completed?: boolean;
+  label?: string;
 };

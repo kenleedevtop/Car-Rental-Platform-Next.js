@@ -4,7 +4,8 @@
     "moduleResolution": "node",
     "paths": {
       "*": ["./src/*"],
-      "@splidejs/react-splide/*": ["node_modules/@splidejs/react-splide/*"]
+      "@splidejs/react-splide/*": ["node_modules/@splidejs/react-splide/*"],
+      "react-quill/*": ["node_modules/react-quill/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

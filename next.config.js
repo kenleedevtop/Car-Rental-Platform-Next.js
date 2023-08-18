@@ -2,6 +2,9 @@
 const withFonts = require('next-fonts');
 const { i18n } = require('./next-i18next.config');
 
+const withCSS = require('@zeit/next-css');
+module.exports = withCSS();
+
 module.exports = withFonts({
   reactStrictMode: true,
   i18n,

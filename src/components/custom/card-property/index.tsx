@@ -28,6 +28,7 @@ const PropertyCard = ({
   rent,
   theme,
   completed,
+  label = 'Apply',
   ...props
 }: TPropertyCardProps) => (
   <CardMain animation="zoom-in" {...props}>
@@ -67,7 +68,7 @@ const PropertyCard = ({
           <CardProgressValue>{status}</CardProgressValue>
         </CardProgressItem>
       )}
-      <CardButton href={link}>Apply</CardButton>
+      <CardButton href={link}>{label}</CardButton>
     </CardBody>
   </CardMain>
 );

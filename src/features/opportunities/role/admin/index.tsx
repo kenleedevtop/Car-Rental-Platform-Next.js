@@ -44,6 +44,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -55,6 +56,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -66,6 +68,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -77,6 +80,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -88,6 +92,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -99,6 +104,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
         </ProjectsGrid>
       )}
@@ -114,6 +120,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -125,6 +132,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -136,6 +144,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -147,6 +156,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -158,6 +168,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             link="/market/overview"
@@ -169,6 +180,7 @@ const AdminMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            label="View"
           />
         </ProjectsGrid>
       )}
@@ -186,6 +198,7 @@ const AdminMarketPage = () => {
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
             completed
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             spots={8}
@@ -198,6 +211,7 @@ const AdminMarketPage = () => {
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
             completed
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             spots={8}
@@ -210,6 +224,7 @@ const AdminMarketPage = () => {
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
             completed
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             spots={8}
@@ -222,6 +237,7 @@ const AdminMarketPage = () => {
             image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
             completed
             status="Not applied"
+            label="View"
           />
           <PropertyCard
             spots={8}
