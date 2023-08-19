@@ -6,7 +6,7 @@ import {
   NavigationProfileOuter,
   NavigationProfile,
   NavigationProfileName,
-  NavigationProfileImage,
+  // NavigationProfileImage,
   // NavigationSearch,
   BalanceIcon,
   NavigationBalanceDropdown,
@@ -51,7 +51,7 @@ const handleCurrencyCalculation = (
 const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen, buttonRef] = useMenu(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
-  const currencyTargRef = React.useRef<HTMLDivElement>(null);
+  // const currencyTargRef = React.useRef<HTMLDivElement>(null);
   const [
     openBalanceButton,
     setOpenBalanceButton,
@@ -61,7 +61,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
 
   // const [search, setSearch] = useState('');
 
-  const [ppModal, openPpModal, closePpModal] = useModal(false);
+  // const [ppModal, openPpModal, closePpModal] = useModal(false);
   const [nModal, openNModal, closeNModal] = useModal(false);
 
   const router = useRouter();
@@ -247,7 +247,7 @@ const Navigation = ({ ...props }: TNavigationProps) => {
           )}
         </NavigationProfileOuter>
       </NavigationItems>
-      {ppModal && <ProfilePicture onClose={closePpModal} />}
+      {/* {ppModal && <ProfilePicture onClose={closePpModal} />} */}
       {nModal && <NotificationModal onClose={closeNModal} />}
     </NavigationMain>
   );

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
-import { Button, Card } from 'components/ui';
+import { Card } from 'components/ui';
 import Link from 'next/link';
 import Menu from '../menu';
 

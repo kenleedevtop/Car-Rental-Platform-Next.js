@@ -36,7 +36,7 @@ const ProfilePictureModal = ({ onClose, ...props }: TProfilePicture) => {
 
   const { role } = useAppContext();
 
-  const [ceModal, openCeModal, closeCeModal] = useModal(false);
+  // const [ceModal, openCeModal, closeCeModal] = useModal(false);
   const [cpModal, openCpModal, closeCpModal] = useModal(false);
 
   return (
@@ -86,7 +86,7 @@ const ProfilePictureModal = ({ onClose, ...props }: TProfilePicture) => {
               />
 
               <ProfileActions>
-                <ProfileSpan onClick={openCeModal}>Change Email</ProfileSpan>
+                {/* <ProfileSpan onClick={openCeModal}>Change Email</ProfileSpan> */}
                 <ProfileSpan onClick={openCpModal}>Change Password</ProfileSpan>
               </ProfileActions>
             </ProfileInfo>

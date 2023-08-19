@@ -107,12 +107,12 @@ const InfluencerAPI = {
     return data;
   },
 
-  verifyInfluencer: async (body: any, id: TSingleInfluencer) => {
-    const { data } = await client.patch(
-      `${Project.apis.v1}/influencer/${id}/verify`,
-      body
-    );
-  },
+  // verifyInfluencer: async (body: any, id: TSingleInfluencer) => {
+  //   const { data } = await client.patch(
+  //     `${Project.apis.v1}/influencer/${id}/verify`,
+  //     body
+  //   );
+  // },
 
   influencerGetPostTypes: async (id: TSingleInfluencer) => {
     const { data } = await client.get(

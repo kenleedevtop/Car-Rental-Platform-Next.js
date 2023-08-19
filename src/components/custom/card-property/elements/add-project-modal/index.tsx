@@ -14,7 +14,7 @@ const ExportFinanceModal = ({
   onClose,
   ...props
 }: TExportFinanceModalProps) => {
-  const [state, setState] = useState();
+  // const [state, setState] = useState();
 
   const [tab, setTab] = useState(0);
 
