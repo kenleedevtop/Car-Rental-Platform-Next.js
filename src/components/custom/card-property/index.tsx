@@ -14,18 +14,12 @@ import {
   CardProgressItem,
   CardButton,
   CardCompletedMark,
-  CardDropdown,
   TableMenu,
   ISpan,
 } from 'components/custom/card-property/styles';
 import { TPropertyCardProps } from 'components/custom/card-property/types';
 import { formatNumber } from 'utilities/extended-proto';
-import {
-  CarretDownIcon,
-  DeleteIcon,
-  EditIcon,
-  HouseIcon,
-} from 'components/svg';
+import { CarretDownIcon, EditIcon, HouseIcon } from 'components/svg';
 import { Button } from 'components/ui';
 import { useMenu, useModal } from 'hooks';
 import { AddProjectModal } from './elements';

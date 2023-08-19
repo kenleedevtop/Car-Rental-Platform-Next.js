@@ -74,7 +74,7 @@ const AccountPage = ({ ...props }) => {
               onValue={(password) => setState({ ...state, password })}
               disabled
             />
-            <AccountSpan onClick={() => {}}>Change Password</AccountSpan>
+            <AccountSpan onClick={openCpModal}>Change Password</AccountSpan>
           </AccountChange>
         </AccountForm>
       </AccountContainer>

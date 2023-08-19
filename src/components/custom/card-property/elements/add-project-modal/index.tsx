@@ -6,7 +6,7 @@ import {
   AddProjectHeadline,
   AddProjectDocumentPlaceholder,
 } from 'features/opportunities/role/admin/elements/add-project-modal/style';
-import { Button, Input, Label } from 'components/ui';
+import { Button, Checkbox, Input, Label } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { UploadIcon, VerticalDotsIcon } from 'components/svg';
 
@@ -101,13 +101,16 @@ const ExportFinanceModal = ({
         {tab === 1 && (
           <AddProjectModalMain columns={1}>
             <AddProjectHeadline>
-              Images <UploadIcon />
+              Images
+              <UploadIcon />
             </AddProjectHeadline>
             <AddProjectDocumentPlaceholder>
-              IMG_01.png <VerticalDotsIcon />
+              IMG_01.png <Checkbox label="Mark as Thumbnail" />
+              <VerticalDotsIcon />
             </AddProjectDocumentPlaceholder>
             <AddProjectDocumentPlaceholder>
-              IMG_02.png <VerticalDotsIcon />
+              IMG_02.png <Checkbox label="Mark as Thumbnail" />
+              <VerticalDotsIcon />
             </AddProjectDocumentPlaceholder>
             <AddProjectHeadline>
               Documents <UploadIcon />
