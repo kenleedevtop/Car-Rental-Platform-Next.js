@@ -240,7 +240,7 @@ export const TableMenu = styled(Menu)<{
   ${({ position }) => `
     position: fixed;
     z-index: 200;
-    width: 120px;
+    width: 200px;
     right: ${position?.right}px;
     top: ${position?.top}px;
 

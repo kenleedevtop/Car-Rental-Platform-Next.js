@@ -8,7 +8,7 @@ const Overview = () => {
   const { setRouteName } = useAppContext();
 
   useEffect(() => {
-    setRouteName('Account');
+    setRouteName('Overview');
   }, []);
 
   return (

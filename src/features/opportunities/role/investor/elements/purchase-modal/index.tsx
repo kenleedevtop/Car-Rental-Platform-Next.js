@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { Modal, Tabs } from 'components/custom';
+import { CallendlyWidget, Modal } from 'components/custom';
 import { TExportFinanceModalProps } from 'features/finance/elements/export-finance-modal/types';
-import {
-  AddProjectModalMain,
-  AddProjectHeadline,
-  AddProjectDocumentPlaceholder,
-} from 'features/opportunities/role/admin/elements/add-project-modal/style';
+import { AddProjectModalMain } from 'features/opportunities/role/admin/elements/add-project-modal/style';
 import { Button, Input } from 'components/ui';
-import { Stack } from 'components/system';
+import { GridCell } from 'components/system';
 
 const ExportFinanceModal = ({
   onClose,
@@ -17,8 +13,8 @@ const ExportFinanceModal = ({
 
   return (
     <Modal
-      size="small"
-      title="Purchase"
+      size="medium"
+      title="Sell Shares?"
       actions={[
         <Button
           color="primary"
@@ -26,47 +22,30 @@ const ExportFinanceModal = ({
           size="large"
           onClick={onClose}
         >
-          Add
+          Sell
         </Button>,
       ]}
       onClose={onClose}
       {...props}
     >
-      <AddProjectModalMain columns={1}>
+      <AddProjectModalMain columns={2}>
         <Input
-          type="text"
-          label="Tokens"
+          type="select"
+          label="House"
           value={null}
           onValue={() => {}}
           placeholder="Please Enter"
         />
         <Input
           type="select"
-          label="Payment Method"
+          label="Shares"
           value={null}
           onValue={() => {}}
           placeholder="Please Select"
-          options={[
-            {
-              value: 0,
-              label: 'Card',
-            },
-            {
-              value: 1,
-              label: 'Ayden',
-            },
-            {
-              value: 2,
-              label: 'Stripe',
-            },
-            {
-              value: 3,
-              label: 'Paypal',
-            },
-          ]}
         />
-
-        {/* BASED ON SELECT OPTION HERE WILL DISPLAY DIFFERENT PAYMENT METHOD API  */}
+        <GridCell columnSpan={2}>
+          <CallendlyWidget />
+        </GridCell>
       </AddProjectModalMain>
     </Modal>
   );

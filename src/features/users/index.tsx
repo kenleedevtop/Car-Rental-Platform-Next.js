@@ -41,17 +41,17 @@ const UsersPage = () => {
     if (headItem.reference === 'location') {
       return 'England';
     }
-    if (headItem.reference === 'nationality') {
-      return 'British';
+    if (headItem.reference === 'houses') {
+      return '0';
     }
-    if (headItem.reference === 'age') {
-      return '25';
+    if (headItem.reference === 'shares') {
+      return '0';
     }
     if (headItem.reference === 'applications') {
-      return '12';
+      return '2';
     }
-    if (headItem.reference === 'invested') {
-      return '€25';
+    if (headItem.reference === 'locationOfInterests') {
+      return 'Barcelona, Spain';
     }
     if (headItem.reference === 'actions') {
       return <VerticalDotsIcon />;
@@ -102,27 +102,18 @@ const UsersPage = () => {
                   onValue={(location) => setFilter({ ...filter, location })}
                 />
                 <Input
-                  type="select"
-                  label="Nationality"
+                  type="min-max"
+                  label="Houses"
                   placeholder="Please Select"
-                  value={filter.nationality}
-                  onValue={(nationality) =>
-                    setFilter({ ...filter, nationality })
-                  }
+                  value={filter.houses}
+                  onValue={(houses) => setFilter({ ...filter, houses })}
                 />
                 <Input
                   type="min-max"
-                  label="Age"
+                  label="Shares"
                   placeholder="Please Select"
-                  value={filter.age}
-                  onValue={(age) => setFilter({ ...filter, age })}
-                />
-                <Input
-                  type="select"
-                  label="Language"
-                  placeholder="Please Select"
-                  value={filter.language}
-                  onValue={(language) => setFilter({ ...filter, language })}
+                  value={filter.shares}
+                  onValue={(shares) => setFilter({ ...filter, shares })}
                 />
                 <Input
                   type="min-max"
@@ -134,20 +125,20 @@ const UsersPage = () => {
                   }
                 />
                 <Input
-                  type="min-max"
-                  label="Invested"
+                  type="select"
+                  label="Location of Interest"
                   placeholder="Please Select"
-                  value={filter.invested}
-                  onValue={(invested) => setFilter({ ...filter, invested })}
+                  value={filter.locationOfInterest}
+                  onValue={(locationOfInterest) =>
+                    setFilter({ ...filter, locationOfInterest })
+                  }
                 />
                 <Input
                   type="select"
-                  label="Social Media"
+                  label="Status"
                   placeholder="Please Select"
-                  value={filter.socialMedia}
-                  onValue={(socialMedia) =>
-                    setFilter({ ...filter, socialMedia })
-                  }
+                  value={filter.status}
+                  onValue={(status) => setFilter({ ...filter, status })}
                 />
               </Grid>
               <FinancePageFilterActions direction="horizontal">

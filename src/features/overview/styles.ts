@@ -323,3 +323,41 @@ export const CardProgressAvailable = styled.div`
   font-weight: 500;
   color: #7e839f;
 `;
+
+export const CardItemContainer = styled.div`
+  display: grid;
+`;
+
+export const CardItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const CardItemLabel = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  color: #a7a9b6;
+`;
+
+export const CardItemValue = styled.div`
+  font-size: 16px;
+  font-weight: 600;
+  color: #448dc9;
+`;
+
+export const CardList = styled.ul``;
+export const CardListItem = styled.li`
+  color: #a7a9b6;
+  list-style: none;
+  padding-left: 30px;
+  position: relative;
+
+  &:before {
+    content: '✓';
+    color: #448dc9;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+`;

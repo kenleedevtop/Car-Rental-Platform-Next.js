@@ -1,21 +1,20 @@
 export const DUsersFilters = () => ({
   search: '',
   location: null,
-  nationality: null,
-  age: {
+  houses: {
     min: '',
     max: '',
   },
-  language: null,
+  shares: {
+    min: '',
+    max: '',
+  },
   applications: {
     min: '',
     max: '',
   },
-  invested: {
-    min: '',
-    max: '',
-  },
-  socialMedia: null,
+  locationOfInterest: null,
+  status: null,
 });
 
 export const DUsersHead = [
@@ -30,13 +29,13 @@ export const DUsersHead = [
     visible: true,
   },
   {
-    reference: 'nationality',
-    label: 'Nationality',
+    reference: 'houses',
+    label: 'Houses',
     visible: true,
   },
   {
-    reference: 'age',
-    label: 'Age',
+    reference: 'shares',
+    label: 'Shares',
     visible: true,
   },
   {
@@ -45,13 +44,13 @@ export const DUsersHead = [
     visible: true,
   },
   {
-    reference: 'invested',
-    label: 'Invested',
+    reference: 'locationOfInterests',
+    label: 'Location of Interest',
     visible: true,
   },
   {
     reference: 'actions',
-    label: 'Actions',
+    label: '',
     visible: true,
   },
 ];

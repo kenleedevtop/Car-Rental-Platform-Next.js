@@ -14,3 +14,4 @@ export { default as OverviewPage } from 'features/overview';
 export { HousesPage, OpportunitiesPage } from 'features/opportunities';
 export { default as UsersPage } from 'features/users';
 export { default as UsersOverviewPage } from 'features/users-overview';
+export { UserBookingPage, AdminBookingPage } from 'features/booking';

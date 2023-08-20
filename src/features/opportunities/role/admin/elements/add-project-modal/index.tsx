@@ -55,28 +55,70 @@ const ExportFinanceModal = ({
             />
             <Input
               type="text"
-              label="Total Spots"
+              label="Total Shares"
               value={null}
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="text"
-              label="Available Spots"
+              label="Available Shares"
               value={null}
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="text"
-              label="Rent"
+              label="Share Price"
               value={null}
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="select"
-              label="Theme"
+              label="Address"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Bedrooms"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Bathrooms"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Size"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Construction Year"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Start Date"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Highlights"
               value={null}
               onValue={() => {}}
               placeholder="Please Select"
@@ -84,6 +126,13 @@ const ExportFinanceModal = ({
             <Input
               type="select"
               label="Status"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Owners"
               value={null}
               onValue={() => {}}
               placeholder="Please Select"

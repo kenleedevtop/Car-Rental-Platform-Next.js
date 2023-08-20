@@ -45,7 +45,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -58,7 +58,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -71,7 +71,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -84,7 +84,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -97,7 +97,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -110,7 +110,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
         </ProjectsGrid>
       )}
@@ -127,7 +127,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -140,7 +140,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -153,7 +153,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -166,7 +166,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -179,7 +179,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             link="/overview"
@@ -192,7 +192,7 @@ const AdminMarketPage = () => {
             theme="Marketing"
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
         </ProjectsGrid>
       )}
@@ -211,7 +211,7 @@ const AdminMarketPage = () => {
             completed
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             spots={8}
@@ -225,7 +225,7 @@ const AdminMarketPage = () => {
             completed
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             spots={8}
@@ -239,7 +239,7 @@ const AdminMarketPage = () => {
             completed
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             spots={8}
@@ -253,7 +253,7 @@ const AdminMarketPage = () => {
             completed
             status="Not applied"
             label="View"
-            dropdown
+            dropdownAdmin
           />
           <PropertyCard
             spots={8}

@@ -40,3 +40,5 @@ export { default as PropertyCard } from 'components/custom/card-property';
 export { default as Gallery } from 'components/custom/gallery';
 export { default as Image } from 'components/custom/image';
 export { default as RichTextEditor } from 'components/custom/rich-text-editor';
+export { default as CombinedDatePicker } from 'components/custom/combined-date-picker';
+export { default as CallendlyWidget } from 'components/custom/callendly-widget';

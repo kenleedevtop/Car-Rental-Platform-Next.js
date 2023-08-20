@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Tabs } from 'components/custom';
+import { CallendlyWidget, Modal, Tabs } from 'components/custom';
 import { TExportFinanceModalProps } from 'features/finance/elements/export-finance-modal/types';
 import {
   AddProjectModalMain,
@@ -7,6 +7,7 @@ import {
   AddProjectDocumentPlaceholder,
 } from 'features/opportunities/role/admin/elements/add-project-modal/style';
 import { Button, Input } from 'components/ui';
+import { GridCell } from 'components/system';
 
 const ExportFinanceModal = ({
   onClose,
@@ -34,18 +35,21 @@ const ExportFinanceModal = ({
       <AddProjectModalMain columns={2}>
         <Input
           type="text"
-          label="Balance"
-          value={null}
-          onValue={() => {}}
-          placeholder="Please Enter"
-        />
-        <Input
-          type="select"
-          label="Application Type"
+          label="Shares"
           value={null}
           onValue={() => {}}
           placeholder="Please Select"
         />
+        <Input
+          type="select"
+          label="Total Price"
+          value={null}
+          onValue={() => {}}
+          placeholder="Please Select"
+        />
+        <GridCell columnSpan={2}>
+          <CallendlyWidget />
+        </GridCell>
       </AddProjectModalMain>
     </Modal>
   );

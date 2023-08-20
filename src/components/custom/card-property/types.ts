@@ -16,4 +16,6 @@ export type TPropertyCardProps = Omit<
   completed?: boolean;
   label?: string;
   dropdown?: boolean;
+  dropdownOwned?: boolean;
+  dropdownAdmin?: boolean;
 };

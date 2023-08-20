@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { CardWithText, NewCheckboxTable, Tabs } from 'components/custom';
+import { CardWithText, NewCheckboxTable } from 'components/custom';
 import { Collapse, Grid, Stack } from 'components/system';
-import { Button, Input, InputGroup, Pagination } from 'components/ui';
+import { Button, Input, Label, Pagination } from 'components/ui';
 import {
-  DAdminApplicationsHead,
+  DApplicationsHead,
   DApplicationsFilters,
 } from 'features/applications/data';
 import {
@@ -13,13 +13,27 @@ import {
 } from 'features/opportunities/styles';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { SlidersHorizontalIcon, VerticalDotsIcon } from 'components/svg';
+import { useModal } from 'hooks';
+import {
+  BookingOverviewModal,
+  TransferOwnershipModal,
+} from 'features/applications/role/admin/elements';
 
 const AdminApplicationsPage = () => {
   const [filter, setFilter] = useState<any>(DApplicationsFilters());
 
   const [filterOpen, setFilterOpen] = useState(false);
 
-  const [tabs, setTabs] = useState(0);
+  const [
+    bookingOverviewModal,
+    openBookingOverviewModal,
+    closeBookingOverviewModal,
+  ] = useModal(false);
+  const [
+    transferOwnershipModal,
+    openTransferOwnershipModal,
+    closeTransferOwnershipModal,
+  ] = useModal(false);
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -33,20 +47,17 @@ const AdminApplicationsPage = () => {
     if (headItem.reference === 'name') {
       return 'Ivan Jurisic';
     }
-    if (headItem.reference === 'location') {
-      return 'English';
+    if (headItem.reference === 'house') {
+      return '3.5 Bedroom with Lake view in ....';
     }
-    if (headItem.reference === 'nationality') {
-      return 'British';
+    if (headItem.reference === 'date') {
+      return '12.8.2023';
     }
-    if (headItem.reference === 'age') {
-      return '25';
+    if (headItem.reference === 'sharesApplied') {
+      return '2';
     }
-    if (headItem.reference === 'applications') {
-      return '12';
-    }
-    if (headItem.reference === 'invested') {
-      return '€25';
+    if (headItem.reference === 'status') {
+      return 'Paid';
     }
     if (headItem.reference === 'actions') {
       return <VerticalDotsIcon />;
@@ -68,55 +79,22 @@ const AdminApplicationsPage = () => {
           >
             Filters
           </Button>,
+          <Button variant="contained" color="default">
+            Export
+          </Button>,
         ]}
       >
         <Stack>
           <Collapse in={filterOpen}>
             <Stack>
-              <Tabs
-                tabs={['Info', 'Work Experience', 'Education', 'House']}
-                value={tabs}
-                onValue={setTabs}
-              />
               <MarketPageFilter>
                 <Grid columns={4}>
                   <Input
-                    type="text"
-                    label="Search"
-                    placeholder="Please Enter"
-                    value={filter.search}
-                    onValue={(search) => setFilter({ ...filter, search })}
-                  />
-                  <Input
                     type="select"
-                    label="Application Type"
+                    label="User"
                     placeholder="Please Select"
-                    value={filter.applicationType}
-                    onValue={(applicationType) =>
-                      setFilter({ ...filter, applicationType })
-                    }
-                  />
-                  <Input
-                    type="select"
-                    label="Nationality"
-                    placeholder="Please Select"
-                    value={filter.nationality}
-                    onValue={(nationality) =>
-                      setFilter({ ...filter, nationality })
-                    }
-                  />
-                  <Input
-                    type="min-max"
-                    label="Age"
-                    value={filter.age}
-                    onValue={(age) => setFilter({ ...filter, age })}
-                  />
-                  <Input
-                    type="select"
-                    label="Language"
-                    placeholder="Please Select"
-                    value={filter.language}
-                    onValue={(language) => setFilter({ ...filter, language })}
+                    value={filter.user}
+                    onValue={(user) => setFilter({ ...filter, user })}
                   />
                   <Input
                     type="select"
@@ -126,19 +104,23 @@ const AdminApplicationsPage = () => {
                     onValue={(location) => setFilter({ ...filter, location })}
                   />
                   <Input
-                    type="min-max"
-                    label="Invested"
-                    value={filter.invested}
-                    onValue={(invested) => setFilter({ ...filter, invested })}
+                    type="select"
+                    label="House"
+                    placeholder="Please Select"
+                    value={filter.house}
+                    onValue={(house) => setFilter({ ...filter, house })}
                   />
                   <Input
-                    type="select"
-                    label="Social Media"
-                    placeholder="Please Select"
-                    value={filter.socialMedia}
-                    onValue={(socialMedia) =>
-                      setFilter({ ...filter, socialMedia })
-                    }
+                    type="min-max"
+                    label="Houses"
+                    value={filter.houses}
+                    onValue={(houses) => setFilter({ ...filter, houses })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Shares"
+                    value={filter.shares}
+                    onValue={(shares) => setFilter({ ...filter, shares })}
                   />
                   <Input
                     type="min-max"
@@ -155,25 +137,31 @@ const AdminApplicationsPage = () => {
                     value={filter.status}
                     onValue={(status) => setFilter({ ...filter, status })}
                   />
-                  <InputGroup
-                    label="Date Range"
-                    inputRatio="1fr 1fr"
-                    elements={[
-                      {
-                        value: filter.dateFrom,
-                        onValue: (dateFrom) =>
-                          setFilter({ ...filter, dateFrom }),
-                        type: 'date',
-                        placeholder: 'From',
-                      },
-                      {
-                        value: filter.dateTo,
-                        onValue: (dateTo) => setFilter({ ...filter, dateTo }),
-                        type: 'date',
-                        placeholder: 'To',
-                      },
-                    ]}
-                  />
+                  <Stack>
+                    <Label
+                      style={{ color: '#7E839F', marginBottom: '-1.15rem' }}
+                    >
+                      Application Date
+                    </Label>
+                    <Stack direction="horizontal">
+                      <Input
+                        type="date"
+                        placeholder="From"
+                        value={filter.applicationDateFrom}
+                        onValue={(applicationDateFrom) =>
+                          setFilter({ ...filter, applicationDateFrom })
+                        }
+                      />
+                      <Input
+                        type="date"
+                        placeholder="To"
+                        value={filter.applicationDateTo}
+                        onValue={(applicationDateTo) =>
+                          setFilter({ ...filter, applicationDateTo })
+                        }
+                      />
+                    </Stack>
+                  </Stack>
                 </Grid>
                 <MarketPageFilterActions direction="horizontal">
                   <Button color="primary" variant="contained">
@@ -191,7 +179,7 @@ const AdminApplicationsPage = () => {
             </Stack>
           </Collapse>
           <NewCheckboxTable
-            head={DAdminApplicationsHead}
+            head={DApplicationsHead}
             items={[
               {
                 name: 'Detailed planning of the project',
@@ -229,6 +217,29 @@ const AdminApplicationsPage = () => {
           <Pagination count={32} />
         </Stack>
       </CardWithText>
+      <Stack direction="horizontal">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={openBookingOverviewModal}
+        >
+          Booking Overview Modal
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={openTransferOwnershipModal}
+        >
+          Transfer Ownership Modal
+        </Button>
+      </Stack>
+
+      {bookingOverviewModal && (
+        <BookingOverviewModal onClose={closeBookingOverviewModal} />
+      )}
+      {transferOwnershipModal && (
+        <TransferOwnershipModal onClose={closeTransferOwnershipModal} />
+      )}
     </ProjectsMain>
   );
 };

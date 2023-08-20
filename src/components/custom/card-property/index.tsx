@@ -35,8 +35,10 @@ const PropertyCard = ({
   rent,
   theme,
   completed,
-  label = 'Apply',
+  label = 'View',
   dropdown = false,
+  dropdownOwned = false,
+  dropdownAdmin = false,
   ...props
 }: TPropertyCardProps) => {
   const [menu, open, handleMenu, buttonRef, position] = useMenu(false);
@@ -46,7 +48,7 @@ const PropertyCard = ({
 
   return (
     <CardMain animation="zoom-in" {...props}>
-      {completed && <CardCompletedMark>Filled</CardCompletedMark>}
+      {completed && <CardCompletedMark>Completed</CardCompletedMark>}
       <CardImage src={image} />
       <CardHead>
         {rent && (
@@ -55,10 +57,12 @@ const PropertyCard = ({
             <CardPriceValue>€{formatNumber(rent)}</CardPriceValue>
           </CardPrice>
         )}
-        {theme && (
+        {availableSpots && spots && (
           <CardPrice>
-            Theme
-            <CardPriceValue>Marketing</CardPriceValue>
+            Shares
+            <CardPriceValue>
+              {availableSpots}/{spots}
+            </CardPriceValue>
           </CardPrice>
         )}
       </CardHead>
@@ -68,22 +72,74 @@ const PropertyCard = ({
           {address}
         </CardAddress>
         <CardTitle>{title}</CardTitle>
-        {spots && availableSpots && (
-          <CardProgressItem>
-            Available spots
-            <CardProgressValue>
-              {availableSpots}/{spots}
-            </CardProgressValue>
-          </CardProgressItem>
+        {!dropdown && !dropdownOwned && !dropdownAdmin && (
+          <CardButton href={link}>{label}</CardButton>
         )}
-        {status && (
-          <CardProgressItem>
-            Status
-            <CardProgressValue>{status}</CardProgressValue>
-          </CardProgressItem>
+        {dropdown && !dropdownOwned && !dropdownAdmin && (
+          <Button variant="contained" color="primary">
+            <ISpan onClick={handleMenu} ref={buttonRef}>
+              Apply <CarretDownIcon style={{ marginLeft: '10px' }} />
+            </ISpan>
+            {open && (
+              <TableMenu
+                position={position}
+                items={[
+                  {
+                    icon: <HouseIcon />,
+                    label: 'Apply',
+                    action: () => {},
+                  },
+                  {
+                    icon: <HouseIcon />,
+                    label: 'View',
+                    action: () => {
+                      router.push(link);
+                    },
+                  },
+                  {
+                    icon: <EditIcon />,
+                    label: 'Sell',
+                    action: openEditModal,
+                  },
+                ]}
+                ref={menu}
+              />
+            )}
+          </Button>
         )}
-        {!dropdown && <CardButton href={link}>{label}</CardButton>}
-        {dropdown && (
+        {dropdownOwned && !dropdown && !dropdownAdmin && (
+          <Button variant="contained" color="primary">
+            <ISpan onClick={handleMenu} ref={buttonRef}>
+              Book <CarretDownIcon style={{ marginLeft: '10px' }} />
+            </ISpan>
+            {open && (
+              <TableMenu
+                position={position}
+                items={[
+                  {
+                    icon: <HouseIcon />,
+                    label: 'Book',
+                    action: () => {},
+                  },
+                  {
+                    icon: <HouseIcon />,
+                    label: 'View',
+                    action: () => {
+                      router.push(link);
+                    },
+                  },
+                  {
+                    icon: <EditIcon />,
+                    label: 'Sell',
+                    action: openEditModal,
+                  },
+                ]}
+                ref={menu}
+              />
+            )}
+          </Button>
+        )}
+        {!dropdownOwned && !dropdown && dropdownAdmin && (
           <Button variant="contained" color="primary">
             <ISpan onClick={handleMenu} ref={buttonRef}>
               {label} <CarretDownIcon style={{ marginLeft: '10px' }} />
@@ -95,14 +151,14 @@ const PropertyCard = ({
                   {
                     icon: <HouseIcon />,
                     label: 'View',
+                    action: () => {},
+                  },
+                  {
+                    icon: <HouseIcon />,
+                    label: 'Edit',
                     action: () => {
                       router.push(link);
                     },
-                  },
-                  {
-                    icon: <EditIcon />,
-                    label: 'Edit',
-                    action: openEditModal,
                   },
                 ]}
                 ref={menu}

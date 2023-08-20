@@ -1,56 +1,53 @@
 export const DApplicationsFilters = () => ({
-  search: '',
-  applicationType: null,
-  nationality: null,
-  age: {
-    min: '',
-    max: '',
-  },
-  language: null,
+  user: null,
   location: null,
-  invested: {
+  house: null,
+  houses: {
     min: '',
     max: '',
   },
-  socialMedia: null,
+  shares: {
+    min: '',
+    max: '',
+  },
   applications: {
     min: '',
     max: '',
   },
   status: null,
-  dateFrom: null,
-  dateTo: null,
+  applicationDateFrom: null,
+  applicationDateTo: null,
 });
 
 export const DApplicationsHead = [
+  {
+    reference: 'name',
+    label: 'Name',
+    visible: true,
+  },
   {
     reference: 'house',
     label: 'House',
     visible: true,
   },
   {
-    reference: 'theme',
-    label: 'Theme',
+    reference: 'date',
+    label: 'Date',
     visible: true,
   },
   {
-    reference: 'location',
-    label: 'Location',
-    visible: true,
-  },
-  {
-    reference: 'type',
-    label: 'Type',
-    visible: true,
-  },
-  {
-    reference: 'rent',
-    label: 'Rent',
+    reference: 'sharesApplied',
+    label: 'Shares Applied',
     visible: true,
   },
   {
     reference: 'status',
     label: 'Status',
+    visible: true,
+  },
+  {
+    reference: 'actions',
+    label: '',
     visible: true,
   },
 ];

@@ -32,7 +32,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
     id: 3,
     type: 'route',
     icon: <DiscoverIcon />,
-    label: 'Opportunities',
+    label: 'Houses',
     location: '/',
     roles: ['USER'],
   },
@@ -42,6 +42,14 @@ export const DSidebarItems: Array<TSidebarItem> = [
     icon: <PortfolioIcon />,
     label: 'Applications',
     location: '/applications',
+    roles: ['ADMIN'],
+  },
+  {
+    id: 44,
+    type: 'route',
+    icon: <PortfolioIcon />,
+    label: 'Booking',
+    location: '/booking',
     roles: ['ADMIN', 'USER'],
   },
   {

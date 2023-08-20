@@ -1,6 +1,7 @@
 export const CProtectedRoutes = [
   '/',
   '/account',
+  '/booking',
   '/opportunities',
   '/applications',
   '/users',

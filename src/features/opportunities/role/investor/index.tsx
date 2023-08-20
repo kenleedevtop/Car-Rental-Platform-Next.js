@@ -22,7 +22,7 @@ const InvestorMarketPage = () => {
       <Tabs
         value={tab}
         onValue={setTab}
-        tabs={['Primary Market', 'Secondary Market', 'Completed']}
+        tabs={['Primary Market', 'Secondary Market', 'Completed', 'My Houses']}
       />
       {tab === 0 && (
         <ProjectsGrid>
@@ -36,6 +36,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdown
           />
           <PropertyCard
             link="/overview"
@@ -47,6 +48,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdown
           />
           <PropertyCard
             link="/overview"
@@ -58,6 +60,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdown
           />
           <PropertyCard
             link="/overview"
@@ -69,6 +72,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdown
           />
           <PropertyCard
             link="/overview"
@@ -80,6 +84,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdown
           />
           <PropertyCard
             link="/overview"
@@ -91,6 +96,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdown
           />
         </ProjectsGrid>
       )}
@@ -106,6 +112,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdownOwned
           />
           <PropertyCard
             link="/overview"
@@ -117,6 +124,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdownOwned
           />
           <PropertyCard
             link="/overview"
@@ -128,6 +136,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdownOwned
           />
           <PropertyCard
             link="/overview"
@@ -139,6 +148,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdownOwned
           />
           <PropertyCard
             link="/overview"
@@ -150,6 +160,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdownOwned
           />
           <PropertyCard
             link="/overview"
@@ -161,6 +172,7 @@ const InvestorMarketPage = () => {
             rent={250}
             theme="Marketing"
             status="Not applied"
+            dropdownOwned
           />
         </ProjectsGrid>
       )}
@@ -241,6 +253,83 @@ const InvestorMarketPage = () => {
           />
         </ProjectsGrid>
       )}
+
+      {tab === 3 && (
+        <ProjectsGrid>
+          <PropertyCard
+            link="/overview"
+            address="Trg bana Josipa Jelacica 23, Zagreb"
+            title="1.5 Bedroom apartment in city center - Renovation to Rent"
+            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            spots={8}
+            availableSpots={8}
+            rent={250}
+            theme="Marketing"
+            status="Not applied"
+            dropdownOwned
+          />
+          <PropertyCard
+            link="/overview"
+            address="Trg bana Josipa Jelacica 23, Zagreb"
+            title="1.5 Bedroom apartment in city center - Renovation to Rent"
+            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            spots={8}
+            availableSpots={8}
+            rent={250}
+            theme="Marketing"
+            status="Not applied"
+            dropdownOwned
+          />
+          <PropertyCard
+            link="/overview"
+            address="Trg bana Josipa Jelacica 23, Zagreb"
+            title="1.5 Bedroom apartment in city center - Renovation to Rent"
+            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            spots={8}
+            availableSpots={8}
+            rent={250}
+            theme="Marketing"
+            status="Not applied"
+            dropdownOwned
+          />
+          <PropertyCard
+            link="/overview"
+            address="Trg bana Josipa Jelacica 23, Zagreb"
+            title="1.5 Bedroom apartment in city center - Renovation to Rent"
+            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            spots={8}
+            availableSpots={8}
+            rent={250}
+            theme="Marketing"
+            status="Not applied"
+            dropdownOwned
+          />
+          <PropertyCard
+            link="/overview"
+            address="Trg bana Josipa Jelacica 23, Zagreb"
+            title="1.5 Bedroom apartment in city center - Renovation to Rent"
+            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            spots={8}
+            availableSpots={8}
+            rent={250}
+            theme="Marketing"
+            status="Not applied"
+            dropdownOwned
+          />
+          <PropertyCard
+            link="/overview"
+            address="Trg bana Josipa Jelacica 23, Zagreb"
+            title="1.5 Bedroom apartment in city center - Renovation to Rent"
+            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            spots={8}
+            availableSpots={8}
+            rent={250}
+            theme="Marketing"
+            status="Not applied"
+            dropdownOwned
+          />
+        </ProjectsGrid>
+      )}
       <Stack direction="horizontal">
         <Button
           variant="contained"
@@ -250,7 +339,7 @@ const InvestorMarketPage = () => {
           Application Modal
         </Button>
         <Button variant="contained" color="primary" onClick={openPurchaseModal}>
-          Purchase Modal
+          Sell Shares Modal
         </Button>
       </Stack>
 

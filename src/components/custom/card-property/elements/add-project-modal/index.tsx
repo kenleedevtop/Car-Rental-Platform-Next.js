@@ -36,7 +36,11 @@ const ExportFinanceModal = ({
       {...props}
     >
       <Stack>
-        <Tabs tabs={['Overview', 'Documents']} value={tab} onValue={setTab} />
+        <Tabs
+          tabs={['Overview', 'Documents', 'AAA']}
+          value={tab}
+          onValue={setTab}
+        />
         {tab === 0 && (
           <AddProjectModalMain columns={2}>
             <Input
@@ -55,28 +59,70 @@ const ExportFinanceModal = ({
             />
             <Input
               type="text"
-              label="Total Spots"
+              label="Total Shares"
               value={null}
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="text"
-              label="Available Spots"
+              label="Available Shares"
               value={null}
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="text"
-              label="Rent"
+              label="Share Price"
               value={null}
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="select"
-              label="Theme"
+              label="Address"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Bedrooms"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Bathrooms"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Size"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Construction Year"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Start Date"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Highlights"
               value={null}
               onValue={() => {}}
               placeholder="Please Select"
@@ -84,6 +130,13 @@ const ExportFinanceModal = ({
             <Input
               type="select"
               label="Status"
+              value={null}
+              onValue={() => {}}
+              placeholder="Please Select"
+            />
+            <Input
+              type="select"
+              label="Owners"
               value={null}
               onValue={() => {}}
               placeholder="Please Select"
@@ -123,6 +176,22 @@ const ExportFinanceModal = ({
             </AddProjectDocumentPlaceholder>
           </AddProjectModalMain>
         )}
+        {/* {tab === 2 && (
+          // <!-- Calendly inline widget begin -->
+          <>
+            <div
+              className="calendly-inline-widget"
+              data-url="https://calendly.com/mperovic2210/coaching-call"
+              style={{ minWidth: '320px', height: '700px' }}
+            ></div>
+            <script
+              type="text/javascript"
+              src="https://assets.calendly.com/assets/external/widget.js"
+              async
+            ></script>
+          </>
+          // <!-- Calendly inline widget end -->
+        )} */}
       </Stack>
     </Modal>
   );
