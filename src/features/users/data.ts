@@ -1,7 +1,7 @@
 export const DUsersFilters = () => ({
   search: '',
   location: null,
-  houses: {
+  boats: {
     min: '',
     max: '',
   },
@@ -29,8 +29,8 @@ export const DUsersHead = [
     visible: true,
   },
   {
-    reference: 'houses',
-    label: 'Houses',
+    reference: 'boats',
+    label: 'Boats',
     visible: true,
   },
   {

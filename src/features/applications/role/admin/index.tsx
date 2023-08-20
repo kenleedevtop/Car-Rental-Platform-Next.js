@@ -47,7 +47,7 @@ const AdminApplicationsPage = () => {
     if (headItem.reference === 'name') {
       return 'Ivan Jurisic';
     }
-    if (headItem.reference === 'house') {
+    if (headItem.reference === 'boat') {
       return '3.5 Bedroom with Lake view in ....';
     }
     if (headItem.reference === 'date') {
@@ -105,16 +105,16 @@ const AdminApplicationsPage = () => {
                   />
                   <Input
                     type="select"
-                    label="House"
+                    label="Boat"
                     placeholder="Please Select"
-                    value={filter.house}
-                    onValue={(house) => setFilter({ ...filter, house })}
+                    value={filter.boat}
+                    onValue={(boat) => setFilter({ ...filter, boat })}
                   />
                   <Input
                     type="min-max"
-                    label="Houses"
-                    value={filter.houses}
-                    onValue={(houses) => setFilter({ ...filter, houses })}
+                    label="Boats"
+                    value={filter.boats}
+                    onValue={(boats) => setFilter({ ...filter, boats })}
                   />
                   <Input
                     type="min-max"

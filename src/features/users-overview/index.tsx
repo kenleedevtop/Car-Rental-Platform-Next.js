@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 
-import {
-  ApplicationContainer,
-  AccountHeadline,
-  AccountGrid,
-} from 'features/users-overview/styles';
-import { Button, Input, Checkbox, Card, Label } from 'components/ui';
+import { AccountGrid } from 'features/users-overview/styles';
+import { Input, Label } from 'components/ui';
 import { Stack } from 'components/system';
-import { AddIcon, DeleteIcon } from 'components/svg';
 import { CardWithText, Tabs } from 'components/custom';
 
 const OverviewPage = ({ ...props }) => {
@@ -15,11 +10,7 @@ const OverviewPage = ({ ...props }) => {
 
   return (
     <Stack {...props}>
-      <Tabs
-        tabs={['Info', 'Property Preference']}
-        value={tabs}
-        onValue={setTabs}
-      />
+      <Tabs tabs={['Info', 'Boat Preference']} value={tabs} onValue={setTabs} />
       {tabs === 0 && (
         <CardWithText title="Info">
           <AccountGrid>
@@ -55,11 +46,11 @@ const OverviewPage = ({ ...props }) => {
         </CardWithText>
       )}
       {tabs === 1 && (
-        <CardWithText title="Property Preference">
+        <CardWithText title="Boat Preference">
           <AccountGrid>
             <Input
               type="text"
-              label="Property Type"
+              label="Boat Type"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -75,7 +66,7 @@ const OverviewPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Number of Bedrooms"
+              label="Brand"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -83,7 +74,23 @@ const OverviewPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Number of Bathrooms"
+              label="Model"
+              placeholder="Please Select"
+              value={null}
+              onValue={() => {}}
+              disabled
+            />
+            <Input
+              type="text"
+              label="Size"
+              placeholder="Please Select"
+              value={null}
+              onValue={() => {}}
+              disabled
+            />
+            <Input
+              type="text"
+              label="Condition"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -120,7 +127,7 @@ const OverviewPage = ({ ...props }) => {
             </Stack>
             <Input
               type="text"
-              label="Interested in Properties"
+              label="Interested in Boats"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -128,7 +135,7 @@ const OverviewPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Interested in Shares per Property"
+              label="Interested in Shares per Boat"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -152,7 +159,7 @@ const OverviewPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Proximity"
+              label="Engine Type"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -160,7 +167,7 @@ const OverviewPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="View"
+              label="Engine (HP)"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}

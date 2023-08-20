@@ -1,5 +1,5 @@
 export const DBookingFilters = () => ({
-  house: null,
+  boat: null,
   dateFrom: null,
   dateTo: null,
   location: null,
@@ -10,7 +10,7 @@ export const DBookingFilters = () => ({
 });
 
 export const DAdminBookingFilters = () => ({
-  house: null,
+  boat: null,
   dateFrom: null,
   dateTo: null,
   location: null,
@@ -22,8 +22,8 @@ export const DAdminBookingFilters = () => ({
 
 export const DBookingsHead = [
   {
-    reference: 'house',
-    label: 'House',
+    reference: 'boat',
+    label: 'Boat',
     visible: true,
   },
   {
@@ -50,8 +50,8 @@ export const DBookingsHead = [
 
 export const DAdminBookingsHead = [
   {
-    reference: 'house',
-    label: 'House',
+    reference: 'boat',
+    label: 'Boat',
     visible: true,
   },
   {

@@ -2,21 +2,14 @@ import React, { useState } from 'react';
 
 import {
   AccountChange,
-  AccountMain,
   AccountSpan,
-  AccountContainer,
-  AccountForm,
-  AccountStack,
-  AccountHeadline,
   AccountGrid,
-  ApplicationContainer,
 } from 'features/account/style';
-import { Button, Checkbox, Input, Label } from 'components/ui';
+import { Input, Label } from 'components/ui';
 import { ChangePasswordModal } from 'features/account/role/investor/elements';
 import { useModal } from 'hooks';
 import { CardWithText, Tabs } from 'components/custom';
 import { Stack } from 'components/system';
-import { AddIcon, DeleteIcon } from 'components/svg';
 
 const AccountPage = ({ ...props }) => {
   const [state, setState] = useState<any>({
@@ -32,11 +25,7 @@ const AccountPage = ({ ...props }) => {
 
   return (
     <Stack {...props}>
-      <Tabs
-        tabs={['Info', 'Property Preference']}
-        value={tabs}
-        onValue={setTabs}
-      />
+      <Tabs tabs={['Info', 'Boat Preference']} value={tabs} onValue={setTabs} />
       {tabs === 0 && (
         <CardWithText title="Info">
           <AccountGrid>
@@ -83,11 +72,11 @@ const AccountPage = ({ ...props }) => {
         </CardWithText>
       )}
       {tabs === 1 && (
-        <CardWithText title="Property Preference">
+        <CardWithText title="Boat Preference">
           <AccountGrid>
             <Input
               type="text"
-              label="Property Type"
+              label="Boat Type"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -103,7 +92,7 @@ const AccountPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Number of Bedrooms"
+              label="Brand"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -111,7 +100,23 @@ const AccountPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Number of Bathrooms"
+              label="Model"
+              placeholder="Please Select"
+              value={null}
+              onValue={() => {}}
+              disabled
+            />
+            <Input
+              type="text"
+              label="Size"
+              placeholder="Please Select"
+              value={null}
+              onValue={() => {}}
+              disabled
+            />
+            <Input
+              type="text"
+              label="Condition"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -148,7 +153,7 @@ const AccountPage = ({ ...props }) => {
             </Stack>
             <Input
               type="text"
-              label="Interested in Properties"
+              label="Interested in Boats"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -156,7 +161,7 @@ const AccountPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Interested in Shares per Property"
+              label="Interested in Shares per Boat"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -180,7 +185,7 @@ const AccountPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Proximity"
+              label="Engine Type"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -188,7 +193,7 @@ const AccountPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="View"
+              label="Engine (HP)"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}

@@ -36,7 +36,7 @@ const ChangePasswordModal = ({
         />
         <Input
           type="select"
-          label="House"
+          label="Boat"
           placeholder="Please Select"
           value={null}
           onValue={() => {}}

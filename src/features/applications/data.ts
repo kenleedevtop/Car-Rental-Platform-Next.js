@@ -1,8 +1,8 @@
 export const DApplicationsFilters = () => ({
   user: null,
   location: null,
-  house: null,
-  houses: {
+  boat: null,
+  boats: {
     min: '',
     max: '',
   },
@@ -26,8 +26,8 @@ export const DApplicationsHead = [
     visible: true,
   },
   {
-    reference: 'house',
-    label: 'House',
+    reference: 'boat',
+    label: 'Boat',
     visible: true,
   },
   {

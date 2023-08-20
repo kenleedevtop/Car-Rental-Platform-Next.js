@@ -29,7 +29,7 @@ const ChangePasswordModal = ({
       <ChangePasswordModalMain columns={2}>
         <Input
           type="select"
-          label="House"
+          label="Boat"
           placeholder="Please Select"
           value={null}
           onValue={() => {}}

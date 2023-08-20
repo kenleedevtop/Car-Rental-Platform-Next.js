@@ -6,8 +6,8 @@ export const CProtectedRoutes = [
   '/applications',
   '/users',
   '/users/overview',
-  '/houses',
-  '/finance',
+  '/boats',
+  // '/finance',
   '/help',
   '/overview',
 ];

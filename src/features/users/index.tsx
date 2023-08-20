@@ -41,7 +41,7 @@ const UsersPage = () => {
     if (headItem.reference === 'location') {
       return 'England';
     }
-    if (headItem.reference === 'houses') {
+    if (headItem.reference === 'boats') {
       return '0';
     }
     if (headItem.reference === 'shares') {
@@ -81,11 +81,6 @@ const UsersPage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <FinancePageFilter>
-              <Tabs
-                tabs={['Info', 'Work Experience', 'Education', 'House']}
-                value={tabs}
-                onValue={setTabs}
-              />
               <Grid columns={4}>
                 <Input
                   type="text"
@@ -103,10 +98,10 @@ const UsersPage = () => {
                 />
                 <Input
                   type="min-max"
-                  label="Houses"
+                  label="Boats"
                   placeholder="Please Select"
-                  value={filter.houses}
-                  onValue={(houses) => setFilter({ ...filter, houses })}
+                  value={filter.boats}
+                  onValue={(boats) => setFilter({ ...filter, boats })}
                 />
                 <Input
                   type="min-max"
@@ -132,13 +127,6 @@ const UsersPage = () => {
                   onValue={(locationOfInterest) =>
                     setFilter({ ...filter, locationOfInterest })
                   }
-                />
-                <Input
-                  type="select"
-                  label="Status"
-                  placeholder="Please Select"
-                  value={filter.status}
-                  onValue={(status) => setFilter({ ...filter, status })}
                 />
               </Grid>
               <FinancePageFilterActions direction="horizontal">

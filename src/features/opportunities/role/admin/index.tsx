@@ -38,7 +38,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -51,7 +51,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -64,7 +64,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -77,7 +77,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -90,7 +90,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -103,7 +103,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -120,7 +120,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -133,7 +133,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -146,7 +146,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -159,7 +159,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -172,7 +172,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -185,7 +185,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             spots={8}
             availableSpots={8}
             rent={250}
@@ -207,7 +207,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             completed
             status="Not applied"
             label="View"
@@ -221,7 +221,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             completed
             status="Not applied"
             label="View"
@@ -235,7 +235,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             completed
             status="Not applied"
             label="View"
@@ -249,7 +249,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             completed
             status="Not applied"
             label="View"
@@ -263,7 +263,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             completed
             status="Not applied"
           />
@@ -275,7 +275,7 @@ const AdminMarketPage = () => {
             link="/overview"
             address="Trg bana Josipa Jelacica 23, Zagreb"
             title="1.5 Bedroom apartment in city center - Renovation to Rent"
-            image="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+            image="https://www.tessllc.us/wp-content/uploads/2020/07/yacht-post-825x510.jpg"
             completed
             status="Not applied"
           />

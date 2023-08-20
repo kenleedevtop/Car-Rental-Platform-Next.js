@@ -32,7 +32,7 @@ const AdminApplicationsPage = () => {
   };
 
   const renderItem = ({ headItem }: TTableRenderItemObject) => {
-    if (headItem.reference === 'house') {
+    if (headItem.reference === 'boat') {
       return '2.5 Bedroom Apartment';
     }
     if (headItem.reference === 'user') {
@@ -80,10 +80,10 @@ const AdminApplicationsPage = () => {
                 <Grid columns={4}>
                   <Input
                     type="select"
-                    label="House"
+                    label="Boat"
                     placeholder="Please Select"
-                    value={filter.house}
-                    onValue={(house) => setFilter({ ...filter, house })}
+                    value={filter.boat}
+                    onValue={(boat) => setFilter({ ...filter, boat })}
                   />
                   <Stack>
                     <Label

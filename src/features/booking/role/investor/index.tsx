@@ -27,7 +27,7 @@ import { useModal } from 'hooks';
 
 const UserApplicationsPage = () => {
   const renderItem = ({ headItem }: TTableRenderItemObject) => {
-    if (headItem.reference === 'house') {
+    if (headItem.reference === 'boat') {
       return '2.5 Bedroom Apartment';
     }
     if (headItem.reference === 'location') {
@@ -65,7 +65,7 @@ const UserApplicationsPage = () => {
       <HomePageCharts>
         <HomePageChartsGrid>
           <CardWithChart
-            title="Houses"
+            title="Boats"
             icon={<IdentifiedIcon />}
             percent={2}
             count={75}
@@ -141,10 +141,10 @@ const UserApplicationsPage = () => {
                 <Grid columns={4}>
                   <Input
                     type="select"
-                    label="House"
+                    label="Boat"
                     placeholder="Please Select"
-                    value={filter.house}
-                    onValue={(house) => setFilter({ ...filter, house })}
+                    value={filter.boat}
+                    onValue={(boat) => setFilter({ ...filter, boat })}
                   />
                   <Stack>
                     <Label

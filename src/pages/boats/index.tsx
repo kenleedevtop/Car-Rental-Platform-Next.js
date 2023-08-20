@@ -8,12 +8,12 @@ const Houses = () => {
   const { setRouteName } = useAppContext();
 
   useEffect(() => {
-    setRouteName('Houses');
+    setRouteName('Boats');
   }, []);
 
   return (
     <>
-      <Title>Houses</Title>
+      <Title>Boats</Title>
       <HousesPage />
     </>
   );
