@@ -25,7 +25,11 @@ const AccountPage = ({ ...props }) => {
 
   return (
     <Stack {...props}>
-      <Tabs tabs={['Info', 'Boat Preference']} value={tabs} onValue={setTabs} />
+      <Tabs
+        tabs={['Info', 'Supercar Preference']}
+        value={tabs}
+        onValue={setTabs}
+      />
       {tabs === 0 && (
         <CardWithText title="Info">
           <AccountGrid>
@@ -72,24 +76,8 @@ const AccountPage = ({ ...props }) => {
         </CardWithText>
       )}
       {tabs === 1 && (
-        <CardWithText title="Boat Preference">
+        <CardWithText title="Supercar Preference">
           <AccountGrid>
-            <Input
-              type="text"
-              label="Boat Type"
-              placeholder="Please Select"
-              value={null}
-              onValue={() => {}}
-              disabled
-            />
-            <Input
-              type="text"
-              label="Location"
-              placeholder="Please Select"
-              value={null}
-              onValue={() => {}}
-              disabled
-            />
             <Input
               type="text"
               label="Brand"
@@ -108,7 +96,7 @@ const AccountPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Size"
+              label="Location"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -153,7 +141,7 @@ const AccountPage = ({ ...props }) => {
             </Stack>
             <Input
               type="text"
-              label="Interested in Boats"
+              label="Interested in Supercars"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
@@ -161,7 +149,7 @@ const AccountPage = ({ ...props }) => {
             />
             <Input
               type="text"
-              label="Interested in Shares per Boat"
+              label="Interested in Shares per Supercar"
               placeholder="Please Select"
               value={null}
               onValue={() => {}}
