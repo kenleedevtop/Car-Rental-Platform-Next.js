@@ -63,7 +63,7 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
         color: ${theme.palette.primary.main};
         font-weight: 500;
         white-space: nowrap; 
-        &:not(:first-child) {
+        &:not(:first-of-type) {
           text-align: center;
         }
         ${
@@ -88,7 +88,7 @@ export const TableBodyCell = styled.td<{ theme?: Theme }>`
         color: ${theme.palette.common.gray[10]};
         white-space: nowrap; 
 
-        &:not(:first-child) {
+        &:not(:first-of-type) {
           text-align: center;
         }
     `}

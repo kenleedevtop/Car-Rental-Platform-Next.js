@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Children, useState } from 'react';
 import { Modal, RichTextEditor, Tabs } from 'components/custom';
 import { TExportFinanceModalProps } from 'features/finance/elements/export-finance-modal/types';
 import {
@@ -22,7 +22,7 @@ const ExportFinanceModal = ({
     <Modal
       size="medium"
       title="Add Project"
-      actions={[
+      actions={Children.toArray([
         <Button
           color="primary"
           variant="contained"
@@ -31,7 +31,7 @@ const ExportFinanceModal = ({
         >
           Add
         </Button>,
-      ]}
+      ])}
       onClose={onClose}
       {...props}
     >
@@ -42,98 +42,98 @@ const ExportFinanceModal = ({
             <Input
               type="text"
               label="Name"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="select"
               label="Location"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="text"
               label="Total Shares"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="text"
               label="Available Shares"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="text"
               label="Share Price"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="select"
               label="Address"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Bedrooms"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Bathrooms"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Size"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Construction Year"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Start Date"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Highlights"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Status"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Owners"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />

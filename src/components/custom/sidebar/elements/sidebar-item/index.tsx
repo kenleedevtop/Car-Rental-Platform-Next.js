@@ -13,7 +13,13 @@ import { SidebarTooltipContainer } from './elements/sidebar-tooltip';
 const SidebarItem = ({ icon, label, location, isDisabled, ...props }: any) => {
   const router = useRouter();
 
-  const active = router.pathname === location;
+  let active;
+
+  if (router.pathname === location) {
+    active = 'true';
+  } else {
+    active = 'false';
+  }
 
   return isDisabled ? (
     <Tooltip

@@ -13,5 +13,6 @@ export const AccountHeadline = styled.div`
 export const AccountGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 16px 177px;
+  padding-right: 90px;
 `;

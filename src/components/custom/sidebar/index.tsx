@@ -70,11 +70,7 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
               icon={x.icon}
               items={x.items}
               key={x.id}
-              item={nested[index]}
-              onClick={() => {
-                handleNested(index - 1);
-              }}
-              action={handleSidebar}
+              onClick={handleSidebar}
             />
           ) : (
             <SidebarItem

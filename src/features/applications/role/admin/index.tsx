@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Children, useState } from 'react';
 import { CardWithText, NewCheckboxTable } from 'components/custom';
 import { Collapse, Grid, Stack } from 'components/system';
 import { Button, Input, Label, Pagination } from 'components/ui';
@@ -70,7 +70,7 @@ const AdminApplicationsPage = () => {
     <ProjectsMain>
       <CardWithText
         title="Applications"
-        actions={[
+        actions={Children.toArray([
           <Button
             color={filterOpen ? 'secondary' : 'default'}
             variant="contained"
@@ -82,7 +82,7 @@ const AdminApplicationsPage = () => {
           <Button variant="contained" color="default">
             Export
           </Button>,
-        ]}
+        ])}
       >
         <Stack>
           <Collapse in={filterOpen}>

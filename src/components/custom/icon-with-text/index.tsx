@@ -28,7 +28,7 @@ const IconWithText = ({ link, icon, title, text, ...props }: TIconWithText) => (
     <IconWithTextText>
       <IconWithTextTitle>{title}</IconWithTextTitle>
       {text.map((x) => (
-        <IconWithTextP>{x}</IconWithTextP>
+        <IconWithTextP key={x}>{x}</IconWithTextP>
       ))}
     </IconWithTextText>
   </IconWithTextMain>

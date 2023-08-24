@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Children, useState } from 'react';
 import {
   CalendarCardMain,
   CalendarCardGrid,
@@ -54,13 +54,13 @@ const CalendarCard = ({ ...props }: TCalendarCardProps) => {
           </Tooltip>
         </CalendarTitle>
       }
-      actions={[
+      actions={Children.toArray([
         <CalendarControls
           date={date}
           onBack={handleDate}
           onForward={handleDate}
         />,
-      ]}
+      ])}
       {...props}
     >
       <CalendarCardDays columns={7}>

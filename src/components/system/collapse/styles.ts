@@ -6,9 +6,9 @@ export const CollapseMain = styled(Collapse)``;
 export const CollapseInner = styled.div<{
   theme?: Theme;
   removeGap: boolean;
-  in: boolean;
+  $in: boolean;
 }>`
-  ${({ theme, removeGap, in: collapseIn }) => `
+  ${({ theme, removeGap, $in: collapseIn }) => `
         transition: margin 300ms ease-in-out;
         ${
           removeGap

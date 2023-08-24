@@ -50,11 +50,13 @@ const AppContextProvider = ({ ...props }) => {
 
   const getMeData = async () => {
     try {
-      const user = await AuthorizationAPI.me();
+      const user = {};
+      // await AuthorizationAPI.me();
 
       if (!user) throw 'No user returned';
 
-      const roleResult = convertNumberToRole(user.role);
+      const roleResult = '';
+      // convertNumberToRole(user.role);
 
       if (!roleResult) throw 'No role found';
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Children, useState } from 'react';
 import {
   FinancePageMain,
   FinancePageFilter,
@@ -64,7 +64,7 @@ const UsersPage = () => {
     <FinancePageMain>
       <CardWithText
         title="Users"
-        actions={[
+        actions={Children.toArray([
           <Button
             color={filterOpen ? 'secondary' : 'default'}
             variant="contained"
@@ -76,7 +76,7 @@ const UsersPage = () => {
           <Button color="default" variant="contained" onClick={() => {}}>
             Export
           </Button>,
-        ]}
+        ])}
       >
         <Stack>
           <Collapse removeGap in={filterOpen}>

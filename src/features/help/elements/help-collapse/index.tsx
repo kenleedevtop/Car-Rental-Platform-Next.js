@@ -41,7 +41,7 @@ const HelpCollapse = ({
           in={help}
         >
           {text.map((txt) => (
-            <HelpCollapseText>{txt}</HelpCollapseText>
+            <HelpCollapseText key={txt}>{txt}</HelpCollapseText>
           ))}
         </Collapse>
       </Stack>

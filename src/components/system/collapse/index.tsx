@@ -8,7 +8,7 @@ const Collapse = ({
   in: collapseIn = true,
   ...props
 }: TCollapseProps) => (
-  <CollapseInner in={collapseIn} removeGap={removeGap}>
+  <CollapseInner $in={collapseIn} removeGap={removeGap}>
     <CollapseMain in={collapseIn} {...props}>
       {children}
     </CollapseMain>

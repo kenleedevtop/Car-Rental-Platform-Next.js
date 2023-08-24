@@ -51,7 +51,7 @@ export const SidebarItemMain = styled.div<{
 
 export const SidebarItemOuter = styled(Link)<{
   theme?: Theme;
-  active: boolean;
+  active: string;
 }>`
   ${({ theme, active }) => `
     user-select: none;
@@ -61,7 +61,7 @@ export const SidebarItemOuter = styled(Link)<{
     display: block;
     text-decoration: none;
     ${
-      active &&
+      active === 'true' &&
       `
         background-color: ${theme.palette.common.background};
         ${SidebarItemIcon}{

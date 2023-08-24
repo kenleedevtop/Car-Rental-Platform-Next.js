@@ -65,7 +65,7 @@ const Table = ({
           <TableHead>
             <TableHeadRow>
               {['ADMIN', 'SUPERADMIN'].includes(role) && (
-                <TableHeadCell action>
+                <TableHeadCell action="true">
                   <Checkbox
                     value={isChecked}
                     onValue={(value) => handleSelectAll(value)}
@@ -78,7 +78,7 @@ const Table = ({
                   ['ADMIN', 'SUPERADMIN'].includes(role)
                 ) {
                   return (
-                    <TableHeadCell action>
+                    <TableHeadCell action="true" key={Math.random() * 10000}>
                       <TableHeadCellAction color="primary">
                         {renderElements || undefined}
                       </TableHeadCellAction>
@@ -94,9 +94,9 @@ const Table = ({
           {!!items.length && (
             <TableBody>
               {items.map((rowData: any, rowIndex: number) => (
-                <TableBodyRow>
+                <TableBodyRow key={Math.random() * 10000}>
                   {['ADMIN', 'SUPERADMIN'].includes(role) && (
-                    <TableBodyCell action>
+                    <TableBodyCell action="true">
                       <Checkbox
                         value={checkedRows?.includes(rowData.id)}
                         onValue={(checked) =>
@@ -106,7 +106,7 @@ const Table = ({
                     </TableBodyCell>
                   )}
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
-                    <TableBodyCell>
+                    <TableBodyCell key={Math.random() * 10000}>
                       {renderItem({
                         headItem: a,
                         cell: {

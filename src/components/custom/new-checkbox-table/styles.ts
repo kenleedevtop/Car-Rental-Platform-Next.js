@@ -41,7 +41,7 @@ export const TableBodyRow = styled.tr<{ theme?: Theme }>`
   `}
 `;
 
-export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
+export const TableHeadCell = styled.th<{ theme?: Theme; action?: string }>`
   ${({ theme, action }) => `
         padding: ${theme.spacing(5)};
         text-align: center;
@@ -49,7 +49,7 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
         font-weight: 500;
         white-space: nowrap; 
         ${
-          action
+          action === 'true'
             ? `
           padding: ${theme.spacing(6)} ${theme.spacing(5)} ${theme.spacing(
                 6
@@ -77,7 +77,7 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: boolean }>`
     `}
 `;
 
-export const TableBodyCell = styled.td<{ theme?: Theme; action?: boolean }>`
+export const TableBodyCell = styled.td<{ theme?: Theme; action?: string }>`
   ${({ theme, action }) => `
         padding: ${theme.spacing(5)};
         text-align: center;
@@ -85,7 +85,7 @@ export const TableBodyCell = styled.td<{ theme?: Theme; action?: boolean }>`
         white-space: nowrap; 
 
                 ${
-                  action
+                  action === 'true'
                     ? `
           padding: ${theme.spacing(8)} ${theme.spacing(5)} ${theme.spacing(
                         8

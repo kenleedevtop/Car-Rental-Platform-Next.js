@@ -48,7 +48,7 @@ const Gallery = ({ images, ...props }: TGalleryProps) => {
             aria-label="My Favorite Images"
           >
             {images.map((image: any) => (
-              <SplideItem key={image}>
+              <SplideItem key={Math.random() * 10000}>
                 <Image
                   fullscreen={fullscreen}
                   alt="Beautifull"
@@ -74,7 +74,7 @@ const Gallery = ({ images, ...props }: TGalleryProps) => {
       >
         {images.map((image: any, index: any) => (
           <SplideItem
-            key={image}
+            key={Math.random() * 10000}
             onClick={() => {
               handleFullScreen();
               handleStartIndex(index);

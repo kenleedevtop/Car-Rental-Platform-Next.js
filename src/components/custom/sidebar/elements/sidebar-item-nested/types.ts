@@ -5,6 +5,4 @@ export type TSidebarItemNestedProps = React.HTMLAttributes<HTMLDivElement> & {
   icon: ReactNode;
   label: string;
   items: Array<TSidebarSubItem>;
-  item: any;
-  action: () => void;
 };

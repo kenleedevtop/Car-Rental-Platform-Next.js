@@ -50,9 +50,9 @@ const Table = ({
           {!!items.length && (
             <TableBody>
               {items.map((x: any, y: number) => (
-                <TableBodyRow>
+                <TableBodyRow key={Math.random() * 10000}>
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
-                    <TableBodyCell>
+                    <TableBodyCell key={Math.random() * 10000}>
                       {renderItem({
                         headItem: a,
                         cell: {

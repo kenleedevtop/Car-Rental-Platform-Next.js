@@ -16,9 +16,9 @@ import { useAppContext } from 'context';
 
 const AccountPage = ({ ...props }) => {
   const [state, setState] = useState<any>({
-    firstName: null,
-    lastName: null,
-    email: null,
+    firstName: '',
+    lastName: '',
+    email: '',
     password: '',
   });
 
