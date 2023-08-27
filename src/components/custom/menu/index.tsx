@@ -14,7 +14,11 @@ const Menu = forwardRef<TMenuRef, TMenuProps>(({ items, ...props }, ref) =>
     createPortal(
       <MenuMain ref={ref} {...props}>
         {items.map((x) => (
-          <MenuItem icon={x.icon ? 'icon' : ''} onClick={x.action}>
+          <MenuItem
+            key={x.label}
+            icon={x.icon ? 'icon' : ''}
+            onClick={x.action}
+          >
             {x.icon && <MenuItemIcon> {x.icon}</MenuItemIcon>}
             <MenuItemLabel>{x.label}</MenuItemLabel>
           </MenuItem>

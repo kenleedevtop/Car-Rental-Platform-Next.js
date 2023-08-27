@@ -5,9 +5,11 @@ import {
   AddProjectModalMain,
   AddProjectHeadline,
   AddProjectDocumentPlaceholder,
-} from 'features/opportunities/role/admin/elements/add-project-modal/style';
-import { Button, Checkbox, Input, Label } from 'components/ui';
-import { GridCell, Stack } from 'components/system';
+  RTEContainer,
+  AddProjectContainer,
+  AddProjectSingleModalMain,
+} from 'components/custom/card-property/elements/add-project-modal/style';
+import { Button, Input, Label } from 'components/ui';
 import { UploadIcon, VerticalDotsIcon } from 'components/svg';
 
 const ExportFinanceModal = ({
@@ -35,134 +37,132 @@ const ExportFinanceModal = ({
       onClose={onClose}
       {...props}
     >
-      <Stack>
+      <AddProjectContainer>
         <Tabs
           tabs={['Overview', 'Documents', 'AAA']}
           value={tab}
           onValue={setTab}
         />
         {tab === 0 && (
-          <AddProjectModalMain columns={2}>
+          <AddProjectModalMain>
             <Input
               type="text"
               label="Name"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="select"
               label="Location"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="text"
               label="Total Shares"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="text"
               label="Available Shares"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="text"
               label="Share Price"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Enter"
             />
             <Input
               type="select"
               label="Address"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Bedrooms"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Bathrooms"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Size"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Construction Year"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Start Date"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Highlights"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Status"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
             <Input
               type="select"
               label="Owners"
-              value={null}
+              value=""
               onValue={() => {}}
               placeholder="Please Select"
             />
-            <GridCell columnSpan={2}>
-              <Stack>
-                <Label style={{ color: '#7E839F', marginBottom: '-1.25rem' }}>
-                  Info
-                </Label>
-                <RichTextEditor />
-              </Stack>
-            </GridCell>
+            <RTEContainer>
+              <Label style={{ color: '#7E839F' }}>Info</Label>
+              <RichTextEditor />
+            </RTEContainer>
           </AddProjectModalMain>
         )}
         {tab === 1 && (
-          <AddProjectModalMain columns={1}>
+          <AddProjectSingleModalMain>
             <AddProjectHeadline>
               Images
               <UploadIcon />
             </AddProjectHeadline>
             <AddProjectDocumentPlaceholder>
-              IMG_01.png <Checkbox label="Mark as Thumbnail" />
+              IMG_01.png
+              {/* <Checkbox label="Mark as Thumbnail" /> */}
               <VerticalDotsIcon />
             </AddProjectDocumentPlaceholder>
             <AddProjectDocumentPlaceholder>
-              IMG_02.png <Checkbox label="Mark as Thumbnail" />
+              IMG_02.png
+              {/* <Checkbox label="Mark as Thumbnail" /> */}
               <VerticalDotsIcon />
             </AddProjectDocumentPlaceholder>
             <AddProjectHeadline>
@@ -174,25 +174,9 @@ const ExportFinanceModal = ({
             <AddProjectDocumentPlaceholder>
               Floor_plan.pdf <VerticalDotsIcon />
             </AddProjectDocumentPlaceholder>
-          </AddProjectModalMain>
+          </AddProjectSingleModalMain>
         )}
-        {/* {tab === 2 && (
-          // <!-- Calendly inline widget begin -->
-          <>
-            <div
-              className="calendly-inline-widget"
-              data-url="https://calendly.com/mperovic2210/coaching-call"
-              style={{ minWidth: '320px', height: '700px' }}
-            ></div>
-            <script
-              type="text/javascript"
-              src="https://assets.calendly.com/assets/external/widget.js"
-              async
-            ></script>
-          </>
-          // <!-- Calendly inline widget end -->
-        )} */}
-      </Stack>
+      </AddProjectContainer>
     </Modal>
   );
 };

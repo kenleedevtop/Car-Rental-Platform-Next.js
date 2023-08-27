@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Children } from 'react';
 import { CombinedDatePicker, Modal } from 'components/custom';
 import { TChangePasswordModalProps } from 'features/account/role/investor/elements/change-password-modal/types';
-import { ChangePasswordModalMain } from 'features/account/role/investor/elements/change-password-modal/styles';
+import { ChangePasswordModalMain } from 'features/booking/role/admin/elements/booking-modal/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 
@@ -12,7 +12,7 @@ const ChangePasswordModal = ({
   <Modal
     size="medium"
     title="Your Booking"
-    actions={[
+    actions={Children.toArray([
       <Button
         color="primary"
         variant="contained"
@@ -21,28 +21,28 @@ const ChangePasswordModal = ({
       >
         Close
       </Button>,
-    ]}
+    ])}
     onClose={onClose}
     {...props}
   >
     <Stack>
-      <ChangePasswordModalMain columns={2}>
+      <ChangePasswordModalMain>
         <Input
           type="select"
           label="Boat"
           placeholder="Please Select"
-          value={null}
+          value=""
           onValue={() => {}}
         />
         <Input
           type="select"
           label="User"
           placeholder="Please Select"
-          value={null}
+          value=""
           onValue={() => {}}
         />
-        <CombinedDatePicker value={null} onValue={() => {}} label="Check-in" />
-        <CombinedDatePicker value={null} onValue={() => {}} label="Checkout" />
+        <CombinedDatePicker value="" onValue={() => {}} label="Check-in" />
+        <CombinedDatePicker value="" onValue={() => {}} label="Checkout" />
       </ChangePasswordModalMain>
     </Stack>
   </Modal>

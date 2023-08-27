@@ -4,6 +4,7 @@ import {
   AccountChange,
   AccountSpan,
   AccountGrid,
+  FullWidthInput,
 } from 'features/account/style';
 import { Input, Label } from 'components/ui';
 import { ChangePasswordModal } from 'features/account/role/investor/elements';
@@ -13,9 +14,9 @@ import { Stack } from 'components/system';
 
 const AccountPage = ({ ...props }) => {
   const [state, setState] = useState<any>({
-    firstName: null,
-    lastName: null,
-    email: null,
+    firstName: '',
+    lastName: '',
+    email: '',
     password: '',
   });
 
@@ -82,7 +83,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Brand"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -90,7 +91,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Model"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -98,7 +99,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Location"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -106,7 +107,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Condition"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -114,7 +115,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Amenities"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -126,14 +127,14 @@ const AccountPage = ({ ...props }) => {
                 <Input
                   type="text"
                   placeholder="From"
-                  value={null}
+                  value=""
                   onValue={() => {}}
                   disabled
                 />
                 <Input
                   type="text"
                   placeholder="To"
-                  value={null}
+                  value=""
                   onValue={() => {}}
                   disabled
                 />
@@ -143,7 +144,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Interested in Supercars"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -151,7 +152,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Interested in Shares per Supercar"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -159,7 +160,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Interior Style"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -167,7 +168,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Exterior Style"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -175,7 +176,7 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Engine Type"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
@@ -183,20 +184,19 @@ const AccountPage = ({ ...props }) => {
               type="text"
               label="Engine (HP)"
               placeholder="Please Select"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
             />
-            <Input
+            <FullWidthInput
               type="text"
               label="Additional Comments"
               placeholder="Please Enter"
-              value={null}
+              value=""
               onValue={() => {}}
               disabled
               multiline
               rows={3}
-              style={{ gridColumn: '1/3' }}
             />
           </AccountGrid>
         </CardWithText>

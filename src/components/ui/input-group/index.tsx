@@ -25,7 +25,11 @@ const InputGroup = ({
     )}
     <InputGroupElements inputRatio={inputRatio} style={inputGroupElementStyle}>
       {elements.map((x) => (
-        <InputGroupElement disabled={disabled} {...x} />
+        <InputGroupElement
+          key={Math.random() * 10000}
+          disabled={disabled}
+          {...x}
+        />
       ))}
     </InputGroupElements>
   </InputGroupMain>

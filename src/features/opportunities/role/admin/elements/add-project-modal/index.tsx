@@ -5,6 +5,9 @@ import {
   AddProjectModalMain,
   AddProjectHeadline,
   AddProjectDocumentPlaceholder,
+  RTEContainer,
+  AddProjectSingleModalMain,
+  AddProjectContainer,
 } from 'features/opportunities/role/admin/elements/add-project-modal/style';
 import { Button, Checkbox, Input, Label } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
@@ -35,10 +38,10 @@ const ExportFinanceModal = ({
       onClose={onClose}
       {...props}
     >
-      <Stack>
+      <AddProjectContainer>
         <Tabs tabs={['Overview', 'Documents']} value={tab} onValue={setTab} />
         {tab === 0 && (
-          <AddProjectModalMain columns={2}>
+          <AddProjectModalMain>
             <Input
               type="text"
               label="Name"
@@ -137,27 +140,25 @@ const ExportFinanceModal = ({
               onValue={() => {}}
               placeholder="Please Select"
             />
-            <GridCell columnSpan={2}>
-              <Stack>
-                <Label style={{ color: '#7E839F', marginBottom: '-1.25rem' }}>
-                  Info
-                </Label>
-                <RichTextEditor />
-              </Stack>
-            </GridCell>
+            <RTEContainer>
+              <Label style={{ color: '#7E839F' }}>Info</Label>
+              <RichTextEditor />
+            </RTEContainer>
           </AddProjectModalMain>
         )}
         {tab === 1 && (
-          <AddProjectModalMain columns={1}>
+          <AddProjectSingleModalMain>
             <AddProjectHeadline>
               Images <UploadIcon />
             </AddProjectHeadline>
             <AddProjectDocumentPlaceholder>
-              IMG_01.png <Checkbox label="Mark as Thumbnail" />
+              IMG_01.png
+              {/* <Checkbox label="Mark as Thumbnail" /> */}
               <VerticalDotsIcon />
             </AddProjectDocumentPlaceholder>
             <AddProjectDocumentPlaceholder>
-              IMG_02.png <Checkbox label="Mark as Thumbnail" />
+              IMG_02.png
+              {/* <Checkbox label="Mark as Thumbnail" /> */}
               <VerticalDotsIcon />
             </AddProjectDocumentPlaceholder>
             <AddProjectHeadline>
@@ -169,9 +170,9 @@ const ExportFinanceModal = ({
             <AddProjectDocumentPlaceholder>
               Floor_plan.pdf <VerticalDotsIcon />
             </AddProjectDocumentPlaceholder>
-          </AddProjectModalMain>
+          </AddProjectSingleModalMain>
         )}
-      </Stack>
+      </AddProjectContainer>
     </Modal>
   );
 };

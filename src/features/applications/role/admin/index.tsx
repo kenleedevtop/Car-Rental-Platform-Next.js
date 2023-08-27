@@ -18,6 +18,7 @@ import {
   BookingOverviewModal,
   TransferOwnershipModal,
 } from 'features/applications/role/admin/elements';
+import { HomePageChartsGrid } from 'features/applications/styles';
 
 const AdminApplicationsPage = () => {
   const [filter, setFilter] = useState<any>(DApplicationsFilters());
@@ -88,7 +89,7 @@ const AdminApplicationsPage = () => {
           <Collapse in={filterOpen}>
             <Stack>
               <MarketPageFilter>
-                <Grid columns={4}>
+                <HomePageChartsGrid>
                   <Input
                     type="select"
                     label="User"
@@ -162,7 +163,7 @@ const AdminApplicationsPage = () => {
                       />
                     </Stack>
                   </Stack>
-                </Grid>
+                </HomePageChartsGrid>
                 <MarketPageFilterActions direction="horizontal">
                   <Button color="primary" variant="contained">
                     Filter

@@ -10,6 +10,7 @@ export const TableWrapper = styled.div<{ theme?: Theme }>`
     background-color: ${theme.palette.common.white};
     overflow-x: scroll;
     overflow-y: hidden;
+    padding-bottom: 10px;
   `}
 `;
 
@@ -59,7 +60,7 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: string }>`
           height: 100%;
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: flex-start;
           margin: 0;
           // padding-right: 0 !important;
           padding-right: unset;

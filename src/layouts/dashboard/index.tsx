@@ -17,17 +17,9 @@ const DashboardLayout = ({ children, ...props }: TDashboardLayoutProps) => {
   const { showMobileMenu, handleMobileMenu } = useAppContext();
   const [width, setWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  window.addEventListener('resize', () => {
+    setWidth(window.innerWidth);
+  });
 
   useEffect(() => {
     if (width >= 1200) {

@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, Children } from 'react';
 import {
   ProjectsMain,
-  MarketTableItem,
-  MarketTableItemImage,
-  MarketTableItemLabel,
   MarketPageFilter,
   MarketPageFilterActions,
 } from 'features/opportunities/styles';
@@ -116,7 +113,7 @@ const UserApplicationsPage = () => {
       </HomePageCharts>
       <CardWithText
         title="My Bookings"
-        actions={[
+        actions={Children.toArray([
           <Button
             color={filterOpen ? 'secondary' : 'default'}
             variant="contained"
@@ -132,13 +129,13 @@ const UserApplicationsPage = () => {
           >
             Create New
           </Button>,
-        ]}
+        ])}
       >
         <Stack>
           <Collapse in={filterOpen}>
             <Stack>
               <MarketPageFilter>
-                <Grid columns={4}>
+                <HomePageChartsGrid>
                   <Input
                     type="select"
                     label="Boat"
@@ -180,7 +177,7 @@ const UserApplicationsPage = () => {
                     value={filter.days}
                     onValue={(days) => setFilter({ ...filter, days })}
                   />
-                </Grid>
+                </HomePageChartsGrid>
                 <MarketPageFilterActions direction="horizontal">
                   <Button color="primary" variant="contained">
                     Filter

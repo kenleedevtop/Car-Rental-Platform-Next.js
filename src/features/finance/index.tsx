@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { Children, useState } from 'react';
 import {
   FinancePageMain,
   FinancePageFilter,
   FinancePageFilterActions,
+  FinancePageCharts,
 } from 'features/finance/styles';
 import {
   DFinanceAdminRevenueHead,
@@ -54,7 +55,7 @@ const FinancePage = () => {
     <FinancePageMain>
       <CardWithText
         title="Revenue"
-        actions={[
+        actions={Children.toArray([
           <Button
             color={filterOpen ? 'secondary' : 'default'}
             variant="contained"
@@ -66,12 +67,12 @@ const FinancePage = () => {
           <Button color="default" variant="contained" onClick={() => {}}>
             Export
           </Button>,
-        ]}
+        ])}
       >
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <FinancePageFilter>
-              <Grid columns={4}>
+              <FinancePageCharts>
                 <Input
                   type="select"
                   label="Type"
@@ -125,7 +126,7 @@ const FinancePage = () => {
                     },
                   ]}
                 />
-              </Grid>
+              </FinancePageCharts>
               <FinancePageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

@@ -23,7 +23,7 @@ export const TableMenu = styled(Menu)<{
     top: ${position?.top}px;
 
     &:last-child,
-    &:first-child {
+    &:first-of-type {
       grid-template-columns: 1fr;
     }
 

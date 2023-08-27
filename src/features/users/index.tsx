@@ -3,12 +3,13 @@ import {
   FinancePageMain,
   FinancePageFilter,
   FinancePageFilterActions,
+  FinancePageCharts,
 } from 'features/users/styles';
 import { DUsersHead, DUsersFilters } from 'features/users/data';
-import { CardWithText, NewCheckboxTable, Tabs } from 'components/custom';
+import { CardWithText, NewCheckboxTable } from 'components/custom';
 import { SlidersHorizontalIcon, VerticalDotsIcon } from 'components/svg';
 import { Button, Input, Pagination } from 'components/ui';
-import { Grid, Stack, Collapse } from 'components/system';
+import { Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import Link from 'next/link';
 
@@ -81,7 +82,7 @@ const UsersPage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <FinancePageFilter>
-              <Grid columns={4}>
+              <FinancePageCharts>
                 <Input
                   type="text"
                   label="Search"
@@ -128,7 +129,7 @@ const UsersPage = () => {
                     setFilter({ ...filter, locationOfInterest })
                   }
                 />
-              </Grid>
+              </FinancePageCharts>
               <FinancePageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

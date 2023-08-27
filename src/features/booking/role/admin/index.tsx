@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Children } from 'react';
 import { CardWithText, Table } from 'components/custom';
 import { Collapse, Grid, Stack } from 'components/system';
 import { Button, Input, Label, Pagination } from 'components/ui';
@@ -10,7 +10,8 @@ import {
   MarketPageFilter,
   MarketPageFilterActions,
   ProjectsMain,
-} from 'features/opportunities/styles';
+  HomePageChartsGrid,
+} from 'features/booking/styles';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { SlidersHorizontalIcon, VerticalDotsIcon } from 'components/svg';
 import { useModal } from 'hooks';
@@ -55,7 +56,7 @@ const AdminApplicationsPage = () => {
     <ProjectsMain>
       <CardWithText
         title="My Bookings"
-        actions={[
+        actions={Children.toArray([
           <Button
             color={filterOpen ? 'secondary' : 'default'}
             variant="contained"
@@ -71,13 +72,13 @@ const AdminApplicationsPage = () => {
           >
             Create New
           </Button>,
-        ]}
+        ])}
       >
         <Stack>
           <Collapse in={filterOpen}>
             <Stack>
               <MarketPageFilter>
-                <Grid columns={4}>
+                <HomePageChartsGrid>
                   <Input
                     type="select"
                     label="Boat"
@@ -126,7 +127,7 @@ const AdminApplicationsPage = () => {
                     value={filter.user}
                     onValue={(user) => setFilter({ ...filter, user })}
                   />
-                </Grid>
+                </HomePageChartsGrid>
                 <MarketPageFilterActions direction="horizontal">
                   <Button color="primary" variant="contained">
                     Filter

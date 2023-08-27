@@ -17,6 +17,7 @@ import {
   CardItemValue,
   CardList,
   CardListItem,
+  OverviewStack,
 } from 'features/overview/styles';
 import { Gallery, Table, Tabs } from 'components/custom';
 import { Button, Card, Pagination } from 'components/ui';
@@ -48,17 +49,14 @@ const OverviewPage = () => {
 
   return (
     <OverviewMain>
-      <Stack
-        style={{ width: '100%', justifyContent: 'space-between' }}
-        direction="horizontal"
-      >
+      <OverviewStack>
         <Tabs
           value={tab}
           onValue={setTab}
           tabs={['Property Overview', 'Documents']}
         />
         <OverviewBackButton href="/">Back</OverviewBackButton>
-      </Stack>
+      </OverviewStack>
 
       <Gallery
         images={[

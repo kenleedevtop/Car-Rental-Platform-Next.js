@@ -8,6 +8,7 @@ export const CardMain = styled(Card)<{ theme?: Theme }>`
         display: flex;
         flex-direction: column;
         gap: ${theme.spacing(5)};
+        overflow: hidden;
     `}
 `;
 
@@ -15,7 +16,7 @@ export const CardHead = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: flex;
     align-items: center;
-    width: fit-content;
+    justify-content: space-between;
 
     ${theme.breakpoints.down('sm')} {
       display: grid;
@@ -47,14 +48,10 @@ export const CardActions = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: flex;
     align-items: center;
-    position: absolute;
-    right: 1.25rem;
     gap: ${theme.spacing(4)};
 
     ${theme.breakpoints.down('sm')} {
       display: grid;
-      position: relative;
-      right: unset;
       gap: ${theme.spacing(4)};
     }
 `}

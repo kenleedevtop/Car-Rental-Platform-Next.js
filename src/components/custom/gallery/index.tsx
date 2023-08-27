@@ -69,6 +69,23 @@ const Gallery = ({ images, ...props }: TGalleryProps) => {
           gap: '16px',
           height: '640px',
           direction: 'ttb',
+          breakpoints: {
+            1536: {
+              direction: 'ltr',
+              height: '200px',
+            },
+            768: {
+              direction: 'ltr',
+              height: '200px',
+              perPage: 2,
+            },
+            480: {
+              direction: 'ltr',
+              height: '200px',
+              perPage: 1,
+              padding: { right: 50, left: 0 },
+            },
+          },
         }}
         aria-label="My Favorite Images"
       >

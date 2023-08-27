@@ -4,6 +4,7 @@ import { Theme } from '@mui/material';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 
 export const SGallery = styled(Card)<{ theme?: Theme }>`
+  ${({ theme }) => `
   height: 100%;
   max-width: 100%;
   max-height: 800px;
@@ -22,6 +23,11 @@ export const SGallery = styled(Card)<{ theme?: Theme }>`
       border-radius: 8px;
     }
   }
+  ${theme.breakpoints.down('xl')} {
+    grid-template-columns: 1fr;
+    max-height: unset;
+  }
+`}
 `;
 
 export const SFullScreenGallery = styled.div<{ theme?: Theme }>`

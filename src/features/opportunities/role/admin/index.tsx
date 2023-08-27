@@ -3,7 +3,11 @@ import React, { useState } from 'react';
 import { PropertyCard, Tabs } from 'components/custom';
 import { Stack } from 'components/system';
 import { Button } from 'components/ui';
-import { ProjectsMain, ProjectsGrid } from 'features/opportunities/styles';
+import {
+  ProjectsMain,
+  ProjectsGrid,
+  AddProjectStack,
+} from 'features/opportunities/styles';
 import { useModal } from 'hooks';
 import { AddProjectModal } from './elements';
 
@@ -15,10 +19,7 @@ const AdminMarketPage = () => {
 
   return (
     <ProjectsMain>
-      <Stack
-        style={{ width: '100%', justifyContent: 'space-between' }}
-        direction="horizontal"
-      >
+      <AddProjectStack>
         <Tabs
           value={tab}
           onValue={setTab}
@@ -31,7 +32,7 @@ const AdminMarketPage = () => {
         >
           Add Project
         </Button>
-      </Stack>
+      </AddProjectStack>
       {tab === 0 && (
         <ProjectsGrid>
           <PropertyCard

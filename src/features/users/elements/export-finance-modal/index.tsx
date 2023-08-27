@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Children } from 'react';
 import { Modal, Tabs } from 'components/custom';
 import { TExportFinanceModalProps } from 'features/users/elements/export-finance-modal/types';
 import { ExportFinanceModalMain } from 'features/users/elements/export-finance-modal/styles';
@@ -30,7 +30,7 @@ const ExportFinanceModal = ({
     <Modal
       size="small"
       title="Do you want to export:"
-      actions={[
+      actions={Children.toArray([
         <Button
           color="primary"
           variant="contained"
@@ -39,7 +39,7 @@ const ExportFinanceModal = ({
         >
           Export
         </Button>,
-      ]}
+      ])}
       onClose={onClose}
       {...props}
     >

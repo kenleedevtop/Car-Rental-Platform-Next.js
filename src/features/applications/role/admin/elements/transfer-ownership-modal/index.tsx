@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { Modal } from 'components/custom';
 import { TChangePasswordModalProps } from 'features/account/role/investor/elements/change-password-modal/types';
-import { ChangePasswordModalMain } from 'features/account/role/investor/elements/change-password-modal/styles';
+import { ChangePasswordModalMain } from 'features/applications/role/admin/elements/transfer-ownership-modal/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
-import { useAppContext } from 'context';
-import { ClientAPI } from 'api';
-import { useSnackbar } from 'hooks';
 
 const ChangePasswordModal = ({
   onClose,
@@ -34,61 +31,61 @@ const ChangePasswordModal = ({
       {...props}
     >
       <Stack>
-        <ChangePasswordModalMain columns={2}>
+        <ChangePasswordModalMain>
           <Input
             type="select"
             label="Boat"
             placeholder="Please Select"
-            value={null}
+            value=""
             onValue={() => {}}
           />
           <Input
             type="select"
             label="Seller"
             placeholder="Please Select"
-            value={null}
+            value=""
             onValue={() => {}}
           />
           <Input
             type="select"
             label="Buyer"
             placeholder="Please Select"
-            value={null}
+            value=""
             onValue={() => {}}
           />
           <Input
             type="select"
             label="Shares"
             placeholder="Please Select"
-            value={null}
+            value=""
             onValue={() => {}}
           />
           <Input
             type="select"
             label="Transfer Date"
             placeholder="Please Select"
-            value={null}
+            value=""
             onValue={() => {}}
           />
           <Input
             type="select"
             label="Remaining Days [Year]"
             placeholder="Please Select"
-            value={null}
+            value=""
             onValue={() => {}}
           />
           <Input
             type="select"
             label="Reserved Days [Year]"
             placeholder="Please Select"
-            value={null}
+            value=""
             onValue={() => {}}
           />
           <Input
             type="select"
             label="Remaining Days [Year]"
             placeholder="Please Select"
-            value={null}
+            value=""
             onValue={() => {}}
           />
         </ChangePasswordModalMain>

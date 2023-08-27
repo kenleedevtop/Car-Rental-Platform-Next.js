@@ -64,3 +64,18 @@ export const MarketTableItemImage = styled.img`
 export const MarketTableItemLabel = styled.div`
   color: #464e5f;
 `;
+
+export const AddProjectStack = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    ${theme.breakpoints.down(768)} {
+      flex-direction: column;
+      gap: 16px;
+      max-width: 380px;
+      overflow: hidden;
+    }
+  `}
+`;

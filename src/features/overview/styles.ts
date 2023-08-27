@@ -149,15 +149,20 @@ export const OverviewBackButton = styled(Link)<{ theme?: Theme }>`
   padding: 7px 9px;
 `;
 
-export const OverviewGridThree = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px;
+export const OverviewGridThree = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  `}
 `;
 
 export const OverviewGridFirst = styled(Card)`
   display: grid;
   gap: 16px;
+  min-width: 400px;
 `;
 
 export const OverviewGridSecond = styled(Card)`
@@ -165,6 +170,7 @@ export const OverviewGridSecond = styled(Card)`
   flex-direction: column;
   justify-content: space-between;
   gap: 16px;
+  min-width: 400px;
 
   ${OverviewPILeftItem} {
     flex-direction: row;
@@ -175,6 +181,7 @@ export const OverviewGridSecond = styled(Card)`
 export const OverviewGridThird = styled(Card)`
   display: grid;
   gap: 16px;
+  min-width: 400px;
 `;
 
 export const CardProgressBarPopup = styled.div`
@@ -360,4 +367,18 @@ export const CardListItem = styled.li`
     top: 0;
     left: 0;
   }
+`;
+
+export const OverviewStack = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    ${theme.breakpoints.down(768)} {
+      gap: 16px;
+      max-width: 380px;
+      overflow: hidden;
+    }
+  `}
 `;

@@ -87,19 +87,23 @@ const PropertyCard = ({
                   {
                     icon: <HouseIcon />,
                     label: 'Apply',
-                    action: () => {},
+                    action: handleMenu,
                   },
                   {
                     icon: <HouseIcon />,
                     label: 'View',
                     action: () => {
                       router.push(link);
+                      handleMenu();
                     },
                   },
                   {
                     icon: <EditIcon />,
                     label: 'Sell',
-                    action: openEditModal,
+                    action: () => {
+                      openEditModal();
+                      handleMenu();
+                    },
                   },
                 ]}
                 ref={menu}
@@ -119,19 +123,23 @@ const PropertyCard = ({
                   {
                     icon: <HouseIcon />,
                     label: 'Book',
-                    action: () => {},
+                    action: handleMenu,
                   },
                   {
                     icon: <HouseIcon />,
                     label: 'View',
                     action: () => {
                       router.push(link);
+                      handleMenu();
                     },
                   },
                   {
                     icon: <EditIcon />,
                     label: 'Sell',
-                    action: openEditModal,
+                    action: () => {
+                      openEditModal();
+                      handleMenu();
+                    },
                   },
                 ]}
                 ref={menu}
@@ -151,13 +159,14 @@ const PropertyCard = ({
                   {
                     icon: <HouseIcon />,
                     label: 'View',
-                    action: () => {},
+                    action: handleMenu,
                   },
                   {
                     icon: <HouseIcon />,
                     label: 'Edit',
                     action: () => {
                       router.push(link);
+                      handleMenu();
                     },
                   },
                 ]}

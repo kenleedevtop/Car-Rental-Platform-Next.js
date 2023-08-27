@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, Children } from 'react';
 import { CallendlyWidget, Modal } from 'components/custom';
 import { TExportFinanceModalProps } from 'features/finance/elements/export-finance-modal/types';
-import { AddProjectModalMain } from 'features/opportunities/role/admin/elements/add-project-modal/style';
+import {
+  AddProjectModalMain,
+  RTEContainer,
+} from 'features/opportunities/role/admin/elements/add-project-modal/style';
 import { Button, Input } from 'components/ui';
 import { GridCell } from 'components/system';
 
@@ -28,24 +31,24 @@ const ExportFinanceModal = ({
       onClose={onClose}
       {...props}
     >
-      <AddProjectModalMain columns={2}>
+      <AddProjectModalMain>
         <Input
           type="select"
           label="Boat"
-          value={null}
+          value=""
           onValue={() => {}}
           placeholder="Please Enter"
         />
         <Input
           type="select"
           label="Shares"
-          value={null}
+          value=""
           onValue={() => {}}
           placeholder="Please Select"
         />
-        <GridCell columnSpan={2}>
+        <RTEContainer>
           <CallendlyWidget />
-        </GridCell>
+        </RTEContainer>
       </AddProjectModalMain>
     </Modal>
   );

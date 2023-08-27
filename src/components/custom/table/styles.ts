@@ -8,23 +8,7 @@ export const TableWrapper = styled.div<{ theme?: Theme }>`
 
     overflow-x: auto;
     overflow-y: auto;
-
-
-    @media screen and (min-width: 420px) and (max-width: 962px) {
-      width: 380px;
-      max-width: 420px;
-    }
-
-    
-
-    ${theme.breakpoints.down('sm')} {
-      width: 340px
-
-    }
-
-    ${theme.breakpoints.down('xs')} {
-      width: 260px
-    }
+    padding-bottom: 10px;
   `}
 `;
 
