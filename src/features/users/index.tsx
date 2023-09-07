@@ -391,7 +391,7 @@ const UsersPage = () => {
           <Collapse removeGap in={filterOpen}>
             <UsersPageFilter>
               <Tabs
-                tabs={['Info', 'Work Experience', 'Education', 'Car']}
+                tabs={['Info', 'Work Experience', 'Education', 'Cars']}
                 value={tabs}
                 onValue={setTabs}
               />
@@ -607,7 +607,7 @@ const UsersPage = () => {
                   />
                   <Input
                     type="min-max"
-                    label="Tenants per Car"
+                    label="Tenants per Cars"
                     value={filters.tenantsPerCar}
                     onValue={(tenantsPerCar) =>
                       setFilter({ ...filters, tenantsPerCar })

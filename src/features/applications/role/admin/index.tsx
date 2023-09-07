@@ -18,7 +18,7 @@ import {
 } from 'features/opportunities/styles';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { SlidersHorizontalIcon } from 'components/svg';
-import { useDebounce, usePagination, useSnackbar } from 'hooks';
+import { useDebounce, useModal, usePagination, useSnackbar } from 'hooks';
 import { ApplicationAPI } from 'api';
 import { getLocations } from 'utilities/locations';
 import { getNationalities } from 'utilities/nationalities';
@@ -35,6 +35,7 @@ import { useAppContext } from 'context';
 import ApplicationStatusActions from './elements/application-status-modal';
 import { getJobTitles } from 'utilities/jobTitles';
 import { getInterestsAndHobbies } from 'utilities/interests';
+import { BookingOverviewModal, TransferOwnershipModal } from './elements';
 
 const AdminApplicationsPage = () => {
   const { applicationStatus } = useAppContext();
@@ -56,6 +57,17 @@ const AdminApplicationsPage = () => {
   const [diets, setDiets] = useState<any[]>([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
+
+  const [
+    bookingOverviewModal,
+    openBookingOverviewModal,
+    closeBookingOverviewModal,
+  ] = useModal(false);
+  const [
+    transferOwnershipModal,
+    openTransferOwnershipModal,
+    closeTransferOwnershipModal,
+  ] = useModal(false);
 
   const [tabs, setTabs] = useState(0);
   const { push } = useSnackbar();
@@ -432,7 +444,7 @@ const AdminApplicationsPage = () => {
           <Collapse in={filterOpen}>
             <Stack>
               <Tabs
-                tabs={['Info', 'Work Experience', 'Education', 'Car']}
+                tabs={['Info', 'Work Experience', 'Education', 'Cars']}
                 value={tabs}
                 onValue={setTabs}
               />
@@ -687,7 +699,7 @@ const AdminApplicationsPage = () => {
                     />
                     <Input
                       type="min-max"
-                      label="Tenants per Car"
+                      label="Tenants per Cars"
                       value={filter.tenantsPerCar}
                       onValue={(tenantsPerCar) =>
                         setFilter({ ...filter, tenantsPerCar })
@@ -749,6 +761,29 @@ const AdminApplicationsPage = () => {
           />
         </Stack>
       </CardWithText>
+      <Stack direction="horizontal">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={openBookingOverviewModal}
+        >
+          Booking Overview Modal
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={openTransferOwnershipModal}
+        >
+          Transfer Ownership Modal
+        </Button>
+      </Stack>
+
+      {bookingOverviewModal && (
+        <BookingOverviewModal onClose={closeBookingOverviewModal} />
+      )}
+      {transferOwnershipModal && (
+        <TransferOwnershipModal onClose={closeTransferOwnershipModal} />
+      )}
     </ProjectsMain>
   );
 };

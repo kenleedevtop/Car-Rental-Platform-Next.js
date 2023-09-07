@@ -7,7 +7,7 @@ import { ProjectsMain, ProjectsGrid } from 'features/opportunities/styles';
 import { useModal, useSnackbar } from 'hooks';
 import { ICar } from 'api/cars/types';
 import CarAPI from 'api/cars';
-import { PurchaseModal } from './elements';
+import { SellModal } from './elements';
 import { useAppContext } from 'context';
 
 const UserMarketPage = () => {
@@ -131,13 +131,12 @@ const UserMarketPage = () => {
           })}
         </ProjectsGrid>
       )}
-      {/* <Stack direction="horizontal">
+      <Stack direction="horizontal">
         <Button variant="contained" color="primary" onClick={openPurchaseModal}>
-          Purchase Modal
+          Sell Shares Modal
         </Button>
-      </Stack> */}
-
-      {purchaseModal && <PurchaseModal onClose={closePurchaseModal} />}
+      </Stack>
+      {purchaseModal && <SellModal onClose={closePurchaseModal} />}
     </ProjectsMain>
   );
 };

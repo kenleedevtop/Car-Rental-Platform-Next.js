@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   NavigationMain,
   NavigationRouteName,
@@ -11,10 +11,8 @@ import {
   NavigationMenu,
   NavigationMenuButton,
   NavigationNotification,
-  NavigationCurrency,
 } from 'components/custom/navigation/styles';
 import { NotificationModal } from 'components/custom/navigation/elements';
-import { PurchaseModal } from 'features/opportunities/role/user/elements';
 import { TNavigationProps } from 'components/custom/navigation/types';
 import { useAppContext } from 'context';
 import { ArrowDownIcon, BellIcon, LogoutIcon, MenuIcon } from 'components/svg';
@@ -25,9 +23,6 @@ const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen, buttonRef] = useMenu(false);
 
   const [nModal, openNModal, closeNModal] = useModal(false);
-
-  const [purchaseModal, openPurchaseModal, closePurchaseModal] =
-    useModal(false);
 
   const router = useRouter();
 
@@ -57,12 +52,11 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         <NavigationRouteName>{routeName}</NavigationRouteName>
       </NavigationMenu>
       <NavigationItems>
-        {['USER'].includes(role) && (
+        {/* {['USER'].includes(role) && (
           <NavigationCurrency onClick={openPurchaseModal}>
             Balance: {user?.tokenBalance}
-            {/* &nbsp;<ArrowDownIcon /> */}
           </NavigationCurrency>
-        )}
+        )} */}
         <NavigationNotification onClick={openNModal}>
           <BellIcon />
         </NavigationNotification>
@@ -88,7 +82,6 @@ const Navigation = ({ ...props }: TNavigationProps) => {
         </NavigationProfileOuter>
       </NavigationItems>
       {nModal && <NotificationModal onClose={closeNModal} />}
-      {purchaseModal && <PurchaseModal onClose={closePurchaseModal} />}
     </NavigationMain>
   );
 };

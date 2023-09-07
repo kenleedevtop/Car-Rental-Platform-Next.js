@@ -4,16 +4,16 @@ import { useAppContext } from 'context';
 import { UsersPage, OpportunitiesPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const Home = () => {
+const Cars = () => {
   const { role, setRouteName } = useAppContext();
 
   useEffect(() => {
-    setRouteName('Home');
+    setRouteName('Cars');
   }, []);
 
   return (
     <>
-      <Title>Home</Title>
+      <Title>Cars</Title>
       {role === 'ADMIN' && <UsersPage />}
       {role === 'USER' && <OpportunitiesPage />}
     </>
@@ -28,4 +28,4 @@ export async function getStaticProps({ locale }: { locale: string }) {
   };
 }
 
-export default Home;
+export default Cars;

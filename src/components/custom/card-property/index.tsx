@@ -23,9 +23,10 @@ import { formatNumber } from 'utilities/extended-proto';
 import { CarretDownIcon, EditIcon, CarIcon } from 'components/svg';
 import { Button } from 'components/ui';
 import { useMenu, useModal } from 'hooks';
-import { ApplicationModal, EditProjectModal } from './elements';
+import { EditProjectModal } from './elements';
 import { convertLocationToFlag } from 'utilities/converters';
 import Project from 'constants/project';
+import { ApplicationModal } from 'features/opportunities/role/user/elements';
 
 const PropertyCard = ({
   image,
@@ -54,7 +55,7 @@ const PropertyCard = ({
       {completed && <CardCompletedMark>Filled</CardCompletedMark>}
       <Image
         src={image ? `${Project.apis.v1}/public/images/${image.key}` : ''}
-        alt="Car thumbnail"
+        alt="Cars thumbnail"
         width={500}
         height={500}
         style={{

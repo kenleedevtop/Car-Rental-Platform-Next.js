@@ -54,7 +54,7 @@ export const DApplicationsFilters = () => ({
 export const DApplicationsHead = [
   {
     reference: 'house',
-    label: 'Car',
+    label: 'Cars',
     visible: true,
   },
   {
@@ -117,7 +117,7 @@ export const DAdminApplicationsHead = [
   },
   {
     reference: 'house',
-    label: 'Car',
+    label: 'Cars',
     visible: true,
   },
   {

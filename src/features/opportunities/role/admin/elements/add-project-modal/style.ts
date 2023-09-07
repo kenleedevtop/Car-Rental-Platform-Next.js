@@ -124,3 +124,15 @@ export const ImageDeleteButton = styled.button`
   cursor: pointer;
   text-align: left;
 `;
+
+export const RTEContainer = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+      dipslay: grid;
+      grid-column: 1/3;
+      gap: 1.25rem;
+      ${theme.breakpoints.down(768)} {
+        grid-column: unset;
+      }
+  
+  `}
+`;

@@ -714,7 +714,7 @@ const AccountPage = (props: any) => {
                   }
                 />
               </AccountGrid>
-              <AccountHeadline>Car Preferences</AccountHeadline>
+              <AccountHeadline>Cars Preferences</AccountHeadline>
               <AccountGrid>
                 <Input
                   type="multiselect"
@@ -858,7 +858,7 @@ const AccountPage = (props: any) => {
                 />
                 <Input
                   type="min-max"
-                  label="Tenants per Car"
+                  label="Tenants per Cars"
                   value={{
                     min: housePreference.tenantsMin,
                     max: housePreference.tenantsMax,

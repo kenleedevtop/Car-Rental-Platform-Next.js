@@ -1,1 +1,2 @@
-export { default as PurchaseModal } from 'features/opportunities/role/user/elements/purchase-modal';
+export { default as SellModal } from 'features/opportunities/role/user/elements/sellShare-modal';
+export { default as ApplicationModal } from 'features/opportunities/role/user/elements/application-modal';

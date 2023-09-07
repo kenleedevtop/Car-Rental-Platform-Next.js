@@ -51,12 +51,12 @@ export const DMarketOffersHead = [
 ];
 
 export const DCarThemes = [
-  { name: 'E-commerce Car' },
-  { name: 'Fitness Car' },
-  { name: 'Influencer Car' },
-  { name: 'Marketing Car' },
-  { name: 'Real Estate Car' },
-  { name: 'Software Development Car' },
-  { name: 'Startup Car' },
-  { name: 'Trading Car' },
+  { name: 'E-commerce Cars' },
+  { name: 'Fitness Cars' },
+  { name: 'Influencer Cars' },
+  { name: 'Marketing Cars' },
+  { name: 'Real Estate Cars' },
+  { name: 'Software Development Cars' },
+  { name: 'Startup Cars' },
+  { name: 'Trading Cars' },
 ];

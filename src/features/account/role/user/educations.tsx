@@ -274,7 +274,7 @@ const Education = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (totalData.length === 0) {
+    if (totalData?.length === 0) {
       const newData: TEducation = {
         id: 1,
         university: '',
