@@ -3,13 +3,13 @@ export const CProtectedRoutes = [
   '/account',
   '/opportunities',
   '/applications',
+  '/booking',
   '/users',
   '/users/overview',
   '/finance',
   '/help',
   '/cars',
   '/cars/overview',
-  '/purchase-token-success',
 ];
 
 export const CUnprotectedRoutes = [

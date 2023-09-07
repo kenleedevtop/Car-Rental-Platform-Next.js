@@ -123,7 +123,7 @@ const AdminMarketPage = () => {
 
       {tab === 2 && (
         <ProjectsGrid>
-          {completedCars.map((house: ICar) => {
+          {completedCars?.map((house: ICar) => {
             return (
               <PropertyCard
                 key={house.id}

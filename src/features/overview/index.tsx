@@ -7,6 +7,16 @@ import {
   OverviewTextHeadline,
   OverviewTextContent,
   OverviewBackButton,
+  OverviewGridThree,
+  OverviewGridFirst,
+  CardItemContainer,
+  CardItem,
+  CardItemLabel,
+  CardItemValue,
+  OverviewGridSecond,
+  OverviewGridThird,
+  CardList,
+  CardListItem,
 } from 'features/overview/styles';
 import { Gallery, Table, Tabs } from 'components/custom';
 import { Button, Card, Pagination } from 'components/ui';
@@ -28,6 +38,7 @@ const OverviewPage = (props: any) => {
   const router = useRouter();
   const { houseStatus } = useAppContext();
   const [tab, setTab] = useState(0);
+  const [bought, setBought] = useState(false);
 
   const [houseData, setCarData] = useState<ICar>({
     id: -1,
@@ -149,15 +160,75 @@ const OverviewPage = (props: any) => {
       />
 
       {tab === 0 && (
-        <OverviewText>
-          <OverviewTextContainer>
-            {houseData?.info && (
-              <OverviewTextContent
-                dangerouslySetInnerHTML={{ __html: houseData.info }}
+        <>
+          <OverviewGridThree>
+            <OverviewGridFirst>
+              <OverviewTextHeadline>Property Info</OverviewTextHeadline>
+              <CardItemContainer>
+                <CardItem>
+                  <CardItemLabel>Bedrooms</CardItemLabel>
+                  <CardItemValue>4</CardItemValue>
+                </CardItem>
+                <CardItem>
+                  <CardItemLabel>Bathrooms</CardItemLabel>
+                  <CardItemValue>3</CardItemValue>
+                </CardItem>
+                <CardItem>
+                  <CardItemLabel>Size</CardItemLabel>
+                  <CardItemValue>83 m2</CardItemValue>
+                </CardItem>
+                <CardItem>
+                  <CardItemLabel>Construction Year</CardItemLabel>
+                  <CardItemValue>2015</CardItemValue>
+                </CardItem>
+              </CardItemContainer>
+              {bought && (
+                <Button variant="contained" color="primary">
+                  Book
+                </Button>
+              )}
+              {!bought && (
+                <Button variant="contained" color="primary">
+                  Apply
+                </Button>
+              )}
+            </OverviewGridFirst>
+            <OverviewGridSecond>
+              <OverviewTextHeadline>Location</OverviewTextHeadline>
+              <iframe
+                title="hu"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d44541.569961777575!2d19.13119012788087!3d45.75419066351893!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2srs!4v1692477523934!5m2!1sen!2srs"
+                width="100%"
+                height="144px"
+                style={{ border: '0' }}
+                loading="lazy"
               />
-            )}
-          </OverviewTextContainer>
-        </OverviewText>
+            </OverviewGridSecond>
+            <OverviewGridThird>
+              <OverviewTextHeadline>Property Highlights</OverviewTextHeadline>
+              <CardItemContainer>
+                <CardList>
+                  <CardListItem>Lake view</CardListItem>
+                  <CardListItem>Large garden</CardListItem>
+                  <CardListItem>Garage</CardListItem>
+                  <CardListItem>300m from Lake</CardListItem>
+                  <CardListItem>Highlight 4</CardListItem>
+                  <CardListItem>Highlight 5</CardListItem>
+                  <CardListItem>Highlight 6</CardListItem>
+                </CardList>
+              </CardItemContainer>
+            </OverviewGridThird>
+          </OverviewGridThree>
+          <OverviewText>
+            <OverviewTextContainer>
+              {houseData?.info && (
+                <OverviewTextContent
+                  dangerouslySetInnerHTML={{ __html: houseData.info }}
+                />
+              )}
+            </OverviewTextContainer>
+          </OverviewText>
+        </>
       )}
       {tab === 1 && (
         <Card>
