@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
-import { TNotificationStatus } from 'components/custom/notifications-card/types';
+import { TNotificationVariantType } from 'components/custom/notifications-card/types';
 
 export const NotificationMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -20,18 +20,21 @@ export const NotificationContent = styled.div<{ theme?: Theme }>`
 
 export const NotificationStatus = styled.div<{
   theme?: Theme;
-  status: TNotificationStatus;
+  variant: TNotificationVariantType;
 }>`
-  ${({ theme, status }) => `
+  ${({ theme, variant }) => `
     width: 8px;
     height: 8px;
     border-radius: 50%;
     float: left;
     margin: 7.5px 5px 0 0;
     background-color: ${
-      status === 'seen'
-        ? theme.palette.success.light
-        : theme.palette.secondary.main
+      (variant === 'error' && theme.palette.error.main) ||
+      (variant === 'success' && theme.palette.success.main) ||
+      (variant === 'info' && theme.palette.info.main) ||
+      (variant === 'primary' && theme.palette.primary.main) ||
+      (variant === 'secondary' && theme.palette.secondary.main) ||
+      (variant === 'warning' && theme.palette.warning.main)
     };
 `}
 `;

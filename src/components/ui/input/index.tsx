@@ -69,6 +69,9 @@ const Input = ({
 
   const handleDate = (newValue: any) => {
     if (onValue) onValue(newValue);
+    if (errorCallback) errorCallback(false);
+    setErrorMessage('');
+    setError(false);
   };
 
   const handleMinMax = (key: 'min' | 'max') => (e: React.ChangeEvent<any>) => {
@@ -117,7 +120,7 @@ const Input = ({
       }
       onNewTag({
         label: e.target.value,
-        value: newValue,
+        value: e.target.value,
       });
       setSearch('');
     } else if (['ArrowDown', 'ArrowUp'].includes(e.key) && !disabledNewTag) {
@@ -183,6 +186,8 @@ const Input = ({
           minRows={minRows}
           maxRows={maxRows}
           variant="outlined"
+          onBlur={handleBlur}
+          onFocus={handleFocus}
           error={error}
           disabled={disabled}
           InputProps={{
@@ -265,7 +270,7 @@ const Input = ({
               onBlur={handleBlur}
               onFocus={handleFocus}
               disabled={disabled}
-              // onKeyDown={handleKeyDown}
+              onKeyDown={handleKeyDown}
               InputProps={{
                 ...InputProps,
                 startAdornment,

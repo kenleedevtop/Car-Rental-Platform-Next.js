@@ -3,9 +3,9 @@ import { Theme } from '@mui/material';
 import { Grid, Stack } from 'components/system';
 import { Card } from 'components/ui';
 
-export const FinancePageMain = styled(Stack)<{ theme?: Theme }>``;
+export const UsersPageMain = styled(Stack)<{ theme?: Theme }>``;
 
-export const FinancePageCharts = styled.div<{ theme?: Theme }>`
+export const UsersPageCharts = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -20,7 +20,7 @@ export const FinancePageCharts = styled.div<{ theme?: Theme }>`
   `}
 `;
 
-export const FinancePageFilter = styled(Stack)<{ theme?: Theme }>`
+export const UsersPageFilter = styled(Stack)<{ theme?: Theme }>`
   ${({ theme }) => `
         border-radius: 4px;
         border: 1px solid ${theme.palette.common.black}20;
@@ -28,7 +28,7 @@ export const FinancePageFilter = styled(Stack)<{ theme?: Theme }>`
     `}
 `;
 
-export const FinancePageFilterActions = styled(Stack)<{
+export const UsersPageFilterActions = styled(Stack)<{
   theme?: Theme;
 }>`
   justify-content: flex-end;
@@ -37,7 +37,7 @@ export const FinancePageFilterActions = styled(Stack)<{
   }
 `;
 
-export const FinanceHeadline = styled.div<{ theme?: Theme }>`
+export const UsersHeadline = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     font-size: 16px;
     font-weight: 600;
@@ -45,18 +45,18 @@ export const FinanceHeadline = styled.div<{ theme?: Theme }>`
   `}
 `;
 
-export const FinanceCard = styled(Card)`
+export const UsersCard = styled(Card)`
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: 40px;
 `;
 
-export const FinanceCardLeft = styled(Stack)`
+export const UsersCardLeft = styled(Stack)`
   padding-right: 100px;
   border-right: 1px solid #e9f0fc;
 `;
 
-export const FinanceCardRight = styled(Stack)`
+export const UsersCardRight = styled(Stack)`
   padding-left: 100px;
 `;
 

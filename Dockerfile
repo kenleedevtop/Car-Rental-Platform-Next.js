@@ -1,14 +1,25 @@
-FROM node
+FROM node as build
+
+RUN apt update && apt upgrade -y
+RUN apt install -y nano telnet net-tools procps
 
 COPY . /app
 
 WORKDIR /app
-RUN sed -i 's/node server.js/next start/g' package.json
 
-RUN npm i --legacy-peer-deps
-#RUN npm audit fix --force
+RUN npm install --force
 RUN npm run build
-
-
-EXPOSE 3000
 CMD npm start
+
+#RUN npm run export
+#CMD sleep 99999
+#FROM nginx
+#
+#
+#COPY --from=build /app/out /app
+#COPY app.conf /etc/nginx/conf.d/app.conf
+
+
+
+
+

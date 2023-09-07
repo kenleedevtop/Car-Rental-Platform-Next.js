@@ -64,18 +64,3 @@ export const MarketTableItemImage = styled.img`
 export const MarketTableItemLabel = styled.div`
   color: #464e5f;
 `;
-
-export const HomePageChartsGrid = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: ${theme.spacing(5)};
-  ${theme.breakpoints.down('xl')} {
-    grid-template-columns: 1fr 1fr;
-  }
-  
-  ${theme.breakpoints.down('sm')} {
-    grid-template-columns: 1fr;
-  }
-`}
-`;

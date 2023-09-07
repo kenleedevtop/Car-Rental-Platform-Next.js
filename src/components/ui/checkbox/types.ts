@@ -16,6 +16,7 @@ export type TCheckboxProps = React.HTMLAttributes<HTMLInputElement> & {
   size?: TCheckboxSize;
   color?: TCheckboxColor;
   value?: boolean;
+  disabled?: boolean;
   onValue?: (v: boolean) => void;
   helper?: string | ReactNode;
   required?: boolean;

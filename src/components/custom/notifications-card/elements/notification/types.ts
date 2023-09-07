@@ -1,9 +1,7 @@
 import React from 'react';
-
-import { TNotificationStatus } from 'components/custom/notifications-card/types';
+import { TNotificationData } from '../../types';
 
 export type TNotificationProps = React.HTMLAttributes<HTMLDivElement> & {
-  text: string;
+  notification: TNotificationData;
   createdAt?: string;
-  status: TNotificationStatus;
 };

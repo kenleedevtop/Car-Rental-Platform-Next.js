@@ -13,6 +13,10 @@ export default class MyDocument extends Document {
           <meta name="theme-color" content={Theme.palette.primary.main} />
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
+            rel="shortcut icon"
+            href="/static/assets/images/Brotherhood.svg"
+          />
+          <link
             rel="preconnect"
             href="https://fonts.gstatic.com"
             crossOrigin="true"

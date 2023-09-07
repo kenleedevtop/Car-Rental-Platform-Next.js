@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css'; // Import styles directly
 
@@ -7,16 +7,16 @@ const DynamicReactQuill = dynamic(() => import('react-quill'), {
 });
 
 const RichTextEditor = ({ ...props }) => {
-  const [editorHtml, setEditorHtml] = useState('');
+  const { name, value, onChange } = props;
 
   const handleEditorChange = (html: any) => {
-    setEditorHtml(html);
+    onChange((data: any) => ({ ...data, [name]: html }));
   };
 
   return (
     <div {...props}>
       <DynamicReactQuill
-        value={editorHtml}
+        value={value}
         onChange={handleEditorChange}
         modules={{
           toolbar: [[{ header: '1' }]],

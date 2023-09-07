@@ -3,7 +3,6 @@ import {
   FinancePageMain,
   FinancePageFilter,
   FinancePageFilterActions,
-  FinancePageCharts,
 } from 'features/finance/styles';
 import {
   DFinanceAdminRevenueHead,
@@ -11,7 +10,7 @@ import {
 } from 'features/finance/data';
 import { CardWithText, NewCheckboxTable } from 'components/custom';
 import { SlidersHorizontalIcon, VerticalDotsIcon } from 'components/svg';
-import { Button, Input, InputGroup, Pagination } from 'components/ui';
+import { Button, Input, InputGroup, Label, Pagination } from 'components/ui';
 import { Grid, Stack, Collapse } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 
@@ -72,7 +71,7 @@ const FinancePage = () => {
         <Stack>
           <Collapse removeGap in={filterOpen}>
             <FinancePageFilter>
-              <FinancePageCharts>
+              <Grid columns={4}>
                 <Input
                   type="select"
                   label="Type"
@@ -89,7 +88,7 @@ const FinancePage = () => {
                 />
                 <Input
                   type="select"
-                  label="House"
+                  label="Car"
                   placeholder="Please Select"
                   value={filter.house}
                   onValue={(house) => setFilter({ ...filter, house })}
@@ -108,25 +107,26 @@ const FinancePage = () => {
                   value={filter.amount}
                   onValue={(amount) => setFilter({ ...filter, amount })}
                 />
-                <InputGroup
-                  label="Date Range"
-                  inputRatio="1fr 1fr"
-                  elements={[
-                    {
-                      value: filter.dateFrom,
-                      onValue: (dateFrom) => setFilter({ ...filter, dateFrom }),
-                      type: 'date',
-                      placeholder: 'From',
-                    },
-                    {
-                      value: filter.dateTo,
-                      onValue: (dateTo) => setFilter({ ...filter, dateTo }),
-                      type: 'date',
-                      placeholder: 'To',
-                    },
-                  ]}
-                />
-              </FinancePageCharts>
+                <Stack>
+                  <Label style={{ color: '#7E839F', marginBottom: '-1.1rem' }}>
+                    Date Range
+                  </Label>
+                  <Stack direction="horizontal">
+                    <Input
+                      type="date"
+                      placeholder="Please Select"
+                      value={filter.dateFrom}
+                      onValue={(dateFrom) => setFilter({ ...filter, dateFrom })}
+                    />
+                    <Input
+                      type="date"
+                      placeholder="Please Select"
+                      value={filter.dateTo}
+                      onValue={(dateTo) => setFilter({ ...filter, dateTo })}
+                    />
+                  </Stack>
+                </Stack>
+              </Grid>
               <FinancePageFilterActions direction="horizontal">
                 <Button color="primary" variant="contained">
                   Filter

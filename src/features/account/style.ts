@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Stack } from 'components/system';
-import { Card, Checkbox, Input } from 'components/ui';
+import { Card, Checkbox } from 'components/ui';
 
 export const AccountMain = styled(Card)`
   height: 100%;
@@ -73,33 +73,13 @@ export const AccountHeadline = styled.div`
   color: #2d3779;
 `;
 
-export const AccountGrid = styled.div<{ theme?: Theme }>`
-  ${({ theme }) => `  
+export const AccountGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px 177px;
   padding-right: 90px;
-  ${theme.breakpoints.down(1400)} {
-    gap: 16px 80px;
-    padding-right: 40px;
-  }
-  ${theme.breakpoints.down(768)} {
-    gap: 16px;
-    padding-right: 16px;
-    grid-template-columns: 1fr;
-  }
-  `}
 `;
 
 export const ApplicationContainer = styled.div`
   width: 100%;
-`;
-
-export const FullWidthInput = styled(Input)<{ theme?: Theme }>`
-  ${({ theme }) => `
-  grid-column: 1/3;
-  ${theme.breakpoints.down(768)} {
-    grid-column: unset;
-  }
-  `}
 `;

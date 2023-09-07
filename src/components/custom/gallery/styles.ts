@@ -19,15 +19,13 @@ export const SGallery = styled(Card)<{ theme?: Theme }>`
     max-height: 100%;
 
     img {
-      // width: 100%;
       border-radius: 8px;
     }
-  }
-  ${theme.breakpoints.down('xl')} {
-    grid-template-columns: 1fr;
-    max-height: unset;
-  }
-`}
+    ${theme.breakpoints.down('xl')} {
+      grid-template-columns: 1fr;
+      max-height: unset;
+    }
+  `}
 `;
 
 export const SFullScreenGallery = styled.div<{ theme?: Theme }>`

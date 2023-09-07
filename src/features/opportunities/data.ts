@@ -49,3 +49,14 @@ export const DMarketOffersHead = [
     visible: true,
   },
 ];
+
+export const DCarThemes = [
+  { name: 'E-commerce Car' },
+  { name: 'Fitness Car' },
+  { name: 'Influencer Car' },
+  { name: 'Marketing Car' },
+  { name: 'Real Estate Car' },
+  { name: 'Software Development Car' },
+  { name: 'Startup Car' },
+  { name: 'Trading Car' },
+];

@@ -5,7 +5,6 @@ import {
   TableHead,
   TableBody,
   TableHeadCell,
-  TableHeadCellAction,
   TableBodyCell,
   TableHeadRow,
   TableBodyRow,
@@ -13,12 +12,10 @@ import {
 } from 'components/custom/table/styles';
 import { TTableProps, TTableHeadItem } from 'components/custom/table/types';
 import getObjectDynamicPath from 'utilities/extended-proto/index';
-import { BackupTableRounded } from '@mui/icons-material';
 import { useModal } from 'hooks';
 import { Modal } from 'components/custom';
 import { Button } from 'components/ui';
 import { Reorder } from 'framer-motion';
-import { VerticalDotsIcon } from 'components/svg';
 import { OrderListDraggable } from './elements';
 
 const Table = ({
@@ -40,11 +37,6 @@ const Table = ({
               {visibleItems.map((x: any) => (
                 <TableHeadCell key={x.reference}>{x.label}</TableHeadCell>
               ))}
-              {/* <TableHeadCell action>
-                <TableHeadCellAction color="primary" onClick={openTModal}>
-                  <BackupTableRounded />
-                </TableHeadCellAction>
-              </TableHeadCell> */}
             </TableHeadRow>
           </TableHead>
           {!!items.length && (
@@ -52,7 +44,7 @@ const Table = ({
               {items.map((x: any, y: number) => (
                 <TableBodyRow key={Math.random() * 10000}>
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
-                    <TableBodyCell key={Math.random() * 10000}>
+                    <TableBodyCell key={y + b}>
                       {renderItem({
                         headItem: a,
                         cell: {
@@ -67,17 +59,6 @@ const Table = ({
                       })}
                     </TableBodyCell>
                   ))}
-                  {/* <TableBodyCell>
-                    <VerticalDotsIcon
-                      style={{
-                        width: '26px',
-                        height: '26px',
-                        borderRadius: '4px',
-                        backgroundColor: '#F3F6F9',
-                        margin: '7px 0px 7px 7px',
-                      }}
-                    />
-                  </TableBodyCell> */}
                 </TableBodyRow>
               ))}
             </TableBody>

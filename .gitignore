@@ -1,5 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# enviroment variables
+.env
+
+# next.config.js
+next.config.js
+
 # dependencies
 /node_modules
 /.pnp
@@ -37,3 +43,5 @@ next-env.d.ts
 
 deploy_prod.sh
 deploy_stage.sh
+
+.eslintignore

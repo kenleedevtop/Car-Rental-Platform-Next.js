@@ -1,15 +1,15 @@
 export const CProtectedRoutes = [
   '/',
   '/account',
-  '/booking',
   '/opportunities',
   '/applications',
   '/users',
   '/users/overview',
-  '/boats',
-  // '/finance',
+  '/finance',
   '/help',
-  '/overview',
+  '/cars',
+  '/cars/overview',
+  '/purchase-token-success',
 ];
 
 export const CUnprotectedRoutes = [
@@ -18,6 +18,8 @@ export const CUnprotectedRoutes = [
   '/reset-password',
   '/email-confirmation',
 ];
+
+export const CProtectedDynamicRoutes = ['/purchase-token-success'];
 
 export const CMiscRoutes = ['/_/code'];
 

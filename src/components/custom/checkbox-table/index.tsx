@@ -98,7 +98,7 @@ const Table = ({
           {!!items.length && (
             <TableBody>
               {items.map((rowData: any, rowIndex: number) => (
-                <TableBodyRow>
+                <TableBodyRow key={Math.random() * 10000}>
                   {['ADMIN', 'SUPERADMIN'].includes(role) && (
                     <TableBodyCell action>
                       <Checkbox

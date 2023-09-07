@@ -1,2 +1,2 @@
-export { default as HousesPage } from 'features/opportunities/role/admin';
-export { default as OpportunitiesPage } from 'features/opportunities/role/investor';
+export { default as CarsPage } from 'features/opportunities/role/admin';
+export { default as OpportunitiesPage } from 'features/opportunities/role/user';

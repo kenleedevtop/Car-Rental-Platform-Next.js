@@ -16,6 +16,7 @@ const Checkbox = ({
   value,
   onValue,
   helper,
+  disabled,
   required,
   ...props
 }: TCheckboxProps) => {
@@ -41,6 +42,7 @@ const Checkbox = ({
         ref={checkboxRef}
         type="checkbox"
         checked={value}
+        disabled={disabled}
         onChange={handleChange}
       />
       <CheckboxDisplay onClick={handleClick} size={size} color={color}>

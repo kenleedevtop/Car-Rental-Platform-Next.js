@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
-import { UsersPage, OpportunitiesPage, HousesPage } from 'features';
+import { UsersPage, OpportunitiesPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const Home = () => {

@@ -9,17 +9,13 @@ import {
   RegisterCompanyLName,
   RegisterLocalization,
 } from 'features/register/styles';
+import { ConfirmRegistrationModal } from 'features/register/elements';
 import { Button, Input } from 'components/ui';
 import { emailSchema, nameSchema, passwordSchema } from 'utilities/validators';
-// import { AmbassadorAPI, CompanyAPI, LegalsAPI } from 'api';
+import { AuthorizationAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
-
-type TSelect = {
-  value: number;
-  label: string;
-};
 
 interface IFormData {
   firstName: string;
@@ -27,9 +23,7 @@ interface IFormData {
   email: string;
   password: string;
   invCode: string;
-  company: any | null;
-  role: TSelect | null;
-  commonLegalId: number | null;
+  role: string;
 }
 
 const RegisterPage = () => {
@@ -38,117 +32,55 @@ const RegisterPage = () => {
     lastName: '',
     email: '',
     password: '',
-    // companyTitleId: '',
     invCode: '',
-    company: {
-      value: undefined,
-      label: '',
-      name: '',
-    },
-    role: null,
-    commonLegalId: null,
+    role: 'USER',
   });
-
-  const [legalsChecked, setLegalsChecked] = useState({
-    commonLegal: false,
-  });
-
-  const [commonLegal, setCommonLegal] = useState<any>('');
-
-  const [counter, setCounter] = useState(0);
 
   const router = useRouter();
-
-  const { token } = router.query;
 
   const { push } = useSnackbar();
 
   const { t } = useTranslation('register');
 
-  const [errors, setErrors] = useState([
-    false,
-    false,
-    false,
-    // false,
-    false,
-    false,
-    false,
-  ]);
+  const [errors, setErrors] = useState([false, false, false, false]);
 
   const handleErrors = (index: number) => (value: boolean) => {
     setErrors((x) => x.map((a, b) => (b === index ? value : a)));
   };
 
-  // const getLegals = async (lang: string) => {
-  //   const data = await LegalsAPI.getLegals(lang);
-
-  //   const common = data.commonLegal;
-
-  //   setState({
-  //     ...state,
-  //     commonLegalId: common.id,
-  //   });
-  //   setCommonLegal(common);
-  // };
-
-  const timeoutTime = 10000;
+  const [crModal, openCrModal, closeCrModal] = useModal(false);
 
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
     !state.email ||
     !state.password ||
-    !state.company ||
-    !state.role ||
-    !legalsChecked.commonLegal ||
-    !!errors.find((x) => x) ||
-    counter === 1;
+    !!errors.find((x) => x);
 
-  // const handleRegister = async () => {
-  //   const {
-  //     firstName,
-  //     lastName,
-  //     company,
-  //     email,
-  //     password,
-  //     role,
-  //     commonLegalId,
-  //   } = state;
+  const handleRegister = async () => {
+    const { firstName, lastName, email, password, role } = state;
 
-  //   if (role && company && commonLegalId && token) {
-  //     const formData = {
-  //       firstName,
-  //       lastName,
-  //       email,
-  //       companyTitleId: role.value,
-  //       commonLegalId,
-  //       company: {
-  //         companyId: company.value,
-  //         name: company.label,
-  //       },
-  //       password,
-  //     };
-  //     try {
-  //       const locale = router.locale ? router.locale?.slice(0, 2) : '';
-  //       await AmbassadorAPI.registration(formData, token?.toString(), locale);
-  //       openCrModal();
-  //     } catch (e: any) {
-  //       let step = 0;
-  //       step += 1;
-  //       setCounter(step);
-  //       push(e.response.data.message, { variant: 'error' });
-  //       setTimeout(() => {
-  //         setCounter(0);
-  //       }, timeoutTime);
-  //     }
-  //   }
-  // };
+    if (role) {
+      const formData = {
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+      };
+      try {
+        await AuthorizationAPI.register(formData);
+        openCrModal();
+      } catch (e: any) {
+        push(e.response.data.message, { variant: 'error' });
+      }
+    }
+  };
 
-  // const handleClose = () => {
-  //   router.push('/login');
-  //   closeCrModal();
-  // };
-
+  const handleClose = () => {
+    router.push('/login');
+    closeCrModal();
+  };
   return (
     <RegisterCompanyMain>
       <RegisterTitle>Sign Up</RegisterTitle>
@@ -187,17 +119,6 @@ const RegisterPage = () => {
                 }
               },
             },
-            {
-              message: t('First name must contain only letters'),
-              validator: (firstName) => {
-                try {
-                  nameSchema.validateSync({ pattern: firstName });
-                  return true;
-                } catch {
-                  return false;
-                }
-              },
-            },
           ]}
         />
         <RegisterCompanyLName
@@ -224,17 +145,6 @@ const RegisterPage = () => {
               validator: (lastName) => {
                 try {
                   nameSchema.validateSync({ length: lastName });
-                  return true;
-                } catch {
-                  return false;
-                }
-              },
-            },
-            {
-              message: t('Last name must contain only letters'),
-              validator: (lastName) => {
-                try {
-                  nameSchema.validateSync({ pattern: lastName });
                   return true;
                 } catch {
                   return false;
@@ -312,11 +222,14 @@ const RegisterPage = () => {
         size="large"
         color="secondary"
         disabled={isDisabled}
-        // onClick={handleRegister}
+        onClick={handleRegister}
       >
         SIGN UP NOW
       </Button>
       <RegisterLocalization />
+      {crModal && (
+        <ConfirmRegistrationModal email={state.email} onClose={handleClose} />
+      )}
     </RegisterCompanyMain>
   );
 };

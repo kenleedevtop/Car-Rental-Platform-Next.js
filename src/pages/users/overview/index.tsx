@@ -3,9 +3,12 @@ import { Title } from 'components/core';
 import { useAppContext } from 'context';
 import { UsersOverviewPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
 
 const Overview = () => {
   const { setRouteName } = useAppContext();
+  const router = useRouter();
+  const { query } = router;
 
   useEffect(() => {
     setRouteName('Overview');
@@ -14,7 +17,7 @@ const Overview = () => {
   return (
     <>
       <Title>Overview</Title>
-      <UsersOverviewPage />
+      <UsersOverviewPage userId={query.userId} />
     </>
   );
 };

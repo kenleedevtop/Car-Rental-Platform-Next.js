@@ -14,7 +14,7 @@ import { Button, Input, Slider } from 'components/ui';
 import { Stack } from 'components/system';
 import { UploadIcon } from 'components/svg';
 import { useAppContext } from 'context';
-import { ChangePasswordModal } from 'features/account/role/investor/elements';
+import { ChangePasswordModal } from 'features/account/role/user/elements';
 import { useModal } from 'hooks';
 import { pick, read } from '@costorgroup/file-manager';
 

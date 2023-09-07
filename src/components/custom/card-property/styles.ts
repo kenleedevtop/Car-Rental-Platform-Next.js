@@ -99,7 +99,9 @@ export const CardAddress = styled.div`
   color: #7e839f;
   font-size: 16px;
 `;
-export const CardAddressSmall = styled.img``;
+export const CardAddressSmall = styled.img`
+  width: 30px;
+`;
 
 export const CardTitle = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
@@ -189,7 +191,7 @@ export const CardProgressAvailableValue = styled.div`
   color: #6aa5d5;
 `;
 
-export const CardButton = styled(Link)<{ theme?: Theme }>`
+export const CardButton = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     width: 100%;
     background: ${theme.palette.primary.main};
@@ -201,6 +203,12 @@ export const CardButton = styled(Link)<{ theme?: Theme }>`
     text-align: center;
     cursor: pointer;
     text-decoration: none;
+  `}
+`;
+
+export const CardLink = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+  cursor: pointer;
   `}
 `;
 
@@ -240,12 +248,12 @@ export const TableMenu = styled(Menu)<{
   ${({ position }) => `
     position: fixed;
     z-index: 200;
-    width: 200px;
+    width: 120px;
     right: ${position?.right}px;
     top: ${position?.top}px;
 
     &:last-child,
-    &:first-of-type {
+    &:first-child {
       grid-template-columns: 1fr;
     }
 

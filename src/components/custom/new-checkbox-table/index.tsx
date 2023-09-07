@@ -78,7 +78,7 @@ const Table = ({
                   ['ADMIN', 'SUPERADMIN'].includes(role)
                 ) {
                   return (
-                    <TableHeadCell action="true" key={Math.random() * 10000}>
+                    <TableHeadCell action="true" key={x.reference}>
                       <TableHeadCellAction color="primary">
                         {renderElements || undefined}
                       </TableHeadCellAction>
@@ -106,7 +106,7 @@ const Table = ({
                     </TableBodyCell>
                   )}
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
-                    <TableBodyCell key={Math.random() * 10000}>
+                    <TableBodyCell key={b + b}>
                       {renderItem({
                         headItem: a,
                         cell: {

@@ -5,6 +5,14 @@ export type TLoginParams = {
   password: string;
 };
 
+export type TRegisterParams = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+};
+
 export type TLoginResponse = {
   token: string;
   role: Array<TUserRole>;

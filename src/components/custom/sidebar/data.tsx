@@ -8,6 +8,7 @@ import {
   AccountIcon,
   PortfolioIcon,
   UsersIcon,
+  SurveyIcon,
 } from 'components/svg';
 import { TSidebarItem } from 'components/custom/sidebar/types';
 
@@ -24,15 +25,15 @@ export const DSidebarItems: Array<TSidebarItem> = [
     id: 2,
     type: 'route',
     icon: <DiscoverIcon />,
-    label: 'Boats',
-    location: '/boats',
+    label: 'Cars',
+    location: '/cars',
     roles: ['ADMIN'],
   },
   {
     id: 3,
     type: 'route',
     icon: <DiscoverIcon />,
-    label: 'Boats',
+    label: 'Cars',
     location: '/',
     roles: ['USER'],
   },
@@ -47,7 +48,7 @@ export const DSidebarItems: Array<TSidebarItem> = [
   {
     id: 44,
     type: 'route',
-    icon: <PortfolioIcon />,
+    icon: <SurveyIcon />,
     label: 'Booking',
     location: '/booking',
     roles: ['ADMIN', 'USER'],

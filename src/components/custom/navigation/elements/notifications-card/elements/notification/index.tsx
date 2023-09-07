@@ -11,15 +11,14 @@ import { TNotificationProps } from 'components/custom/notifications-card/element
 import { format } from 'date-fns';
 
 const Notification = ({
-  status,
-  text,
+  notification,
   createdAt,
   ...props
 }: TNotificationProps) => (
   <NotificationMain {...props}>
     <NotificationContent>
-      <NotificationStatus status={status} />
-      <NotificationText> {text} </NotificationText>
+      <NotificationStatus variant={notification.variant} />
+      <NotificationText> {notification.description} </NotificationText>
     </NotificationContent>
     <NotificationDate>
       {createdAt ? format(new Date(createdAt), 'MMM dd, yyyy | h:mm a') : null}

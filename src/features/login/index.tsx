@@ -18,14 +18,13 @@ import { useAppContext } from 'context';
 import { useTranslation } from 'next-i18next';
 import { TLoginParams } from 'api/authorization/types';
 import { AxiosError } from 'axios';
+import { emailSchema } from 'utilities/validators';
 
 const Login = () => {
   const [state, setState] = useState<TLoginParams>({
     email: '',
     password: '',
   });
-
-  const [resendCount, setResendCount] = useState<any>(null);
 
   const { t } = useTranslation('login');
 
@@ -37,6 +36,12 @@ const Login = () => {
 
   const { login } = useAppContext();
 
+  const [errors, setErrors] = useState([false]);
+
+  const handleErrors = (index: number) => (value: boolean) => {
+    setErrors((x) => x.map((a, b) => (b === index ? value : a)));
+  };
+
   const handleLogin = async () => {
     try {
       await login(state);
@@ -46,9 +51,8 @@ const Login = () => {
       if (e instanceof AxiosError && e.response) {
         if (
           e.response.data.message ===
-          'Please confirm your e-mail address in order to complete the sign-up process.'
+          'User not verified, please check your email inbox'
         ) {
-          setResendCount(JSON.parse(e.response.data.error));
           openCrModal();
         } else {
           if (router.locale === 'de-DE') {
@@ -73,7 +77,7 @@ const Login = () => {
     }
   };
 
-  const isDisabled = !state.email.trim() || !state.password.trim();
+  const isDisabled = !state.email || !state.password || !!errors.find((x) => x);
 
   const handleKeyDown = (event: any) => {
     if (event.key === 'Enter' && !isDisabled) {
@@ -95,6 +99,28 @@ const Login = () => {
         placeholder={t('Please Enter your Email') as string}
         value={state.email}
         onValue={(email) => setState({ ...state, email })}
+        errorCallback={handleErrors(0)}
+        validators={[
+          {
+            message: 'Email is required',
+            validator: (email) => {
+              const v = email as string;
+              if (v.trim()) return true;
+              return false;
+            },
+          },
+          {
+            message: 'Not a valid email format',
+            validator: (email) => {
+              try {
+                emailSchema.validateSync({ email });
+                return true;
+              } catch {
+                return false;
+              }
+            },
+          },
+        ]}
       />
       <Input
         type="password"
@@ -120,7 +146,7 @@ const Login = () => {
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
       {crModal && (
         <ConfirmRegistrationModal
-          count={resendCount.emailResendTokens}
+          count={1}
           email={state.email}
           onClose={closeCrModal}
         />

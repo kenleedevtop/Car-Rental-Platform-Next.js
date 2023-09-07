@@ -51,7 +51,7 @@ export const SidebarItemMain = styled.div<{
 
 export const SidebarItemOuter = styled(Link)<{
   theme?: Theme;
-  active: string;
+  active?: string;
 }>`
   ${({ theme, active }) => `
     user-select: none;

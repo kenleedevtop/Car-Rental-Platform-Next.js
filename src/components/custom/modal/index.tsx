@@ -28,7 +28,7 @@ const Modal = ({
   };
 
   return (
-    <ModalWrapper ref={wrapperRef} onMouseDown={handleClose} {...props}>
+    <ModalWrapper ref={wrapperRef} {...props}>
       <ModalMain size={size} animation="slide-right">
         <ModalHead>
           <ModalTitle>{title}</ModalTitle>

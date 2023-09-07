@@ -16,3 +16,7 @@ export const AccountGrid = styled.div`
   gap: 16px 177px;
   padding-right: 90px;
 `;
+
+export const SkillGrid = styled.div`
+  padding-right: 90px;
+`;

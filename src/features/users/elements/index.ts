@@ -1,1 +1,2 @@
-export { default as ExportFinanceModal } from 'features/users/elements/export-finance-modal';
+export { default as ExportUsersModal } from 'features/users/elements/export-users-modal';
+export { default as UserActionMenu } from 'features/users/elements/user-option-menu';

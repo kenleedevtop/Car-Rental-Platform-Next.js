@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 import { CardWithText } from 'components/custom';
 import { IconButton, Theme } from '@mui/material';
 import { Grid } from 'components/system';
+import { TNotificationVariantType } from '../notifications-card/types';
+import Link from 'next/link';
 
 export const CalendarCardMain = styled(CardWithText)<{ theme?: Theme }>``;
 
@@ -24,6 +26,7 @@ export const CalendarCardCell = styled.div<{
     width: 100%;
     padding: ${theme.spacing(1.5)};
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: ${
@@ -40,6 +43,36 @@ export const CalendarCardCell = styled.div<{
       };
     }
   `}
+`;
+
+export const CalendarEventContainer = styled.div<{
+  theme?: Theme;
+}>`
+  ${({ theme }) => `
+    display: flex;
+    flex-direction: row;
+  `}
+`;
+
+export const CalendarEventStatus = styled(Link)<{
+  theme?: Theme;
+  variant: TNotificationVariantType;
+}>`
+  ${({ theme, variant }) => `
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin: 1.2px;
+    float: left;
+    background-color: ${
+      (variant === 'error' && theme.palette.error.light) ||
+      (variant === 'success' && theme.palette.success.light) ||
+      (variant === 'info' && theme.palette.info.light) ||
+      (variant === 'primary' && theme.palette.primary.light) ||
+      (variant === 'secondary' && theme.palette.secondary.light) ||
+      (variant === 'warning' && theme.palette.warning.light)
+    };
+`}
 `;
 
 export const CalendarCardCellDate = styled.div<{

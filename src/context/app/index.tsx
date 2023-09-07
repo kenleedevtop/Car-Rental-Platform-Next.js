@@ -10,7 +10,6 @@ import { createInitialState } from 'context/app/data';
 import { TAppContextState } from 'context/app/types';
 import { TLoginParams } from 'api/authorization/types';
 import { LoadingPage } from 'features';
-import { convertNumberToRole } from 'utilities/converters';
 import { IUser } from 'api/users/types';
 
 const AppContext = createContext(createInitialState());
@@ -26,6 +25,10 @@ const AppContextProvider = ({ ...props }) => {
     showMobileMenu: true,
     currency: 'CHF',
     influencer: null,
+    houseStatus: 0,
+    userStatus: 0,
+    applicationStatus: 0,
+    notificationStatus: 0,
   });
 
   const handleMobileMenu = (value: boolean) => {
@@ -44,23 +47,33 @@ const AppContextProvider = ({ ...props }) => {
     setState((x) => ({ ...x, influencer: body }));
   };
 
+  const handleCarStatus = (value: number) => {
+    setState((x) => ({ ...x, houseStatus: value }));
+  };
+
+  const handleUserStatus = (value: number) => {
+    setState((x) => ({ ...x, userStatus: value }));
+  };
+
+  const handleApplicationStatus = (value: number) => {
+    setState((x) => ({ ...x, applicationStatus: value }));
+  };
+
+  const handleNotificationStatus = (value: number) => {
+    setState((x) => ({ ...x, notificationStatus: value }));
+  };
+
   const logout = async () => {
     await AuthorizationAPI.logout();
   };
 
   const getMeData = async () => {
     try {
-      const user = {};
-      // await AuthorizationAPI.me();
+      const user = await AuthorizationAPI.me();
 
       if (!user) throw 'No user returned';
 
-      const roleResult = '';
-      // convertNumberToRole(user.role);
-
-      if (!roleResult) throw 'No role found';
-
-      setState({ ...state, user, role: roleResult, initialLoading: false });
+      setState({ ...state, user, role: user.role, initialLoading: false });
 
       return user;
     } catch {
@@ -111,6 +124,10 @@ const AppContextProvider = ({ ...props }) => {
       handleMobileMenu,
       handleCurrencyChange,
       handleInfluencer,
+      handleUserStatus,
+      handleCarStatus,
+      handleApplicationStatus,
+      handleNotificationStatus,
     }),
     [
       state,
@@ -121,6 +138,10 @@ const AppContextProvider = ({ ...props }) => {
       handleMobileMenu,
       handleCurrencyChange,
       handleInfluencer,
+      handleUserStatus,
+      handleCarStatus,
+      handleApplicationStatus,
+      handleNotificationStatus,
     ]
   );
   return state.initialLoading ? (

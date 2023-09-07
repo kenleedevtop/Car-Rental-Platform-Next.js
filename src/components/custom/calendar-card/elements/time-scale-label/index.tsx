@@ -4,6 +4,7 @@ import { STimeScaleLabelMain } from 'components/custom/calendar-card/elements/ti
 import moment from 'moment';
 
 const TimeScaleLabel = ({ formatDate, ...props }: TTimeScaleLabelProps) => (
+  // eslint-disable-next-line
   <STimeScaleLabelMain
     formatDate={(date) => moment(date).format('h A')}
     {...props}

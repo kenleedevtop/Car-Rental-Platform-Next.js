@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Title } from 'components/core';
 import { useAppContext } from 'context';
 import { EmailConfirmationPage } from 'features';
-// import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const EmailConfirmation = () => {
   const { setRouteName } = useAppContext();
@@ -19,12 +19,12 @@ const EmailConfirmation = () => {
   );
 };
 
-// export async function getStaticProps({ locale }: { locale: string }) {
-//   return {
-//     props: {
-//       ...(await serverSideTranslations(locale, ['reset-password', 'common'])),
-//     },
-//   };
-// }
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['reset-password', 'common'])),
+    },
+  };
+}
 
 export default EmailConfirmation;

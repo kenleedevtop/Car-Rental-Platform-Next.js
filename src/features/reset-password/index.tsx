@@ -10,6 +10,7 @@ import { useSnackbar } from 'hooks';
 import { AuthorizationAPI } from 'api';
 import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
+import { AxiosError } from 'axios';
 
 const ChangePassword = () => {
   const [state, setState] = useState({
@@ -45,7 +46,9 @@ const ChangePassword = () => {
         router.push('/login');
       }
     } catch (e: any) {
-      push('Password reset was unsuccessful.', { variant: 'error' });
+      if (e instanceof AxiosError && e.response) {
+        push(e.response.data.message, { variant: 'error' });
+      }
     }
   };
 

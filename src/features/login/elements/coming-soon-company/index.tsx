@@ -17,9 +17,7 @@ const ConfirmRegistrationModal = ({
   return (
     <Modal size="medium" onClose={onClose} {...props}>
       <MaintenanceMain>
-        <MaintenanceTitle>
-          {t('Welcome to Patients Influence!')}
-        </MaintenanceTitle>
+        <MaintenanceTitle>{t('Welcome to Shared Cars!')}</MaintenanceTitle>
         <p>
           {t(
             "Thank you for logging in to your account. We are excited to announce that our platform is in its final stages of development. We are creating a cutting-edge, industry-leading platform that will transform the way healthcare companies connect with patient influencers, and create a real impact in the healthcare industry. We appreciate your support as we bring this platform to life. Please don't hesitate to reach out if you have any questions or concerns. We look forward to revolutionizing the healthcare industry together and making a difference."

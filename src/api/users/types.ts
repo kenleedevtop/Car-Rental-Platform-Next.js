@@ -1,8 +1,9 @@
-import {
-  IInfluencer,
-  ILocation,
-  TAffiliatedInfluencer,
-} from 'api/influencer/types';
+import { IApplication } from 'api/applications/types';
+import { TEducation } from 'api/education/types';
+import { TCarPreference } from 'api/housePreference/types';
+import { ICar } from 'api/cars/types';
+import { ISocialMedia } from 'api/socialMedia/types';
+import { TWorkExperience } from 'api/workExperience/types';
 
 export type TCreateUser = {
   id: string;
@@ -32,17 +33,23 @@ export interface IUser {
   firstName: string;
   lastName: string;
   email: string;
-  emailResendTokens: number;
-  locationId: number | null;
-  role: number;
-  status: number;
-  currency: number;
+  role: string;
+  dateOfBirth: string;
+  nationality: string;
+  profileImageUrl: string;
+  language: string;
+  skills: string;
+  location: string;
+  tokenBalance: number;
+  applicationCount: number;
+  applications: IApplication[];
+  educations: TEducation[];
+  experiences: TWorkExperience[];
+  housePreference: TCarPreference[];
+  socialMedia: ISocialMedia[];
+  cars: ICar[];
+  invested: number;
+  verified: boolean;
   createdAt: string;
   updatedAt: string;
-  assigneeUserLabels: any[];
-  productOrderChatRoomMember: any[];
-  notificationUsers: any[];
-  invitedInfluencers: TAffiliatedInfluencer[];
-  influencer: IInfluencer;
-  location?: ILocation;
 }

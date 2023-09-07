@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   CardMain,
-  CardImage,
   CardHead,
   CardPrice,
   CardPriceValue,
@@ -12,142 +11,117 @@ import {
   CardTitle,
   CardProgressValue,
   CardProgressItem,
-  CardButton,
   CardCompletedMark,
   TableMenu,
   ISpan,
+  CardLink,
 } from 'components/custom/card-property/styles';
+import Image from 'next/image';
+
 import { TPropertyCardProps } from 'components/custom/card-property/types';
 import { formatNumber } from 'utilities/extended-proto';
-import { CarretDownIcon, EditIcon, HouseIcon } from 'components/svg';
+import { CarretDownIcon, EditIcon, CarIcon } from 'components/svg';
 import { Button } from 'components/ui';
 import { useMenu, useModal } from 'hooks';
-import { AddProjectModal } from './elements';
+import { ApplicationModal, EditProjectModal } from './elements';
+import { convertLocationToFlag } from 'utilities/converters';
+import Project from 'constants/project';
 
 const PropertyCard = ({
   image,
-  address,
-  title,
+  house,
   link,
-  spots,
-  availableSpots,
-  status,
-  rent,
-  theme,
-  completed,
-  label = 'View',
+  label = 'Apply',
+  completed = false,
   dropdown = false,
-  dropdownOwned = false,
-  dropdownAdmin = false,
+  refresh,
   ...props
 }: TPropertyCardProps) => {
   const [menu, open, handleMenu, buttonRef, position] = useMenu(false);
   const [editModal, openEditModal, closeEditModal] = useModal(false);
+  const [applicationModal, openApplicationModal, closeApplicationModal] =
+    useModal(false);
 
+  const [flagUrl, setFlagUrl] = useState<string>();
   const router = useRouter();
+  useEffect(() => {
+    const flag = convertLocationToFlag(house.location);
+    setFlagUrl(flag);
+  }, [house.location]);
 
   return (
     <CardMain animation="zoom-in" {...props}>
-      {completed && <CardCompletedMark>Completed</CardCompletedMark>}
-      <CardImage src={image} />
+      {completed && <CardCompletedMark>Filled</CardCompletedMark>}
+      <Image
+        src={image ? `${Project.apis.v1}/public/images/${image.key}` : ''}
+        alt="Car thumbnail"
+        width={500}
+        height={500}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          maxHeight: '250px',
+          borderTopRightRadius: 7,
+          borderTopLeftRadius: 7,
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          router.push(link);
+        }}
+      />
       <CardHead>
-        {rent && (
+        {house.rent && (
           <CardPrice>
             Rent
-            <CardPriceValue>€{formatNumber(rent)}</CardPriceValue>
+            <CardPriceValue>€{formatNumber(house.rent)}</CardPriceValue>
           </CardPrice>
         )}
-        {availableSpots && spots && (
+        {house.theme && (
           <CardPrice>
-            Shares
-            <CardPriceValue>
-              {availableSpots}/{spots}
-            </CardPriceValue>
+            Theme
+            <CardPriceValue>{house.theme}</CardPriceValue>
           </CardPrice>
         )}
       </CardHead>
       <CardBody>
-        <CardAddress>
-          <CardAddressSmall src="/static/assets/images/croatia.png" />
-          {address}
-        </CardAddress>
-        <CardTitle>{title}</CardTitle>
-        {!dropdown && !dropdownOwned && !dropdownAdmin && (
-          <CardButton href={link}>{label}</CardButton>
-        )}
-        {dropdown && !dropdownOwned && !dropdownAdmin && (
-          <Button variant="contained" color="primary">
-            <ISpan onClick={handleMenu} ref={buttonRef}>
-              Apply <CarretDownIcon style={{ marginLeft: '10px' }} />
-            </ISpan>
-            {open && (
-              <TableMenu
-                position={position}
-                items={[
-                  {
-                    icon: <HouseIcon />,
-                    label: 'Apply',
-                    action: handleMenu,
-                  },
-                  {
-                    icon: <HouseIcon />,
-                    label: 'View',
-                    action: () => {
-                      router.push(link);
-                      handleMenu();
-                    },
-                  },
-                  {
-                    icon: <EditIcon />,
-                    label: 'Sell',
-                    action: () => {
-                      openEditModal();
-                      handleMenu();
-                    },
-                  },
-                ]}
-                ref={menu}
-              />
-            )}
+        <CardLink
+          onClick={() => {
+            router.push(link);
+          }}
+        >
+          <CardAddress>
+            <CardAddressSmall src={flagUrl} />
+            {house.location}
+          </CardAddress>
+          <CardTitle>{house.name}</CardTitle>
+          {house.availableSpots && house.totalSpots && (
+            <CardProgressItem>
+              Available spots
+              <CardProgressValue>
+                {house.availableSpots}/{house.totalSpots}
+              </CardProgressValue>
+            </CardProgressItem>
+          )}
+          {house.status && (
+            <CardProgressItem>
+              Status
+              <CardProgressValue>{house.status}</CardProgressValue>
+            </CardProgressItem>
+          )}
+        </CardLink>
+        {!dropdown && (
+          <Button
+            color="primary"
+            variant="contained"
+            size="large"
+            disabled={completed}
+            onClick={openApplicationModal}
+          >
+            {label}
           </Button>
         )}
-        {dropdownOwned && !dropdown && !dropdownAdmin && (
-          <Button variant="contained" color="primary">
-            <ISpan onClick={handleMenu} ref={buttonRef}>
-              Book <CarretDownIcon style={{ marginLeft: '10px' }} />
-            </ISpan>
-            {open && (
-              <TableMenu
-                position={position}
-                items={[
-                  {
-                    icon: <HouseIcon />,
-                    label: 'Book',
-                    action: handleMenu,
-                  },
-                  {
-                    icon: <HouseIcon />,
-                    label: 'View',
-                    action: () => {
-                      router.push(link);
-                      handleMenu();
-                    },
-                  },
-                  {
-                    icon: <EditIcon />,
-                    label: 'Sell',
-                    action: () => {
-                      openEditModal();
-                      handleMenu();
-                    },
-                  },
-                ]}
-                ref={menu}
-              />
-            )}
-          </Button>
-        )}
-        {!dropdownOwned && !dropdown && dropdownAdmin && (
+        {dropdown && (
           <Button variant="contained" color="primary">
             <ISpan onClick={handleMenu} ref={buttonRef}>
               {label} <CarretDownIcon style={{ marginLeft: '10px' }} />
@@ -157,16 +131,19 @@ const PropertyCard = ({
                 position={position}
                 items={[
                   {
-                    icon: <HouseIcon />,
+                    icon: <CarIcon />,
                     label: 'View',
-                    action: handleMenu,
-                  },
-                  {
-                    icon: <HouseIcon />,
-                    label: 'Edit',
                     action: () => {
                       router.push(link);
                       handleMenu();
+                    },
+                  },
+                  {
+                    icon: <EditIcon />,
+                    label: 'Edit',
+                    action: () => {
+                      handleMenu();
+                      openEditModal();
                     },
                   },
                 ]}
@@ -176,7 +153,20 @@ const PropertyCard = ({
           </Button>
         )}
       </CardBody>
-      {editModal && <AddProjectModal onClose={closeEditModal} />}
+      {editModal && (
+        <EditProjectModal
+          houseId={house.id}
+          onClose={closeEditModal}
+          refresh={refresh}
+        />
+      )}
+      {applicationModal && (
+        <ApplicationModal
+          houseId={house.id}
+          onClose={closeApplicationModal}
+          houseName={house.name}
+        />
+      )}
     </CardMain>
   );
 };

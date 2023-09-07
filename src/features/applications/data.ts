@@ -1,53 +1,85 @@
 export const DApplicationsFilters = () => ({
-  user: null,
-  location: null,
-  boat: null,
-  boats: {
+  search: '',
+  applicationType: [],
+  nationality: [],
+  age: {
     min: '',
     max: '',
   },
-  shares: {
+  language: [],
+  location: [],
+  invested: {
     min: '',
     max: '',
   },
+  socialMedia: [],
   applications: {
     min: '',
     max: '',
   },
-  status: null,
-  applicationDateFrom: null,
-  applicationDateTo: null,
+  status: [],
+  dateFrom: null,
+  dateTo: null,
+
+  jobTitle: [],
+  company: '',
+  workExperienceLocation: [],
+  currentlyEmployed: null,
+  skills: [],
+
+  school: '',
+  degree: [],
+  fieldOfStudy: [],
+
+  theme: [],
+  skillsOfOthers: [],
+  houseLocation: [],
+  houseLanguage: [],
+  monthlyRent: {
+    min: '',
+    max: '',
+  },
+  houseAge: {
+    min: '',
+    max: '',
+  },
+  tenantsPerCar: {
+    min: '',
+    max: '',
+  },
+  interestsAndHobbies: [],
+  diet: [],
 });
 
 export const DApplicationsHead = [
   {
-    reference: 'name',
-    label: 'Name',
+    reference: 'house',
+    label: 'Car',
     visible: true,
   },
   {
-    reference: 'boat',
-    label: 'Boat',
+    reference: 'theme',
+    label: 'Theme',
     visible: true,
   },
   {
-    reference: 'date',
-    label: 'Date',
+    reference: 'location',
+    label: 'Location',
     visible: true,
   },
   {
-    reference: 'sharesApplied',
-    label: 'Shares Applied',
+    reference: 'type',
+    label: 'Type',
+    visible: true,
+  },
+  {
+    reference: 'rent',
+    label: 'Rent',
     visible: true,
   },
   {
     reference: 'status',
     label: 'Status',
-    visible: true,
-  },
-  {
-    reference: 'actions',
-    label: '',
     visible: true,
   },
 ];
@@ -84,8 +116,59 @@ export const DAdminApplicationsHead = [
     visible: true,
   },
   {
+    reference: 'house',
+    label: 'Car',
+    visible: true,
+  },
+  {
+    reference: 'rent',
+    label: 'Rent',
+    visible: true,
+  },
+  {
+    reference: 'tier',
+    label: 'Tier',
+    visible: true,
+  },
+  {
+    reference: 'status',
+    label: 'Status',
+    visible: true,
+  },
+  {
     reference: 'actions',
     label: '',
     visible: true,
+  },
+];
+
+export const DApplicationType = [
+  {
+    value: 'Basic',
+    name: 'Basic Application',
+  },
+  {
+    name: 'Priority Application',
+    value: 'Priority',
+  },
+  {
+    name: 'Premium Application',
+    value: 'Premium',
+  },
+  {
+    name: 'Elite Application',
+    value: 'Elite',
+  },
+];
+
+export const DApplicationStatues = [
+  {
+    name: 'Pending',
+  },
+  {
+    name: 'Approved',
+  },
+  {
+    name: 'Rejected',
   },
 ];

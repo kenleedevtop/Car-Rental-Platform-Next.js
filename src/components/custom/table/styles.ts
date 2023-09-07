@@ -7,7 +7,7 @@ export const TableWrapper = styled.div<{ theme?: Theme }>`
     background-color: ${theme.palette.common.white};
 
     overflow-x: auto;
-    overflow-y: auto;
+    overflow-y: hidden;
     padding-bottom: 10px;
   `}
 `;

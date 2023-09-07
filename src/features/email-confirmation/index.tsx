@@ -20,11 +20,11 @@ const EmailConfirmation = () => {
     try {
       await AuthorizationAPI.emailConfirmation({ token: query.token as any });
       if (locale === 'de-DE') {
-        push('Willkommen bei Patients Influence!', { variant: 'success' });
-        setMessage('Willkommen bei Patients Influence!');
+        push('Willkommen bei Shared Cars!', { variant: 'success' });
+        setMessage('Willkommen bei Shared Cars!');
       } else {
-        push('Welcome to Patients Influence!', { variant: 'success' });
-        setMessage('Welcome to Patients Influence!');
+        push('Welcome to Shared Cars!', { variant: 'success' });
+        setMessage('Welcome to Shared Cars!');
       }
     } catch (e: any) {
       if (locale === 'de-DE') {
