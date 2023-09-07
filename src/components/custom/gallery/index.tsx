@@ -30,7 +30,7 @@ const Gallery = ({ thumbnail, images, ...props }: TGalleryProps) => {
   return (
     <SGallery {...props}>
       <Image
-        alt="Cars thumbnail"
+        alt="Supercars thumbnail"
         src={`${Project.apis.v1}/public/images/${thumbnail?.key}`}
         width={1000}
         height={500}

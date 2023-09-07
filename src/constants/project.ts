@@ -1,5 +1,5 @@
 const Project = {
-  name: 'Shared Cars',
+  name: 'Shared Supercars',
   version: '1.0.0',
   app: {
     // environment: 'production',
@@ -28,7 +28,7 @@ const Project = {
   },
   title: {
     prefix: '',
-    sufix: ' | Shared Cars',
+    sufix: ' | Shared Supercars',
   },
 };
 

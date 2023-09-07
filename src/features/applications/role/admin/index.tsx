@@ -444,7 +444,7 @@ const AdminApplicationsPage = () => {
           <Collapse in={filterOpen}>
             <Stack>
               <Tabs
-                tabs={['Info', 'Work Experience', 'Education', 'Cars']}
+                tabs={['Info', 'Work Experience', 'Education', 'Supercars']}
                 value={tabs}
                 onValue={setTabs}
               />
@@ -699,7 +699,7 @@ const AdminApplicationsPage = () => {
                     />
                     <Input
                       type="min-max"
-                      label="Tenants per Cars"
+                      label="Tenants per Supercars"
                       value={filter.tenantsPerCar}
                       onValue={(tenantsPerCar) =>
                         setFilter({ ...filter, tenantsPerCar })

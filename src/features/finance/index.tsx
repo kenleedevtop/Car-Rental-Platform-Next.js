@@ -88,7 +88,7 @@ const FinancePage = () => {
                 />
                 <Input
                   type="select"
-                  label="Cars"
+                  label="Supercars"
                   placeholder="Please Select"
                   value={filter.house}
                   onValue={(house) => setFilter({ ...filter, house })}

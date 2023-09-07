@@ -62,7 +62,7 @@ const UserApplicationsPage = () => {
       <HomePageCharts>
         <HomePageChartsGrid>
           <CardWithChart
-            title="Boats"
+            title="Supercars"
             icon={<IdentifiedIcon />}
             percent={2}
             count={75}
@@ -138,7 +138,7 @@ const UserApplicationsPage = () => {
                 <HomePageChartsGrid>
                   <Input
                     type="select"
-                    label="Boat"
+                    label="Supercar"
                     placeholder="Please Select"
                     value={filter.boat}
                     onValue={(boat) => setFilter({ ...filter, boat })}

@@ -1,6 +1,6 @@
 import { IApplication } from 'api/applications/types';
 import { TEducation } from 'api/education/types';
-import { TCarPreference } from 'api/housePreference/types';
+import { TCarPreference } from 'api/supercarPreference/types';
 import { ICar } from 'api/cars/types';
 import { ISocialMedia } from 'api/socialMedia/types';
 import { TWorkExperience } from 'api/workExperience/types';
@@ -45,7 +45,7 @@ export interface IUser {
   applications: IApplication[];
   educations: TEducation[];
   experiences: TWorkExperience[];
-  housePreference: TCarPreference[];
+  preference: TCarPreference[];
   socialMedia: ISocialMedia[];
   cars: ICar[];
   invested: number;

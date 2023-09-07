@@ -3,7 +3,6 @@ import {
   ApplicationContainer,
   AccountHeadline,
   AccountGrid,
-  SkillGrid,
 } from 'features/users-overview/styles';
 import { Button, Input, Card } from 'components/ui';
 import { Stack } from 'components/system';
@@ -18,13 +17,8 @@ import { getCarTheme } from 'utilities/houseTheme';
 import { getSkillsOfOthers } from 'utilities/skillsOfOthers';
 import { getInterestsAndHobbies } from 'utilities/interests';
 import { getDiets } from 'utilities/diets';
-import WorkExperience from './workExperiences';
-import Education from './educations';
 import { getSkills } from 'utilities/skills';
-import { ISocialMedia } from 'api/socialMedia/types';
-import SocialMediaAPI from 'api/socialMedia';
-import CarPreferenceApi from 'api/housePreference';
-import { birthDateSchema } from 'utilities/validators';
+import CarPreferenceApi from 'api/supercarPreference';
 
 const OverviewPage = (props: any) => {
   const { userId } = props;
@@ -32,48 +26,18 @@ const OverviewPage = (props: any) => {
   const { push } = useSnackbar();
   const [infoHasChanged, setInfoHasChanged] = useState<boolean>(false);
   const [infoSaving, setInfoSaving] = useState<boolean>(false);
-  const [socialMediaHasChanged, setSocialMediaHasChanged] =
-    useState<boolean>(false);
-  const [socialMediaSaving, setSocialMediaSaving] = useState<boolean>(false);
-  const [expHasChanged, setExpHasChanged] = useState<boolean>(false);
-  const [expSaving, setExpSaving] = useState<boolean>(false);
-  const [eduHasChanged, setEduHasChanged] = useState<boolean>(false);
-  const [eduSaving, setEduSaving] = useState<boolean>(false);
   const [hprefHasChanged, setHprefHasChanged] = useState<boolean>(false);
   const [hprefSaving, setHprefSaving] = useState<boolean>(false);
-  const [workIssuedArrays, setWorkIssuedArrays] = useState<any[]>([]);
-  const [eduIssuedArrays, setEduIssuedArrays] = useState<any[]>([]);
-  // Viktor
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleEditClick = () => {
-    setIsEditing(!isEditing);
-  };
 
   const [info, setInfo] = useState<any>({
     firstName: '',
     lastName: '',
+    password: '',
     email: '',
     location: '',
-    nationality: '',
-    dateOfBirth: '',
-    language: [],
-    skills: [],
   });
 
-  const [workExperiences, setWorkExperiences] = useState<any[]>([]);
-  const [educations, setEducations] = useState<any[]>([]);
-  const [socialMedia, setSocialMedia] = useState<ISocialMedia>({
-    id: -1,
-    linkedin: '',
-    tiktok: '',
-    instagram: '',
-    website: '',
-    ownerId: userId,
-    createdAt: '',
-    updatedAt: '',
-  });
-  const [housePreference, setCarPreference] = useState<any>({
+  const [preference, setCarPreference] = useState<any>({
     id: -1,
     theme: [],
     skillsOfOthers: [],
@@ -92,7 +56,6 @@ const OverviewPage = (props: any) => {
     createdAt: '',
     updatedAt: '',
   });
-
   const [errors, setErrors] = useState([false]);
 
   const handleErrors = (index: number) => (value: boolean) => {
@@ -100,47 +63,27 @@ const OverviewPage = (props: any) => {
   };
 
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
   useEffect(() => {
     const isDisable =
       !info.firstName ||
       !info.lastName ||
-      !housePreference.theme ||
-      !housePreference.skillsOfOthers ||
-      !housePreference.location ||
+      !preference.location ||
       !!errors.find((x) => x) ||
-      !housePreference.language ||
-      workIssuedArrays.length > 0 ||
-      eduIssuedArrays.length > 0;
+      !preference.language;
 
-    const isUnDisabled =
-      eduHasChanged ||
-      expHasChanged ||
-      infoHasChanged ||
-      socialMediaHasChanged ||
-      hprefHasChanged;
+    const isUnDisabled = infoHasChanged || hprefHasChanged;
 
     if (isUnDisabled && !isDisable) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-  }, [
-    workIssuedArrays,
-    info,
-    eduIssuedArrays,
-    housePreference,
-    expHasChanged,
-    infoHasChanged,
-    eduHasChanged,
-    socialMediaHasChanged,
-    hprefHasChanged,
-    errors,
-  ]);
+  }, [info, preference, infoHasChanged, hprefHasChanged, errors]);
 
   const getUserById = async (id: any) => {
     if (!id) return;
     const data: IUser = await UsersAPI.getUser(id);
-
     setInfo((info: any) => ({
       firstName: data.firstName,
       lastName: data.lastName,
@@ -162,14 +105,8 @@ const OverviewPage = (props: any) => {
         : [],
     }));
 
-    setWorkExperiences(data.experiences);
-    setEducations(data.educations);
-
-    if (data.socialMedia?.length > 0) {
-      setSocialMedia(data.socialMedia[0]);
-    }
-    if (data.housePreference?.length > 0) {
-      let houseprf: any = data.housePreference[0];
+    if (data.preference?.length > 0) {
+      let houseprf: any = data.preference[0];
       houseprf.skillsOfOthers = houseprf.skillsOfOthers
         ? houseprf.skillsOfOthers.split(',').map((name: string) => ({
             value: name,
@@ -320,50 +257,21 @@ const OverviewPage = (props: any) => {
     }
   };
 
-  const saveSocialMedia = async () => {
-    try {
-      if (socialMedia.id === -1) {
-        await SocialMediaAPI.createSocialMedia(socialMedia).then(() => {});
-      } else {
-        await SocialMediaAPI.updateSocialMedia(
-          socialMedia,
-          socialMedia.id
-        ).then(() => {});
-      }
-      setSocialMediaHasChanged(false);
-      setSocialMediaSaving(false);
-    } catch {
-      push('Something went wrong when save social media.', {
-        variant: 'error',
-      });
-      setSocialMediaSaving(false);
-    }
-  };
-
   const saveCarPreference = async () => {
     try {
-      const skillsOfOthers = housePreference.skillsOfOthers
+      const skillsOfOthers = preference.skillsOfOthers
         .map((item: any) => item.value)
         .join(',');
-      const interestsHobbies = housePreference.interestsHobbies
+      const interestsHobbies = preference.interestsHobbies
         .map((item: any) => item.value)
         .join(',');
-      const theme = housePreference.theme
-        .map((item: any) => item.value)
-        .join(',');
-      let data = {
-        ...housePreference,
-        skillsOfOthers,
-        interestsHobbies,
-        theme,
-      };
-      if (housePreference.id === -1) {
+      let data = { ...preference, skillsOfOthers, interestsHobbies };
+      if (preference.id === -1) {
         await CarPreferenceApi.createCarPreference(data).then(() => {});
       } else {
-        await CarPreferenceApi.updateCarPreference(
-          data,
-          housePreference.id
-        ).then(() => {});
+        await CarPreferenceApi.updateCarPreference(data, preference.id).then(
+          () => {}
+        );
       }
       setHprefHasChanged(false);
       setHprefSaving(false);
@@ -380,59 +288,25 @@ const OverviewPage = (props: any) => {
       setInfoSaving(true);
       updateUserInfo();
     }
-    if (socialMediaHasChanged) {
-      setSocialMediaSaving(true);
-      saveSocialMedia();
-    }
-    if (expHasChanged) {
-      setExpSaving(true);
-    }
-    if (eduHasChanged) {
-      setEduSaving(true);
-    }
     if (hprefHasChanged) {
       setHprefSaving(true);
       saveCarPreference();
     }
   };
 
-  let count = 0;
   useEffect(() => {
-    if (
-      !expSaving &&
-      !infoSaving &&
-      !eduSaving &&
-      !hprefSaving &&
-      !socialMediaSaving &&
-      userId
-    ) {
-      count++;
+    if (!infoSaving && !hprefSaving && userId) {
       getUserById(userId);
-      if (count > 2) {
-        push('Successfully updated User', { variant: 'success' });
-      }
     }
-  }, [
-    expSaving,
-    infoSaving,
-    eduSaving,
-    hprefSaving,
-    socialMediaSaving,
-    userId,
-  ]);
+  }, [infoSaving, hprefSaving, userId]);
 
   const handleChangeInfo = (name: string, value: any) => {
     setInfo({ ...info, [name]: value });
     setInfoHasChanged(true);
   };
 
-  const handleChangeSocialMedia = (name: string, value: string) => {
-    setSocialMedia({ ...socialMedia, [name]: value });
-    setSocialMediaHasChanged(true);
-  };
-
   const handleChangeCarPreference = (name: string, value: string) => {
-    setCarPreference({ ...housePreference, [name]: value });
+    setCarPreference({ ...preference, [name]: value });
     setHprefHasChanged(true);
   };
 
@@ -442,22 +316,9 @@ const OverviewPage = (props: any) => {
     value: any
   ) => {
     setCarPreference({
-      ...housePreference,
+      ...preference,
       [minName]: value.min,
       [maxName]: value.max,
-    });
-    setHprefHasChanged(true);
-  };
-
-  const handleNewInfoTags = (name: string, newTag: any) => {
-    setInfo({ ...info, [name]: [...info[name], newTag] });
-    setInfoHasChanged(true);
-  };
-
-  const handleNewCarPrefTags = (name: string, newTag: any) => {
-    setCarPreference({
-      ...housePreference,
-      [name]: [...housePreference[name], newTag],
     });
     setHprefHasChanged(true);
   };
@@ -465,14 +326,6 @@ const OverviewPage = (props: any) => {
   return (
     <Stack>
       <Tabs tabs={['Info', 'Application']} value={tabs} onValue={setTabs} />
-      <Button
-        variant="contained"
-        color="primary"
-        style={{ width: '150px', alignSelf: 'flex-end' }}
-        onClick={handleEditClick}
-      >
-        {isEditing ? 'Disable Editing' : 'Enable Editing'}
-      </Button>
       {tabs === 0 && (
         <Card>
           <ApplicationContainer>
@@ -482,9 +335,8 @@ const OverviewPage = (props: any) => {
                 <Input
                   type="text"
                   label="First Name"
-                  required
+                  disabled
                   placeholder="John"
-                  disabled={!isEditing}
                   value={info?.firstName}
                   onValue={(firstName) =>
                     handleChangeInfo('firstName', firstName)
@@ -503,10 +355,9 @@ const OverviewPage = (props: any) => {
                 <Input
                   type="text"
                   label="Last Name"
-                  required
+                  disabled
                   placeholder="Doe"
                   value={info?.lastName}
-                  disabled={!isEditing}
                   onValue={(lastName) => handleChangeInfo('lastName', lastName)}
                   validators={[
                     {
@@ -534,7 +385,6 @@ const OverviewPage = (props: any) => {
                   label="Location"
                   onSearch={debouncedLocation}
                   placeholder="Please Select"
-                  disabled={!isEditing}
                   options={locations}
                   value={
                     info.location
@@ -551,82 +401,13 @@ const OverviewPage = (props: any) => {
                     )
                   }
                 />
-                <Input
-                  type="select"
-                  label="Nationality"
-                  onSearch={debouncedNationalities}
-                  placeholder="Please Select"
-                  disabled={!isEditing}
-                  options={nationalities}
-                  value={
-                    info.nationality
-                      ? {
-                          label: info.nationality,
-                          value: info.nationality,
-                        }
-                      : null
-                  }
-                  onValue={(nationality) =>
-                    handleChangeInfo(
-                      'nationality',
-                      nationality ? nationality.value : nationality
-                    )
-                  }
-                />
-                <Input
-                  type="date"
-                  label="Date of Birth"
-                  disabled={!isEditing}
-                  placeholder="Please Select"
-                  errorCallback={handleErrors(0)}
-                  value={info?.dateOfBirth}
-                  onValue={(dateOfBirth) =>
-                    handleChangeInfo('dateOfBirth', dateOfBirth)
-                  }
-                  validators={[
-                    {
-                      message: 'Birth date is required',
-                      validator: (birthDate) => {
-                        const v = birthDate as string;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                    {
-                      message: 'Please add date of birth!',
-                      validator: (birthDate) => {
-                        try {
-                          birthDateSchema.validateSync({ birthDate });
-                          return true;
-                        } catch {
-                          return false;
-                        }
-                      },
-                    },
-                  ]}
-                />
-                <Input
-                  type="multiselect"
-                  label="Languages"
-                  onSearch={debouncedLanguages}
-                  placeholder="Please Select"
-                  disabled={!isEditing}
-                  options={language}
-                  isFilterActive
-                  value={info.language}
-                  onValue={(language) => handleChangeInfo('language', language)}
-                />
               </AccountGrid>
-              {!expSaving &&
-              !infoSaving &&
-              !eduSaving &&
-              !socialMediaSaving &&
-              !hprefSaving ? (
+              {!infoSaving && !hprefSaving ? (
                 <Button
                   variant="contained"
                   color="primary"
                   style={{ width: '130px', alignSelf: 'flex-end' }}
-                  disabled={!isEditing || isDisabled}
+                  disabled={isDisabled}
                   onClick={handleSave}
                 >
                   Save
@@ -649,92 +430,7 @@ const OverviewPage = (props: any) => {
         <Card>
           <ApplicationContainer>
             <Stack>
-              <AccountHeadline>Work Experience</AccountHeadline>
-              <WorkExperience
-                userId={userId}
-                totalData={workExperiences}
-                setTotalData={setWorkExperiences}
-                setHasChanged={setExpHasChanged}
-                saving={expSaving}
-                setSaving={setExpSaving}
-                disabled={!isEditing}
-                workIssuedArrays={workIssuedArrays}
-                setWorkIssuedArrays={setWorkIssuedArrays}
-              />
-              <AccountHeadline>Education</AccountHeadline>
-              <Education
-                userId={userId}
-                totalData={educations}
-                setTotalData={setEducations}
-                setHasChanged={setEduHasChanged}
-                saving={eduSaving}
-                setSaving={setEduSaving}
-                disabled={!isEditing}
-                eduIssuedArrays={eduIssuedArrays}
-                setEduIssuedArrays={setEduIssuedArrays}
-              />
-              <AccountHeadline>Skills</AccountHeadline>
-              <SkillGrid>
-                <Input
-                  type="multiselect"
-                  label="Type to Add Skills"
-                  placeholder="Please Select"
-                  onSearch={debouncedSkills}
-                  isFilterActive
-                  options={skills}
-                  value={info.skills}
-                  onValue={(skills) => {
-                    if (skills.length <= 5) {
-                      handleChangeInfo('skills', skills);
-                    }
-                  }}
-                  disabled={!isEditing}
-                />
-              </SkillGrid>
-              <AccountHeadline>Social Media</AccountHeadline>
-              <AccountGrid>
-                <Input
-                  type="text"
-                  label="Instagram"
-                  placeholder="Please Enter"
-                  value={socialMedia?.instagram}
-                  onValue={(instagram) =>
-                    handleChangeSocialMedia('instagram', instagram)
-                  }
-                  disabled={!isEditing}
-                />
-                <Input
-                  type="text"
-                  label="LinkedIn"
-                  placeholder="Please Enter"
-                  value={socialMedia?.linkedin}
-                  onValue={(linkedin) =>
-                    handleChangeSocialMedia('linkedin', linkedin)
-                  }
-                  disabled={!isEditing}
-                />
-                <Input
-                  type="text"
-                  label="TikTok"
-                  placeholder="Please Enter"
-                  value={socialMedia?.tiktok}
-                  onValue={(tiktok) =>
-                    handleChangeSocialMedia('tiktok', tiktok)
-                  }
-                  disabled={!isEditing}
-                />
-                <Input
-                  type="text"
-                  label="Website"
-                  placeholder="Please Enter"
-                  value={socialMedia?.website}
-                  onValue={(website) =>
-                    handleChangeSocialMedia('website', website)
-                  }
-                  disabled={!isEditing}
-                />
-              </AccountGrid>
-              <AccountHeadline>Cars Preferences</AccountHeadline>
+              <AccountHeadline>Supercar Preferences</AccountHeadline>
               <AccountGrid>
                 <Input
                   type="multiselect"
@@ -742,13 +438,12 @@ const OverviewPage = (props: any) => {
                   placeholder="Please Select"
                   required
                   options={themes}
-                  value={housePreference.theme}
+                  value={preference.theme}
                   onValue={(theme) => {
                     if (theme.length <= 3) {
                       handleChangeCarPreference('theme', theme);
                     }
                   }}
-                  disabled={!isEditing}
                   validators={[
                     {
                       message: 'Theme is required',
@@ -767,7 +462,7 @@ const OverviewPage = (props: any) => {
                   required
                   options={skillsOfthers}
                   onSearch={debouncedSkillsOfOthers}
-                  value={housePreference.skillsOfOthers}
+                  value={preference.skillsOfOthers}
                   onValue={(skillsOfOthers) => {
                     if (skillsOfOthers.length <= 5) {
                       handleChangeCarPreference(
@@ -776,7 +471,6 @@ const OverviewPage = (props: any) => {
                       );
                     }
                   }}
-                  disabled={!isEditing}
                   validators={[
                     {
                       message: 'Skills of others are required',
@@ -796,10 +490,10 @@ const OverviewPage = (props: any) => {
                   onSearch={debouncedLocation}
                   options={locations}
                   value={
-                    housePreference.location
+                    preference.location
                       ? {
-                          label: housePreference.location,
-                          value: housePreference.location,
+                          label: preference.location,
+                          value: preference.location,
                         }
                       : null
                   }
@@ -809,7 +503,6 @@ const OverviewPage = (props: any) => {
                       location ? location.value : location
                     )
                   }
-                  disabled={!isEditing}
                   validators={[
                     {
                       message: 'Location is required',
@@ -829,10 +522,10 @@ const OverviewPage = (props: any) => {
                   onSearch={debouncedLanguages}
                   options={language}
                   value={
-                    housePreference.language
+                    preference.language
                       ? {
-                          label: housePreference.language,
-                          value: housePreference.language,
+                          label: preference.language,
+                          value: preference.language,
                         }
                       : null
                   }
@@ -842,7 +535,6 @@ const OverviewPage = (props: any) => {
                       language ? language.value : language
                     )
                   }
-                  disabled={!isEditing}
                   validators={[
                     {
                       message: 'Language is required',
@@ -858,8 +550,8 @@ const OverviewPage = (props: any) => {
                   type="min-max"
                   label="Monthly Rent"
                   value={{
-                    min: housePreference.monthlyRentMin,
-                    max: housePreference.monthlyRentMax,
+                    min: preference.monthlyRentMin,
+                    max: preference.monthlyRentMax,
                   }}
                   onValue={(monthlyRent) =>
                     handleChangeMinMaxCarPreference(
@@ -868,26 +560,24 @@ const OverviewPage = (props: any) => {
                       monthlyRent
                     )
                   }
-                  disabled={!isEditing}
                 />
                 <Input
                   type="min-max"
                   label="Age"
                   value={{
-                    min: housePreference.ageMin,
-                    max: housePreference.ageMax,
+                    min: preference.ageMin,
+                    max: preference.ageMax,
                   }}
                   onValue={(age) =>
                     handleChangeMinMaxCarPreference('ageMin', 'ageMax', age)
                   }
-                  disabled={!isEditing}
                 />
                 <Input
                   type="min-max"
-                  label="Tenants per Cars"
+                  label="Tenants per Supercars"
                   value={{
-                    min: housePreference.tenantsMin,
-                    max: housePreference.tenantsMax,
+                    min: preference.tenantsMin,
+                    max: preference.tenantsMax,
                   }}
                   onValue={(tenants) =>
                     handleChangeMinMaxCarPreference(
@@ -896,14 +586,13 @@ const OverviewPage = (props: any) => {
                       tenants
                     )
                   }
-                  disabled={!isEditing}
                 />
                 <Input
                   type="multiselect"
                   label="Interests and Hobbies"
                   placeholder="Please Select"
                   options={interests}
-                  value={housePreference.interestsHobbies}
+                  value={preference.interestsHobbies}
                   onValue={(interestsHobbies) => {
                     if (interestsHobbies.length <= 3) {
                       handleChangeCarPreference(
@@ -912,7 +601,6 @@ const OverviewPage = (props: any) => {
                       );
                     }
                   }}
-                  disabled={!isEditing}
                 />
                 <Input
                   type="select"
@@ -920,17 +608,16 @@ const OverviewPage = (props: any) => {
                   placeholder="Please Select"
                   options={diets}
                   value={
-                    housePreference.diet
+                    preference.diet
                       ? {
-                          label: housePreference.diet,
-                          value: housePreference.diet,
+                          label: preference.diet,
+                          value: preference.diet,
                         }
                       : null
                   }
                   onValue={(diet) =>
                     handleChangeCarPreference('diet', diet ? diet.value : diet)
                   }
-                  disabled={!isEditing}
                 />
               </AccountGrid>
               <AccountGrid>
@@ -938,24 +625,19 @@ const OverviewPage = (props: any) => {
                   type="text"
                   label="Motivation"
                   placeholder="Please Enter"
-                  value={housePreference?.motivation}
+                  value={preference?.motivation}
                   onValue={(motivation) =>
                     handleChangeCarPreference('motivation', motivation)
                   }
                   style={{ gridColumn: '1/3' }}
-                  disabled={!isEditing}
                 />
               </AccountGrid>
-              {!expSaving &&
-              !infoSaving &&
-              !eduSaving &&
-              !socialMediaSaving &&
-              !hprefSaving ? (
+              {!infoSaving && !hprefSaving ? (
                 <Button
                   variant="contained"
                   color="primary"
                   style={{ width: '130px', alignSelf: 'flex-end' }}
-                  disabled={!isEditing || isDisabled}
+                  disabled={isDisabled}
                   onClick={handleSave}
                 >
                   Save

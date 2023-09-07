@@ -81,7 +81,7 @@ const AdminApplicationsPage = () => {
                 <HomePageChartsGrid>
                   <Input
                     type="select"
-                    label="Boat"
+                    label="Supercar"
                     placeholder="Please Select"
                     value={filter.boat}
                     onValue={(boat) => setFilter({ ...filter, boat })}

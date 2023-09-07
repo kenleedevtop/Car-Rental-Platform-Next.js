@@ -31,7 +31,7 @@ const ExportFinanceModal = ({
       <AddProjectModalMain>
         <Input
           type="select"
-          label="Boat"
+          label="Supercar"
           value=""
           onValue={() => {}}
           placeholder="Please Enter"

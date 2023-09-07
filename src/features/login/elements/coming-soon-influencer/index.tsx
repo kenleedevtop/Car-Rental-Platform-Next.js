@@ -31,7 +31,7 @@ const ConfirmRegistrationModal = ({
   return (
     <Modal size="medium" onClose={onClose} {...props}>
       <MaintenanceMain>
-        <MaintenanceTitle>{t('Welcome to Shared Cars!')}</MaintenanceTitle>
+        <MaintenanceTitle>{t('Welcome to Shared Supercars!')}</MaintenanceTitle>
         <p>
           <span>
             {t(

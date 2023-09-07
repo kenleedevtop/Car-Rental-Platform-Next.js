@@ -55,7 +55,7 @@ const PropertyCard = ({
       {completed && <CardCompletedMark>Filled</CardCompletedMark>}
       <Image
         src={image ? `${Project.apis.v1}/public/images/${image.key}` : ''}
-        alt="Cars thumbnail"
+        alt="Supercars thumbnail"
         width={500}
         height={500}
         style={{

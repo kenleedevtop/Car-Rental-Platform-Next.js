@@ -3,7 +3,6 @@ import {
   ApplicationContainer,
   AccountHeadline,
   AccountGrid,
-  SkillGrid,
 } from 'features/users-overview/styles';
 import { Button, Input, Card } from 'components/ui';
 import { Stack } from 'components/system';
@@ -18,14 +17,9 @@ import { getCarTheme } from 'utilities/houseTheme';
 import { getSkillsOfOthers } from 'utilities/skillsOfOthers';
 import { getInterestsAndHobbies } from 'utilities/interests';
 import { getDiets } from 'utilities/diets';
-import WorkExperience from './workExperiences';
-import Education from './educations';
 import { getSkills } from 'utilities/skills';
-import { ISocialMedia } from 'api/socialMedia/types';
-import SocialMediaAPI from 'api/socialMedia';
-import CarPreferenceApi from 'api/housePreference';
+import CarPreferenceApi from 'api/supercarPreference';
 import { useAppContext } from 'context';
-import { birthDateSchema } from 'utilities/validators';
 import { AccountChange, AccountSpan } from 'features/account/style';
 import { ChangePasswordModal } from './elements';
 
@@ -35,17 +29,8 @@ const AccountPage = (props: any) => {
   const { push } = useSnackbar();
   const [infoHasChanged, setInfoHasChanged] = useState<boolean>(false);
   const [infoSaving, setInfoSaving] = useState<boolean>(false);
-  const [socialMediaHasChanged, setSocialMediaHasChanged] =
-    useState<boolean>(false);
-  const [socialMediaSaving, setSocialMediaSaving] = useState<boolean>(false);
-  const [expHasChanged, setExpHasChanged] = useState<boolean>(false);
-  const [expSaving, setExpSaving] = useState<boolean>(false);
-  const [eduHasChanged, setEduHasChanged] = useState<boolean>(false);
-  const [eduSaving, setEduSaving] = useState<boolean>(false);
   const [hprefHasChanged, setHprefHasChanged] = useState<boolean>(false);
   const [hprefSaving, setHprefSaving] = useState<boolean>(false);
-  const [workIssuedArrays, setWorkIssuedArrays] = useState<any[]>([]);
-  const [eduIssuedArrays, setEduIssuedArrays] = useState<any[]>([]);
 
   const [info, setInfo] = useState<any>({
     firstName: '',
@@ -53,25 +38,9 @@ const AccountPage = (props: any) => {
     password: '',
     email: '',
     location: '',
-    nationality: '',
-    dateOfBirth: '',
-    language: [],
-    skills: [],
   });
 
-  const [workExperiences, setWorkExperiences] = useState<any[]>([]);
-  const [educations, setEducations] = useState<any[]>([]);
-  const [socialMedia, setSocialMedia] = useState<ISocialMedia>({
-    id: -1,
-    linkedin: '',
-    tiktok: '',
-    instagram: '',
-    website: '',
-    ownerId: user.id,
-    createdAt: '',
-    updatedAt: '',
-  });
-  const [housePreference, setCarPreference] = useState<any>({
+  const [preference, setCarPreference] = useState<any>({
     id: -1,
     theme: [],
     skillsOfOthers: [],
@@ -102,38 +71,18 @@ const AccountPage = (props: any) => {
     const isDisable =
       !info.firstName ||
       !info.lastName ||
-      !housePreference.theme ||
-      !housePreference.skillsOfOthers ||
-      !housePreference.location ||
+      !preference.location ||
       !!errors.find((x) => x) ||
-      !housePreference.language ||
-      workIssuedArrays.length > 0 ||
-      eduIssuedArrays.length > 0;
+      !preference.language;
 
-    const isUnDisabled =
-      eduHasChanged ||
-      expHasChanged ||
-      infoHasChanged ||
-      socialMediaHasChanged ||
-      hprefHasChanged;
+    const isUnDisabled = infoHasChanged || hprefHasChanged;
 
     if (isUnDisabled && !isDisable) {
       setIsDisabled(false);
     } else {
       setIsDisabled(true);
     }
-  }, [
-    workIssuedArrays,
-    info,
-    eduIssuedArrays,
-    housePreference,
-    expHasChanged,
-    infoHasChanged,
-    eduHasChanged,
-    socialMediaHasChanged,
-    hprefHasChanged,
-    errors,
-  ]);
+  }, [info, preference, infoHasChanged, hprefHasChanged, errors]);
 
   const getUserById = async (id: any) => {
     if (!id) return;
@@ -159,14 +108,8 @@ const AccountPage = (props: any) => {
         : [],
     }));
 
-    setWorkExperiences(data.experiences);
-    setEducations(data.educations);
-
-    if (data.socialMedia?.length > 0) {
-      setSocialMedia(data.socialMedia[0]);
-    }
-    if (data.housePreference?.length > 0) {
-      let houseprf: any = data.housePreference[0];
+    if (data.preference?.length > 0) {
+      let houseprf: any = data.preference[0];
       houseprf.skillsOfOthers = houseprf.skillsOfOthers
         ? houseprf.skillsOfOthers.split(',').map((name: string) => ({
             value: name,
@@ -317,42 +260,21 @@ const AccountPage = (props: any) => {
     }
   };
 
-  const saveSocialMedia = async () => {
-    try {
-      if (socialMedia.id === -1) {
-        await SocialMediaAPI.createSocialMedia(socialMedia).then(() => {});
-      } else {
-        await SocialMediaAPI.updateSocialMedia(
-          socialMedia,
-          socialMedia.id
-        ).then(() => {});
-      }
-      setSocialMediaHasChanged(false);
-      setSocialMediaSaving(false);
-    } catch {
-      push('Something went wrong when save social media.', {
-        variant: 'error',
-      });
-      setSocialMediaSaving(false);
-    }
-  };
-
   const saveCarPreference = async () => {
     try {
-      const skillsOfOthers = housePreference.skillsOfOthers
+      const skillsOfOthers = preference.skillsOfOthers
         .map((item: any) => item.value)
         .join(',');
-      const interestsHobbies = housePreference.interestsHobbies
+      const interestsHobbies = preference.interestsHobbies
         .map((item: any) => item.value)
         .join(',');
-      let data = { ...housePreference, skillsOfOthers, interestsHobbies };
-      if (housePreference.id === -1) {
+      let data = { ...preference, skillsOfOthers, interestsHobbies };
+      if (preference.id === -1) {
         await CarPreferenceApi.createCarPreference(data).then(() => {});
       } else {
-        await CarPreferenceApi.updateCarPreference(
-          data,
-          housePreference.id
-        ).then(() => {});
+        await CarPreferenceApi.updateCarPreference(data, preference.id).then(
+          () => {}
+        );
       }
       setHprefHasChanged(false);
       setHprefSaving(false);
@@ -369,16 +291,6 @@ const AccountPage = (props: any) => {
       setInfoSaving(true);
       updateUserInfo();
     }
-    if (socialMediaHasChanged) {
-      setSocialMediaSaving(true);
-      saveSocialMedia();
-    }
-    if (expHasChanged) {
-      setExpSaving(true);
-    }
-    if (eduHasChanged) {
-      setEduSaving(true);
-    }
     if (hprefHasChanged) {
       setHprefSaving(true);
       saveCarPreference();
@@ -386,51 +298,19 @@ const AccountPage = (props: any) => {
   };
 
   useEffect(() => {
-    if (
-      !expSaving &&
-      !infoSaving &&
-      !eduSaving &&
-      !hprefSaving &&
-      !socialMediaSaving &&
-      user.id
-    ) {
+    if (!infoSaving && !hprefSaving && user.id) {
       getUserById(user.id);
       getMeData();
     }
-  }, [
-    expSaving,
-    infoSaving,
-    eduSaving,
-    hprefSaving,
-    socialMediaSaving,
-    user.id,
-  ]);
+  }, [infoSaving, hprefSaving, user.id]);
 
   const handleChangeInfo = (name: string, value: any) => {
     setInfo({ ...info, [name]: value });
     setInfoHasChanged(true);
   };
 
-  const handleChangeSocialMedia = (name: string, value: string) => {
-    setSocialMedia({ ...socialMedia, [name]: value });
-    setSocialMediaHasChanged(true);
-  };
-
   const handleChangeCarPreference = (name: string, value: string) => {
-    setCarPreference({ ...housePreference, [name]: value });
-    setHprefHasChanged(true);
-  };
-
-  const handleNewInfoTags = (name: string, newTag: any) => {
-    setInfo({ ...info, [name]: [...info[name], newTag] });
-    setInfoHasChanged(true);
-  };
-
-  const handleNewCarPrefTags = (name: string, newTag: any) => {
-    setCarPreference({
-      ...housePreference,
-      [name]: [...housePreference[name], newTag],
-    });
+    setCarPreference({ ...preference, [name]: value });
     setHprefHasChanged(true);
   };
 
@@ -440,7 +320,7 @@ const AccountPage = (props: any) => {
     value: any
   ) => {
     setCarPreference({
-      ...housePreference,
+      ...preference,
       [minName]: value.min,
       [maxName]: value.max,
     });
@@ -541,74 +421,8 @@ const AccountPage = (props: any) => {
                     )
                   }
                 />
-                <Input
-                  type="select"
-                  label="Nationality"
-                  onSearch={debouncedNationalities}
-                  placeholder="Please Select"
-                  options={nationalities}
-                  value={
-                    info.nationality
-                      ? {
-                          label: info.nationality,
-                          value: info.nationality,
-                        }
-                      : null
-                  }
-                  onValue={(nationality) =>
-                    handleChangeInfo(
-                      'nationality',
-                      nationality ? nationality.value : nationality
-                    )
-                  }
-                />
-                <Input
-                  type="date"
-                  label="Date of Birth"
-                  placeholder="Please Select"
-                  value={info?.dateOfBirth}
-                  errorCallback={handleErrors(0)}
-                  onValue={(dateOfBirth) =>
-                    handleChangeInfo('dateOfBirth', dateOfBirth)
-                  }
-                  validators={[
-                    {
-                      message: 'Birth date is required',
-                      validator: (birthDate) => {
-                        const v = birthDate as string;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                    {
-                      message: 'Please add date of birth!',
-                      validator: (birthDate) => {
-                        try {
-                          birthDateSchema.validateSync({ birthDate });
-                          return true;
-                        } catch {
-                          return false;
-                        }
-                      },
-                    },
-                  ]}
-                />
-                <Input
-                  type="multiselect"
-                  label="Languages"
-                  onSearch={debouncedLanguages}
-                  placeholder="Please Select"
-                  options={language}
-                  isFilterActive
-                  value={info.language}
-                  onValue={(language) => handleChangeInfo('language', language)}
-                />
               </AccountGrid>
-              {!expSaving &&
-              !infoSaving &&
-              !eduSaving &&
-              !socialMediaSaving &&
-              !hprefSaving ? (
+              {!infoSaving && !hprefSaving ? (
                 <Button
                   variant="contained"
                   color="primary"
@@ -636,85 +450,7 @@ const AccountPage = (props: any) => {
         <Card>
           <ApplicationContainer>
             <Stack>
-              <AccountHeadline>Work Experience</AccountHeadline>
-              <WorkExperience
-                userId={user.id}
-                totalData={workExperiences}
-                setTotalData={setWorkExperiences}
-                setHasChanged={setExpHasChanged}
-                saving={expSaving}
-                setSaving={setExpSaving}
-                workIssuedArrays={workIssuedArrays}
-                setWorkIssuedArrays={setWorkIssuedArrays}
-              />
-              <AccountHeadline>Education</AccountHeadline>
-              <Education
-                userId={user.id}
-                totalData={educations}
-                setTotalData={setEducations}
-                setHasChanged={setEduHasChanged}
-                saving={eduSaving}
-                setSaving={setEduSaving}
-                eduIssuedArrays={eduIssuedArrays}
-                setEduIssuedArrays={setEduIssuedArrays}
-              />
-              <AccountHeadline>Skills</AccountHeadline>
-              <SkillGrid>
-                <Input
-                  type="multiselect"
-                  label="Type to Add Skills"
-                  placeholder="Please Select"
-                  onSearch={debouncedSkills}
-                  isFilterActive
-                  options={skills}
-                  value={info.skills}
-                  onValue={(skills) => {
-                    if (skills.length <= 5) {
-                      handleChangeInfo('skills', skills);
-                    }
-                  }}
-                />
-              </SkillGrid>
-              <AccountHeadline>Social Media</AccountHeadline>
-              <AccountGrid>
-                <Input
-                  type="text"
-                  label="Instagram"
-                  placeholder="Please Enter"
-                  value={socialMedia?.instagram}
-                  onValue={(instagram) =>
-                    handleChangeSocialMedia('instagram', instagram)
-                  }
-                />
-                <Input
-                  type="text"
-                  label="LinkedIn"
-                  placeholder="Please Enter"
-                  value={socialMedia?.linkedin}
-                  onValue={(linkedin) =>
-                    handleChangeSocialMedia('linkedin', linkedin)
-                  }
-                />
-                <Input
-                  type="text"
-                  label="TikTok"
-                  placeholder="Please Enter"
-                  value={socialMedia?.tiktok}
-                  onValue={(tiktok) =>
-                    handleChangeSocialMedia('tiktok', tiktok)
-                  }
-                />
-                <Input
-                  type="text"
-                  label="Website"
-                  placeholder="Please Enter"
-                  value={socialMedia?.website}
-                  onValue={(website) =>
-                    handleChangeSocialMedia('website', website)
-                  }
-                />
-              </AccountGrid>
-              <AccountHeadline>Cars Preferences</AccountHeadline>
+              <AccountHeadline>Supercar Preferences</AccountHeadline>
               <AccountGrid>
                 <Input
                   type="multiselect"
@@ -722,7 +458,7 @@ const AccountPage = (props: any) => {
                   placeholder="Please Select"
                   required
                   options={themes}
-                  value={housePreference.theme}
+                  value={preference.theme}
                   onValue={(theme) => {
                     if (theme.length <= 3) {
                       handleChangeCarPreference('theme', theme);
@@ -746,7 +482,7 @@ const AccountPage = (props: any) => {
                   required
                   options={skillsOfthers}
                   onSearch={debouncedSkillsOfOthers}
-                  value={housePreference.skillsOfOthers}
+                  value={preference.skillsOfOthers}
                   onValue={(skillsOfOthers) => {
                     if (skillsOfOthers.length <= 5) {
                       handleChangeCarPreference(
@@ -774,10 +510,10 @@ const AccountPage = (props: any) => {
                   onSearch={debouncedLocation}
                   options={locations}
                   value={
-                    housePreference.location
+                    preference.location
                       ? {
-                          label: housePreference.location,
-                          value: housePreference.location,
+                          label: preference.location,
+                          value: preference.location,
                         }
                       : null
                   }
@@ -806,10 +542,10 @@ const AccountPage = (props: any) => {
                   onSearch={debouncedLanguages}
                   options={language}
                   value={
-                    housePreference.language
+                    preference.language
                       ? {
-                          label: housePreference.language,
-                          value: housePreference.language,
+                          label: preference.language,
+                          value: preference.language,
                         }
                       : null
                   }
@@ -834,8 +570,8 @@ const AccountPage = (props: any) => {
                   type="min-max"
                   label="Monthly Rent"
                   value={{
-                    min: housePreference.monthlyRentMin,
-                    max: housePreference.monthlyRentMax,
+                    min: preference.monthlyRentMin,
+                    max: preference.monthlyRentMax,
                   }}
                   onValue={(monthlyRent) =>
                     handleChangeMinMaxCarPreference(
@@ -849,8 +585,8 @@ const AccountPage = (props: any) => {
                   type="min-max"
                   label="Age"
                   value={{
-                    min: housePreference.ageMin,
-                    max: housePreference.ageMax,
+                    min: preference.ageMin,
+                    max: preference.ageMax,
                   }}
                   onValue={(age) =>
                     handleChangeMinMaxCarPreference('ageMin', 'ageMax', age)
@@ -858,10 +594,10 @@ const AccountPage = (props: any) => {
                 />
                 <Input
                   type="min-max"
-                  label="Tenants per Cars"
+                  label="Tenants per Supercars"
                   value={{
-                    min: housePreference.tenantsMin,
-                    max: housePreference.tenantsMax,
+                    min: preference.tenantsMin,
+                    max: preference.tenantsMax,
                   }}
                   onValue={(tenants) =>
                     handleChangeMinMaxCarPreference(
@@ -876,7 +612,7 @@ const AccountPage = (props: any) => {
                   label="Interests and Hobbies"
                   placeholder="Please Select"
                   options={interests}
-                  value={housePreference.interestsHobbies}
+                  value={preference.interestsHobbies}
                   onValue={(interestsHobbies) => {
                     if (interestsHobbies.length <= 3) {
                       handleChangeCarPreference(
@@ -892,10 +628,10 @@ const AccountPage = (props: any) => {
                   placeholder="Please Select"
                   options={diets}
                   value={
-                    housePreference.diet
+                    preference.diet
                       ? {
-                          label: housePreference.diet,
-                          value: housePreference.diet,
+                          label: preference.diet,
+                          value: preference.diet,
                         }
                       : null
                   }
@@ -909,18 +645,14 @@ const AccountPage = (props: any) => {
                   type="text"
                   label="Motivation"
                   placeholder="Please Enter"
-                  value={housePreference?.motivation}
+                  value={preference?.motivation}
                   onValue={(motivation) =>
                     handleChangeCarPreference('motivation', motivation)
                   }
                   style={{ gridColumn: '1/3' }}
                 />
               </AccountGrid>
-              {!expSaving &&
-              !infoSaving &&
-              !eduSaving &&
-              !socialMediaSaving &&
-              !hprefSaving ? (
+              {!infoSaving && !hprefSaving ? (
                 <Button
                   variant="contained"
                   color="primary"

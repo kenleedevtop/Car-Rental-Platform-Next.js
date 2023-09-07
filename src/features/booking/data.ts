@@ -23,7 +23,7 @@ export const DAdminBookingFilters = () => ({
 export const DBookingsHead = [
   {
     reference: 'boat',
-    label: 'Boat',
+    label: 'Supercar',
     visible: true,
   },
   {
@@ -51,7 +51,7 @@ export const DBookingsHead = [
 export const DAdminBookingsHead = [
   {
     reference: 'boat',
-    label: 'Boat',
+    label: 'Supercar',
     visible: true,
   },
   {

@@ -4,16 +4,16 @@ import { useAppContext } from 'context';
 import { CarsPage } from 'features';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const Cars = () => {
+const Supercars = () => {
   const { setRouteName } = useAppContext();
 
   useEffect(() => {
-    setRouteName('Cars');
+    setRouteName('Supercars');
   }, []);
 
   return (
     <>
-      <Title>Cars</Title>
+      <Title>Supercars</Title>
       <CarsPage />
     </>
   );
@@ -27,4 +27,4 @@ export async function getStaticProps({ locale }: { locale: string }) {
   };
 }
 
-export default Cars;
+export default Supercars;
