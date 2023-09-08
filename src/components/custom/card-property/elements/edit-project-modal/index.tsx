@@ -16,7 +16,7 @@ import ImageApi from 'api/images';
 import DocumentApi from 'api/documents';
 import { ICar } from 'api/cars/types';
 import { getLocations } from 'utilities/locations';
-import { getCarTheme } from 'utilities/houseTheme';
+import { getModels } from 'utilities/models';
 import { CarAPI } from 'api';
 import { TEditCarsModalProps } from 'features/opportunities/role/admin/elements/add-project-modal/types';
 import UploadedFileModal from 'features/opportunities/role/admin/elements/uploaded-file-modal';
@@ -27,7 +27,7 @@ import { TImage } from 'api/images/types';
 const EditCarProjectModal = ({
   onClose,
   refresh,
-  houseId,
+  carId,
   ...props
 }: TEditCarsModalProps) => {
   const [tab, setTab] = useState(0);
@@ -37,7 +37,7 @@ const EditCarProjectModal = ({
   const [modal, modalOpen, modalClose] = useModal(false);
   const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
   const [locations, setLocations] = useState<any[]>([]);
-  const [themes, setThemes] = useState<any[]>([]);
+  const [models, setModels] = useState<any[]>([]);
   const [houseData, setCarData] = useState<ICar>({
     id: -1,
     name: '',
@@ -58,7 +58,7 @@ const EditCarProjectModal = ({
   });
 
   const getCarDataById = async () => {
-    const data = await CarAPI.getOne(houseId);
+    const data = await CarAPI.getOne(carId);
     setCarData((house) => ({ ...house, ...data }));
     setDocuments([...data.documents]);
     setPhotos([...data.images]);
@@ -66,7 +66,7 @@ const EditCarProjectModal = ({
 
   useEffect(() => {
     getCarDataById();
-  }, [houseId]);
+  }, [carId]);
 
   const isDisabled =
     !houseData.name ||
@@ -153,9 +153,9 @@ const EditCarProjectModal = ({
     );
   };
 
-  const getThemeOptions = async (searchTerm: string = '') => {
-    const result = getCarTheme(searchTerm);
-    setThemes(
+  const getModelOptions = async (searchTerm: string = '') => {
+    const result = getModels(searchTerm);
+    setModels(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -164,17 +164,17 @@ const EditCarProjectModal = ({
   };
 
   const debouncedLocation = useDebounce(getLocationOptions, 100);
-  const debouncedTheme = useDebounce(getThemeOptions, 100);
+  const debouncedTheme = useDebounce(getModelOptions, 100);
 
   useEffect(() => {
     getLocationOptions();
-    getThemeOptions();
+    getModelOptions();
   }, []);
 
   const handleUpdateProject = async () => {
     try {
       await CarAPI.updateCar(houseData, houseData.id).then((res) => {
-        const body = { houseId: houseData.id };
+        const body = { carId: houseData.id };
         photos.forEach(async (img: TImage) => {
           await ImageApi.updateFile(body, img.id);
         });
@@ -325,7 +325,7 @@ const EditCarProjectModal = ({
               required
               label="Theme"
               placeholder="Please Select"
-              options={themes}
+              options={models}
               value={
                 houseData.theme
                   ? {

@@ -1,19 +1,19 @@
-import { IUser } from 'api/users/types';
-
 export type TAddCarPreference = {
-  theme: string;
-  skillsOfOthers: string;
+  brands: string;
+  models: string;
   location: string;
-  language: string;
-  monthlyRentMax: number;
-  monthlyRentMin: number;
-  ageMax: number;
-  ageMin: number;
-  tenantsMax: number;
-  tenantsMin: number;
-  interestsHobbies: string;
-  diet: string;
-  motivation: string;
+  conditions: string;
+  amenities: string;
+  budgetPerShareMin: number;
+  budgetPerShareMax: number;
+  interestedInSupercars: string;
+  interestedInShares: string;
+  interiorStyle: string;
+  exteriorColor: string;
+  engineType: string;
+  engineHpMax: string;
+  engineHpMin: string;
+  additionalComment: string;
 };
 
 export type TSingleCarPreference = {
@@ -22,19 +22,21 @@ export type TSingleCarPreference = {
 
 export type TCarPreference = {
   id: number;
-  theme: string;
-  skillsOfOthers: string;
+  brands: string;
+  models: string;
   location: string;
-  language: string;
-  monthlyRentMax: number;
-  monthlyRentMin: number;
-  ageMax: number;
-  ageMin: number;
-  tenantsMax: number;
-  tenantsMin: number;
-  interestsHobbies: string;
-  diet: string;
-  motivation: string;
+  conditions: string;
+  amenities: string;
+  budgetPerShareMin: number;
+  budgetPerShareMax: number;
+  interestedInSupercars: string;
+  interestedInShares: string;
+  interiorStyle: string;
+  exteriorColor: string;
+  engineType: string;
+  engineHpMax: string;
+  engineHpMin: string;
+  additionalComment: string;
   ownerId: number;
   createdAt: string;
   updatedAt: string;

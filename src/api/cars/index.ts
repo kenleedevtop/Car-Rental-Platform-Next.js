@@ -5,19 +5,15 @@ import { client } from 'api/api-client';
 
 const CarAPI = {
   create: async (body: TCreateCar) => {
-    const { data } = await client.post(
-      `${Project.apis.v1}/house-projects`,
-      body
-    );
+    const { data } = await client.post(`${Project.apis.v1}/car-projects`, body);
 
     return data;
   },
 
-  getAll: async (search?: string, marketType?: string, status?: string) => {
-    const { data } = await client.get(`${Project.apis.v1}/house-projects`, {
+  getAll: async (search?: string, status?: string) => {
+    const { data } = await client.get(`${Project.apis.v1}/car-projects`, {
       params: {
         search,
-        marketType,
         status,
       },
     });
@@ -26,13 +22,11 @@ const CarAPI = {
   },
 
   updateCar: async (body: any, id: number) => {
-    await client.patch(`${Project.apis.v1}/house-projects/${id}`, body);
+    await client.patch(`${Project.apis.v1}/car-projects/${id}`, body);
   },
 
   getOne: async (id: any) => {
-    const { data } = await client.get(
-      `${Project.apis.v1}/house-projects/${id}`
-    );
+    const { data } = await client.get(`${Project.apis.v1}/car-projects/${id}`);
 
     return data;
   },

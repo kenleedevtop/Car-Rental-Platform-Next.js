@@ -3,7 +3,7 @@ import { IUser } from 'api/users/types';
 
 export type TCreateAsApplicationParams = {
   tier: string;
-  houseId: number;
+  carId: number;
   houseName: string;
 };
 
@@ -16,7 +16,7 @@ export interface IApplication {
   tier: string;
   status: string;
   ownerId: number | null;
-  houseId: number | null;
+  carId: number | null;
   house: ICar;
   owner: IUser;
   createdAt: string;

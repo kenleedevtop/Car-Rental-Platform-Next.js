@@ -13,7 +13,7 @@ export type TCalendarDate = {
 export type TNotificationPayload = {
   userId: null | number;
   notificationId: null | number;
-  houseId: null | number;
+  carId: null | number;
   applicationId: null | number;
   transactionId: null | number;
   createdAt: string;

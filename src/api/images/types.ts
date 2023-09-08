@@ -10,7 +10,7 @@ export type TImage = {
   id: number;
   name: string;
   key: string;
-  houseId: number;
+  carId: number;
   createdAt: string;
   updatedAt: string;
 };

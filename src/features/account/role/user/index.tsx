@@ -9,19 +9,19 @@ import { Stack } from 'components/system';
 import { Tabs } from 'components/custom';
 import UsersAPI from 'api/users';
 import { IUser } from 'api/users/types';
-import { useDebounce, useModal, useSnackbar } from 'hooks';
+import { useModal, useSnackbar } from 'hooks';
 import { getLocations } from 'utilities/locations';
-import { getNationalities } from 'utilities/nationalities';
-import { getLanguages } from 'utilities/languages';
-import { getCarTheme } from 'utilities/houseTheme';
-import { getSkillsOfOthers } from 'utilities/skillsOfOthers';
-import { getInterestsAndHobbies } from 'utilities/interests';
-import { getDiets } from 'utilities/diets';
-import { getSkills } from 'utilities/skills';
+import { getConditions } from 'utilities/conditions';
+import { getModels } from 'utilities/models';
+import { getInteriorStyles } from 'utilities/interiorStyles';
+import { getExteriorColors } from 'utilities/exteriorColors';
+import { getEngineTypes } from 'utilities/engineTypes';
+import { getAmenities } from 'utilities/amenties';
 import CarPreferenceApi from 'api/supercarPreference';
 import { useAppContext } from 'context';
 import { AccountChange, AccountSpan } from 'features/account/style';
 import { ChangePasswordModal } from './elements';
+import { getBrands } from 'utilities/brands';
 
 const AccountPage = (props: any) => {
   const { user, getMeData } = useAppContext();
@@ -42,22 +42,22 @@ const AccountPage = (props: any) => {
 
   const [preference, setCarPreference] = useState<any>({
     id: -1,
-    theme: [],
-    skillsOfOthers: [],
+    brands: [],
+    models: [],
     location: '',
-    language: '',
-    monthlyRentMax: 0,
-    monthlyRentMin: 0,
-    ageMax: 0,
-    ageMin: 0,
-    tenantsMax: 0,
-    tenantsMin: 0,
-    interestsHobbies: [],
+    conditions: [],
+    amenities: [],
+    budgetPerShareMin: '',
+    budgetPerShareMax: '',
+    interestedInSupercars: '',
+    interestedInShares: [],
+    interiorStyle: [],
+    exteriorColor: [],
+    engineType: [],
+    engineHpMin: '',
+    engineHpMax: '',
+    additionalComment: '',
     ownerId: user.id,
-    diet: '',
-    motivation: '',
-    createdAt: '',
-    updatedAt: '',
   });
   const [errors, setErrors] = useState([false]);
 
@@ -71,9 +71,8 @@ const AccountPage = (props: any) => {
     const isDisable =
       !info.firstName ||
       !info.lastName ||
-      !preference.location ||
-      !!errors.find((x) => x) ||
-      !preference.language;
+      !info.location ||
+      !!errors.find((x) => x);
 
     const isUnDisabled = infoHasChanged || hprefHasChanged;
 
@@ -91,39 +90,55 @@ const AccountPage = (props: any) => {
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
-      nationality: data.nationality,
-      dateOfBirth: data.dateOfBirth,
-      language: data.language
-        ? data.language.split(',').map((name: string) => ({
-            value: name,
-            label: name,
-          }))
-        : [],
       location: data.location,
-      skills: data.skills
-        ? data.skills.split(',').map((name: string) => ({
-            value: name,
-            label: name,
-          }))
-        : [],
     }));
 
     if (data.preference?.length > 0) {
       let houseprf: any = data.preference[0];
-      houseprf.skillsOfOthers = houseprf.skillsOfOthers
-        ? houseprf.skillsOfOthers.split(',').map((name: string) => ({
+      houseprf.amenities = houseprf.amenities
+        ? houseprf.amenities.split(',').map((name: string) => ({
             value: name,
             label: name,
           }))
         : [];
-      houseprf.interestsHobbies = houseprf.interestsHobbies
-        ? houseprf.interestsHobbies.split(',').map((name: string) => ({
+      houseprf.brands = houseprf.brands
+        ? houseprf.brands.split(',').map((name: string) => ({
             value: name,
             label: name,
           }))
         : [];
-      houseprf.theme = houseprf.theme
-        ? houseprf.theme.split(',').map((name: string) => ({
+      houseprf.models = houseprf.models
+        ? houseprf.models.split(',').map((name: string) => ({
+            value: name,
+            label: name,
+          }))
+        : [];
+      houseprf.conditions = houseprf.conditions
+        ? houseprf.conditions.split(',').map((name: string) => ({
+            value: name,
+            label: name,
+          }))
+        : [];
+      houseprf.interestedInShares = houseprf.interestedInShares
+        ? houseprf.interestedInShares.split(',').map((name: string) => ({
+            value: name,
+            label: name,
+          }))
+        : [];
+      houseprf.interiorStyle = houseprf.interiorStyle
+        ? houseprf.interiorStyle.split(',').map((name: string) => ({
+            value: name,
+            label: name,
+          }))
+        : [];
+      houseprf.exteriorColor = houseprf.exteriorColor
+        ? houseprf.exteriorColor.split(',').map((name: string) => ({
+            value: name,
+            label: name,
+          }))
+        : [];
+      houseprf.engineType = houseprf.engineType
+        ? houseprf.engineType.split(',').map((name: string) => ({
             value: name,
             label: name,
           }))
@@ -133,13 +148,39 @@ const AccountPage = (props: any) => {
   };
 
   const [locations, setLocations] = useState<any[]>([]);
-  const [nationalities, setNationalities] = useState<any[]>([]);
-  const [language, setLanguages] = useState<any[]>([]);
-  const [skills, setSkills] = useState<any[]>([]);
-  const [themes, setThemes] = useState<any[]>([]);
-  const [skillsOfthers, setSkillsOfOthers] = useState<any[]>([]);
-  const [interests, setInterests] = useState<any[]>([]);
-  const [diets, setDiets] = useState<any[]>([]);
+  const [brands, setBrands] = useState<any[]>([]);
+  const [conditions, setConditions] = useState<any[]>([]);
+  const [amenities, setAmenities] = useState<any[]>([]);
+  const [models, setModels] = useState<any[]>([]);
+  const [interiorStyles, setInteriorStyles] = useState<any[]>([]);
+  const [exteriorColors, setExteriorColors] = useState<any[]>([]);
+  const [engineTypes, setEngineTypes] = useState<any[]>([]);
+  const [interestsInSupercars, setInterestsInSupercars] = useState<any[]>([]);
+  const [interestsInShares, setInterestsInShares] = useState<any[]>([]);
+
+  const getInterestsInSupercars = async () => {
+    const result = ['1', '2', '3', '4', '5', '6', '7', '8'];
+    setInterestsInSupercars(
+      result.map((name: string) => {
+        return {
+          value: name,
+          label: name,
+        };
+      })
+    );
+  };
+
+  const getInterestsInShares = async () => {
+    const result = ['1', '2', '3', '4', '5', '6', '7', '8'];
+    setInterestsInShares(
+      result.map((name: string) => {
+        return {
+          value: name,
+          label: name,
+        };
+      })
+    );
+  };
 
   const getLocationOptions = async (searchTerm: string = '') => {
     const result = getLocations(searchTerm);
@@ -153,9 +194,9 @@ const AccountPage = (props: any) => {
     );
   };
 
-  const getNationalityOptions = async (searchTerm: string = '') => {
-    const result = getNationalities(searchTerm);
-    setNationalities(
+  const getConditionOptions = async (searchTerm: string = '') => {
+    const result = getConditions(searchTerm);
+    setConditions(
       result.map((name: string) => {
         return {
           value: name,
@@ -165,9 +206,9 @@ const AccountPage = (props: any) => {
     );
   };
 
-  const getLanguageOptions = async (searchTerm: string = '') => {
-    const result = getLanguages(searchTerm);
-    setLanguages(
+  const getBrandOptions = async (searchTerm: string = '') => {
+    const result = getBrands(searchTerm);
+    setBrands(
       result.map((name: string) => {
         return {
           value: name,
@@ -177,9 +218,9 @@ const AccountPage = (props: any) => {
     );
   };
 
-  const getThemeOptions = async (searchTerm: string = '') => {
-    const result = getCarTheme(searchTerm);
-    setThemes(
+  const getModelOptions = async (searchTerm: string = '') => {
+    const result = getModels(searchTerm);
+    setModels(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -187,9 +228,9 @@ const AccountPage = (props: any) => {
     );
   };
 
-  const getSkillsOfOtherOptions = async (searchTerm: string = '') => {
-    const result = getSkillsOfOthers(searchTerm);
-    setSkillsOfOthers(
+  const getInteriorStyleOptions = async (searchTerm: string = '') => {
+    const result = getInteriorStyles(searchTerm);
+    setInteriorStyles(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -197,9 +238,9 @@ const AccountPage = (props: any) => {
     );
   };
 
-  const getSkillsOptions = async (searchTerm: string = '') => {
-    const result = getSkills(searchTerm);
-    setSkills(
+  const getAmenityOptions = async (searchTerm: string = '') => {
+    const result = getAmenities(searchTerm);
+    setAmenities(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -207,9 +248,9 @@ const AccountPage = (props: any) => {
     );
   };
 
-  const getInterestsOptions = async (searchTerm: string = '') => {
-    const result = getInterestsAndHobbies(searchTerm);
-    setInterests(
+  const getExteriorColorOptions = async (searchTerm: string = '') => {
+    const result = getExteriorColors(searchTerm);
+    setExteriorColors(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -217,41 +258,32 @@ const AccountPage = (props: any) => {
     );
   };
 
-  const getDietsOptions = async (searchTerm: string = '') => {
-    const result = getDiets(searchTerm);
-    setDiets(
+  const getEngineTypesOptions = async (searchTerm: string = '') => {
+    const result = getEngineTypes(searchTerm);
+    setEngineTypes(
       result.map((name: any) => ({
         value: name,
         label: name,
       }))
     );
   };
-
-  const debouncedLocation = useDebounce(getLocationOptions, 100);
-  const debouncedNationalities = useDebounce(getNationalityOptions, 100);
-  const debouncedLanguages = useDebounce(getLanguageOptions, 100);
-  const debouncedSkillsOfOthers = useDebounce(getSkillsOfOtherOptions, 100);
-  const debouncedSkills = useDebounce(getSkillsOptions, 100);
-  const debouncedInterests = useDebounce(getInterestsOptions, 100);
-  const debouncedDiets = useDebounce(getDietsOptions, 100);
 
   useEffect(() => {
     getLocationOptions();
-    getNationalityOptions();
-    getLanguageOptions();
-    getDietsOptions();
-    getInterestsOptions();
-    getThemeOptions();
-    getSkillsOfOtherOptions();
-    getSkillsOptions();
+    getConditionOptions();
+    getEngineTypesOptions();
+    getExteriorColorOptions();
+    getModelOptions();
+    getInteriorStyleOptions();
+    getAmenityOptions();
+    getBrandOptions();
+    getInterestsInSupercars();
+    getInterestsInShares();
   }, []);
 
   const updateUserInfo = async () => {
     try {
-      const language = info.language.map((item: any) => item.value).join(',');
-      const skills = info.skills.map((item: any) => item.value).join(',');
-      let data = { ...info, language, skills };
-      await UsersAPI.updateSingleUser(user.id, data).then(() => {});
+      await UsersAPI.updateSingleUser(user.id, info).then(() => {});
       setInfoSaving(false);
       setInfoHasChanged(false);
     } catch {
@@ -262,13 +294,37 @@ const AccountPage = (props: any) => {
 
   const saveCarPreference = async () => {
     try {
-      const skillsOfOthers = preference.skillsOfOthers
+      const amenities = preference.amenities
         .map((item: any) => item.value)
         .join(',');
-      const interestsHobbies = preference.interestsHobbies
+      const brands = preference.brands.map((item: any) => item.value).join(',');
+      const models = preference.models.map((item: any) => item.value).join(',');
+      const conditions = preference.conditions
         .map((item: any) => item.value)
         .join(',');
-      let data = { ...preference, skillsOfOthers, interestsHobbies };
+      const interestedInShares = preference.interestedInShares
+        .map((item: any) => item.value)
+        .join(',');
+      const interiorStyle = preference.interiorStyle
+        .map((item: any) => item.value)
+        .join(',');
+      const exteriorColor = preference.exteriorColor
+        .map((item: any) => item.value)
+        .join(',');
+      const engineType = preference.engineType
+        .map((item: any) => item.value)
+        .join(',');
+      let data = {
+        ...preference,
+        amenities,
+        brands,
+        models,
+        conditions,
+        interestedInShares,
+        interiorStyle,
+        exteriorColor,
+        engineType,
+      };
       if (preference.id === -1) {
         await CarPreferenceApi.createCarPreference(data).then(() => {});
       } else {
@@ -279,7 +335,7 @@ const AccountPage = (props: any) => {
       setHprefHasChanged(false);
       setHprefSaving(false);
     } catch {
-      push('Something went wrong when save house preference.', {
+      push('Something went wrong when save supercar preference.', {
         variant: 'error',
       });
       setHprefSaving(false);
@@ -403,7 +459,6 @@ const AccountPage = (props: any) => {
                 <Input
                   type="select"
                   label="Location"
-                  onSearch={debouncedLocation}
                   placeholder="Please Select"
                   options={locations}
                   value={
@@ -420,6 +475,16 @@ const AccountPage = (props: any) => {
                       location ? location.value : location
                     )
                   }
+                  validators={[
+                    {
+                      message: 'Location is required',
+                      validator: (value) => {
+                        const v = value as string;
+                        if (v) return true;
+                        return false;
+                      },
+                    },
+                  ]}
                 />
               </AccountGrid>
               {!infoSaving && !hprefSaving ? (
@@ -450,25 +515,26 @@ const AccountPage = (props: any) => {
         <Card>
           <ApplicationContainer>
             <Stack>
-              <AccountHeadline>Supercar Preferences</AccountHeadline>
+              <AccountHeadline>Supercar Preference</AccountHeadline>
               <AccountGrid>
                 <Input
                   type="multiselect"
-                  label="Theme"
+                  label="Brand"
                   placeholder="Please Select"
                   required
-                  options={themes}
-                  value={preference.theme}
-                  onValue={(theme) => {
-                    if (theme.length <= 3) {
-                      handleChangeCarPreference('theme', theme);
+                  errorCallback={handleErrors(1)}
+                  options={brands}
+                  value={preference.brands}
+                  onValue={(brands) => {
+                    if (brands.length <= 3) {
+                      handleChangeCarPreference('brands', brands);
                     }
                   }}
                   validators={[
                     {
-                      message: 'Theme is required',
+                      message: 'Brands is required',
                       validator: (value) => {
-                        const v = value as string;
+                        const v = value.length > 0;
                         if (v) return true;
                         return false;
                       },
@@ -477,25 +543,22 @@ const AccountPage = (props: any) => {
                 />
                 <Input
                   type="multiselect"
-                  label="Skills of Others"
+                  label="Model"
                   placeholder="Please Select"
                   required
-                  options={skillsOfthers}
-                  onSearch={debouncedSkillsOfOthers}
-                  value={preference.skillsOfOthers}
-                  onValue={(skillsOfOthers) => {
-                    if (skillsOfOthers.length <= 5) {
-                      handleChangeCarPreference(
-                        'skillsOfOthers',
-                        skillsOfOthers
-                      );
+                  errorCallback={handleErrors(2)}
+                  options={models}
+                  value={preference.models}
+                  onValue={(models) => {
+                    if (models.length <= 5) {
+                      handleChangeCarPreference('models', models);
                     }
                   }}
                   validators={[
                     {
-                      message: 'Skills of others are required',
+                      message: 'Model are required',
                       validator: (value) => {
-                        const v = value as string;
+                        const v = value.length > 0;
                         if (v) return true;
                         return false;
                       },
@@ -506,8 +569,8 @@ const AccountPage = (props: any) => {
                   type="select"
                   label="Location"
                   required
+                  errorCallback={handleErrors(3)}
                   placeholder="Please Select"
-                  onSearch={debouncedLocation}
                   options={locations}
                   value={
                     preference.location
@@ -535,31 +598,47 @@ const AccountPage = (props: any) => {
                   ]}
                 />
                 <Input
-                  type="select"
-                  label="Language"
-                  required
+                  type="multiselect"
+                  label="Condition"
                   placeholder="Please Select"
-                  onSearch={debouncedLanguages}
-                  options={language}
-                  value={
-                    preference.language
-                      ? {
-                          label: preference.language,
-                          value: preference.language,
-                        }
-                      : null
-                  }
-                  onValue={(language) =>
-                    handleChangeCarPreference(
-                      'language',
-                      language ? language.value : language
-                    )
-                  }
+                  required
+                  errorCallback={handleErrors(4)}
+                  options={conditions}
+                  value={preference.conditions}
+                  onValue={(conditions) => {
+                    if (conditions.length <= 5) {
+                      handleChangeCarPreference('conditions', conditions);
+                    }
+                  }}
                   validators={[
                     {
-                      message: 'Language is required',
+                      message: 'Condition are required',
                       validator: (value) => {
-                        const v = value as string;
+                        const v = value.length > 0;
+                        if (v) return true;
+                        return false;
+                      },
+                    },
+                  ]}
+                />
+                <Input
+                  type="multiselect"
+                  label="Amenities"
+                  placeholder="Please Select"
+                  required
+                  errorCallback={handleErrors(5)}
+                  options={amenities}
+                  value={preference.amenities}
+                  onValue={(amenities) => {
+                    if (amenities.length <= 5) {
+                      handleChangeCarPreference('amenities', amenities);
+                    }
+                  }}
+                  validators={[
+                    {
+                      message: 'Amenities are required',
+                      validator: (value) => {
+                        const v = value.length > 0;
                         if (v) return true;
                         return false;
                       },
@@ -568,86 +647,186 @@ const AccountPage = (props: any) => {
                 />
                 <Input
                   type="min-max"
-                  label="Monthly Rent"
+                  label="Budget per Share"
                   value={{
-                    min: preference.monthlyRentMin,
-                    max: preference.monthlyRentMax,
+                    min: preference.budgetPerShareMin,
+                    max: preference.budgetPerShareMax,
                   }}
-                  onValue={(monthlyRent) =>
+                  onValue={(budgetShares) =>
                     handleChangeMinMaxCarPreference(
-                      'monthlyRentMin',
-                      'monthlyRentMax',
-                      monthlyRent
+                      'budgetPerShareMin',
+                      'budgetPerShareMax',
+                      budgetShares
                     )
                   }
-                />
-                <Input
-                  type="min-max"
-                  label="Age"
-                  value={{
-                    min: preference.ageMin,
-                    max: preference.ageMax,
-                  }}
-                  onValue={(age) =>
-                    handleChangeMinMaxCarPreference('ageMin', 'ageMax', age)
-                  }
-                />
-                <Input
-                  type="min-max"
-                  label="Tenants per Supercars"
-                  value={{
-                    min: preference.tenantsMin,
-                    max: preference.tenantsMax,
-                  }}
-                  onValue={(tenants) =>
-                    handleChangeMinMaxCarPreference(
-                      'tenantsMin',
-                      'tenantsMax',
-                      tenants
-                    )
-                  }
-                />
-                <Input
-                  type="multiselect"
-                  label="Interests and Hobbies"
-                  placeholder="Please Select"
-                  options={interests}
-                  value={preference.interestsHobbies}
-                  onValue={(interestsHobbies) => {
-                    if (interestsHobbies.length <= 3) {
-                      handleChangeCarPreference(
-                        'interestsHobbies',
-                        interestsHobbies
-                      );
-                    }
-                  }}
                 />
                 <Input
                   type="select"
-                  label="Diet"
+                  label="Interested In Supercars"
+                  required
+                  errorCallback={handleErrors(6)}
                   placeholder="Please Select"
-                  options={diets}
+                  options={interestsInSupercars}
                   value={
-                    preference.diet
+                    preference.interestedInSupercars
                       ? {
-                          label: preference.diet,
-                          value: preference.diet,
+                          label: preference.interestedInSupercars,
+                          value: preference.interestedInSupercars,
                         }
                       : null
                   }
-                  onValue={(diet) =>
-                    handleChangeCarPreference('diet', diet ? diet.value : diet)
+                  onValue={(interestedInSupercars) =>
+                    handleChangeCarPreference(
+                      'interestedInSupercars',
+                      interestedInSupercars
+                        ? interestedInSupercars.value
+                        : interestedInSupercars
+                    )
+                  }
+                  validators={[
+                    {
+                      message: 'Interested in Supercars is required',
+                      validator: (value) => {
+                        const v = value as string;
+                        if (v) return true;
+                        return false;
+                      },
+                    },
+                  ]}
+                />
+
+                <Input
+                  type="multiselect"
+                  label="Interested in Shares per Supercar"
+                  placeholder="Please Select"
+                  required
+                  errorCallback={handleErrors(7)}
+                  options={interestsInShares}
+                  value={preference.interestedInShares}
+                  onValue={(interestedInShares) => {
+                    if (interestedInShares.length <= 5) {
+                      handleChangeCarPreference(
+                        'interestedInShares',
+                        interestedInShares
+                      );
+                    }
+                  }}
+                  validators={[
+                    {
+                      message: 'Interested in Shares per Supercar are required',
+                      validator: (value) => {
+                        const v = value.length > 0;
+                        if (v) return true;
+                        return false;
+                      },
+                    },
+                  ]}
+                />
+
+                <Input
+                  type="multiselect"
+                  label="Interior Style"
+                  placeholder="Please Select"
+                  required
+                  errorCallback={handleErrors(8)}
+                  options={interiorStyles}
+                  value={preference.interiorStyle}
+                  onValue={(interiorStyle) => {
+                    if (interiorStyle.length <= 5) {
+                      handleChangeCarPreference('interiorStyle', interiorStyle);
+                    }
+                  }}
+                  validators={[
+                    {
+                      message: 'Interior Style are required',
+                      validator: (value) => {
+                        const v = value.length > 0;
+                        if (v) return true;
+                        return false;
+                      },
+                    },
+                  ]}
+                />
+
+                <Input
+                  type="multiselect"
+                  label="Exterior Color"
+                  placeholder="Please Select"
+                  required
+                  errorCallback={handleErrors(9)}
+                  options={exteriorColors}
+                  value={preference.exteriorColor}
+                  onValue={(exteriorColor) => {
+                    if (exteriorColor.length <= 5) {
+                      handleChangeCarPreference('exteriorColor', exteriorColor);
+                    }
+                  }}
+                  validators={[
+                    {
+                      message: 'Exterior Color are required',
+                      validator: (value) => {
+                        const v = value.length > 0;
+                        if (v) return true;
+                        return false;
+                      },
+                    },
+                  ]}
+                />
+
+                <Input
+                  type="multiselect"
+                  label="Engine Type"
+                  placeholder="Please Select"
+                  required
+                  options={engineTypes}
+                  value={preference.engineType}
+                  errorCallback={handleErrors(10)}
+                  onValue={(engineType) => {
+                    if (engineType.length <= 5) {
+                      handleChangeCarPreference('engineType', engineType);
+                    }
+                  }}
+                  validators={[
+                    {
+                      message: 'Engine Types are required',
+                      validator: (value) => {
+                        const v = value.length > 0;
+                        if (v) return true;
+                        return false;
+                      },
+                    },
+                  ]}
+                />
+
+                <Input
+                  type="min-max"
+                  label="Engine (HP)"
+                  value={{
+                    min: preference.engineHpMin,
+                    max: preference.engineHpMax,
+                  }}
+                  onValue={(age) =>
+                    handleChangeMinMaxCarPreference(
+                      'engineHpMin',
+                      'engineHpMax',
+                      age
+                    )
                   }
                 />
               </AccountGrid>
               <AccountGrid>
                 <Input
                   type="text"
-                  label="Motivation"
+                  label="Additional Comment"
                   placeholder="Please Enter"
-                  value={preference?.motivation}
-                  onValue={(motivation) =>
-                    handleChangeCarPreference('motivation', motivation)
+                  value={preference?.additionalComment}
+                  multiline
+                  rows={3}
+                  onValue={(additionalComment) =>
+                    handleChangeCarPreference(
+                      'additionalComment',
+                      additionalComment
+                    )
                   }
                   style={{ gridColumn: '1/3' }}
                 />

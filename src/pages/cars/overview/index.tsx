@@ -17,7 +17,7 @@ const Overview = () => {
   return (
     <>
       <Title>Overview</Title>
-      <OverviewPage houseId={query.houseId} />
+      <OverviewPage carId={query.carId} />
     </>
   );
 };

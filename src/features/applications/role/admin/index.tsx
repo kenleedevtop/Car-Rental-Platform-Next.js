@@ -21,20 +21,16 @@ import { SlidersHorizontalIcon } from 'components/svg';
 import { useDebounce, useModal, usePagination, useSnackbar } from 'hooks';
 import { ApplicationAPI } from 'api';
 import { getLocations } from 'utilities/locations';
-import { getNationalities } from 'utilities/nationalities';
-import { getDiets } from 'utilities/diets';
+import { getConditions } from 'utilities/conditions';
+import { getEngineTypes } from 'utilities/engineTypes';
 import { getAge } from 'utilities/birthday-age-converter';
-import { getSkillsOfOthers } from 'utilities/skillsOfOthers';
-import { getCarTheme } from 'utilities/houseTheme';
-import { getFieldOfStudies } from 'utilities/fieldOfStudy';
-import { getDegrees } from 'utilities/degrees';
-import { getSocialMedias } from 'utilities/socialMedias';
+import { getInteriorStyles } from 'utilities/interiorStyles';
+import { getModels } from 'utilities/models';
 import { getLanguages } from 'utilities/languages';
 import { IApplication } from 'api/applications/types';
 import { useAppContext } from 'context';
 import ApplicationStatusActions from './elements/application-status-modal';
-import { getJobTitles } from 'utilities/jobTitles';
-import { getInterestsAndHobbies } from 'utilities/interests';
+import { getExteriorColors } from 'utilities/exteriorColors';
 import { BookingOverviewModal, TransferOwnershipModal } from './elements';
 
 const AdminApplicationsPage = () => {
@@ -46,15 +42,15 @@ const AdminApplicationsPage = () => {
   const [applicationStatues, setApplicationStatues] = useState<any[]>([]);
   const [jobTitles, setJobTitles] = useState<any[]>([]);
   const [locations, setLocations] = useState<any[]>([]);
-  const [nationalities, setNationalities] = useState<any[]>([]);
+  const [conditions, setConditions] = useState<any[]>([]);
   const [language, setLanguages] = useState<any[]>([]);
   const [socialMedias, setSocialMedias] = useState<any[]>([]);
-  const [interests, setInterests] = useState<any[]>([]);
+  const [exteriorColors, setExteriorColors] = useState<any[]>([]);
   const [degrees, setDegrees] = useState<any[]>([]);
   const [fieldOfStudy, setFieldOfStudy] = useState<any[]>([]);
-  const [themes, setThemes] = useState<any[]>([]);
-  const [skillsOfthers, setSkillsOfOthers] = useState<any[]>([]);
-  const [diets, setDiets] = useState<any[]>([]);
+  const [models, setModels] = useState<any[]>([]);
+  const [interiorStyles, setInteriorStyles] = useState<any[]>([]);
+  const [engineTypes, setEngineTypes] = useState<any[]>([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -129,9 +125,9 @@ const AdminApplicationsPage = () => {
     );
   };
 
-  const getNationalityOptions = async (searchTerm: string = '') => {
-    const result = getNationalities(searchTerm);
-    setNationalities(
+  const getConditionOptions = async (searchTerm: string = '') => {
+    const result = getConditions(searchTerm);
+    setConditions(
       result.map((name: string) => {
         return {
           value: name,
@@ -153,9 +149,9 @@ const AdminApplicationsPage = () => {
     );
   };
 
-  const getSocialMediaOptions = async (searchTerm: string = '') => {
-    const result = getSocialMedias(searchTerm);
-    setSocialMedias(
+  const getModelOptions = async (searchTerm: string = '') => {
+    const result = getModels(searchTerm);
+    setModels(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -163,9 +159,9 @@ const AdminApplicationsPage = () => {
     );
   };
 
-  const getDegreeOptions = async (searchTerm: string = '') => {
-    const result = getDegrees(searchTerm);
-    setDegrees(
+  const getInteriorStyleOptions = async (searchTerm: string = '') => {
+    const result = getInteriorStyles(searchTerm);
+    setInteriorStyles(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -173,39 +169,9 @@ const AdminApplicationsPage = () => {
     );
   };
 
-  const getFieldOfStudyOptions = async (searchTerm: string = '') => {
-    const result = getFieldOfStudies(searchTerm);
-    setFieldOfStudy(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
-  const getThemeOptions = async (searchTerm: string = '') => {
-    const result = getCarTheme(searchTerm);
-    setThemes(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
-  const getSkillsOfOtherOptions = async (searchTerm: string = '') => {
-    const result = getSkillsOfOthers(searchTerm);
-    setSkillsOfOthers(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
-  const getDietsOptions = async (searchTerm: string = '') => {
-    const result = getDiets(searchTerm);
-    setDiets(
+  const getEngineTypesOptions = async (searchTerm: string = '') => {
+    const result = getEngineTypes(searchTerm);
+    setEngineTypes(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -231,19 +197,9 @@ const AdminApplicationsPage = () => {
     );
   };
 
-  const getJObTitleOptions = async (searchTerm: string = '') => {
-    const result = getJobTitles(searchTerm);
-    setJobTitles(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
-  const getInterestsOptions = async (searchTerm: string = '') => {
-    const result = getInterestsAndHobbies(searchTerm);
-    setInterests(
+  const getExteriorColorOptions = async (searchTerm: string = '') => {
+    const result = getExteriorColors(searchTerm);
+    setExteriorColors(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -252,32 +208,22 @@ const AdminApplicationsPage = () => {
   };
 
   const debouncedLocation = useDebounce(getLocationOptions, 100);
-  const debouncedNationalities = useDebounce(getNationalityOptions, 100);
+  const debouncedNationalities = useDebounce(getConditionOptions, 100);
   const debouncedLanguages = useDebounce(getLanguageOptions, 100);
-  const debouncedSocialMedias = useDebounce(getSocialMediaOptions, 100);
-  // const debouncedSchools = useDebounce(getSchoolAndUniversityOptions, 100);
-  const debouncedDegrees = useDebounce(getDegreeOptions, 100);
-  const debouncedFieldOfStudy = useDebounce(getFieldOfStudyOptions, 100);
-  const debouncedThemes = useDebounce(getThemeOptions, 100);
-  const debouncedSkillsOfOthers = useDebounce(getSkillsOfOtherOptions, 100);
-  const debouncedDiets = useDebounce(getDietsOptions, 100);
-  const debouncedJobTitles = useDebounce(getJObTitleOptions, 100);
-  const debouncedInterests = useDebounce(getInterestsOptions, 100);
+  const debouncedThemes = useDebounce(getModelOptions, 100);
+  const debouncedSkillsOfOthers = useDebounce(getInteriorStyleOptions, 100);
+  const debouncedDiets = useDebounce(getEngineTypesOptions, 100);
+  const debouncedInterests = useDebounce(getExteriorColorOptions, 100);
 
   useEffect(() => {
     getLocationOptions();
-    getNationalityOptions();
+    getConditionOptions();
     getLanguageOptions();
-    getSocialMediaOptions();
-    getDegreeOptions();
-    getDietsOptions();
-    // getSchoolAndUniversityOptions();
-    getFieldOfStudyOptions();
-    getThemeOptions();
-    getSkillsOfOtherOptions();
+    getEngineTypesOptions();
+    getModelOptions();
+    getInteriorStyleOptions();
     getApplicationStatues();
     getApplicationTypes();
-    getJObTitleOptions();
   }, []);
 
   const applyFilters = () => {
@@ -471,7 +417,7 @@ const AdminApplicationsPage = () => {
                     <Input
                       type="multiselect"
                       label="Nationality"
-                      options={nationalities}
+                      options={conditions}
                       onSearch={debouncedNationalities}
                       placeholder="Please Select"
                       value={filter.nationality}
@@ -513,7 +459,6 @@ const AdminApplicationsPage = () => {
                       type="multiselect"
                       label="Social Media"
                       placeholder="Please Select"
-                      onSearch={debouncedSocialMedias}
                       value={filter.socialMedia}
                       options={socialMedias}
                       onValue={(socialMedia) =>
@@ -646,7 +591,7 @@ const AdminApplicationsPage = () => {
                       label="Theme"
                       onSearch={debouncedThemes}
                       placeholder="Please Select"
-                      options={themes}
+                      options={models}
                       value={filter.theme}
                       onValue={(theme) => setFilter({ ...filter, theme })}
                     />
@@ -656,7 +601,7 @@ const AdminApplicationsPage = () => {
                       placeholder="Please Select"
                       onSearch={debouncedSkillsOfOthers}
                       value={filter.skillsOfOthers}
-                      options={skillsOfthers}
+                      options={interiorStyles}
                       onValue={(skillsOfOthers) =>
                         setFilter({ ...filter, skillsOfOthers })
                       }
@@ -710,7 +655,7 @@ const AdminApplicationsPage = () => {
                       label="Interests and Hobbies"
                       placeholder="Please Select"
                       onSearch={debouncedInterests}
-                      options={interests}
+                      options={exteriorColors}
                       value={filter.interestsAndHobbies}
                       onValue={(interestsAndHobbies) =>
                         setFilter({ ...filter, interestsAndHobbies })
@@ -719,7 +664,7 @@ const AdminApplicationsPage = () => {
                     <Input
                       type="multiselect"
                       label="Diet"
-                      options={diets}
+                      options={engineTypes}
                       placeholder="Please Select"
                       onSearch={debouncedDiets}
                       value={filter.diet}

@@ -156,14 +156,14 @@ const PropertyCard = ({
       </CardBody>
       {editModal && (
         <EditProjectModal
-          houseId={house.id}
+          carId={house.id}
           onClose={closeEditModal}
           refresh={refresh}
         />
       )}
       {applicationModal && (
         <ApplicationModal
-          houseId={house.id}
+          carId={house.id}
           onClose={closeApplicationModal}
           houseName={house.name}
         />

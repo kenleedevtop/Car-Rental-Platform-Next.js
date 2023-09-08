@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Theme } from '@mui/material';
 import { Stack } from 'components/system';
-import { Card, Checkbox } from 'components/ui';
+import { Card, Checkbox, Input } from 'components/ui';
 
 export const AccountMain = styled(Card)`
   height: 100%;

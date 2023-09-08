@@ -22,13 +22,9 @@ const AdminMarketPage = () => {
   const [secondaryCars, setSecondaryCars] = useState<ICar[]>([]);
   const [completedCars, setCompletedCars] = useState<ICar[]>([]);
 
-  const getAllCars = async (
-    search: string,
-    marketType: string,
-    status: string
-  ): Promise<any> => {
+  const getAllCars = async (search: string, status: string): Promise<any> => {
     try {
-      const response = await CarAPI.getAll(search, marketType, status);
+      const response = await CarAPI.getAll(search, status);
 
       if (response) {
         return response;
@@ -43,15 +39,15 @@ const AdminMarketPage = () => {
   const refresh = async () => {
     switch (tab) {
       case 0:
-        const primary = await getAllCars('', 'Primary', '');
+        const primary = await getAllCars('', 'Primary');
         setPrimaryCars(primary);
         break;
       case 1:
-        const secondary = await getAllCars('', 'Secondary', '');
+        const secondary = await getAllCars('', 'Secondary');
         setSecondaryCars(secondary);
         break;
       case 2:
-        const completed = await getAllCars('', '', 'Completed');
+        const completed = await getAllCars('', 'Completed');
         setCompletedCars(completed);
         break;
 
@@ -88,7 +84,7 @@ const AdminMarketPage = () => {
             return (
               <PropertyCard
                 key={house.id}
-                link={`/cars/overview?houseId=${house.id}`}
+                link={`/cars/overview?carId=${house.id}`}
                 image={house.images.find(
                   (item) => item.id === house.thumbnailId
                 )}
@@ -107,7 +103,7 @@ const AdminMarketPage = () => {
             return (
               <PropertyCard
                 key={house.id}
-                link={`/cars/overview?houseId=${house.id}`}
+                link={`/cars/overview?carId=${house.id}`}
                 image={house.images.find(
                   (item) => item.id === house.thumbnailId
                 )}
@@ -127,7 +123,7 @@ const AdminMarketPage = () => {
             return (
               <PropertyCard
                 key={house.id}
-                link={`/cars/overview?houseId=${house.id}`}
+                link={`/cars/overview?carId=${house.id}`}
                 image={house.images.find(
                   (item) => item.id === house.thumbnailId
                 )}

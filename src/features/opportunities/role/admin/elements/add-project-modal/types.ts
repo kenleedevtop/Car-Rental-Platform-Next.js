@@ -9,7 +9,7 @@ export type TAddCarsModalProps = React.HTMLAttributes<HTMLDivElement> & {
 export type TEditCarsModalProps = React.HTMLAttributes<HTMLDivElement> & {
   onClose: () => void;
   refresh: () => void;
-  houseId: number;
+  carId: number;
 };
 
 export type TCarImage = {

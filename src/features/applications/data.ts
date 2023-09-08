@@ -25,7 +25,7 @@ export const DApplicationsFilters = () => ({
   company: '',
   workExperienceLocation: [],
   currentlyEmployed: null,
-  skills: [],
+  amenities: [],
 
   school: '',
   degree: [],

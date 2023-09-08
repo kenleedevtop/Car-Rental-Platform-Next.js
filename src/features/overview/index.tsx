@@ -34,7 +34,7 @@ import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
 
 const OverviewPage = (props: any) => {
-  const { houseId } = props;
+  const { carId } = props;
   const router = useRouter();
   const { houseStatus } = useAppContext();
   const [tab, setTab] = useState(0);
@@ -60,17 +60,17 @@ const OverviewPage = (props: any) => {
   });
 
   const getCarDataById = async () => {
-    if (houseId) {
-      const data = await CarAPI.getOne(houseId);
+    if (carId) {
+      const data = await CarAPI.getOne(carId);
       setCarData((house) => ({ ...house, ...data }));
     }
   };
 
   useEffect(() => {
-    if (houseId) {
+    if (carId) {
       getCarDataById();
     }
-  }, [houseId, houseStatus]);
+  }, [carId, houseStatus]);
 
   const download = async (doc: TDocument) => {
     saveAs(`${Project.apis.v1}/public/documents/${doc?.key}`, doc.name);

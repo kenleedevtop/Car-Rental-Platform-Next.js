@@ -1,50 +1,21 @@
 export const DUsersFilters = () => ({
   search: '',
   location: [],
-  nationality: [],
-  age: {
+  supercars: {
     min: '',
     max: '',
   },
-  language: [],
+  shares: {
+    min: '',
+    max: '',
+  },
   applications: {
     min: '',
     max: '',
   },
-  invested: {
-    min: '',
-    max: '',
-  },
-  socialMedia: [],
-
-  jobTitle: [],
-  company: '',
-  workExperienceLocation: [],
-  currentlyEmployed: '',
-  skills: [],
-
-  school: '',
-  degree: [],
-  fieldOfStudy: [],
-
-  theme: [],
-  skillsOfOthers: [],
-  houseLocation: [],
-  houseLanguage: [],
-  monthlyRent: {
-    min: '',
-    max: '',
-  },
-  houseAge: {
-    min: '',
-    max: '',
-  },
-  tenantsPerCar: {
-    min: '',
-    max: '',
-  },
-  interestsAndHobbies: [],
-  diet: [],
+  locationOfInterests: [],
+  brand: [],
+  model: [],
 });
 
 export const DUsersHead = [
@@ -59,18 +30,13 @@ export const DUsersHead = [
     visible: true,
   },
   {
-    reference: 'nationality',
-    label: 'Nationality',
+    reference: 'supercars',
+    label: 'Super cars',
     visible: true,
   },
   {
-    reference: 'age',
-    label: 'Age',
-    visible: true,
-  },
-  {
-    reference: 'language',
-    label: 'Languages',
+    reference: 'shares',
+    label: 'Shares',
     visible: true,
   },
   {
@@ -79,8 +45,8 @@ export const DUsersHead = [
     visible: true,
   },
   {
-    reference: 'invested',
-    label: 'Invested',
+    reference: 'locationOfInterest',
+    label: 'Location Of Interest',
     visible: true,
   },
   {
@@ -23493,157 +23459,4 @@ export const DCountries = [
     dialling_code: '+263',
     isoCode: '716',
   },
-];
-
-export const DSocialMedia = [
-  {
-    name: 'Instagram',
-  },
-  {
-    name: 'LinkedIn',
-  },
-  {
-    name: 'TikTok',
-  },
-  {
-    name: 'Website',
-  },
-];
-
-export const DDegrees = [
-  { name: 'High School Diploma/GED' },
-  { name: "Associate's Degree/Vocational Certificate" },
-  { name: "Bachelor's Degree" },
-  { name: "Master's Degree" },
-  { name: 'MBA' },
-  { name: 'Professional Degrees (JD, MD, DDS/DMD)' },
-  { name: 'Doctorate (PhD, EdD)' },
-];
-
-export const DFieldOfStudy = [
-  { name: 'Arts & Humanities' },
-  { name: 'Business & Management' },
-  { name: 'Computer Science & IT' },
-  { name: 'Engineering & Technology' },
-  { name: 'Life Sciences & Medicine' },
-  { name: 'Natural Sciences' },
-  { name: 'Social Sciences' },
-  { name: 'Mathematics & Statistics' },
-  { name: 'Law' },
-  { name: 'Education & Training' },
-  { name: 'Architecture & Design' },
-  { name: 'Media & Communication' },
-  { name: 'Environmental Studies' },
-  { name: 'Performing Arts' },
-  { name: 'Agriculture & Forestry' },
-];
-
-export const DSkills = [
-  { name: 'Back-End Development' },
-  { name: 'Branding & Design' },
-  { name: 'Business Development' },
-  { name: 'Cloud Computing' },
-  { name: 'Compliance & Regulation' },
-  { name: 'Content Creation' },
-  { name: 'Copywriting' },
-  { name: 'Crisis Management' },
-  { name: 'Customer Support & Retention' },
-  { name: 'Data Analytics' },
-  { name: 'Database Management' },
-  { name: 'DevOps' },
-  { name: 'Digital Marketing' },
-  { name: 'Dropshipping' },
-  { name: 'Event Planning & Community Engagement' },
-  { name: 'Financial Planning & Analysis' },
-  { name: 'Front-End Development' },
-  { name: 'Fundraising & Investor Relations' },
-  { name: 'Growth Hacking' },
-  { name: 'Leadership & Team Management' },
-  { name: 'Machine Learning/AI' },
-  { name: 'Market Research' },
-  { name: 'Mobile App Development' },
-  { name: 'Networking' },
-  { name: 'Product Management' },
-  { name: 'Public Relations & Media Relations' },
-  { name: 'Sales & Pitching' },
-  { name: 'SEO/SEM' },
-  { name: 'Social Media Marketing' },
-  { name: 'Strategy & Planning' },
-  { name: 'Talent Acquisition & HR' },
-  { name: 'UI/UX Design' },
-];
-
-export const DInterestsAndHobbies = [
-  { name: 'Career and Professional Interests' },
-  { name: 'Education and Learning' },
-  { name: 'Gaming' },
-  { name: 'Family and Relationships' },
-  { name: 'Food and Cooking' },
-  { name: 'Health and Weliness' },
-  { name: 'Supercars and Garden' },
-  { name: 'Pet and Pet Care' },
-  { name: 'Technology and Gadgets' },
-  { name: 'Travel and Outdoors' },
-];
-
-export const DDiet = [
-  { name: 'Carnivore' },
-  { name: 'Gluten-free' },
-  { name: 'Keto' },
-  { name: 'Omnivore' },
-  { name: 'Pescatarian' },
-  { name: 'Vegan' },
-  { name: 'Vegetarian' },
-  { name: 'No Preference' },
-];
-
-export const DJobTitle = [
-  { name: 'Administrative Assistant' },
-  { name: 'Architect' },
-  { name: 'Artist' },
-  { name: 'Banker' },
-  { name: 'Bartender/Waitstaff' },
-  { name: 'Chef' },
-  { name: 'Construction Worker' },
-  { name: 'Consultant' },
-  { name: 'Dentist' },
-  { name: 'Doctor' },
-  { name: 'Driver (Taxi, Truck, etc.)' },
-  { name: 'Electrician' },
-  { name: 'Engineer (General)' },
-  { name: 'Entrepreneur/Business Owner' },
-  { name: 'Event Planner' },
-  { name: 'Factory Worker' },
-  { name: 'Farmer' },
-  { name: 'Financial Advisor' },
-  { name: 'Firefighter' },
-  { name: 'Fitness Trainer' },
-  { name: 'Flight Attendant' },
-  { name: 'Graphic Designer' },
-  { name: 'HR Specialist' },
-  { name: 'Journalist' },
-  { name: 'Lawyer' },
-  { name: 'Manager' },
-  { name: 'Marketer' },
-  { name: 'Mechanic' },
-  { name: 'Military Personnel' },
-  { name: 'Musician' },
-  { name: 'Nurse' },
-  { name: 'Pharmacist' },
-  { name: 'Photographer' },
-  { name: 'Pilot' },
-  { name: 'Plumber' },
-  { name: 'Police Officer' },
-  { name: 'Psychologist/Counselor' },
-  { name: 'Real Estate Agent' },
-  { name: 'Researcher' },
-  { name: 'Retail Worker' },
-  { name: 'Salesperson' },
-  { name: 'Scientist' },
-  { name: 'Social Worker' },
-  { name: 'Software Developer' },
-  { name: 'Teacher' },
-  { name: 'Translator/Interpreter' },
-  { name: 'Veterinarian' },
-  { name: 'Writer/Author' },
 ];

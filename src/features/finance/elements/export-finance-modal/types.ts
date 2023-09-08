@@ -2,7 +2,7 @@ import React from 'react';
 
 export type TApplyModalProps = React.HTMLAttributes<HTMLDivElement> & {
   onClose: () => void;
-  houseId: number;
+  carId: number;
   houseName: string;
 };
 

@@ -1,6 +1,6 @@
 export type TCreateAsSocialMediaParams = {
   tier: string;
-  houseId: number;
+  carId: number;
 };
 
 export type TSingleSocialMedia = {

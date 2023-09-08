@@ -102,7 +102,7 @@ const CalendarCard = ({ ...props }: TCalendarCardProps) => {
             (event) =>
               format(new Date(event.createdAt), 'MM/dd/yyyy') ===
                 format(x.date, 'MM/dd/yyyy') &&
-              event?.notificationPayload[0]?.houseId !== null
+              event?.notificationPayload[0]?.carId !== null
           );
           return (
             <CalendarCardCell
@@ -123,7 +123,7 @@ const CalendarCard = ({ ...props }: TCalendarCardProps) => {
                     <Tooltip key={index} title={event.description}>
                       <CalendarEventStatus
                         variant={event.variant}
-                        href={`/cars/overview?houseId=${event?.notificationPayload[0]?.houseId}`}
+                        href={`/cars/overview?carId=${event?.notificationPayload[0]?.carId}`}
                       />
                     </Tooltip>
                   );

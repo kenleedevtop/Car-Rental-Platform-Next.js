@@ -18,7 +18,7 @@ import ImageApi from 'api/images';
 import DocumentApi from 'api/documents';
 import { TCreateCar } from 'api/cars/types';
 import { getLocations } from 'utilities/locations';
-import { getCarTheme } from 'utilities/houseTheme';
+import { getModels } from 'utilities/models';
 import { CarAPI } from 'api';
 import { TImage } from 'api/images/types';
 import { TDocument } from 'api/documents/types';
@@ -37,7 +37,7 @@ const AddCarProjectModal = ({
   const [modal, modalOpen, modalClose] = useModal(false);
   const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
   const [locations, setLocations] = useState<any[]>([]);
-  const [themes, setThemes] = useState<any[]>([]);
+  const [models, setModels] = useState<any[]>([]);
   const [houseData, setCarData] = useState<TCreateCar>({
     name: '',
     location: '',
@@ -136,9 +136,9 @@ const AddCarProjectModal = ({
     );
   };
 
-  const getThemeOptions = async (searchTerm: string = '') => {
-    const result = getCarTheme(searchTerm);
-    setThemes(
+  const getModelOptions = async (searchTerm: string = '') => {
+    const result = getModels(searchTerm);
+    setModels(
       result.map((name: any) => ({
         value: name,
         label: name,
@@ -147,17 +147,17 @@ const AddCarProjectModal = ({
   };
 
   const debouncedLocation = useDebounce(getLocationOptions, 100);
-  const debouncedTheme = useDebounce(getThemeOptions, 100);
+  const debouncedTheme = useDebounce(getModelOptions, 100);
 
   useEffect(() => {
     getLocationOptions();
-    getThemeOptions();
+    getModelOptions();
   }, []);
 
   const handleAddProject = async () => {
     try {
       await CarAPI.create(houseData).then((res) => {
-        const body = { houseId: res.id };
+        const body = { carId: res.id };
         photos.forEach(async (img: TImage) => {
           await ImageApi.updateFile(body, img.id);
         });
@@ -308,7 +308,7 @@ const AddCarProjectModal = ({
               required
               label="Theme"
               placeholder="Please Select"
-              options={themes}
+              options={models}
               value={
                 houseData.theme
                   ? {
