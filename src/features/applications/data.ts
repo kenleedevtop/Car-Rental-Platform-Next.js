@@ -51,6 +51,33 @@ export const DApplicationsHead = [
     visible: true,
   },
 ];
+export const DApplicationsUserHead = [
+  {
+    reference: 'name',
+    label: 'Name',
+    visible: true,
+  },
+  {
+    reference: 'supercars',
+    label: 'Supercars',
+    visible: true,
+  },
+  {
+    reference: 'date',
+    label: 'Date',
+    visible: true,
+  },
+  {
+    reference: 'sharesApplied',
+    label: 'Shares Applied',
+    visible: true,
+  },
+  {
+    reference: 'status',
+    label: 'Status',
+    visible: true,
+  },
+];
 
 export const DApplicationStatues = [
   {

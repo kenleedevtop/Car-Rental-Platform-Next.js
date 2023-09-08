@@ -1,21 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  ProjectsMain,
-  MarketTableItem,
-  MarketTableItemLabel,
-} from 'features/opportunities/styles';
-import Image from 'next/image';
+import { ProjectsMain } from 'features/opportunities/styles';
+import { format } from 'date-fns';
 
 import { CardWithText, Table } from 'components/custom';
 import { Pagination } from 'components/ui';
-import { DApplicationsHead } from 'features/applications/data';
+import {
+  DApplicationsHead,
+  DApplicationsUserHead,
+} from 'features/applications/data';
 import { Stack } from 'components/system';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { usePagination, useSnackbar } from 'hooks';
 import { ApplicationAPI } from 'api';
 import { useAppContext } from 'context';
 import { IApplication } from 'api/applications/types';
-import Project from 'constants/project';
 
 const UserApplicationsPage = () => {
   const { user, applicationStatus } = useAppContext();
@@ -78,55 +76,33 @@ const UserApplicationsPage = () => {
 
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     const application = row.data as IApplication;
-
-    if (headItem.reference === 'house') {
-      return (
-        <MarketTableItem>
-          <Image
-            alt="house photo"
-            src={`${Project.apis.v1}/public/images/${
-              application.house.images.find(
-                (item) => item.id === application.house.thumbnailId
-              )?.key
-            }`}
-            width={100}
-            height={100}
-            style={{
-              height: '32px',
-              width: '32px',
-              borderRadius: '8px',
-              objectFit: 'cover',
-            }}
-          />
-          <MarketTableItemLabel>{application.house.name}</MarketTableItemLabel>
-        </MarketTableItem>
-      );
-    }
-    if (headItem.reference === 'theme') {
-      return application.house.theme;
+    if (headItem.reference === 'name') {
+      return `${application.owner.firstName} ${application.owner.lastName}`;
     }
     if (headItem.reference === 'location') {
-      return application.house.location;
+      return application.owner.location;
     }
-    if (headItem.reference === 'type') {
-      return application.tier;
+    if (headItem.reference === 'supercars') {
+      return 0;
     }
-    if (headItem.reference === 'rent') {
-      return `€${application.house.rent}`;
+    if (headItem.reference === 'date') {
+      return format(new Date(application.createdAt), 'MM/dd/yyyy');
     }
+    if (headItem.reference === 'sharesApplied') {
+      return application.owner.shareCount;
+    }
+
     if (headItem.reference === 'status') {
       return application.status;
     }
-
     return '';
   };
-
   return (
     <ProjectsMain>
       <CardWithText title="My Applications">
         <Stack>
           <Table
-            head={DApplicationsHead}
+            head={DApplicationsUserHead}
             items={currentTableData}
             renderItem={renderItem}
           />

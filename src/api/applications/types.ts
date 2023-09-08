@@ -13,11 +13,10 @@ export type TSingleApplication = {
 
 export interface IApplication {
   id: number;
-  tier: string;
   status: string;
   ownerId: number | null;
   carId: number | null;
-  house: ICar;
+  car: ICar;
   owner: IUser;
   createdAt: string;
   updatedAt: string;

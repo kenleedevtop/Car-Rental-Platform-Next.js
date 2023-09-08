@@ -12,14 +12,13 @@ import {
   MarketPageFilter,
   MarketPageFilterActions,
   ProjectsMain,
-  MarketTableItem,
-  MarketTableItemLabel,
 } from 'features/opportunities/styles';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { SlidersHorizontalIcon } from 'components/svg';
 import { useModal, usePagination, useSnackbar } from 'hooks';
 import { ApplicationAPI } from 'api';
 import { getLocations } from 'utilities/locations';
+import { format } from 'date-fns';
 import { IApplication } from 'api/applications/types';
 import { useAppContext } from 'context';
 import ApplicationStatusActions from './elements/application-status-modal';
@@ -201,56 +200,18 @@ const AdminApplicationsPage = () => {
     if (headItem.reference === 'location') {
       return application.owner.location;
     }
-    if (headItem.reference === 'nationality') {
-      return '';
+    if (headItem.reference === 'supercars') {
+      return 0;
     }
-    if (headItem.reference === 'age') {
-      return '';
+    if (headItem.reference === 'date') {
+      return format(new Date(application.createdAt), 'MM/dd/yyyy');
     }
-    if (headItem.reference === 'applications') {
-      return application.owner.applicationCount;
+    if (headItem.reference === 'sharesApplied') {
+      return application.owner.shareCount;
     }
-    if (headItem.reference === 'invested') {
-      return `€${application.owner.invested}`;
-    }
-    if (headItem.reference === 'house') {
-      return (
-        <MarketTableItem>
-          {/* <Image
-            alt="house photo"
-            src={`${Project.apis.v1}/public/images/${application.house.images.find(
-              (item) => item.id === application.house.thumbnailId
-            )?.key}`}
-            width={100}
-            height={100}
-            style={{
-              height: '32px',
-              width: '32px',
-              borderRadius: '8px',
-              objectFit: 'cover',
-            }}
-          /> */}
-          <MarketTableItemLabel>{application.house.name}</MarketTableItemLabel>
-        </MarketTableItem>
-      );
-    }
-    if (headItem.reference === 'theme') {
-      return application.house.theme;
-    }
-    if (headItem.reference === 'location') {
-      return application.house.location;
-    }
-    if (headItem.reference === 'type') {
-      return application.tier;
-    }
-    if (headItem.reference === 'rent') {
-      return `€${application.house.rent}`;
-    }
+
     if (headItem.reference === 'status') {
       return application.status;
-    }
-    if (headItem.reference === 'tier') {
-      return application.tier;
     }
 
     if (headItem.reference === 'actions') {
