@@ -4,10 +4,9 @@ import { Collapse, Grid, Stack } from 'components/system';
 import { Button, Input, Label, Pagination } from 'components/ui';
 
 import {
-  DAdminApplicationsHead,
   DApplicationStatues,
-  DApplicationType,
   DApplicationsFilters,
+  DApplicationsHead,
 } from 'features/applications/data';
 import {
   MarketPageFilter,
@@ -18,19 +17,12 @@ import {
 } from 'features/opportunities/styles';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { SlidersHorizontalIcon } from 'components/svg';
-import { useDebounce, useModal, usePagination, useSnackbar } from 'hooks';
+import { useModal, usePagination, useSnackbar } from 'hooks';
 import { ApplicationAPI } from 'api';
 import { getLocations } from 'utilities/locations';
-import { getConditions } from 'utilities/conditions';
-import { getEngineTypes } from 'utilities/engineTypes';
-import { getAge } from 'utilities/birthday-age-converter';
-import { getInteriorStyles } from 'utilities/interiorStyles';
-import { getModels } from 'utilities/models';
-import { getLanguages } from 'utilities/languages';
 import { IApplication } from 'api/applications/types';
 import { useAppContext } from 'context';
 import ApplicationStatusActions from './elements/application-status-modal';
-import { getExteriorColors } from 'utilities/exteriorColors';
 import { BookingOverviewModal, TransferOwnershipModal } from './elements';
 
 const AdminApplicationsPage = () => {
@@ -38,19 +30,11 @@ const AdminApplicationsPage = () => {
   const [filter, setFilter] = useState<any>(DApplicationsFilters());
   const [totalColumnItems, setTotalColumnItems] = useState<any[]>([]);
   const [checkedusers, setCheckedUsers] = useState<number[]>([]);
-  const [applicationTypes, setApplicationTypes] = useState<any[]>([]);
   const [applicationStatues, setApplicationStatues] = useState<any[]>([]);
-  const [jobTitles, setJobTitles] = useState<any[]>([]);
   const [locations, setLocations] = useState<any[]>([]);
-  const [conditions, setConditions] = useState<any[]>([]);
-  const [language, setLanguages] = useState<any[]>([]);
-  const [socialMedias, setSocialMedias] = useState<any[]>([]);
-  const [exteriorColors, setExteriorColors] = useState<any[]>([]);
-  const [degrees, setDegrees] = useState<any[]>([]);
-  const [fieldOfStudy, setFieldOfStudy] = useState<any[]>([]);
-  const [models, setModels] = useState<any[]>([]);
-  const [interiorStyles, setInteriorStyles] = useState<any[]>([]);
-  const [engineTypes, setEngineTypes] = useState<any[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
+  const [supercars, setSupercars] = useState<any[]>([]);
+  const [status, setStatus] = useState<any[]>([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -125,69 +109,6 @@ const AdminApplicationsPage = () => {
     );
   };
 
-  const getConditionOptions = async (searchTerm: string = '') => {
-    const result = getConditions(searchTerm);
-    setConditions(
-      result.map((name: string) => {
-        return {
-          value: name,
-          label: name,
-        };
-      })
-    );
-  };
-
-  const getLanguageOptions = async (searchTerm: string = '') => {
-    const result = getLanguages(searchTerm);
-    setLanguages(
-      result.map((name: string) => {
-        return {
-          value: name,
-          label: name,
-        };
-      })
-    );
-  };
-
-  const getModelOptions = async (searchTerm: string = '') => {
-    const result = getModels(searchTerm);
-    setModels(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
-  const getInteriorStyleOptions = async (searchTerm: string = '') => {
-    const result = getInteriorStyles(searchTerm);
-    setInteriorStyles(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
-  const getEngineTypesOptions = async (searchTerm: string = '') => {
-    const result = getEngineTypes(searchTerm);
-    setEngineTypes(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
-  const getApplicationTypes = async () => {
-    setApplicationTypes(
-      DApplicationType.map((type: any) => ({
-        value: type.value,
-        label: type.name,
-      }))
-    );
-  };
-
   const getApplicationStatues = async () => {
     setApplicationStatues(
       DApplicationStatues.map((type: any) => ({
@@ -197,40 +118,15 @@ const AdminApplicationsPage = () => {
     );
   };
 
-  const getExteriorColorOptions = async (searchTerm: string = '') => {
-    const result = getExteriorColors(searchTerm);
-    setExteriorColors(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
-  const debouncedLocation = useDebounce(getLocationOptions, 100);
-  const debouncedNationalities = useDebounce(getConditionOptions, 100);
-  const debouncedLanguages = useDebounce(getLanguageOptions, 100);
-  const debouncedThemes = useDebounce(getModelOptions, 100);
-  const debouncedSkillsOfOthers = useDebounce(getInteriorStyleOptions, 100);
-  const debouncedDiets = useDebounce(getEngineTypesOptions, 100);
-  const debouncedInterests = useDebounce(getExteriorColorOptions, 100);
-
   useEffect(() => {
     getLocationOptions();
-    getConditionOptions();
-    getLanguageOptions();
-    getEngineTypesOptions();
-    getModelOptions();
-    getInteriorStyleOptions();
     getApplicationStatues();
-    getApplicationTypes();
   }, []);
 
   const applyFilters = () => {
     getAllApplications()
       .then((data) => {
         let applications = data;
-        console.log(applications);
         const max = filter.applications.max;
         const min = filter.applications.min;
 
@@ -283,7 +179,7 @@ const AdminApplicationsPage = () => {
       page: 1,
       onChange: async (params, setPage) => {
         setPage(params.page);
-        setTotalResults(totalColumnItems.length);
+        setTotalResults(totalColumnItems?.length);
       },
     });
 
@@ -306,10 +202,10 @@ const AdminApplicationsPage = () => {
       return application.owner.location;
     }
     if (headItem.reference === 'nationality') {
-      return application.owner.nationality;
+      return '';
     }
     if (headItem.reference === 'age') {
-      return getAge(application.owner.dateOfBirth);
+      return '';
     }
     if (headItem.reference === 'applications') {
       return application.owner.applicationCount;
@@ -389,289 +285,84 @@ const AdminApplicationsPage = () => {
         <Stack>
           <Collapse in={filterOpen}>
             <Stack>
-              <Tabs
-                tabs={['Info', 'Work Experience', 'Education', 'Supercars']}
-                value={tabs}
-                onValue={setTabs}
-              />
               <MarketPageFilter>
-                {tabs === 0 && (
-                  <Grid columns={4}>
-                    <Input
-                      type="text"
-                      label="Search"
-                      placeholder="Please Enter"
-                      value={filter.search}
-                      onValue={(search) => setFilter({ ...filter, search })}
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Application Type"
-                      placeholder="Please Select"
-                      value={filter.applicationType}
-                      options={applicationTypes}
-                      onValue={(applicationType) =>
-                        setFilter({ ...filter, applicationType })
-                      }
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Nationality"
-                      options={conditions}
-                      onSearch={debouncedNationalities}
-                      placeholder="Please Select"
-                      value={filter.nationality}
-                      onValue={(nationality) =>
-                        setFilter({ ...filter, nationality })
-                      }
-                    />
-                    <Input
-                      type="min-max"
-                      label="Age"
-                      value={filter.age}
-                      onValue={(age) => setFilter({ ...filter, age })}
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Language"
-                      placeholder="Please Select"
-                      onSearch={debouncedLanguages}
-                      options={language}
-                      value={filter.language}
-                      onValue={(language) => setFilter({ ...filter, language })}
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Location"
-                      placeholder="Please Select"
-                      onSearch={debouncedLocation}
-                      value={filter.location}
-                      options={locations}
-                      onValue={(location) => setFilter({ ...filter, location })}
-                    />
-                    <Input
-                      type="min-max"
-                      label="Invested"
-                      value={filter.invested}
-                      onValue={(invested) => setFilter({ ...filter, invested })}
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Social Media"
-                      placeholder="Please Select"
-                      value={filter.socialMedia}
-                      options={socialMedias}
-                      onValue={(socialMedia) =>
-                        setFilter({ ...filter, socialMedia })
-                      }
-                    />
-                    <Input
-                      type="min-max"
-                      label="Applications"
-                      value={filter.applications}
-                      onValue={(applications) =>
-                        setFilter({ ...filter, applications })
-                      }
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Status"
-                      placeholder="Please Select"
-                      options={applicationStatues}
-                      value={filter.status}
-                      onValue={(status) => setFilter({ ...filter, status })}
-                    />
-                    <Stack>
-                      <Label
-                        style={{ color: '#7E839F', marginBottom: '-1.1rem' }}
-                      >
-                        Date Range
-                      </Label>
-                      <Stack direction="horizontal">
-                        <Input
-                          type="date"
-                          placeholder="Please Select"
-                          value={filter.dateFrom}
-                          onValue={(dateFrom) =>
-                            setFilter({ ...filter, dateFrom })
-                          }
-                        />
-                        <Input
-                          type="date"
-                          placeholder="Please Select"
-                          value={filter.dateTo}
-                          onValue={(dateTo) => setFilter({ ...filter, dateTo })}
-                        />
-                      </Stack>
+                <Grid columns={4}>
+                  <Input
+                    type="multiselect"
+                    label="User"
+                    placeholder="Please Select"
+                    value={filter.user}
+                    options={users}
+                    onValue={(user) => setFilter({ ...filter, user })}
+                  />
+                  <Input
+                    type="multiselect"
+                    label="Location"
+                    placeholder="Please Select"
+                    value={filter.location}
+                    options={locations}
+                    onValue={(location) => setFilter({ ...filter, location })}
+                  />
+                  <Input
+                    type="multiselect"
+                    label="Supercar"
+                    options={supercars}
+                    placeholder="Please Select"
+                    value={filter.supercar}
+                    onValue={(supercar) => setFilter({ ...filter, supercar })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Supercars"
+                    value={filter.supercars}
+                    onValue={(supercars) => setFilter({ ...filter, supercars })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Shares"
+                    value={filter.shares}
+                    onValue={(shares) => setFilter({ ...filter, shares })}
+                  />
+                  <Input
+                    type="min-max"
+                    label="Applications"
+                    value={filter.applications}
+                    onValue={(applications) =>
+                      setFilter({ ...filter, applications })
+                    }
+                  />
+                  <Input
+                    type="multiselect"
+                    label="Status"
+                    placeholder="Please Select"
+                    options={status}
+                    value={filter.status}
+                    onValue={(status) => setFilter({ ...filter, status })}
+                  />
+                  <Stack>
+                    <Label
+                      style={{ color: '#7E839F', marginBottom: '-1.1rem' }}
+                    >
+                      Application Date
+                    </Label>
+                    <Stack direction="horizontal">
+                      <Input
+                        type="date"
+                        placeholder="From"
+                        value={filter.dateFrom}
+                        onValue={(dateFrom) =>
+                          setFilter({ ...filter, dateFrom })
+                        }
+                      />
+                      <Input
+                        type="date"
+                        placeholder="To"
+                        value={filter.dateTo}
+                        onValue={(dateTo) => setFilter({ ...filter, dateTo })}
+                      />
                     </Stack>
-                  </Grid>
-                )}
-                {tabs === 1 && (
-                  <Grid columns={4}>
-                    <Input
-                      type="multiselect"
-                      label="Job Title"
-                      placeholder="Please Select"
-                      options={jobTitles}
-                      value={filter.jobTitle}
-                      onValue={(jobTitle) => setFilter({ ...filter, jobTitle })}
-                    />
-                    <Input
-                      type="text"
-                      label="Company"
-                      placeholder="Please Enter"
-                      value={filter.company}
-                      onValue={(company) => setFilter({ ...filter, company })}
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Location"
-                      placeholder="Please Select"
-                      onSearch={debouncedLocation}
-                      value={filter.workExperienceLocation}
-                      options={locations}
-                      onValue={(workExperienceLocation) =>
-                        setFilter({ ...filter, workExperienceLocation })
-                      }
-                    />
-                    <Input
-                      type="select"
-                      label="Currently Employed"
-                      placeholder="Please Select"
-                      value={filter.currentlyEmployed}
-                      onValue={(currentlyEmployed) =>
-                        setFilter({ ...filter, currentlyEmployed })
-                      }
-                      options={[
-                        {
-                          value: 'true',
-                          label: 'Yes',
-                        },
-                        {
-                          value: 'false',
-                          label: 'No',
-                        },
-                      ]}
-                    />
-                  </Grid>
-                )}
-                {tabs === 2 && (
-                  <Grid columns={4}>
-                    <Input
-                      type="text"
-                      label="School or University"
-                      placeholder="Please Enter"
-                      value={filter.school}
-                      onValue={(school) => setFilter({ ...filter, school })}
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Degree"
-                      placeholder="Please Select"
-                      options={degrees}
-                      value={filter.degree}
-                      onValue={(degree) => setFilter({ ...filter, degree })}
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Field of Study"
-                      options={fieldOfStudy}
-                      placeholder="Please Select"
-                      value={filter.fieldOfStudy}
-                      onValue={(fieldOfStudy) =>
-                        setFilter({ ...filter, fieldOfStudy })
-                      }
-                    />
-                  </Grid>
-                )}
-                {tabs === 3 && (
-                  <Grid columns={4}>
-                    <Input
-                      type="multiselect"
-                      label="Theme"
-                      onSearch={debouncedThemes}
-                      placeholder="Please Select"
-                      options={models}
-                      value={filter.theme}
-                      onValue={(theme) => setFilter({ ...filter, theme })}
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Skills of Others"
-                      placeholder="Please Select"
-                      onSearch={debouncedSkillsOfOthers}
-                      value={filter.skillsOfOthers}
-                      options={interiorStyles}
-                      onValue={(skillsOfOthers) =>
-                        setFilter({ ...filter, skillsOfOthers })
-                      }
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Location"
-                      placeholder="Please Select"
-                      onSearch={debouncedLocation}
-                      options={locations}
-                      value={filter.houseLocation}
-                      onValue={(houseLocation) =>
-                        setFilter({ ...filter, houseLocation })
-                      }
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Language"
-                      placeholder="Please Select"
-                      onSearch={debouncedLanguages}
-                      options={language}
-                      value={filter.houseLanguage}
-                      onValue={(houseLanguage) =>
-                        setFilter({ ...filter, houseLanguage })
-                      }
-                    />
-                    <Input
-                      type="min-max"
-                      label="Monthly Rent"
-                      value={filter.monthlyRent}
-                      onValue={(monthlyRent) =>
-                        setFilter({ ...filter, monthlyRent })
-                      }
-                    />
-                    <Input
-                      type="min-max"
-                      label="Age"
-                      value={filter.houseAge}
-                      onValue={(houseAge) => setFilter({ ...filter, houseAge })}
-                    />
-                    <Input
-                      type="min-max"
-                      label="Tenants per Supercars"
-                      value={filter.tenantsPerCar}
-                      onValue={(tenantsPerCar) =>
-                        setFilter({ ...filter, tenantsPerCar })
-                      }
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Interests and Hobbies"
-                      placeholder="Please Select"
-                      onSearch={debouncedInterests}
-                      options={exteriorColors}
-                      value={filter.interestsAndHobbies}
-                      onValue={(interestsAndHobbies) =>
-                        setFilter({ ...filter, interestsAndHobbies })
-                      }
-                    />
-                    <Input
-                      type="multiselect"
-                      label="Diet"
-                      options={engineTypes}
-                      placeholder="Please Select"
-                      onSearch={debouncedDiets}
-                      value={filter.diet}
-                      onValue={(diet) => setFilter({ ...filter, diet })}
-                    />
-                  </Grid>
-                )}
+                  </Stack>
+                </Grid>
                 <MarketPageFilterActions direction="horizontal">
                   <Button
                     color="primary"
@@ -692,7 +383,7 @@ const AdminApplicationsPage = () => {
             </Stack>
           </Collapse>
           <NewCheckboxTable
-            head={DAdminApplicationsHead}
+            head={DApplicationsHead}
             items={currentTableData}
             renderItem={renderItem}
             checkedRows={checkedusers}

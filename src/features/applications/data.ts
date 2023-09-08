@@ -1,18 +1,15 @@
 export const DApplicationsFilters = () => ({
-  search: '',
-  applicationType: [],
-  nationality: [],
-  age: {
-    min: '',
-    max: '',
-  },
-  language: [],
+  user: [],
   location: [],
-  invested: {
+  supercar: [],
+  supercars: {
     min: '',
     max: '',
   },
-  socialMedia: [],
+  shares: {
+    min: '',
+    max: '',
+  },
   applications: {
     min: '',
     max: '',
@@ -20,114 +17,27 @@ export const DApplicationsFilters = () => ({
   status: [],
   dateFrom: null,
   dateTo: null,
-
-  jobTitle: [],
-  company: '',
-  workExperienceLocation: [],
-  currentlyEmployed: null,
-  amenities: [],
-
-  school: '',
-  degree: [],
-  fieldOfStudy: [],
-
-  theme: [],
-  skillsOfOthers: [],
-  houseLocation: [],
-  houseLanguage: [],
-  monthlyRent: {
-    min: '',
-    max: '',
-  },
-  houseAge: {
-    min: '',
-    max: '',
-  },
-  tenantsPerCar: {
-    min: '',
-    max: '',
-  },
-  interestsAndHobbies: [],
-  diet: [],
 });
 
 export const DApplicationsHead = [
-  {
-    reference: 'house',
-    label: 'Supercars',
-    visible: true,
-  },
-  {
-    reference: 'theme',
-    label: 'Theme',
-    visible: true,
-  },
-  {
-    reference: 'location',
-    label: 'Location',
-    visible: true,
-  },
-  {
-    reference: 'type',
-    label: 'Type',
-    visible: true,
-  },
-  {
-    reference: 'rent',
-    label: 'Rent',
-    visible: true,
-  },
-  {
-    reference: 'status',
-    label: 'Status',
-    visible: true,
-  },
-];
-
-export const DAdminApplicationsHead = [
   {
     reference: 'name',
     label: 'Name',
     visible: true,
   },
   {
-    reference: 'location',
-    label: 'Location',
-    visible: true,
-  },
-  {
-    reference: 'nationality',
-    label: 'Nationality',
-    visible: true,
-  },
-  {
-    reference: 'age',
-    label: 'Age',
-    visible: true,
-  },
-  {
-    reference: 'applications',
-    label: 'Applications',
-    visible: true,
-  },
-  {
-    reference: 'invested',
-    label: 'Invested',
-    visible: true,
-  },
-  {
-    reference: 'house',
+    reference: 'supercars',
     label: 'Supercars',
     visible: true,
   },
   {
-    reference: 'rent',
-    label: 'Rent',
+    reference: 'date',
+    label: 'Date',
     visible: true,
   },
   {
-    reference: 'tier',
-    label: 'Tier',
+    reference: 'sharesApplied',
+    label: 'Shares Applied',
     visible: true,
   },
   {
@@ -142,33 +52,14 @@ export const DAdminApplicationsHead = [
   },
 ];
 
-export const DApplicationType = [
-  {
-    value: 'Basic',
-    name: 'Basic Application',
-  },
-  {
-    name: 'Priority Application',
-    value: 'Priority',
-  },
-  {
-    name: 'Premium Application',
-    value: 'Premium',
-  },
-  {
-    name: 'Elite Application',
-    value: 'Elite',
-  },
-];
-
 export const DApplicationStatues = [
   {
     name: 'Pending',
   },
   {
-    name: 'Approved',
+    name: 'Paid',
   },
   {
-    name: 'Rejected',
+    name: 'Owning',
   },
 ];
