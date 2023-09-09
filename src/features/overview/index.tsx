@@ -17,6 +17,7 @@ import {
   OverviewGridThird,
   CardList,
   CardListItem,
+  CardHighLightItemContainer,
 } from 'features/overview/styles';
 import { Gallery, Table, Tabs } from 'components/custom';
 import { Button, Card, Pagination } from 'components/ui';
@@ -29,14 +30,16 @@ import { TDocument } from 'api/documents/types';
 import { format } from 'date-fns';
 import { saveAs } from 'file-saver';
 import Project from 'constants/project';
-import { usePagination } from 'hooks';
+import { useModal, usePagination } from 'hooks';
 import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
+import { formatNumber } from 'utilities/extended-proto';
+import { ApplicationModal } from 'features/opportunities/role/user/elements';
 
 const OverviewPage = (props: any) => {
   const { carId } = props;
   const router = useRouter();
-  const { houseStatus } = useAppContext();
+  const { houseStatus, user } = useAppContext();
   const [tab, setTab] = useState(0);
   const [bought, setBought] = useState(false);
 
@@ -71,6 +74,9 @@ const OverviewPage = (props: any) => {
       setCarData((house) => ({ ...house, ...data }));
     }
   };
+
+  const [applicationModal, openApplicationModal, closeApplicationModal] =
+  useModal(false);
 
   useEffect(() => {
     if (carId) {
@@ -126,6 +132,8 @@ const OverviewPage = (props: any) => {
   useEffect(() => {
     setTotalResults(houseData.documents?.length);
   }, [houseData.documents]);
+
+  
   return (
     <OverviewMain>
       <Stack
@@ -170,32 +178,32 @@ const OverviewPage = (props: any) => {
         <>
           <OverviewGridThree>
             <OverviewGridFirst>
-              <OverviewTextHeadline>Property Info</OverviewTextHeadline>
+              <OverviewTextHeadline>Info</OverviewTextHeadline>
               <CardItemContainer>
                 <CardItem>
-                  <CardItemLabel>Bedrooms</CardItemLabel>
-                  <CardItemValue>4</CardItemValue>
+                  <CardItemLabel>Mileage</CardItemLabel>
+                  <CardItemValue>{formatNumber(parseFloat(houseData.mileage))} km</CardItemValue>
                 </CardItem>
                 <CardItem>
-                  <CardItemLabel>Bathrooms</CardItemLabel>
-                  <CardItemValue>3</CardItemValue>
+                  <CardItemLabel>Year</CardItemLabel>
+                  <CardItemValue>{houseData.year ? format(new Date(houseData?.year), 'yyyy') : ""}</CardItemValue>
                 </CardItem>
                 <CardItem>
-                  <CardItemLabel>Size</CardItemLabel>
-                  <CardItemValue>83 m2</CardItemValue>
+                  <CardItemLabel>Engine Type</CardItemLabel>
+                  <CardItemValue>{houseData.engineType}</CardItemValue>
                 </CardItem>
                 <CardItem>
-                  <CardItemLabel>Construction Year</CardItemLabel>
-                  <CardItemValue>2015</CardItemValue>
+                  <CardItemLabel>Engine Power</CardItemLabel>
+                  <CardItemValue>{houseData.enginePower} HP</CardItemValue>
                 </CardItem>
               </CardItemContainer>
-              {bought && (
+              {user.role === "ADMIN" && (
                 <Button variant="contained" color="primary">
                   Book
                 </Button>
               )}
-              {!bought && (
-                <Button variant="contained" color="primary">
+              {user.role === "USER" &&  (
+                <Button variant="contained" color="primary" onClick={openApplicationModal}>
                   Apply
                 </Button>
               )}
@@ -204,7 +212,7 @@ const OverviewPage = (props: any) => {
               <OverviewTextHeadline>Location</OverviewTextHeadline>
               <iframe
                 title="hu"
-                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d44541.569961777575!2d19.13119012788087!3d45.75419066351893!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2srs!4v1692477523934!5m2!1sen!2srs"
+                src={`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d44541.569961777575!2d${houseData.googleAddress?.gpslong}!3d${houseData.googleAddress?.gpslat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2srs!4v1692477523934!5m2!1sen!2srs`}
                 width="100%"
                 height="144px"
                 style={{ border: '0' }}
@@ -212,18 +220,19 @@ const OverviewPage = (props: any) => {
               />
             </OverviewGridSecond>
             <OverviewGridThird>
-              <OverviewTextHeadline>Property Highlights</OverviewTextHeadline>
-              <CardItemContainer>
+              <OverviewTextHeadline>Highlights</OverviewTextHeadline>
+              <CardHighLightItemContainer>
                 <CardList>
-                  <CardListItem>Lake view</CardListItem>
-                  <CardListItem>Large garden</CardListItem>
-                  <CardListItem>Garage</CardListItem>
-                  <CardListItem>300m from Lake</CardListItem>
-                  <CardListItem>Highlight 4</CardListItem>
-                  <CardListItem>Highlight 5</CardListItem>
-                  <CardListItem>Highlight 6</CardListItem>
+                  {
+                    houseData.highLights?.split(',').map((highlight: string, index: any) => {
+                      return (
+
+                        <CardListItem key={index}>{highlight}</CardListItem>
+                      )
+                    })
+                  }
                 </CardList>
-              </CardItemContainer>
+              </CardHighLightItemContainer>
             </OverviewGridThird>
           </OverviewGridThree>
           <OverviewText>
@@ -253,6 +262,13 @@ const OverviewPage = (props: any) => {
             />
           </Stack>
         </Card>
+      )}
+      {applicationModal && (
+        <ApplicationModal
+          carId={carId}
+          onClose={closeApplicationModal}
+          houseName={houseData.name}
+        />
       )}
     </OverviewMain>
   );

@@ -298,9 +298,9 @@ const AddCarProjectModal = ({
       });
       onClose();
       refresh();
-      push('Successfully created house project.', { variant: 'success' });
+      push('Successfully created Supercar project.', { variant: 'success' });
     } catch {
-      push('Something went wrong when create house project.', {
+      push('Something went wrong when create Supercar project.', {
         variant: 'error',
       });
     }

@@ -174,7 +174,6 @@ export const OverviewGridSecond = styled(Card)`
 `;
 
 export const OverviewGridThird = styled(Card)`
-  display: grid;
   gap: 16px;
 `;
 
@@ -327,6 +326,9 @@ export const CardProgressAvailable = styled.div`
 
 export const CardItemContainer = styled.div`
   display: grid;
+`;
+export const CardHighLightItemContainer = styled.div`
+  padding-top: 15px;
 `;
 
 export const CardItem = styled.div`

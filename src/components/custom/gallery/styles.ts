@@ -12,7 +12,7 @@ export const SGallery = styled(Card)<{ theme?: Theme }>`
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 16px;
-
+  overflow: auto;
   .splide__slide {
     display: grid;
     place-items: center;
