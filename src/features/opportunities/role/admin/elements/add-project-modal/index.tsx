@@ -287,15 +287,17 @@ const AddCarProjectModal = ({
         addressId: address.id,
         highLights: highLights,
       };
-      await CarAPI.create(data).then((res) => {
-        const body = { carId: res.id };
-        photos.forEach(async (img: TImage) => {
-          await ImageApi.updateFile(body, img.id);
-        });
-        documents.forEach(async (dic: TDocument) => {
-          await DocumentApi.updateFile(body, dic.id);
-        });
-      });
+      const car = await CarAPI.create(data);
+      const body = { carId: car.id };
+
+      for (let i = 0; i < photos.length; i++) {
+        const element = photos[i];
+        await ImageApi.updateFile(body, element.id);
+      }
+      for (let i = 0; i < documents.length; i++) {
+        const element = documents[i];
+        await DocumentApi.updateFile(body, element.id);
+      }
       onClose();
       refresh();
       push('Successfully created Supercar project.', { variant: 'success' });
