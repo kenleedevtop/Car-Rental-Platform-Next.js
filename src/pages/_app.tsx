@@ -11,6 +11,7 @@ import Head from 'next/head';
 import { AppContextProvider } from 'context';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { appWithTranslation } from 'next-i18next';
+import './custom.css';
 import {
   Chart as ChartJS,
   CategoryScale,

@@ -268,3 +268,7 @@ export const ISpan = styled.span`
   width: 100%;
   height: 100%;
 `;
+
+export const IDownArrow = styled.span`
+  float: right;
+`;

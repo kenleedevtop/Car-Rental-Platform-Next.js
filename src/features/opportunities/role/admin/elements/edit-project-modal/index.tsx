@@ -11,12 +11,11 @@ import { Button, Checkbox, Input, Label } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
 import { DeleteIcon, UploadIcon } from 'components/svg';
 import { pick } from '@costorgroup/file-manager';
-import { TAddCarsModalProps } from './types';
 import { useDebounce, useModal, useSnackbar } from 'hooks';
 import UploadedFileModal from '../uploaded-file-modal';
 import ImageApi from 'api/images';
 import DocumentApi from 'api/documents';
-import { TAddress } from 'api/cars/types';
+import { ICar, TAddress } from 'api/cars/types';
 import { getLocations } from 'utilities/locations';
 import { getModels } from 'utilities/models';
 import { AddressAPI, CarAPI } from 'api';
@@ -32,11 +31,13 @@ import {
 } from 'components/ui/input/styles';
 import { getEngineTypes } from 'utilities/engineTypes';
 import { getHightLight } from 'utilities/hightLights';
+import { TEditCarsModalProps } from '../add-project-modal/types';
 const AddCarProjectModal = ({
   onClose,
   refresh,
+  carId,
   ...props
-}: TAddCarsModalProps) => {
+}: TEditCarsModalProps) => {
   const [tab, setTab] = useState(0);
   const { push } = useSnackbar();
   const [photos, setPhotos] = useState<TImage[]>([]);
@@ -81,6 +82,30 @@ const AddCarProjectModal = ({
     thumbnailId: null,
     addressId: null,
   });
+
+  const getHouseDataById = async () => {
+    const data: ICar = await CarAPI.getOne(carId);
+    const datas = {
+      ...data,
+      highLights: data.highLights
+        ? data.highLights.split(',').map((name: string) => ({
+            value: name,
+            label: name,
+          }))
+        : [],
+    };
+    setGoogleAddress((address: TAddress) => ({
+      ...address,
+      ...data.googleAddress,
+    }));
+    setCarData(() => ({ ...datas }));
+    setDocuments([...data.documents]);
+    setPhotos([...data.images]);
+  };
+
+  useEffect(() => {
+    getHouseDataById();
+  }, [carId]);
 
   const handleNewHightLightTag = (v: any) => {
     setCarData({
@@ -276,19 +301,15 @@ const AddCarProjectModal = ({
     }
   };
 
-  const handleAddProject = async () => {
+  const handleUpdateProject = async () => {
     try {
-      const address: TAddress = await AddressAPI.createAddress(googleAddress);
+      await AddressAPI.updateAddress(googleAddress, googleAddress.id);
       const highLights = superCarData.highLights
         .map((item: any) => item.value)
         .join(',');
-      const data = {
-        ...superCarData,
-        addressId: address.id,
-        highLights: highLights,
-      };
-      await CarAPI.create(data).then((res) => {
-        const body = { carId: res.id };
+      const data = { ...superCarData, highLights: highLights };
+      await CarAPI.updateCar(data, data.id).then((res) => {
+        const body = { carId: data.id };
         photos.forEach(async (img: TImage) => {
           await ImageApi.updateFile(body, img.id);
         });
@@ -309,16 +330,16 @@ const AddCarProjectModal = ({
   return (
     <Modal
       size="medium"
-      title="Add Project"
+      title="Edit Project"
       actions={Children.toArray([
         <Button
           color="primary"
           variant="contained"
           size="large"
           disabled={isDisabled}
-          onClick={handleAddProject}
+          onClick={handleUpdateProject}
         >
-          Add
+          Save
         </Button>,
       ])}
       onClose={onClose}

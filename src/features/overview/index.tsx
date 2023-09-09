@@ -44,15 +44,21 @@ const OverviewPage = (props: any) => {
     id: -1,
     name: '',
     location: '',
-    totalSpots: null,
-    availableSpots: null,
-    rent: null,
-    theme: '',
-    info: '',
+    totalShares: null,
+    availableShares: null,
+    sharePrice: null,
+    address: '',
+    mileage: '',
+    year: '',
+    engineType: '',
+    enginePower: '',
+    highLights: '',
+    startDate: '',
     status: '',
-    marketType: '',
+    info: '',
     thumbnailId: null,
-    assignee: null,
+    addressId: null,
+    googleAddress: null,
     images: [],
     documents: [],
     createdAt: '',
@@ -75,6 +81,7 @@ const OverviewPage = (props: any) => {
   const download = async (doc: TDocument) => {
     saveAs(`${Project.apis.v1}/public/documents/${doc?.key}`, doc.name);
   };
+
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     const document = row.data as TDocument;
     if (headItem.reference === 'name') {

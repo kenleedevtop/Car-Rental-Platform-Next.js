@@ -25,7 +25,19 @@ const UserMarketPage = () => {
   const getAllCars = async (search: string, status: string): Promise<any> => {
     try {
       const response = await CarAPI.getAll(search, status);
+      if (response) {
+        return response;
+      }
 
+      throw new Error('Error: Failed to fetch data!');
+    } catch (error) {
+      push('Something went wrong!', { variant: 'error' });
+    }
+  };
+
+  const getMineCars = async () => {
+    try {
+      const response = await CarAPI.getMine();
       if (response) {
         return response;
       }
@@ -50,6 +62,10 @@ const UserMarketPage = () => {
         const completed = await getAllCars('', 'Completed');
         setCompletedCars(completed);
         break;
+      case 3:
+        const mine = await getMineCars();
+        setCompletedCars(mine);
+        break;
 
       default:
         break;
@@ -68,7 +84,12 @@ const UserMarketPage = () => {
         <Tabs
           value={tab}
           onValue={setTab}
-          tabs={['Primary Market', 'Secondary Market', 'Completed']}
+          tabs={[
+            'Primary Market',
+            'Secondary Market',
+            'Completed',
+            'My Supercars',
+          ]}
         />
       </Stack>
       {tab === 0 && (

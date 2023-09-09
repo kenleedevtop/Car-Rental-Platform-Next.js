@@ -9,7 +9,7 @@ import { Stack } from 'components/system';
 import { Tabs } from 'components/custom';
 import UsersAPI from 'api/users';
 import { IUser } from 'api/users/types';
-import { useModal, useSnackbar } from 'hooks';
+import { useDebounce, useModal, useSnackbar } from 'hooks';
 import { getLocations } from 'utilities/locations';
 import { getConditions } from 'utilities/conditions';
 import { getModels } from 'utilities/models';
@@ -268,6 +268,8 @@ const AccountPage = (props: any) => {
     );
   };
 
+  const debouncedLocation = useDebounce(getLocationOptions, 100);
+
   useEffect(() => {
     getLocationOptions();
     getConditionOptions();
@@ -460,6 +462,7 @@ const AccountPage = (props: any) => {
                   type="select"
                   label="Location"
                   placeholder="Please Select"
+                  onSearch={debouncedLocation}
                   options={locations}
                   value={
                     info.location

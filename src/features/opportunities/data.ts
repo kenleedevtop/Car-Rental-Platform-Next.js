@@ -207,6 +207,16 @@ export const DEngineType = [
   { name: 'Electric ' },
 ];
 
+export const DHightLights = [
+  { name: 'Lake view' },
+  { name: 'Large garden' },
+  { name: 'Garage' },
+  { name: '300m from Lake' },
+  { name: 'Highlight 5' },
+  { name: 'Highlight 6' },
+  { name: 'Highlight 7' },
+];
+
 export const DCondition = [{ name: 'Brand New' }, { name: 'Used' }];
 
 export const DAmenities = [

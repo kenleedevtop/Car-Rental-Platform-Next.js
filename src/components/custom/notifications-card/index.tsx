@@ -82,17 +82,17 @@ const NotificationsCard = ({ ...props }: TNotificationsCardProps) => {
         changeNotificationStatus();
       });
 
-      socket.on('UserTokenBalanceChanged', (msg) => {
+      socket.on('UserShareBalanceChanged', (msg) => {
         changeNotificationStatus();
         handleTokenBalance();
       });
 
-      socket.on('UserNewCarListed', (msg) => {
+      socket.on('UserNewSuperCarListed', (msg) => {
         changeNotificationStatus();
         changeCarStatus();
       });
 
-      socket.on('UserCarStatusChanged', (msg) => {
+      socket.on('UserSuperCarStatusChanged', (msg) => {
         changeNotificationStatus();
       });
 
@@ -100,7 +100,7 @@ const NotificationsCard = ({ ...props }: TNotificationsCardProps) => {
         changeNotificationStatus();
       });
 
-      socket.on('UserCarInfoChanged', (msg) => {
+      socket.on('UserSuperCarInfoChanged', (msg) => {
         changeCarStatus();
       });
 

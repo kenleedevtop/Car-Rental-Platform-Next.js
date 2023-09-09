@@ -11,6 +11,8 @@ import {
   InputError,
   InputChip,
   MultiSelectInputContainer,
+  InputYearpicker,
+  GoogleAutoComplete,
 } from 'components/ui/input/styles';
 import { TInputProps } from 'components/ui/input/types';
 import { Chip, MenuItem } from '@mui/material';
@@ -46,6 +48,7 @@ const Input = ({
   onSearch,
   loading = false,
   noOptionsText,
+  apiKey,
   customDateFormat,
   isFilterActive = false,
   ...props
@@ -57,6 +60,39 @@ const Input = ({
 
   const handleValue = (e: React.ChangeEvent<any>) => {
     if (onValue) onValue(e.target.value);
+  };
+
+  const handlechangeGoogleAddress = (event: any) => {
+    let streetNumber = '';
+    let streetName = '';
+    let city = '';
+    let postCode = '';
+    event.address_components.forEach((component: any) => {
+      if (component.types[0] === 'street_number') {
+        streetNumber = component.long_name;
+      }
+      if (component.types[0] === 'route') {
+        streetName = component.long_name;
+      }
+      if (component.types[0] === 'locality') {
+        city = component.long_name;
+      }
+      if (component.types[0] === 'postal_code') {
+        postCode = component.long_name;
+      }
+    });
+
+    const body = {
+      fullAddress: event.formatted_address,
+      city,
+      postCode,
+      streetName,
+      streetNumber,
+      lat: event.geometry.location.lat(),
+      lng: event.geometry.location.lng(),
+    };
+    if (errorCallback) errorCallback(false);
+    if (onValue) onValue(body.fullAddress);
   };
 
   const handleSelect = (_e: React.ChangeEvent<any>, v: any) => {
@@ -154,6 +190,20 @@ const Input = ({
           onFocus={handleFocus}
           disabled={disabled}
           InputProps={{ startAdornment, endAdornment }}
+        />
+      )}
+      {type === 'googlemap' && (
+        <GoogleAutoComplete
+          apiKey={apiKey}
+          onPlaceSelected={(selected, a, c) => {
+            handlechangeGoogleAddress(selected);
+          }}
+          placeholder="Please Enter"
+          options={{
+            types: ['geocode', 'establishment'],
+          }}
+          onBlur={handleBlur}
+          onFocus={handleFocus}
         />
       )}
       {type === 'password' && (
@@ -287,6 +337,31 @@ const Input = ({
             value={value}
             onChange={handleDate}
             disabled={disabled}
+            minDate={min}
+            maxDate={max}
+            renderInput={({ inputProps, ...x }) => (
+              <InputText
+                {...x}
+                variant="outlined"
+                error={error}
+                onBlur={handleBlur}
+                onFocus={handleFocus}
+                disabled={disabled}
+                inputProps={{ ...inputProps, placeholder }}
+              />
+            )}
+          />
+        </LocalizationProvider>
+      )}
+      {type === 'year' && (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <InputYearpicker
+            inputFormat={customDateFormat || 'YYYY'}
+            value={value}
+            onChange={handleDate}
+            disabled={disabled}
+            openTo="year"
+            views={['year']}
             minDate={min}
             maxDate={max}
             renderInput={({ inputProps, ...x }) => (

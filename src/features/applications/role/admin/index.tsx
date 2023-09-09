@@ -48,7 +48,6 @@ const AdminApplicationsPage = () => {
     closeTransferOwnershipModal,
   ] = useModal(false);
 
-  const [tabs, setTabs] = useState(0);
   const { push } = useSnackbar();
 
   const toggleFilter = () => {

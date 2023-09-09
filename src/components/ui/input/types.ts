@@ -19,6 +19,8 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
     | 'multiselect'
     | 'date'
     | 'time'
+    | 'year'
+    | 'googlemap'
     | 'min-max';
   value: any;
   onValue: (v: any) => void;
@@ -41,6 +43,7 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
   initialSearch?: string;
   loading?: boolean;
   noOptionsText?: string;
+  apiKey?: string;
   customDateFormat?: string;
   isFilterActive?: boolean;
   onInputChange?: (v: any) => void;

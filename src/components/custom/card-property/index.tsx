@@ -9,12 +9,11 @@ import {
   CardAddress,
   CardAddressSmall,
   CardTitle,
-  CardProgressValue,
-  CardProgressItem,
   CardCompletedMark,
   TableMenu,
   ISpan,
   CardLink,
+  IDownArrow,
 } from 'components/custom/card-property/styles';
 import Image from 'next/image';
 
@@ -23,10 +22,10 @@ import { formatNumber } from 'utilities/extended-proto';
 import { CarretDownIcon, EditIcon, CarIcon } from 'components/svg';
 import { Button } from 'components/ui';
 import { useMenu, useModal } from 'hooks';
-import { EditProjectModal } from './elements';
 import { convertLocationToFlag } from 'utilities/converters';
 import Project from 'constants/project';
 import { ApplicationModal } from 'features/opportunities/role/user/elements';
+import { EditProjectModal } from 'features/opportunities/role/admin/elements';
 
 const PropertyCard = ({
   image,
@@ -52,12 +51,12 @@ const PropertyCard = ({
 
   return (
     <CardMain animation="zoom-in" {...props}>
-      {completed && <CardCompletedMark>Filled</CardCompletedMark>}
+      {completed && <CardCompletedMark>Completed</CardCompletedMark>}
       <Image
         src={image ? `${Project.apis.v1}/public/images/${image.key}` : ''}
         alt="Supercars thumbnail"
-        width={500}
-        height={500}
+        width={200}
+        height={200}
         style={{
           width: '100%',
           height: '100%',
@@ -72,16 +71,19 @@ const PropertyCard = ({
         }}
       />
       <CardHead>
-        {house.rent && (
+        {house.sharePrice && (
           <CardPrice>
-            Rent
-            <CardPriceValue>€{formatNumber(house.rent)}</CardPriceValue>
+            Share Price
+            <CardPriceValue>€{formatNumber(house.sharePrice)}</CardPriceValue>
           </CardPrice>
         )}
-        {house.theme && (
+        {house.availableShares && house.totalShares && (
           <CardPrice>
-            Theme
-            <CardPriceValue>{house.theme}</CardPriceValue>
+            Shares
+            <CardPriceValue>
+              {' '}
+              {house.availableShares}/{house.totalShares}
+            </CardPriceValue>
           </CardPrice>
         )}
       </CardHead>
@@ -96,20 +98,6 @@ const PropertyCard = ({
             {house.location}
           </CardAddress>
           <CardTitle>{house.name}</CardTitle>
-          {house.availableSpots && house.totalSpots && (
-            <CardProgressItem>
-              Available spots
-              <CardProgressValue>
-                {house.availableSpots}/{house.totalSpots}
-              </CardProgressValue>
-            </CardProgressItem>
-          )}
-          {house.status && (
-            <CardProgressItem>
-              Status
-              <CardProgressValue>{house.status}</CardProgressValue>
-            </CardProgressItem>
-          )}
         </CardLink>
         {!dropdown && (
           <Button
@@ -125,7 +113,10 @@ const PropertyCard = ({
         {dropdown && (
           <Button variant="contained" color="primary">
             <ISpan onClick={handleMenu} ref={buttonRef}>
-              {label} <CarretDownIcon style={{ marginLeft: '10px' }} />
+              {label}
+              <IDownArrow>
+                <CarretDownIcon style={{ marginLeft: '10px' }} />
+              </IDownArrow>
             </ISpan>
             {open && (
               <TableMenu

@@ -29,7 +29,11 @@ const Modal = ({
 
   return (
     <ModalWrapper ref={wrapperRef} {...props}>
-      <ModalMain size={size} animation="slide-right">
+      <ModalMain
+        size={size}
+        animation="slide-right"
+        style={{ maxHeight: '100%', overflow: 'auto' }}
+      >
         <ModalHead>
           <ModalTitle>{title}</ModalTitle>
           <ModalClose onClick={onClose}>

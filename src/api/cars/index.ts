@@ -21,6 +21,14 @@ const CarAPI = {
     return data;
   },
 
+  getMine: async () => {
+    const { data } = await client.get(
+      `${Project.apis.v1}/car-projects/my-supercars`
+    );
+
+    return data;
+  },
+
   updateCar: async (body: any, id: number) => {
     await client.patch(`${Project.apis.v1}/car-projects/${id}`, body);
   },

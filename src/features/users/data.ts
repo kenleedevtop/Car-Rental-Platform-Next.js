@@ -19752,7 +19752,7 @@ export const DCountries = [
     isoCode: '086',
   },
   {
-    name: 'Virgin Islands (British)',
+    name: 'Virgin Islands, British',
     code: 'VG',
     capital: 'Road Town',
     region: 'NA',
@@ -19770,7 +19770,7 @@ export const DCountries = [
     isoCode: '092',
   },
   {
-    name: 'Virgin Islands (U.S.)',
+    name: 'Virgin Islands, U.S.',
     code: 'VI',
     capital: 'Charlotte Amalie',
     region: 'NA',

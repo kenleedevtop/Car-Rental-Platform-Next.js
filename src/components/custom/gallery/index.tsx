@@ -32,7 +32,7 @@ const Gallery = ({ thumbnail, images, ...props }: TGalleryProps) => {
       <Image
         alt="Supercars thumbnail"
         src={`${Project.apis.v1}/public/images/${thumbnail?.key}`}
-        width={1000}
+        width={500}
         height={500}
         style={{
           height: '100%',
@@ -61,8 +61,8 @@ const Gallery = ({ thumbnail, images, ...props }: TGalleryProps) => {
                 <Image
                   alt="house photo"
                   src={`${Project.apis.v1}/public/images/${image?.key}`}
-                  width={500}
-                  height={500}
+                  width={100}
+                  height={100}
                   style={{
                     height: `${fullscreen ? '70%' : '200px'}`,
                     width: `${fullscreen ? '70%' : '100%'}`,

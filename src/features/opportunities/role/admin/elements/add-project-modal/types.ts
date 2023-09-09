@@ -1,4 +1,3 @@
-import { ICar } from 'api/cars/types';
 import React from 'react';
 
 export type TAddCarsModalProps = React.HTMLAttributes<HTMLDivElement> & {

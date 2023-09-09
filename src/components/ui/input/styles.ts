@@ -1,8 +1,12 @@
 import styled from '@emotion/styled';
 import { Theme, MenuItem, TextField, Autocomplete, Chip } from '@mui/material';
-import { DesktopDatePicker, DesktopTimePicker } from '@mui/x-date-pickers';
+import {
+  DesktopDatePicker,
+  DesktopTimePicker,
+  DatePicker,
+} from '@mui/x-date-pickers';
 import { Label } from 'components/ui';
-
+import ReactGoogleAutocomplete from 'react-google-autocomplete';
 export const InputMain = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
 
@@ -73,6 +77,34 @@ export const InputText = styled(TextField)`
   }
 `;
 
+export const GoogleAutoComplete = styled(ReactGoogleAutocomplete)<{
+  error?: boolean;
+}>`
+  ${({ error }) => `
+  width: 100%;
+  ::placeholder {
+      color: #b3b3b3;
+  }
+  height: 40px;
+  padding-right: 7px;
+  padding-left: 7px;
+  border-radius: 5px;
+  border: solid 1px ${error ? '#d32f2f' : '#e6e7f0'};
+  & .MuiInputBase-root.Mui-disabled {
+    & svg {
+      cursor: pointer;
+    }
+    
+    & .MuiOutlinedInput-input.Mui-disabled {
+      opacity: 1;
+      color: rgba(0, 0, 0, 0.55) !important;
+      -webkit-text-fill-color: rgba(0, 0, 0, 0.55) !important; !important;
+
+      
+    }
+  `}
+`;
+
 export const InputMultiSelect = styled(Autocomplete)`
   border-color: rgba(0, 0, 0, 0.26) !important;
 
@@ -123,6 +155,8 @@ export const MultiSelectInputContainer = styled.div<{
 `;
 
 export const InputDatepicker = styled(DesktopDatePicker)<{ theme?: Theme }>``;
+
+export const InputYearpicker = styled(DatePicker)<{ theme?: Theme }>``;
 
 export const InputTimepicker = styled(DesktopTimePicker)<{ theme?: Theme }>``;
 
