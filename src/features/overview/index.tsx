@@ -76,7 +76,7 @@ const OverviewPage = (props: any) => {
   };
 
   const [applicationModal, openApplicationModal, closeApplicationModal] =
-  useModal(false);
+    useModal(false);
 
   useEffect(() => {
     if (carId) {
@@ -133,7 +133,6 @@ const OverviewPage = (props: any) => {
     setTotalResults(houseData.documents?.length);
   }, [houseData.documents]);
 
-  
   return (
     <OverviewMain>
       <Stack
@@ -182,11 +181,17 @@ const OverviewPage = (props: any) => {
               <CardItemContainer>
                 <CardItem>
                   <CardItemLabel>Mileage</CardItemLabel>
-                  <CardItemValue>{formatNumber(parseFloat(houseData.mileage))} km</CardItemValue>
+                  <CardItemValue>
+                    {formatNumber(parseFloat(houseData.mileage))} km
+                  </CardItemValue>
                 </CardItem>
                 <CardItem>
                   <CardItemLabel>Year</CardItemLabel>
-                  <CardItemValue>{houseData.year ? format(new Date(houseData?.year), 'yyyy') : ""}</CardItemValue>
+                  <CardItemValue>
+                    {houseData.year
+                      ? format(new Date(houseData?.year), 'yyyy')
+                      : ''}
+                  </CardItemValue>
                 </CardItem>
                 <CardItem>
                   <CardItemLabel>Engine Type</CardItemLabel>
@@ -197,13 +202,17 @@ const OverviewPage = (props: any) => {
                   <CardItemValue>{houseData.enginePower} HP</CardItemValue>
                 </CardItem>
               </CardItemContainer>
-              {user.role === "ADMIN" && (
+              {user.role === 'ADMIN' && (
                 <Button variant="contained" color="primary">
                   Book
                 </Button>
               )}
-              {user.role === "USER" &&  (
-                <Button variant="contained" color="primary" onClick={openApplicationModal}>
+              {user.role === 'USER' && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={openApplicationModal}
+                >
                   Apply
                 </Button>
               )}
@@ -223,14 +232,13 @@ const OverviewPage = (props: any) => {
               <OverviewTextHeadline>Highlights</OverviewTextHeadline>
               <CardHighLightItemContainer>
                 <CardList>
-                  {
-                    houseData.highLights?.split(',').map((highlight: string, index: any) => {
+                  {houseData.highLights
+                    ?.split(',')
+                    .map((highlight: string, index: any) => {
                       return (
-
                         <CardListItem key={index}>{highlight}</CardListItem>
-                      )
-                    })
-                  }
+                      );
+                    })}
                 </CardList>
               </CardHighLightItemContainer>
             </OverviewGridThird>

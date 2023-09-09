@@ -57,7 +57,11 @@ const CalendarCard = ({ ...props }: TCalendarCardProps) => {
     const startDate = new Date(firstElement.date).toISOString();
     //@ts-ignore
     const endDate = new Date(lastElement?.date).toISOString();
-    const events = await NotificationAPI.getAll('', startDate, endDate);
+    const events = await NotificationAPI.getCalendarNotifications(
+      '',
+      startDate,
+      endDate
+    );
     setEvents([...events]);
   };
 
