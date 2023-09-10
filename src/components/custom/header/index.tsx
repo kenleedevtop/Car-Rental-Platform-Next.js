@@ -17,7 +17,7 @@ const Header = ({ ...props }) => {
   return (
     <HeaderMain {...props}>
       <HeaderLogoLink href="/login">
-        <HeaderLogo src="/static/assets/images/Brotherhood.svg" />
+        <HeaderLogo src="/static/assets/images/supercarstakelogo.svg" />
       </HeaderLogoLink>
       <HeaderActions>
         <HeaderAction href="/login">

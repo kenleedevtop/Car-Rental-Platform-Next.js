@@ -60,7 +60,7 @@ const Sidebar = ({ ...props }: TSidebarProps) => {
         <CancelIcon />
       </SidebarCancel>
       <SidebarLogoLink href="/">
-        <SidebarLogo src="/static/assets/images/Brotherhood.svg" />
+        <SidebarLogo src="/static/assets/images/supercarstakelogo.svg" />
       </SidebarLogoLink>
       <SidebarItems>
         {DSidebarItems.filter((x) => x.roles.includes(role)).map((x, index) =>

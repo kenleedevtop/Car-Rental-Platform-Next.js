@@ -67,7 +67,7 @@ const LostPasswordModal = ({ onClose, ...props }: TLostPasswordModalProps) => {
           )}
           <p>
             {t(
-              "If you're still having trouble, please contact our support team at support@brotherhoodhouse.com for assistance."
+              "If you're still having trouble, please contact our support team at support@supercarstake.com for assistance."
             )}
           </p>
         </LostPasswordText>

@@ -85,8 +85,7 @@ const RegisterPage = () => {
     <RegisterCompanyMain>
       <RegisterTitle>Sign Up</RegisterTitle>
       <RegisterSubtitle>
-        Lead the revolution to empower patients and transform healthcare for the
-        better by leveraging your expertise and network with us.
+        Rev up your lifestyle with exclusive co-ownership in luxury supercars.
       </RegisterSubtitle>
       <RegisterCompanyTopStack>
         <RegisterCompanyFName

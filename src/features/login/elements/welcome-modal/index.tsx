@@ -34,7 +34,7 @@ const WelcomeModal = ({
     <Modal size="large" onClose={onClose} {...props}>
       <SWelcomeModalMain columns={1}>
         <SWelcomeModalTitle>
-          {t(!role ? 'Please Wait' : 'Welcome to Shared Supercars!')}
+          {t(!role ? 'Please Wait' : 'Welcome to Supercar Stake!')}
         </SWelcomeModalTitle>
         {role === 'INFLUENCER' && (
           <SWelcomeModalText>
