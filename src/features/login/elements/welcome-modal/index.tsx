@@ -25,7 +25,7 @@ const WelcomeModal = ({
         </SWelcomeModalTitle>
         <SWelcomeModalText>
           {t(
-            "We're sorry, but we were unable to confirm your account with the link you clicked. Please check your email for a new confirmation link, as the old one may have expired. If you continue to experience issues, our team at support@patientsinfluence.com is always here to assist you and ensure your account is fully activated."
+            "We're sorry, but we were unable to confirm your account with the link you clicked. Please check your email for a new confirmation link, as the old one may have expired. If you continue to experience issues, our team at support@supercarstake.com is always here to assist you and ensure your account is fully activated."
           )}
         </SWelcomeModalText>
       </SWelcomeModalMain>

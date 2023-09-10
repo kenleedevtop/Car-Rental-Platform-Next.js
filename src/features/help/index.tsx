@@ -80,7 +80,7 @@ const HelpPage = () => {
         {tab === 0 ? (
           <Stack>
             <HelpCollapse
-              title="How Does Co-Ownership Work on Vacay Sharing?"
+              title="How Does Co-Ownership Work on Supercar Sharing?"
               openIcon={<ArrowDownIcon />}
               closeIcon={<ArrowUpIcon />}
               text={[
@@ -172,13 +172,13 @@ const HelpPage = () => {
                 <Stack>
                   <IconWithText
                     icon={<PhoneCallIcon />}
-                    link="https://calendly.com/patientsinfluence-influencer/15min"
+                    link="https://calendly.com/jurisicholdings/30min"
                     title="Talk with our founder"
                     text={['Schedule a call!']}
                   />
                   <IconWithText
                     icon={<EnvelopeIcon />}
-                    link="mailto:ivan@patientsinfluence.com"
+                    link="mailto:info@supercarstake.com"
                     title="Write to our founder"
                     text={['Send an email!']}
                   />
@@ -186,7 +186,7 @@ const HelpPage = () => {
                     icon={<LocationIcon />}
                     title="Visit Us"
                     text={['Riehenring 65, 4058 Basel Switzerland']}
-                    link="https://goo.gl/maps/mbiouV7WZoXBwqJDA"
+                    link="https://goo.gl/maps/mfx6WjDTo7ABJwg59"
                   />
                 </Stack>
               </HelpPageIconWithTextContainer>
