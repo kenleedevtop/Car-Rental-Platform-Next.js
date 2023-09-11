@@ -225,7 +225,6 @@ const RegisterPage = () => {
       >
         SIGN UP NOW
       </Button>
-      <RegisterLocalization />
       {crModal && (
         <ConfirmRegistrationModal email={state.email} onClose={handleClose} />
       )}

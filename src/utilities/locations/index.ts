@@ -10,7 +10,6 @@ export const getLocations = (search: string) => {
       locations.push(locat);
     });
   });
-  locations.sort();
   if (search) {
     let filterd = locations.filter((location) =>
       location.toLowerCase().includes(search.toLowerCase())

@@ -3,6 +3,7 @@ import {
   ApplicationContainer,
   AccountHeadline,
   AccountGrid,
+  PreferenceEditButton,
 } from 'features/users-overview/styles';
 import { Button, Input, Card } from 'components/ui';
 import { Stack } from 'components/system';
@@ -19,6 +20,7 @@ import { getEngineTypes } from 'utilities/engineTypes';
 import { getAmenities } from 'utilities/amenties';
 import CarPreferenceApi from 'api/supercarPreference';
 import { getBrands } from 'utilities/brands';
+import { EditIcon } from 'components/svg';
 
 const OverviewPage = (props: any) => {
   const { userId } = props;
@@ -282,6 +284,9 @@ const OverviewPage = (props: any) => {
       await UsersAPI.updateSingleUser(userId, info).then(() => {});
       setInfoSaving(false);
       setInfoHasChanged(false);
+      push('Updated user info successfully', {
+        variant: 'success',
+      });
     } catch {
       push('Something went wrong when update user info.', { variant: 'error' });
       setInfoSaving(false);
@@ -330,6 +335,9 @@ const OverviewPage = (props: any) => {
       }
       setHprefHasChanged(false);
       setHprefSaving(false);
+      push('Updated supercar preference successfully', {
+        variant: 'success',
+      });
     } catch {
       push('Something went wrong when save supercar preference.', {
         variant: 'error',
@@ -472,7 +480,12 @@ const OverviewPage = (props: any) => {
         <Card>
           <ApplicationContainer>
             <Stack>
-              <AccountHeadline>Supercar Preference</AccountHeadline>
+              <AccountHeadline>
+                Supercar Preference
+                <PreferenceEditButton>
+                  <EditIcon onClick={handleEditClick} />
+                </PreferenceEditButton>
+              </AccountHeadline>
               <AccountGrid>
                 <Input
                   type="multiselect"
@@ -501,7 +514,7 @@ const OverviewPage = (props: any) => {
                   }}
                 />
                 <Input
-                  type="select"
+                  type="multiselect"
                   label="Location"
                   placeholder="Please Select"
                   options={locations}

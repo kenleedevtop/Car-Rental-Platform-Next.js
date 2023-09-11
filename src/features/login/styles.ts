@@ -41,7 +41,7 @@ export const LoginSpan = styled.div<{ theme?: Theme }>`
 export const LoginAction = styled(Stack)<{ theme?: Theme }>`
   ${({ theme }) => `
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     ${theme.breakpoints.down('sm')} {
       flex-direction: column;
     }

@@ -6,6 +6,6 @@ module.exports = withFonts({
   reactStrictMode: false,
   i18n,
   images: {
-    domains: ['devapi.brotherhoodhouse.com', 'localhost'],
+    domains: ['devapi.supercarstake.com', 'localhost'],
   },
 });

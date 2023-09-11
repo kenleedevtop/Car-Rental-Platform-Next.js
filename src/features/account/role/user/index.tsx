@@ -279,6 +279,9 @@ const AccountPage = (props: any) => {
       await UsersAPI.updateSingleUser(user.id, info).then(() => {});
       setInfoSaving(false);
       setInfoHasChanged(false);
+      push('Updated user info successfully', {
+        variant: 'success',
+      });
     } catch {
       push('Something went wrong when update user info.', { variant: 'error' });
       setInfoSaving(false);
@@ -327,6 +330,9 @@ const AccountPage = (props: any) => {
       }
       setHprefHasChanged(false);
       setHprefSaving(false);
+      push('Updated supercar preference successfully', {
+        variant: 'success',
+      });
     } catch {
       push('Something went wrong when save supercar preference.', {
         variant: 'error',

@@ -128,7 +128,6 @@ const Login = () => {
         onValue={(password) => setState({ ...state, password })}
       />
       <LoginAction direction="horizontal">
-        <Checkbox label={t('Remember Me') as string} />
         <LoginSpan onClick={openLpModal}>{t('Lost your password?')}</LoginSpan>
       </LoginAction>
       <Button
@@ -140,7 +139,6 @@ const Login = () => {
       >
         {t('LOGIN NOW')}
       </Button>
-      <LoginLocalization />
       {lpModal && <LostPasswordModal onClose={closeLpModal} />}
       {crModal && (
         <ConfirmRegistrationModal

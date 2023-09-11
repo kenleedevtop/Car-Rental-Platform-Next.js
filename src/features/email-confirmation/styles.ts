@@ -25,7 +25,6 @@ export const EmailButton = styled(Link)<{ theme?: Theme }>`
   max-width: 200px;
   min-height: 45px;
   width: 100%;
-  height: 100%;
   background: ${theme.palette.primary.main};
   color: #fff;
   font-size: 14px;

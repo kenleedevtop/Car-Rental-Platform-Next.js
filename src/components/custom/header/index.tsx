@@ -17,14 +17,14 @@ const Header = ({ ...props }) => {
   return (
     <HeaderMain {...props}>
       <HeaderLogoLink href="/login">
-        <HeaderLogo src="/static/assets/images/supercarstakelogo.svg" />
+        <HeaderLogo src="/static/assets/images/supercarstakelogo-text.svg" />
       </HeaderLogoLink>
       <HeaderActions>
-        <HeaderAction href="/login">
-          <Button variant="text" size="large">
+        <Button variant="contained" color="primary" size="large">
+          <HeaderAction style={{ color: '#fff' }} href="/login">
             {t('Login')}
-          </Button>
-        </HeaderAction>
+          </HeaderAction>
+        </Button>
         <Button variant="contained" color="secondary" size="large">
           <HeaderAction style={{ color: '#fff' }} href="/register">
             {t('SIGN UP')}

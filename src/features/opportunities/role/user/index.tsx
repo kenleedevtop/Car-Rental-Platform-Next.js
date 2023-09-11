@@ -148,11 +148,6 @@ const UserMarketPage = () => {
           })}
         </ProjectsGrid>
       )}
-      <Stack direction="horizontal">
-        <Button variant="contained" color="primary" onClick={openPurchaseModal}>
-          Sell Shares Modal
-        </Button>
-      </Stack>
       {purchaseModal && <SellModal onClose={closePurchaseModal} />}
     </ProjectsMain>
   );

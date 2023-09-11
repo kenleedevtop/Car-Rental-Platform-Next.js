@@ -7,7 +7,7 @@ export const SidebarMain = styled.div<{ theme?: Theme }>`
     width: 173px;
     display: flex;
     flex-direction: column;
-    gap: ${theme.spacing(10)};
+    // gap: ${theme.spacing(10)};
     align-items: center;
     padding: ${theme.spacing(5)} 0;
     background-color: ${theme.palette.common.white};

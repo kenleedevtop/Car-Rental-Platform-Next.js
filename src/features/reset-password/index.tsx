@@ -127,7 +127,6 @@ const ChangePassword = () => {
       >
         {t('Change Password')}
       </Button>
-      <ChangePasswordLocalization />
     </ChangePasswordMain>
   );
 };

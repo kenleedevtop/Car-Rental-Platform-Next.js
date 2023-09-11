@@ -29,7 +29,7 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
 export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: grid;
-    place-items: center flex-start;
+    // place-items: center flex-start;
     min-height: 100vh;
     width: 100%;
     

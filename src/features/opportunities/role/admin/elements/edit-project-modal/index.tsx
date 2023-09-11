@@ -46,7 +46,6 @@ const AddCarProjectModal = ({
   const [activePhotoIdx, setActivePhotoIdx] = useState<number>(0);
   const [locations, setLocations] = useState<any[]>([]);
   const [models, setModels] = useState<any[]>([]);
-  const [highLights, setHightLights] = useState<any[]>([]);
   const [engineTypes, setEngineTypes] = useState<any[]>([]);
   const [addressError, setAddressError] = useState<any>({
     invalid: false,
@@ -76,7 +75,7 @@ const AddCarProjectModal = ({
     engineType: '',
     enginePower: '',
     startDate: '',
-    highLights: [],
+    highLights: '',
     info: '',
     status: '',
     thumbnailId: null,
@@ -85,20 +84,11 @@ const AddCarProjectModal = ({
 
   const getHouseDataById = async () => {
     const data: ICar = await CarAPI.getOne(carId);
-    const datas = {
-      ...data,
-      highLights: data.highLights
-        ? data.highLights.split(',').map((name: string) => ({
-            value: name,
-            label: name,
-          }))
-        : [],
-    };
     setGoogleAddress((address: TAddress) => ({
       ...address,
       ...data.googleAddress,
     }));
-    setCarData(() => ({ ...datas }));
+    setCarData(() => ({ ...data }));
     setDocuments([...data.documents]);
     setPhotos([...data.images]);
   };
@@ -218,23 +208,12 @@ const AddCarProjectModal = ({
     );
   };
 
-  const getHighLightsOptions = async (searchTerm: string = '') => {
-    const result = getHightLight(searchTerm);
-    setHightLights(
-      result.map((name: any) => ({
-        value: name,
-        label: name,
-      }))
-    );
-  };
-
   const debouncedLocation = useDebounce(getLocationOptions, 100);
 
   useEffect(() => {
     getLocationOptions();
     getModelOptions();
     getEngineTypesOptions();
-    getHighLightsOptions();
   }, []);
 
   const handlechangeGoogleAddress = (event: any) => {
@@ -646,12 +625,10 @@ const AddCarProjectModal = ({
 
             <Input
               type="multiselect"
-              label="High Lights"
+              label="HighLights"
               required
-              options={highLights}
               errorCallback={handleErrors(11)}
               isFilterActive
-              onNewTag={handleNewHightLightTag}
               placeholder="Please Enter"
               value={superCarData?.highLights}
               onValue={(highLights) =>
@@ -659,9 +636,9 @@ const AddCarProjectModal = ({
               }
               validators={[
                 {
-                  message: 'Engine Power is required',
-                  validator: (highLights) => {
-                    const v = highLights.length > 0;
+                  message: 'HighLights is required',
+                  validator: (value) => {
+                    const v = value as string;
                     if (v) return true;
                     return false;
                   },
