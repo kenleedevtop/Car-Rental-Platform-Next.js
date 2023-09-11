@@ -14,7 +14,7 @@ export default class MyDocument extends Document {
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="shortcut icon"
-            href="/static/assets/images/Brotherhood.svg"
+            href="/static/assets/images/supercarstakelogo.svg"
           />
           <link
             rel="preconnect"

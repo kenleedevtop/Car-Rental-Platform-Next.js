@@ -89,9 +89,7 @@ const Login = () => {
     <Stack onKeyDown={handleKeyDown}>
       <LoginTitle>{t('Login Now')}</LoginTitle>
       <LoginSubtitle>
-        {t(
-          'Access updates, new opportunities, and messages all in one place by logging in below.'
-        )}
+        {t('Sign in to access elite supercar co-ownership options.')}
       </LoginSubtitle>
       <Input
         type="text"

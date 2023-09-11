@@ -1,8 +1,8 @@
-export type TPatientsInfluenceClientParams = {
+export type TsupercarstakeClientParams = {
   baseUrl?: string;
   withCredentials?: boolean;
 };
 
-export type TPatientsInfluenceClientData = {
+export type TsupercarstakeClientData = {
   [key: string]: any;
 };

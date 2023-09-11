@@ -46,7 +46,7 @@ const ConfirmRegistrationModal = ({
   const resentMessage = (
     <p>
       {t(
-        "A confirmation email has been resent to the email address you provided. If you still don't receive it within a few minutes, please reach out to us at support@patientsinfluence.com and we'll assist you as soon as possible."
+        "A confirmation email has been resent to the email address you provided. If you still don't receive it within a few minutes, please reach out to us at support@supercarstake.com and we'll assist you as soon as possible."
       )}
     </p>
   );

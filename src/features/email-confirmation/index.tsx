@@ -20,11 +20,11 @@ const EmailConfirmation = () => {
     try {
       await AuthorizationAPI.emailConfirmation({ token: query.token as any });
       if (locale === 'de-DE') {
-        push('Willkommen bei Shared Supercars!', { variant: 'success' });
-        setMessage('Willkommen bei Shared Supercars!');
+        push('Willkommen bei Supercar Stake!', { variant: 'success' });
+        setMessage('Willkommen bei Supercar Stake!');
       } else {
-        push('Welcome to Shared Supercars!', { variant: 'success' });
-        setMessage('Welcome to Shared Supercars!');
+        push('Welcome to Supercar Stake!', { variant: 'success' });
+        setMessage('Welcome to Supercar Stake!');
       }
     } catch (e: any) {
       if (locale === 'de-DE') {
