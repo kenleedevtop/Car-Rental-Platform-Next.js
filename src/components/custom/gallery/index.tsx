@@ -32,8 +32,9 @@ const Gallery = ({ thumbnail, images, ...props }: TGalleryProps) => {
       <Image
         alt="Supercars thumbnail"
         src={`${Project.apis.v1}/public/images/${thumbnail?.key}`}
-        width={500}
-        height={500}
+        width={600}
+        height={600}
+        priority={true}
         style={{
           height: '100%',
           width: '100%',
@@ -61,8 +62,9 @@ const Gallery = ({ thumbnail, images, ...props }: TGalleryProps) => {
                 <Image
                   alt="house photo"
                   src={`${Project.apis.v1}/public/images/${image?.key}`}
-                  width={100}
-                  height={100}
+                  width={250}
+                  height={250}
+                  priority={true}
                   style={{
                     height: `${fullscreen ? '70%' : '200px'}`,
                     width: `${fullscreen ? '70%' : '100%'}`,
@@ -115,8 +117,9 @@ const Gallery = ({ thumbnail, images, ...props }: TGalleryProps) => {
             <Image
               alt="house photo"
               src={`${Project.apis.v1}/public/images/${image?.key}`}
-              width={500}
-              height={500}
+              width={250}
+              height={250}
+              priority={true}
               style={{
                 height: `${fullscreen ? '70%' : '200px'}`,
                 width: `${fullscreen ? '70%' : '100%'}`,
