@@ -59,20 +59,11 @@ const AccountPage = (props: any) => {
     additionalComment: '',
     ownerId: user.id,
   });
-  const [errors, setErrors] = useState([false]);
-
-  const handleErrors = (index: number) => (value: boolean) => {
-    setErrors((x) => x.map((a, b) => (b === index ? value : a)));
-  };
 
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   useEffect(() => {
-    const isDisable =
-      !info.firstName ||
-      !info.lastName ||
-      !info.location ||
-      !!errors.find((x) => x);
+    const isDisable = !info.firstName || !info.lastName;
 
     const isUnDisabled = infoHasChanged || hprefHasChanged;
 
@@ -81,7 +72,7 @@ const AccountPage = (props: any) => {
     } else {
       setIsDisabled(true);
     }
-  }, [info, preference, infoHasChanged, hprefHasChanged, errors]);
+  }, [info, preference, infoHasChanged, hprefHasChanged]);
 
   const getUserById = async (id: any) => {
     if (!id) return;
@@ -405,16 +396,6 @@ const AccountPage = (props: any) => {
                   onValue={(firstName) =>
                     handleChangeInfo('firstName', firstName)
                   }
-                  validators={[
-                    {
-                      message: 'First Name is required',
-                      validator: (value) => {
-                        const v = value as string;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
                 <Input
                   type="text"
@@ -423,16 +404,6 @@ const AccountPage = (props: any) => {
                   placeholder="Doe"
                   value={info?.lastName}
                   onValue={(lastName) => handleChangeInfo('lastName', lastName)}
-                  validators={[
-                    {
-                      message: 'Last Name is required',
-                      validator: (value) => {
-                        const v = value as string;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
                 <Input
                   type="text"
@@ -478,16 +449,6 @@ const AccountPage = (props: any) => {
                       location ? location.value : location
                     )
                   }
-                  validators={[
-                    {
-                      message: 'Location is required',
-                      validator: (value) => {
-                        const v = value as string;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
               </AccountGrid>
               {!infoSaving && !hprefSaving ? (
@@ -524,8 +485,6 @@ const AccountPage = (props: any) => {
                   type="multiselect"
                   label="Brand"
                   placeholder="Please Select"
-                  required
-                  errorCallback={handleErrors(1)}
                   options={brands}
                   value={preference.brands}
                   onValue={(brands) => {
@@ -533,23 +492,11 @@ const AccountPage = (props: any) => {
                       handleChangeCarPreference('brands', brands);
                     }
                   }}
-                  validators={[
-                    {
-                      message: 'Brands is required',
-                      validator: (value) => {
-                        const v = value.length > 0;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
                 <Input
                   type="multiselect"
                   label="Model"
                   placeholder="Please Select"
-                  required
-                  errorCallback={handleErrors(2)}
                   options={models}
                   value={preference.models}
                   onValue={(models) => {
@@ -557,22 +504,10 @@ const AccountPage = (props: any) => {
                       handleChangeCarPreference('models', models);
                     }
                   }}
-                  validators={[
-                    {
-                      message: 'Model are required',
-                      validator: (value) => {
-                        const v = value.length > 0;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
                 <Input
                   type="select"
                   label="Location"
-                  required
-                  errorCallback={handleErrors(3)}
                   placeholder="Please Select"
                   options={locations}
                   value={
@@ -589,23 +524,11 @@ const AccountPage = (props: any) => {
                       location ? location.value : location
                     )
                   }
-                  validators={[
-                    {
-                      message: 'Location is required',
-                      validator: (value) => {
-                        const v = value as string;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
                 <Input
                   type="multiselect"
                   label="Condition"
                   placeholder="Please Select"
-                  required
-                  errorCallback={handleErrors(4)}
                   options={conditions}
                   value={preference.conditions}
                   onValue={(conditions) => {
@@ -613,23 +536,11 @@ const AccountPage = (props: any) => {
                       handleChangeCarPreference('conditions', conditions);
                     }
                   }}
-                  validators={[
-                    {
-                      message: 'Condition are required',
-                      validator: (value) => {
-                        const v = value.length > 0;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
                 <Input
                   type="multiselect"
                   label="Amenities"
                   placeholder="Please Select"
-                  required
-                  errorCallback={handleErrors(5)}
                   options={amenities}
                   value={preference.amenities}
                   onValue={(amenities) => {
@@ -637,16 +548,6 @@ const AccountPage = (props: any) => {
                       handleChangeCarPreference('amenities', amenities);
                     }
                   }}
-                  validators={[
-                    {
-                      message: 'Amenities are required',
-                      validator: (value) => {
-                        const v = value.length > 0;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
                 <Input
                   type="min-max"
@@ -666,8 +567,6 @@ const AccountPage = (props: any) => {
                 <Input
                   type="select"
                   label="Interested In Supercars"
-                  required
-                  errorCallback={handleErrors(6)}
                   placeholder="Please Select"
                   options={interestsInSupercars}
                   value={
@@ -686,24 +585,12 @@ const AccountPage = (props: any) => {
                         : interestedInSupercars
                     )
                   }
-                  validators={[
-                    {
-                      message: 'Interested in Supercars is required',
-                      validator: (value) => {
-                        const v = value as string;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
 
                 <Input
                   type="multiselect"
                   label="Interested in Shares per Supercar"
                   placeholder="Please Select"
-                  required
-                  errorCallback={handleErrors(7)}
                   options={interestsInShares}
                   value={preference.interestedInShares}
                   onValue={(interestedInShares) => {
@@ -714,24 +601,12 @@ const AccountPage = (props: any) => {
                       );
                     }
                   }}
-                  validators={[
-                    {
-                      message: 'Interested in Shares per Supercar are required',
-                      validator: (value) => {
-                        const v = value.length > 0;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
 
                 <Input
                   type="multiselect"
                   label="Interior Style"
                   placeholder="Please Select"
-                  required
-                  errorCallback={handleErrors(8)}
                   options={interiorStyles}
                   value={preference.interiorStyle}
                   onValue={(interiorStyle) => {
@@ -739,24 +614,12 @@ const AccountPage = (props: any) => {
                       handleChangeCarPreference('interiorStyle', interiorStyle);
                     }
                   }}
-                  validators={[
-                    {
-                      message: 'Interior Style are required',
-                      validator: (value) => {
-                        const v = value.length > 0;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
 
                 <Input
                   type="multiselect"
                   label="Exterior Color"
                   placeholder="Please Select"
-                  required
-                  errorCallback={handleErrors(9)}
                   options={exteriorColors}
                   value={preference.exteriorColor}
                   onValue={(exteriorColor) => {
@@ -764,41 +627,19 @@ const AccountPage = (props: any) => {
                       handleChangeCarPreference('exteriorColor', exteriorColor);
                     }
                   }}
-                  validators={[
-                    {
-                      message: 'Exterior Color are required',
-                      validator: (value) => {
-                        const v = value.length > 0;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
 
                 <Input
                   type="multiselect"
                   label="Engine Type"
                   placeholder="Please Select"
-                  required
                   options={engineTypes}
                   value={preference.engineType}
-                  errorCallback={handleErrors(10)}
                   onValue={(engineType) => {
                     if (engineType.length <= 5) {
                       handleChangeCarPreference('engineType', engineType);
                     }
                   }}
-                  validators={[
-                    {
-                      message: 'Engine Types are required',
-                      validator: (value) => {
-                        const v = value.length > 0;
-                        if (v) return true;
-                        return false;
-                      },
-                    },
-                  ]}
                 />
 
                 <Input
