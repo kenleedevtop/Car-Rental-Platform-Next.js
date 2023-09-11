@@ -17,7 +17,7 @@ const Header = ({ ...props }) => {
   return (
     <HeaderMain {...props}>
       <HeaderLogoLink href="/login">
-        <HeaderLogo src="/static/assets/images/supercarstakelogo-text.svg" />
+        <HeaderLogo src="/static/assets/images/sslogopng.png" />
       </HeaderLogoLink>
       <HeaderActions>
         <Button variant="contained" color="primary" size="large">
