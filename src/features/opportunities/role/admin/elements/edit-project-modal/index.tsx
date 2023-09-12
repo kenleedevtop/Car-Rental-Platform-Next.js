@@ -75,7 +75,7 @@ const AddCarProjectModal = ({
     engineType: '',
     enginePower: '',
     startDate: '',
-    highLights: '',
+    highLights: [],
     info: '',
     status: '',
     thumbnailId: null,
@@ -84,11 +84,17 @@ const AddCarProjectModal = ({
 
   const getHouseDataById = async () => {
     const data: ICar = await CarAPI.getOne(carId);
+    const highLights = data.highLights
+      ? data.highLights.split(',').map((name: string) => ({
+          value: name,
+          label: name,
+        }))
+      : [];
     setGoogleAddress((address: TAddress) => ({
       ...address,
       ...data.googleAddress,
     }));
-    setCarData(() => ({ ...data }));
+    setCarData(() => ({ ...data, highLights }));
     setDocuments([...data.documents]);
     setPhotos([...data.images]);
   };
@@ -628,7 +634,9 @@ const AddCarProjectModal = ({
               label="HighLights"
               required
               errorCallback={handleErrors(11)}
+              onNewTag={handleNewHightLightTag}
               isFilterActive
+              noOptionsText="Type new values"
               placeholder="Please Enter"
               value={superCarData?.highLights}
               onValue={(highLights) =>

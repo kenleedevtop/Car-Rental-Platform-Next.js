@@ -44,7 +44,7 @@ const AccountPage = (props: any) => {
     id: -1,
     brands: [],
     models: [],
-    location: '',
+    location: [],
     conditions: [],
     amenities: [],
     budgetPerShareMin: '',
@@ -134,6 +134,12 @@ const AccountPage = (props: any) => {
             label: name,
           }))
         : [];
+      houseprf.location = houseprf.location
+        ? houseprf.location.split('|').map((name: string) => ({
+            value: name,
+            label: name,
+          }))
+        : [];
       setCarPreference(houseprf);
     }
   };
@@ -143,6 +149,7 @@ const AccountPage = (props: any) => {
   const [conditions, setConditions] = useState<any[]>([]);
   const [amenities, setAmenities] = useState<any[]>([]);
   const [models, setModels] = useState<any[]>([]);
+  const [modelOptions, setModelOptions] = useState<any[]>([]);
   const [interiorStyles, setInteriorStyles] = useState<any[]>([]);
   const [exteriorColors, setExteriorColors] = useState<any[]>([]);
   const [engineTypes, setEngineTypes] = useState<any[]>([]);
@@ -295,6 +302,9 @@ const AccountPage = (props: any) => {
         .join(',');
       const brands = preference.brands.map((item: any) => item.value).join(',');
       const models = preference.models.map((item: any) => item.value).join(',');
+      const location = preference.location
+        .map((item: any) => item.value)
+        .join('|');
       const conditions = preference.conditions
         .map((item: any) => item.value)
         .join(',');
@@ -320,6 +330,7 @@ const AccountPage = (props: any) => {
         interiorStyle,
         exteriorColor,
         engineType,
+        location,
       };
       if (preference.id === -1) {
         await CarPreferenceApi.createCarPreference(data).then(() => {});
@@ -366,6 +377,26 @@ const AccountPage = (props: any) => {
 
   const handleChangeCarPreference = (name: string, value: string) => {
     setCarPreference({ ...preference, [name]: value });
+    setHprefHasChanged(true);
+  };
+
+  const handleChangeBrand = (brands: any) => {
+    let modelOptions: any[] = [];
+    let modelValues: any[] = [];
+    brands.forEach((brand: any) => {
+      let options = models.filter((model) => model.value.includes(brand.value));
+      modelOptions = [...modelOptions, ...options];
+      const model = preference.models.filter((item: any) =>
+        item.value.includes(brand.value)
+      );
+      modelValues = [...modelValues, ...model];
+    });
+    setModelOptions([...modelOptions]);
+    setCarPreference({
+      ...preference,
+      models: [...modelValues],
+      brands: [...brands],
+    });
     setHprefHasChanged(true);
   };
 
@@ -494,42 +525,29 @@ const AccountPage = (props: any) => {
                   options={brands}
                   value={preference.brands}
                   onValue={(brands) => {
-                    if (brands.length <= 3) {
-                      handleChangeCarPreference('brands', brands);
-                    }
+                    handleChangeBrand(brands);
                   }}
                 />
                 <Input
                   type="multiselect"
                   label="Model"
                   placeholder="Please Select"
-                  options={models}
+                  options={modelOptions}
                   value={preference.models}
                   onValue={(models) => {
-                    if (models.length <= 5) {
-                      handleChangeCarPreference('models', models);
-                    }
+                    handleChangeCarPreference('models', models);
                   }}
                 />
                 <Input
-                  type="select"
+                  type="multiselect"
                   label="Location"
+                  onSearch={debouncedLocation}
                   placeholder="Please Select"
                   options={locations}
-                  value={
-                    preference.location
-                      ? {
-                          label: preference.location,
-                          value: preference.location,
-                        }
-                      : null
-                  }
-                  onValue={(location) =>
-                    handleChangeCarPreference(
-                      'location',
-                      location ? location.value : location
-                    )
-                  }
+                  value={preference.location}
+                  onValue={(location) => {
+                    handleChangeCarPreference('location', location);
+                  }}
                 />
                 <Input
                   type="multiselect"

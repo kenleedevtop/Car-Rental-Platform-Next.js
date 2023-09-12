@@ -49,7 +49,7 @@ const OverviewPage = (props: any) => {
     id: -1,
     brands: [],
     models: [],
-    location: '',
+    location: [],
     conditions: [],
     amenities: [],
     budgetPerShareMin: '',
@@ -139,6 +139,12 @@ const OverviewPage = (props: any) => {
             label: name,
           }))
         : [];
+      houseprf.location = houseprf.location
+        ? houseprf.location.split('|').map((name: string) => ({
+            value: name,
+            label: name,
+          }))
+        : [];
       setCarPreference(houseprf);
     }
   };
@@ -153,6 +159,7 @@ const OverviewPage = (props: any) => {
   const [engineTypes, setEngineTypes] = useState<any[]>([]);
   const [interestsInSupercars, setInterestsInSupercars] = useState<any[]>([]);
   const [interestsInShares, setInterestsInShares] = useState<any[]>([]);
+  const [modelOptions, setModelOptions] = useState<any[]>([]);
 
   const getInterestsInSupercars = async () => {
     const result = ['1', '2', '3', '4', '5', '6', '7', '8'];
@@ -300,6 +307,9 @@ const OverviewPage = (props: any) => {
         .join(',');
       const brands = preference.brands.map((item: any) => item.value).join(',');
       const models = preference.models.map((item: any) => item.value).join(',');
+      const location = preference.location
+        .map((item: any) => item.value)
+        .join('|');
       const conditions = preference.conditions
         .map((item: any) => item.value)
         .join(',');
@@ -325,6 +335,7 @@ const OverviewPage = (props: any) => {
         interiorStyle,
         exteriorColor,
         engineType,
+        location,
       };
       if (preference.id === -1) {
         await CarPreferenceApi.createCarPreference(data).then(() => {});
@@ -373,6 +384,26 @@ const OverviewPage = (props: any) => {
     setHprefHasChanged(true);
   };
 
+  const handleChangeBrand = (brands: any) => {
+    let modelOptions: any[] = [];
+    let modelValues: any[] = [];
+    brands.forEach((brand: any) => {
+      let options = models.filter((model) => model.value.includes(brand.value));
+      modelOptions = [...modelOptions, ...options];
+      const model = preference.models.filter((item: any) =>
+        item.value.includes(brand.value)
+      );
+      modelValues = [...modelValues, ...model];
+    });
+    setModelOptions([...modelOptions]);
+    setCarPreference({
+      ...preference,
+      models: [...modelValues],
+      brands: [...brands],
+    });
+    setHprefHasChanged(true);
+  };
+
   const handleChangeMinMaxCarPreference = (
     minName: string,
     maxName: string,
@@ -389,14 +420,6 @@ const OverviewPage = (props: any) => {
   return (
     <Stack>
       <Tabs tabs={['Info', 'Application']} value={tabs} onValue={setTabs} />
-      <Button
-        variant="contained"
-        color="primary"
-        style={{ width: '150px', alignSelf: 'flex-end' }}
-        onClick={handleEditClick}
-      >
-        {isEditing ? 'Disable Editing' : 'Enable Editing'}
-      </Button>
       {tabs === 0 && (
         <Card>
           <ApplicationContainer>
@@ -495,44 +518,31 @@ const OverviewPage = (props: any) => {
                   options={brands}
                   value={preference.brands}
                   onValue={(brands) => {
-                    if (brands.length <= 3) {
-                      handleChangeCarPreference('brands', brands);
-                    }
+                    handleChangeBrand(brands);
                   }}
                 />
                 <Input
                   type="multiselect"
                   label="Model"
                   placeholder="Please Select"
-                  options={models}
+                  options={modelOptions}
                   disabled={!isEditing}
                   value={preference.models}
                   onValue={(models) => {
-                    if (models.length <= 5) {
-                      handleChangeCarPreference('models', models);
-                    }
+                    handleChangeCarPreference('models', models);
                   }}
                 />
                 <Input
                   type="multiselect"
                   label="Location"
                   placeholder="Please Select"
+                  onSearch={debouncedLocation}
                   options={locations}
                   disabled={!isEditing}
-                  value={
-                    preference.location
-                      ? {
-                          label: preference.location,
-                          value: preference.location,
-                        }
-                      : null
-                  }
-                  onValue={(location) =>
-                    handleChangeCarPreference(
-                      'location',
-                      location ? location.value : location
-                    )
-                  }
+                  value={preference.location}
+                  onValue={(location) => {
+                    handleChangeCarPreference('location', location);
+                  }}
                 />
                 <Input
                   type="multiselect"
@@ -542,9 +552,7 @@ const OverviewPage = (props: any) => {
                   options={conditions}
                   value={preference.conditions}
                   onValue={(conditions) => {
-                    if (conditions.length <= 5) {
-                      handleChangeCarPreference('conditions', conditions);
-                    }
+                    handleChangeCarPreference('conditions', conditions);
                   }}
                 />
                 <Input
@@ -555,9 +563,7 @@ const OverviewPage = (props: any) => {
                   options={amenities}
                   value={preference.amenities}
                   onValue={(amenities) => {
-                    if (amenities.length <= 5) {
-                      handleChangeCarPreference('amenities', amenities);
-                    }
+                    handleChangeCarPreference('amenities', amenities);
                   }}
                 />
                 <Input
@@ -608,12 +614,10 @@ const OverviewPage = (props: any) => {
                   options={interestsInShares}
                   value={preference.interestedInShares}
                   onValue={(interestedInShares) => {
-                    if (interestedInShares.length <= 5) {
-                      handleChangeCarPreference(
-                        'interestedInShares',
-                        interestedInShares
-                      );
-                    }
+                    handleChangeCarPreference(
+                      'interestedInShares',
+                      interestedInShares
+                    );
                   }}
                 />
 
@@ -625,9 +629,7 @@ const OverviewPage = (props: any) => {
                   options={interiorStyles}
                   value={preference.interiorStyle}
                   onValue={(interiorStyle) => {
-                    if (interiorStyle.length <= 5) {
-                      handleChangeCarPreference('interiorStyle', interiorStyle);
-                    }
+                    handleChangeCarPreference('interiorStyle', interiorStyle);
                   }}
                 />
 
@@ -639,9 +641,7 @@ const OverviewPage = (props: any) => {
                   options={exteriorColors}
                   value={preference.exteriorColor}
                   onValue={(exteriorColor) => {
-                    if (exteriorColor.length <= 5) {
-                      handleChangeCarPreference('exteriorColor', exteriorColor);
-                    }
+                    handleChangeCarPreference('exteriorColor', exteriorColor);
                   }}
                 />
 
@@ -653,9 +653,7 @@ const OverviewPage = (props: any) => {
                   options={engineTypes}
                   value={preference.engineType}
                   onValue={(engineType) => {
-                    if (engineType.length <= 5) {
-                      handleChangeCarPreference('engineType', engineType);
-                    }
+                    handleChangeCarPreference('engineType', engineType);
                   }}
                 />
 

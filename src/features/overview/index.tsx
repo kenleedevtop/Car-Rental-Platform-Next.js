@@ -6,7 +6,6 @@ import {
   OverviewTextContainer,
   OverviewTextHeadline,
   OverviewTextContent,
-  OverviewBackButton,
   OverviewGridThree,
   OverviewGridFirst,
   CardItemContainer,
@@ -31,17 +30,14 @@ import { format } from 'date-fns';
 import { saveAs } from 'file-saver';
 import Project from 'constants/project';
 import { useModal, usePagination } from 'hooks';
-import { useRouter } from 'next/router';
 import { useAppContext } from 'context';
 import { formatNumber } from 'utilities/extended-proto';
 import { ApplicationModal } from 'features/opportunities/role/user/elements';
 
 const OverviewPage = (props: any) => {
   const { carId } = props;
-  const router = useRouter();
   const { houseStatus, user } = useAppContext();
   const [tab, setTab] = useState(0);
-  const [bought, setBought] = useState(false);
 
   const [houseData, setCarData] = useState<ICar>({
     id: -1,
@@ -144,24 +140,6 @@ const OverviewPage = (props: any) => {
           onValue={setTab}
           tabs={['Property Overview', 'Documents']}
         />
-        <Button
-          color="secondary"
-          style={{
-            background: '#f1f4ff',
-            color: '#7e839f',
-            fontSize: '12px',
-            fontWeight: 600,
-            display: 'grid',
-            placeItems: 'center',
-            textDecoration: 'none',
-            padding: '7px 9px',
-          }}
-          variant="contained"
-          size="small"
-          onClick={() => router.back()}
-        >
-          Back
-        </Button>
       </Stack>
 
       <Gallery

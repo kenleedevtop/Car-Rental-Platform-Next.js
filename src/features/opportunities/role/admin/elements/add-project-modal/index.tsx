@@ -31,7 +31,6 @@ import {
   InputMain,
 } from 'components/ui/input/styles';
 import { getEngineTypes } from 'utilities/engineTypes';
-import { getHightLight } from 'utilities/hightLights';
 const AddCarProjectModal = ({
   onClose,
   refresh,
@@ -74,7 +73,7 @@ const AddCarProjectModal = ({
     engineType: '',
     enginePower: '',
     startDate: '',
-    highLights: '',
+    highLights: [],
     info: '',
     status: '',
     thumbnailId: null,
@@ -267,9 +266,13 @@ const AddCarProjectModal = ({
   const handleAddProject = async () => {
     try {
       const address: TAddress = await AddressAPI.createAddress(googleAddress);
+      const highLights = superCarData.highLights
+        .map((item: any) => item.value)
+        .join(',');
       const data = {
         ...superCarData,
         addressId: address.id,
+        highLights,
       };
       const car = await CarAPI.create(data);
       const body = { carId: car.id };
@@ -610,12 +613,14 @@ const AddCarProjectModal = ({
             />
 
             <Input
-              type="text"
+              type="multiselect"
               label="HighLights"
               required
               errorCallback={handleErrors(11)}
               placeholder="Please Enter"
+              noOptionsText="Type new values"
               value={superCarData?.highLights}
+              onNewTag={handleNewHightLightTag}
               onValue={(highLights) =>
                 setCarData({ ...superCarData, highLights })
               }
