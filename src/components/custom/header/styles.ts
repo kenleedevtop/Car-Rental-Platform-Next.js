@@ -34,11 +34,9 @@ export const HeaderLogo = styled.img<{ theme?: Theme }>`
   ${({ theme }) => `
     ${theme.breakpoints.down('sm')} {
       width: 194px;
-      height: 148px;
     }
     ${theme.breakpoints.up('sm')} {
       width: 170px;
-      height: 102px;
     }
   `}
 `;

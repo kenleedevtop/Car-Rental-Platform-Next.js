@@ -20,6 +20,7 @@ export type TInputProps = React.HTMLAttributes<HTMLDivElement> & {
     | 'date'
     | 'time'
     | 'year'
+    | 'min-max-currency'
     | 'googlemap'
     | 'min-max';
   value: any;

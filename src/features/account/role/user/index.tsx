@@ -574,7 +574,7 @@ const AccountPage = (props: any) => {
                   }}
                 />
                 <Input
-                  type="min-max"
+                  type="min-max-currency"
                   label="Budget per Share"
                   value={{
                     min: preference.budgetPerShareMin,

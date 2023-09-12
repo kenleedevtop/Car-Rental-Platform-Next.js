@@ -6,16 +6,21 @@ import {
   PageLayoutLeft,
   PageLayoutRight,
   PageLayoutContent,
+  PageLayoutRightContainer,
 } from 'layouts/page/styles';
 import { Header } from 'components/custom';
-// import { useRouter } from 'next/router';
 
 const PageLayout = ({ children, ...props }: TPageLayoutProps) => (
   <PageLayoutMain {...props}>
     <Header />
     <PageLayoutContent>
       <PageLayoutLeft>{children}</PageLayoutLeft>
-      <PageLayoutRight key={0} src="/static/assets/images/authorization.jpg" />
+      <PageLayoutRightContainer>
+        <PageLayoutRight
+          key={0}
+          src="/static/assets/images/authorization.jpg"
+        />
+      </PageLayoutRightContainer>
     </PageLayoutContent>
   </PageLayoutMain>
 );

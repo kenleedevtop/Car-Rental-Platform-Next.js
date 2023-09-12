@@ -7,7 +7,7 @@ import {
   RegisterCompanyBottomStack,
   RegisterCompanyFName,
   RegisterCompanyLName,
-  RegisterLocalization,
+  RegisterCheckbox,
 } from 'features/register/styles';
 import { ConfirmRegistrationModal } from 'features/register/elements';
 import { Button, Input } from 'components/ui';
@@ -16,6 +16,7 @@ import { AuthorizationAPI } from 'api';
 import { useModal, useSnackbar } from 'hooks';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'next/router';
+import { Stack } from 'components/system';
 
 interface IFormData {
   firstName: string;
@@ -49,12 +50,17 @@ const RegisterPage = () => {
   };
 
   const [crModal, openCrModal, closeCrModal] = useModal(false);
-
+  const [legalsChecked, setLegalsChecked] = useState({
+    commonLegal: false,
+    patientSpecificLegal: false,
+  });
   const isDisabled =
     !state.firstName ||
     !state.lastName ||
     !state.email ||
     !state.password ||
+    !legalsChecked.commonLegal ||
+    !legalsChecked.patientSpecificLegal ||
     !!errors.find((x) => x);
 
   const handleRegister = async () => {
@@ -216,6 +222,41 @@ const RegisterPage = () => {
           ]}
         />
       </RegisterCompanyBottomStack>
+      <Stack>
+        <RegisterCheckbox
+          label={
+            <span
+              dangerouslySetInnerHTML={{
+                __html: `I agree to the <a href='${process.env.NEXT_PUBLIC_TERMS_OF_SERVICES}' target='_blank'>Terms of Services</a> and <a href='${process.env.NEXT_PUBLIC_PRIVACY_POLICY}' target='_blank'>Privacy Policy</a>`,
+              }}
+            />
+          }
+          size="small"
+          color="primary"
+          value={legalsChecked.commonLegal}
+          onValue={(v) =>
+            setLegalsChecked({ ...legalsChecked, commonLegal: v })
+          }
+        />
+        <RegisterCheckbox
+          label={
+            <span
+              dangerouslySetInnerHTML={{
+                __html: `I consent to Shared Vacay's processing of my special category data as per the <a href='${process.env.NEXT_PUBLIC_PRIVACY_POLICY}' target='_blank'>Privacy Policy</a>`,
+              }}
+            />
+          }
+          size="small"
+          color="primary"
+          value={legalsChecked.patientSpecificLegal}
+          onValue={(patientSpecificLegal) =>
+            setLegalsChecked({
+              ...legalsChecked,
+              patientSpecificLegal,
+            })
+          }
+        />
+      </Stack>
       <Button
         variant="contained"
         size="large"

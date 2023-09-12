@@ -29,7 +29,7 @@ export const PageLayoutContent = styled.div<{ theme?: Theme }>`
 export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: grid;
-    // place-items: center flex-start;
+    place-items: center flex-start;
     min-height: 100vh;
     width: 100%;
     
@@ -50,10 +50,17 @@ export const PageLayoutLeft = styled.div<{ theme?: Theme }>`
     `}
 `;
 
+export const PageLayoutRightContainer = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    height: 100vh;
+    overflow: hidden;
+    width: 100%;
+    `}
+`;
+
 export const PageLayoutRight = styled.img<{ theme?: Theme }>`
   ${({ theme }) => `
-      width: min(45%, 900px);
-      min-height: 100vh; 
+      width: 100%;
       object-fit: cover;
 
       ${theme.breakpoints.down('md')} {

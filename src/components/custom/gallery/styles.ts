@@ -75,4 +75,11 @@ export const SGalleryMainPhoto = styled.img`
 
 export const SplideMain = styled(Splide)``;
 
-export const SplideItem = styled(SplideSlide)``;
+export const ImageContainer = styled.div`
+  object-fit: cover;
+  overflow: hidden;
+`;
+
+export const SplideItem = styled(SplideSlide)`
+  cursor: pointer;
+`;

@@ -567,7 +567,7 @@ const OverviewPage = (props: any) => {
                   }}
                 />
                 <Input
-                  type="min-max"
+                  type="min-max-currency"
                   label="Budget per Share"
                   disabled={!isEditing}
                   value={{

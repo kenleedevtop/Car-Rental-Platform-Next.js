@@ -164,7 +164,7 @@ export const InputRow = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
     display: flex;
     gap: ${theme.spacing(2)};
-
+    align-items: center;
     ${theme.breakpoints.down('sm')} {
       display: grid;
       gap: ${theme.spacing(4)};

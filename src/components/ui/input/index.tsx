@@ -291,6 +291,52 @@ const Input = ({
           />
         </InputRow>
       )}
+      {type === 'min-max-currency' && (
+        <InputRow>
+          <InputText
+            type="number"
+            value={value.min}
+            onChange={handleMinMax('min')}
+            placeholder="Min"
+            multiline={multiline}
+            rows={rows}
+            minRows={minRows}
+            maxRows={maxRows}
+            variant="outlined"
+            error={error}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+            disabled={disabled}
+            InputProps={{
+              startAdornment,
+              endAdornment,
+              inputProps: { max: value.max },
+            }}
+          />
+          €&nbsp;
+          <InputText
+            type="number"
+            value={value.max}
+            onChange={handleMinMax('max')}
+            placeholder="Max"
+            multiline={multiline}
+            rows={rows}
+            minRows={minRows}
+            maxRows={maxRows}
+            variant="outlined"
+            error={error}
+            onBlur={handleBlur}
+            onFocus={handleFocus}
+            disabled={disabled}
+            InputProps={{
+              startAdornment,
+              endAdornment,
+              inputProps: { min: value.min },
+            }}
+          />
+          €
+        </InputRow>
+      )}
       {type === 'select' && (
         <InputSelect
           options={options}

@@ -54,24 +54,12 @@ const Login = () => {
           'User not verified, please check your email inbox'
         ) {
           openCrModal();
+        } else if (
+          e.response.data.message === 'Too many confirmation resend requests!'
+        ) {
+          openCrModal();
         } else {
-          if (router.locale === 'de-DE') {
-            if (
-              e.response.data.message ===
-              'The email address and password combination you entered is incorrect. Please try again or reset your password.'
-            ) {
-              pushSnackbar(
-                'Die eingegebene Kombination aus E-Mail-Adresse und Passwort ist falsch. Bitte versuchen Sie es erneut oder setzen Sie Ihr Passwort zurück.',
-                { variant: 'error' }
-              );
-            }
-            if (e.response.data.message === 'Too many requests') {
-              pushSnackbar('Zu viele Anfragen', { variant: 'error' });
-            }
-          }
-          if (router.locale === 'en-US') {
-            pushSnackbar(e.response.data.message, { variant: 'error' });
-          }
+          pushSnackbar(e.response.data.message, { variant: 'error' });
         }
       }
     }
