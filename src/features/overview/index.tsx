@@ -76,6 +76,7 @@ const OverviewPage = (props: any) => {
 
   const [applicationModal, openApplicationModal, closeApplicationModal] =
     useModal(false);
+  const [editModal, openEditModal, closeEditModal] = useModal(false);
 
   useEffect(() => {
     if (carId) {
@@ -187,8 +188,13 @@ const OverviewPage = (props: any) => {
               </InfoContainer>
               <PropertyButton>
                 {user.role === 'ADMIN' && (
-                  <Button variant="contained" color="primary">
-                    Book
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    style={{ width: '100%' }}
+                    onClick={openEditModal}
+                  >
+                    Edit
                   </Button>
                 )}
                 {user.role === 'USER' && (
@@ -266,6 +272,13 @@ const OverviewPage = (props: any) => {
           carId={carId}
           onClose={closeApplicationModal}
           houseName={houseData.name}
+        />
+      )}
+      {editModal && (
+        <EditProjectModal
+          carId={carId}
+          onClose={closeEditModal}
+          refresh={getCarDataById}
         />
       )}
     </OverviewMain>
