@@ -86,7 +86,9 @@ const Table = ({
                   );
                 }
                 return (
-                  <TableHeadCell key={x.reference}>{x.label}</TableHeadCell>
+                  <TableHeadCell index={index} key={x.reference}>
+                    {x.label}
+                  </TableHeadCell>
                 );
               })}
             </TableHeadRow>
@@ -106,7 +108,7 @@ const Table = ({
                     </TableBodyCell>
                   )}
                   {visibleItems.map((a: TTableHeadItem, b: number) => (
-                    <TableBodyCell key={b + b}>
+                    <TableBodyCell index={b} key={b + b}>
                       {renderItem({
                         headItem: a,
                         cell: {

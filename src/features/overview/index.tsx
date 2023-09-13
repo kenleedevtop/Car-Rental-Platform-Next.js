@@ -17,6 +17,8 @@ import {
   CardList,
   CardListItem,
   CardHighLightItemContainer,
+  PropertyButton,
+  InfoContainer,
 } from 'features/overview/styles';
 import { Gallery, Table, Tabs } from 'components/custom';
 import { Button, Card, Pagination } from 'components/ui';
@@ -33,6 +35,7 @@ import { useModal, usePagination } from 'hooks';
 import { useAppContext } from 'context';
 import { formatNumber } from 'utilities/extended-proto';
 import { ApplicationModal } from 'features/opportunities/role/user/elements';
+import { EditProjectModal } from 'features/opportunities/role/admin/elements';
 
 const OverviewPage = (props: any) => {
   const { carId } = props;
@@ -155,56 +158,64 @@ const OverviewPage = (props: any) => {
         <>
           <OverviewGridThree>
             <OverviewGridFirst>
-              <OverviewTextHeadline>Info</OverviewTextHeadline>
-              <CardItemContainer>
-                <CardItem>
-                  <CardItemLabel>Mileage</CardItemLabel>
-                  <CardItemValue>
-                    {formatNumber(parseFloat(houseData.mileage))} km
-                  </CardItemValue>
-                </CardItem>
-                <CardItem>
-                  <CardItemLabel>Year</CardItemLabel>
-                  <CardItemValue>
-                    {houseData.year
-                      ? format(new Date(houseData?.year), 'yyyy')
-                      : ''}
-                  </CardItemValue>
-                </CardItem>
-                <CardItem>
-                  <CardItemLabel>Engine Type</CardItemLabel>
-                  <CardItemValue>{houseData.engineType}</CardItemValue>
-                </CardItem>
-                <CardItem>
-                  <CardItemLabel>Engine Power</CardItemLabel>
-                  <CardItemValue>{houseData.enginePower} HP</CardItemValue>
-                </CardItem>
-              </CardItemContainer>
-              {user.role === 'ADMIN' && (
-                <Button variant="contained" color="primary">
-                  Book
-                </Button>
-              )}
-              {user.role === 'USER' && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={openApplicationModal}
-                >
-                  Apply
-                </Button>
-              )}
+              <InfoContainer>
+                <OverviewTextHeadline>Info</OverviewTextHeadline>
+                <CardHighLightItemContainer>
+                  <CardItem>
+                    <CardItemLabel>Mileage</CardItemLabel>
+                    <CardItemValue>
+                      {formatNumber(parseFloat(houseData.mileage))} km
+                    </CardItemValue>
+                  </CardItem>
+                  <CardItem>
+                    <CardItemLabel>Year</CardItemLabel>
+                    <CardItemValue>
+                      {houseData.year
+                        ? format(new Date(houseData?.year), 'yyyy')
+                        : ''}
+                    </CardItemValue>
+                  </CardItem>
+                  <CardItem>
+                    <CardItemLabel>Engine Type</CardItemLabel>
+                    <CardItemValue>{houseData.engineType}</CardItemValue>
+                  </CardItem>
+                  <CardItem>
+                    <CardItemLabel>Engine Power</CardItemLabel>
+                    <CardItemValue>{houseData.enginePower} HP</CardItemValue>
+                  </CardItem>
+                </CardHighLightItemContainer>
+              </InfoContainer>
+              <PropertyButton>
+                {user.role === 'ADMIN' && (
+                  <Button variant="contained" color="primary">
+                    Book
+                  </Button>
+                )}
+                {user.role === 'USER' && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={openApplicationModal}
+                  >
+                    Apply
+                  </Button>
+                )}
+              </PropertyButton>
             </OverviewGridFirst>
             <OverviewGridSecond>
               <OverviewTextHeadline>Location</OverviewTextHeadline>
-              <iframe
-                title="hu"
-                src={`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d44541.569961777575!2d${houseData.googleAddress?.gpslong}!3d${houseData.googleAddress?.gpslat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2srs!4v1692477523934!5m2!1sen!2srs`}
-                width="100%"
-                height="144px"
-                style={{ border: '0' }}
-                loading="lazy"
-              />
+              <figure>
+                <iframe
+                  title="hu"
+                  src={`http://maps.google.com/maps?q=${houseData.googleAddress?.gpslat},${houseData.googleAddress?.gpslong}&z=15&output=embed`}
+                  width="100%"
+                  allowFullScreen
+                  referrerPolicy="no-referrer-when-downgrade"
+                  height="200"
+                  style={{ border: '0' }}
+                  loading="lazy"
+                />
+              </figure>
             </OverviewGridSecond>
             <OverviewGridThird>
               <OverviewTextHeadline>Highlights</OverviewTextHeadline>
@@ -225,6 +236,7 @@ const OverviewPage = (props: any) => {
             <OverviewTextContainer>
               {houseData?.info && (
                 <OverviewTextContent
+                  className="html"
                   dangerouslySetInnerHTML={{ __html: houseData.info }}
                 />
               )}

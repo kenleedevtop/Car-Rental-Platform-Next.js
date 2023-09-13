@@ -42,10 +42,14 @@ export const TableBodyRow = styled.tr<{ theme?: Theme }>`
   `}
 `;
 
-export const TableHeadCell = styled.th<{ theme?: Theme; action?: string }>`
-  ${({ theme, action }) => `
+export const TableHeadCell = styled.th<{
+  theme?: Theme;
+  action?: string;
+  index?: number;
+}>`
+  ${({ theme, action, index }) => `
         padding: ${theme.spacing(5)};
-        text-align: center;
+        text-align: ${index === 0 ? 'left' : 'center'};
         color: ${theme.palette.primary.main};
         font-weight: 500;
         white-space: nowrap; 
@@ -60,7 +64,7 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: string }>`
           height: 100%;
           display: flex;
           align-items: center;
-          justify-content: flex-start;
+          justify-content: center;
           margin: 0;
           // padding-right: 0 !important;
           padding-right: unset;
@@ -78,10 +82,14 @@ export const TableHeadCell = styled.th<{ theme?: Theme; action?: string }>`
     `}
 `;
 
-export const TableBodyCell = styled.td<{ theme?: Theme; action?: string }>`
-  ${({ theme, action }) => `
+export const TableBodyCell = styled.td<{
+  theme?: Theme;
+  action?: string;
+  index?: number;
+}>`
+  ${({ theme, action, index }) => `
         padding: ${theme.spacing(5)};
-        text-align: center;
+        text-align: ${index === 0 ? 'left' : 'center'};
         color: ${theme.palette.common.gray[10]};
         white-space: nowrap; 
 

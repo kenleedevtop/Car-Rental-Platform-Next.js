@@ -20,7 +20,7 @@ export const OverviewTextContainer = styled.div`
 
 export const OverviewTextHeadline = styled.div<{ theme?: Theme }>`
   ${({ theme }) => `
-    font-size: 20px;
+    font-size: 28px;
     color: ${theme.palette.primary.main};
     font-weight: 700;
   `}
@@ -156,9 +156,18 @@ export const OverviewGridThree = styled.div`
   gap: 16px;
 `;
 
+export const PropertyButton = styled.div`
+  height: 50px;
+  display: flex;
+  width: 100%;
+`;
+
+export const InfoContainer = styled.div``;
+
 export const OverviewGridFirst = styled(Card)`
-  display: grid;
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export const OverviewGridSecond = styled(Card)`

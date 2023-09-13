@@ -1,3 +1,11 @@
 .pac-container {
   z-index: 10000 !important;
 }
+
+.html p {
+  color: #464e5f;
+}
+
+.html h1 {
+  color: #2d3779;
+}

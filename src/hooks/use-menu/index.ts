@@ -32,29 +32,12 @@ const useMenu = (initialState: boolean): any => {
 
     if (open) {
       overflowHiddenElement[0].style.overflowY = 'hidden';
-      overflowHiddenElement[0].style.paddingRight = '10px';
+      // overflowHiddenElement[0].style.paddingRight = '10px';
     } else {
       overflowHiddenElement[0].style.overflowY = 'auto';
-      overflowHiddenElement[0].style.paddingRight = '0';
+      // overflowHiddenElement[0].style.paddingRight = '0';
     }
   }, [open]);
-
-  // useEffect(() => {
-  //   const overflowHiddenElement = Array.from(
-  //     document.getElementsByClassName(
-  //       'overflow-y-hidden'
-  //       // eslint-disable-next-line no-undef
-  //     ) as HTMLCollectionOf<HTMLElement>
-  //   );
-
-  //   if (open) {
-  //     overflowHiddenElement[0].style.overflowY = 'hidden';
-  //     overflowHiddenElement[0].style.paddingRight = '10px';
-  //   } else {
-  //     overflowHiddenElement[0].style.overflowY = 'auto';
-  //     overflowHiddenElement[0].style.paddingRight = '0';
-  //   }
-  // }, [open]);
 
   useEffect(() => {
     const trackClick = (e: MouseEvent) => {
