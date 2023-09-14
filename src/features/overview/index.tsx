@@ -211,7 +211,7 @@ const OverviewPage = (props: any) => {
               <figure>
                 <iframe
                   title="hu"
-                  src={`http://maps.google.com/maps?q=${houseData.googleAddress?.gpslat},${houseData.googleAddress?.gpslong}&z=15&output=embed`}
+                  src={`https://maps.google.com/maps?q=${houseData.googleAddress?.gpslat},${houseData.googleAddress?.gpslong}&z=15&output=embed`}
                   width="100%"
                   allowFullScreen
                   referrerPolicy="no-referrer-when-downgrade"
