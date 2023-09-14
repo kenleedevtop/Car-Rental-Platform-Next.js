@@ -35,7 +35,7 @@ export const birthDateSchema = object().shape({
 
 export const nameSchema = object().shape({
   length: string().min(2).max(15),
-  pattern: string().matches(/^[a-zA-Z]+$/),
+  pattern: string().matches(/^[a-zA-Z ]*$/),
 });
 
 export const jobTitleSchema = object().shape({

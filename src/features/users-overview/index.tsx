@@ -160,6 +160,7 @@ const OverviewPage = (props: any) => {
   const [interestsInSupercars, setInterestsInSupercars] = useState<any[]>([]);
   const [interestsInShares, setInterestsInShares] = useState<any[]>([]);
   const [modelOptions, setModelOptions] = useState<any[]>([]);
+  const [prefLocations, setPrefLocations] = useState<any[]>([]);
 
   const getInterestsInSupercars = async () => {
     const result = ['1', '2', '3', '4', '5', '6', '7', '8'];
@@ -231,6 +232,18 @@ const OverviewPage = (props: any) => {
     );
   };
 
+  const getPrefLocationOptions = async (searchTerm: string = '') => {
+    const result = getLocations(searchTerm);
+    setPrefLocations(
+      result.map((name: string) => {
+        return {
+          value: name,
+          label: name,
+        };
+      })
+    );
+  };
+
   const getInteriorStyleOptions = async (searchTerm: string = '') => {
     const result = getInteriorStyles(searchTerm);
     setInteriorStyles(
@@ -272,6 +285,7 @@ const OverviewPage = (props: any) => {
   };
 
   const debouncedLocation = useDebounce(getLocationOptions, 100);
+  const debouncedPrefLocation = useDebounce(getPrefLocationOptions, 100);
 
   useEffect(() => {
     getLocationOptions();
@@ -284,6 +298,7 @@ const OverviewPage = (props: any) => {
     getBrandOptions();
     getInterestsInSupercars();
     getInterestsInShares();
+    getPrefLocationOptions();
   }, []);
 
   const updateUserInfo = async () => {
@@ -536,8 +551,8 @@ const OverviewPage = (props: any) => {
                   type="multiselect"
                   label="Location"
                   placeholder="Please Select"
-                  onSearch={debouncedLocation}
-                  options={locations}
+                  onSearch={debouncedPrefLocation}
+                  options={prefLocations}
                   disabled={!isEditing}
                   value={preference.location}
                   onValue={(location) => {

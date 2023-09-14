@@ -4,6 +4,7 @@ import {
   EmailConfirmationTitle,
   EmailButton,
 } from 'features/email-confirmation/styles';
+import { AxiosError } from 'axios';
 import { useSnackbar } from 'hooks';
 import { AuthorizationAPI } from 'api';
 import { useTranslation } from 'next-i18next';
@@ -12,6 +13,7 @@ import { useRouter } from 'next/router';
 const EmailConfirmation = () => {
   const { t } = useTranslation('email-confirmation');
   const { push } = useSnackbar();
+
   const [message, setMessage] = useState('');
 
   const { query, locale } = useRouter();
@@ -27,23 +29,11 @@ const EmailConfirmation = () => {
         setMessage('Welcome to Supercar Stake!');
       }
     } catch (e: any) {
-      if (locale === 'de-DE') {
-        push(
-          'Ihr Konto ist bereits aktiv. Bitte loggen Sie sich in Ihr Konto ein.',
-          {
-            variant: 'error',
-          }
-        );
-        setMessage(
-          'Ihr Konto ist bereits aktiv. Bitte loggen Sie sich in Ihr Konto ein.'
-        );
-      } else {
-        push('You account is already active. Please login to your account.', {
+      if (e instanceof AxiosError && e.response) {
+        push(e.response.data.message, {
           variant: 'error',
         });
-        setMessage(
-          'You account is already active. Please login to your account.'
-        );
+        setMessage(e.response.data.message);
       }
     }
   };

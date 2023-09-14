@@ -18,6 +18,7 @@ import { useAppContext } from 'context';
 import { ArrowDownIcon, BellIcon, LogoutIcon, MenuIcon } from 'components/svg';
 import { useMenu, useModal } from 'hooks';
 import { useRouter } from 'next/router';
+import { AuthorizationAPI } from 'api';
 
 const Navigation = ({ ...props }: TNavigationProps) => {
   const [menuRef, open, setOpen, buttonRef] = useMenu(false);
@@ -26,17 +27,20 @@ const Navigation = ({ ...props }: TNavigationProps) => {
 
   const router = useRouter();
 
-  const { logout, routeName, role, user, handleMobileMenu, showMobileMenu } =
+  const { routeName, role, user, handleMobileMenu, showMobileMenu } =
     useAppContext();
 
   const handleMenu = () => {
     setOpen(!open);
   };
-
-  const handleLogout = () => {
-    logout();
-    router.push('/login');
-    setOpen(!open);
+  const handleLogout = async () => {
+    await AuthorizationAPI.logout();
+    if (router) {
+      router.push('/login');
+    } else {
+      //@ts-ignore
+      window.location = '/login';
+    }
   };
 
   const handleSidebar = () => {

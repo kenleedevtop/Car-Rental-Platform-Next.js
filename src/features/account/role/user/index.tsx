@@ -155,10 +155,23 @@ const AccountPage = (props: any) => {
   const [engineTypes, setEngineTypes] = useState<any[]>([]);
   const [interestsInSupercars, setInterestsInSupercars] = useState<any[]>([]);
   const [interestsInShares, setInterestsInShares] = useState<any[]>([]);
+  const [prefLocations, setPrefLocations] = useState<any[]>([]);
 
   const getInterestsInSupercars = async () => {
     const result = ['1', '2', '3', '4', '5', '6', '7', '8'];
     setInterestsInSupercars(
+      result.map((name: string) => {
+        return {
+          value: name,
+          label: name,
+        };
+      })
+    );
+  };
+
+  const getPrefLocationOptions = async (searchTerm: string = '') => {
+    const result = getLocations(searchTerm);
+    setPrefLocations(
       result.map((name: string) => {
         return {
           value: name,
@@ -266,6 +279,7 @@ const AccountPage = (props: any) => {
     );
   };
 
+  const debouncedPrefLocation = useDebounce(getPrefLocationOptions, 100);
   const debouncedLocation = useDebounce(getLocationOptions, 100);
 
   useEffect(() => {
@@ -278,6 +292,7 @@ const AccountPage = (props: any) => {
     getAmenityOptions();
     getBrandOptions();
     getInterestsInSupercars();
+    getPrefLocationOptions();
     getInterestsInShares();
   }, []);
 
@@ -541,9 +556,9 @@ const AccountPage = (props: any) => {
                 <Input
                   type="multiselect"
                   label="Location"
-                  onSearch={debouncedLocation}
+                  onSearch={debouncedPrefLocation}
                   placeholder="Please Select"
-                  options={locations}
+                  options={prefLocations}
                   value={preference.location}
                   onValue={(location) => {
                     handleChangeCarPreference('location', location);

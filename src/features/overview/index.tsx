@@ -147,9 +147,7 @@ const OverviewPage = (props: any) => {
       </Stack>
 
       <Gallery
-        images={houseData.images.filter(
-          (item) => item.id !== houseData.thumbnailId
-        )}
+        images={houseData.images}
         thumbnail={houseData.images.find(
           (item) => item.id === houseData.thumbnailId
         )}

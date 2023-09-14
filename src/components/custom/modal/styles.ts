@@ -29,6 +29,8 @@ export const ModalWrapper = styled.div<{ theme?: Theme }>`
 export const ModalMain = styled(Card)<{ theme?: Theme; size: TModalSize }>`
   ${({ theme, size }) => `
     width: 100%;
+    max-height: 100%;
+    overflow: auto;
     max-width: ${sizes[size as keyof typeof sizes]}px;
     display: flex;
     flex-direction: column;

@@ -66,12 +66,10 @@ const Gallery = ({ thumbnail, images, ...props }: TGalleryProps) => {
                   <Image
                     alt="house photo"
                     src={`${Project.apis.v1}/public/images/${image?.key}`}
-                    width={1000}
-                    height={1000}
+                    width={1300}
                     priority={true}
+                    height={900}
                     style={{
-                      height: `${fullscreen ? '70%' : '200px'}`,
-                      width: `${fullscreen ? '70%' : '100%'}`,
                       objectFit: 'cover',
                     }}
                   />

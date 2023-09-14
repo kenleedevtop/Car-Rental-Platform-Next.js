@@ -105,9 +105,21 @@ const Input = ({
 
   const handleDate = (newValue: any) => {
     if (onValue) onValue(newValue);
-    if (errorCallback) errorCallback(false);
-    setErrorMessage('');
-    setError(false);
+    let errored = false;
+    for (let i = 0; i < validators.length; i += 1) {
+      const v = validators[i];
+      if (!v.validator(newValue)) {
+        setErrorMessage(v.message);
+        setError(true);
+        errored = true;
+        if (errorCallback) errorCallback(true);
+      }
+    }
+    if (!errored) {
+      setErrorMessage('');
+      setError(false);
+      if (errorCallback) errorCallback(false);
+    }
   };
 
   const handleMinMax = (key: 'min' | 'max') => (e: React.ChangeEvent<any>) => {

@@ -54,10 +54,6 @@ const Login = () => {
           'User not verified, please check your email inbox'
         ) {
           openCrModal();
-        } else if (
-          e.response.data.message === 'Too many confirmation resend requests!'
-        ) {
-          openCrModal();
         } else {
           pushSnackbar(e.response.data.message, { variant: 'error' });
         }
