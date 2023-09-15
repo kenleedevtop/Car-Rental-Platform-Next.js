@@ -71,11 +71,8 @@ const ConfirmRegistrationModal = ({
       </SConfirmRegistrationModalLink>
     </p>
   );
-
   useEffect(() => {
-    if (count === 0) {
-      setClicked(true);
-    }
+    setClicked(true);
   }, []);
 
   return (
