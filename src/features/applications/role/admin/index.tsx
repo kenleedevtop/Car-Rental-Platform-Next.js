@@ -220,6 +220,7 @@ const AdminApplicationsPage = () => {
           applicationId={application.id}
           userId={application.ownerId}
           status={application.status}
+          carId={application.carId}
           reload={applyFilters}
         />
       );

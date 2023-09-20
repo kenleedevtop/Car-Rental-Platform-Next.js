@@ -62,6 +62,7 @@ const ApplicationAPI = {
 
     return data;
   },
+  
 };
 
 export default ApplicationAPI;

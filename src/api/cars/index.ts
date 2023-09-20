@@ -1,5 +1,5 @@
 import Project from 'constants/project';
-import { TCreateCar } from 'api/cars/types';
+import { TCreateCar, TCreateCarOwner } from 'api/cars/types';
 
 import { client } from 'api/api-client';
 
@@ -9,7 +9,11 @@ const CarAPI = {
 
     return data;
   },
+  createCarOwner: async (body: TCreateCarOwner) => {
+    const { data } = await client.post(`${Project.apis.v1}/car-projects/car-ownership`, body);
 
+    return data;
+  },
   getAll: async (search?: string, status?: string) => {
     const { data } = await client.get(`${Project.apis.v1}/car-projects`, {
       params: {

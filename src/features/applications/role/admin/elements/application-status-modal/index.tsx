@@ -15,7 +15,7 @@ import {
   ApplicationStatusActionsMenu,
   ISpan,
 } from './styles';
-import { ApplicationAPI } from 'api';
+import { ApplicationAPI, CarAPI } from 'api';
 import { useRouter } from 'next/router';
 
 const ApplicationStatusActions = ({
@@ -23,6 +23,7 @@ const ApplicationStatusActions = ({
   applicationId,
   userId,
   status,
+  carId,
   ...props
 }: TApplicationStatusProps) => {
   const [menu, open, setOpen, buttonRef, position] = useMenu(false);
@@ -36,6 +37,14 @@ const ApplicationStatusActions = ({
   const handleChange = async (status: string) => {
     try {
       await ApplicationAPI.updateApplication({ status }, applicationId);
+
+      // const data = {
+      //   carId: carId ? carId : 1,
+      //   userId: userId ? userId : 1,
+      // };
+      // if (status == 'Ownership' && userId && carId)
+      //   await CarAPI.createCarOwner(data);
+
       reload();
       push(`Application status changed to  ${status} successfully!`, {
         variant: 'success',

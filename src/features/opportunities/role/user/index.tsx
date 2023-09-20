@@ -66,14 +66,12 @@ const UserMarketPage = () => {
       case 0:
         const primary = await getAllCars('', 'Primary');
         const myapplications = await getApplications();
-
         primary.forEach((car: ICar) => {
           const matchingApplication = myapplications.find((application: any) => application.carId === car.id);
           if (matchingApplication) {
             car.applicationStatus = matchingApplication.status;
           }
         });
-        console.log(primary)
         setPrimaryCars(primary);
         break;
       case 1:
@@ -85,9 +83,13 @@ const UserMarketPage = () => {
         setCompletedCars(completed);
         break;
       case 3:
-        const mine = await getMineCars();
-        if (mine)
-          setMyCars(mine.map((carObj: any) => carObj.car));
+        const allCars = await getAllCars('', '');
+        const _myapplications = await getApplications();
+        const ownershipCars = allCars.filter((car: any) => {
+          const application = _myapplications.find((app: any) => app.carId === car.id);
+          return application && application.status === "Ownership";
+        });
+        setMyCars(ownershipCars);
         break;
       default:
         break;

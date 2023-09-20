@@ -19,6 +19,10 @@ export type TCreateCar = {
   thumbnailId: number | null;
   addressId: number | null;
 };
+export type TCreateCarOwner = {
+  userId: number;
+  carId: number;
+};
 
 export type TSingleCar = {
   id: number;
