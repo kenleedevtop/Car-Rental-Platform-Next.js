@@ -269,7 +269,10 @@ const OverviewPage = (props: any) => {
         <ApplicationModal
           carId={carId}
           onClose={closeApplicationModal}
-          houseName={houseData.name}
+          carName={houseData.name}
+          refresh={() => {}}
+          availableShares={5}
+          sharePrice={1500}
         />
       )}
       {editModal && (

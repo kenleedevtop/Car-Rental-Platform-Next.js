@@ -14,10 +14,12 @@ const ExportFinanceModal = ({
   refresh,
   carId,
   carName,
+  availableShares,
+  sharePrice,
   ...props
 }: TApplyModalProps) => {
   const [state, setState] = useState();
-  const [totalPrice, setTotalPrice] = useState();
+  const [totalPrice, setTotalPrice] = useState('');
   const [shares, setShares] = useState({ label: '', value: 0 });
   const { push } = useSnackbar();
   const sendApplication = async () => {
@@ -59,14 +61,15 @@ const ExportFinanceModal = ({
         <Input
           type="select"
           label="Shares"
-          options={Array.from({ length: props.availableShares }, (_, i) => ({
+          options={Array.from({ length: availableShares ? availableShares : 0 }, (_, i) => ({
             label: `${i + 1}`,
             value: `${i + 1}`,
           }))}
           value={shares}
           onValue={(e) => {
             if (e) {
-              setTotalPrice(e.value * props.sharePrice);
+              const tmp = sharePrice ? sharePrice : 0;
+              setTotalPrice((e.value * tmp).toString());
               setShares({ label: e.value, value: parseInt(e.value) });
             } else {
               setTotalPrice('');

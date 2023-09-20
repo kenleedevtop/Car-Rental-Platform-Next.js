@@ -157,9 +157,9 @@ const PropertyCard = ({
         <ApplicationModal
           carId={house.id}
           onClose={closeApplicationModal}
+          refresh={refresh}
           carName={house.name}
           availableShares={house.availableShares}
-          refresh={refresh}
           sharePrice={house.sharePrice}
         />
       )}
