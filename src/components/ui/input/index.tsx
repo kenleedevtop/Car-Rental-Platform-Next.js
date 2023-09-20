@@ -23,7 +23,7 @@ import kebabCase from 'utilities/kebab-case';
 const Input = ({
   label,
   type = 'text',
-  value,
+  value = '',
   onValue,
   min,
   max,

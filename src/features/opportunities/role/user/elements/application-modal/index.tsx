@@ -6,9 +6,37 @@ import {
   RTEContainer,
 } from 'features/opportunities/role/admin/elements/add-project-modal/style';
 import { Button, Input } from 'components/ui';
+import { ApplicationAPI } from 'api';
+import { useMenu, useModal, useSnackbar } from 'hooks';
 
-const ExportFinanceModal = ({ onClose, ...props }: TApplyModalProps) => {
+const ExportFinanceModal = ({
+  onClose,
+  refresh,
+  carId,
+  carName,
+  ...props
+}: TApplyModalProps) => {
   const [state, setState] = useState();
+  const [totalPrice, setTotalPrice] = useState();
+  const [shares, setShares] = useState({ label: '', value: 0 });
+  const { push } = useSnackbar();
+  const sendApplication = async () => {
+    try {
+      const data = {
+        carId: carId,
+        carName: carName,
+        sharesCount: shares.value,
+      };
+      const car = await ApplicationAPI.apply(data);
+      onClose();
+      refresh();
+      push('Successfully sent application.', { variant: 'success' });
+    } catch {
+      push('Something went wrong when create application.', {
+        variant: 'error',
+      });
+    }
+  };
 
   return (
     <Modal
@@ -19,7 +47,7 @@ const ExportFinanceModal = ({ onClose, ...props }: TApplyModalProps) => {
           color="primary"
           variant="contained"
           size="large"
-          onClick={onClose}
+          onClick={sendApplication}
         >
           Apply
         </Button>,
@@ -29,16 +57,28 @@ const ExportFinanceModal = ({ onClose, ...props }: TApplyModalProps) => {
     >
       <AddProjectModalMain>
         <Input
-          type="text"
+          type="select"
           label="Shares"
-          value=""
-          onValue={() => {}}
+          options={Array.from({ length: props.availableShares }, (_, i) => ({
+            label: `${i + 1}`,
+            value: `${i + 1}`,
+          }))}
+          value={shares}
+          onValue={(e) => {
+            if (e) {
+              setTotalPrice(e.value * props.sharePrice);
+              setShares({ label: e.value, value: parseInt(e.value) });
+            } else {
+              setTotalPrice('');
+              setShares({ label: '', value: 0 });
+            }
+          }}
           placeholder="Please Select"
         />
         <Input
-          type="select"
+          type="text"
           label="Total Price"
-          value=""
+          value={totalPrice}
           onValue={() => {}}
           placeholder="Please Select"
         />

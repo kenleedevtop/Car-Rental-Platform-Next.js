@@ -2,9 +2,9 @@ import { ICar } from 'api/cars/types';
 import { IUser } from 'api/users/types';
 
 export type TCreateAsApplicationParams = {
-  tier: string;
   carId: number;
-  houseName: string;
+  carName: string;
+  sharesCount: number;
 };
 
 export type TSingleApplication = {

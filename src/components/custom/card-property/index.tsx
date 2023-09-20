@@ -21,7 +21,7 @@ import { TPropertyCardProps } from 'components/custom/card-property/types';
 import { formatNumber } from 'utilities/extended-proto';
 import { CarretDownIcon, EditIcon, CarIcon } from 'components/svg';
 import { Button } from 'components/ui';
-import { useMenu, useModal } from 'hooks';
+import { useMenu, useModal, useSnackbar } from 'hooks';
 import { convertLocationToFlag } from 'utilities/converters';
 import Project from 'constants/project';
 import { ApplicationModal } from 'features/opportunities/role/user/elements';
@@ -157,7 +157,10 @@ const PropertyCard = ({
         <ApplicationModal
           carId={house.id}
           onClose={closeApplicationModal}
-          houseName={house.name}
+          carName={house.name}
+          availableShares={house.availableShares}
+          refresh={refresh}
+          sharePrice={house.sharePrice}
         />
       )}
     </CardMain>
