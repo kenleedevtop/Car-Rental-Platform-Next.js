@@ -36,7 +36,7 @@ const AdminApplicationsPage = () => {
   const [status, setStatus] = useState<any[]>([]);
 
   const [filterOpen, setFilterOpen] = useState(false);
-
+  console.log(totalColumnItems);
   const [
     bookingOverviewModal,
     openBookingOverviewModal,
@@ -124,6 +124,7 @@ const AdminApplicationsPage = () => {
   const applyFilters = () => {
     getAllApplications()
       .then((data) => {
+        
         let applications = data;
         const max = filter.applications.max;
         const min = filter.applications.min;

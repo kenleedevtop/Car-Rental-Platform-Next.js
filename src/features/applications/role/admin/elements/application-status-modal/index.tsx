@@ -56,33 +56,25 @@ const ApplicationStatusActions = ({
     },
     {
       icon: <ApproveIcon />,
-      label: 'Shortlist',
+      label: 'Paid',
       action: () => {
-        handleChange('Shortlist');
+        handleChange('Paid');
         handleMenu();
       },
     },
     {
       icon: <DeclineIcon />,
-      label: 'Reject',
+      label: 'Ownership',
       action: () => {
-        handleChange('Reject');
+        handleChange('Ownership');
         handleMenu();
       },
     },
     {
       icon: <RecommendedIcon />,
-      label: 'Select',
+      label: 'Withdrawn',
       action: () => {
-        handleChange('Select');
-        handleMenu();
-      },
-    },
-    {
-      icon: <WithoutReportIcon />,
-      label: 'Accomodate',
-      action: () => {
-        handleChange('Accomodate');
+        handleChange('Withdrawn');
         handleMenu();
       },
     },

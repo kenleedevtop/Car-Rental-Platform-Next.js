@@ -10,7 +10,6 @@ import { IUser } from 'api/users/types';
 
 const ApplicationAPI = {
   apply: async (body: TCreateAsApplicationParams) => {
-    console.log(body);
     const { data } = await client.post(`${Project.apis.v1}/applications`, body);
 
     return data;
