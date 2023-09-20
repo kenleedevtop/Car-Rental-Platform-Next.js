@@ -9,11 +9,13 @@ import {
   CardAddress,
   CardAddressSmall,
   CardTitle,
+  CardStatus,
   CardCompletedMark,
   TableMenu,
   ISpan,
   CardLink,
   IDownArrow,
+  CardStatusLabel,
 } from 'components/custom/card-property/styles';
 import Image from 'next/image';
 
@@ -99,13 +101,18 @@ const PropertyCard = ({
             {house.location}
           </CardAddress>
           <CardTitle>{house.name}</CardTitle>
+          {house.applicationStatus &&
+            <CardStatus>
+              <CardStatusLabel>Status</CardStatusLabel>
+              {house.applicationStatus}
+            </CardStatus>}
         </CardLink>
         {!dropdown && (
           <Button
             color="primary"
             variant="contained"
             size="large"
-            disabled={completed}
+            disabled={completed || label == 'Applied'}
             onClick={openApplicationModal}
           >
             {label}

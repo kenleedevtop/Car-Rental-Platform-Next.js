@@ -9,6 +9,7 @@ import { ICar } from 'api/cars/types';
 import CarAPI from 'api/cars';
 import { SellModal } from './elements';
 import { useAppContext } from 'context';
+import { ApplicationAPI } from 'api';
 
 const UserMarketPage = () => {
   const { houseStatus } = useAppContext();
@@ -21,14 +22,13 @@ const UserMarketPage = () => {
   const [primaryCars, setPrimaryCars] = useState<ICar[]>([]);
   const [secondaryCars, setSecondaryCars] = useState<ICar[]>([]);
   const [completedCars, setCompletedCars] = useState<ICar[]>([]);
-
+  const [myCars, setMyCars] = useState<ICar[]>([]);
   const getAllCars = async (search: string, status: string): Promise<any> => {
     try {
       const response = await CarAPI.getAll(search, status);
       if (response) {
         return response;
       }
-
       throw new Error('Error: Failed to fetch data!');
     } catch (error) {
       push('Something went wrong!', { variant: 'error' });
@@ -48,10 +48,32 @@ const UserMarketPage = () => {
     }
   };
 
+  const getApplications = async () => {
+    try {
+      const response = await ApplicationAPI.getApplicationsByUserID();
+      if (response) {
+        return response;
+      }
+
+      throw new Error('Error: Failed to fetch data!');
+    } catch (error) {
+      push('Something went wrong!', { variant: 'error' });
+    }
+  };
+
   const refresh = async () => {
     switch (tab) {
       case 0:
         const primary = await getAllCars('', 'Primary');
+        const myapplications = await getApplications();
+
+        primary.forEach((car: ICar) => {
+          const matchingApplication = myapplications.find((application: any) => application.carId === car.id);
+          if (matchingApplication) {
+            car.applicationStatus = matchingApplication.status;
+          }
+        });
+        console.log(primary)
         setPrimaryCars(primary);
         break;
       case 1:
@@ -64,9 +86,9 @@ const UserMarketPage = () => {
         break;
       case 3:
         const mine = await getMineCars();
-        setCompletedCars(mine);
+        if (mine)
+          setMyCars(mine.map((carObj: any) => carObj.car));
         break;
-
       default:
         break;
     }
@@ -104,7 +126,7 @@ const UserMarketPage = () => {
                 )}
                 house={house}
                 refresh={refresh}
-                label="Apply"
+                label={house.applicationStatus ? "Applied" : "Apply"}
               />
             );
           })}
@@ -143,6 +165,24 @@ const UserMarketPage = () => {
                 refresh={refresh}
                 label="Apply"
                 completed
+              />
+            );
+          })}
+        </ProjectsGrid>
+      )}
+      {tab === 3 && (
+        <ProjectsGrid>
+          {myCars?.map((car: ICar) => {
+            return (
+              <PropertyCard
+                key={car.id}
+                link={`/cars/overview?carId=${car.id}`}
+                image={car.images.find(
+                  (item) => item.id === car.thumbnailId
+                )}
+                house={car}
+                refresh={refresh}
+                label="Book"
               />
             );
           })}

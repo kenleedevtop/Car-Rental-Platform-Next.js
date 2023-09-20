@@ -29,7 +29,7 @@ const AdminApplicationsPage = () => {
   const [filter, setFilter] = useState<any>(DApplicationsFilters());
   const [totalColumnItems, setTotalColumnItems] = useState<any[]>([]);
   const [checkedusers, setCheckedUsers] = useState<number[]>([]);
-  const [applicationStatues, setApplicationStatues] = useState<any[]>([]);
+  const [applicationStates, setApplicationStates] = useState<any[]>([]);
   const [locations, setLocations] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [supercars, setSupercars] = useState<any[]>([]);
@@ -108,7 +108,7 @@ const AdminApplicationsPage = () => {
   };
 
   const getApplicationStatues = async () => {
-    setApplicationStatues(
+    setApplicationStates(
       DApplicationStatues.map((type: any) => ({
         value: type.name,
         label: type.name,
@@ -124,7 +124,7 @@ const AdminApplicationsPage = () => {
   const applyFilters = () => {
     getAllApplications()
       .then((data) => {
-        
+
         let applications = data;
         const max = filter.applications.max;
         const min = filter.applications.min;

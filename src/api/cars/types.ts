@@ -38,6 +38,7 @@ export interface ICar {
   id: number;
   name: string;
   location: string;
+  applicationStatus : string;
   totalShares: number | null;
   availableShares: number | null;
   sharePrice: number | null;

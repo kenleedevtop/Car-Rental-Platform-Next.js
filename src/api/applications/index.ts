@@ -25,6 +25,12 @@ const ApplicationAPI = {
     return data;
   },
 
+  getApplicationsByUserID: async () => {
+    const { data } = await client.get(`${Project.apis.v1}/applications/my-applications`);
+
+    return data;
+  },
+
   getSingleApplication: async (id: any): Promise<IUser> => {
     const { data } = await client.get(`${Project.apis.v1}/applications/${id}`);
 

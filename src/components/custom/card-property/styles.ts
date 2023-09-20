@@ -111,6 +111,24 @@ export const CardTitle = styled.div<{ theme?: Theme }>`
   `}
 `;
 
+export const CardStatus = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    font-size: 18px;
+    font-weight: 700;
+    color: ${theme.palette.secondary.main};
+  `}
+`;
+export const CardStatusLabel = styled.div<{ theme?: Theme }>`
+  ${({ theme }) => `
+
+    font-size: 14px;
+    font-weight: 400;
+    color: ${theme.palette.grey[700]};
+  `}
+`;
 export const CardProgressBarPopup = styled.div`
   padding: 16px;
   background: #fff;
