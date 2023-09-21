@@ -6,7 +6,7 @@ import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { useAppContext } from 'context';
 import { ApplicationAPI } from 'api';
-import BookingAPI from 'api/booking';
+import BookingAPI from 'api/bookings';
 import { useSnackbar } from 'hooks';
 
 const ChangePasswordModal = ({

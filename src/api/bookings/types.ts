@@ -7,9 +7,7 @@ export type TCreateAsBookingParams = {
   to: string;
 };
 
-export type TSingleApplication = {
-  id: number;
-};
+
 
 export interface IBooking {
   id: number;

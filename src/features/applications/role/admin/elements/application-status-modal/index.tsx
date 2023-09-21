@@ -38,18 +38,19 @@ const ApplicationStatusActions = ({
     try {
       await ApplicationAPI.updateApplication({ status }, applicationId);
 
-      // const data = {
-      //   carId: carId ? carId : 1,
-      //   userId: userId ? userId : 1,
-      // };
-      // if (status == 'Ownership' && userId && carId)
-      //   await CarAPI.createCarOwner(data);
-
+      const data = {
+        carId: carId ? carId : 1,
+        userId: userId ? userId : 1,
+      };
+      if (status == 'Ownership' && userId && carId) {
+        await CarAPI.createCarOwner(data);
+      }
       reload();
       push(`Application status changed to  ${status} successfully!`, {
         variant: 'success',
       });
     } catch (e: any) {
+      reload();
       push(e.response.data.message, { variant: 'error' });
     }
   };

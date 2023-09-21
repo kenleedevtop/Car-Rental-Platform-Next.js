@@ -2,8 +2,7 @@
 import Project from 'constants/project';
 import {
   TCreateAsBookingParams,
-  TSingleApplication,
-} from 'api/booking/types';
+} from 'api/bookings/types';
 
 import { client } from 'api/api-client';
 

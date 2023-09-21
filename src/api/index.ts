@@ -7,3 +7,5 @@ export { default as CarPreferenceAPI } from 'api/supercarPreference';
 export { default as ImagesAPI } from 'api/images';
 export { default as DocumentsAPI } from 'api/documents';
 export { default as UsersAPI } from 'api/users';
+export { default as ShareAPI } from 'api/shares';
+export { default as BookingAPI } from 'api/bookings';

@@ -376,10 +376,10 @@ const AdminApplicationsPage = () => {
       </Stack>
 
       {bookingOverviewModal && (
-        <BookingOverviewModal onClose={closeBookingOverviewModal} />
+        <BookingOverviewModal onClose={closeBookingOverviewModal} car={null}/>
       )}
       {transferOwnershipModal && (
-        <TransferOwnershipModal onClose={closeTransferOwnershipModal} />
+        <TransferOwnershipModal onClose={closeTransferOwnershipModal} car={null}/>
       )}
     </ProjectsMain>
   );

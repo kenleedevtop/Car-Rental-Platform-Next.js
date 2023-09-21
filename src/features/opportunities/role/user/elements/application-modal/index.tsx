@@ -6,7 +6,7 @@ import {
   RTEContainer,
 } from 'features/opportunities/role/admin/elements/add-project-modal/style';
 import { Button, Input } from 'components/ui';
-import { ApplicationAPI } from 'api';
+import { ApplicationAPI, ShareAPI } from 'api';
 import { useSnackbar } from 'hooks';
 
 const ExportFinanceModal = ({
@@ -29,7 +29,15 @@ const ExportFinanceModal = ({
         carName: carName,
         sharesCount: shares.value,
       };
+
+      const shareData = {
+        count: shares.value,
+        weekendDays: carName,
+        sharesCount: shares.value,
+      };
+
       const car = await ApplicationAPI.apply(data);
+      const share = await ShareAPI.createShare(shareData);
       onClose();
       refresh();
       push('Successfully sent application.', { variant: 'success' });
