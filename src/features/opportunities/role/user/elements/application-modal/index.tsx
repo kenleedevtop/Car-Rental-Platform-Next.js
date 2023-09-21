@@ -8,6 +8,7 @@ import {
 import { Button, Input } from 'components/ui';
 import { ApplicationAPI, ShareAPI } from 'api';
 import { useSnackbar } from 'hooks';
+import { useAppContext } from 'context';
 
 const ExportFinanceModal = ({
   onClose,
@@ -16,12 +17,15 @@ const ExportFinanceModal = ({
   carName,
   availableShares,
   sharePrice,
+  totalShares,
   ...props
 }: TApplyModalProps) => {
   const [state, setState] = useState();
   const [totalPrice, setTotalPrice] = useState('');
   const [shares, setShares] = useState({ label: '', value: 0 });
   const { push } = useSnackbar();
+  const { user } = useAppContext();
+
   const sendApplication = async () => {
     try {
       const data = {
@@ -29,14 +33,16 @@ const ExportFinanceModal = ({
         carName: carName,
         sharesCount: shares.value,
       };
-
+      const car = await ApplicationAPI.apply(data);
       const shareData = {
         count: shares.value,
-        weekendDays: carName,
-        sharesCount: shares.value,
+        weekendDays: 13 * shares.value,
+        reservedDays: 0,
+        carId: carId,
+        applicationId: car.id,
+        availableDays: totalShares ? 300 * shares.value / totalShares : 10,
+        ownerId: user.id,
       };
-
-      const car = await ApplicationAPI.apply(data);
       const share = await ShareAPI.createShare(shareData);
       onClose();
       refresh();
@@ -90,7 +96,7 @@ const ExportFinanceModal = ({
           type="text"
           label="Total Price"
           value={totalPrice}
-          onValue={() => {}}
+          onValue={() => { }}
           placeholder="Please Select"
         />
         <RTEContainer>

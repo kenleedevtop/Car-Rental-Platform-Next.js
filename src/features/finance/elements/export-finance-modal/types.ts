@@ -7,6 +7,7 @@ export type TApplyModalProps = React.HTMLAttributes<HTMLDivElement> & {
   carName: string;
   availableShares : number | null;
   sharePrice : number | null;
+  totalShares : number | null;
 };
 
 export type TExportFinanceModalProps = React.HTMLAttributes<HTMLDivElement> & {

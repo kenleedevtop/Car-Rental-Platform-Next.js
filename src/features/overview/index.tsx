@@ -46,6 +46,7 @@ const OverviewPage = (props: any) => {
     id: -1,
     name: '',
     location: '',
+    applicationStatus:'',
     totalShares: null,
     availableShares: null,
     sharePrice: null,
@@ -273,6 +274,7 @@ const OverviewPage = (props: any) => {
           refresh={() => {}}
           availableShares={5}
           sharePrice={1500}
+          totalShares={10}
         />
       )}
       {editModal && (
