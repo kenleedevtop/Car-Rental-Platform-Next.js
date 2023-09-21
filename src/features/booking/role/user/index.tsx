@@ -232,7 +232,7 @@ const UserApplicationsPage = () => {
           <Pagination count={32} />
         </Stack>
       </CardWithText>
-      {bookingModal && <BookingModal onClose={closeBookingModal} />}
+      {bookingModal && <BookingModal onClose={closeBookingModal} car={null}/>}
     </ProjectsMain>
   );
 };

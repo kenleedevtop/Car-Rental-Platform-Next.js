@@ -67,7 +67,7 @@ const AccountPage = ({ ...props }) => {
           </AccountChange>
         </AccountForm>
       </AccountContainer>
-      {cpModal && <ChangePasswordModal onClose={closeCpModal} />}
+      {cpModal && <ChangePasswordModal onClose={closeCpModal} car={null}/>}
     </AccountMain>
   );
 };

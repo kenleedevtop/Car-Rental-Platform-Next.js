@@ -28,7 +28,7 @@ import { convertLocationToFlag } from 'utilities/converters';
 import Project from 'constants/project';
 import { ApplicationModal } from 'features/opportunities/role/user/elements';
 import { EditProjectModal } from 'features/opportunities/role/admin/elements';
-
+import { BookingModal } from 'features/booking/role/user/elements';
 const PropertyCard = ({
   image,
   house,
@@ -43,6 +43,9 @@ const PropertyCard = ({
   const [editModal, openEditModal, closeEditModal] = useModal(false);
   const [applicationModal, openApplicationModal, closeApplicationModal] =
     useModal(false);
+
+  const [bookingModal, openBookingModal, closeBookingModal] = useModal(false);
+
 
   const [flagUrl, setFlagUrl] = useState<string>();
   const router = useRouter();
@@ -113,7 +116,7 @@ const PropertyCard = ({
             variant="contained"
             size="large"
             disabled={completed || label == 'Applied'}
-            onClick={openApplicationModal}
+            onClick={() => { label == 'Book' ? openBookingModal() : openApplicationModal() }}
           >
             {label}
           </Button>
@@ -170,6 +173,7 @@ const PropertyCard = ({
           sharePrice={house.sharePrice}
         />
       )}
+      {bookingModal && <BookingModal onClose={closeBookingModal} car={house} />}
     </CardMain>
   );
 };

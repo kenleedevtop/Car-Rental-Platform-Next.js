@@ -479,7 +479,7 @@ const AccountPage = (props: any) => {
                   </AccountSpan>
                 </AccountChange>
               </AccountGrid>
-              {cpModal && <ChangePasswordModal onClose={closeCpModal} />}
+              {cpModal && <ChangePasswordModal onClose={closeCpModal} car={null}/>}
               <AccountGrid>
                 <Input
                   type="select"

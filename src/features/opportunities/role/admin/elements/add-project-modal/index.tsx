@@ -348,9 +348,9 @@ const AddCarProjectModal = ({
               value={
                 superCarData.location
                   ? {
-                      label: superCarData.location,
-                      value: superCarData.location,
-                    }
+                    label: superCarData.location,
+                    value: superCarData.location,
+                  }
                   : null
               }
               onValue={(location) =>
@@ -533,8 +533,10 @@ const AddCarProjectModal = ({
               placeholder="Please Select"
               value={superCarData?.startDate}
               errorCallback={handleErrors(8)}
-              onValue={(startDate) =>
+              onValue={(startDate) => {
+                console.log(startDate);
                 setCarData({ ...superCarData, startDate })
+              }
               }
               validators={[
                 {
@@ -590,9 +592,9 @@ const AddCarProjectModal = ({
               value={
                 superCarData.engineType
                   ? {
-                      label: superCarData.engineType,
-                      value: superCarData.engineType,
-                    }
+                    label: superCarData.engineType,
+                    value: superCarData.engineType,
+                  }
                   : null
               }
               onValue={(engineType) =>
@@ -657,9 +659,9 @@ const AddCarProjectModal = ({
               value={
                 superCarData.status
                   ? {
-                      label: superCarData.status,
-                      value: superCarData.status,
-                    }
+                    label: superCarData.status,
+                    value: superCarData.status,
+                  }
                   : null
               }
               onValue={(status) =>

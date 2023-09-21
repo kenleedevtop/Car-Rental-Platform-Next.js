@@ -7,7 +7,7 @@ import {
 } from 'features/opportunities/role/admin/elements/add-project-modal/style';
 import { Button, Input } from 'components/ui';
 import { ApplicationAPI } from 'api';
-import { useMenu, useModal, useSnackbar } from 'hooks';
+import { useSnackbar } from 'hooks';
 
 const ExportFinanceModal = ({
   onClose,
