@@ -1,4 +1,5 @@
 import { ICar } from 'api/cars/types';
+import { IShare } from 'api/shares/types';
 import { IUser } from 'api/users/types';
 
 export type TCreateAsBookingParams = {
@@ -7,15 +8,17 @@ export type TCreateAsBookingParams = {
   to: string;
 };
 
-
-
 export interface IBooking {
   id: number;
+  from: string;
+  to: string;
   status: string;
   ownerId: number | null;
+  owner: IUser;
   carId: number | null;
   car: ICar;
-  owner: IUser;
+  shareId: number | null;
+  share: IShare;
   createdAt: string;
   updatedAt: string;
 }

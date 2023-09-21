@@ -25,7 +25,6 @@ const BookingAPI = {
 
   getMyBookings: async () => {
     const { data } = await client.get(`${Project.apis.v1}/bookings/my-bookings`);
-
     return data;
   },
 

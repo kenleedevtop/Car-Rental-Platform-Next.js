@@ -1,4 +1,4 @@
-import React, { useState, Children } from 'react';
+import React, { useState, useEffect, Children, useMemo } from 'react';
 import {
   ProjectsMain,
   MarketPageFilter,
@@ -20,32 +20,16 @@ import {
 import { faker } from '@faker-js/faker';
 import { HomePageCharts, HomePageChartsGrid } from 'features/booking/styles';
 import { BookingModal } from 'features/booking/role/user/elements';
-import { useModal } from 'hooks';
+import { useModal, usePagination, useSnackbar } from 'hooks';
+import { BookingAPI } from 'api';
+import { format } from 'date-fns';
+import { IBooking } from 'api/bookings/types';
 
 const UserApplicationsPage = () => {
-  const renderItem = ({ headItem }: TTableRenderItemObject) => {
-    if (headItem.reference === 'boat') {
-      return '2.5 Bedroom Apartment';
-    }
-    if (headItem.reference === 'location') {
-      return 'Barcelona, Spain';
-    }
-    if (headItem.reference === 'startDate') {
-      return '1.5.2023';
-    }
-    if (headItem.reference === 'endDate') {
-      return '10.5.2023';
-    }
-    if (headItem.reference === 'actions') {
-      return <VerticalDotsIcon />;
-    }
-
-    return '';
-  };
-
+  const [totalColumnItems, setTotalColumnItems] = useState<any[]>([]);
   const [filter, setFilter] = useState<any>(DBookingFilters());
-
   const [filterOpen, setFilterOpen] = useState(false);
+  const { push } = useSnackbar();
 
   const toggleFilter = () => {
     setFilterOpen(!filterOpen);
@@ -55,6 +39,64 @@ const UserApplicationsPage = () => {
     setFilter(DBookingFilters());
   };
 
+
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    const booking = row.data as IBooking;
+    if (headItem.reference === 'car') {
+      return booking.car.name;
+    }
+    if (headItem.reference === 'location') {
+      return booking.car.location;
+    }
+    if (headItem.reference === 'startDate') {
+      return format(new Date(booking.from), 'MM/dd/yyyy');
+    }
+    if (headItem.reference === 'endDate') {
+      return format(new Date(booking.to), 'MM/dd/yyyy');
+    }
+    if (headItem.reference === 'actions') {
+      return <VerticalDotsIcon />;
+    }
+    return '';
+  };
+
+
+  const getAllBookings = async (): Promise<any> => {
+    try {
+      const response = await BookingAPI.getMyBookings();
+      if (response) {
+        return response;
+      }
+      throw new Error('Error: Failed to fetch data!');
+    } catch (error) {
+      push('Something went wrong!', { variant: 'error' });
+    }
+  };
+
+  useEffect(() => {
+    getAllBookings()
+      .then((data) => setTotalColumnItems(data))
+      .catch((error) => push('Something went wrong!', { variant: 'error' }));
+  }, []);
+
+  const PageSize = 10;
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: PageSize,
+      page: 1,
+      onChange: async (params, setPage) => {
+        setPage(params.page);
+        setTotalResults(totalColumnItems?.length);
+      },
+    });
+
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (page - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return totalColumnItems?.slice(firstPageIndex, lastPageIndex);
+  }, [page, totalColumnItems, PageSize]);
+
+  console.log(currentTableData);
   const [bookingModal, openBookingModal, closeBookingModal] = useModal(false);
 
   return (
@@ -195,44 +237,16 @@ const UserApplicationsPage = () => {
           </Collapse>
           <Table
             head={DBookingsHead}
-            items={[
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-            ]}
+            items={currentTableData}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            count={pagesCount}
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page} />
         </Stack>
       </CardWithText>
-      {bookingModal && <BookingModal onClose={closeBookingModal} car={null}/>}
+      {bookingModal && <BookingModal onClose={closeBookingModal} car={null} />}
     </ProjectsMain>
   );
 };

@@ -200,7 +200,7 @@ const AdminApplicationsPage = () => {
       return application.owner.location;
     }
     if (headItem.reference === 'supercars') {
-      return 0;
+      return application.car.name;
     }
     if (headItem.reference === 'date') {
       return format(new Date(application.createdAt), 'MM/dd/yyyy');

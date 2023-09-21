@@ -22,7 +22,7 @@ export const DAdminBookingFilters = () => ({
 
 export const DBookingsHead = [
   {
-    reference: 'boat',
+    reference: 'car',
     label: 'Supercar',
     visible: true,
   },
