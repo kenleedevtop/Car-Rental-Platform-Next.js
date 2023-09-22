@@ -93,7 +93,7 @@ const ProfilePictureModal = ({ onClose, ...props }: TProfilePicture) => {
           )}
         </ProfilePictureMain>
       </Stack>
-      {cpModal && <ChangePasswordModal onClose={closeCpModal} />}
+      {cpModal && <ChangePasswordModal onClose={closeCpModal} car={null}/>}
     </Modal>
   );
 };
