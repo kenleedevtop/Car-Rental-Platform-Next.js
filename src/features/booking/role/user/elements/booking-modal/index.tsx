@@ -8,7 +8,7 @@ import { useAppContext } from 'context';
 import { ApplicationAPI } from 'api';
 import BookingAPI from 'api/bookings';
 import { useSnackbar } from 'hooks';
-import { compareDates } from 'utilities/calendar';
+import { compareDates, dateFromObj } from 'utilities/calendar';
 
 const ChangePasswordModal = ({
   onClose,
@@ -36,7 +36,7 @@ const ChangePasswordModal = ({
           onClose();
         }
         else {
-          push(`Your booking must ends after ${car?.startDate.split('T')[0]}`, {
+          push(`Your booking must ends after ${dateFromObj(data.from)}`, {
             variant: 'error',
           });
         }

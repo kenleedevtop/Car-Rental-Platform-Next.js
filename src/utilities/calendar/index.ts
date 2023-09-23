@@ -44,3 +44,9 @@ export const compareDates = (from: any, to: any, v: boolean): boolean => {
     return dateFromString.getTime() < dateFromObj.getTime();
   }
 }
+
+export const dateFromObj = (date: any): string => {
+  const { $y, $M, $D } = date;
+
+  return `${$y}-${$M + 1}-${$D}`;
+}
