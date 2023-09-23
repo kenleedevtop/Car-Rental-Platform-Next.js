@@ -2,9 +2,9 @@ import React from 'react';
 
 export type TApplyModalProps = React.HTMLAttributes<HTMLDivElement> & {
   onClose: () => void;
-  refresh: () => void;
   carId: number;
   carName: string;
+  refresh: () => void;
   availableShares : number | null;
   sharePrice : number | null;
   totalShares : number | null;

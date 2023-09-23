@@ -104,11 +104,15 @@ const PropertyCard = ({
             {house.location}
           </CardAddress>
           <CardTitle>{house.name}</CardTitle>
-          {house.applicationStatus &&
+          <CardTitle>{`From  ${house.startDate.split('T')[0]}`}</CardTitle>
+
+          {
+            house.applicationStatus &&
             <CardStatus>
               <CardStatusLabel>Status</CardStatusLabel>
               {house.applicationStatus}
-            </CardStatus>}
+            </CardStatus>
+          }
         </CardLink>
         {!dropdown && (
           <Button

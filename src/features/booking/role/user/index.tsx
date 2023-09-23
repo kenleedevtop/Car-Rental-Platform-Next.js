@@ -96,7 +96,6 @@ const UserApplicationsPage = () => {
     return totalColumnItems?.slice(firstPageIndex, lastPageIndex);
   }, [page, totalColumnItems, PageSize]);
 
-  console.log(currentTableData);
   const [bookingModal, openBookingModal, closeBookingModal] = useModal(false);
 
   return (

@@ -20,7 +20,7 @@ const BookingAPI = {
       },
     });
 
-    return data;
+    return data;    
   },
 
   getMyBookings: async () => {
