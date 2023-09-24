@@ -28,7 +28,7 @@ const ChangePasswordModal = ({
         to: endDate ? endDate : '',
       };
       const _startDate = car?.startDate || '';
-      
+
       if (compareDates(_startDate, data.from, true)) {
         if (compareDates(data.from, data.to, false)) {
           await BookingAPI.Booking(data);
@@ -46,8 +46,9 @@ const ChangePasswordModal = ({
           variant: 'error',
         });
       }
-    } catch {
-      push('Something went wrong with your booking.', {
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      push(error.response.data.message, {
         variant: 'error',
       });
     }
