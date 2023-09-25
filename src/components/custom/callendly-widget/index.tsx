@@ -20,7 +20,7 @@ const CalendlyWidget = () => {
     <WidgetMain
       className="calendly-inline-widget"
       style={{ height: '500px' }}
-      data-url="https://calendly.com/mperovic2210/coaching-call"
+      data-url="https://calendly.com/jurisicholdings/30min"
     />
   );
 };

@@ -35,14 +35,17 @@ export const compareDates = (from: any, to: any, v: boolean): boolean => {
   if (v) {
     const { $y, $M, $D } = to;
     const dateFromString = new Date(from);
-    const dateFromObj = new Date($y, $M, $D + 1);
+    const dateFromObj = new Date($y, $M, $D + 1, 23, 59, 59);
+
     return dateFromString.getTime() <= dateFromObj.getTime();
   }
   else {
     const dateFromString = new Date(from.$y, from.$M, from.$D);
     const dateFromObj = new Date(to.$y, to.$M, to.$D);
+    
     return dateFromString.getTime() < dateFromObj.getTime();
   }
+
 }
 
 export const dateFromObj = (date: any): string => {

@@ -76,6 +76,13 @@ const UserMarketPage = () => {
         break;
       case 1:
         const secondary = await getAllCars('', 'Secondary');
+        const myApplications = await getApplications();
+        secondary.forEach((car: ICar) => {
+          const matchingApplication = myApplications.find((application: any) => application.carId === car.id);
+          if (matchingApplication) {
+            car.applicationStatus = matchingApplication.status;
+          }
+        });
         setSecondaryCars(secondary);
         break;
       case 2:
@@ -128,7 +135,7 @@ const UserMarketPage = () => {
                 )}
                 house={house}
                 refresh={refresh}
-                label={house.applicationStatus ? "Applied" : "Apply"}
+                label={house.applicationStatus =='Ownership' ? "Book" : "Apply"}
               />
             );
           })}
@@ -146,7 +153,7 @@ const UserMarketPage = () => {
                 )}
                 house={house}
                 refresh={refresh}
-                label="Apply"
+                label={house.applicationStatus =='Ownership' ? "Book" : "Apply"}
               />
             );
           })}

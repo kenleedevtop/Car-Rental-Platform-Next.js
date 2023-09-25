@@ -46,9 +46,9 @@ const ExportFinanceModal = ({
       const share = await ShareAPI.createShare(shareData);
       onClose();
       refresh();
-      push('Successfully sent application.', { variant: 'success' });
+      push(`Your application for ${car.name} has been successfully sent.`, { variant: 'success' });
     } catch {
-      push('Something went wrong when create application.', {
+      push('Something went wrong with your application.', {
         variant: 'error',
       });
     }
@@ -95,7 +95,7 @@ const ExportFinanceModal = ({
         <Input
           type="text"
           label="Total Price"
-          value={totalPrice}
+          value={totalPrice ? totalPrice + ' €' : ''}
           onValue={() => { }}
           placeholder="Please Select"
         />

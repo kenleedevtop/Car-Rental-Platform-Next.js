@@ -53,7 +53,7 @@ const PropertyCard = ({
     const flag = convertLocationToFlag(house.location);
     setFlagUrl(flag);
   }, [house.location]);
-
+  console.log(house.applicationStatus)
   return (
     <CardMain animation="zoom-in" {...props}>
       {completed && <CardCompletedMark>Completed</CardCompletedMark>}
@@ -104,26 +104,18 @@ const PropertyCard = ({
             {house.location}
           </CardAddress>
           <CardTitle>{house.name}</CardTitle>
-          <CardTitle>{`From  ${house.startDate.split('T')[0]}`}</CardTitle>
-
-          {
-            house.applicationStatus &&
-            <CardStatus>
-              <CardStatusLabel>Status</CardStatusLabel>
-              {house.applicationStatus}
-            </CardStatus>
-          }
         </CardLink>
         {!dropdown && (
           <Button
             color="primary"
             variant="contained"
             size="large"
-            disabled={completed || label == 'Applied'}
+            disabled={completed || (house.applicationStatus !== 'Ownership' && house.applicationStatus !== undefined)}
             onClick={() => { label == 'Book' ? openBookingModal() : openApplicationModal() }}
           >
             {label}
           </Button>
+
         )}
         {dropdown && (
           <Button variant="contained" color="primary">

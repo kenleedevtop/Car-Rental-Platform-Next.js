@@ -31,6 +31,7 @@ const ChangePasswordModal = ({
 
       if (compareDates(_startDate, data.from, true)) {
         if (compareDates(data.from, data.to, false)) {
+          
           await BookingAPI.Booking(data);
           push('Successfully booked.', { variant: 'success' });
           onClose();
