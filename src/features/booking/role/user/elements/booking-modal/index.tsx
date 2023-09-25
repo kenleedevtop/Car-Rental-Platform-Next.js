@@ -47,8 +47,7 @@ const ChangePasswordModal = ({
         });
       }
     } catch (error: any) {
-      console.log(error.response.data.message);
-      push(error.response.data.message, {
+      push(error.response.data.message ? error.response.data.message : 'Something went wrong with your booking ', {
         variant: 'error',
       });
     }

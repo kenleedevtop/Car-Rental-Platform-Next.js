@@ -9,7 +9,7 @@ import { client } from 'api/api-client';
 const BookingAPI = {
   Booking: async (body: TCreateAsBookingParams) => {
     const { data } = await client.post(`${Project.apis.v1}/bookings`, body);
-
+    
     return data;
   },
 
