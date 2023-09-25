@@ -191,6 +191,7 @@ const AdminApplicationsPage = () => {
     return totalColumnItems?.slice(firstPageIndex, lastPageIndex);
   }, [page, totalColumnItems, PageSize]);
 
+  console.log(totalColumnItems)
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     const application = row.data as IApplication;
     if (headItem.reference === 'name') {
@@ -206,7 +207,7 @@ const AdminApplicationsPage = () => {
       return format(new Date(application.createdAt), 'MM/dd/yyyy');
     }
     if (headItem.reference === 'sharesApplied') {
-      return application.owner.shareCount;
+      return application.sharesCount;
     }
 
     if (headItem.reference === 'status') {

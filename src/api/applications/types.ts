@@ -16,6 +16,7 @@ export interface IApplication {
   status: string;
   ownerId: number | null;
   carId: number | null;
+  sharesCount : number | null;
   car: ICar;
   owner: IUser;
   createdAt: string;

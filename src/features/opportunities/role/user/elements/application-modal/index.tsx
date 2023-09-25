@@ -46,7 +46,7 @@ const ExportFinanceModal = ({
       const share = await ShareAPI.createShare(shareData);
       onClose();
       refresh();
-      push(`Your application for ${car.name} has been successfully sent.`, { variant: 'success' });
+      push(`Your application for ${carName} has been successfully sent.`, { variant: 'success' });
     } catch {
       push('Something went wrong with your application.', {
         variant: 'error',
