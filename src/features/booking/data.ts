@@ -50,7 +50,7 @@ export const DBookingsHead = [
 
 export const DAdminBookingsHead = [
   {
-    reference: 'boat',
+    reference: 'car',
     label: 'Supercar',
     visible: true,
   },

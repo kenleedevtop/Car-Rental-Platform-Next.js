@@ -1,4 +1,4 @@
-import React, { useState, Children } from 'react';
+import React, { useState, Children, useEffect, useMemo } from 'react';
 import { CardWithText, Table } from 'components/custom';
 import { Collapse, Grid, Stack } from 'components/system';
 import { Button, Input, Label, Pagination } from 'components/ui';
@@ -14,11 +14,18 @@ import {
 } from 'features/booking/styles';
 import { TTableRenderItemObject } from 'components/custom/table/types';
 import { SlidersHorizontalIcon, VerticalDotsIcon } from 'components/svg';
-import { useModal } from 'hooks';
+import BookingStatusActions from './elements/booking-status-modal';
+import { useModal, usePagination, useSnackbar } from 'hooks';
 import { BookingModal } from './elements';
+import { format } from 'date-fns';
+
+import { BookingAPI } from 'api';
+import { IBooking } from 'api/bookings/types';
 
 const AdminApplicationsPage = () => {
+
   const [filter, setFilter] = useState<any>(DAdminBookingFilters());
+  const [totalColumnItems, setTotalColumnItems] = useState<any[]>([]);
 
   const [bookingModal, openBookingModal, closeBookingModal] = useModal(false);
 
@@ -32,25 +39,80 @@ const AdminApplicationsPage = () => {
     setFilter(DAdminBookingFilters());
   };
 
-  const renderItem = ({ headItem }: TTableRenderItemObject) => {
-    if (headItem.reference === 'boat') {
-      return '2.5 Bedroom Apartment';
+  const { push } = useSnackbar();
+
+  const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
+    const booking = row.data as IBooking;
+
+    if (headItem.reference === 'car') {
+      return booking.car.name;
     }
     if (headItem.reference === 'user') {
-      return 'Ivan Jurisic';
+      return booking.owner.firstName + '' + booking.owner.lastName;
     }
     if (headItem.reference === 'startDate') {
-      return '1.5.2023';
+      return format(new Date(booking.from), 'MM/dd/yyyy');
     }
     if (headItem.reference === 'endDate') {
-      return '10.5.2023';
+      return format(new Date(booking.to), 'MM/dd/yyyy');
     }
     if (headItem.reference === 'actions') {
-      return <VerticalDotsIcon />;
+      return (
+        <BookingStatusActions
+          booking={booking}
+          userId={booking.ownerId}
+          status={booking.status}
+          carId={booking.carId}
+          reload={applyFilters}
+        />
+      )
     }
-
     return '';
   };
+
+
+  const applyFilters = () => {
+    getAllBookings()
+      .then((data) => {
+        setTotalColumnItems(data);
+      })
+      .catch((error) => push('Something went wrong!', { variant: 'error' }));
+  };
+
+  const getAllBookings = async (): Promise<any> => {
+    try {
+      const response = await BookingAPI.getBookings('');
+      if (response) {
+        return response;
+      }
+      throw new Error('Error: Failed to fetch data!');
+    } catch (error) {
+      push('Something went wrong!', { variant: 'error' });
+    }
+  };
+
+  useEffect(() => {
+    getAllBookings()
+      .then((data) => setTotalColumnItems(data))
+      .catch((error) => push('Something went wrong!', { variant: 'error' }));
+  }, []);
+
+  const PageSize = 10;
+  const { pagesCount, page, setTotalResults, handlePageChange, reload } =
+    usePagination({
+      limit: PageSize,
+      page: 1,
+      onChange: async (params, setPage) => {
+        setPage(params.page);
+        setTotalResults(totalColumnItems?.length);
+      },
+    });
+
+  const currentTableData = useMemo(() => {
+    const firstPageIndex = (page - 1) * PageSize;
+    const lastPageIndex = firstPageIndex + PageSize;
+    return totalColumnItems?.slice(firstPageIndex, lastPageIndex);
+  }, [page, totalColumnItems, PageSize]);
 
   return (
     <ProjectsMain>
@@ -145,41 +207,13 @@ const AdminApplicationsPage = () => {
           </Collapse>
           <Table
             head={DAdminBookingsHead}
-            items={[
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-              {
-                name: 'Detailed planning of the project',
-                published: '01.05.2023',
-                action: 'a',
-              },
-            ]}
+            items={currentTableData}
             renderItem={renderItem}
           />
-          <Pagination count={32} />
+          <Pagination
+            count={pagesCount}
+            onChange={(_e, x) => handlePageChange(x)}
+            page={page} />
         </Stack>
       </CardWithText>
       {bookingModal && <BookingModal onClose={closeBookingModal} car={null}/>}

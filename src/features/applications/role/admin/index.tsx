@@ -191,7 +191,6 @@ const AdminApplicationsPage = () => {
     return totalColumnItems?.slice(firstPageIndex, lastPageIndex);
   }, [page, totalColumnItems, PageSize]);
 
-  console.log(totalColumnItems)
   const renderItem = ({ headItem, row }: TTableRenderItemObject) => {
     const application = row.data as IApplication;
     if (headItem.reference === 'name') {
