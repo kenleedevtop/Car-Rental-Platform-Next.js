@@ -1,11 +1,11 @@
-import React, { Children, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import { CombinedDatePicker, Modal } from 'components/custom';
 import { TChangePasswordModalProps } from 'features/account/role/user/elements/change-password-modal/types';
 import { ChangePasswordModalMain } from 'features/booking/role/user/elements/booking-modal/styles';
 import { Button, Input } from 'components/ui';
 import { Stack } from 'components/system';
 import { useAppContext } from 'context';
-import { ApplicationAPI } from 'api';
+import { ApplicationAPI, ShareAPI } from 'api';
 import BookingAPI from 'api/bookings';
 import { useSnackbar } from 'hooks';
 import { compareDates, dateFromObj } from 'utilities/calendar';
@@ -19,7 +19,26 @@ const ChangePasswordModal = ({
   const [endDate, setEndDate] = useState<string>();
   const { user } = useAppContext();
   const { push } = useSnackbar();
+  const [share, setShare] = useState<any>();
 
+  const getShareWithCarId = async () => {
+    try {
+      if (car) {
+        const response = await ShareAPI.getShareByCarIdUserId(car.id);
+        if (response) {
+          setShare(response);
+        }
+      }
+    } catch (error) {
+      push('Something went wrong!', { variant: 'error' });
+    }
+  };
+
+  console.log(share);
+  useEffect(() => {
+    if (car)
+      getShareWithCarId();
+  }, [car]);
   const sendApplication = async () => {
     try {
       const data = {
@@ -31,7 +50,7 @@ const ChangePasswordModal = ({
 
       if (compareDates(_startDate, data.from, true)) {
         if (compareDates(data.from, data.to, false)) {
-          
+
           await BookingAPI.Booking(data);
           push('Successfully booked.', { variant: 'success' });
           onClose();
@@ -82,9 +101,9 @@ const ChangePasswordModal = ({
           />
           <Input
             type="text"
-            label="User"
+            label="Days remaining"
             placeholder="Please Select"
-            value={`${user.firstName} ${user.lastName}`}
+            value={share ? share.availableDays : ''}
             onValue={() => { }}
           />
           <CombinedDatePicker value={startDate} onValue={(e) => { setStartDate(e); }} label="Check-in" />

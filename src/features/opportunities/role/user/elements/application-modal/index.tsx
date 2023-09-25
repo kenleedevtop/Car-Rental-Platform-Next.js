@@ -40,7 +40,7 @@ const ExportFinanceModal = ({
         reservedDays: 0,
         carId: carId,
         applicationId: car.id,
-        availableDays: totalShares ? 300 * shares.value / totalShares : 10,
+        availableDays: Math.floor(totalShares ? 300 * shares.value / totalShares : 10),
         ownerId: user.id,
       };
       const share = await ShareAPI.createShare(shareData);

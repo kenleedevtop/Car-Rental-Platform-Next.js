@@ -13,6 +13,11 @@ const ShareAPI = {
     return data;
   },
 
+  getShareByCarIdUserId: async (id: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/shares/${id}`);
+
+    return data;
+  },
 };
 
 export default ShareAPI;

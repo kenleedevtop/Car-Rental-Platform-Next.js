@@ -23,14 +23,13 @@ const CombinedDatePicker = ({
         type="date"
         label={label}
         value={value}
-        onValue={() => {}}
+        onValue={handleDate}
         placeholder="Please Select"
-        disabled
       />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <StaticDate
           onChange={handleDate}
-          value={value}
+          value={value ? value : ''}
           renderInput={(params) => <TextField {...params} />}
         />
       </LocalizationProvider>
