@@ -12,12 +12,12 @@ import {
   ApplicationStatusActionsMenu,
   ISpan,
 } from './styles';
-import { ApplicationAPI, CarAPI } from 'api';
+import { ApplicationAPI, BookingAPI, CarAPI } from 'api';
 import { useRouter } from 'next/router';
 import { BookingModal, BookingOverviewModal, TransferOwnershipModal } from 'features/booking/role/admin/elements';
 
 const BookingStatusActions = ({
-  reload,
+    reload,
   booking,
   userId,
   status,
@@ -63,7 +63,16 @@ const BookingStatusActions = ({
       push(e.response.data.message, { variant: 'error' });
     }
   };
+  const removeBooking = async (id: any) => {
+    try {
+      await BookingAPI.removeBooking(id);
+      push('Booking successfully removed!', { variant: 'success' });
+      reload();
+    } catch (e: any) {
 
+      push(e.response.data.message, { variant: 'error' });
+    }
+  };
   const ApplicationStatusActions = [
     {
       icon: <RecommendedIcon />,
@@ -85,7 +94,7 @@ const BookingStatusActions = ({
       icon: <DeleteIcon />,
       label: 'Remove',
       action: () => {
-        handleChange('Ownership');
+        removeBooking(booking ? booking.id : 0);
         handleMenu();
       },
     },
@@ -103,12 +112,12 @@ const BookingStatusActions = ({
           ref={menu}
         />
       )}
-      {bookingModal && <BookingModal onClose={closeBookingModal} car={null}/>}
+      {bookingModal && <BookingModal onClose={closeBookingModal} booking={booking ? booking : null} reload={reload}/>}
       {bookingOverviewModal && (
-        <BookingOverviewModal onClose={closeBookingOverviewModal} car={booking}/>
+        <BookingOverviewModal onClose={closeBookingOverviewModal} car={booking} />
       )}
       {transferOwnershipModal && (
-        <TransferOwnershipModal onClose={closeTransferOwnershipModal} car={booking}/>
+        <TransferOwnershipModal onClose={closeTransferOwnershipModal} car={booking} />
       )}
     </ApplicationStatusActionsMain>
   );

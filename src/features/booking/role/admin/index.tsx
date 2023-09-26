@@ -216,7 +216,7 @@ const AdminApplicationsPage = () => {
             page={page} />
         </Stack>
       </CardWithText>
-      {bookingModal && <BookingModal onClose={closeBookingModal} car={null}/>}
+      {bookingModal && <BookingModal onClose={closeBookingModal} booking={null}/>}
     </ProjectsMain>
   );
 };
