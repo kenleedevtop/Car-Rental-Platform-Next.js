@@ -37,6 +37,7 @@ const ExportFinanceModal = ({
       const shareData = {
         count: shares.value,
         weekendDays: 13 * shares.value,
+        peakSeasonDays: 7 * shares.value,
         reservedDays: 0,
         carId: carId,
         applicationId: car.id,

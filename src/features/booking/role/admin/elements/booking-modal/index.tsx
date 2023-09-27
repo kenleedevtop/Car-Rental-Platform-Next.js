@@ -62,7 +62,7 @@ const ChangePasswordModal = ({
         }
       }
       else {
-        push(`You can book from ${_startDate}`, {
+        push(`You can book from ${_startDate.split('T')[0]}`, {
           variant: 'error',
         });
       }

@@ -12,7 +12,7 @@ import { useAppContext } from 'context';
 import { ApplicationAPI } from 'api';
 
 const UserMarketPage = () => {
-  const { houseStatus } = useAppContext();
+  const { houseStatus, applicationStatus } = useAppContext();
   const [tab, setTab] = useState(0);
   const { push } = useSnackbar();
 
@@ -104,7 +104,7 @@ const UserMarketPage = () => {
   };
   useEffect(() => {
     refresh();
-  }, [tab, houseStatus]);
+  }, [tab, houseStatus, applicationStatus]);
 
   return (
     <ProjectsMain>
@@ -135,7 +135,7 @@ const UserMarketPage = () => {
                 )}
                 house={house}
                 refresh={refresh}
-                label={house.applicationStatus =='Ownership' ? "Book" : "Apply"}
+                label={house.applicationStatus == 'Ownership' ? "Book" : "Apply"}
               />
             );
           })}
@@ -153,7 +153,7 @@ const UserMarketPage = () => {
                 )}
                 house={house}
                 refresh={refresh}
-                label={house.applicationStatus =='Ownership' ? "Book" : "Apply"}
+                label={house.applicationStatus == 'Ownership' ? "Book" : "Apply"}
               />
             );
           })}
