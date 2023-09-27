@@ -37,8 +37,7 @@ const ChangePasswordModal = ({
   // useEffect(() => {
   //   if (car)
   //     getShareWithCarId();
-  // }, [car]);
-  console.log(booking?.id);
+  // }, [car])
   const editApplication = async () => {
     try {
       const data = {

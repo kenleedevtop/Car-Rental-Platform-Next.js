@@ -59,14 +59,7 @@ const ExportFinanceModal = ({
       size="medium"
       title="Application"
       actions={Children.toArray([
-        <Button
-          color="primary"
-          variant="contained"
-          size="large"
-          onClick={sendApplication}
-        >
-          Apply
-        </Button>,
+        <></>,
       ])}
       onClose={onClose}
       {...props}
@@ -100,7 +93,7 @@ const ExportFinanceModal = ({
           placeholder="Please Select"
         />
         <RTEContainer>
-          <CallendlyWidget />
+          <CallendlyWidget onScheduled={sendApplication} shareCount={shares.value} name={user.firstName + ' ' + user.lastName} email={user.email} />
         </RTEContainer>
       </AddProjectModalMain>
     </Modal>

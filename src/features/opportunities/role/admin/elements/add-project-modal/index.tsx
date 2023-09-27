@@ -534,7 +534,6 @@ const AddCarProjectModal = ({
               value={superCarData?.startDate}
               errorCallback={handleErrors(8)}
               onValue={(startDate) => {
-                console.log(startDate);
                 setCarData({ ...superCarData, startDate })
               }
               }

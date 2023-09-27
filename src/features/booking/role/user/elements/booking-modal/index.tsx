@@ -34,7 +34,6 @@ const ChangePasswordModal = ({
     }
   };
 
-  console.log(share);
   useEffect(() => {
     if (car)
       getShareWithCarId();

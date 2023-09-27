@@ -10,7 +10,6 @@ const ChangePasswordModal = ({
   car,
   ...props
 }: TChangePasswordModalProps) => {
-  console.log(car);
   return (
     <Modal
       size="medium"

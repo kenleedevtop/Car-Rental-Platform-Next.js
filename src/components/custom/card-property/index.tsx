@@ -53,7 +53,6 @@ const PropertyCard = ({
     const flag = convertLocationToFlag(house.location);
     setFlagUrl(flag);
   }, [house.location]);
-  console.log(house.applicationStatus)
   return (
     <CardMain animation="zoom-in" {...props}>
       {completed && <CardCompletedMark>Completed</CardCompletedMark>}
