@@ -27,6 +27,9 @@ interface IFormData {
   role: string;
 }
 
+const NEXT_PUBLIC_TERMS_OF_SERVICES = "https://supercarstake.com/legal";
+const NEXT_PUBLIC_PRIVACY_POLICY = "https://supercarstake.com/legal";
+
 const RegisterPage = () => {
   const [state, setState] = useState<IFormData>({
     firstName: '',
@@ -52,7 +55,6 @@ const RegisterPage = () => {
   const [crModal, openCrModal, closeCrModal] = useModal(false);
   const [legalsChecked, setLegalsChecked] = useState({
     commonLegal: false,
-    patientSpecificLegal: false,
   });
   const isDisabled =
     !state.firstName ||
@@ -60,7 +62,6 @@ const RegisterPage = () => {
     !state.email ||
     !state.password ||
     !legalsChecked.commonLegal ||
-    !legalsChecked.patientSpecificLegal ||
     !!errors.find((x) => x);
 
   const handleRegister = async () => {
@@ -249,7 +250,7 @@ const RegisterPage = () => {
           label={
             <span
               dangerouslySetInnerHTML={{
-                __html: `I agree to the <a href='${process.env.NEXT_PUBLIC_TERMS_OF_SERVICES}' target='_blank'>Terms of Services</a> and <a href='${process.env.NEXT_PUBLIC_PRIVACY_POLICY}' target='_blank'>Privacy Policy</a>`,
+                __html: `I agree to the <a href='${NEXT_PUBLIC_TERMS_OF_SERVICES}' target='_blank'>Terms of Services</a> and <a href='${NEXT_PUBLIC_PRIVACY_POLICY}' target='_blank'>Privacy Policy</a>`,
               }}
             />
           }
@@ -258,24 +259,6 @@ const RegisterPage = () => {
           value={legalsChecked.commonLegal}
           onValue={(v) =>
             setLegalsChecked({ ...legalsChecked, commonLegal: v })
-          }
-        />
-        <RegisterCheckbox
-          label={
-            <span
-              dangerouslySetInnerHTML={{
-                __html: `I consent to Shared Vacay's processing of my special category data as per the <a href='${process.env.NEXT_PUBLIC_PRIVACY_POLICY}' target='_blank'>Privacy Policy</a>`,
-              }}
-            />
-          }
-          size="small"
-          color="primary"
-          value={legalsChecked.patientSpecificLegal}
-          onValue={(patientSpecificLegal) =>
-            setLegalsChecked({
-              ...legalsChecked,
-              patientSpecificLegal,
-            })
           }
         />
       </Stack>

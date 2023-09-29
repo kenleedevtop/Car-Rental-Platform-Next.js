@@ -125,7 +125,7 @@ export const RegisterCheckbox = styled(Checkbox)<{ theme?: Theme }>`
 
       display: grid;
       grid-template-columns: 15px 1fr;
-      padding: 0 ${theme.spacing(5)};
+      padding: 0;
       font-size: 18px;
 
       a {
