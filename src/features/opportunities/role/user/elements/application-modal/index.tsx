@@ -89,7 +89,7 @@ const ExportFinanceModal = ({
         <Input
           type="text"
           label="Total Price"
-          value={totalPrice ? totalPrice + ' €' : ''}
+          value={totalPrice ? '€' + totalPrice : ''}
           onValue={() => { }}
           placeholder="Please Select"
         />
