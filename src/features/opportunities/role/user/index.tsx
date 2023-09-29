@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import { PropertyCard, Tabs } from 'components/custom';
 import { Stack } from 'components/system';
-import { Button } from 'components/ui';
 import { ProjectsMain, ProjectsGrid } from 'features/opportunities/styles';
 import { useModal, useSnackbar } from 'hooks';
 import { ICar } from 'api/cars/types';
@@ -29,19 +28,6 @@ const UserMarketPage = () => {
       if (response) {
         return response;
       }
-      throw new Error('Error: Failed to fetch data!');
-    } catch (error) {
-      push('Something went wrong!', { variant: 'error' });
-    }
-  };
-
-  const getMineCars = async () => {
-    try {
-      const response = await CarAPI.getMine();
-      if (response) {
-        return response;
-      }
-
       throw new Error('Error: Failed to fetch data!');
     } catch (error) {
       push('Something went wrong!', { variant: 'error' });

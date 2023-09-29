@@ -24,7 +24,7 @@ const ChangePasswordModal = ({
   const getShareWithCarId = async () => {
     try {
       if (car) {
-        const response = await ShareAPI.getShareByCarIdUserId(car.id);
+        const response = await ShareAPI.getShareByCarId(car.id);
         if (response) {
           setShare(response);
         }

@@ -3,6 +3,7 @@ import Project from 'constants/project';
 import {
   TCreateAsApplicationParams,
   TSingleApplication,
+  TTransferOwnership,
 } from 'api/applications/types';
 
 import { client } from 'api/api-client';
@@ -31,6 +32,12 @@ const ApplicationAPI = {
     return data;
   },
 
+  getApplicationsByCarID: async (id: any) => {
+    const { data } = await client.get(`${Project.apis.v1}/applications/by-carid/${id}`);
+
+    return data;
+  },
+
   getSingleApplication: async (id: any): Promise<IUser> => {
     const { data } = await client.get(`${Project.apis.v1}/applications/${id}`);
 
@@ -42,6 +49,11 @@ const ApplicationAPI = {
       `${Project.apis.v1}/applications/${id}`
     );
 
+    return data;
+  },
+
+  trasnferOwnership: async (body: TTransferOwnership) => {
+    const data = await client.post(`${Project.apis.v1}/applications/transferownership`, body);
     return data;
   },
 
@@ -62,7 +74,7 @@ const ApplicationAPI = {
 
     return data;
   },
-  
+
 };
 
 export default ApplicationAPI;

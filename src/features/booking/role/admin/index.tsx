@@ -165,7 +165,7 @@ const AdminApplicationsPage = () => {
                         type="date"
                         placeholder="To"
                         value={filter.house}
-                        onValue={(house) => setFilter({ ...filter, house })}
+                        onValue={(house) => setFilter({ ...filter, house })}  
                       />
                     </Stack>
                   </Stack>

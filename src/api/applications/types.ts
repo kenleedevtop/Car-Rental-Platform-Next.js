@@ -10,13 +10,17 @@ export type TCreateAsApplicationParams = {
 export type TSingleApplication = {
   id: number;
 };
-
+export type TTransferOwnership = {
+  carId: number;
+  sellerId: number;
+  buyerId: number;
+}
 export interface IApplication {
   id: number;
   status: string;
   ownerId: number | null;
   carId: number | null;
-  sharesCount : number | null;
+  sharesCount: number | null;
   car: ICar;
   owner: IUser;
   createdAt: string;
