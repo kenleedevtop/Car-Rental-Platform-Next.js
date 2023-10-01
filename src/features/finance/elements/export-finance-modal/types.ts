@@ -8,6 +8,7 @@ export type TApplyModalProps = React.HTMLAttributes<HTMLDivElement> & {
   availableShares : number | null;
   sharePrice : number | null;
   totalShares : number | null;
+  startDate : string;
 };
 
 export type TExportFinanceModalProps = React.HTMLAttributes<HTMLDivElement> & {

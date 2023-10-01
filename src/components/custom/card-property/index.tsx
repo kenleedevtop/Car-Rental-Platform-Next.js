@@ -167,6 +167,7 @@ const PropertyCard = ({
           availableShares={house.availableShares}
           sharePrice={house.sharePrice}
           totalShares={house.totalShares}
+          startDate={house.startDate}
         />
       )}
       {bookingModal && <BookingModal onClose={closeBookingModal} car={house} />}

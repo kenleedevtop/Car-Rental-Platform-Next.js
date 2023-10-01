@@ -48,6 +48,13 @@ export const compareDates = (from: any, to: any, v: boolean): boolean => {
 
 }
 
+export const calculateLeftDays = (startDate: any) => {
+  const dateFromString = new Date(startDate);
+  const lastDateOfTheYear = new Date(dateFromString.getFullYear() + 1, 0, 1);
+
+  return Math.floor((lastDateOfTheYear.getTime() - dateFromString.getTime()) / (24 * 3600 * 1000))
+
+}
 export const dateFromObj = (date: any): string => {
   const { $y, $M, $D } = date;
 

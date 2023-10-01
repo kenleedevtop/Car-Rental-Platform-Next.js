@@ -9,6 +9,7 @@ import { Button, Input } from 'components/ui';
 import { ApplicationAPI, ShareAPI } from 'api';
 import { useSnackbar } from 'hooks';
 import { useAppContext } from 'context';
+import { calculateLeftDays } from 'utilities/calendar';
 
 const ExportFinanceModal = ({
   onClose,
@@ -18,6 +19,8 @@ const ExportFinanceModal = ({
   availableShares,
   sharePrice,
   totalShares,
+  startDate,
+
   ...props
 }: TApplyModalProps) => {
   const [state, setState] = useState();
@@ -25,6 +28,9 @@ const ExportFinanceModal = ({
   const [shares, setShares] = useState({ label: '', value: 0 });
   const { push } = useSnackbar();
   const { user } = useAppContext();
+
+  const leftDays = calculateLeftDays(startDate);
+  const DL = leftDays > 300 ? 300 : leftDays;
 
   const sendApplication = async () => {
     try {
@@ -41,7 +47,7 @@ const ExportFinanceModal = ({
         reservedDays: 0,
         carId: carId,
         applicationId: car.id,
-        availableDays: Math.floor(totalShares ? 300 * shares.value / totalShares : 10),
+        availableDays: Math.floor(totalShares ? (DL / totalShares) * shares.value : 0),
         ownerId: user.id,
       };
       const share = await ShareAPI.createShare(shareData);
