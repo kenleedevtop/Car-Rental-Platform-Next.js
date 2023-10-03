@@ -30,7 +30,7 @@ const ExportFinanceModal = ({
   const { user } = useAppContext();
 
   const leftDays = calculateLeftDays(startDate);
-  const DL = leftDays > 300 ? 300 : leftDays;
+  const DL = leftDays > 365 ? 365 : leftDays;
 
   const sendApplication = async () => {
     try {
@@ -47,7 +47,7 @@ const ExportFinanceModal = ({
         reservedDays: 0,
         carId: carId,
         applicationId: car.id,
-        availableDays: Math.floor(totalShares ? (DL / totalShares) * shares.value : 0),
+        availableDays: Math.floor(totalShares ? ((300 / 365) * DL / totalShares) * shares.value : 0),
         ownerId: user.id,
       };
       const share = await ShareAPI.createShare(shareData);
