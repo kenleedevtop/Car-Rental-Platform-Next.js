@@ -6,7 +6,6 @@ import { ProjectsMain, ProjectsGrid } from 'features/opportunities/styles';
 import { useModal, useSnackbar } from 'hooks';
 import { ICar } from 'api/cars/types';
 import CarAPI from 'api/cars';
-import { SellModal } from './elements';
 import { useAppContext } from 'context';
 import { ApplicationAPI } from 'api';
 
@@ -122,6 +121,8 @@ const UserMarketPage = () => {
                 house={house}
                 refresh={refresh}
                 label={house.applicationStatus == 'Ownership' ? "Book" : "Apply"}
+                dropdown={house.applicationStatus == 'Ownership' ? true : false}
+
               />
             );
           })}
@@ -140,6 +141,8 @@ const UserMarketPage = () => {
                 house={house}
                 refresh={refresh}
                 label={house.applicationStatus == 'Ownership' ? "Book" : "Apply"}
+                dropdown={house.applicationStatus == 'Ownership' ? true : false}
+
               />
             );
           })}
@@ -178,12 +181,12 @@ const UserMarketPage = () => {
                 house={car}
                 refresh={refresh}
                 label="Book"
+                dropdown
               />
             );
           })}
         </ProjectsGrid>
       )}
-      {purchaseModal && <SellModal onClose={closePurchaseModal} />}
     </ProjectsMain>
   );
 };

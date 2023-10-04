@@ -21,14 +21,17 @@ import Image from 'next/image';
 
 import { TPropertyCardProps } from 'components/custom/card-property/types';
 import { formatNumber } from 'utilities/extended-proto';
-import { CarretDownIcon, EditIcon, CarIcon } from 'components/svg';
+import { CarretDownIcon, EditIcon, CarIcon, ProfitIcon } from 'components/svg';
 import { Button } from 'components/ui';
 import { useMenu, useModal, useSnackbar } from 'hooks';
 import { convertLocationToFlag } from 'utilities/converters';
 import Project from 'constants/project';
-import { ApplicationModal } from 'features/opportunities/role/user/elements';
+import { ApplicationModal, SellShareModal } from 'features/opportunities/role/user/elements';
 import { EditProjectModal } from 'features/opportunities/role/admin/elements';
 import { BookingModal } from 'features/booking/role/user/elements';
+import { useAppContext } from 'context';
+
+
 const PropertyCard = ({
   image,
   house,
@@ -45,6 +48,10 @@ const PropertyCard = ({
     useModal(false);
 
   const [bookingModal, openBookingModal, closeBookingModal] = useModal(false);
+
+  const [sellShareModal, openSellShareModal, closeSellShareModal] =
+    useModal(false);
+  const { role } = useAppContext();
 
 
   const [flagUrl, setFlagUrl] = useState<string>();
@@ -136,14 +143,23 @@ const PropertyCard = ({
                       handleMenu();
                     },
                   },
-                  {
-                    icon: <EditIcon />,
-                    label: 'Edit',
-                    action: () => {
-                      handleMenu();
-                      openEditModal();
-                    },
-                  },
+                  role == 'ADMIN' ?
+                    {
+                      icon: <EditIcon />,
+                      label: 'Edit',
+                      action: () => {
+                        handleMenu();
+                        openEditModal();
+                      },
+                    } :
+                    {
+                      icon: <ProfitIcon />,
+                      label: 'Sell',
+                      action: () => {
+                        handleMenu();
+                        openSellShareModal();
+                      },
+                    }
                 ]}
                 ref={menu}
               />
@@ -171,6 +187,20 @@ const PropertyCard = ({
         />
       )}
       {bookingModal && <BookingModal onClose={closeBookingModal} car={house} />}
+
+      {sellShareModal && (
+        <SellShareModal
+          carId={house.id}
+          onClose={closeSellShareModal}
+          carName={house.name}
+          refresh={refresh}
+          availableShares={house.availableShares}
+          sharePrice={house.sharePrice}
+          totalShares={house.totalShares}
+          startDate={house.startDate}
+        />
+      )}
+
     </CardMain>
   );
 };
