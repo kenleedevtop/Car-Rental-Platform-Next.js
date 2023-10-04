@@ -14,6 +14,7 @@ export type TTransferOwnership = {
   carId: number;
   sellerId: number;
   buyerId: number;
+  shares : number;
 }
 export interface IApplication {
   id: number;

@@ -19,18 +19,31 @@ const ChangePasswordModal = ({
     newPassword: '',
   });
   const { push } = useSnackbar();
+
+  const [car, setCar] = useState({ value: 0, label: '' });
   const [carOptions, setCarOptions] = useState<TInputPropsOption[]>([]);
-  const [filter, setFilter] = useState<any>(DApplicationsFilters());
+
   const [buyer, setBuyer] = useState({ value: 0, label: '' });
   const [buyerOptions, setBuyerOptions] = useState<TInputPropsOption[]>([]);
-  const [car, setCar] = useState({ value: 0, label: '' });
+
   const [seller, setSeller] = useState({ value: 0, label: '' });
   const [sellerOptions, setSellerOptions] = useState<TInputPropsOption[]>([]);
-  const [userFilters, setUserFilter] = useState<any>(DUsersFilters());
+
   const [shares, setShares] = useState({ value: 0, label: '' });
+  const [sharesoptions, setSharesOptions] = useState<TInputPropsOption[]>([]);
+
+  const [totalShares, setTotalShares] = useState<any>();
+
   const [remainingDays, setRemainingDays] = useState({ value: 0, label: '' });
+  const [totalRemainingDays, setTotalRemainingDays] = useState<any>()
+
+
   const [reservedDays, setReservedDays] = useState({ value: 0, label: '' });
   const [transferDate, setTransferDate] = useState<Date>();
+
+  const [filter, setFilter] = useState<any>(DApplicationsFilters());
+  const [userFilters, setUserFilter] = useState<any>(DUsersFilters());
+
 
   const getAllCars = async (search: string, status: string): Promise<any> => {
     try {
@@ -69,7 +82,13 @@ const ChangePasswordModal = ({
       setSeller({ value: 0, label: '' });
       setBuyer({ value: 0, label: '' });
       setShares({ value: 0, label: '' });
+      setSharesOptions([]);
+
+      setTotalShares(0);
+
       setRemainingDays({ value: 0, label: '' });
+      setTotalRemainingDays(0);
+
       setReservedDays({ value: 0, label: '' });
       setBuyerOptions([]);
     }
@@ -92,12 +111,29 @@ const ChangePasswordModal = ({
       setBuyerOptions(newBuyerOptions);
       if (car.value) {
         const share = await ShareAPI.getShareByCarIdUserId(car.value, e.value);
-        console.log(share);
+
+        setTotalShares(share.count);
+        setTotalRemainingDays(share.availableDays);
+        const options = [];
+        for (let i = 1; i <= share.count; i++) {
+          options.push({ label: i.toString(), value: i });
+        }
+
+        setSharesOptions(options);
+
         setShares({ value: share.count, label: share.count.toString() });
         setReservedDays({ value: share.reservedDays, label: share.reservedDays.toString() });
         setRemainingDays({ value: share.availableDays, label: share.availableDays.toString() });
       }
     }
+  }
+
+  const handleSharesSelected = async (e: any) => {
+    setShares(e);
+    setRemainingDays({
+      value: Math.floor(totalRemainingDays / totalShares * e.value),
+      label: Math.floor(totalRemainingDays / totalShares * e.value).toString()
+    });
   }
 
   const refresh = async () => {
@@ -123,6 +159,8 @@ const ChangePasswordModal = ({
           carId: car.value,
           sellerId: seller.value,
           buyerId: buyer.value,
+          shares: shares.value,
+
         }
         const result = await ApplicationAPI.trasnferOwnership(data);
         onClose();
@@ -133,6 +171,7 @@ const ChangePasswordModal = ({
       push('Something went wrong!', { variant: 'error' });
     }
   }
+
   const getAllUsers = async (): Promise<any> => {
     try {
       const response = await UsersAPI.getUsers({
@@ -203,7 +242,8 @@ const ChangePasswordModal = ({
             label="Shares"
             placeholder="Please Select"
             value={shares}
-            onValue={() => { }}
+            options={sharesoptions}
+            onValue={(e) => { handleSharesSelected(e); }}
           />
           <Input
             type="date"
