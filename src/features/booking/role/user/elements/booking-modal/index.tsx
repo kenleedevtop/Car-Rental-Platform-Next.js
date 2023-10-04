@@ -8,7 +8,7 @@ import { useAppContext } from 'context';
 import { ApplicationAPI, ShareAPI } from 'api';
 import BookingAPI from 'api/bookings';
 import { useSnackbar } from 'hooks';
-import { compareDates, dateFromObj } from 'utilities/calendar';
+import { compareDates, dateFromObj, validateUntilEndOfTheYear } from 'utilities/calendar';
 
 const ChangePasswordModal = ({
   onClose,
@@ -50,9 +50,18 @@ const ChangePasswordModal = ({
       if (compareDates(_startDate, data.from, true)) {
         if (compareDates(data.from, data.to, false)) {
 
-          await BookingAPI.Booking(data);
-          push('Successfully booked.', { variant: 'success' });
-          onClose();
+          if (validateUntilEndOfTheYear(_startDate, data.to)) {
+            await BookingAPI.Booking(data);
+            push('Successfully booked.', { variant: 'success' });
+            onClose();
+          }
+          else {
+            const startDate = new Date(_startDate);
+            push(`Your booking must be until end of the ${startDate.getFullYear()}`, {
+              variant: 'error',
+            });
+          }
+
         }
         else {
           push(`Your booking must ends after ${dateFromObj(data.from)}`, {

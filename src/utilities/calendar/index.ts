@@ -48,6 +48,13 @@ export const compareDates = (from: any, to: any, v: boolean): boolean => {
 
 }
 
+export const validateUntilEndOfTheYear = (from: any, to: any): boolean => {
+  const { $y } = to;
+  const startDate = new Date(from);
+  return $y == startDate.getFullYear();
+}
+
+
 export const calculateLeftDays = (startDate: any) => {
   const dateFromString = new Date(startDate);
   const lastDateOfTheYear = new Date(dateFromString.getFullYear() + 1, 0, 1);

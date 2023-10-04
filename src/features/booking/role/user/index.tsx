@@ -24,6 +24,7 @@ import { useModal, usePagination, useSnackbar } from 'hooks';
 import { BookingAPI } from 'api';
 import { format } from 'date-fns';
 import { IBooking } from 'api/bookings/types';
+import BookingStatusActions from './elements/booking-status-modal';
 
 const UserApplicationsPage = () => {
   const [totalColumnItems, setTotalColumnItems] = useState<any[]>([]);
@@ -55,11 +56,24 @@ const UserApplicationsPage = () => {
       return format(new Date(booking.to), 'MM/dd/yyyy');
     }
     if (headItem.reference === 'actions') {
-      return <VerticalDotsIcon />;
+      return <BookingStatusActions
+        booking={booking}
+        userId={booking.ownerId}
+        status={booking.status}
+        carId={booking.carId}
+        reload={applyFilters} />;
     }
     return '';
   };
 
+
+  const applyFilters = () => {
+    getAllBookings()
+      .then((data) => {
+        setTotalColumnItems(data);
+      })
+      .catch((error) => push('Something went wrong!', { variant: 'error' }));
+  };
 
   const getAllBookings = async (): Promise<any> => {
     try {
