@@ -21,6 +21,8 @@ import { getAmenities } from 'utilities/amenties';
 import CarPreferenceApi from 'api/supercarPreference';
 import { getBrands } from 'utilities/brands';
 import { EditIcon } from 'components/svg';
+import MinMaxInput from 'components/ui/min-max';
+import InputAdornment from '@mui/material/InputAdornment';
 
 const OverviewPage = (props: any) => {
   const { userId } = props;
@@ -32,6 +34,7 @@ const OverviewPage = (props: any) => {
   const [hprefSaving, setHprefSaving] = useState<boolean>(false);
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isValidateBudget, setValidateBudget] = useState<boolean>(true)
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -52,8 +55,8 @@ const OverviewPage = (props: any) => {
     location: [],
     conditions: [],
     amenities: [],
-    budgetPerShareMin: '',
-    budgetPerShareMax: '',
+    budgetPerShareMin: null,
+    budgetPerShareMax: null,
     interestedInSupercars: '',
     interestedInShares: [],
     interiorStyle: [],
@@ -432,6 +435,18 @@ const OverviewPage = (props: any) => {
     setHprefHasChanged(true);
   };
 
+  const validateErrorCallback = (isError: boolean, key: string) => {
+    switch (key) {
+      case 'budget': {
+        setValidateBudget(!isError);
+        break;
+      }
+      default: return;
+    }
+  }
+
+
+
   return (
     <Stack>
       <Tabs tabs={['Info', 'Application']} value={tabs} onValue={setTabs} />
@@ -581,14 +596,14 @@ const OverviewPage = (props: any) => {
                     handleChangeCarPreference('amenities', amenities);
                   }}
                 />
-                <Input
-                  type="min-max-currency"
+                 <MinMaxInput
                   label="Budget per Share"
                   disabled={!isEditing}
                   value={{
                     min: preference.budgetPerShareMin,
                     max: preference.budgetPerShareMax,
                   }}
+                  endAdornment={<InputAdornment position="start">€</InputAdornment>}
                   onValue={(budgetShares) =>
                     handleChangeMinMaxCarPreference(
                       'budgetPerShareMin',
@@ -596,6 +611,30 @@ const OverviewPage = (props: any) => {
                       budgetShares
                     )
                   }
+                  minValidators={[
+                    {
+                      message: 'Minimum budget should be above zero.',
+                      validator: ({ min, max }) => {
+                        return (min == null || parseFloat(min) >= 0)
+                      }
+                    },
+                  ]}
+                  maxValidators={[
+                    {
+                      message: 'Maximum budget should be above zero.',
+                      validator: ({ min, max }) => {
+                        return (max == null || parseFloat(max) >= 0)
+                      }
+                    },
+                    {
+                      message: 'Maximum budget should exceed the minimum budget.',
+                      validator: ({ min, max }) => {
+                        if (min == null || max == null) return true;
+                        return parseFloat(max) > parseFloat(min);
+                      }
+                    },
+                  ]}
+                  errorCallback={(isError) => validateErrorCallback(isError, 'budget')}
                 />
                 <Input
                   type="select"
