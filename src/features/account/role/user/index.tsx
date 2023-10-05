@@ -4,6 +4,7 @@ import {
   AccountHeadline,
   AccountGrid,
 } from 'features/users-overview/styles';
+import InputAdornment from '@mui/material/InputAdornment';
 import { Button, Input, Card } from 'components/ui';
 import { Stack } from 'components/system';
 import { Tabs } from 'components/custom';
@@ -22,6 +23,8 @@ import { useAppContext } from 'context';
 import { AccountChange, AccountSpan } from 'features/account/style';
 import { ChangePasswordModal } from './elements';
 import { getBrands } from 'utilities/brands';
+import MinMaxInput from 'components/ui/min-max';
+
 
 const AccountPage = (props: any) => {
   const { user, getMeData } = useAppContext();
@@ -31,6 +34,18 @@ const AccountPage = (props: any) => {
   const [infoSaving, setInfoSaving] = useState<boolean>(false);
   const [hprefHasChanged, setHprefHasChanged] = useState<boolean>(false);
   const [hprefSaving, setHprefSaving] = useState<boolean>(false);
+  const [isValidateBudget, setValidateBudget] = useState<boolean>(true)
+
+  // Input error validate callback
+  const validateErrorCallback = (isError: boolean, key: string) => {
+    switch (key) {
+      case 'budget': {
+        setValidateBudget(!isError);
+        break;
+      }
+      default: return;
+    }
+  }
 
   const [info, setInfo] = useState<any>({
     firstName: '',
@@ -47,8 +62,8 @@ const AccountPage = (props: any) => {
     location: [],
     conditions: [],
     amenities: [],
-    budgetPerShareMin: '',
-    budgetPerShareMax: '',
+    budgetPerShareMin: null,
+    budgetPerShareMax: null,
     interestedInSupercars: '',
     interestedInShares: [],
     interiorStyle: [],
@@ -508,7 +523,7 @@ const AccountPage = (props: any) => {
                   variant="contained"
                   color="primary"
                   style={{ width: '130px', alignSelf: 'flex-end' }}
-                  disabled={isDisabled}
+                  disabled={isDisabled || !isValidateBudget}
                   onClick={handleSave}
                 >
                   Save
@@ -588,13 +603,13 @@ const AccountPage = (props: any) => {
                     }
                   }}
                 />
-                <Input
-                  type="min-max-currency"
+                <MinMaxInput
                   label="Budget per Share"
                   value={{
                     min: preference.budgetPerShareMin,
                     max: preference.budgetPerShareMax,
                   }}
+                  endAdornment={<InputAdornment position="start">€</InputAdornment>}
                   onValue={(budgetShares) =>
                     handleChangeMinMaxCarPreference(
                       'budgetPerShareMin',
@@ -602,6 +617,30 @@ const AccountPage = (props: any) => {
                       budgetShares
                     )
                   }
+                  minValidators={[
+                    {
+                      message: 'Minimum budget should be above zero.',
+                      validator: ({ min, max }) => {
+                        return (min == null || parseFloat(min) >= 0)
+                      }
+                    },
+                  ]}
+                  maxValidators={[
+                    {
+                      message: 'Maximum budget should be above zero.',
+                      validator: ({ min, max }) => {
+                        return (max == null || parseFloat(max) >= 0)
+                      }
+                    },
+                    {
+                      message: 'Maximum budget should exceed the minimum budget.',
+                      validator: ({ min, max }) => {
+                        if (min == null || max == null) return true;
+                        return parseFloat(max) > parseFloat(min);
+                      }
+                    },
+                  ]}
+                  errorCallback={(isError) => validateErrorCallback(isError, 'budget')}
                 />
                 <Input
                   type="select"
@@ -719,7 +758,7 @@ const AccountPage = (props: any) => {
                   variant="contained"
                   color="primary"
                   style={{ width: '130px', alignSelf: 'flex-end' }}
-                  disabled={isDisabled}
+                  disabled={isDisabled || !isValidateBudget}
                   onClick={handleSave}
                 >
                   Save

@@ -510,7 +510,7 @@ const OverviewPage = (props: any) => {
                   variant="contained"
                   color="primary"
                   style={{ width: '130px', alignSelf: 'flex-end' }}
-                  disabled={isDisabled}
+                  disabled={isDisabled || !isValidateBudget}
                   onClick={handleSave}
                 >
                   Save
@@ -751,7 +751,7 @@ const OverviewPage = (props: any) => {
                   variant="contained"
                   color="primary"
                   style={{ width: '130px', alignSelf: 'flex-end' }}
-                  disabled={isDisabled}
+                  disabled={isDisabled || !isValidateBudget}
                   onClick={handleSave}
                 >
                   Save
