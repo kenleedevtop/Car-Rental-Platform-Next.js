@@ -192,7 +192,11 @@ const UsersPage = () => {
       return singleUser.applicationCount;
     }
     if (headItem.reference === 'locationOfInterest') {
-      return '';
+      console.log(singleUser)
+      if (singleUser.preference.length > 0) {
+        return singleUser.preference[0].location.replaceAll("|", ", ");
+      } 
+      return ''
     }
     if (headItem.reference === 'registerdate') {
       return format(new Date(singleUser.createdAt), 'MM/dd/yyyy');
