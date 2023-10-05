@@ -27,3 +27,12 @@ export const AddProjectDocumentPlaceholder = styled.div`
   background: #f8f9fd;
   padding: 16px 12px;
 `;
+
+export const ImageLinkContainer = styled.div`
+  width: 50%;
+`;
+export const ThumbnailContainer = styled.div`
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+`;
