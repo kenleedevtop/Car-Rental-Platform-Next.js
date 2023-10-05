@@ -56,7 +56,7 @@ const ConfirmRegistrationModal = ({
   const limitReachedMessage = (
     <p>
       {t(
-        "We've reached the limit for sending email confirmation links to your inbox. If you haven't received our message, please check your SPAM folder. If the issue persists, please reach out to us at support@brotherhoodhouse.com and we'll assist you as soon as possible."
+        "We've reached the limit for sending email confirmation links to your inbox. If you haven't received our message, please check your SPAM folder. If the issue persists, please reach out to us at support@supercarstake.com and we'll assist you as soon as possible."
       )}
     </p>
   );
