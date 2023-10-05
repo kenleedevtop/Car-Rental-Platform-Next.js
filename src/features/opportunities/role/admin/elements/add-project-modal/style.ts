@@ -136,3 +136,13 @@ export const RTEContainer = styled.div<{ theme?: Theme }>`
   
   `}
 `;
+
+export const ImageLinkContainer = styled.div`
+  width: 50%;
+`;
+export const ThumbnailContainer = styled.div`
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+`;
+

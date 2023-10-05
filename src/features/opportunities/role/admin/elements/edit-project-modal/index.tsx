@@ -6,6 +6,8 @@ import {
   AddProjectDocumentPlaceholder,
   ISpan,
   ImageUploadButton,
+  ImageLinkContainer,
+  ThumbnailContainer
 } from 'features/opportunities/role/admin/elements/add-project-modal/style';
 import { Button, Checkbox, Input, Label } from 'components/ui';
 import { GridCell, Stack } from 'components/system';
@@ -716,25 +718,30 @@ const AddCarProjectModal = ({
                 return (
                   <>
                     <AddProjectDocumentPlaceholder>
-                      <ImageUploadButton
-                        onClick={() => {
-                          modalOpen();
-                          setActivePhotoIdx(idx);
-                        }}
-                        key={id}
-                      >
-                        {name}
-                      </ImageUploadButton>
-                      <Checkbox
-                        label="Mark as Thumbnail"
-                        value={superCarData.thumbnailId === id}
-                        onValue={(value) =>
-                          setCarData((data: any) => ({
-                            ...data,
-                            thumbnailId: value ? id : null,
-                          }))
-                        }
-                      />
+                      <ImageLinkContainer>
+                        <ImageUploadButton
+                          onClick={() => {
+                            modalOpen();
+                            setActivePhotoIdx(idx);
+                          }}
+                          key={id}
+                        >
+                          {name}
+                        </ImageUploadButton>
+                      </ImageLinkContainer>
+                      <ThumbnailContainer>
+                        <Checkbox
+                          label="Mark as Thumbnail"
+                          value={superCarData.thumbnailId === id}
+                          onValue={(value) =>
+                            setCarData((data: any) => ({
+                              ...data,
+                              thumbnailId: value ? id : null,
+                            }))
+                          }
+                        />
+                      </ThumbnailContainer>
+                      
                       <ISpan onClick={() => handleDeletePhoto(id)}>
                         <DeleteIcon />
                       </ISpan>
