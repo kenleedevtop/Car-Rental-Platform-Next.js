@@ -27,8 +27,8 @@ interface IFormData {
   role: string;
 }
 
-const NEXT_PUBLIC_TERMS_OF_SERVICES = "https://supercarstake.com/legal";
-const NEXT_PUBLIC_PRIVACY_POLICY = "https://supercarstake.com/legal";
+const NEXT_PUBLIC_TERMS_OF_SERVICES = "https://supercarstake.com/terms-of-use/";
+const NEXT_PUBLIC_PRIVACY_POLICY = "https://supercarstake.com/privacy-statement/";
 
 const RegisterPage = () => {
   const [state, setState] = useState<IFormData>({
