@@ -15,6 +15,7 @@ import * as XLSX from 'xlsx';
 import Link from 'next/link';
 import { useModal, usePagination, useSnackbar } from 'hooks';
 import UsersAPI from 'api/users';
+import { format } from 'date-fns';
 import { IUser } from 'api/users/types';
 import { convertAgeToDate, getAge } from 'utilities/birthday-age-converter';
 import ExportUsersModal from './elements/export-users-modal';
@@ -192,6 +193,9 @@ const UsersPage = () => {
     }
     if (headItem.reference === 'locationOfInterest') {
       return '';
+    }
+    if (headItem.reference === 'registerdate') {
+      return format(new Date(singleUser.createdAt), 'MM/dd/yyyy');
     }
     if (headItem.reference === 'actions') {
       return <UserActionMenu userId={singleUser.id} reload={applyFilters} />;
