@@ -22,7 +22,7 @@ const Header = ({ ...props }) => {
       <HeaderActions>
         <Button variant="contained" color="primary" size="large">
           <HeaderAction style={{ color: '#fff' }} href="/login">
-            {'LOGIN NOW'}
+            {'LOGIN'}
           </HeaderAction>
         </Button>
         <Button variant="contained" color="secondary" size="large">
